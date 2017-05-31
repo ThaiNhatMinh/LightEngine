@@ -18,7 +18,7 @@ private:
 public:
 	GameTimer();
 	~GameTimer();
-	bool Init();
+	virtual void  onStartUp();
 	float GetGameTime() const; // in second
 	float GetDeltaTime() const; // in second
 

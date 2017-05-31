@@ -1,8 +1,5 @@
-#ifndef __QUATERNION__
-#define __QUATERNION__
-#include <assert.h>
-#include <iostream>
-class Vector3;
+#pragma once
+#include "..\pch.h"
 class Matrix4;
 
 class Quaternion
@@ -45,4 +42,3 @@ public:
 
 Vector3 operator*(const Vector3& v, const Quaternion& q);
 typedef Quaternion quat;
-#endif

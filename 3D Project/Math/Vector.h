@@ -1,6 +1,5 @@
-#ifndef __VECTOR3__
-#define __VECTOR3__
-#include <iostream>
+#pragma once
+#include "..\pch.h"
 
 
 class Vector2
@@ -131,9 +130,9 @@ public:
 	int& operator[](int index);
 	int operator[](int index)const;
 	// Geometric Operations
-	int Length() const;
+	float Length() const;
 	int SquareLength() const;
-	int Dot(const Vector3& v) const;
+	int Dot(const Vector3i& v) const;
 
 	// Debug Operations
 	friend std::ostream& operator<<(std::ostream& out, const Vector3i& source);
@@ -192,5 +191,3 @@ typedef Vector3i vec3i;
 typedef Vector2 vec2;
 typedef Vector4 vec4;
 
-
-#endif

@@ -1,10 +1,7 @@
-#include "Quaternion.h"
-#include "Vector.h"
-#include "CMath.h"
-#include "Matrix.h"
+#include "..\pch.h"
 
-#include <assert.h>
-Quaternion::Quaternion()
+
+Quaternion::Quaternion():x(0),y(0),z(0),w(1)
 {
 }
 

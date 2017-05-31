@@ -6,6 +6,8 @@ Input* gInput()
 }
 Input::Input()
 {
+	memset(keys, 0, 1024);
+	memset(checkKeys, 0, 1024);
 }
 
 Input::~Input()
@@ -38,8 +40,8 @@ bool Input::MousePress(int m)
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	if (key < 0) return;
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
+	//if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	//	glfwSetWindowShouldClose(window, GL_TRUE);
 
 	//if (key == GLFW_KEY_F && action == GLFW_PRESS)
 	//	gWindow.SwitchMode();

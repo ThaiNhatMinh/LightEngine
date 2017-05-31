@@ -1,11 +1,5 @@
-#include "CMath.h"
-#include "Matrix.h"
-#include "Vector.h"
-#include "Quaternion.h"
-#include "AABB.h"
-#include <math.h>
-#include <assert.h>
-#include <iostream>
+#include "..\pch.h"
+
 const float Math::PI			= 3.14159265358979323846f;
 const float Math::TWO_PI		= 2.0f* Math::PI;
 const float Math::HALF_PI		= 0.5f* Math::PI;
@@ -213,18 +207,6 @@ void Math::GetBasicVector(const Matrix4& M, Vector3& xaxis, Vector3& yaxis, Vect
 	zaxis.set( M.mV[2], M.mV[6], M.mV[10]);
 }
 
-Vector3 Math::GetOverLap(const AABB & a, const AABB & b)
-{
-	Vector3 result;
-	if (a.Max.x >= b.Min.x) result.x = a.Max.x - b.Min.x;
-	else if(b.Max.x >= a.Min.x) result.x = b.Max.x - a.Min.x;
-	if (a.Max.y >= b.Min.y) result.y = a.Max.y - b.Min.y;
-	else if (b.Max.y >= a.Min.y) result.y = b.Max.y - a.Min.y;
-	if (a.Max.z >= b.Min.z) result.z = a.Max.z - b.Min.z;
-	else if (b.Max.z >= a.Min.z) result.z = b.Max.z - a.Min.z;
-
-	return result;
-}
 
  Quaternion Math::Pow(const Quaternion& Q, float exponent)
 {

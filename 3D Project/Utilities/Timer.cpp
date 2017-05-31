@@ -17,19 +17,19 @@ GameTimer::~GameTimer()
 {
 }
 
-bool GameTimer::Init()
+void GameTimer::onStartUp()
 {
 	__int64 tickperSecond;
 	if (!QueryPerformanceFrequency((LARGE_INTEGER*)&tickperSecond))
 	{
 		// system doesn't support hi-res timer
-		return false;
+		return;
 	}
 
 	m_SecondPerCount = 1.0 / (double)tickperSecond;
 	QueryPerformanceCounter((LARGE_INTEGER*)&m_StartTime);
 
-	return true;
+	return;
 }
 
 float GameTimer::GetGameTime() const

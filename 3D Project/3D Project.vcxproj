@@ -29,7 +29,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -71,6 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\Code Collection\3D Project\3D Project\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Code Collection\3D Project\3D Project\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -147,7 +149,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Core\Camera.h" />
+    <ClInclude Include="Core\CoreApplication.h" />
+    <ClInclude Include="Core\RenderAPI.h" />
     <ClInclude Include="Core\Windows.h" />
+    <ClInclude Include="Graphics3D\AnimationDef.h" />
+    <ClInclude Include="Graphics3D\Material.h" />
+    <ClInclude Include="Graphics3D\Mesh.h" />
+    <ClInclude Include="Graphics3D\SkeAnimation.h" />
+    <ClInclude Include="Graphics3D\SkeMesh.h" />
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="Math\CMath.h" />
     <ClInclude Include="Math\EulerAngles.h" />
@@ -159,6 +168,11 @@
     <ClInclude Include="Math\Sphere.h" />
     <ClInclude Include="Math\Vector.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ResourceCache\LTBDef.h" />
+    <ClInclude Include="ResourceCache\LTBFileLoader.h" />
+    <ClInclude Include="ResourceCache\ModelCache.h" />
+    <ClInclude Include="ResourceCache\ResourceLoader.h" />
+    <ClInclude Include="ResourceCache\Texture.h" />
     <ClInclude Include="Utilities\Input.h" />
     <ClInclude Include="Utilities\Log.h" />
     <ClInclude Include="Utilities\Module.h" />
@@ -167,7 +181,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Camera.cpp" />
+    <ClCompile Include="Core\CoreApplication.cpp" />
     <ClCompile Include="Core\Windows.cpp" />
+    <ClCompile Include="Graphics3D\Mesh.cpp" />
+    <ClCompile Include="Graphics3D\SkeAnimation.cpp" />
+    <ClCompile Include="Graphics3D\SkeMesh.cpp" />
     <ClCompile Include="Math\AABB.cpp" />
     <ClCompile Include="Math\CMath.cpp" />
     <ClCompile Include="Math\EulerAngles.cpp" />
@@ -181,6 +199,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="ResourceCache\LTBFileLoader.cpp" />
+    <ClCompile Include="ResourceCache\ResourceLoader.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Utilities\Input.cpp" />
     <ClCompile Include="Utilities\Log.cpp" />

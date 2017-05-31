@@ -1,14 +1,9 @@
-#ifndef __CMATH__
-#define __CMATH__
-#include "Vector.h"
+#pragma once
+#include "..\pch.h"
 
-class AABB;
-class Matrix4;
-class Quaternion;
 
 class Math
 {
-	friend class AABB;
 public:
 	static const float EPSILON;
 	static const float MAX_REAL;
@@ -55,7 +50,4 @@ public:
 	static void Translate(const Matrix4& M, float x, float y, float z);
 	static void GetBasicVector(const Matrix4& M, Vector3& xaxis, Vector3& yaxis, Vector3& zaxis);
 
-	static Vector3 GetOverLap(const AABB& a, const AABB& b);
 };
-
-#endif

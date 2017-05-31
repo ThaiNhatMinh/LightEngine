@@ -1,7 +1,4 @@
-#include "Matrix.h"
-#include <string.h>
-#include "CMath.h"
-#include <iomanip>
+#include "..\pch.h"
 Matrix4::Matrix4()
 {
 	// Nothing here

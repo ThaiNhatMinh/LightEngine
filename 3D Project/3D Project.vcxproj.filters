@@ -53,6 +53,42 @@
     <ClInclude Include="Core\Camera.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Core\RenderAPI.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CoreApplication.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceCache\ModelCache.h">
+      <Filter>ResourceCache</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceCache\ResourceLoader.h">
+      <Filter>ResourceCache</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceCache\Texture.h">
+      <Filter>ResourceCache</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceCache\LTBDef.h">
+      <Filter>ResourceCache</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceCache\LTBFileLoader.h">
+      <Filter>ResourceCache</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Mesh.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Material.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\SkeMesh.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\SkeAnimation.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\AnimationDef.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -102,6 +138,24 @@
     <ClCompile Include="Core\Camera.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Core\CoreApplication.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceCache\ResourceLoader.cpp">
+      <Filter>ResourceCache</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceCache\LTBFileLoader.cpp">
+      <Filter>ResourceCache</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Mesh.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\SkeMesh.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\SkeAnimation.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -112,6 +166,12 @@
     </Filter>
     <Filter Include="Utilities">
       <UniqueIdentifier>{ab572b2e-eaae-47a7-a3b2-ea7ebe26bca1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceCache">
+      <UniqueIdentifier>{6e27c3eb-7718-4335-9f1f-320cb2be3f53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D">
+      <UniqueIdentifier>{9fea3dfb-c595-4397-8847-9cfb6ec2a646}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

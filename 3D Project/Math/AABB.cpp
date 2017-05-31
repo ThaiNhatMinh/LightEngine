@@ -1,10 +1,7 @@
 #include "..\pch.h"
-#include "AABB.h"
 
-AABB::AABB()
+AABB::AABB():Min(FLT_MAX),Max(FLT_MIN)
 {
-	Min = vec3(FLT_MAX);
-	Max = vec3(FLT_MIN);
 }
 
 void AABB::Set(const vector<vec3>& v)

@@ -1,6 +1,5 @@
-#include "EulerAngles.h"
-#include "Quaternion.h"
-#include "CMath.h"
+
+#include "..\pch.h"
 
 EulerAngle::EulerAngle()
 {

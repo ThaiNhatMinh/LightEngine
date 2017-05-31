@@ -1,8 +1,5 @@
 
-#include <iostream>
-#include "Quaternion.h"
-#include "CMath.h"
-#include "Vector.h"
+#include "..\pch.h"
 // This class finish basic operator on Matrix. 3D operator will be update soon..
 
 // 0	1	2	3			x-axis	y-axis	z-axis	0
@@ -13,6 +10,7 @@
 
 #pragma once
 class Vector3;
+
 class Matrix4
 {
 	friend class Math;
@@ -60,7 +58,7 @@ public:
 	Matrix4 operator-() const;
 	const float * ToFloatPtr() const;
 	float* ToFloatPtr();
-	quat ToQuat()const;
+	Quaternion ToQuat()const;
 	// Arithmetic Update
 	Matrix4& operator+=(const Matrix4& M);
 	Matrix4& operator-=(const Matrix4& M);

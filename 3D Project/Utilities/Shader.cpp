@@ -45,7 +45,7 @@ void Shader::LinkShader()
 
 Shader::~Shader()
 {
-	//glDeleteProgram(m_iProgramID);
+	glDeleteProgram(m_iProgramID);
 
 	//glDeleteShader(m_i);
 	//glDeleteShader(fragmentShader);

@@ -1,6 +1,4 @@
-#include "Vector.h"
-#include <math.h>
-#include <iomanip>
+#include "..\pch.h"
 
 
 /*
@@ -490,7 +488,7 @@ int Vector3i::operator[](int index) const
 	return (&x)[index];
 }
 
-int Vector3i::Length() const
+float Vector3i::Length() const
 {
 	return sqrtf(x*x + y*y + z*z);
 }
@@ -501,7 +499,7 @@ int Vector3i::SquareLength() const
 }
 
 
-int Vector3i::Dot(const Vector3& v) const
+int Vector3i::Dot(const Vector3i& v) const
 {
 	int result = x*v.x + y*v.y + z*v.z;
 	return (result);

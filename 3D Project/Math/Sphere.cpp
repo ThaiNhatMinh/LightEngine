@@ -1,5 +1,4 @@
 #include "..\pch.h"
-#include "Sphere.h"
 
 BVSphere::BVSphere()
 {
