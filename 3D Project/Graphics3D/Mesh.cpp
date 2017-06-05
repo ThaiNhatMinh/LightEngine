@@ -1,7 +1,7 @@
 #include "..\pch.h"
 
 
-Mesh::Mesh():m_iVAO(0),m_iEBO(0),m_iVBO(0)
+Mesh::Mesh()
 {
 	
 }
@@ -9,21 +9,21 @@ Mesh::Mesh():m_iVAO(0),m_iEBO(0),m_iVBO(0)
 
 Mesh::~Mesh()
 {
-	glDeleteVertexArrays(1, &m_iVAO);
-	glDeleteBuffers(1, &m_iVBO);
-	glDeleteBuffers(1, &m_iEBO);
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 }
 
 void Mesh::Finalize(Shader* p)
 {
 	
-	glGenVertexArrays(1, &m_iVAO);
-	glGenBuffers(1, &m_iVBO);
-	glGenBuffers(1, &m_iEBO);
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
 	
 
-	glBindVertexArray(m_iVAO);
-	glBindBuffer(GL_ARRAY_BUFFER,m_iVBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER,VBO);
 	glBufferData(GL_ARRAY_BUFFER, m_Vertexs.size()*sizeof(DefaultVertex), &m_Vertexs[0], GL_STATIC_DRAW);
 	
 	size_t stride = sizeof(DefaultVertex);

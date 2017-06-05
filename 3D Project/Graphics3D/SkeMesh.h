@@ -20,18 +20,13 @@ struct SkeVertex
 };
 typedef std::vector<SkeVertex> SkeVertexList;
 
-class SkeMesh 
+class SkeMesh :public IMesh
 {
 public:
-	string					m_Name;
-	unsigned int			m_iVAO;
-	unsigned int			m_iVBO;
-	unsigned int			m_iEBO;
 	SkeVertexList			m_Vertexs;
 	vector<unsigned int>	m_Indices;
-	Material				m_Material; // every mesh has a material
-	GLuint					Topology;
-	Texture*				m_pTexture; // If there is no texture. It will use color
+	
+	
 public:
 	SkeMesh() {};
 	~SkeMesh() {};

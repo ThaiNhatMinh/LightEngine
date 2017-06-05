@@ -1,5 +1,8 @@
 #pragma once
 #include "..\pch.h"
+
+// it should be a SceneNode ?
+
 class Camera
 {
 	friend class Frustum;

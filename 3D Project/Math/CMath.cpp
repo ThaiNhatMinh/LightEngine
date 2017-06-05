@@ -7,7 +7,7 @@ const float Math::EPSILON		= 1.0e-6f;
 const float Math::MAX_REAL		= 1e30f;
 const float Math::DEG_TO_RAD	= Math::PI / 180.0f;
 const float Math::RAD_TO_DEG	= 180.0f / Math::PI;
-
+const mat4 Math::g_Indentity	= Matrix4(vec3(1.0,0,0),vec3(0,1.0,0),vec3(0,0,1.0));
 
 float Math::ACos(float fValue)
 {

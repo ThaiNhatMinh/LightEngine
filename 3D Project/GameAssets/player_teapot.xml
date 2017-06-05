@@ -1,0 +1,17 @@
+<Actor type="Teapot" resource="actors\player_teapot.xml">
+
+	<TransformComponent>
+		<Position x="0" y="5" z="0"/>
+		<YawPitchRoll x="0" y="0" z="0"/>
+	</TransformComponent>
+	
+	<MeshRenderComponent>
+		<Model File="GameAsset\MODEL\C707_BODY_BL.LTB" />
+		<Material>
+			<Ka r="1.0" g="1.0" b="1.0" />
+			<Kd r="1.0" g="1.0" b="1.0" />
+			<Ks r="1.0" g="1.0" b="1.0"  exp="128"/>
+		</Material>
+	</MeshRenderComponent>
+
+</Actor>

@@ -3,7 +3,10 @@
 #include "..\include\IL\ilu.h"
 #include "LTBFileLoader.h"
 
-
+Resources* gResources()
+{
+	return Resources::InstancePtr();
+}
 //vector<Texture*> Resources::m_Textures;
 //vector<ModelCache*> Resources::m_ModelCaches;
 
@@ -12,7 +15,7 @@ Texture * Resources::HasTexture(const char * filename)
 	for (size_t i = 0; i < m_Textures.size(); i++)
 		if (!strcmp(m_Textures[i]->szName, filename))
 			return m_Textures[i];
-
+	
 	return NULL;
 }
 

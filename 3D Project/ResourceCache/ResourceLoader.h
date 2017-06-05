@@ -47,3 +47,4 @@ public:
 
 };
 
+Resources* gResources();

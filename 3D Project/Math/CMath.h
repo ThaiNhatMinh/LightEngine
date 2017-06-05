@@ -12,6 +12,7 @@ public:
 	static const float HALF_PI;
 	static const float DEG_TO_RAD;
 	static const float RAD_TO_DEG;
+	static const mat4 g_Indentity;
 
 public:
 	// Basic math function
@@ -49,5 +50,5 @@ public:
 	static void Translate(const Matrix4& M,const Vector3& t);
 	static void Translate(const Matrix4& M, float x, float y, float z);
 	static void GetBasicVector(const Matrix4& M, Vector3& xaxis, Vector3& yaxis, Vector3& zaxis);
-
+	
 };

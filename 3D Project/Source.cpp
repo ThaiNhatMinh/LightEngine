@@ -8,6 +8,11 @@ void main()
 #endif
 
 	CoreApplication::startUp();
+
+	//ActorFactory fac;
+	//mat4 ddd;
+	//Actor* pAc = fac.CreateActor("player_teapot.xml", nullptr, &ddd);
+	
 	CoreApplication::InstancePtr()->MainLoop();
 	CoreApplication::shutDown();
 }

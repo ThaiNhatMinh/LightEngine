@@ -2,14 +2,14 @@
 
 void Frustum::Init()
 {
-	glGenVertexArrays(1, &m_iVAO);
-	glGenBuffers(1, &m_iVBO);
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
 
-	glBindVertexArray(m_iVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_iVBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8 * 3, NULL, GL_DYNAMIC_DRAW);
-	glGenBuffers(1, &m_iEBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iEBO);
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	int indices[] = { 0,1,1,2,2,3,3,0,4,5,5,6,6,7,7,4,0,4,3,7,1,5,2,6 };
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
@@ -151,7 +151,7 @@ void Frustum::Update(const Camera & camera)
 	};
 	int indices[] = { 0,1,2,0,2,3,4,5,6,4,6,7,0,4,7,0,7,3,1,5,6,1,6,2 };
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_iVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -166,7 +166,7 @@ void Frustum::Render(Shader* shader,mat4& view)
 	shader->SetUniformMatrix("Model", model.ToFloatPtr());
 	shader->SetUniformMatrix("View", view.ToFloatPtr());
 	shader->SetUniformMatrix("Proj", m_ProjMatrix.ToFloatPtr());
-	glBindVertexArray(m_iVAO);
+	glBindVertexArray(VAO);
 	//glDrawArrays(GL_TRIANGLES, 0, 6);
 	glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);
 

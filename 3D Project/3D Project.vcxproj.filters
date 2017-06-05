@@ -89,6 +89,34 @@
     <ClInclude Include="Graphics3D\AnimationDef.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\Actor.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\ActorComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\String.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\ActorFactory.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\TransformComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\MeshRenderComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="interface.h" />
+    <ClInclude Include="Utilities\Template.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\PrimitiveShape\Cube.h">
+      <Filter>Utilities\Primitive Shape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -156,6 +184,27 @@
     <ClCompile Include="Graphics3D\SkeAnimation.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Actor.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\String.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\TransformComponent.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\MeshRenderComponent.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\ActorFactory.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp">
+      <Filter>Utilities\Primitive Shape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -172,6 +221,12 @@
     </Filter>
     <Filter Include="Graphics3D">
       <UniqueIdentifier>{9fea3dfb-c595-4397-8847-9cfb6ec2a646}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{4c146923-d6f9-4a48-aab7-dfa9bf8a2a13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Primitive Shape">
+      <UniqueIdentifier>{03267231-4d95-47c3-be6f-97dcd55099e7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

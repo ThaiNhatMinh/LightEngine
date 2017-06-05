@@ -2,10 +2,10 @@
 #include "..\pch.h"
 // This class finish basic operator on Matrix. 3D operator will be update soon..
 
-// 0	1	2	3			x-axis	y-axis	z-axis	0
-// 4	5	6	7	=>>		x-axis	y-axis	z-axis	0
-// 8	9	10	11			x-axis	y-axis	z-axis	0
-// 12	13	14	15			x-pos	y-pos	z-pos	1
+// 0	4	8	12			x-axis	y-axis	z-axis	x-pos
+// 1	5	9	13	=>>		x-axis	y-axis	z-axis	y-pos
+// 2	6	10	14			x-axis	y-axis	z-axis	z-pos
+// 3	7	11	15			0		0		0		1
 // collum first
 
 #pragma once
@@ -14,6 +14,7 @@ class Vector3;
 class Matrix4
 {
 	friend class Math;
+	friend class EulerAngle;
 public:
 	Matrix4();
 	Matrix4(const Matrix4& M);
@@ -32,10 +33,8 @@ public:
 	// member acces
 	
 	// Collum Row
-	float operator()(int Col, int Row ) const;
-	float& operator()(int Col, int Row);
-	Vector3 operator()(int axis) const;
-	void operator()(int axis, Vector3 v);
+	float operator()(int Row, int Col ) const;
+	float& operator()(int Row, int Col);
 	float operator[](int id) const;
 	float& operator[](int id);
 	// assignment
@@ -59,6 +58,7 @@ public:
 	const float * ToFloatPtr() const;
 	float* ToFloatPtr();
 	Quaternion ToQuat()const;
+	void ToEulerAngle(EulerAngle& v);
 	// Arithmetic Update
 	Matrix4& operator+=(const Matrix4& M);
 	Matrix4& operator-=(const Matrix4& M);
@@ -67,8 +67,6 @@ public:
 
 	// Vector3 operator*(const Vector3& v) const;
 	void Translate(const Vector3& v);
-	Vector3 GetTranslate2()const;
-	void Translate2(const Vector3& v);
 	Vector3 GetTranslate()const;
 	void Translate(float x, float y, float z);
 	Matrix4 Transpose() const;

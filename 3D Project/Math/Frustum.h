@@ -18,9 +18,9 @@ public:
 	float m_Far;						// Far distance
 	float tanFovOver2;
 
-	GLuint m_iVAO;
-	GLuint m_iVBO;
-	GLuint m_iEBO;
+	GLuint VAO;
+	GLuint VBO;
+	GLuint EBO;
 protected:
 	
 public:

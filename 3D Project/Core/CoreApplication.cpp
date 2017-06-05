@@ -7,6 +7,7 @@ void CoreApplication::onStartUp()
 	m_pWindow = new Windows("Ex-T1", 800, 600);
 	m_pWindow->InitWindow();
 	Input::startUp();
+	ActorFactory::startUp();
 	GameTimer::startUp();
 	Resources::startUp();
 }
@@ -15,6 +16,7 @@ void CoreApplication::onShutDown()
 {
 	E_DEBUG("Application ShutDown...");
 	Input::shutDown();
+	ActorFactory::shutDown();
 	GameTimer::shutDown();
 	Resources::shutDown();
 	delete m_pWindow;
@@ -30,10 +32,12 @@ bool CoreApplication::MainLoop()
 	{
 		glfwPollEvents();
 		if (glfwWindowShouldClose(m_pWindow->Window())) m_bRunMainLoop = false;
-
 		gTimer()->Tick();
-
 		if (gInput()->Press(GLFW_KEY_ESCAPE)) glfwSetWindowShouldClose(m_pWindow->Window(), GLFW_TRUE);
+
+
+
+
 
 		glfwSwapBuffers(m_pWindow->Window());
 	}

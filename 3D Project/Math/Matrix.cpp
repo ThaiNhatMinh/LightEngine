@@ -2,13 +2,14 @@
 Matrix4::Matrix4()
 {
 	// Nothing here
-	Identity();
+	//Identity();
 }
 
-// 0	1	2	3
-// 4	5	6	7
-// 8	9	10	11
-// 12	13	14	15
+// 0	4	8	12			x-axis	y-axis	z-axis	x-pos
+// 1	5	9	13	=>>		x-axis	y-axis	z-axis	y-pos
+// 2	6	10	14			x-axis	y-axis	z-axis	z-pos
+// 3	7	11	15			0		0		0		1
+// collum first
 
 Matrix4::Matrix4(const Vector3& v1,const Vector3& v2,const Vector3& v3)
 {
@@ -108,10 +109,11 @@ Matrix4::~Matrix4()
 {
 }
 
-// 0	1	2	3
-// 4	5	6	7
-// 8	9	10	11
-// 12	13	14	15
+// 0	4	8	12			x-axis	y-axis	z-axis	x-pos
+// 1	5	9	13	=>>		x-axis	y-axis	z-axis	y-pos
+// 2	6	10	14			x-axis	y-axis	z-axis	z-pos
+// 3	7	11	15			0		0		0		1
+// collum first
 
 void Matrix4::Identity()
 {
@@ -138,7 +140,7 @@ void Matrix4::ZeroTranslate()
 	mV[12] = mV[13] = mV[14] = 0.0f;
 }
 
-float Matrix4::operator()(int Col, int Row) const
+float Matrix4::operator()(int Row, int Col) const
 {
 	return mV[Col + Row*4];
 }
@@ -146,18 +148,6 @@ float Matrix4::operator()(int Col, int Row) const
 float& Matrix4::operator()(int Row, int Col) 
 {
 	return mV[Col + Row*4];
-}
-
-Vector3 Matrix4::operator()(int axis) const
-{
-	return Vector3(mV[0 + axis],mV[4 + axis], mV[8+axis]);
-}
-
-void Matrix4::operator()(int axis, Vector3 v)
-{
-	mV[axis + 0] = v.x;
-	mV[axis + 4] = v.y;
-	mV[axis + 8] = v.z;
 }
 
 
@@ -279,7 +269,11 @@ Matrix4 Matrix4::operator*(float Scalar) const
 //	x y z w		4	5	6	7		
 //				8	9	10	11		
 //				12	13	14	15		
-
+// 0	4	8	12			x-axis	y-axis	z-axis	x-pos
+// 1	5	9	13	=>>		x-axis	y-axis	z-axis	y-pos
+// 2	6	10	14			x-axis	y-axis	z-axis	z-pos
+// 3	7	11	15			0		0		0		1
+// collum first
 Vector3 Matrix4::operator*(const Vector3& v)const
 {
 	return Vector3(		v.x * mV[0] + v.y*mV[4] + v.z*mV[8] + mV[12],
@@ -399,11 +393,11 @@ Matrix4& Matrix4::operator/=(float Scalar)
 
 
 // Matrix present
-
-// 0	1	2	3
-// 4	5	6	7
-// 8	9	10	11
-// 12	13	14	15
+// 0	4	8	12			x-axis	y-axis	z-axis	x-pos
+// 1	5	9	13	=>>		x-axis	y-axis	z-axis	y-pos
+// 2	6	10	14			x-axis	y-axis	z-axis	z-pos
+// 3	7	11	15			0		0		0		1
+// collum first
 
 Matrix4 Matrix4::Transpose() const
 {
@@ -445,17 +439,6 @@ void Matrix4::Translate(const Vector3& v)
 	mV[14]= v.z;
 }
 
-Vector3 Matrix4::GetTranslate2() const
-{
-	return Vector3(mV[3], mV[7], mV[11]);
-}
-
-void Matrix4::Translate2(const Vector3 & v)
-{
-	mV[3] = v.x;
-	mV[7] = v.y;
-	mV[11] = v.z;
-}
 
 Vector3 Matrix4::GetTranslate()const
 {
@@ -664,4 +647,14 @@ quat Matrix4::ToQuat() const
 		q[k] = ( mV[ k *4+ i ] + mV[ i *4+ k ] ) * s;
 	}
 	return q;
+}
+
+void Matrix4::ToEulerAngle(EulerAngle & v)
+{
+	v.yaw = Math::ToDegree(asinf(mV[8]));
+
+	if (mV[8] == 1)
+	{
+
+	}
 }

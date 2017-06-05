@@ -217,14 +217,13 @@ vector<SkeMesh*> LTBFile::LoadMesh()
 		vector<unsigned int>& Index = pmesh->m_Indices;
 
 		fread((void*)&str_len, sizeof(unsigned short), 1, pFile);
-		char* str = new char[str_len];
+		char str[MAX_NAME];
 		fread(str, str_len, 1, pFile);
 		str[str_len] = '\0';
 		//printf("%d %s\n",len,str);
 
 		// name of mesh
-		pmesh->m_Name = str;
-
+		pmesh->Name = str;
 		uint32 numLOD;
 		float LODDists;
 		fread(&numLOD, sizeof(uint32), 1, pFile);

@@ -17,6 +17,32 @@ EulerAngle::~EulerAngle()
 }
 
 
+void EulerAngle::ToMatrixXYZ(Matrix4& m)
+{
+	float ca = cosf(Math::ToRadian(pitch));
+	float sa = sinf(Math::ToRadian(pitch));
+	float cb = cosf(Math::ToRadian(yaw));
+	float sb = sinf(Math::ToRadian(yaw));
+	float cc = cosf(Math::ToRadian(roll));
+	float sc = sinf(Math::ToRadian(roll));
+
+	// x axis
+	m.mV[0] = cb*cc;
+	m.mV[1] = sa*sb*cc + ca*sb;
+	m.mV[2] = -ca*sb*cc + sa + sc;
+
+	// y axis
+	m.mV[4] = -cb*sc;
+	m.mV[5] = -sa*sb*sc + ca*cc;
+	m.mV[6] = ca*sb*sc + sa*cc;
+
+	// z axis
+	m.mV[8] = sb;
+	m.mV[9] = -sa*cb;
+	m.mV[10] = ca*cb;
+
+}
+
 Quaternion EulerAngle::ToQuaternion()
 {
 	float sp,sy,sr;

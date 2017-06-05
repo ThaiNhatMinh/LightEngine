@@ -48,7 +48,7 @@ BaseAnim::BaseAnim()
 	m_Default.m_iCurrentAnim = 0;
 	m_Default.m_iCurrentFrame = 0;
 	m_Default.KeyFrameID = 0;
-	m_fSpeed = 1.0 / 30.0f;
+	m_fSpeed = 1.0f / 30.0f;
 	m_bCanRelease = true;
 	m_fBlendTime = 0.2f;
 	m_More.m_bActive = false;

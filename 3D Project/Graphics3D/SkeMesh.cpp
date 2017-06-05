@@ -2,13 +2,13 @@
 
 void SkeMesh::Finalize(Shader * p)
 {
-	glGenVertexArrays(1, &m_iVAO);
-	glGenBuffers(1, &m_iVBO);
-	glGenBuffers(1, &m_iEBO);
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
 
 
-	glBindVertexArray(m_iVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_iVBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, m_Vertexs.size()*sizeof(SkeVertex), &m_Vertexs[0], GL_STATIC_DRAW);
 
 	size_t stride = sizeof(SkeVertex);
