@@ -181,6 +181,7 @@
     <ClInclude Include="ResourceCache\ModelCache.h" />
     <ClInclude Include="ResourceCache\ResourceLoader.h" />
     <ClInclude Include="ResourceCache\Texture.h" />
+    <ClInclude Include="Utilities\DirectInput.h" />
     <ClInclude Include="Utilities\PrimitiveShape\Cube.h" />
     <ClInclude Include="Utilities\Template.h" />
     <ClInclude Include="Utilities\Input.h" />
@@ -219,12 +220,21 @@
     <ClCompile Include="ResourceCache\LTBFileLoader.cpp" />
     <ClCompile Include="ResourceCache\ResourceLoader.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Utilities\DirectInput.cpp" />
     <ClCompile Include="Utilities\Input.cpp" />
     <ClCompile Include="Utilities\Log.cpp" />
     <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp" />
     <ClCompile Include="Utilities\Shader.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
     <ClCompile Include="Utilities\Timer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameAssets\Shader\NoTexture.fs" />
+    <None Include="GameAssets\Shader\NoTexture.vs" />
+    <None Include="GameAssets\SHADER\Texture.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="GameAssets\MODEL\707.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

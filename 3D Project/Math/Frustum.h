@@ -24,6 +24,7 @@ public:
 protected:
 	
 public:
+	Frustum(float fov, float aspect, float _near, float _far);
 	Frustum();
 	~Frustum();
 	void Init();

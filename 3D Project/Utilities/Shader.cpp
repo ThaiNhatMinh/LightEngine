@@ -65,7 +65,7 @@ bool Shader::Load(const char * vertexShaderFile, const char * fragmentShaderFile
 	if (!pvFile)
 	{
 		Log::Message(Log::LOG_ERROR, "Can't open File: " + string(vertexShaderFile));
-		exit(0);
+		return false;
 	}
 	if (fseek(pvFile, 0L, SEEK_END) == 0)
 	{
@@ -80,7 +80,7 @@ bool Shader::Load(const char * vertexShaderFile, const char * fragmentShaderFile
 	if (!pfFile)
 	{
 		Log::Message(Log::LOG_ERROR, "Can't open File: " + string(fragmentShaderFile));
-		exit(0);
+		return false;
 	}
 	if (fseek(pfFile, 0L, SEEK_END) == 0)
 	{

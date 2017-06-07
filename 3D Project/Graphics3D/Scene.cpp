@@ -2,7 +2,11 @@
 
 Scene::Scene()
 {
-	m_pRoot = gActorFactory()->CreateActor("GameAssets\Root.xml",nullptr,nullptr);
+	m_pRoot = gActorFactory()->CreateActor("GameAssets\\Root.xml",nullptr,&Math::g_Indentity);
+	if (!m_pRoot)
+	{
+		E_ERROR("Can't create Root Node.");
+	}
 }
 
 Scene::~Scene()
@@ -26,6 +30,9 @@ bool Scene::OnRender()
 
 bool Scene::OnUpdate(float dt)
 {
+	m_Camera->Update(dt);
+	m_Frustum->Update(*m_Camera);
+
 	m_pRoot->VOnUpdate(this, dt);
 	return true;
 }

@@ -43,27 +43,32 @@ bool Windows::InitWindow()
 		Log::Message(Log::LOG_ERROR, "Can't create Window.");
 		return false;
 	}
-
+	
 	glfwMakeContextCurrent(window);
 	//glfwSwapInterval(1);
 	glfwSetCursorPos(window, m_iWidth / 2, m_iHeight / 2);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glewExperimental = GL_TRUE;
 	// Initialize GLEW to setup the OpenGL Function pointers
-	glewInit();
-
+	GLenum err = glewInit();
+	if (err != GLEW_OK) {
+		// Problem: glewInit failed, something is seriously wrong.
+		string Error = string("glewInit failed: ");
+		E_ERROR(Error);
+		return false;
+	}
 	// Define the viewport dimensions
 	glViewport(0, 0, m_iWidth, m_iHeight);
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
+	//glDepthFunc(GL_LESS);
 
-	glFrontFace(GL_CW);
-	glCullFace(GL_BACK);
+	//glFrontFace(GL_CW);
 	glEnable(GL_CULL_FACE);
-	glfwSetKeyCallback(window, key_callback);
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetScrollCallback(window, scroll_callback);
-	glfwSetMouseButtonCallback(window, mouse_button_callback);
+	glCullFace(GL_BACK);
+	//glfwSetKeyCallback(window, key_callback);
+	//glfwSetCursorPosCallback(window, mouse_callback);
+	//glfwSetScrollCallback(window, scroll_callback);
+	//glfwSetMouseButtonCallback(window, mouse_button_callback);
 	m_pWindow = window;
 	
 	return true;

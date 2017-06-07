@@ -40,8 +40,9 @@ public:
 	Texture* LoadDTX(const char* filename);
 	unsigned char* LoadHeightMap(const char* filename, int& w, int& h);
 	ModelCache* LoadModel(const char* filename);
+	ModelCache* LoadModelXML(const char* XMLFile);
 
-	Shader* LoadShader(string key, const char* vs, const char* fs);
+	Shader* LoadShader(string key, const char* vs, const char* fs,bool linkshader = true);
 	Shader* GetShader(string key);
 
 

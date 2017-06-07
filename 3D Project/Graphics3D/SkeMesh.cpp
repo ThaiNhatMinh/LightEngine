@@ -11,6 +11,9 @@ void SkeMesh::Finalize(Shader * p)
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, m_Vertexs.size()*sizeof(SkeVertex), &m_Vertexs[0], GL_STATIC_DRAW);
 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(unsigned int), &m_Indices[0], GL_STATIC_DRAW);
+
 	size_t stride = sizeof(SkeVertex);
 
 
@@ -52,5 +55,8 @@ void SkeMesh::Finalize(Shader * p)
 	location = p->GetAttribLocation("ws4");
 	glEnableVertexAttribArray(location);
 	glVertexAttribPointer(location, 2, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+
+	NumIndices = m_Indices.size();
+	Topology = GL_TRIANGLES;
 
 }

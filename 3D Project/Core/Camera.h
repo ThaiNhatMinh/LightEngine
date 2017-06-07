@@ -28,7 +28,7 @@ public:
 
 	//virtual void OnKeyboard(int key,float deltaTime);
 	virtual void Update(float dt);
-	virtual void OnMouse(float dx, float dy);
+	//virtual void OnMouse(float dx, float dy);
 	mat4 GetViewMatrix();
 
 	inline void SetSpeed(float speed) { m_Speed = speed; };

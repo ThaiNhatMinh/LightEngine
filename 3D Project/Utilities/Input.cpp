@@ -1,9 +1,10 @@
 #include "..\pch.h"
 
-Input* gInput()
+
+/*Input* gInput()
 {
 	return Input::InstancePtr();
-}
+}*/
 Input::Input()
 {
 	memset(keys, 0, 1024);
@@ -36,6 +37,7 @@ bool Input::MousePress(int m)
 	return false;
 }
 
+/*
 // Is called whenever a key is pressed/released via GLFW
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
@@ -87,10 +89,11 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 	float dx = (float)(xpos - last_x);
 	float dy = -(float)(ypos - last_y);
+	gInput()->MouseD[0] = dx;
+	gInput()->MouseD[1] = dy;
 	last_x = xpos;
 	last_y = ypos;
-	//TPSCam.OnMouse(dx, dy);
-	//camera.OnMouse(dx, dy);
+	
 }
 void scroll_callback(GLFWwindow*, double x, double y)
 {
@@ -98,4 +101,4 @@ void scroll_callback(GLFWwindow*, double x, double y)
 	//mNear += y;
 	//Projection = glm::Perspective(30.0f, 4.0 / 3.0, mNear, 500.0f);
 	//frustum.Init(30.0f, 4.0f / 3.0f, mNear, 500.0f);
-}
+}*/

@@ -18,6 +18,11 @@ void Frustum::Init()
 	glBindVertexArray(0);
 }
 
+Frustum::Frustum(float fov, float aspect, float _near, float _far)
+{
+	Init(fov, aspect, _near, _far);
+}
+
 Frustum::Frustum()
 {
 	m_Fov = Math::PI/ 4.0f; // default is 90

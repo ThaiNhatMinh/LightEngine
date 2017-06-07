@@ -23,13 +23,19 @@ using std::map;
 #include <gl\glew.h>
 // GLFW
 #include <GLFW\glfw3.h>
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW\glfw3native.h>
 // TinyXML 2
 #include <tinyxml2.h>
 
+// 
+#include <dinput.h>
 #pragma comment(lib, "lib/glew32s.lib")
 #pragma comment(lib, "lib/glfw3.lib")
 #pragma comment(lib, "lib/Devil.lib")
 #pragma comment(lib, "lib/tinyxml2.lib")
+#pragma comment(lib, "lib/dinput8.lib")
+#pragma comment(lib, "lib/dxguid.lib")
 #pragma comment(lib, "opengl32.lib")
 
 
@@ -45,23 +51,24 @@ using std::map;
 #include "Math\Frustum.h"
 #include "Math\Sphere.h"
 
+
+// Interface
+#include "interface.h"
+
 #include "Utilities\Module.h"
 #include "Utilities\Log.h"
 #include "Utilities\Input.h"
+#include "Utilities\DirectInput.h"
 #include "Utilities\Shader.h"
 #include "Utilities\Timer.h"
 #include "Utilities\String.h"
 #include "Utilities\Template.h"
-#include "Utilities\PrimitiveShape\Cube.h"
-
 
 #include "ResourceCache\ModelCache.h"
 #include "ResourceCache\Texture.h"
 #include "ResourceCache\ResourceLoader.h"
 
 
-// Interface
-#include "interface.h"
 
 #include "Graphics3D\Material.h"
 #include "Graphics3D\Mesh.h"
@@ -70,6 +77,7 @@ using std::map;
 #include "Graphics3D\SkeAnimation.h"
 
 
+#include "Utilities\PrimitiveShape\Cube.h"
 
 
 

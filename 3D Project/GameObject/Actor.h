@@ -8,7 +8,7 @@ class ActorComponent;
 class Actor: public ISceneNode
 {
 public:
-	typedef std::vector<Actor*> ActorList;
+	typedef std::vector<ISceneNode*> ActorList;
 	typedef std::map<ComponentId, ActorComponent*> ActorComponents;
 protected:
 	ActorList				m_Children;
@@ -32,14 +32,15 @@ public:
 	virtual string VGetName() {	return m_Name;	};
 	virtual void VSetTransform(const mat4 *toWorld);
 	virtual mat4 VGetTransform();
-
+	virtual Shader* VGetShader() ;
+	virtual void VSetShader(Shader* p) ;
 	virtual HRESULT VOnUpdate(Scene *, DWORD const elapsedMs);
 
 	virtual HRESULT VPreRender(Scene *pScene);
 	virtual bool VIsVisible(Scene *pScene) const { return true; };
-	virtual HRESULT VRender(Scene *pScene);
 	virtual HRESULT VRenderChildren(Scene *pScene);
 	virtual HRESULT VPostRender(Scene *pScene);
+	virtual HRESULT VRender(Scene *pScene);
 
 	virtual bool VAddChild(Actor* kid);
 	virtual bool VRemoveChild(ActorId id);

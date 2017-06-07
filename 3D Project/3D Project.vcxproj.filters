@@ -117,6 +117,9 @@
     <ClInclude Include="Utilities\PrimitiveShape\Cube.h">
       <Filter>Utilities\Primitive Shape</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\DirectInput.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -205,6 +208,9 @@
     <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp">
       <Filter>Utilities\Primitive Shape</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\DirectInput.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -228,5 +234,30 @@
     <Filter Include="Utilities\Primitive Shape">
       <UniqueIdentifier>{03267231-4d95-47c3-be6f-97dcd55099e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameAssets">
+      <UniqueIdentifier>{e065ac98-9017-4c21-ab1a-c062573d470a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameAssets\SHADER">
+      <UniqueIdentifier>{e9aa33ff-81f4-4875-aa05-7d06e3ffed3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameAssets\MODEL">
+      <UniqueIdentifier>{74725479-50fd-4ccc-a60b-c83a5578a4fb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameAssets\Shader\NoTexture.vs">
+      <Filter>GameAssets\SHADER</Filter>
+    </None>
+    <None Include="GameAssets\Shader\NoTexture.fs">
+      <Filter>GameAssets\SHADER</Filter>
+    </None>
+    <None Include="GameAssets\SHADER\Texture.fs">
+      <Filter>GameAssets\SHADER</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="GameAssets\MODEL\707.xml">
+      <Filter>GameAssets\MODEL</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

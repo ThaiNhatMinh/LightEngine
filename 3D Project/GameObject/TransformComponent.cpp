@@ -32,10 +32,10 @@ bool TransformComponent::VInit(tinyxml2::XMLElement * pData)
 		yawPitchRoll = EulerAngle(pitch, yaw, roll);
 	}
 
-	mat4 translation;
+	mat4 translation = Math::g_Indentity;
 	translation.Translate(position);
 
-	mat4 rotation;
+	mat4 rotation = Math::g_Indentity;
 	yawPitchRoll.ToMatrixXYZ(rotation);
 	
 	m_Transform = translation*rotation;

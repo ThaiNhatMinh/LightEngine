@@ -49,7 +49,11 @@ Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLEleme
 		ModifyActor(pActor, overrides);
 	}
 
-	pActor->PostInit();
+	if (initialTransform)
+	{
+		TransformComponent* pTc = pActor->GetComponent<TransformComponent>("TransformComponent");
+		pTc->SetTransform(*initialTransform);
+	}
 
 	return pActor;
 }
@@ -61,7 +65,7 @@ Actor * ActorFactory::CreateActor(const char * name, ShapeType type, const mat4&
 	pActor->VSetName(name);
 
 	// Create mesh renderer
-	CubeMesh* pCube = new CubeMesh;
+	CubeMesh* pCube = new CubeMesh();
 	vector<IMesh*> v = { pCube };
 	ActorComponent* pMeshRenderC = new MeshRenderComponent(v);
 	pActor->AddComponent(pMeshRenderC);
@@ -72,7 +76,7 @@ Actor * ActorFactory::CreateActor(const char * name, ShapeType type, const mat4&
 	pActor->AddComponent(pTransformC);
 	pTransformC->SetOwner(pActor);
 
-	pActor->PostInit();
+	//pActor->PostInit();
 
 	return pActor;
 }

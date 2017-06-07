@@ -12,6 +12,7 @@ public:
 	virtual const char* VGetName() const { return Name; }
 	MeshRenderComponent(void) {}
 	MeshRenderComponent(const vector<IMesh*>& v) { m_MeshList = v; }
+	virtual void VPostInit(void);
 	virtual bool VInit(tinyxml2::XMLElement* pData);
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p);
 

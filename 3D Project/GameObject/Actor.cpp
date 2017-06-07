@@ -1,6 +1,6 @@
 #include "..\pch.h"
 
-Actor::Actor(ActorId id):m_id(id)
+Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr), m_pShader(nullptr)
 {
 
 }
@@ -58,9 +58,19 @@ mat4 Actor::VGetTransform()
 	return transform;
 }
 
+Shader * Actor::VGetShader()
+{
+	return m_pShader;
+}
+
+void Actor::VSetShader(Shader * p)
+{
+	m_pShader = p;
+}
+
 HRESULT Actor::VPreRender(Scene * pScene)
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void Actor::AddComponent(ActorComponent * pComponent)
@@ -71,7 +81,7 @@ void Actor::AddComponent(ActorComponent * pComponent)
 
 HRESULT Actor::VRender(Scene * pScene)
 {
-
+	m_pShader->Use();
 	mat4 transform = GetComponent<TransformComponent>("TransformComponent")->GetTransform();
 	mat4 parentTransform = m_pParent->GetComponent<TransformComponent>("TransformComponent")->GetTransform();
 	mat4 globalTransform = parentTransform*transform;
@@ -90,7 +100,7 @@ HRESULT Actor::VRenderChildren(Scene * pScene)
 	// Iterate through the children....
 	ActorList::iterator i = m_Children.begin();
 	ActorList::iterator end = m_Children.end();
-
+	
 	while (i != end)
 	{
 		if ((*i)->VPreRender(pScene) == S_OK)
@@ -113,8 +123,7 @@ HRESULT Actor::VRenderChildren(Scene * pScene)
 		}
 		(*i)->VPostRender(pScene);
 		++i;
-	}
-
+	}	
 	return S_OK;
 }
 

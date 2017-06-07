@@ -367,14 +367,74 @@ ModelCache * Resources::LoadModel(const char * filename)
 	return pModel;
 }
 
+ModelCache * Resources::LoadModelXML(const char * XMLFile)
+{
+	tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
+	int errorID = doc->LoadFile(XMLFile);
+	if (errorID)
+	{
+		E_ERROR("Failed to load file: " + string(XMLFile));
+		return nullptr;
+	}
+	tinyxml2::XMLElement* pData = doc->FirstChildElement("Data");
 
-Shader * Resources::LoadShader(string key, const char * vs, const char* fs)
+	// load model
+	tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
+	const char* pFileName = pModelNode->Attribute("File");
+	ModelCache* pModel = LoadModel(pFileName);
+	if (!pModel)
+	{
+		return nullptr;
+	}
+
+	// load texture
+	tinyxml2::XMLElement* pTextureNode = pData->FirstChildElement("Texture");
+	vector<SkeMesh*>& ve = pModel->pMeshs;
+	for (size_t i = 0; i < ve.size(); i++)
+	{
+		tinyxml2::XMLElement* pTexture = pTextureNode->FirstChildElement(ve[i]->Name.c_str());
+		const char* pTextureFile = pTexture->Attribute("File");
+		ve[i]->Tex = LoadDTX(pTextureFile);
+	}
+
+	// load material
+	tinyxml2::XMLElement* pMaterialData = pData->FirstChildElement("Material");
+	Material mat;
+	tinyxml2::XMLElement* pKa = pMaterialData->FirstChildElement("Ka");
+	mat.Ka.x = pKa->FloatAttribute("r", 1.0f);
+	mat.Ka.y = pKa->FloatAttribute("g", 1.0f);
+	mat.Ka.z = pKa->FloatAttribute("b", 1.0f);
+	tinyxml2::XMLElement* pKd = pMaterialData->FirstChildElement("Kd");
+	mat.Kd.x = pKd->FloatAttribute("r", 1.0f);
+	mat.Kd.y = pKd->FloatAttribute("g", 1.0f);
+	mat.Kd.z = pKd->FloatAttribute("b", 1.0f);
+	tinyxml2::XMLElement* pKs = pMaterialData->FirstChildElement("Ks");
+	mat.Ks.x = pKs->FloatAttribute("r", 1.0f);
+	mat.Ks.y = pKs->FloatAttribute("g", 1.0f);
+	mat.Ks.z = pKs->FloatAttribute("b", 1.0f);
+	mat.exp = pKs->FloatAttribute("exp", 1.0f);
+
+	// Get mesh list and update Material 
+	for (size_t i = 0; i < pModel->pMeshs.size(); i++)
+	{
+		pModel->pMeshs[i]->mat = mat;
+	}
+
+	// Done return ModelCache
+
+//	delete doc;
+	return pModel;
+}
+
+
+Shader * Resources::LoadShader(string key, const char * vs, const char* fs, bool linkshader)
 {
 	map<string, Shader*>::iterator pos = m_ShaderList.find(key);
 	if (pos != m_ShaderList.end()) return pos->second;
 
 	Shader* p = new Shader(vs, fs);
 	m_ShaderList.insert({ key, p });
+	if (linkshader) p->LinkShader();
 	return p;
 }
 

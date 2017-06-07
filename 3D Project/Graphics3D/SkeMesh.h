@@ -28,7 +28,7 @@ public:
 	
 	
 public:
-	SkeMesh() {};
+	SkeMesh() { Tex = 0; };
 	~SkeMesh() {};
 	void Finalize(Shader* p);
 };

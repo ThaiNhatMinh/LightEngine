@@ -10,6 +10,9 @@ typedef unsigned int ComponentId;
 class Scene;
 class Actor;
 class SceneNode;
+class Mesh;
+class Windows;
+struct Texture;
 
 struct Material
 {
@@ -20,8 +23,9 @@ struct Material
 };
 
 // mesh interface
-struct IMesh
+class IMesh
 {
+public:
 	string					Name;
 	unsigned int			VAO;
 	unsigned int			VBO;
@@ -42,8 +46,12 @@ public:
 
 	virtual void VSetName(string name) = 0;
 	virtual string VGetName() = 0;
+
+	virtual Shader* VGetShader() = 0;
+	virtual void VSetShader(Shader* p) = 0;
 	virtual void VSetTransform(const mat4 *toWorld) = 0;
 	virtual mat4 VGetTransform() = 0;
+
 	virtual HRESULT VOnUpdate(Scene *pScene, DWORD const elapsedMs) = 0;
 
 	virtual ActorId GetId(void) const = 0;

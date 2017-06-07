@@ -3,7 +3,7 @@
 
 Mesh::Mesh()
 {
-	
+	Tex = 0;
 }
 
 
@@ -26,6 +26,9 @@ void Mesh::Finalize(Shader* p)
 	glBindBuffer(GL_ARRAY_BUFFER,VBO);
 	glBufferData(GL_ARRAY_BUFFER, m_Vertexs.size()*sizeof(DefaultVertex), &m_Vertexs[0], GL_STATIC_DRAW);
 	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(unsigned int), &m_Indices[0], GL_STATIC_DRAW);
+
 	size_t stride = sizeof(DefaultVertex);
 	
 

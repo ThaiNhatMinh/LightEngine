@@ -16,5 +16,8 @@ public:
 
 	const Camera* GetCamera() {		return m_Camera;	};
 	const Frustum* GetFrustum() {		return m_Frustum;	};
+	void SetCamera(Camera* pCam) { m_Camera = pCam; };
+	void SetFrustum(Frustum* pFrustum) { m_Frustum = pFrustum; };
+	Actor* GetRoot() { return m_pRoot; };
 	mat4 GetViewProj();
 };

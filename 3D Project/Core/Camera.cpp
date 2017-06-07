@@ -15,6 +15,8 @@ void Camera::UpdateVector()
 	m_Front = Math::Normalize(front);
 	m_Right = Math::Normalize(Math::Cross(m_Front, WorldUp));
 	m_Up = Math::Normalize(Math::Cross(m_Right, m_Front));
+
+	
 }
 
 Camera::Camera()
@@ -45,35 +47,26 @@ Camera::Camera(const vec3 & pos, const vec3 & target, const vec3 & up)
 Camera::~Camera()
 {
 }
-/*
-void Camera::OnKeyboard(int key,float deltaTIme)
-{
-	if (key == GLFW_KEY_W) m_Position +=  m_Front*m_Speed*deltaTIme;
-	if (key == GLFW_KEY_S) m_Position -= m_Front*m_Speed*deltaTIme;
-	if (key == GLFW_KEY_D) m_Position += m_Right*m_Speed*deltaTIme;
-	if (key == GLFW_KEY_A) m_Position -= m_Right*m_Speed*deltaTIme;
 
-}
-*/
 void Camera::Update(float deltaTIme)
 {
 	// Camera controls
-	if (gInput()->OnKey(GLFW_KEY_W)) m_Position += m_Front*m_Speed*deltaTIme;
-	if (gInput()->OnKey(GLFW_KEY_S)) m_Position -= m_Front*m_Speed*deltaTIme;
-	if (gInput()->OnKey(GLFW_KEY_D)) m_Position += m_Right*m_Speed*deltaTIme;
-	if (gInput()->OnKey(GLFW_KEY_A)) m_Position -= m_Right*m_Speed*deltaTIme;
-	//cout << m_Position << endl;
-}
+	if (gInput()->KeyDown(DIK_W)) m_Position += m_Front*m_Speed*deltaTIme;
+	if (gInput()->KeyDown(DIK_S)) m_Position -= m_Front*m_Speed*deltaTIme;
+	if (gInput()->KeyDown(DIK_D)) m_Position += m_Right*m_Speed*deltaTIme;
+	if (gInput()->KeyDown(DIK_A)) m_Position -= m_Right*m_Speed*deltaTIme;
 
-void Camera::OnMouse(float dx, float dy)
-{
-	m_Pitch += dy*MouseSensitivity;
-	m_Yaw += dx*MouseSensitivity;
+	m_Pitch += gInput()->mouseDY()*MouseSensitivity;
+	m_Yaw += gInput()->mouseDX()*MouseSensitivity;
 	if (m_Pitch > 89.0f) m_Pitch = 89.0f;
 	if (m_Pitch < -89.0f) m_Pitch = -89.0f;
 
 	UpdateVector();
+
+	//cout << m_Position << endl;
 }
+
+
 
 mat4 Camera::GetViewMatrix()
 {
