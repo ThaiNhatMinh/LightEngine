@@ -71,6 +71,7 @@ public:
 	void Translate(float x, float y, float z);
 	Matrix4 Transpose() const;
 	Matrix4 Inverse() const;
+	void Scale(const vec3& s);
 	//Matrix4 Adjoint() const;
 	//float Determinant() const;
 

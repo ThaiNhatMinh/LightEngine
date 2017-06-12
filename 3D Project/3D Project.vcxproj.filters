@@ -120,6 +120,36 @@
     <ClInclude Include="Utilities\DirectInput.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\Light.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\TexShader.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\PrimitiveShader.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Physic\Physic.h">
+      <Filter>Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager\EventManager.h">
+      <Filter>EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager\Events.h">
+      <Filter>EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Physic\PhysicDebugDrawer.h">
+      <Filter>Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\PhysicComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Debug.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\PrimitiveShape\Line.h">
+      <Filter>Utilities\Primitive Shape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -211,6 +241,33 @@
     <ClCompile Include="Utilities\DirectInput.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics3D\TexShader.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\PrimitiveShader.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Physic\Physic.cpp">
+      <Filter>Physic</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager\EventManager.cpp">
+      <Filter>EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager\Events.cpp">
+      <Filter>EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Physic\PhysicDebugDrawer.cpp">
+      <Filter>Physic</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\PhysicComponent.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\PrimitiveShape\Line.cpp">
+      <Filter>Utilities\Primitive Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Debug.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -243,6 +300,12 @@
     <Filter Include="GameAssets\MODEL">
       <UniqueIdentifier>{74725479-50fd-4ccc-a60b-c83a5578a4fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physic">
+      <UniqueIdentifier>{a064230a-ae38-4e46-b725-b76b8b1d44eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EventManager">
+      <UniqueIdentifier>{7317b3bb-9bcd-43dc-9e97-15f255ddf013}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="GameAssets\Shader\NoTexture.vs">
@@ -252,6 +315,12 @@
       <Filter>GameAssets\SHADER</Filter>
     </None>
     <None Include="GameAssets\SHADER\Texture.fs">
+      <Filter>GameAssets\SHADER</Filter>
+    </None>
+    <None Include="GameAssets\SHADER\Debug.vs">
+      <Filter>GameAssets\SHADER</Filter>
+    </None>
+    <None Include="GameAssets\SHADER\Debug.fs">
       <Filter>GameAssets\SHADER</Filter>
     </None>
   </ItemGroup>

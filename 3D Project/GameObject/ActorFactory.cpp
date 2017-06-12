@@ -6,13 +6,14 @@ void ActorFactory::onStartUp(void)
 
 	m_componentFactory.Register<TransformComponent>(ActorComponent::GetIdFromName(TransformComponent::Name));
 	m_componentFactory.Register<MeshRenderComponent>(ActorComponent::GetIdFromName(MeshRenderComponent::Name));
+	m_componentFactory.Register<PhysicsComponent>(ActorComponent::GetIdFromName(PhysicsComponent::Name));
 
 }
 
 Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLElement * overrides, const mat4 * initialTransform)
 {
-	tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
-	int errorID = doc->LoadFile(actorResource);
+	tinyxml2::XMLDocument doc;
+	int errorID = doc.LoadFile(actorResource);
 	if (errorID)
 	{
 		E_ERROR("Failed to create Actor from file: " + string(actorResource));
@@ -21,7 +22,7 @@ Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLEleme
 
 	Actor* pActor = new Actor(GetNextActorId());
 
-	tinyxml2::XMLElement* pActorData = doc->FirstChildElement("Actor");
+	tinyxml2::XMLElement* pActorData = doc.FirstChildElement("Actor");
 	if (!pActor->Init(pActorData))
 	{
 		E_ERROR("Failed to init Actor:" + string(actorResource));
@@ -65,8 +66,10 @@ Actor * ActorFactory::CreateActor(const char * name, ShapeType type, const mat4&
 	pActor->VSetName(name);
 
 	// Create mesh renderer
-	CubeMesh* pCube = new CubeMesh();
-	vector<IMesh*> v = { pCube };
+	
+	vector<IMesh*> v;
+	v.push_back(gResources()->CreateShape(CUBE));
+
 	ActorComponent* pMeshRenderC = new MeshRenderComponent(v);
 	pActor->AddComponent(pMeshRenderC);
 	pMeshRenderC->SetOwner(pActor);

@@ -202,9 +202,15 @@ float Math::ASin(float fValue)
 
 void Math::GetBasicVector(const Matrix4& M, Vector3& xaxis, Vector3& yaxis, Vector3& zaxis)
 {
-	xaxis.set( M.mV[0], M.mV[4], M.mV[8]);
-	yaxis.set( M.mV[1], M.mV[5], M.mV[9]);
-	zaxis.set( M.mV[2], M.mV[6], M.mV[10]);
+	xaxis.set( M.mV[0], M.mV[1], M.mV[2]);
+	yaxis.set( M.mV[4], M.mV[5], M.mV[6]);
+	zaxis.set( M.mV[8], M.mV[9], M.mV[10]);
+}
+
+vec3 Math::GetAxis(const mat4 & mat, AXIS axis)
+{
+	vec3 t = vec3(&mat.mV[axis * 4]);
+	return t;
 }
 
 

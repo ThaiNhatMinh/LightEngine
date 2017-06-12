@@ -3,6 +3,7 @@
 #include "..\include\IL\ilu.h"
 #include "LTBFileLoader.h"
 
+
 Resources* gResources()
 {
 	return Resources::InstancePtr();
@@ -369,33 +370,34 @@ ModelCache * Resources::LoadModel(const char * filename)
 
 ModelCache * Resources::LoadModelXML(const char * XMLFile)
 {
-	tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
-	int errorID = doc->LoadFile(XMLFile);
+	tinyxml2::XMLDocument doc;
+	int errorID = doc.LoadFile(XMLFile);
 	if (errorID)
 	{
 		E_ERROR("Failed to load file: " + string(XMLFile));
 		return nullptr;
 	}
-	tinyxml2::XMLElement* pData = doc->FirstChildElement("Data");
+	tinyxml2::XMLElement* pData = doc.FirstChildElement("Data");
 
 	// load model
 	tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
 	const char* pFileName = pModelNode->Attribute("File");
-	ModelCache* pModel = LoadModel(pFileName);
-	if (!pModel)
-	{
-		return nullptr;
-	}
 
-	// load texture
-	tinyxml2::XMLElement* pTextureNode = pData->FirstChildElement("Texture");
-	vector<SkeMesh*>& ve = pModel->pMeshs;
-	for (size_t i = 0; i < ve.size(); i++)
+	ModelCache* pModel = LoadModel(pFileName);
+	if (pModel)
 	{
-		tinyxml2::XMLElement* pTexture = pTextureNode->FirstChildElement(ve[i]->Name.c_str());
-		const char* pTextureFile = pTexture->Attribute("File");
-		ve[i]->Tex = LoadDTX(pTextureFile);
-	}
+		// load texture
+		tinyxml2::XMLElement* pTextureNode = pData->FirstChildElement("Texture");
+		vector<SkeMesh*>& ve = pModel->pMeshs;
+		for (size_t i = 0; i < ve.size(); i++)
+		{
+			tinyxml2::XMLElement* pTexture = pTextureNode->FirstChildElement(ve[i]->Name.c_str());
+			const char* pTextureFile = pTexture->Attribute("File");
+			ve[i]->Tex = LoadDTX(pTextureFile);
+		}
+	}		
+
+	
 
 	// load material
 	tinyxml2::XMLElement* pMaterialData = pData->FirstChildElement("Material");
@@ -414,11 +416,12 @@ ModelCache * Resources::LoadModelXML(const char * XMLFile)
 	mat.Ks.z = pKs->FloatAttribute("b", 1.0f);
 	mat.exp = pKs->FloatAttribute("exp", 1.0f);
 
+	pModel->mat  = mat;
 	// Get mesh list and update Material 
-	for (size_t i = 0; i < pModel->pMeshs.size(); i++)
-	{
-		pModel->pMeshs[i]->mat = mat;
-	}
+	//for (size_t i = 0; i < pModel->pMeshs.size(); i++)
+	//{
+	//	pModel->pMeshs[i]->mat = mat;
+	//}
 
 	// Done return ModelCache
 
@@ -427,20 +430,20 @@ ModelCache * Resources::LoadModelXML(const char * XMLFile)
 }
 
 
-Shader * Resources::LoadShader(string key, const char * vs, const char* fs, bool linkshader)
-{
-	map<string, Shader*>::iterator pos = m_ShaderList.find(key);
-	if (pos != m_ShaderList.end()) return pos->second;
-
-	Shader* p = new Shader(vs, fs);
-	m_ShaderList.insert({ key, p });
-	if (linkshader) p->LinkShader();
-	return p;
-}
 
 Shader * Resources::GetShader(string key)
 {
 	return m_ShaderList[key];
+}
+
+IMesh * Resources::CreateShape(ShapeType type)
+{
+
+	IMesh* pBox = new CubeMesh();
+	pBox->Name = ShapeName[type];
+	m_PrimList.push_back(pBox);
+
+	return pBox;
 }
 
 void Resources::onShutDown()
@@ -459,5 +462,7 @@ void Resources::onShutDown()
 		pos++;
 	}
 
+	for (size_t i = 0; i < m_PrimList.size(); i++)
+		delete m_PrimList[i];
 }
 

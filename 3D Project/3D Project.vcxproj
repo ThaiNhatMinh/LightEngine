@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Code Collection\3D Project\3D Project\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Code Collection\3D Project\3D Project\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Code Collection\3D Project\3D Project\include;D:\Code Collection\Game Coding Complete\Source\GCC4\3rdParty\bullet-2.79\src;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Code Collection\3D Project\3D Project\lib;D:\Code Collection\Game Coding Complete\Source\GCC4\3rdParty\bullet-2.79\lib\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -93,6 +93,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE; _CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,17 +154,23 @@
     <ClInclude Include="Core\CoreApplication.h" />
     <ClInclude Include="Core\RenderAPI.h" />
     <ClInclude Include="Core\Windows.h" />
+    <ClInclude Include="EventManager\EventManager.h" />
+    <ClInclude Include="EventManager\Events.h" />
     <ClInclude Include="GameObject\Actor.h" />
     <ClInclude Include="GameObject\ActorComponent.h" />
     <ClInclude Include="GameObject\ActorFactory.h" />
     <ClInclude Include="GameObject\MeshRenderComponent.h" />
+    <ClInclude Include="GameObject\PhysicComponent.h" />
     <ClInclude Include="GameObject\TransformComponent.h" />
     <ClInclude Include="Graphics3D\AnimationDef.h" />
+    <ClInclude Include="Graphics3D\Light.h" />
+    <ClInclude Include="Graphics3D\PrimitiveShader.h" />
     <ClInclude Include="Graphics3D\Scene.h" />
     <ClInclude Include="Graphics3D\Material.h" />
     <ClInclude Include="Graphics3D\Mesh.h" />
     <ClInclude Include="Graphics3D\SkeAnimation.h" />
     <ClInclude Include="Graphics3D\SkeMesh.h" />
+    <ClInclude Include="Graphics3D\TexShader.h" />
     <ClInclude Include="interface.h" />
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="Math\CMath.h" />
@@ -176,13 +183,17 @@
     <ClInclude Include="Math\Sphere.h" />
     <ClInclude Include="Math\Vector.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Physic\Physic.h" />
+    <ClInclude Include="Physic\PhysicDebugDrawer.h" />
     <ClInclude Include="ResourceCache\LTBDef.h" />
     <ClInclude Include="ResourceCache\LTBFileLoader.h" />
     <ClInclude Include="ResourceCache\ModelCache.h" />
     <ClInclude Include="ResourceCache\ResourceLoader.h" />
     <ClInclude Include="ResourceCache\Texture.h" />
+    <ClInclude Include="Utilities\Debug.h" />
     <ClInclude Include="Utilities\DirectInput.h" />
     <ClInclude Include="Utilities\PrimitiveShape\Cube.h" />
+    <ClInclude Include="Utilities\PrimitiveShape\Line.h" />
     <ClInclude Include="Utilities\Template.h" />
     <ClInclude Include="Utilities\Input.h" />
     <ClInclude Include="Utilities\Log.h" />
@@ -195,14 +206,19 @@
     <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\CoreApplication.cpp" />
     <ClCompile Include="Core\Windows.cpp" />
+    <ClCompile Include="EventManager\EventManager.cpp" />
+    <ClCompile Include="EventManager\Events.cpp" />
     <ClCompile Include="GameObject\Actor.cpp" />
     <ClCompile Include="GameObject\ActorFactory.cpp" />
     <ClCompile Include="GameObject\MeshRenderComponent.cpp" />
+    <ClCompile Include="GameObject\PhysicComponent.cpp" />
     <ClCompile Include="GameObject\TransformComponent.cpp" />
     <ClCompile Include="Graphics3D\Mesh.cpp" />
+    <ClCompile Include="Graphics3D\PrimitiveShader.cpp" />
     <ClCompile Include="Graphics3D\Scene.cpp" />
     <ClCompile Include="Graphics3D\SkeAnimation.cpp" />
     <ClCompile Include="Graphics3D\SkeMesh.cpp" />
+    <ClCompile Include="Graphics3D\TexShader.cpp" />
     <ClCompile Include="Math\AABB.cpp" />
     <ClCompile Include="Math\CMath.cpp" />
     <ClCompile Include="Math\EulerAngles.cpp" />
@@ -217,18 +233,24 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Physic\Physic.cpp" />
+    <ClCompile Include="Physic\PhysicDebugDrawer.cpp" />
     <ClCompile Include="ResourceCache\LTBFileLoader.cpp" />
     <ClCompile Include="ResourceCache\ResourceLoader.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Utilities\Debug.cpp" />
     <ClCompile Include="Utilities\DirectInput.cpp" />
     <ClCompile Include="Utilities\Input.cpp" />
     <ClCompile Include="Utilities\Log.cpp" />
     <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp" />
+    <ClCompile Include="Utilities\PrimitiveShape\Line.cpp" />
     <ClCompile Include="Utilities\Shader.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
     <ClCompile Include="Utilities\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="GameAssets\SHADER\Debug.fs" />
+    <None Include="GameAssets\SHADER\Debug.vs" />
     <None Include="GameAssets\Shader\NoTexture.fs" />
     <None Include="GameAssets\Shader\NoTexture.vs" />
     <None Include="GameAssets\SHADER\Texture.fs" />

@@ -19,6 +19,6 @@ public:
 
 	// dirive class can redifine this function to add more data;
 	virtual void Finalize(Shader* p);
-	
+	virtual void Scale(vec3 scale);
 };
 

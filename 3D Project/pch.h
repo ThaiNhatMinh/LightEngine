@@ -1,5 +1,10 @@
 #pragma once
 
+// Precompile header file
+// Thai Nhat Minh 
+// Game 3D Project
+// Day begin 31/52017
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -10,7 +15,12 @@
 #include <wchar.h>
 #include <cassert>
 #include <iomanip>
-// this file include basic I/O and basic data struct: string, vector
+#include <set>
+#include <iterator>
+#include <algorithm>
+#include <list>
+#include <strstream>
+
 using std::cout;
 using std::endl;
 using std::string;
@@ -28,8 +38,17 @@ using std::map;
 // TinyXML 2
 #include <tinyxml2.h>
 
-// 
+// Direct Input
 #include <dinput.h>
+
+// Bullet Physic 
+#include <btBulletCollisionCommon.h>
+#include <btBulletDynamicsCommon.h>
+
+
+#include <FastDelegate\FastDelegate.h>
+
+// libary
 #pragma comment(lib, "lib/glew32s.lib")
 #pragma comment(lib, "lib/glfw3.lib")
 #pragma comment(lib, "lib/Devil.lib")
@@ -37,7 +56,9 @@ using std::map;
 #pragma comment(lib, "lib/dinput8.lib")
 #pragma comment(lib, "lib/dxguid.lib")
 #pragma comment(lib, "opengl32.lib")
-
+#pragma comment(lib, "BulletCollision_Debug.lib")
+#pragma comment(lib, "BulletDynamics_Debug.lib")
+#pragma comment(lib, "LinearMath_Debug.lib")
 
 // Math
 #include "Math\Vector.h"
@@ -63,6 +84,7 @@ using std::map;
 #include "Utilities\Timer.h"
 #include "Utilities\String.h"
 #include "Utilities\Template.h"
+#include "Utilities\Debug.h"
 
 #include "ResourceCache\ModelCache.h"
 #include "ResourceCache\Texture.h"
@@ -75,17 +97,26 @@ using std::map;
 #include "Graphics3D\SkeMesh.h"
 #include "Graphics3D\AnimationDef.h"
 #include "Graphics3D\SkeAnimation.h"
-
+#include "Graphics3D\Light.h"
+#include "Graphics3D\TexShader.h"
+#include "Graphics3D\PrimitiveShader.h"
 
 #include "Utilities\PrimitiveShape\Cube.h"
+#include "Utilities\PrimitiveShape\Line.h"
 
 
+#include "EventManager\EventManager.h"
+#include "EventManager\Events.h"
 
 #include "GameObject\ActorComponent.h"
 #include "GameObject\TransformComponent.h"
 #include "GameObject\MeshRenderComponent.h"
+#include "GameObject\PhysicComponent.h"
 #include "GameObject\ActorFactory.h"
 #include "GameObject\Actor.h"
+
+#include "Physic\PhysicDebugDrawer.h"
+#include "Physic\Physic.h"
 
 #include "Graphics3D\Scene.h"
 

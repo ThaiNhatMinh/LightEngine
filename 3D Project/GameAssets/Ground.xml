@@ -1,0 +1,22 @@
+<Actor type="Cube" resource="GameAssets\Ground.xml">
+	
+	<PhysicsComponent>
+        <Shape>Box</Shape>
+        <Density>Infinite</Density>
+        <PhysicsMaterial>Normal</PhysicsMaterial>
+        <RigidBodyTransform>
+			<Scale x="5.0" y="1.0" z="5.0"/>
+		</RigidBodyTransform>
+    </PhysicsComponent>
+	
+	<TransformComponent>
+		<Position x="0" y="0" z="0"/>
+		<YawPitchRoll x="0" y="0" z="0"/>
+	</TransformComponent>
+	
+	<MeshRenderComponent>
+		<Model Shape="Cube" />
+		<Scale x="5.0" y="1.0" z="5.0"/>
+	</MeshRenderComponent>
+	
+</Actor>

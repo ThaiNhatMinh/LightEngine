@@ -15,5 +15,6 @@ void main()
 {
 	gl_Position = MVP * vec4(position,1.0f);
 	vNormal = mat3(Model) * normal;
-	vUV = uv;
+	vUV = vec2(uv.x,uv.y);
+	vFragPos = vec3(Model* vec4(position,1.0f));
 }

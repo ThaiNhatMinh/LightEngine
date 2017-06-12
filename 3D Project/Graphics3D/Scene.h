@@ -4,9 +4,13 @@
 class Scene
 {
 private:
-	Actor*			m_pRoot; // This store every thing
+	// Simple Object with only transform component
+	// This store every thing in scene
+	Actor*			m_pRoot;
+
 	Camera*			m_Camera;
 	Frustum*		m_Frustum;
+	Light			m_DirectionLight; // only one direction light
 public:
 	Scene();
 	~Scene();
@@ -20,4 +24,5 @@ public:
 	void SetFrustum(Frustum* pFrustum) { m_Frustum = pFrustum; };
 	Actor* GetRoot() { return m_pRoot; };
 	mat4 GetViewProj();
+	Light GetDirLight() { return m_DirectionLight; };
 };

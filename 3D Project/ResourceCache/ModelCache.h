@@ -12,6 +12,7 @@ struct ModelCache
 {
 	char				szName[128];
 	LTBProp*			pProp;
+	Material			mat;
 	vector<SkeMesh*>	pMeshs;
 	vector<SkeNode*>	pSkeNodes;
 	vector<WeightBlend>	wb;

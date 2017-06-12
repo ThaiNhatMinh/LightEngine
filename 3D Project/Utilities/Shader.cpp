@@ -39,6 +39,7 @@ void Shader::LinkShader()
 		cout << location << " " << name << endl;
 #endif
 	}
+	delete name;
 	 
 }
 
@@ -47,8 +48,8 @@ Shader::~Shader()
 {
 	glDeleteProgram(m_iProgramID);
 
-	//glDeleteShader(m_i);
-	//glDeleteShader(fragmentShader);
+	glDeleteShader(m_iFragmentShader);
+	glDeleteShader(m_iVertexShader);
 
 }
 

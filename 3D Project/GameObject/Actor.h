@@ -44,7 +44,7 @@ public:
 
 	virtual bool VAddChild(Actor* kid);
 	virtual bool VRemoveChild(ActorId id);
-
+	virtual Actor* VGetParent();
 	// accessors
 	ActorId GetId(void) const { return m_id; }
 	template<class ComponentType>ComponentType* GetComponent(ComponentId id);

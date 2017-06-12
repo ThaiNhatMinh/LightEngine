@@ -1,13 +1,6 @@
 #pragma once
 #include "..\pch.h"
 
-enum ShapeType
-{
-	CUBE,
-	SPHERE,
-	CAPSULE,
-	CYLINDER
-};
 class ActorFactory: public Singleton<ActorFactory>
 {
 	ActorId m_lastActorId;

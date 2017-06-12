@@ -247,7 +247,7 @@ Vector3 Vector3::operator/(float Scalar) const
 
 Vector3 Vector3::operator/(const Vector3 & v) const
 {
-	Vector3 result = Vector3(0);
+	Vector3 result = Vector3(0.0f);
 	if (v.x != 0) result.x = x / v.x;
 	if (v.y != 0) result.y = y / v.y;
 	if (v.z != 0) result.z = z / v.z;

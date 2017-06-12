@@ -7,10 +7,17 @@ Scene::Scene()
 	{
 		E_ERROR("Can't create Root Node.");
 	}
+	m_DirectionLight.La = vec3(0.1, 0.1, 0.1);
+	m_DirectionLight.Ld = vec3(0.5, 0.5, 0.5);
+	m_DirectionLight.Ls = vec3(1.0f, 1.0f, 1.0f);
+	m_DirectionLight.direction = Math::Normalize(vec3(1, -1, 1));
 }
 
 Scene::~Scene()
 {
+	delete m_pRoot;
+	delete m_Camera;
+	delete m_Frustum;
 }
 
 bool Scene::OnRender()

@@ -4,10 +4,10 @@ const char* TransformComponent::Name = "TransformComponent";
 bool TransformComponent::VInit(tinyxml2::XMLElement * pData)
 {
 	if (!pData) return false;
+
 	EulerAngle yawPitchRoll;
-
 	vec3 position;
-
+	vec3 Scale;
 	tinyxml2::XMLElement* pPositionElement = pData->FirstChildElement("Position");
 	if (pPositionElement)
 	{
@@ -32,13 +32,14 @@ bool TransformComponent::VInit(tinyxml2::XMLElement * pData)
 		yawPitchRoll = EulerAngle(pitch, yaw, roll);
 	}
 
+
 	mat4 translation = Math::g_Indentity;
 	translation.Translate(position);
 
 	mat4 rotation = Math::g_Indentity;
 	yawPitchRoll.ToMatrixXYZ(rotation);
 	
-	m_Transform = translation*rotation;
+	m_Transform = rotation*translation;
 	//rotation.BuildYawPitchRoll((float)DEGREES_TO_RADIANS(yawPitchRoll.x), (float)DEGREES_TO_RADIANS(yawPitchRoll.y), (float)DEGREES_TO_RADIANS(yawPitchRoll.z));
 	return true;
 }

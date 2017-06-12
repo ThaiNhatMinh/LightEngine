@@ -56,6 +56,7 @@ public:
 	Vector3(float _x, float _y, float _z):x(_x), y(_y), z(_z){}
 	Vector3(float val) :x(val), y(val), z(val) {};
 	Vector3(const Vector3& v): x(v.x), y(v.y), z(v.z){}
+	explicit Vector3(const float* p) :x(p[0]), y(p[1]), z(p[2]) {}
 	~Vector3();
 	void zero();
 	void set(float _x, float _y, float _z){x = _x; y = _y; z=_z;}

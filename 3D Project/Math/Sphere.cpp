@@ -2,7 +2,7 @@
 
 BVSphere::BVSphere()
 {
-	m_Pos = vec3(0);
+	m_Pos = vec3(0.0f);
 	m_fRadius = 1.0f;
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "..\pch.h"
 
+// base shader class
 class Shader
 {
 public:
@@ -15,7 +16,7 @@ public:
 	Shader(const char* vertexShaderFile, const char* fragmentShaderFile);
 	void LinkShader();
 	Shader() {};
-	~Shader();
+	virtual ~Shader();
 
 	bool Load(const char* vertexShaderFile, const char* fragmentShaderFile);
 	inline void Use() { glUseProgram(m_iProgramID); };
@@ -33,5 +34,7 @@ public:
 	inline void SetUniformMatrix(GLuint location, const float* data) { glUniformMatrix4fv(location, 1, GL_FALSE, data); }
 	inline void SetUniformMatrix(const char* name, const float* data) { glUniformMatrix4fv(m_UniformLists[name], 1, GL_FALSE, data); }
 
+
+	virtual void SetupRender(Scene*, Actor*) {};
 };
 

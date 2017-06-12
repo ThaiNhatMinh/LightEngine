@@ -7,6 +7,17 @@ Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr), m_pShader(nullptr)
 
 Actor::~Actor()
 {
+	// release children
+	for (size_t i = 0; i < m_Children.size(); i++)
+	{
+		delete m_Children[i];
+	}
+	
+	// release component
+	for (ActorComponents::iterator it = m_components.begin(); it != m_components.end(); ++it)
+	{
+		delete it->second;
+	}
 }
 
 bool Actor::Init(tinyxml2::XMLElement * pData)
@@ -81,14 +92,9 @@ void Actor::AddComponent(ActorComponent * pComponent)
 
 HRESULT Actor::VRender(Scene * pScene)
 {
-	m_pShader->Use();
-	mat4 transform = GetComponent<TransformComponent>("TransformComponent")->GetTransform();
-	mat4 parentTransform = m_pParent->GetComponent<TransformComponent>("TransformComponent")->GetTransform();
-	mat4 globalTransform = parentTransform*transform;
-	m_pShader->SetUniformMatrix("Model", globalTransform.ToFloatPtr());
-	mat4 MVP = globalTransform* pScene->GetViewProj();
-	m_pShader->SetUniformMatrix("MVP", MVP.ToFloatPtr());
+	m_pShader->SetupRender(pScene, this);
 
+	// this only using on derived class of Actor. This only a test for Component Archir
 	MeshRenderComponent* mrc = GetComponent<MeshRenderComponent>("MeshRenderComponent");
 	if (mrc) mrc->Render();
 	return S_OK;
@@ -150,4 +156,9 @@ bool Actor::VRemoveChild(ActorId id)
 		}
 	}
 	return false;
+}
+
+Actor * Actor::VGetParent()
+{
+	return m_pParent;
 }

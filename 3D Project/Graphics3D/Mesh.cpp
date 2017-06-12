@@ -56,3 +56,13 @@ void Mesh::Finalize(Shader* p)
 
 	glBindVertexArray(0);
 }
+
+void Mesh::Scale(vec3 scale)
+{
+	for (size_t i = 0; i < m_Vertexs.size(); i++)
+	{
+		m_Vertexs[i].pos.x *= scale.x;
+		m_Vertexs[i].pos.y *= scale.y;
+		m_Vertexs[i].pos.z *= scale.z;
+	}
+}

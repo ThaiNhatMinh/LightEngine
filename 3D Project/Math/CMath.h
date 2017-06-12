@@ -1,7 +1,12 @@
 #pragma once
 #include "..\pch.h"
 
-
+enum AXIS
+{
+	X_AXIS,
+	Y_AXIS,
+	Z_AXIS
+};
 class Math
 {
 public:
@@ -50,5 +55,6 @@ public:
 	static void Translate(const Matrix4& M,const Vector3& t);
 	static void Translate(const Matrix4& M, float x, float y, float z);
 	static void GetBasicVector(const Matrix4& M, Vector3& xaxis, Vector3& yaxis, Vector3& zaxis);
+	static vec3 GetAxis(const mat4& mat, AXIS axis);
 	
 };

@@ -140,6 +140,13 @@ void Matrix4::ZeroTranslate()
 	mV[12] = mV[13] = mV[14] = 0.0f;
 }
 
+
+// 0	4	8	12			x-axis	y-axis	z-axis	x-pos
+// 1	5	9	13	=>>		x-axis	y-axis	z-axis	y-pos
+// 2	6	10	14			x-axis	y-axis	z-axis	z-pos
+// 3	7	11	15			0		0		0		1
+// collum first
+
 float Matrix4::operator()(int Row, int Col) const
 {
 	return mV[Col + Row*4];
@@ -600,6 +607,13 @@ Matrix4 Matrix4::Inverse()const
 					inv[4],inv[5],inv[6],inv[7],
 					inv[8],inv[9],inv[10],inv[11],
 					inv[12],inv[13],inv[14],inv[15]);
+	}
+
+	void Matrix4::Scale(const vec3 & s)
+	{
+		mV[0] = s.x;
+		mV[5] = s.y;
+		mV[10] = s.z;
 	}
 
 quat Matrix4::ToQuat() const

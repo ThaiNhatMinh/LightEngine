@@ -6,7 +6,8 @@
 class MeshRenderComponent : public ActorComponent
 {
 private:
-	vector<IMesh*> m_MeshList;
+	vector<IMesh*>			m_MeshList;
+	Material				m_Material;
 public:
 	static const char* Name;
 	virtual const char* VGetName() const { return Name; }
@@ -21,5 +22,6 @@ public:
 	// For easy now just render it
 	// Request mesh and texture
 	void Render();
-
+	// Get Material for this render
+	Material GetMaterial();
 };
