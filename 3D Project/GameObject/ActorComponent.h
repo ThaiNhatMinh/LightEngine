@@ -12,7 +12,7 @@ public:
 	// These functions are meant to be overridden by the implementation classes of the components.
 	virtual bool VInit(tinyxml2::XMLElement* pData) = 0;
 	virtual void VPostInit(void) { }
-	virtual void VUpdate(int deltaMs) { }
+	virtual void VUpdate(float dt) { }
 	virtual void VOnChanged(void) { }				// [mrmike] - added post-pres
 													// for the editor
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) = 0;

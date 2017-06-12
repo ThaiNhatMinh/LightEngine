@@ -7,6 +7,7 @@ void ActorFactory::onStartUp(void)
 	m_componentFactory.Register<TransformComponent>(ActorComponent::GetIdFromName(TransformComponent::Name));
 	m_componentFactory.Register<MeshRenderComponent>(ActorComponent::GetIdFromName(MeshRenderComponent::Name));
 	m_componentFactory.Register<PhysicsComponent>(ActorComponent::GetIdFromName(PhysicsComponent::Name));
+	m_componentFactory.Register<AnimationComponent>(ActorComponent::GetIdFromName(AnimationComponent::Name));
 
 }
 

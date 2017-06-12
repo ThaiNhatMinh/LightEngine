@@ -37,7 +37,7 @@ void Actor::Destroy(void)
 {
 }
 
-HRESULT Actor::VOnUpdate(Scene *pScene, DWORD const deltaMs)
+HRESULT Actor::VOnUpdate(Scene *pScene, float deltaMs)
 {
 	for (ActorComponents::iterator it = m_components.begin(); it != m_components.end(); ++it)
 	{
@@ -66,6 +66,16 @@ void Actor::VSetTransform(const mat4 * toWorld)
 mat4 Actor::VGetTransform()
 {
 	mat4 transform = GetComponent<TransformComponent>("TransformComponent")->GetTransform();
+	return transform;
+}
+
+mat4 Actor::VGetGlobalTransform()
+{
+	
+	mat4 transform = GetComponent<TransformComponent>("TransformComponent")->GetTransform();
+	if (m_pParent)
+		transform = transform*m_pParent->VGetGlobalTransform();
+
 	return transform;
 }
 

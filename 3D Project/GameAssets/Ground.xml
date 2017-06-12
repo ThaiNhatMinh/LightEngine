@@ -5,7 +5,7 @@
         <Density>Infinite</Density>
         <PhysicsMaterial>Normal</PhysicsMaterial>
         <RigidBodyTransform>
-			<Scale x="5.0" y="1.0" z="5.0"/>
+			<Scale x="30.0" y="1.0" z="30.0"/>
 		</RigidBodyTransform>
     </PhysicsComponent>
 	
@@ -16,7 +16,7 @@
 	
 	<MeshRenderComponent>
 		<Model Shape="Cube" />
-		<Scale x="5.0" y="1.0" z="5.0"/>
+		<Scale x="30.0" y="1.0" z="30.0"/>
 	</MeshRenderComponent>
 	
 </Actor>

@@ -23,7 +23,7 @@ void Debug::DrawLine(const vec3 & from, const vec3 & to, const vec3 & color)
 	Shader* pShader = gResources()->GetShader("Debug");
 	pShader->Use();
 	pShader->SetUniform("color", color);
-	pShader->SetUniformMatrix("MVP", m_pScene->GetViewProj().ToFloatPtr());
+	pShader->SetUniformMatrix("MVP", glm::value_ptr(m_pScene->GetViewProj()));
 
 	m_Line->Draw(from, to);
 }

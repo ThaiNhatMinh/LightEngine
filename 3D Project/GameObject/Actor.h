@@ -32,9 +32,10 @@ public:
 	virtual string VGetName() {	return m_Name;	};
 	virtual void VSetTransform(const mat4 *toWorld);
 	virtual mat4 VGetTransform();
+	virtual mat4 VGetGlobalTransform();
 	virtual Shader* VGetShader() ;
 	virtual void VSetShader(Shader* p) ;
-	virtual HRESULT VOnUpdate(Scene *, DWORD const elapsedMs);
+	virtual HRESULT VOnUpdate(Scene *, float elapsedMs);
 
 	virtual HRESULT VPreRender(Scene *pScene);
 	virtual bool VIsVisible(Scene *pScene) const { return true; };

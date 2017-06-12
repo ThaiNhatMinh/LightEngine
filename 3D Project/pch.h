@@ -59,7 +59,7 @@ using std::map;
 #pragma comment(lib, "BulletCollision_Debug.lib")
 #pragma comment(lib, "BulletDynamics_Debug.lib")
 #pragma comment(lib, "LinearMath_Debug.lib")
-
+/*
 // Math
 #include "Math\Vector.h"
 #include "Math\Quaternion.h"
@@ -71,7 +71,35 @@ using std::map;
 #include "Math\Plane.h"
 #include "Math\Frustum.h"
 #include "Math\Sphere.h"
+*/
 
+
+// Math
+#include "glm\mat4x4.hpp"
+#include "glm\vec3.hpp"
+#include "glm\vec4.hpp"
+#include "glm\vec2.hpp"
+
+#include "glm\gtc\quaternion.hpp"
+#include "glm\gtc\matrix_transform.hpp"
+#include "glm\gtc\type_ptr.hpp"
+#include "glm\gtc\constants.hpp"
+
+#include "glm\gtx\quaternion.hpp"
+#include "glm\gtx\compatibility.hpp"
+#include <glm\gtx\euler_angles.hpp>
+#include "glm\geometric.hpp"
+#include "glm\detail\func_matrix.hpp"
+
+using glm::vec2;
+using glm::vec3;
+using glm::vec4;
+using glm::mat4;
+using glm::quat;
+
+#include "Math\AABB.h"
+#include "Math\Plane.h"
+#include "Math\Frustum.h"
 
 // Interface
 #include "interface.h"
@@ -100,6 +128,7 @@ using std::map;
 #include "Graphics3D\Light.h"
 #include "Graphics3D\TexShader.h"
 #include "Graphics3D\PrimitiveShader.h"
+#include "Graphics3D\SkeShader.h"
 
 #include "Utilities\PrimitiveShape\Cube.h"
 #include "Utilities\PrimitiveShape\Line.h"
@@ -112,6 +141,7 @@ using std::map;
 #include "GameObject\TransformComponent.h"
 #include "GameObject\MeshRenderComponent.h"
 #include "GameObject\PhysicComponent.h"
+#include "GameObject\AnimationComponent.h"
 #include "GameObject\ActorFactory.h"
 #include "GameObject\Actor.h"
 

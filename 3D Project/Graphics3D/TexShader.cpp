@@ -6,10 +6,10 @@ void TexShader::SetupRender(Scene * pScene, Actor * pActor)
 	// ----- Transform Matricies ------
 	mat4 transform = pActor->GetComponent<TransformComponent>("TransformComponent")->GetTransform();
 	mat4 parentTransform = pActor->VGetParent()->GetComponent<TransformComponent>("TransformComponent")->GetTransform();
-	mat4 globalTransform = parentTransform*transform;
-	SetUniformMatrix("Model", globalTransform.ToFloatPtr());
+	mat4 globalTransform = transform*parentTransform;
+	SetUniformMatrix("Model", glm::value_ptr(globalTransform));
 	mat4 MVP = globalTransform* pScene->GetViewProj();
-	SetUniformMatrix("MVP", MVP.ToFloatPtr());
+	SetUniformMatrix("MVP", glm::value_ptr(MVP));
 
 	// ----- Lighting ------
 	const Light& dirLight = pScene->GetDirLight();

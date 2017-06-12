@@ -38,7 +38,7 @@ static btTransform Mat4x4_to_btTransform(mat4 const & mat)
 	// copy rotation matrix
 	for (int row = 0; row<3; ++row)
 		for (int column = 0; column<3; ++column)
-			bulletRotation[row][column] = mat(row, column); // note the reversed indexing (row/column vs. column/row)
+			bulletRotation[row][column] = mat[row][ column]; // note the reversed indexing (row/column vs. column/row)
 															  //  this is because Mat4x4s are row-major matrices and
 															  //  btMatrix3x3 are column-major.  This reversed indexing
 															  //  implicitly transposes (flips along the diagonal) 
@@ -46,14 +46,14 @@ static btTransform Mat4x4_to_btTransform(mat4 const & mat)
 
 															  // copy position
 	for (int column = 0; column<3; ++column)
-		bulletPosition[column] = mat(3,column);
+		bulletPosition[column] = mat[3][column];
 
 	return btTransform(bulletRotation, bulletPosition);
 }
 
 static mat4 btTransform_to_Mat4x4(btTransform const & trans)
 {
-	mat4 returnValue = Math::g_Indentity;
+	mat4 returnValue;
 
 	// convert from btTransform (Bullet) to Mat4x4 (GameCode)
 	btMatrix3x3 const & bulletRotation = trans.getBasis();
@@ -62,7 +62,7 @@ static mat4 btTransform_to_Mat4x4(btTransform const & trans)
 	// copy rotation matrix
 	for (int row = 0; row<3; ++row)
 		for (int column = 0; column<3; ++column)
-			returnValue(row,column) = bulletRotation[row][column];
+			returnValue[row][column] = bulletRotation[row][column];
 	// note the reversed indexing (row/column vs. column/row)
 	//  this is because Mat4x4s are row-major matrices and
 	//  btMatrix3x3 are column-major.  This reversed indexing
@@ -71,7 +71,7 @@ static mat4 btTransform_to_Mat4x4(btTransform const & trans)
 
 	// copy position
 	for (int column = 0; column<3; ++column)
-		returnValue(3,column) = bulletPosition[column];
+		returnValue[3][column] = bulletPosition[column];
 
 	return returnValue;
 }
@@ -320,7 +320,7 @@ void BulletPhysics::AddShape(Actor* pGameActor, btCollisionShape* shape, float m
 		shape->calculateLocalInertia(mass, localInertia);
 
 
-	mat4 transform = Math::g_Indentity;
+	mat4 transform;
 	TransformComponent* pTransformComponent = pGameActor->GetComponent<TransformComponent>(TransformComponent::Name);
 	//GCC_ASSERT(pTransformComponent);
 	if (pTransformComponent)
@@ -438,7 +438,7 @@ void BulletPhysics::VAddSphere(float const radius, Actor* pGameActor, const std:
 
 	// calculate absolute mass from specificGravity
 	float specificGravity = LookupSpecificGravity(densityStr);
-	float const volume = (4.f / 3.f) * Math::PI * radius * radius * radius;
+	float const volume = (4.f / 3.f) * glm::pi<float>()* radius * radius * radius;
 	btScalar const mass = volume * specificGravity;
 
 	AddShape(pGameActor, /*initialTransform,*/ collisionShape, mass, physicsMaterial);
@@ -534,8 +534,8 @@ void BulletPhysics::VCreateTrigger(Actor* pGameActor, const vec3 &pos, const flo
 	btScalar const mass = 0;
 
 	// set the initial position of the body from the actor
-	mat4 triggerTrans = Math::g_Indentity;
-	triggerTrans.Translate(pos);
+	mat4 triggerTrans;
+	triggerTrans = glm::translate(triggerTrans,pos);
 	ActorMotionState * const myMotionState = new ActorMotionState(triggerTrans);
 
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, boxShape, btVector3(0, 0, 0));

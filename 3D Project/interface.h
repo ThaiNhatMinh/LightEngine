@@ -60,9 +60,15 @@ public:
 	virtual Shader* VGetShader() = 0;
 	virtual void VSetShader(Shader* p) = 0;
 	virtual void VSetTransform(const mat4 *toWorld) = 0;
+
+	// return transform with parent
 	virtual mat4 VGetTransform() = 0;
 
-	virtual HRESULT VOnUpdate(Scene *pScene, DWORD const elapsedMs) = 0;
+	// return Global transform 
+	virtual mat4 VGetGlobalTransform() = 0;
+
+	// Update Scene Node
+	virtual HRESULT VOnUpdate(Scene *pScene, float elapsedMs) = 0;
 
 	virtual ActorId GetId(void) const = 0;
 	virtual HRESULT VPreRender(Scene *pScene) = 0;

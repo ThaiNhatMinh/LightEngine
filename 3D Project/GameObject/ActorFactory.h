@@ -14,7 +14,7 @@ public:
 	// Create Actor from file
 	Actor* CreateActor(const char* actorResource, tinyxml2::XMLElement* overrides, const mat4* initialTransform);
 	// Create Actor with primitive shape
-	Actor* CreateActor(const char* name,ShapeType type, const mat4& initialTransform = Math::g_Indentity);
+	Actor* CreateActor(const char* name,ShapeType type, const mat4& initialTransform);
 	void ModifyActor(Actor* pActor, tinyxml2::XMLElement* overrides);
 
 	//protected:

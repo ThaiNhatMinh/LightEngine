@@ -25,7 +25,7 @@ Frustum::Frustum(float fov, float aspect, float _near, float _far)
 
 Frustum::Frustum()
 {
-	m_Fov = Math::PI/ 4.0f; // default is 90
+	m_Fov = glm::pi<float>() / 4.0f; // default is 90
 	m_Aspect  = 4.0f / 3.0f;
 	m_Near = 1.0f;
 	m_Far = 1000.0f;
@@ -82,7 +82,7 @@ void Frustum::Update(const Camera & camera)
 	vec3 Forward = camera.m_Front;
 	vec3 Pos = camera.m_Position;
 	vec3 right = camera.m_Right;
-	vec3 Up = Math::Cross(Forward, right);
+	vec3 Up = glm::cross(Forward, right);
 
 	float Hnear = 2 * tanFovOver2 * m_Near;
 	float Wnear = Hnear * m_Aspect;
@@ -168,9 +168,9 @@ void Frustum::Render(Shader* shader,mat4& view)
 	shader->Use();
 	mat4 model;
 	//model.Translate(0, 0, 100);
-	shader->SetUniformMatrix("Model", model.ToFloatPtr());
-	shader->SetUniformMatrix("View", view.ToFloatPtr());
-	shader->SetUniformMatrix("Proj", m_ProjMatrix.ToFloatPtr());
+	shader->SetUniformMatrix("Model", glm::value_ptr(model));
+	shader->SetUniformMatrix("View", glm::value_ptr(view));
+	shader->SetUniformMatrix("Proj", glm::value_ptr(m_ProjMatrix));
 	glBindVertexArray(VAO);
 	//glDrawArrays(GL_TRIANGLES, 0, 6);
 	glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);
@@ -184,13 +184,13 @@ mat4 Frustum::GetProjMatrix()
 
 void Frustum::Init(float fov, float aspect, float _Near, float _Far)
 {
-	m_Fov = Math::ToRadian(fov);
+	m_Fov = glm::radians(fov);
 	m_Aspect = aspect;
 	m_Near = _Near;
 	m_Far = _Far;
-	tanFovOver2 = tanf(Math::ToRadian(fov/2));
+	tanFovOver2 = tanf(glm::radians(fov/2));
 
-	m_ProjMatrix = Math::Perspective(fov, aspect, _Near, _Far);
+	m_ProjMatrix = glm::perspective(m_Fov, aspect, _Near, _Far);
 	
 	
 }

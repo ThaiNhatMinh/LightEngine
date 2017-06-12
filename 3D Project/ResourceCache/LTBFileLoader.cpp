@@ -25,15 +25,16 @@ bool LTBFile::LoadSkeleton(FILE * pFile, SkeNode* pParent, vector<SkeNode*>& nod
 
 	for (int i = 0; i<16; i++) fread(&m[i], sizeof(float), 1, pFile);
 	
-	//fread(&m[i, sizeof(float), 1, pFile);
-	vec3 v(p->m_GlobalTransform[3], p->m_GlobalTransform[7], p->m_GlobalTransform[11]);
-	
-	p->m_GlobalTransform = p->m_GlobalTransform.Transpose();
-	//p->m_GlobalTransform = glm::mat4(glm::mat3(p->m_GlobalTransform));
+	vec4 v1(m[0], m[4], m[8], m[12]);
+	vec4 v2(m[1], m[5], m[9], m[13]);
+	vec4 v3(m[2], m[6], m[10], m[14]);
+	vec4 v4(m[3], m[7], m[11], m[15]);
+	p->m_GlobalTransform[0] = v1;
+	p->m_GlobalTransform[1] = v2;
+	p->m_GlobalTransform[2] = v3;
+	p->m_GlobalTransform[3] = v4;
 
-	p->m_GlobalTransform.Translate(v);
-
-	p->m_InvBindPose = p->m_GlobalTransform.Inverse();
+	p->m_InvBindPose = glm::inverse(p->m_GlobalTransform);
 	uint32 numChild;
 	fread(&numChild, sizeof(uint32), 1, pFile);
 
@@ -287,9 +288,9 @@ vector<SkeMesh*> LTBFile::LoadMesh()
 								fread(&ver.pos.y, sizeof(float), 1, pFile);
 								fread(&ver.pos.z, sizeof(float), 1, pFile);
 								ver.weights[0] = (Weight(Bone, 1.0f));
-								//ver.Weights[1] = (Weight(255, 0.0f));
-								//ver.Weights[2] = (Weight(255, 0.0f));
-								//ver.Weights[3] = (Weight(255, 0.0f));
+								ver.weights[1] = (Weight(255, 0.0f));
+								ver.weights[2] = (Weight(255, 0.0f));
+								ver.weights[3] = (Weight(255, 0.0f));
 								vertex.push_back(ver);
 							}
 							if (StreamData[iStream] & VERTDATATYPE_NORMAL)
@@ -391,6 +392,8 @@ vector<SkeMesh*> LTBFile::LoadMesh()
 									ver.pos = vec3(tb1.x, tb1.y, tb1.z);
 									ver.weights[0] = (Weight(255, tb1.blend1));
 									ver.weights[1] = (Weight(255, 1.0f - tb1.blend1));
+									ver.weights[2] = (Weight(255, 0.0f));
+									ver.weights[3] = (Weight(255, 0.0f));
 									vertex.push_back(ver);
 									break;
 								case 3:
@@ -400,6 +403,7 @@ vector<SkeMesh*> LTBFile::LoadMesh()
 									ver.weights[0] = (Weight(255, tx.blend1));
 									ver.weights[1] = (Weight(255, tx.blend2));
 									ver.weights[2] = (Weight(255, 1.0f - tx.blend1 - tx.blend2));
+									ver.weights[3] = (Weight(255, 0.0f));
 									vertex.push_back(ver);
 									break;
 								case 4:
@@ -410,6 +414,7 @@ vector<SkeMesh*> LTBFile::LoadMesh()
 									ver.weights[1] = (Weight(255, t.blend2));
 									ver.weights[2] = (Weight(255, t.blend3));
 									ver.weights[3] = (Weight(255, 1.0f - t.blend3 - t.blend2 - t.blend1));
+
 									vertex.push_back(ver);
 									break;
 								}

@@ -128,7 +128,7 @@ void PhysicsComponent::VPostInit(void)
 	}
 }
 
-void PhysicsComponent::VUpdate(int deltaMs)
+void PhysicsComponent::VUpdate(float deltaMs)
 {
 	// get the transform component
 	TransformComponent* pTransformComponent = m_pOwner->GetComponent<TransformComponent>(TransformComponent::Name);
@@ -151,10 +151,10 @@ void PhysicsComponent::VUpdate(int deltaMs)
 		// the direction this actor is going in and the speed of the actor.  The scalar is just the speed 
 		// component.
 		vec3 velocity(gPhysic()->VGetVelocity(m_pOwner->GetId()));
-		float velocityScalar = velocity.Length();
+		float velocityScalar = glm::length(velocity);
 
-		vec3 direction(Math::GetAxis(transform,Z_AXIS));
-		gPhysic()->VApplyForce(direction, accelerationToApplyThisFrame, m_pOwner->GetId());
+		//vec3 direction(Math::GetAxis(transform,Z_AXIS));
+		//gPhysic()->VApplyForce(direction, accelerationToApplyThisFrame, m_pOwner->GetId());
 
 		// logging
 		// [rez] Comment this back in if you want to debug the physics thrust & rotation stuff.  It spams quite 
@@ -170,7 +170,7 @@ void PhysicsComponent::VUpdate(int deltaMs)
 	{
 		// calculate the acceleration this frame
 		float angularAccelerationToApplyThisFrame = m_angularAcceleration / 1000.f * (float)deltaMs;
-		gPhysic()->VApplyTorque(Math::GetAxis(transform,Y_AXIS), angularAccelerationToApplyThisFrame, m_pOwner->GetId());
+		//gPhysic()->VApplyTorque(Math::GetAxis(transform,Y_AXIS), angularAccelerationToApplyThisFrame, m_pOwner->GetId());
 
 		// logging
 		// [rez] Comment this back in if you want to debug the physics thrust & rotation stuff.  It spams quite 
@@ -204,7 +204,7 @@ void PhysicsComponent::BuildRigidBodyTransform(tinyxml2::XMLElement* pTransformE
 		double roll = pPositionElement->DoubleAttribute("roll");
 		
 		
-		m_RigidBodyOrientation = vec3((float)Math::ToRadian(yaw), (float)Math::ToRadian(pitch), (float)Math::ToRadian(roll));
+		m_RigidBodyOrientation = vec3((float)glm::radians(yaw), (float)glm::radians(pitch), (float)glm::radians(roll));
 	}
 
 	tinyxml2::XMLElement* pScaleElement = pTransformElement->FirstChildElement("Scale");
@@ -268,13 +268,14 @@ void PhysicsComponent::RotateY(float angleRadians)
 	if (pTransformComponent)
 	{
 		mat4 transform = pTransformComponent->GetTransform();
-		vec3 position = transform.GetTranslate();
+		vec3 position = glm::vec3(transform[3]);
 
 		
 		quat q;
-		q.setRotateYAxis(Math::ToDegree(angleRadians));
-		mat4 rotateY = q.ToMatrix();
-		rotateY.Translate(position);
+		q = glm::rotate(q, glm::degrees(angleRadians), vec3(0.0f, 1.0f, 0.0f));
+		
+		mat4 rotateY = glm::toMat4(q);
+		rotateY = glm::translate(rotateY, position);
 
 		KinematicMove(rotateY);
 	}
@@ -289,7 +290,7 @@ void PhysicsComponent::SetPosition(float x, float y, float z)
 	{
 		mat4 transform = pTransformComponent->GetTransform();
 		vec3 position = vec3(x, y, z);
-		transform.Translate(position);
+		transform = glm::translate(transform,position);
 
 		KinematicMove(transform);
 	}

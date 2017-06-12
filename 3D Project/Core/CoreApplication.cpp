@@ -28,22 +28,22 @@ void CoreApplication::onStartUp()
 	m_pScene->SetCamera(cam);
 	m_pScene->SetFrustum(frustum);
 	
-	//Actor* p1 = gActorFactory()->CreateActor("Cube", CUBE, Math::g_Indentity);
-	p2 = gActorFactory()->CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
-	p3 = gActorFactory()->CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
-	//m_pScene->GetRoot()->VAddChild(p1);
-	m_pScene->GetRoot()->VAddChild(p2);
-	m_pScene->GetRoot()->VAddChild(p3);
+	Actor* p1 = gActorFactory()->CreateActor("GameAssets\\player_teapot.xml", nullptr,nullptr);
+	//p2 = gActorFactory()->CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
+	//p3 = gActorFactory()->CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
+	m_pScene->GetRoot()->VAddChild(p1);
+	//m_pScene->GetRoot()->VAddChild(p2);
+	//m_pScene->GetRoot()->VAddChild(p3);
 	//gResources()->LoadModelXML("GameAssets\\MODEL\\707.xml");
-	Shader* pShader = gResources()->LoadShader<PrimShader>("NoTexture", "GameAssets\\SHADER\\NoTexture.vs", "GameAssets\\SHADER\\NoTexture.fs");
+	//Shader* pShader = gResources()->LoadShader<PrimShader>("NoTexture", "GameAssets\\SHADER\\NoTexture.vs", "GameAssets\\SHADER\\NoTexture.fs");
 	gResources()->LoadShader<Shader>("Debug", "GameAssets\\SHADER\\Debug.vs", "GameAssets\\SHADER\\Debug.fs");
-	//Shader* pShader2 = gResources()->LoadShader<TexShader>("Texture", "GameAssets\\SHADER\\NoTexture.vs", "GameAssets\\SHADER\\Texture.fs");
-	//p1->VSetShader(pShader);
-	//p1->PostInit();
-	p2->VSetShader(pShader);
-	p2->PostInit();
-	p3->VSetShader(pShader);
-	p3->PostInit();
+	Shader* pShader2 = gResources()->LoadShader<SkeShader>("SkeShader", "GameAssets\\SHADER\\Skeleton.vs", "GameAssets\\SHADER\\Texture.fs");
+	p1->VSetShader(pShader2);
+	p1->PostInit();
+	//p2->VSetShader(pShader);
+	//p2->PostInit();
+	//p3->VSetShader(pShader);
+	//p3->PostInit();
 	
 }
 
@@ -101,11 +101,11 @@ bool CoreApplication::MainLoop()
 		gInput()->Update();
 
 		if(m_bUpdatePhysic) 	gPhysic()->VOnUpdate(gTimer()->GetDeltaTime());
-		//cout << gTimer()->GetFPS() << endl;
+		cout << gTimer()->GetFPS() << endl;
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.1, 0.1, 0.1, 1.0f);
 
-		gPhysic()->VRenderDiagnostics();
+		//gPhysic()->VRenderDiagnostics();
 		//gDebug()->DrawLine(vec3(0.0f), vec3(100.0f), vec3(0.0f,1.0f,0.5f));
 
 		m_pScene->OnUpdate(gTimer()->GetDeltaTime());

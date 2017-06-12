@@ -19,10 +19,10 @@ public:
 
 	bool Inside(const vec3& v, float darius) const;
 	bool inline Inside(const vec3& v)const {
-		return (Math::Dot(m_Normal, v) == m_Offset);
+		return (glm::dot(m_Normal, v) == m_Offset);
 	};
 	float inline DistanceToPlane(const vec3& v)const {
-		float result = Math::Dot(m_Normal, v) - m_Offset;
+		float result = glm::dot(m_Normal, v) - m_Offset;
 		return result;
 	}
 	//bool IntersectionLine(const vec3& v1, const vec3& v2) const;

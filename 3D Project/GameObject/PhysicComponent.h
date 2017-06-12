@@ -17,7 +17,7 @@ public:
 	// ActorComponent interface
 	virtual bool VInit(tinyxml2::XMLElement* pData) override;
 	virtual void VPostInit(void) override;
-	virtual void VUpdate(int deltaMs) override;
+	virtual void VUpdate(float deltaMs) override;
 
 	// Physics functions
 	void ApplyForce(const vec3& direction, float forceNewtons);

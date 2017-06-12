@@ -2,7 +2,7 @@
 
 Scene::Scene()
 {
-	m_pRoot = gActorFactory()->CreateActor("GameAssets\\Root.xml",nullptr,&Math::g_Indentity);
+	m_pRoot = gActorFactory()->CreateActor("GameAssets\\Root.xml",nullptr,&mat4());
 	if (!m_pRoot)
 	{
 		E_ERROR("Can't create Root Node.");
@@ -10,7 +10,7 @@ Scene::Scene()
 	m_DirectionLight.La = vec3(0.1, 0.1, 0.1);
 	m_DirectionLight.Ld = vec3(0.5, 0.5, 0.5);
 	m_DirectionLight.Ls = vec3(1.0f, 1.0f, 1.0f);
-	m_DirectionLight.direction = Math::Normalize(vec3(1, -1, 1));
+	m_DirectionLight.direction = glm::normalize(vec3(1, -1, 1));
 }
 
 Scene::~Scene()
@@ -48,6 +48,6 @@ mat4 Scene::GetViewProj()
 {
 	mat4 view = m_Camera->GetViewMatrix();
 	mat4 proj = m_Frustum->GetProjMatrix();
-	mat4 viewproj = view*proj;
+	mat4 viewproj = proj*view;
 	return viewproj;
 }

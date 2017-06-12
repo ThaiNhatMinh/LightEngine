@@ -5,7 +5,7 @@ bool TransformComponent::VInit(tinyxml2::XMLElement * pData)
 {
 	if (!pData) return false;
 
-	EulerAngle yawPitchRoll;
+	vec3 yawPitchRoll;
 	vec3 position;
 	vec3 Scale;
 	tinyxml2::XMLElement* pPositionElement = pData->FirstChildElement("Position");
@@ -29,18 +29,17 @@ bool TransformComponent::VInit(tinyxml2::XMLElement * pData)
 		pitch = pOrientationElement->FloatAttribute("x");
 		yaw = pOrientationElement->FloatAttribute("y");
 		roll = pOrientationElement->FloatAttribute("z");
-		yawPitchRoll = EulerAngle(pitch, yaw, roll);
+		yawPitchRoll = vec3(pitch, yaw, roll);
 	}
 
 
-	mat4 translation = Math::g_Indentity;
-	translation.Translate(position);
+	mat4 translation;
+	translation= glm::translate(translation,position);
 
-	mat4 rotation = Math::g_Indentity;
-	yawPitchRoll.ToMatrixXYZ(rotation);
+	mat4 rotation = glm::eulerAngleYXZ(yawPitchRoll.y, yawPitchRoll.x, yawPitchRoll.z);
 	
-	m_Transform = rotation*translation;
-	//rotation.BuildYawPitchRoll((float)DEGREES_TO_RADIANS(yawPitchRoll.x), (float)DEGREES_TO_RADIANS(yawPitchRoll.y), (float)DEGREES_TO_RADIANS(yawPitchRoll.z));
+	m_Transform = translation*rotation;
+
 	return true;
 }
 
@@ -50,7 +49,7 @@ tinyxml2::XMLElement * TransformComponent::VGenerateXml(tinyxml2::XMLDocument*p)
 	
 	// initial transform -> position
 	tinyxml2::XMLElement* pPosition = p->NewElement("Position");
-	vec3 pos(m_Transform.GetTranslate());
+	vec3 pos = vec3(m_Transform[3]);
 	pPosition->SetAttribute("x", ToStr(pos.x).c_str());
 	pPosition->SetAttribute("y", ToStr(pos.y).c_str());
 	pPosition->SetAttribute("z", ToStr(pos.z).c_str());
@@ -58,11 +57,13 @@ tinyxml2::XMLElement * TransformComponent::VGenerateXml(tinyxml2::XMLDocument*p)
 
 	// initial transform -> LookAt
 	tinyxml2::XMLElement* pDirection = p->NewElement("YawPitchRoll");
-	EulerAngle orient;
-	m_Transform.ToEulerAngle(orient);
-	pDirection->SetAttribute("x", ToStr(orient.pitch).c_str());
-	pDirection->SetAttribute("y", ToStr(orient.yaw).c_str());
-	pDirection->SetAttribute("z", ToStr(orient.roll).c_str());
+	
+	quat rotation = glm::quat_cast(m_Transform);
+	vec3 orient = glm::eulerAngles(rotation);
+	
+	pDirection->SetAttribute("x", ToStr(orient.x).c_str());
+	pDirection->SetAttribute("y", ToStr(orient.y).c_str());
+	pDirection->SetAttribute("z", ToStr(orient.z).c_str());
 	pBaseElement->LinkEndChild(pDirection);
 
 	/***

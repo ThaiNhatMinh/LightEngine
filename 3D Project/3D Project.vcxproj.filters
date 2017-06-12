@@ -5,24 +5,6 @@
     <ClInclude Include="Core\Windows.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Math\CMath.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\EulerAngles.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Matrix.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\MatrixStack.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Quaternion.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities\Log.h">
       <Filter>Utilities</Filter>
     </ClInclude>
@@ -38,13 +20,7 @@
     <ClInclude Include="Utilities\Module.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Math\AABB.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="Math\Frustum.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Sphere.h">
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Math\Plane.h">
@@ -150,6 +126,15 @@
     <ClInclude Include="Utilities\PrimitiveShape\Line.h">
       <Filter>Utilities\Primitive Shape</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\SkeShader.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\AnimationComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\AABB.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -157,21 +142,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Math\CMath.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\EulerAngles.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Matrix.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Quaternion.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Vector.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
     <ClCompile Include="Utilities\Log.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
@@ -184,13 +154,7 @@
     <ClCompile Include="Utilities\Input.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Math\AABB.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
     <ClCompile Include="Math\Frustum.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Sphere.cpp">
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="Math\Plane.cpp">
@@ -268,6 +232,15 @@
     <ClCompile Include="Utilities\Debug.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics3D\SkeShader.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\AnimationComponent.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\AABB.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -321,6 +294,9 @@
       <Filter>GameAssets\SHADER</Filter>
     </None>
     <None Include="GameAssets\SHADER\Debug.fs">
+      <Filter>GameAssets\SHADER</Filter>
+    </None>
+    <None Include="GameAssets\SHADER\Skeleton.vs">
       <Filter>GameAssets\SHADER</Filter>
     </None>
   </ItemGroup>

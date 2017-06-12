@@ -18,8 +18,8 @@ public:
 	// transform functions
 	mat4 GetTransform(void) const { return m_Transform; }
 	void SetTransform(const mat4& newTransform) { m_Transform = newTransform; }
-	vec3 GetPosition(void) const { return m_Transform.GetTranslate(); }
-	void SetPosition(const vec3& pos) { m_Transform.Translate(pos); }
+	vec3 GetPosition(void) const { return vec3(m_Transform[3]); }
+	void SetPosition(const vec3& pos) { m_Transform = glm::translate(m_Transform,pos); }
 	//vec3 GetLookAt(void) const { return Math::GetBasicVector(; }
 
 };

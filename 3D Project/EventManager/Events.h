@@ -131,7 +131,7 @@ public:
 	virtual void VSerialize(std::ostrstream &out) const
 	{
 		out << m_id << " ";
-		out << m_matrix;
+		//out << m_matrix;
 	}
 
 	virtual void VDeserialize(std::istrstream& in)
