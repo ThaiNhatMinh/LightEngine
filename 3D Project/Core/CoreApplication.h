@@ -14,7 +14,6 @@ public:
 private:
 	Windows* m_pWindow;
 	bool m_bRunMainLoop;
-	Actor* p2;
-	Actor* p3;
+	Actor* p1;
 	Scene* m_pScene;
 };

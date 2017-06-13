@@ -47,6 +47,7 @@ using std::map;
 
 
 #include <FastDelegate\FastDelegate.h>
+using fastdelegate::MakeDelegate;
 
 // libary
 #pragma comment(lib, "lib/glew32s.lib")
@@ -124,7 +125,7 @@ using glm::quat;
 #include "Graphics3D\Mesh.h"
 #include "Graphics3D\SkeMesh.h"
 #include "Graphics3D\AnimationDef.h"
-#include "Graphics3D\SkeAnimation.h"
+//#include "Graphics3D\SkeAnimation.h"
 #include "Graphics3D\Light.h"
 #include "Graphics3D\TexShader.h"
 #include "Graphics3D\PrimitiveShader.h"
@@ -135,6 +136,7 @@ using glm::quat;
 
 
 #include "EventManager\EventManager.h"
+#include "EventManager\AnimationEvent.h"
 #include "EventManager\Events.h"
 
 #include "GameObject\ActorComponent.h"

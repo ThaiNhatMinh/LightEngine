@@ -154,6 +154,7 @@
     <ClInclude Include="Core\CoreApplication.h" />
     <ClInclude Include="Core\RenderAPI.h" />
     <ClInclude Include="Core\Windows.h" />
+    <ClInclude Include="EventManager\AnimationEvent.h" />
     <ClInclude Include="EventManager\EventManager.h" />
     <ClInclude Include="EventManager\Events.h" />
     <ClInclude Include="GameObject\Actor.h" />
@@ -170,7 +171,6 @@
     <ClInclude Include="Graphics3D\Scene.h" />
     <ClInclude Include="Graphics3D\Material.h" />
     <ClInclude Include="Graphics3D\Mesh.h" />
-    <ClInclude Include="Graphics3D\SkeAnimation.h" />
     <ClInclude Include="Graphics3D\SkeMesh.h" />
     <ClInclude Include="Graphics3D\TexShader.h" />
     <ClInclude Include="interface.h" />
@@ -212,7 +212,6 @@
     <ClCompile Include="Graphics3D\Mesh.cpp" />
     <ClCompile Include="Graphics3D\PrimitiveShader.cpp" />
     <ClCompile Include="Graphics3D\Scene.cpp" />
-    <ClCompile Include="Graphics3D\SkeAnimation.cpp" />
     <ClCompile Include="Graphics3D\SkeMesh.cpp" />
     <ClCompile Include="Graphics3D\SkeShader.cpp" />
     <ClCompile Include="Graphics3D\TexShader.cpp" />

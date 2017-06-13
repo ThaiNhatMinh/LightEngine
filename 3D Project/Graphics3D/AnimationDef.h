@@ -1,6 +1,7 @@
 #pragma once
 enum blendset
 {
+	null=-1,
 	upper,
 	lower,
 };

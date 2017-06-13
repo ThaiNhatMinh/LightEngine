@@ -122,52 +122,54 @@ void BaseAnim::Update(float dt, JointList& skeleton)
 					Animation* anim2 = m_pAnimList[m_More.m_iCurrentAnim];
 					FrameData frame = InterpolateFrame(m_More, anim2->AnimNodeLists[j], anim2->KeyFrames);
 
-					//mat4 transform = frame.m_Ort.ToMatrix();
-					//transform = transform.Inverse();
-					//transform.Translate(frame.m_Pos);
+					mat4 rotate = glm::toMat4(frame.m_Ort);
+					//rotate = glm::inverse(rotate);
+					mat4 translate = glm::translate(mat4(), frame.m_Pos);
+					mat4 transform = translate * rotate;
 					/*if (m_fAngle != 0 && m_pSkeNodes[j]->m_Name == "M-bone Spine")
 					{
-						quat rot;
-						rot.setRotateXAxis(m_fAngle);
-						mat4 tss = rot.ToMatrix();
-						tss,0, 0, 0);
-						transform = transform*tss;
-						//transform,m_CurrentFrames[i].m_Pos);
+					quat rot;
+					rot.setRotateXAxis(m_fAngle);
+					mat4 tss = rot.ToMatrix();
+					tss,0, 0, 0);
+					transform = transform*tss;
+					//transform,m_CurrentFrames[i].m_Pos);
 					}*/
 					if (anim2->AnimNodeLists[j].Parent != -1)
 					{
-						//m_TransformLocal = transform*skeleton[anim2->AnimNodeLists[j].Parent].LocalTransform;
+						m_TransformLocal = skeleton[anim2->AnimNodeLists[j].Parent].LocalTransform*transform;
 					}
-					//else m_TransformLocal = transform;
+					else m_TransformLocal = transform;
 				}
 				else
 				{
 					AnimNode& Anim = anim->AnimNodeLists[j];
 					FrameData frame;
-					//frame.m_Pos = Math::lerp(m_CurrentFrames[j].m_Pos, Anim.Data[0].m_Pos, t);
-					//frame.m_Ort = Math::slerp(m_CurrentFrames[j].m_Ort, Anim.Data[0].m_Ort, t);
+					frame.m_Pos = glm::lerp(m_CurrentFrames[j].m_Pos, Anim.Data[0].m_Pos, t);
+					frame.m_Ort = glm::slerp(m_CurrentFrames[j].m_Ort, Anim.Data[0].m_Ort, t);
 
 					// Unrotate + translate transform
 					// this matrix transfrom local to parent space 
-					//mat4 transform = frame.m_Ort.ToMatrix();
-					//transform = transform.Inverse();
-					//transform.Translate(frame.m_Pos);
+					mat4 rotate = glm::toMat4(frame.m_Ort);
+					//rotate = glm::inverse(rotate);
+					mat4 translate = glm::translate(mat4(), frame.m_Pos);
+					mat4 transform = translate * rotate;
 
 					/*if (m_fAngle != 0 && m_pSkeNodes[j]->m_Name == "M-bone Spine")
 					{
-						quat rot;
-						rot.setRotateXAxis(m_fAngle);
-						mat4 tss = rot.ToMatrix();
-						tss,0, 0, 0);
-						transform = transform*tss;
-						//transform,m_CurrentFrames[i].m_Pos);
+					quat rot;
+					rot.setRotateXAxis(m_fAngle);
+					mat4 tss = rot.ToMatrix();
+					tss,0, 0, 0);
+					transform = transform*tss;
+					//transform,m_CurrentFrames[i].m_Pos);
 					}*/
 
 					if (Anim.Parent != -1)
 					{
-						//m_TransformLocal = transform*skeleton[Anim.Parent].LocalTransform;
+						m_TransformLocal = skeleton[Anim.Parent].LocalTransform*transform;
 					}
-					//else m_TransformLocal = transform;
+					else m_TransformLocal = transform;
 				}
 
 
@@ -180,62 +182,64 @@ void BaseAnim::Update(float dt, JointList& skeleton)
 			}
 			if (m_More.m_iCurrentFrame == 0) m_More.m_bActive = 0;
 		}
-		
+
 	}
 	else if (m_bOnAnimation == 1)
 	{
 		for (GLuint i = 0; i < anim->AnimNodeLists.size(); i++)
 		{
 			mat4 m_TransformLocal;
-			
+
 
 			if (m_More.m_bActive && m_WS[0].Blend[i])
 			{
 				Animation* anim2 = m_pAnimList[m_More.m_iCurrentAnim];
 				m_CurrentFrames[i] = InterpolateFrame(m_More, anim2->AnimNodeLists[i], anim2->KeyFrames);
 
-				//mat4 transform = m_CurrentFrames[i].m_Ort.ToMatrix();
-				//transform = transform.Inverse();
-				//transform.Translate(m_CurrentFrames[i].m_Pos);
-				
+				mat4 rotate = glm::toMat4(m_CurrentFrames[i].m_Ort);
+				//rotate = glm::inverse(rotate);
+				mat4 translate = glm::translate(mat4(), m_CurrentFrames[i].m_Pos);
+				mat4 transform = translate * rotate;
+
 				/*if (m_fAngle != 0 && m_pSkeNodes[i]->m_Name == "M-bone Spine")
 				{
-					quat rot;
-					rot.setRotateXAxis(m_fAngle);
-					mat4 tss = rot.ToMatrix();
-					tss,0, 0, 0);
-					transform = transform*tss;
-					//transform,m_CurrentFrames[i].m_Pos);
+				quat rot;
+				rot.setRotateXAxis(m_fAngle);
+				mat4 tss = rot.ToMatrix();
+				tss,0, 0, 0);
+				transform = transform*tss;
+				//transform,m_CurrentFrames[i].m_Pos);
 				}*/
 				if (anim2->AnimNodeLists[i].Parent != -1)
 				{
-				//	m_TransformLocal = transform*skeleton[anim2->AnimNodeLists[i].Parent].LocalTransform;
+					m_TransformLocal = skeleton[anim2->AnimNodeLists[i].Parent].LocalTransform*transform;
 				}
-				//else m_TransformLocal = transform;
+				else m_TransformLocal = transform;
 			}
 			else
 			{
 				m_CurrentFrames[i] = InterpolateFrame(m_Default, anim->AnimNodeLists[i], anim->KeyFrames);
 				// Unrotate + translate transform
 				// this matrix transfrom local to parent space 
-				//mat4 transform = m_CurrentFrames[i].m_Ort.ToMatrix();
-				//transform = transform.Inverse();
-				//transform.Translate(m_CurrentFrames[i].m_Pos);
+				mat4 rotate = glm::toMat4(m_CurrentFrames[i].m_Ort);
+				//rotate = glm::inverse(rotate);
+				mat4 translate = glm::translate(mat4(), m_CurrentFrames[i].m_Pos);
+				mat4 transform = translate * rotate;
 				//m_TransformLocal = transform;
 				/*if (m_fAngle != 0 && m_pSkeNodes[i]->m_Name=="M-bone Spine")
 				{
-					quat rot;
-					rot.setRotateXAxis(m_fAngle);
-					mat4 tss = rot.ToMatrix();
-					tss,0, 0, 0);
-					transform = transform*tss ;
-					//transform,m_CurrentFrames[i].m_Pos);
+				quat rot;
+				rot.setRotateXAxis(m_fAngle);
+				mat4 tss = rot.ToMatrix();
+				tss,0, 0, 0);
+				transform = transform*tss ;
+				//transform,m_CurrentFrames[i].m_Pos);
 				}*/
 				if (anim->AnimNodeLists[i].Parent != -1)
 				{
-				//	m_TransformLocal = skeleton[anim->AnimNodeLists[i].Parent].LocalTransform*transform;
+					m_TransformLocal = skeleton[anim->AnimNodeLists[i].Parent].LocalTransform*transform;
 				}
-				//else m_TransformLocal = transform;
+				else m_TransformLocal = transform;
 			}
 			LTAJoint joint;
 			//joint.InvBindPose = m_InvBindPose;

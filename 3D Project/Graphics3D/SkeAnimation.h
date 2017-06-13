@@ -2,57 +2,12 @@
 
 #include "..\pch.h"
 
-struct AnimKeyFrame
-{
-	unsigned int		m_Time;
-	// A string of information about this key..
-	std::string			m_pString;
-};
-struct FrameData
-{
-	vec3 m_Pos;
-	quat m_Ort;
-};
-
-
-struct LTAJoint
-{
-	mat4 LocalTransform;
-};
-typedef std::vector<LTAJoint> JointList;
-
-struct SkeNode
-{
-	string m_Name;
-	GLint m_Index,m_ParentIndex;
-	mat4 m_GlobalTransform;
-	mat4 m_InvBindPose;
-};
-
-// animation data in one node
-typedef vector<FrameData> AnimData;
-struct AnimNode
-{
-	GLint Parent;
-	AnimData Data;
-};
-struct Animation
-{
-	string Name;
-	AABB m_BV;
-	std::vector<AnimKeyFrame> KeyFrames;
-	std::vector<AnimNode> AnimNodeLists;
-};
 
 //class PlayerMotion;
-struct AnimControl
-{
-	int		KeyFrameID;
-	float	m_fTime;
-	GLuint	m_iCurrentAnim;
-	GLuint	m_iCurrentFrame;
-	bool	m_bActive;
-};
+
+// ----------------------
+// Animation system version 2.0
+
 
 class BaseAnim
 {

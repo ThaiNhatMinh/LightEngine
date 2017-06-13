@@ -28,7 +28,7 @@ void CoreApplication::onStartUp()
 	m_pScene->SetCamera(cam);
 	m_pScene->SetFrustum(frustum);
 	
-	Actor* p1 = gActorFactory()->CreateActor("GameAssets\\player_teapot.xml", nullptr,nullptr);
+	p1 = gActorFactory()->CreateActor("GameAssets\\player_teapot.xml", nullptr,nullptr);
 	//p2 = gActorFactory()->CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
 	//p3 = gActorFactory()->CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
 	m_pScene->GetRoot()->VAddChild(p1);
@@ -44,6 +44,8 @@ void CoreApplication::onStartUp()
 	//p2->PostInit();
 	//p3->VSetShader(pShader);
 	//p3->PostInit();
+	IEvent* pEvent = new EvtData_SetAnimation(p1->GetId(), sniper +idle,1);
+	gEventManager()->VQueueEvent(pEvent);
 	
 }
 
@@ -78,21 +80,22 @@ bool CoreApplication::MainLoop()
 	// 5. 
 	bool m_bUpdatePhysic = false;
 	gTimer()->Reset();
+	//static bool OldKey[256];
+	//memset(OldKey, 0, sizeof(bool) * 256);
 	while (m_bRunMainLoop)
 	{
 		// Check Exit
 		if (glfwWindowShouldClose(m_pWindow->Window())) m_bRunMainLoop = false;
 		if (gInput()->KeyDown(DIK_ESCAPE)) glfwSetWindowShouldClose(m_pWindow->Window(), GLFW_TRUE);
-		if (gInput()->KeyDown(DIK_0))
-		{
-			m_bUpdatePhysic = !m_bUpdatePhysic;
-		}
 		glfwPollEvents();
+
+		
 
 		if (gInput()->KeyDown(DIK_SPACE))
 		{
-			
-			gPhysic()->VApplyForce(vec3(0.0f, 1.0f, 0.0f), 10, p3->GetId());
+			IEvent* pEvent = new EvtData_SetAnimation(p1->GetId(), sniper + reload);
+			gEventManager()->VQueueEvent(pEvent);
+
 		}
 		gTimer()->Tick();
 
@@ -100,8 +103,8 @@ bool CoreApplication::MainLoop()
 
 		gInput()->Update();
 
-		if(m_bUpdatePhysic) 	gPhysic()->VOnUpdate(gTimer()->GetDeltaTime());
-		cout << gTimer()->GetFPS() << endl;
+		gPhysic()->VOnUpdate(gTimer()->GetDeltaTime());
+		//cout << gTimer()->GetFPS() << endl;
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.1, 0.1, 0.1, 1.0f);
 

@@ -517,7 +517,7 @@ void BulletPhysics::VRenderDiagnostics()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// BulletPhysics::VCreateTrigger				- Chapter 17, page 602
+// BulletPhysics::VCreateTrigger				
 //
 // FUTURE WORK: Mike create a trigger actor archetype that can be instantiated in the editor!!!!!
 //
@@ -604,7 +604,7 @@ bool BulletPhysics::VKinematicMove(const mat4 &mat, ActorId aid)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// BulletPhysics::VGetTransform					- not described in the book
+// BulletPhysics::VGetTransform			
 //
 //   Returns the current transform of the phyics object
 //
@@ -618,7 +618,7 @@ mat4 BulletPhysics::VGetTransform(const ActorId id)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// BulletPhysics::VSetTransform					- not described in the book
+// BulletPhysics::VSetTransform					
 //
 //   Sets the current transform of the phyics object
 //

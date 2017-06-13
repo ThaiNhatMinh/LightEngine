@@ -59,9 +59,6 @@
     <ClInclude Include="Graphics3D\SkeMesh.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\SkeAnimation.h">
-      <Filter>Graphics3D</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\AnimationDef.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
@@ -135,6 +132,9 @@
     <ClInclude Include="Math\AABB.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="EventManager\AnimationEvent.h">
+      <Filter>EventManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -176,9 +176,6 @@
       <Filter>Graphics3D</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\SkeMesh.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\SkeAnimation.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Actor.cpp">

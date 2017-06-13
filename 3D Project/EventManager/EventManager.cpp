@@ -244,6 +244,7 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 			}
 		}
 
+		delete pEvent;
 		// check to see if time ran out
 		currMs = GetTickCount();
 		if (maxMillis != IEventManager::kINFINITE && currMs >= maxMs)
