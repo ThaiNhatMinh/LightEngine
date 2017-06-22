@@ -49,6 +49,9 @@ using std::map;
 #include <FastDelegate\FastDelegate.h>
 using fastdelegate::MakeDelegate;
 
+// Lua Plus 5.1
+#include <LuaPlus.h>
+
 // libary
 #pragma comment(lib, "lib/glew32s.lib")
 #pragma comment(lib, "lib/glfw3.lib")
@@ -60,6 +63,7 @@ using fastdelegate::MakeDelegate;
 #pragma comment(lib, "BulletCollision_Debug.lib")
 #pragma comment(lib, "BulletDynamics_Debug.lib")
 #pragma comment(lib, "LinearMath_Debug.lib")
+#pragma comment(lib, "lib/luaplus51-1201.lib")
 /*
 // Math
 #include "Math\Vector.h"
@@ -134,6 +138,11 @@ using glm::quat;
 #include "Utilities\PrimitiveShape\Cube.h"
 #include "Utilities\PrimitiveShape\Line.h"
 
+// Lua Scripting
+#include "LuaScripting\LuaStateManager.h"
+#include "LuaScripting\ScriptEvents.h"
+#include "LuaScripting\ScriptExports.h"
+
 
 #include "EventManager\EventManager.h"
 #include "EventManager\AnimationEvent.h"
@@ -144,6 +153,7 @@ using glm::quat;
 #include "GameObject\MeshRenderComponent.h"
 #include "GameObject\PhysicComponent.h"
 #include "GameObject\AnimationComponent.h"
+#include "GameObject\CharacterControllerComponent.h"
 #include "GameObject\ActorFactory.h"
 #include "GameObject\Actor.h"
 

@@ -79,7 +79,7 @@ public:
 	virtual void VAddBox(const vec3& dimensions, Actor* pGameActor, const std::string& densityStr, const std::string& physicsMaterial) override;
 	virtual void VAddPointCloud(vec3 *verts, int numPoints, Actor* pGameActor, const std::string& densityStr, const std::string& physicsMaterial) override;
 	virtual void VRemoveActor(ActorId id) override;
-
+	virtual void VAddCharacter(const vec3& dimensions, Actor* gameActor);
 	// Debugging
 	virtual void VRenderDiagnostics() override;
 
@@ -101,6 +101,9 @@ public:
 	virtual void VSetTransform(const ActorId id, const mat4& mat);
 
 	virtual mat4 VGetTransform(const ActorId id);
+	
+	// test
+	virtual void VClearForce(ActorId id);
 };
 
 

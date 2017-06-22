@@ -28,24 +28,24 @@ void CoreApplication::onStartUp()
 	m_pScene->SetCamera(cam);
 	m_pScene->SetFrustum(frustum);
 	
-	p1 = gActorFactory()->CreateActor("GameAssets\\player_teapot.xml", nullptr,nullptr);
-	//p2 = gActorFactory()->CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
-	//p3 = gActorFactory()->CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
-	m_pScene->GetRoot()->VAddChild(p1);
-	//m_pScene->GetRoot()->VAddChild(p2);
-	//m_pScene->GetRoot()->VAddChild(p3);
+	//p1 = gActorFactory()->CreateActor("GameAssets\\player_teapot.xml", nullptr,nullptr);
+	p2 = gActorFactory()->CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
+	p3 = gActorFactory()->CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
+	//m_pScene->GetRoot()->VAddChild(p1);
+	m_pScene->GetRoot()->VAddChild(p2);
+	m_pScene->GetRoot()->VAddChild(p3);
 	//gResources()->LoadModelXML("GameAssets\\MODEL\\707.xml");
-	//Shader* pShader = gResources()->LoadShader<PrimShader>("NoTexture", "GameAssets\\SHADER\\NoTexture.vs", "GameAssets\\SHADER\\NoTexture.fs");
+	Shader* pShader = gResources()->LoadShader<PrimShader>("NoTexture", "GameAssets\\SHADER\\NoTexture.vs", "GameAssets\\SHADER\\NoTexture.fs");
 	gResources()->LoadShader<Shader>("Debug", "GameAssets\\SHADER\\Debug.vs", "GameAssets\\SHADER\\Debug.fs");
 	Shader* pShader2 = gResources()->LoadShader<SkeShader>("SkeShader", "GameAssets\\SHADER\\Skeleton.vs", "GameAssets\\SHADER\\Texture.fs");
-	p1->VSetShader(pShader2);
-	p1->PostInit();
-	//p2->VSetShader(pShader);
-	//p2->PostInit();
-	//p3->VSetShader(pShader);
-	//p3->PostInit();
-	IEvent* pEvent = new EvtData_SetAnimation(p1->GetId(), sniper +idle,1);
-	gEventManager()->VQueueEvent(pEvent);
+	//p1->VSetShader(pShader2);
+	//p1->PostInit();
+	p2->VSetShader(pShader);
+	p2->PostInit();
+	p3->VSetShader(pShader);
+	p3->PostInit();
+	//IEvent* pEvent = new EvtData_SetAnimation(p1->GetId(), sniper +idle,1);
+	//gEventManager()->VQueueEvent(pEvent);
 	
 }
 
@@ -80,8 +80,6 @@ bool CoreApplication::MainLoop()
 	// 5. 
 	bool m_bUpdatePhysic = false;
 	gTimer()->Reset();
-	//static bool OldKey[256];
-	//memset(OldKey, 0, sizeof(bool) * 256);
 	while (m_bRunMainLoop)
 	{
 		// Check Exit
@@ -90,26 +88,42 @@ bool CoreApplication::MainLoop()
 		glfwPollEvents();
 
 		
-
-		if (gInput()->KeyDown(DIK_SPACE))
-		{
-			IEvent* pEvent = new EvtData_SetAnimation(p1->GetId(), sniper + reload);
-			gEventManager()->VQueueEvent(pEvent);
-
-		}
 		gTimer()->Tick();
 
 		gEventManager()->VUpdate(20);
 
 		gInput()->Update();
 
+		gPhysic()->VClearForce(p3->GetId());
+		if (gInput()->KeyDown(DIK_SPACE))
+		{
+			gPhysic()->VApplyForce(vec3(0.0, 1.0, 0.0),10.0, p3->GetId());
+		}
+		
+		if (gInput()->KeyDown(DIK_H))
+		{
+			gPhysic()->VSetVelocity( p3->GetId(), vec3(0.0, 0.0, -5.0));
+		}
+		if (gInput()->KeyDown(DIK_L))
+		{
+			gPhysic()->VStopActor(p3->GetId());
+		}
+		/*
+		if (gInput()->KeyDown(DIK_G))
+		{
+			gPhysic()->VSetVelocity(p3->GetId(),vec3(1.0, 0.0, 0.0));
+		}
+		if (gInput()->KeyDown(DIK_J))
+		{
+			gPhysic()->VSetVelocity(p3->GetId(), vec3(-1.0, 0.0, 0.0));
+		}*/
 		gPhysic()->VOnUpdate(gTimer()->GetDeltaTime());
 		//cout << gTimer()->GetFPS() << endl;
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.1, 0.1, 0.1, 1.0f);
 
-		//gPhysic()->VRenderDiagnostics();
-		//gDebug()->DrawLine(vec3(0.0f), vec3(100.0f), vec3(0.0f,1.0f,0.5f));
+		gPhysic()->VRenderDiagnostics();
+		
 
 		m_pScene->OnUpdate(gTimer()->GetDeltaTime());
 

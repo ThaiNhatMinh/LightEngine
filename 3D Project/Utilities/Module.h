@@ -4,12 +4,16 @@ template <class T>
 class Singleton
 {
 public:
+
+	// Call this function to create Instance and init data for first times
 	template<class ...Args>
 	static void startUp(Args &&...args)
 	{
 		_instance() = new T(std::forward<Args>(args)...);
 		_instance()->onStartUp();
 	}
+
+	// Call this function to delete Instace and release data
 	static void shutDown()
 	{
 		if (_instance())

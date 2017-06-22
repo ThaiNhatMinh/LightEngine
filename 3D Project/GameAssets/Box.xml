@@ -2,13 +2,14 @@
 	
 	<PhysicsComponent>
         <Shape>Box</Shape>
-        <Density>glass</Density>
-        <PhysicsMaterial>Normal</PhysicsMaterial>
+        <Density>lead</Density>
+        <PhysicsMaterial>player</PhysicsMaterial>
 		<RigidBodyTransform>
 			<Scale x="1.0" y="1.0" z="1.0"/>
 		</RigidBodyTransform>
-    </PhysicsComponent>
-	
+  </PhysicsComponent>
+  
+  
 	<TransformComponent>
 		<Position x="0" y="15" z="0"/>
 		<YawPitchRoll x="0" y="0" z="0"/>
@@ -17,6 +18,7 @@
 	<MeshRenderComponent>
 		<Model Shape="Cube" />
 		<Scale x="1.0" y="1.0" z="1.0"/>
+    <Color r ="0.0" g="0.5" b="1.0" />
 	</MeshRenderComponent>
 	
 </Actor>

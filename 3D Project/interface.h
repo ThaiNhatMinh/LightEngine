@@ -22,7 +22,9 @@ class Actor;
 class SceneNode;
 class Mesh;
 class Windows;
+class ScriptEvent;
 struct Texture;
+
 
 struct Material
 {
@@ -42,6 +44,7 @@ public:
 	unsigned int			EBO;
 	unsigned int			NumIndices;
 	Texture*				Tex;
+	vec3					Color;
 	GLuint					Topology;
 	// Use to generate Vertex Buffer Object, Vertex Array Object.
 	virtual void Finalize(Shader* p) = 0;
@@ -108,7 +111,7 @@ public:
 	virtual void VAddBox(const vec3& dimensions, Actor* gameActor, /*const Mat4x4& initialTransform, */ const std::string& densityStr, const std::string& physicsMaterial) = 0;
 	virtual void VAddPointCloud(vec3 *verts, int numPoints, Actor* gameActor, /*const Mat4x4& initialTransform, */ const std::string& densityStr, const std::string& physicsMaterial) = 0;
 	virtual void VRemoveActor(ActorId id) = 0;
-
+	virtual void VAddCharacter(const vec3& dimensions, Actor* gameActor) = 0;
 	// Debugging
 	virtual void VRenderDiagnostics() = 0;
 
@@ -131,6 +134,7 @@ public:
 	virtual void VSetTransform(const ActorId id, const mat4& mat) = 0;
 	virtual mat4 VGetTransform(const ActorId id) = 0;
 
+	virtual void VClearForce(ActorId id) = 0;
 	virtual ~IGamePhysics() { };
 };
 
@@ -212,4 +216,13 @@ public:
 
 	virtual ~IEventManager(void) {};
 
+};
+
+class IScriptManager
+{
+public:
+	virtual ~IScriptManager(void) {}
+	virtual bool VInit(void) = 0;
+	virtual void VExecuteFile(const char* resource) = 0;
+	virtual void VExecuteString(const char* str) = 0;
 };

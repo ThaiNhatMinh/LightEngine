@@ -71,7 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Code Collection\3D Project\3D Project\include;D:\Code Collection\Game Coding Complete\Source\GCC4\3rdParty\bullet-2.79\src;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Code Collection\3D Project\3D Project\include;D:\Code Collection\Game Coding Complete\Source\GCC4\3rdParty\bullet-2.79\src;D:\Code Collection\3D Project\3D Project\include\luaplus51-all\Src\LuaPlus;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Code Collection\3D Project\3D Project\lib;D:\Code Collection\Game Coding Complete\Source\GCC4\3rdParty\bullet-2.79\lib\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -94,6 +94,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>D:\Code Collection\3D Project\3D Project;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -161,6 +162,7 @@
     <ClInclude Include="GameObject\ActorComponent.h" />
     <ClInclude Include="GameObject\ActorFactory.h" />
     <ClInclude Include="GameObject\AnimationComponent.h" />
+    <ClInclude Include="GameObject\CharacterControllerComponent.h" />
     <ClInclude Include="GameObject\MeshRenderComponent.h" />
     <ClInclude Include="GameObject\PhysicComponent.h" />
     <ClInclude Include="GameObject\TransformComponent.h" />
@@ -174,6 +176,9 @@
     <ClInclude Include="Graphics3D\SkeMesh.h" />
     <ClInclude Include="Graphics3D\TexShader.h" />
     <ClInclude Include="interface.h" />
+    <ClInclude Include="LuaScripting\LuaStateManager.h" />
+    <ClInclude Include="LuaScripting\ScriptEvents.h" />
+    <ClInclude Include="LuaScripting\ScriptExports.h" />
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="Math\Frustum.h" />
     <ClInclude Include="Math\Plane.h" />
@@ -206,6 +211,7 @@
     <ClCompile Include="GameObject\Actor.cpp" />
     <ClCompile Include="GameObject\ActorFactory.cpp" />
     <ClCompile Include="GameObject\AnimationComponent.cpp" />
+    <ClCompile Include="GameObject\CharacterControllerComponent.cpp" />
     <ClCompile Include="GameObject\MeshRenderComponent.cpp" />
     <ClCompile Include="GameObject\PhysicComponent.cpp" />
     <ClCompile Include="GameObject\TransformComponent.cpp" />
@@ -215,6 +221,9 @@
     <ClCompile Include="Graphics3D\SkeMesh.cpp" />
     <ClCompile Include="Graphics3D\SkeShader.cpp" />
     <ClCompile Include="Graphics3D\TexShader.cpp" />
+    <ClCompile Include="LuaScripting\LuaStateManager.cpp" />
+    <ClCompile Include="LuaScripting\ScriptEvents.cpp" />
+    <ClCompile Include="LuaScripting\ScriptExports.cpp" />
     <ClCompile Include="Math\AABB.cpp" />
     <ClCompile Include="Math\Frustum.cpp" />
     <ClCompile Include="Math\Plane.cpp" />
@@ -247,7 +256,18 @@
     <None Include="GameAssets\SHADER\Texture.fs" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="GameAssets\Box.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="GameAssets\Ground.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="GameAssets\MODEL\707.xml" />
+    <Xml Include="GameAssets\physics.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="GameAssets\player_teapot.xml" />
+    <Xml Include="GameAssets\Root.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

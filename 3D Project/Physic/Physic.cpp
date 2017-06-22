@@ -508,6 +508,39 @@ void BulletPhysics::VRemoveActor(ActorId id)
 	}
 }
 
+void BulletPhysics::VAddCharacter(const vec3 & dimensions, Actor * pGameActor)
+{
+	btBoxShape * const boxShape = new btBoxShape(Vec3_to_btVector3(dimensions));
+
+	ActorId actorID = pGameActor->GetId();
+	mat4 transform;
+	TransformComponent* pTransformComponent = pGameActor->GetComponent<TransformComponent>(TransformComponent::Name);
+	//GCC_ASSERT(pTransformComponent);
+	if (pTransformComponent)
+	{
+		transform = pTransformComponent->GetTransform();
+	}
+	else
+	{
+		// Physics can't work on an actor that doesn't have a TransformComponent!
+		E_WARNING("Physics can't work on an actor that doesn't have a TransformComponent!");
+		return;
+	}
+
+	// set the initial transform of the body from the actor
+	ActorMotionState * myMotionState = new ActorMotionState(transform);
+
+	btRigidBody * body = new btRigidBody(0.5f,myMotionState,boxShape,btVector3(0.0f,0.0f,0.0f));
+	m_dynamicsWorld->addRigidBody(body);
+
+	// add it to the collection to be checked for changes in VSyncVisibleScene
+	m_actorIdToRigidBody[actorID] = body;
+	m_rigidBodyToActorId[body] = actorID;
+
+
+	//btGeneric6DofSpringConstraint* joint = new btGeneric6DofSpringConstraint();
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // BulletPhysics::VRenderDiagnostics			- Chapter 17, page 604
 //
@@ -617,6 +650,15 @@ mat4 BulletPhysics::VGetTransform(const ActorId id)
 	return btTransform_to_Mat4x4(actorTransform);
 }
 
+void BulletPhysics::VClearForce(ActorId id)
+{
+	btRigidBody * pRigidBody = FindBulletRigidBody(id);
+	//GCC_ASSERT(pRigidBody);
+	if (!pRigidBody)
+		return;
+	pRigidBody->clearForces();
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // BulletPhysics::VSetTransform					
 //
@@ -713,6 +755,7 @@ void BulletPhysics::VSetVelocity(ActorId actorId, const vec3& vel)
 		return;
 	btVector3 btVel = Vec3_to_btVector3(vel);
 	pRigidBody->setLinearVelocity(btVel);
+	
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -748,7 +791,7 @@ void BulletPhysics::VTranslate(ActorId actorId, const vec3& vec)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// BulletPhysics::BulletInternalTickCallback		- Chapter 17, page 606
+// BulletPhysics::BulletInternalTickCallback
 //
 // This function is called after bullet performs its internal update.  We
 //   use it to detect collisions between objects for Game code.

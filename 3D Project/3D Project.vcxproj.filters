@@ -96,12 +96,6 @@
     <ClInclude Include="Graphics3D\Light.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\TexShader.h">
-      <Filter>Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\PrimitiveShader.h">
-      <Filter>Graphics3D</Filter>
-    </ClInclude>
     <ClInclude Include="Physic\Physic.h">
       <Filter>Physic</Filter>
     </ClInclude>
@@ -123,9 +117,6 @@
     <ClInclude Include="Utilities\PrimitiveShape\Line.h">
       <Filter>Utilities\Primitive Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\SkeShader.h">
-      <Filter>Graphics3D</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\AnimationComponent.h">
       <Filter>GameObject</Filter>
     </ClInclude>
@@ -134,6 +125,27 @@
     </ClInclude>
     <ClInclude Include="EventManager\AnimationEvent.h">
       <Filter>EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\CharacterControllerComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\PrimitiveShader.h">
+      <Filter>Graphics3D\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\TexShader.h">
+      <Filter>Graphics3D\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\SkeShader.h">
+      <Filter>Graphics3D\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaScripting\LuaStateManager.h">
+      <Filter>LuaScripting</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaScripting\ScriptEvents.h">
+      <Filter>LuaScripting</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaScripting\ScriptExports.h">
+      <Filter>LuaScripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -202,12 +214,6 @@
     <ClCompile Include="Utilities\DirectInput.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\TexShader.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\PrimitiveShader.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
     <ClCompile Include="Physic\Physic.cpp">
       <Filter>Physic</Filter>
     </ClCompile>
@@ -229,14 +235,32 @@
     <ClCompile Include="Utilities\Debug.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\SkeShader.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\AnimationComponent.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Math\AABB.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\CharacterControllerComponent.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\PrimitiveShader.cpp">
+      <Filter>Graphics3D\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\TexShader.cpp">
+      <Filter>Graphics3D\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\SkeShader.cpp">
+      <Filter>Graphics3D\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaScripting\LuaStateManager.cpp">
+      <Filter>LuaScripting</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaScripting\ScriptEvents.cpp">
+      <Filter>LuaScripting</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaScripting\ScriptExports.cpp">
+      <Filter>LuaScripting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,6 +300,12 @@
     <Filter Include="EventManager">
       <UniqueIdentifier>{7317b3bb-9bcd-43dc-9e97-15f255ddf013}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics3D\Shader">
+      <UniqueIdentifier>{4fff9f02-8bf5-446c-8dfe-0b2d7a041e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LuaScripting">
+      <UniqueIdentifier>{0e08ae0b-c275-43b9-a3ad-be50962824b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="GameAssets\Shader\NoTexture.vs">
@@ -300,6 +330,21 @@
   <ItemGroup>
     <Xml Include="GameAssets\MODEL\707.xml">
       <Filter>GameAssets\MODEL</Filter>
+    </Xml>
+    <Xml Include="GameAssets\Box.xml">
+      <Filter>GameAssets</Filter>
+    </Xml>
+    <Xml Include="GameAssets\Ground.xml">
+      <Filter>GameAssets</Filter>
+    </Xml>
+    <Xml Include="GameAssets\physics.xml">
+      <Filter>GameAssets</Filter>
+    </Xml>
+    <Xml Include="GameAssets\player_teapot.xml">
+      <Filter>GameAssets</Filter>
+    </Xml>
+    <Xml Include="GameAssets\Root.xml">
+      <Filter>GameAssets</Filter>
     </Xml>
   </ItemGroup>
 </Project>

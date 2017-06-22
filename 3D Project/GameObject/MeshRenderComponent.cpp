@@ -38,6 +38,12 @@ bool MeshRenderComponent::VInit(tinyxml2::XMLElement * pData)
 		m_Material.Kd = vec3(1.0f);
 		m_Material.Ks = vec3(1.0f);
 		m_Material.exp = 64;
+
+		tinyxml2::XMLElement* pColor = pData->FirstChildElement("Color");
+		for (size_t i = 0; i < m_MeshList.size(); i++)
+		{
+			m_MeshList[i]->Color = vec3(pColor->DoubleAttribute("r", 1.0f), pColor->DoubleAttribute("g", 1.0f), pColor->DoubleAttribute("b", 1.0f));
+		}
 	}
 	
 	tinyxml2::XMLElement* pScale = pData->FirstChildElement("Scale");
@@ -64,9 +70,12 @@ tinyxml2::XMLElement * MeshRenderComponent::VGenerateXml(tinyxml2::XMLDocument *
 
 void MeshRenderComponent::Render()
 {
+	Shader* p = m_pOwner->VGetShader();
+
 	for (size_t i = 0; i < m_MeshList.size(); i++)
 	{
 		if(m_MeshList[i]->Tex) m_MeshList[i]->Tex->Bind(0);
+		else p->SetUniform("ObjColor", m_MeshList[i]->Color);
 		glBindVertexArray(m_MeshList[i]->VAO);
 		glDrawElements(m_MeshList[i]->Topology, m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
 	}

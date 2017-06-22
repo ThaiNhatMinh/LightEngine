@@ -7,6 +7,7 @@ class ActorComponent;
 
 class Actor: public ISceneNode
 {
+	friend class ActorFactory;
 public:
 	typedef std::vector<ISceneNode*> ActorList;
 	typedef std::map<ComponentId, ActorComponent*> ActorComponents;
@@ -52,6 +53,7 @@ public:
 	template<class ComponentType>ComponentType* GetComponent(const char*  name);
 
 	const ActorComponents* GetComponents() { return &m_components; }
+protected:
 
 	void AddComponent(ActorComponent* pComponent);
 
