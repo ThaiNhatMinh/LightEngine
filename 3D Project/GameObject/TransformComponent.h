@@ -20,6 +20,9 @@ public:
 	void SetTransform(const mat4& newTransform) { m_Transform = newTransform; }
 	vec3 GetPosition(void) const { return vec3(m_Transform[3]); }
 	void SetPosition(const vec3& pos) { m_Transform = glm::translate(m_Transform,pos); }
+
+	vec3 GetFront();
+	vec3 GetRight();
 	//vec3 GetLookAt(void) const { return Math::GetBasicVector(; }
 
 };

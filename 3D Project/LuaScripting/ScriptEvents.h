@@ -43,7 +43,7 @@ public:
 	ScriptEvent(void) { m_eventDataIsValid = false; }
 
 	// script event data, which should only be called from the appropriate ScriptExports functions
-	LuaPlus::LuaObject GetEventData(void)const;  // called when event is sent from C++ to script
+	LuaPlus::LuaObject GetEventData(void);  // called when event is sent from C++ to script
 	bool SetEventData(LuaPlus::LuaObject eventData);  // called when event is sent from script to C++
 
 													  // Static helper functions for registering events with the script.  You should call the REGISTER_SCRIPT_EVENT()

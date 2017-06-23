@@ -142,10 +142,11 @@ using glm::quat;
 #include "LuaScripting\LuaStateManager.h"
 #include "LuaScripting\ScriptEvents.h"
 #include "LuaScripting\ScriptExports.h"
-
+#include "EventManager\TestScriptEvent.h"
 
 #include "EventManager\EventManager.h"
 #include "EventManager\AnimationEvent.h"
+#include "EventManager\PhysicsEvents.h"
 #include "EventManager\Events.h"
 
 #include "GameObject\ActorComponent.h"
@@ -154,6 +155,7 @@ using glm::quat;
 #include "GameObject\PhysicComponent.h"
 #include "GameObject\AnimationComponent.h"
 #include "GameObject\CharacterControllerComponent.h"
+#include "GameObject\ScriptComponent.h"
 #include "GameObject\ActorFactory.h"
 #include "GameObject\Actor.h"
 

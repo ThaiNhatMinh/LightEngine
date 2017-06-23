@@ -8,7 +8,7 @@ ScriptEvent::CreationFunctions ScriptEvent::s_creationFunctions;
 //---------------------------------------------------------------------------------------------------------------------
 // Returns the event data after building it (if necessary)
 //---------------------------------------------------------------------------------------------------------------------
-LuaPlus::LuaObject ScriptEvent::GetEventData(void)const
+LuaPlus::LuaObject ScriptEvent::GetEventData(void)
 {
 	if (!m_eventDataIsValid)
 	{

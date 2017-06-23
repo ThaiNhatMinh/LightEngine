@@ -107,7 +107,10 @@ struct ActorMotionState : public btMotionState
 
 BulletPhysics::BulletPhysics()
 {
-	// [mrmike] This was changed post-press to add event registration!
+	REGISTER_EVENT(EvtData_PhysTrigger_Enter);
+	REGISTER_EVENT(EvtData_PhysTrigger_Leave);
+	REGISTER_EVENT(EvtData_PhysCollision);
+	REGISTER_EVENT(EvtData_PhysSeparation);
 }
 
 
@@ -798,9 +801,9 @@ void BulletPhysics::VTranslate(ActorId actorId, const vec3& vec)
 //
 void BulletPhysics::BulletInternalTickCallback(btDynamicsWorld * const world, btScalar const timeStep)
 {
-	//GCC_ASSERT(world);
+	assert(world);
 
-	//GCC_ASSERT(world->getWorldUserInfo());
+	assert(world->getWorldUserInfo());
 	BulletPhysics * const bulletPhysics = static_cast<BulletPhysics*>(world->getWorldUserInfo());
 
 	CollisionPairs currentTickCollisionPairs;
@@ -812,7 +815,7 @@ void BulletPhysics::BulletInternalTickCallback(btDynamicsWorld * const world, bt
 		// get the "manifold", which is the set of data corresponding to a contact point
 		//   between two physics objects
 		btPersistentManifold const * const manifold = dispatcher->getManifoldByIndexInternal(manifoldIdx);
-		//GCC_ASSERT(manifold);
+		assert(manifold);
 
 		// get the two bodies used in the manifold.  Bullet stores them as void*, so we must cast
 		//  them back to btRigidBody*s.  Manipulating void* pointers is usually a bad
@@ -880,8 +883,8 @@ void BulletPhysics::SendCollisionPairAddEvent(btPersistentManifold const * manif
 
 		// send the trigger event.
 		int const triggerId = *static_cast<int*>(triggerBody->getUserPointer());
-		//shared_ptr<EvtData_PhysTrigger_Enter> pEvent(GCC_NEW EvtData_PhysTrigger_Enter(triggerId, FindActorID(otherBody)));
-		//IEventManager::Get()->VQueueEvent(pEvent);
+		EvtData_PhysTrigger_Enter* pEvent(new EvtData_PhysTrigger_Enter(triggerId, FindActorID(otherBody)));
+		gEventManager()->VQueueEvent(pEvent);
 	}
 	else
 	{
@@ -890,7 +893,7 @@ void BulletPhysics::SendCollisionPairAddEvent(btPersistentManifold const * manif
 
 		if (id0 == 0 || id1 == 0)
 		{
-			// something is colliding with a non-actor.  we currently don't send events for that
+			E_WARNING("something is colliding with a non-actor.  we currently don't send events for that");
 			return;
 		}
 
@@ -910,8 +913,8 @@ void BulletPhysics::SendCollisionPairAddEvent(btPersistentManifold const * manif
 		}
 
 		// send the event for the game
-		//shared_ptr<EvtData_PhysCollision> pEvent(GCC_NEW EvtData_PhysCollision(id0, id1, sumNormalForce, sumFrictionForce, collisionPoints));
-		//IEventManager::Get()->VQueueEvent(pEvent);
+		EvtData_PhysCollision* pEvent = new EvtData_PhysCollision(id0, id1, sumNormalForce, sumFrictionForce, collisionPoints);
+		gEventManager()->VQueueEvent(pEvent);
 	}
 }
 
@@ -936,8 +939,8 @@ void BulletPhysics::SendCollisionPairRemoveEvent(btRigidBody const * const body0
 
 		// send the trigger event.
 		int const triggerId = *static_cast<int*>(triggerBody->getUserPointer());
-		//shared_ptr<EvtData_PhysTrigger_Leave> pEvent(GCC_NEW EvtData_PhysTrigger_Leave(triggerId, FindActorID(otherBody)));
-		//IEventManager::Get()->VQueueEvent(pEvent);
+		EvtData_PhysTrigger_Leave* pEvent(new EvtData_PhysTrigger_Leave(triggerId, FindActorID(otherBody)));
+		gEventManager()->VQueueEvent(pEvent);
 	}
 	else
 	{
@@ -950,8 +953,8 @@ void BulletPhysics::SendCollisionPairRemoveEvent(btRigidBody const * const body0
 			return;
 		}
 
-		//shared_ptr<EvtData_PhysSeparation> pEvent(GCC_NEW EvtData_PhysSeparation(id0, id1));
-		//IEventManager::Get()->VQueueEvent(pEvent);
+		EvtData_PhysSeparation* pEvent(new EvtData_PhysSeparation(id0, id1));
+		gEventManager()->VQueueEvent(pEvent);
 	}
 }
 

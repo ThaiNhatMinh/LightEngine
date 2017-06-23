@@ -1,4 +1,4 @@
-<Actor type="Cube" resource="GameAssets\Ground.xml">
+<Actor type="Cube" name="Ground" shader="NoTexture">
 	
 	<PhysicsComponent>
         <Shape>Box</Shape>

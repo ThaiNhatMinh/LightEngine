@@ -158,13 +158,17 @@
     <ClInclude Include="EventManager\AnimationEvent.h" />
     <ClInclude Include="EventManager\EventManager.h" />
     <ClInclude Include="EventManager\Events.h" />
+    <ClInclude Include="EventManager\PhysicsEvents.h" />
+    <ClInclude Include="EventManager\TestScriptEvent.h" />
     <ClInclude Include="GameObject\Actor.h" />
     <ClInclude Include="GameObject\ActorComponent.h" />
     <ClInclude Include="GameObject\ActorFactory.h" />
+    <ClInclude Include="GameObject\ActorScript.h" />
     <ClInclude Include="GameObject\AnimationComponent.h" />
     <ClInclude Include="GameObject\CharacterControllerComponent.h" />
     <ClInclude Include="GameObject\MeshRenderComponent.h" />
     <ClInclude Include="GameObject\PhysicComponent.h" />
+    <ClInclude Include="GameObject\ScriptComponent.h" />
     <ClInclude Include="GameObject\TransformComponent.h" />
     <ClInclude Include="Graphics3D\AnimationDef.h" />
     <ClInclude Include="Graphics3D\SkeShader.h" />
@@ -208,12 +212,15 @@
     <ClCompile Include="Core\Windows.cpp" />
     <ClCompile Include="EventManager\EventManager.cpp" />
     <ClCompile Include="EventManager\Events.cpp" />
+    <ClCompile Include="EventManager\PhysicsEvents.cpp" />
+    <ClCompile Include="EventManager\TestScriptEvent.cpp" />
     <ClCompile Include="GameObject\Actor.cpp" />
     <ClCompile Include="GameObject\ActorFactory.cpp" />
     <ClCompile Include="GameObject\AnimationComponent.cpp" />
     <ClCompile Include="GameObject\CharacterControllerComponent.cpp" />
     <ClCompile Include="GameObject\MeshRenderComponent.cpp" />
     <ClCompile Include="GameObject\PhysicComponent.cpp" />
+    <ClCompile Include="GameObject\ScriptComponent.cpp" />
     <ClCompile Include="GameObject\TransformComponent.cpp" />
     <ClCompile Include="Graphics3D\Mesh.cpp" />
     <ClCompile Include="Graphics3D\PrimitiveShader.cpp" />
@@ -248,6 +255,8 @@
     <ClCompile Include="Utilities\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="GameAssets\SCRIPTS\Box.lua" />
+    <None Include="GameAssets\SCRIPTS\test.lua" />
     <None Include="GameAssets\SHADER\Debug.fs" />
     <None Include="GameAssets\SHADER\Debug.vs" />
     <None Include="GameAssets\Shader\NoTexture.fs" />

@@ -16,6 +16,7 @@ protected:
 	Actor*					m_pParent;
 	Shader*					m_pShader;
 	string					m_Name;
+	string					m_Tag;
 
 private:
 	ActorId m_id;					// unique id for the actor
@@ -36,6 +37,7 @@ public:
 	virtual mat4 VGetGlobalTransform();
 	virtual Shader* VGetShader() ;
 	virtual void VSetShader(Shader* p) ;
+	virtual void VSetShader(const char *pName);
 	virtual HRESULT VOnUpdate(Scene *, float elapsedMs);
 
 	virtual HRESULT VPreRender(Scene *pScene);

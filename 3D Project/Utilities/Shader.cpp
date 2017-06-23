@@ -35,7 +35,7 @@ void Shader::LinkShader()
 		glGetActiveUniform(m_iProgramID, i, maxLen, &writen, &size, &type, name);
 		location = glGetUniformLocation(m_iProgramID, name);
 		m_UniformLists.insert({ string(name),location });
-#if defined(_DEBUG)
+#if 0
 		cout << location << " " << name << endl;
 #endif
 	}

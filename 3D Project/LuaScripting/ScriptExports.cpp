@@ -127,9 +127,11 @@ void ScriptEventListener::ScriptEventDelegate(const IEvent * pEventPtr)
 	assert(m_scriptCallbackFunction.IsFunction());  // this should never happen since it's validated before even creating this object
 
 	// call the Lua function
-	const ScriptEvent* pScriptEvent = static_cast<const ScriptEvent*>(pEventPtr);
+	const ScriptEvent* pScriptEvent = dynamic_cast<const ScriptEvent*>(pEventPtr);
+	ScriptEvent* p = (ScriptEvent*)pScriptEvent;
 	LuaPlus::LuaFunction<void> Callback = m_scriptCallbackFunction;
-	Callback(pScriptEvent->GetEventData());
+	Callback(p->GetEventData());
+	
 }
 
 bool InternalScriptExports::Init(void)
@@ -206,6 +208,7 @@ unsigned long InternalScriptExports::RegisterEventListener(EventType eventType, 
 	}
 
 	E_ERROR("Attempting to register script event listener with invalid callback function");
+	return 0;
 }
 
 void InternalScriptExports::RemoveEventListener(unsigned long listenerId)
@@ -249,7 +252,7 @@ void InternalScriptExports::LuaLog(LuaPlus::LuaObject text)
 {
 	if (text.IsConvertibleToString())
 	{
-		E_DEBUG(string("Lua") + text.ToString());
+		E_DEBUG((string("Lua ") + string(text.ToString())));
 	}
 	else
 	{
@@ -259,7 +262,7 @@ void InternalScriptExports::LuaLog(LuaPlus::LuaObject text)
 
 unsigned long InternalScriptExports::GetTickCount(void)
 {
-	return GetTickCount();
+	return ::GetTickCount();
 }
 
 void InternalScriptExports::ApplyForce(LuaPlus::LuaObject normalDir, float force, int actorId)
@@ -302,6 +305,8 @@ void ScriptExports::Register(void)
 {
 	LuaPlus::LuaObject globals = gLuaState()->GetGlobalVars();
 
+	// Script Component Register
+	ScriptComponent::RegisterScriptFunctions();
 	// init	
 	InternalScriptExports::Init();
 
@@ -318,7 +323,7 @@ void ScriptExports::Register(void)
 	globals.RegisterDirect("TriggerEvent", &InternalScriptExports::TriggerEvent);
 
 	// process system
-	globals.RegisterDirect("AttachProcess", &InternalScriptExports::AttachScriptProcess);
+	//globals.RegisterDirect("AttachProcess", &InternalScriptExports::AttachScriptProcess);
 
 	// math
 	//LuaPlus::LuaObject mathTable = globals.GetByName("GccMath");
@@ -334,6 +339,23 @@ void ScriptExports::Register(void)
 	// Physics
 	globals.RegisterDirect("ApplyForce", &InternalScriptExports::ApplyForce);
 	globals.RegisterDirect("ApplyTorque", &InternalScriptExports::ApplyTorque);
+
+
+	// Timer
+	LuaPlus::LuaObject TimerTable = globals.CreateTable("Timer");
+	TimerTable.SetLightUserData("__object", gTimer());
+	TimerTable.RegisterObjectDirect("GetCurrentTime", gTimer(), &GameTimer::GetGameTime);
+	TimerTable.RegisterObjectDirect("GetDeltaTime", gTimer(), &GameTimer::GetDeltaTime);
+	TimerTable.RegisterObjectDirect("GetFPS", gTimer(), &GameTimer::GetFPS);
+
+	// Input
+	LuaPlus::LuaObject InputTable = globals.CreateTable("Input");
+	InputTable.SetLightUserData("__object", gInput());
+	InputTable.RegisterObjectDirect("KeyDown", gInput(), &DirectInput::KeyDown);
+	InputTable.RegisterObjectDirect("MouseButtonDown", gInput(), &DirectInput::MouseButtonDown);
+	InputTable.RegisterObjectDirect("mouseDX", gInput(), &DirectInput::mouseDX);
+	InputTable.RegisterObjectDirect("mouseDY", gInput(), &DirectInput::mouseDY);
+	
 }
 
 void ScriptExports::Unregister(void)

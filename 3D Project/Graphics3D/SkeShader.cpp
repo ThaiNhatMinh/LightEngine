@@ -47,6 +47,8 @@ void SkeShader::LinkShader()
 			break;
 		}
 	}
+
+#if 0
 	int i = 0;
 	int a = 0;
 	while (a!=-1)
@@ -56,7 +58,9 @@ void SkeShader::LinkShader()
 		_itoa(i, buffer, 10);
 		string s = buffer;
 		a = glGetUniformLocation(m_iProgramID, ("Transform[" + s + "]").c_str());
+
 		cout << ("Transform[" + s + "]") << " " << a << endl;
 		i++;
 	}
+#endif
 }

@@ -8,7 +8,9 @@ void ActorFactory::onStartUp(void)
 	m_componentFactory.Register<MeshRenderComponent>(ActorComponent::GetIdFromName(MeshRenderComponent::Name));
 	m_componentFactory.Register<PhysicsComponent>(ActorComponent::GetIdFromName(PhysicsComponent::Name));
 	m_componentFactory.Register<AnimationComponent>(ActorComponent::GetIdFromName(AnimationComponent::Name));
-
+	m_componentFactory.Register<ScriptComponent>(ActorComponent::GetIdFromName(ScriptComponent::Name));
+	m_componentFactory.Register<CharacterControllerComponent>(ActorComponent::GetIdFromName(CharacterControllerComponent::Name));
+	
 }
 
 Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLElement * overrides, const mat4 * initialTransform)
@@ -56,6 +58,8 @@ Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLEleme
 		TransformComponent* pTc = pActor->GetComponent<TransformComponent>("TransformComponent");
 		pTc->SetTransform(*initialTransform);
 	}
+
+	pActor->PostInit();
 
 	return pActor;
 }

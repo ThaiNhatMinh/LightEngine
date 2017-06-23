@@ -78,3 +78,13 @@ tinyxml2::XMLElement * TransformComponent::VGenerateXml(tinyxml2::XMLDocument*p)
 
 	return pBaseElement;
 }
+
+vec3 TransformComponent::GetFront()
+{
+	return vec3(m_Transform[2]);
+}
+
+vec3 TransformComponent::GetRight()
+{
+	return vec3(m_Transform[0]);
+}

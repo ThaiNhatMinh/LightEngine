@@ -97,7 +97,7 @@
       <Filter>Graphics3D</Filter>
     </ClInclude>
     <ClInclude Include="Physic\Physic.h">
-      <Filter>Physic</Filter>
+      <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="EventManager\EventManager.h">
       <Filter>EventManager</Filter>
@@ -106,7 +106,7 @@
       <Filter>EventManager</Filter>
     </ClInclude>
     <ClInclude Include="Physic\PhysicDebugDrawer.h">
-      <Filter>Physic</Filter>
+      <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\PhysicComponent.h">
       <Filter>GameObject</Filter>
@@ -146,6 +146,18 @@
     </ClInclude>
     <ClInclude Include="LuaScripting\ScriptExports.h">
       <Filter>LuaScripting</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager\TestScriptEvent.h">
+      <Filter>EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\ActorScript.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\ScriptComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager\PhysicsEvents.h">
+      <Filter>EventManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -215,7 +227,7 @@
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Physic\Physic.cpp">
-      <Filter>Physic</Filter>
+      <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="EventManager\EventManager.cpp">
       <Filter>EventManager</Filter>
@@ -224,7 +236,7 @@
       <Filter>EventManager</Filter>
     </ClCompile>
     <ClCompile Include="Physic\PhysicDebugDrawer.cpp">
-      <Filter>Physic</Filter>
+      <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\PhysicComponent.cpp">
       <Filter>GameObject</Filter>
@@ -262,6 +274,15 @@
     <ClCompile Include="LuaScripting\ScriptExports.cpp">
       <Filter>LuaScripting</Filter>
     </ClCompile>
+    <ClCompile Include="EventManager\TestScriptEvent.cpp">
+      <Filter>EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\ScriptComponent.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager\PhysicsEvents.cpp">
+      <Filter>EventManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -294,9 +315,6 @@
     <Filter Include="GameAssets\MODEL">
       <UniqueIdentifier>{74725479-50fd-4ccc-a60b-c83a5578a4fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Physic">
-      <UniqueIdentifier>{a064230a-ae38-4e46-b725-b76b8b1d44eb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="EventManager">
       <UniqueIdentifier>{7317b3bb-9bcd-43dc-9e97-15f255ddf013}</UniqueIdentifier>
     </Filter>
@@ -305,6 +323,12 @@
     </Filter>
     <Filter Include="LuaScripting">
       <UniqueIdentifier>{0e08ae0b-c275-43b9-a3ad-be50962824b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameAssets\SCRIPT">
+      <UniqueIdentifier>{28500c10-7e1f-4bae-9498-5a26d4db9f1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{a064230a-ae38-4e46-b725-b76b8b1d44eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -325,6 +349,12 @@
     </None>
     <None Include="GameAssets\SHADER\Skeleton.vs">
       <Filter>GameAssets\SHADER</Filter>
+    </None>
+    <None Include="GameAssets\SCRIPTS\test.lua">
+      <Filter>GameAssets\SCRIPT</Filter>
+    </None>
+    <None Include="GameAssets\SCRIPTS\Box.lua">
+      <Filter>GameAssets\SCRIPT</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

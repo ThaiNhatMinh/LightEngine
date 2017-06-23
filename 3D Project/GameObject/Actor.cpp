@@ -22,7 +22,16 @@ Actor::~Actor()
 
 bool Actor::Init(tinyxml2::XMLElement * pData)
 {
-	return true;
+	const char* tag = pData->Attribute("type");
+	const char* name = pData->Attribute("name");
+	const char* shaderName = pData->Attribute("shader");
+
+	m_pShader = gResources()->GetShader(shaderName);
+	if (m_pShader == nullptr)
+		E_ERROR("Can not find shader name: " + string(shaderName));
+	m_Tag = tag;
+	m_Name = name;
+	return 1;
 }
 
 void Actor::PostInit(void)
@@ -87,6 +96,11 @@ Shader * Actor::VGetShader()
 void Actor::VSetShader(Shader * p)
 {
 	m_pShader = p;
+}
+
+void Actor::VSetShader(const char *pName)
+{
+	m_pShader = gResources()->GetShader(pName);;
 }
 
 HRESULT Actor::VPreRender(Scene * pScene)

@@ -1,6 +1,12 @@
-<Actor type="Cube" resource="GameAssets\Box.xml">
-	
-	<PhysicsComponent>
+<Actor type="Cube" name="Box" shader="NoTexture">
+  <CharacterControllerComponent>
+    <Speed max="5.0" />
+    <Jump force="150.0" />
+  </CharacterControllerComponent>
+
+
+
+  <PhysicsComponent>
         <Shape>Box</Shape>
         <Density>lead</Density>
         <PhysicsMaterial>player</PhysicsMaterial>
