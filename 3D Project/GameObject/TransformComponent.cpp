@@ -88,3 +88,8 @@ vec3 TransformComponent::GetRight()
 {
 	return vec3(m_Transform[0]);
 }
+
+vec3 TransformComponent::GetUp()
+{
+	return vec3(m_Transform[1]);
+}

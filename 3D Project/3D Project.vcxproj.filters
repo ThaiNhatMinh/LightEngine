@@ -159,6 +159,9 @@
     <ClInclude Include="EventManager\PhysicsEvents.h">
       <Filter>EventManager</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\CameraComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -282,6 +285,9 @@
     </ClCompile>
     <ClCompile Include="EventManager\PhysicsEvents.cpp">
       <Filter>EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\CameraComponent.cpp">
+      <Filter>GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

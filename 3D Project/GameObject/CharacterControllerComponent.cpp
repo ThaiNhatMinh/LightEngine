@@ -32,8 +32,16 @@ tinyxml2::XMLElement * CharacterControllerComponent::VGenerateXml(tinyxml2::XMLD
 
 void CharacterControllerComponent::VPostInit(void)
 {
+	// Get Transform component
 	m_pTransformC = m_pOwner->GetComponent<TransformComponent>(TransformComponent::Name);
+
+	// register event
 	gEventManager()->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicCollisionEvent), EvtData_PhysCollision::sk_EventType);
+
+	// Get Rigidbody
+	BulletPhysics* pPhysic = (BulletPhysics*)gPhysic();
+	btRigidBody* pRB = pPhysic->FindBulletRigidBody(m_pOwner->GetId());
+	pRB->setAngularFactor(btVector3(0, 1, 0));
 }
 
 void CharacterControllerComponent::VUpdate(float dt)

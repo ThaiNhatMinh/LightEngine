@@ -39,7 +39,7 @@ public:
 
 
 protected:
-	void CreateShape();
+	
 	void BuildRigidBodyTransform(tinyxml2::XMLElement* pTransformElement);
 
 	float m_acceleration, m_angularAcceleration;

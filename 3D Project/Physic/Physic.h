@@ -6,6 +6,7 @@ struct MaterialData;
 
 class BulletPhysics : public IGamePhysics, public Singleton<BulletPhysics>
 {
+	friend class CharacterControllerComponent;
 	// use auto pointers to automatically call delete on these objects
 	//   during ~BulletPhysics
 

@@ -156,6 +156,7 @@ using glm::quat;
 #include "GameObject\AnimationComponent.h"
 #include "GameObject\CharacterControllerComponent.h"
 #include "GameObject\ScriptComponent.h"
+#include "GameObject\CameraComponent.h"
 #include "GameObject\ActorFactory.h"
 #include "GameObject\Actor.h"
 

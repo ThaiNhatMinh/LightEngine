@@ -23,6 +23,7 @@ public:
 
 	vec3 GetFront();
 	vec3 GetRight();
+	vec3 GetUp();
 	//vec3 GetLookAt(void) const { return Math::GetBasicVector(; }
 
 };

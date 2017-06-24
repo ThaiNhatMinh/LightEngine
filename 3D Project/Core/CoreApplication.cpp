@@ -36,10 +36,11 @@ void CoreApplication::onStartUp()
 
 	
 
-	//p1 = gActorFactory()->CreateActor("GameAssets\\player_teapot.xml", nullptr,nullptr);
+	Actor* p1 = gActorFactory()->CreateActor("GameAssets\\player_teapot.xml", nullptr,nullptr);
 	p2 = gActorFactory()->CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
 	p3 = gActorFactory()->CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
-	//m_pScene->GetRoot()->VAddChild(p1);
+	cam->SetCameraActor(p3);
+	m_pScene->GetRoot()->VAddChild(p1);
 	m_pScene->GetRoot()->VAddChild(p2);
 	m_pScene->GetRoot()->VAddChild(p3);
 	//gResources()->LoadModelXML("GameAssets\\MODEL\\707.xml");
@@ -50,8 +51,8 @@ void CoreApplication::onStartUp()
 	//p2->PostInit();
 	//p3->VSetShader(pShader);
 	//p3->PostInit();
-	//IEvent* pEvent = new EvtData_SetAnimation(p1->GetId(), sniper +idle,1);
-	//gEventManager()->VQueueEvent(pEvent);
+	IEvent* pEvent = new EvtData_SetAnimation(p1->GetId(), sniper +idle,1);
+	gEventManager()->VQueueEvent(pEvent);
 
 	// tests
 	//REGISTER_SCRIPT_EVENT(EvtData_ScriptEventTest_ToLua, EvtData_ScriptEventTest_ToLua::sk_EventType);
@@ -93,6 +94,8 @@ bool CoreApplication::MainLoop()
 	// 3. Input 
 	// 4. Physic
 	// 5. 
+	
+	glPolygonMode(GL_BACK, GL_LINE);
 	bool m_bUpdatePhysic = false;
 	gTimer()->Reset();
 	while (m_bRunMainLoop)
@@ -132,9 +135,9 @@ bool CoreApplication::MainLoop()
 		gPhysic()->VOnUpdate(gTimer()->GetDeltaTime());
 		//cout << gTimer()->GetDeltaTime() << endl;
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(0.1, 0.1, 0.1, 1.0f);
+		glClearColor(1.0, 0.5, 0.1, 1.0f);
 
-		gPhysic()->VRenderDiagnostics();
+		//gPhysic()->VRenderDiagnostics();
 		
 
 		m_pScene->OnUpdate(gTimer()->GetDeltaTime());

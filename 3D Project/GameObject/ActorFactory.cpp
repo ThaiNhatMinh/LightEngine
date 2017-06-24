@@ -10,6 +10,7 @@ void ActorFactory::onStartUp(void)
 	m_componentFactory.Register<AnimationComponent>(ActorComponent::GetIdFromName(AnimationComponent::Name));
 	m_componentFactory.Register<ScriptComponent>(ActorComponent::GetIdFromName(ScriptComponent::Name));
 	m_componentFactory.Register<CharacterControllerComponent>(ActorComponent::GetIdFromName(CharacterControllerComponent::Name));
+	m_componentFactory.Register<CameraComponent>(ActorComponent::GetIdFromName(CameraComponent::Name));
 	
 }
 

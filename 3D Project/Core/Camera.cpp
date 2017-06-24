@@ -19,7 +19,7 @@ void Camera::UpdateVector()
 	
 }
 
-Camera::Camera()
+Camera::Camera():m_pCameraC(nullptr)
 {
 	m_Position = vec3(0, 0, 200);
 	m_Front = glm::normalize(vec3(0, 0, 0) - m_Position);
@@ -31,7 +31,7 @@ Camera::Camera()
 	UpdateVector();
 }
 
-Camera::Camera(const vec3 & pos, const vec3 & target, const vec3 & up)
+Camera::Camera(const vec3 & pos, const vec3 & target, const vec3 & up) :m_pCameraC(nullptr)
 {
 	m_Position = pos;
 	m_Front = glm::normalize(target - m_Position);;
@@ -70,6 +70,14 @@ void Camera::Update(float deltaTIme)
 
 mat4 Camera::GetViewMatrix()
 {
-	mat4 view = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
+	mat4 view;
+	//mat4 view = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
+	if(m_pCameraC!=nullptr) view = m_pCameraC->GetViewMatrix();
+	else view = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 	return view;
+}
+
+void Camera::SetCameraActor(Actor * p)
+{
+	m_pCameraC = p->GetComponent<CameraComponent>(CameraComponent::Name);
 }

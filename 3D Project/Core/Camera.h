@@ -17,6 +17,7 @@ protected:
 	float m_Yaw;	// y axis
 	float MouseSensitivity;
 
+	CameraComponent* m_pCameraC;
 protected:
 	void UpdateVector();
 public:
@@ -40,5 +41,7 @@ public:
 	inline vec3 GetUP() { return m_Up; };
 	inline void InvertPitch() { m_Pitch = -m_Pitch; };
 	inline void InvertYaw() { m_Yaw = -m_Yaw; };
+
+	void SetCameraActor(Actor* p);
 };
 
