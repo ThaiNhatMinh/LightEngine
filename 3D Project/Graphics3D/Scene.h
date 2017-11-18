@@ -9,10 +9,10 @@ private:
 	// This store every thing in scene
 	Actor*			m_pRoot;
 
-	Camera*			m_Camera;
-	Frustum*		m_Frustum;
+	Camera			m_DefaultCamera;
+	
 	Light			m_DirectionLight; // only one direction light
-	CameraComponent *m_pCameraNode;
+	CameraComponent *m_CurrentCamera;
 
 	RenderAPICore* m_pRenderer;
 public:
@@ -22,14 +22,18 @@ public:
 	bool OnRender();
 	bool OnUpdate(float dt);
 
-	const Camera* GetCamera() {		return m_Camera;	};
+	/*	No longer need this. Delete it if you want
+	const Camera* GetCamera() {		return m_DefaultCamera;	};
 	const Frustum* GetFrustum() {		return m_Frustum;	};
-	void SetCamera(Camera* pCam) { m_Camera = pCam; };
+	void SetCamera(Camera* pCam) { m_DefaultCamera = pCam; };
 	void SetCameraNode(Actor* pActor);
 	void SetFrustum(Frustum* pFrustum) { m_Frustum = pFrustum; };
+	
+	*/
 	Actor* GetRoot() { return m_pRoot; };
-	mat4 GetViewProj();
 	Light GetDirLight() { return m_DirectionLight; };
+	void SetCamera(CameraComponent* pActor);
+	mat4 GetViewProj();
 
 	RenderAPICore* GetRenderer() { return m_pRenderer; }
 };

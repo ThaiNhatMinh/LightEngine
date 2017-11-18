@@ -7,6 +7,7 @@ class ActorFactory: public Singleton<ActorFactory>
 
 protected:
 	GenericObjectFactory<ActorComponent, ComponentId> m_componentFactory;
+	std::map<std::string, std::function<ActorComponent*()>> m_ComponentFactory;
 
 public:
 	void onStartUp();

@@ -13,6 +13,14 @@ void ActorFactory::onStartUp(void)
 //	m_componentFactory.Register<ScriptComponent>(ActorComponent::GetIdFromName(ScriptComponent::Name));
 	m_componentFactory.Register<CharacterControllerComponent>(ActorComponent::GetIdFromName(CharacterControllerComponent::Name));
 	m_componentFactory.Register<CameraComponent>(ActorComponent::GetIdFromName(CameraComponent::Name));
+
+	m_ComponentFactory.insert(std::make_pair(TransformComponent::Name, []() { return new TransformComponent(); } ));
+	m_ComponentFactory.insert(std::make_pair(MeshRenderComponent::Name, []() { return new MeshRenderComponent(); }));
+	m_ComponentFactory.insert(std::make_pair(ColliderComponent::Name, []() { return new ColliderComponent(); }));
+	m_ComponentFactory.insert(std::make_pair(RigidBodyComponent::Name, []() { return new RigidBodyComponent(); }));
+	m_ComponentFactory.insert(std::make_pair(AnimationComponent::Name, []() { return new AnimationComponent(); }));
+	m_ComponentFactory.insert(std::make_pair(CameraComponent::Name, []() { return new CameraComponent(); }));
+	
 	
 }
 

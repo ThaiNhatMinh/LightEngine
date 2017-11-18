@@ -75,13 +75,13 @@ bool Frustum::Inside(const vec3 & v, const vec3 & v2) const
 	return true;
 }
 
-void Frustum::Update(const Camera & camera)
+void Frustum::Update(const vec3& Pos, const vec3& Forward, const vec3& right)
 {
 
 	
-	vec3 Forward = camera.m_Front;
-	vec3 Pos = camera.m_Position;
-	vec3 right = camera.m_Right;
+	//vec3 Forward = camera.m_Front;
+	//vec3 Pos = camera.m_Position;
+	//vec3 right = camera.m_Right;
 	vec3 Up = glm::cross(Forward, right);
 
 	float Hnear = 2 * tanFovOver2 * m_Near;

@@ -19,7 +19,7 @@ void Camera::UpdateVector()
 	
 }
 
-Camera::Camera():m_pCameraC(nullptr)
+Camera::Camera()
 {
 	m_Position = vec3(0, 0, 200);
 	m_Front = glm::normalize(vec3(0, 0, 0) - m_Position);
@@ -27,11 +27,12 @@ Camera::Camera():m_pCameraC(nullptr)
 	m_Speed = 50.0f;
 	m_Pitch = 0;
 	m_Yaw = -90;
+	m_Frustum = Frustum(45.0f, 4.0 / 3.0f, 1.0, 500.0f);
 	MouseSensitivity = 0.25;
 	UpdateVector();
 }
 
-Camera::Camera(const vec3 & pos, const vec3 & target, const vec3 & up) :m_pCameraC(nullptr)
+Camera::Camera(const vec3 & pos, const vec3 & target, const vec3 & up, float fov, float as, float n, float f)
 {
 	m_Position = pos;
 	m_Front = glm::normalize(target - m_Position);;
@@ -40,6 +41,7 @@ Camera::Camera(const vec3 & pos, const vec3 & target, const vec3 & up) :m_pCamer
 	m_Pitch = 0;
 	m_Yaw = -90;
 	MouseSensitivity = 0.25;
+	m_Frustum = Frustum(fov,as,n,f);
 	UpdateVector();
 }
 
@@ -72,12 +74,17 @@ mat4 Camera::GetViewMatrix()
 {
 	mat4 view;
 	//mat4 view = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
-	if(m_pCameraC!=nullptr) view = m_pCameraC->GetViewMatrix();
-	else view = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
+	//if(m_pCameraC!=nullptr) view = m_pCameraC->GetViewMatrix();
+	//else 
+		view = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 	return view;
 }
-
+mat4 Camera::GetProjMatrix()
+{
+	return m_Frustum.GetProjMatrix();
+}
+/*
 void Camera::SetCameraActor(Actor * p)
 {
 	m_pCameraC = p->GetComponent<CameraComponent>(CameraComponent::Name);
-}
+}*/

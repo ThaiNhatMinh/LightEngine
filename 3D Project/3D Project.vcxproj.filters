@@ -382,13 +382,13 @@
     <Xml Include="GameAssets\physics.xml">
       <Filter>GameAssets</Filter>
     </Xml>
-    <Xml Include="GameAssets\player_teapot.xml">
-      <Filter>GameAssets</Filter>
-    </Xml>
     <Xml Include="GameAssets\Root.xml">
       <Filter>GameAssets</Filter>
     </Xml>
     <Xml Include="GameAssets\Renderer.xml">
+      <Filter>GameAssets</Filter>
+    </Xml>
+    <Xml Include="GameAssets\Player.xml">
       <Filter>GameAssets</Filter>
     </Xml>
   </ItemGroup>

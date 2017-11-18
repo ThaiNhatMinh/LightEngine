@@ -37,7 +37,7 @@ public:
 	void SetAspect(float aspect) { m_Aspect = aspect;  Init(m_Fov, m_Aspect, m_Near, m_Far); };
 	void SetNear(float _near) { m_Near = _near;  Init(m_Fov, m_Aspect, m_Near, m_Far); };
 	void SetFar(float _far) { m_Far = _far;  Init(m_Fov, m_Aspect, m_Near, m_Far); };
-	void Update(const Camera& camera);
+	void Update(const vec3& pos,const vec3& front,const vec3& right);
 	void Render(Shader* shader, mat4& view);
 
 	mat4 GetProjMatrix();

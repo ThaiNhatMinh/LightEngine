@@ -4,15 +4,15 @@
 void CoreApplication::onStartUp()
 {
 	E_DEBUG("Application StartUp...");
-
+	// Event Manager must be startup first
+	EventManager::startUp();
 	ActorFactory::startUp();
 
 	GameTimer::startUp();
 	Resources::startUp();
 	OpenGLRenderer* pRender = new OpenGLRenderer;
 	pRender->Init();
-	// Event Manager must be startup first
-	EventManager::startUp();
+	
 	DirectInput::startUp(pRender->GetWindow(), DISCL_NONEXCLUSIVE | DISCL_FOREGROUND, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 	//LuaStateManager::startUp();
 	//ScriptExports::Register();
@@ -34,11 +34,13 @@ void CoreApplication::onStartUp()
 	
 	Debug::startUp(m_pScene);
 
+	/*
+	No longer need this. Delete it if you want
 	Camera* cam = new Camera(vec3(0,0,20),vec3(0,0,0),vec3(0,1,0));
 	Frustum* frustum = new Frustum(52.0f, 4.0f / 3.0f, 1.0f, 1000.0f);
 	m_pScene->SetCamera(cam);
 	m_pScene->SetFrustum(frustum);
-
+	*/
 	
 
 	Actor* p1 = gActorFactory()->CreateActor("GameAssets\\player_teapot.xml", nullptr,nullptr);

@@ -13,7 +13,7 @@ public:
 	virtual bool VInit(tinyxml2::XMLElement* pData) = 0;
 	virtual void VPostInit(void) { }
 	virtual void VUpdate(float dt) { }
-	virtual void VOnChanged(void) { }				// [mrmike] - added post-pres
+	virtual void VOnChanged(void) { }				
 													// for the editor
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) = 0;
 	virtual Actor* GetOwner() { return m_pOwner; }

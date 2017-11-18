@@ -20,6 +20,7 @@
 #include <algorithm>
 #include <list>
 #include <strstream>
+#include <functional>
 
 using std::cout;
 using std::endl;

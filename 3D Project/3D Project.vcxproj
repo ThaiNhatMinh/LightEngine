@@ -281,7 +281,7 @@
     <Xml Include="GameAssets\physics.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="GameAssets\player_teapot.xml" />
+    <Xml Include="GameAssets\Player.xml" />
     <Xml Include="GameAssets\Renderer.xml" />
     <Xml Include="GameAssets\Root.xml" />
   </ItemGroup>

@@ -44,7 +44,7 @@ void CharacterControllerComponent::VPostInit(void)
 	
 
 	// Get Rigidbody
-	BulletPhysics* pPhysic = (BulletPhysics*)gPhysic();
+	//BulletPhysics* pPhysic = (BulletPhysics*)gPhysic();
 	m_pRB = m_pOwner->GetComponent<RigidBodyComponent>(RigidBodyComponent::Name);
 	m_pRB->SetAngularFactor(vec3(0, 0, 0));
 	m_pRB->SetFriction(10.0f);

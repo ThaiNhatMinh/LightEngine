@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 
-// it should be a SceneNode ?
+// Default camera
 
 class Camera
 {
@@ -16,21 +16,21 @@ protected:
 	float m_Pitch;	// x axis
 	float m_Yaw;	// y axis
 	float MouseSensitivity;
-
-	CameraComponent* m_pCameraC;
+	Frustum m_Frustum;
 protected:
 	void UpdateVector();
 public:
 	Camera();
 	
 	// target and up vector must be normalize
-	Camera(const vec3& pos, const vec3& target, const vec3& up);
+	Camera(const vec3& pos, const vec3& target, const vec3& up,float fov,float as,float n,float f);
 	~Camera();
 
 	//virtual void OnKeyboard(int key,float deltaTime);
 	virtual void Update(float dt);
 	//virtual void OnMouse(float dx, float dy);
 	mat4 GetViewMatrix();
+	mat4 GetProjMatrix();
 
 	inline void SetSpeed(float speed) { m_Speed = speed; };
 	inline vec3 GetFront() { return m_Front; };
@@ -42,6 +42,5 @@ public:
 	inline void InvertPitch() { m_Pitch = -m_Pitch; };
 	inline void InvertYaw() { m_Yaw = -m_Yaw; };
 
-	void SetCameraActor(Actor* p);
 };
 
