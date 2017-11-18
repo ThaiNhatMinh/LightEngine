@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 void ActorFactory::onStartUp(void)
 {
@@ -6,9 +6,11 @@ void ActorFactory::onStartUp(void)
 
 	m_componentFactory.Register<TransformComponent>(ActorComponent::GetIdFromName(TransformComponent::Name));
 	m_componentFactory.Register<MeshRenderComponent>(ActorComponent::GetIdFromName(MeshRenderComponent::Name));
-	m_componentFactory.Register<PhysicsComponent>(ActorComponent::GetIdFromName(PhysicsComponent::Name));
+	//m_componentFactory.Register<PhysicsComponent>(ActorComponent::GetIdFromName(PhysicsComponent::Name));
+	m_componentFactory.Register<ColliderComponent>(ActorComponent::GetIdFromName(ColliderComponent::Name));
+	m_componentFactory.Register<RigidBodyComponent>(ActorComponent::GetIdFromName(RigidBodyComponent::Name));
 	m_componentFactory.Register<AnimationComponent>(ActorComponent::GetIdFromName(AnimationComponent::Name));
-	m_componentFactory.Register<ScriptComponent>(ActorComponent::GetIdFromName(ScriptComponent::Name));
+//	m_componentFactory.Register<ScriptComponent>(ActorComponent::GetIdFromName(ScriptComponent::Name));
 	m_componentFactory.Register<CharacterControllerComponent>(ActorComponent::GetIdFromName(CharacterControllerComponent::Name));
 	m_componentFactory.Register<CameraComponent>(ActorComponent::GetIdFromName(CameraComponent::Name));
 	
@@ -74,7 +76,7 @@ Actor * ActorFactory::CreateActor(const char * name, ShapeType type, const mat4&
 	// Create mesh renderer
 	
 	vector<IMesh*> v;
-	v.push_back(gResources()->CreateShape(CUBE));
+	v.push_back(gResources()->CreateShape(SHAPE_BOX));
 
 	ActorComponent* pMeshRenderC = new MeshRenderComponent(v);
 	pActor->AddComponent(pMeshRenderC);

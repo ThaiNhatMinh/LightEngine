@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 AABB::AABB():Min(FLT_MAX),Max(FLT_MIN)
 {

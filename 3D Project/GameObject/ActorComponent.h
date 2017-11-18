@@ -1,5 +1,5 @@
 #pragma once
-#include "..\pch.h"
+#include "pch.h"
 class Actor;
 
 class ActorComponent
@@ -16,7 +16,7 @@ public:
 	virtual void VOnChanged(void) { }				// [mrmike] - added post-pres
 													// for the editor
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) = 0;
-
+	virtual Actor* GetOwner() { return m_pOwner; }
 	// This function should be overridden by the interface class.
 	virtual ComponentId VGetId(void) const { return GetIdFromName(VGetName()); }
 	virtual const char *VGetName() const = 0;

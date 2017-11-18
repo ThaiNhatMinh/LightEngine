@@ -92,7 +92,7 @@ public:
 	}
 };
 
-class EvtData_PhysCollision : public ScriptEvent
+class EvtData_PhysCollisionStart : public BaseEventData
 {
 	ActorId m_ActorA;
 	ActorId m_ActorB;
@@ -108,7 +108,7 @@ public:
 		return sk_EventType;
 	}
 
-	EvtData_PhysCollision()
+	EvtData_PhysCollisionStart()
 	{
 		m_ActorA = 0;
 		m_ActorB = 0;
@@ -116,7 +116,7 @@ public:
 		m_SumFrictionForce = vec3(0.0f, 0.0f, 0.0f);
 	}
 
-	explicit EvtData_PhysCollision(ActorId actorA,
+	explicit EvtData_PhysCollisionStart(ActorId actorA,
 		ActorId actorB,
 		vec3 sumNormalForce,
 		vec3 sumFrictionForce,
@@ -130,12 +130,12 @@ public:
 
 	virtual IEvent* VCopy() const
 	{
-		return new EvtData_PhysCollision(m_ActorA, m_ActorB, m_SumNormalForce, m_SumFrictionForce, m_CollisionPoints);
+		return new EvtData_PhysCollisionStart(m_ActorA, m_ActorB, m_SumNormalForce, m_SumFrictionForce, m_CollisionPoints);
 	}
 
 	virtual const char* GetName(void) const
 	{
-		return "EvtData_PhysCollision";
+		return "EvtData_PhysCollisionStart";
 	}
 
 	ActorId GetActorA(void) const
@@ -163,13 +163,82 @@ public:
 		return m_CollisionPoints;
 	}
 
-	virtual void VBuildEventData(void);
-
-	EXPORT_FOR_SCRIPT_EVENT(EvtData_PhysCollision);
 };
 
+class EvtData_PhysOnCollision : public BaseEventData
+{
+	ActorId m_ActorA;
+	ActorId m_ActorB;
+	vec3 m_SumNormalForce;
+	vec3 m_SumFrictionForce;
+	std::list<vec3> m_CollisionPoints;
 
-class EvtData_PhysSeparation : public BaseEventData
+public:
+	static const EventType sk_EventType;
+
+	virtual const EventType & VGetEventType(void) const
+	{
+		return sk_EventType;
+	}
+
+	EvtData_PhysOnCollision()
+	{
+		m_ActorA = 0;
+		m_ActorB = 0;
+		m_SumNormalForce = vec3(0.0f, 0.0f, 0.0f);
+		m_SumFrictionForce = vec3(0.0f, 0.0f, 0.0f);
+	}
+
+	explicit EvtData_PhysOnCollision(ActorId actorA,
+		ActorId actorB,
+		vec3 sumNormalForce,
+		vec3 sumFrictionForce,
+		std::list<vec3> collisionPoints)
+		: m_ActorA(actorA),
+		m_ActorB(actorB),
+		m_SumNormalForce(sumNormalForce),
+		m_SumFrictionForce(sumFrictionForce),
+		m_CollisionPoints(collisionPoints)
+	{}
+
+	virtual IEvent* VCopy() const
+	{
+		return new EvtData_PhysOnCollision(m_ActorA, m_ActorB, m_SumNormalForce, m_SumFrictionForce, m_CollisionPoints);
+	}
+
+	virtual const char* GetName(void) const
+	{
+		return "EvtData_PhysOnCollision";
+	}
+
+	ActorId GetActorA(void) const
+	{
+		return m_ActorA;
+	}
+
+	ActorId GetActorB(void) const
+	{
+		return m_ActorB;
+	}
+
+	const vec3& GetSumNormalForce(void) const
+	{
+		return m_SumNormalForce;
+	}
+
+	const vec3& GetSumFrictionForce(void) const
+	{
+		return m_SumFrictionForce;
+	}
+
+	const std::list<vec3>& GetCollisionPoints(void) const
+	{
+		return m_CollisionPoints;
+	}
+
+};
+
+class EvtData_PhysCollisionEnd : public BaseEventData
 {
 	ActorId m_ActorA;
 	ActorId m_ActorB;
@@ -182,26 +251,26 @@ public:
 		return sk_EventType;
 	}
 
-	EvtData_PhysSeparation()
+	EvtData_PhysCollisionEnd()
 	{
 
 		m_ActorA = 0;
 		m_ActorB = 0;
 	}
 
-	explicit EvtData_PhysSeparation(ActorId actorA, ActorId actorB)
+	explicit EvtData_PhysCollisionEnd(ActorId actorA, ActorId actorB)
 		: m_ActorA(actorA)
 		, m_ActorB(actorB)
 	{}
 
 	virtual IEvent* VCopy() const
 	{
-		return new EvtData_PhysSeparation(m_ActorA, m_ActorB);
+		return new EvtData_PhysCollisionEnd(m_ActorA, m_ActorB);
 	}
 
 	virtual const char* GetName(void) const
 	{
-		return "EvtData_PhysSeparation";
+		return "EvtData_PhysCollisionEnd";
 	}
 
 	ActorId GetActorA(void) const
@@ -213,4 +282,71 @@ public:
 	{
 		return m_ActorB;
 	}
+};
+
+class EvtData_PhysPreStep : public BaseEventData
+{
+	float m_fTimeStep;
+
+public:
+	static const EventType sk_EventType;
+
+	virtual const EventType & VGetEventType(void) const
+	{
+		return sk_EventType;
+	}
+
+	EvtData_PhysPreStep()
+	{
+		m_fTimeStep = 0;
+	}
+
+	explicit EvtData_PhysPreStep(float timestep)
+		: m_fTimeStep(timestep)
+	{}
+
+	IEvent* VCopy() const
+	{
+		return new EvtData_PhysPreStep(m_fTimeStep);
+	}
+
+	virtual const char* GetName(void) const
+	{
+		return "EvtData_PhysPreStep";
+	}
+	float GetTimeStep()const { return m_fTimeStep; };
+};
+
+
+class EvtData_PhysPostStep : public BaseEventData
+{
+	float m_fTimeStep;
+
+public:
+	static const EventType sk_EventType;
+
+	virtual const EventType & VGetEventType(void) const
+	{
+		return sk_EventType;
+	}
+
+	EvtData_PhysPostStep()
+	{
+		m_fTimeStep = 0;
+	}
+
+	explicit EvtData_PhysPostStep(float timestep)
+		: m_fTimeStep(timestep)
+	{}
+
+	IEvent* VCopy() const
+	{
+		return new EvtData_PhysPreStep(m_fTimeStep);
+	}
+
+	virtual const char* GetName(void) const
+	{
+		return "EvtData_PhysPostStep";
+	}
+	float GetTimeStep() { return m_fTimeStep; };
 };

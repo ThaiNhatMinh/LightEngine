@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 
 Shader::Shader(const char* vertexShaderFile, const char* fragmentShaderFile)

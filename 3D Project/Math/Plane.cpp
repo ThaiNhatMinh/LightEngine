@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 Plane::Plane(float a, float b, float c, float d)
 {

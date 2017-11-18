@@ -1,5 +1,6 @@
 #pragma once
-#include "..\pch.h"
+#include "pch.h"
+#include "RenderAPI.h"
 
 class Scene
 {
@@ -11,8 +12,11 @@ private:
 	Camera*			m_Camera;
 	Frustum*		m_Frustum;
 	Light			m_DirectionLight; // only one direction light
+	CameraComponent *m_pCameraNode;
+
+	RenderAPICore* m_pRenderer;
 public:
-	Scene();
+	Scene(RenderAPICore* pRender);
 	~Scene();
 
 	bool OnRender();
@@ -21,8 +25,11 @@ public:
 	const Camera* GetCamera() {		return m_Camera;	};
 	const Frustum* GetFrustum() {		return m_Frustum;	};
 	void SetCamera(Camera* pCam) { m_Camera = pCam; };
+	void SetCameraNode(Actor* pActor);
 	void SetFrustum(Frustum* pFrustum) { m_Frustum = pFrustum; };
 	Actor* GetRoot() { return m_pRoot; };
 	mat4 GetViewProj();
 	Light GetDirLight() { return m_DirectionLight; };
+
+	RenderAPICore* GetRenderer() { return m_pRenderer; }
 };

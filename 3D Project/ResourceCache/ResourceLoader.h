@@ -1,5 +1,6 @@
 #pragma once
-#include "..\pch.h"
+#include <pch.h>
+#include "GameObject\ColliderComponent.h"
 
 struct DtxHeader
 {

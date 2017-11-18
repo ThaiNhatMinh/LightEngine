@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 #include "..\include\IL\il.h"
 #include "..\include\IL\ilu.h"
 #include "LTBFileLoader.h"

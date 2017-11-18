@@ -1,5 +1,5 @@
 #pragma once
-#include "..\pch.h"
+#include "pch.h"
 
 class Line;
 class Debug : public Singleton<Debug>

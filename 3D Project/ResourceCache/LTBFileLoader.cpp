@@ -1,5 +1,6 @@
 #include "LTBFileLoader.h"
 #include "LTBDef.h"
+#include <pch.h>
 FILE* LTBFile::pFile = NULL;
 bool LTBFile::LoadSkeleton(FILE * pFile, SkeNode* pParent, vector<SkeNode*>& nodeLists)
 {

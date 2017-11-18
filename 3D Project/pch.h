@@ -3,7 +3,7 @@
 // Precompile header file
 // Thai Nhat Minh 
 // Game 3D Project
-// Day begin 31/52017
+// Day begin 31/5/2017
 
 #include <iostream>
 #include <string>
@@ -31,6 +31,7 @@ using std::map;
 // GLEW
 #define GLEW_STATIC
 #include <gl\glew.h>
+
 // GLFW
 #include <GLFW\glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32
@@ -50,37 +51,25 @@ using std::map;
 using fastdelegate::MakeDelegate;
 
 // Lua Plus 5.1
-#include <LuaPlus.h>
+//#include <LuaPlus.h>
 
 // libary
-#pragma comment(lib, "lib/glew32s.lib")
+#pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "lib/glfw3.lib")
 #pragma comment(lib, "lib/Devil.lib")
 #pragma comment(lib, "lib/tinyxml2.lib")
 #pragma comment(lib, "lib/dinput8.lib")
 #pragma comment(lib, "lib/dxguid.lib")
 #pragma comment(lib, "opengl32.lib")
-#pragma comment(lib, "BulletCollision_Debug.lib")
-#pragma comment(lib, "BulletDynamics_Debug.lib")
-#pragma comment(lib, "LinearMath_Debug.lib")
-#pragma comment(lib, "lib/luaplus51-1201.lib")
-/*
-// Math
-#include "Math\Vector.h"
-#include "Math\Quaternion.h"
-#include "Math\Matrix.h"
-#include "Math\EulerAngles.h"
-#include "Math\CMath.h"
-
-#include "Math\AABB.h"
-#include "Math\Plane.h"
-#include "Math\Frustum.h"
-#include "Math\Sphere.h"
-*/
+//#pragma comment(lib, "BulletCollision_Debug.lib")
+//#pragma comment(lib, "BulletDynamics_Debug.lib")
+//#pragma comment(lib, "LinearMath_Debug.lib")
+//#pragma comment(lib, "lib/luaplus51-1201.lib")
+//#pragma comment(lib, "Mono/lib/mono-2.0-sgen.lib")
 
 
 // Math
-#include "glm\mat4x4.hpp"
+#include <glm\mat4x4.hpp>
 #include "glm\vec3.hpp"
 #include "glm\vec4.hpp"
 #include "glm\vec2.hpp"
@@ -118,6 +107,8 @@ using glm::quat;
 #include "Utilities\String.h"
 #include "Utilities\Template.h"
 #include "Utilities\Debug.h"
+#include "Utilities\File.h"
+#include "Utilities\PhysicsUtilities.h"
 
 #include "ResourceCache\ModelCache.h"
 #include "ResourceCache\Texture.h"
@@ -139,10 +130,10 @@ using glm::quat;
 #include "Utilities\PrimitiveShape\Line.h"
 
 // Lua Scripting
-#include "LuaScripting\LuaStateManager.h"
-#include "LuaScripting\ScriptEvents.h"
-#include "LuaScripting\ScriptExports.h"
-#include "EventManager\TestScriptEvent.h"
+//#include "LuaScripting\LuaStateManager.h"
+//#include "LuaScripting\ScriptEvents.h"
+//#include "LuaScripting\ScriptExports.h"
+//#include "EventManager\TestScriptEvent.h"
 
 #include "EventManager\EventManager.h"
 #include "EventManager\AnimationEvent.h"
@@ -150,12 +141,14 @@ using glm::quat;
 #include "EventManager\Events.h"
 
 #include "GameObject\ActorComponent.h"
+#include "GameObject\ColliderComponent.h"
 #include "GameObject\TransformComponent.h"
 #include "GameObject\MeshRenderComponent.h"
 #include "GameObject\PhysicComponent.h"
+#include "GameObject\RigidBodyComponent.h"
 #include "GameObject\AnimationComponent.h"
 #include "GameObject\CharacterControllerComponent.h"
-#include "GameObject\ScriptComponent.h"
+//#include "GameObject\ScriptComponent.h"
 #include "GameObject\CameraComponent.h"
 #include "GameObject\ActorFactory.h"
 #include "GameObject\Actor.h"

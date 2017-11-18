@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 const char* TransformComponent::Name = "TransformComponent";
 bool TransformComponent::VInit(tinyxml2::XMLElement * pData)

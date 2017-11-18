@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "..\pch.h"
+#include "pch.h"
 // ax + by + cz = d
 // Normal is (a,b,c)
 // Offset is d

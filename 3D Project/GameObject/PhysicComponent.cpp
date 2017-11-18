@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 
 
@@ -115,11 +115,11 @@ void PhysicsComponent::VPostInit(void)
 	{
 		if (m_shape == "Sphere")
 		{
-			gPhysic()->VAddSphere((float)m_RigidBodyScale.x, m_pOwner, m_density, m_material);
+//			gPhysic()->VAddSphere((float)m_RigidBodyScale.x, m_pOwner, m_density, m_material);
 		}
 		else if (m_shape == "Box")
 		{
-			gPhysic()->VAddBox(m_RigidBodyScale, m_pOwner, m_density, m_material);
+//			gPhysic()->VAddBox(m_RigidBodyScale, m_pOwner, m_density, m_material);
 		}
 		else if (m_shape == "PointCloud")
 		{
@@ -150,8 +150,8 @@ void PhysicsComponent::VUpdate(float deltaMs)
 		// Get the current velocity vector and convert to a scalar.  The velocity vector is a combination of 
 		// the direction this actor is going in and the speed of the actor.  The scalar is just the speed 
 		// component.
-		vec3 velocity(gPhysic()->VGetVelocity(m_pOwner->GetId()));
-		float velocityScalar = glm::length(velocity);
+		//vec3 velocity(gPhysic()->VGetVelocity(m_pOwner->GetId()));
+		//float velocityScalar = glm::length(velocity);
 
 		//vec3 direction(Math::GetAxis(transform,Z_AXIS));
 		//gPhysic()->VApplyForce(direction, accelerationToApplyThisFrame, m_pOwner->GetId());
@@ -178,14 +178,13 @@ void PhysicsComponent::VUpdate(float deltaMs)
 		//GCC_LOG("Actor", "Angular Acceleration: " + ToStr(angularAccelerationToApplyThisFrame) );
 	}
 
-	pTransformComponent->SetTransform(gPhysic()->VGetTransform(m_pOwner->GetId()));
+	//pTransformComponent->SetTransform(gPhysic()->VGetTransform(m_pOwner->GetId()));
 
 }
 
 void PhysicsComponent::BuildRigidBodyTransform(tinyxml2::XMLElement* pTransformElement)
 {
 	// FUTURE WORK Mrmike - this should be exactly the same as the TransformComponent - maybe factor into a helper method?
-	//GCC_ASSERT(pTransformElement);
 
 	tinyxml2::XMLElement* pPositionElement = pTransformElement->FirstChildElement("Position");
 	if (pPositionElement)
@@ -219,17 +218,18 @@ void PhysicsComponent::BuildRigidBodyTransform(tinyxml2::XMLElement* pTransformE
 
 void PhysicsComponent::ApplyForce(const vec3& direction, float forceNewtons)
 {
-	gPhysic()->VApplyForce(direction, forceNewtons, m_pOwner->GetId());
+	//gPhysic()->VApplyForce(direction, forceNewtons, m_pOwner->GetId());
 }
 
 void PhysicsComponent::ApplyTorque(const vec3& direction, float forceNewtons)
 {
-	gPhysic()->VApplyTorque(direction, forceNewtons, m_pOwner->GetId());
+	//gPhysic()->VApplyTorque(direction, forceNewtons, m_pOwner->GetId());
 }
 
 bool PhysicsComponent::KinematicMove(const mat4 &transform)
 {
-	return gPhysic()->VKinematicMove(transform, m_pOwner->GetId());
+	return 1;
+	//return gPhysic()->VKinematicMove(transform, m_pOwner->GetId());
 }
 
 void PhysicsComponent::ApplyAcceleration(float acceleration)
@@ -254,12 +254,13 @@ void PhysicsComponent::RemoveAngularAcceleration(void)
 
 vec3 PhysicsComponent::GetVelocity(void)
 {
-	return gPhysic()->VGetVelocity(m_pOwner->GetId());
+//	return gPhysic()->VGetVelocity(m_pOwner->GetId());
+	return vec3();
 }
 
 void PhysicsComponent::SetVelocity(const vec3& velocity)
 {
-	gPhysic()->VSetVelocity(m_pOwner->GetId(), velocity);
+//	gPhysic()->VSetVelocity(m_pOwner->GetId(), velocity);
 }
 
 void PhysicsComponent::RotateY(float angleRadians)
@@ -300,5 +301,5 @@ void PhysicsComponent::SetPosition(float x, float y, float z)
 
 void PhysicsComponent::Stop(void)
 {
-	return gPhysic()->VStopActor(m_pOwner->GetId());
+	//return gPhysic()->VStopActor(m_pOwner->GetId());
 }

@@ -29,9 +29,6 @@
     <ClInclude Include="Core\Camera.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\RenderAPI.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Core\CoreApplication.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -138,22 +135,10 @@
     <ClInclude Include="Graphics3D\SkeShader.h">
       <Filter>Graphics3D\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="LuaScripting\LuaStateManager.h">
-      <Filter>LuaScripting</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaScripting\ScriptEvents.h">
-      <Filter>LuaScripting</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaScripting\ScriptExports.h">
-      <Filter>LuaScripting</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager\TestScriptEvent.h">
       <Filter>EventManager</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\ActorScript.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\ScriptComponent.h">
       <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="EventManager\PhysicsEvents.h">
@@ -161,6 +146,27 @@
     </ClInclude>
     <ClInclude Include="GameObject\CameraComponent.h">
       <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\RenderAPI.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\File.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\RigidBodyComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\PhysicsUtilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\ColliderComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGLRenderer.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\BaseGameLogic.h">
+      <Filter>GameLogic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -268,26 +274,26 @@
     <ClCompile Include="Graphics3D\SkeShader.cpp">
       <Filter>Graphics3D\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="LuaScripting\LuaStateManager.cpp">
-      <Filter>LuaScripting</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaScripting\ScriptEvents.cpp">
-      <Filter>LuaScripting</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaScripting\ScriptExports.cpp">
-      <Filter>LuaScripting</Filter>
-    </ClCompile>
     <ClCompile Include="EventManager\TestScriptEvent.cpp">
       <Filter>EventManager</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\ScriptComponent.cpp">
-      <Filter>GameObject</Filter>
     </ClCompile>
     <ClCompile Include="EventManager\PhysicsEvents.cpp">
       <Filter>EventManager</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\CameraComponent.cpp">
       <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\File.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\RigidBodyComponent.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\ColliderComponent.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGLRenderer.cpp">
+      <Filter>Graphics3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -327,14 +333,14 @@
     <Filter Include="Graphics3D\Shader">
       <UniqueIdentifier>{4fff9f02-8bf5-446c-8dfe-0b2d7a041e72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LuaScripting">
-      <UniqueIdentifier>{0e08ae0b-c275-43b9-a3ad-be50962824b3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameAssets\SCRIPT">
       <UniqueIdentifier>{28500c10-7e1f-4bae-9498-5a26d4db9f1b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{a064230a-ae38-4e46-b725-b76b8b1d44eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic">
+      <UniqueIdentifier>{82da1a8d-c523-422c-a568-31fbf34e8b86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -380,6 +386,9 @@
       <Filter>GameAssets</Filter>
     </Xml>
     <Xml Include="GameAssets\Root.xml">
+      <Filter>GameAssets</Filter>
+    </Xml>
+    <Xml Include="GameAssets\Renderer.xml">
       <Filter>GameAssets</Filter>
     </Xml>
   </ItemGroup>

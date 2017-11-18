@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 //DirectInput* gDInput;
 DirectInput* gInput()
@@ -20,6 +20,7 @@ DirectInput::DirectInput(Windows* pWin,DWORD keyboardCoopFlags, DWORD mouseCoopF
 
 	}
 
+	HWND handle = GetActiveWindow();
 	m_pDInput->CreateDevice(GUID_SysKeyboard, &m_pKeyboard, 0);
 	m_pKeyboard->SetDataFormat(&c_dfDIKeyboard);
 	m_pKeyboard->SetCooperativeLevel(pWin->GetHandle(), keyboardCoopFlags);

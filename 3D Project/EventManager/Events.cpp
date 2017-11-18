@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 
 const EventType EvtData_New_Actor::sk_EventType(0xe86c7c31);

@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 Debug::Debug(Scene * pScene):m_pScene(pScene)
 {

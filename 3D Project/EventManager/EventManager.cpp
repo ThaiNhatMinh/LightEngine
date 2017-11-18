@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 GenericObjectFactory<IEvent, EventType> g_eventFactory;
 
@@ -37,7 +37,7 @@ void EventManager::onShutDown()
 //---------------------------------------------------------------------------------------------------------------------
 bool EventManager::VAddListener(const EventListenerDelegate& eventDelegate, const EventType& type)
 {
-	E_DEBUG(("Events", "Attempting to add delegate function for event type: " + ToStr(type, 16)));
+	E_DEBUG(("Events Attempting to add delegate function for event type: " + ToStr(type, 16)));
 
 	EventListenerList& eventListenerList = m_eventListeners[type];  // this will find or create the entry
 	for (auto it = eventListenerList.begin(); it != eventListenerList.end(); ++it)
@@ -50,7 +50,7 @@ bool EventManager::VAddListener(const EventListenerDelegate& eventDelegate, cons
 	}
 
 	eventListenerList.push_back(eventDelegate);
-	E_DEBUG("Events", "Successfully added delegate for event type: " + ToStr(type, 16));
+	E_DEBUG("Events Successfully added delegate for event type: " + ToStr(type, 16));
 
 	return true;
 }
@@ -61,7 +61,7 @@ bool EventManager::VAddListener(const EventListenerDelegate& eventDelegate, cons
 //---------------------------------------------------------------------------------------------------------------------
 bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, const EventType& type)
 {
-	E_DEBUG("Events", "Attempting to remove delegate function from event type: " + ToStr(type, 16));
+	E_DEBUG("Events Attempting to remove delegate function from event type: " + ToStr(type, 16));
 	bool success = false;
 
 	auto findIt = m_eventListeners.find(type);
@@ -73,7 +73,7 @@ bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, c
 			if (eventDelegate == (*it))
 			{
 				listeners.erase(it);
-				E_DEBUG("Events", "Successfully removed delegate function from event type: " + ToStr(type, 16));
+				E_DEBUG("Events Successfully removed delegate function from event type: " + ToStr(type, 16));
 				success = true;
 				break;  // we don't need to continue because it should be impossible for the same delegate function to be registered for the same event more than once
 			}
@@ -89,7 +89,7 @@ bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, c
 //---------------------------------------------------------------------------------------------------------------------
 bool EventManager::VTriggerEvent(const IEvent* pEvent) const
 {
-	E_DEBUG("Events", "Attempting to trigger event " + std::string(pEvent->GetName()));
+	//E_DEBUG("Events Attempting to trigger event " + std::string(pEvent->GetName()));
 	bool processed = false;
 
 	auto findIt = m_eventListeners.find(pEvent->VGetEventType());
@@ -99,11 +99,13 @@ bool EventManager::VTriggerEvent(const IEvent* pEvent) const
 		for (EventListenerList::const_iterator it = eventListenerList.begin(); it != eventListenerList.end(); ++it)
 		{
 			EventListenerDelegate listener = (*it);
-			E_DEBUG("Events", "Sending Event " + std::string(pEvent->GetName()) + " to delegate.");
+			//E_DEBUG("Events Sending Event " + std::string(pEvent->GetName()) + " to delegate.");
 			listener(pEvent);  // call the delegate
 			processed = true;
 		}
 	}
+
+	delete pEvent;
 
 	return processed;
 }
@@ -124,18 +126,18 @@ bool EventManager::VQueueEvent(const IEvent* pEvent)
 		return false;
 	}
 
-	E_DEBUG("Events", "Attempting to queue event: " + std::string(pEvent->GetName()));
+	//E_DEBUG("Events Attempting to queue event: " + std::string(pEvent->GetName()));
 
 	auto findIt = m_eventListeners.find(pEvent->VGetEventType());
 	if (findIt != m_eventListeners.end())
 	{
 		m_queues[m_activeQueue].push_back(pEvent);
-		E_DEBUG("Events", "Successfully queued event: " + std::string(pEvent->GetName()));
+		//E_DEBUG("Events Successfully queued event: " + std::string(pEvent->GetName()));
 		return true;
 	}
 	else
 	{
-		E_DEBUG("Events", "Skipping event since there are no delegates registered to receive it: " + std::string(pEvent->GetName()));
+		//E_DEBUG("Events Skipping event since there are no delegates registered to receive it: " + std::string(pEvent->GetName()));
 		return false;
 	}
 }
@@ -216,7 +218,7 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 	m_activeQueue = (m_activeQueue + 1) % EVENTMANAGER_NUM_QUEUES;
 	m_queues[m_activeQueue].clear();
 
-	//E_DEBUG("EventLoop", "Processing Event Queue " + ToStr(queueToProcess) + "; " + ToStr((unsigned long)m_queues[queueToProcess].size()) + " events to process");
+	//E_DEBUG("EventLoop Processing Event Queue " + ToStr(queueToProcess) + "; " + ToStr((unsigned long)m_queues[queueToProcess].size()) + " events to process");
 
 	// Process the queue
 	while (!m_queues[queueToProcess].empty())
@@ -224,7 +226,7 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 		// pop the front of the queue
 		const IEvent* pEvent = m_queues[queueToProcess].front();
 		m_queues[queueToProcess].pop_front();
-		E_DEBUG("EventLoop", "\t\tProcessing Event " + std::string(pEvent->GetName()));
+		E_DEBUG("EventLoop \t\tProcessing Event " + std::string(pEvent->GetName()));
 
 		const EventType& eventType = pEvent->VGetEventType();
 
@@ -233,13 +235,13 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 		if (findIt != m_eventListeners.end())
 		{
 			const EventListenerList& eventListeners = findIt->second;
-			E_DEBUG("EventLoop", "\t\tFound " + ToStr((unsigned long)eventListeners.size()) + " delegates");
+			E_DEBUG("EventLoop \t\tFound " + ToStr((unsigned long)eventListeners.size()) + " delegates");
 
 			// call each listener
 			for (auto it = eventListeners.begin(); it != eventListeners.end(); ++it)
 			{
 				EventListenerDelegate listener = (*it);
-				E_DEBUG("EventLoop", "\t\tSending event " + std::string(pEvent->GetName()) + " to delegate");
+				E_DEBUG("EventLoop \t\tSending event " + std::string(pEvent->GetName()) + " to delegate");
 				listener(pEvent);
 			}
 		}
@@ -249,7 +251,7 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 		currMs = GetTickCount();
 		if (maxMillis != IEventManager::kINFINITE && currMs >= maxMs)
 		{
-			E_DEBUG("EventLoop", "Aborting event processing; time ran out");
+			E_DEBUG("EventLoop Aborting event processing; time ran out");
 			break;
 		}
 	}

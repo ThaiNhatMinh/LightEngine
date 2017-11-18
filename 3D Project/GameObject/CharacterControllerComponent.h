@@ -1,5 +1,5 @@
 #pragma once
-#include "..\pch.h"
+#include "pch.h"
 
 enum ObjState
 {
@@ -12,12 +12,13 @@ enum ObjState
 class CharacterControllerComponent : public ActorComponent
 {
 private:
-	vec3			m_Direction;
+	vec3			m_MoveDirection;
+	vec3			m_JumpDirection;
 	float			m_fMaxSpeed;
 	float			m_fJumpForce;
-	vec3			m_JumpDirection;
-	btRigidBody*	m_pRB;
-	bool			m_bCanJump;
+	float			m_fInAirTime;
+	RigidBodyComponent*	m_pRB;
+	bool			m_bOnGround;
 	TransformComponent *m_pTransformC;
 public:
 	CharacterControllerComponent();
@@ -34,4 +35,6 @@ public:
 
 	// Event
 	void PhysicCollisionEvent(const IEvent* pEvent);
+	void PhysicPreStepEvent(const IEvent* pEvent);
+	void PhysicPostStepEvent(const IEvent* pEvent);
 };

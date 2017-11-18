@@ -1,4 +1,4 @@
-#include "..\..\pch.h"
+#include "pch.h"
 
 CubeMesh::CubeMesh(float sizex , float sizey, float sizez)
 {

@@ -4,7 +4,7 @@
         <Normal restitution="0.25" friction="0.5"/>
         <Bouncy restitution = "0.95" friction = "0.5"/>
         <Slippery restitution = "0.25" friction = "0.0"/>
-        <player restitution = "0.0" friction = "0.0"/>
+        <player restitution = "0.0" friction = "1.0"/>
     </PhysicsMaterials>
 
 <!--
@@ -17,7 +17,7 @@
         <!--  specific gravity (these numbers are easier to find) -->
         <air>0.0013</air>
         <water>1.000</water>
-
+        <player>10.0</player>
         <!--  Synthetics -->
         <styrofoam>0.0100</styrofoam>
 

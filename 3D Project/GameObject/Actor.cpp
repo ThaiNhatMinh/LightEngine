@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr), m_pShader(nullptr)
 {
@@ -31,6 +31,9 @@ bool Actor::Init(tinyxml2::XMLElement * pData)
 		E_ERROR("Can not find shader name: " + string(shaderName));
 	m_Tag = tag;
 	m_Name = name;
+
+	//
+	PostInit();
 	return 1;
 }
 
@@ -120,7 +123,7 @@ HRESULT Actor::VRender(Scene * pScene)
 
 	// this only using on derived class of Actor. This only a test for Component Archir
 	MeshRenderComponent* mrc = GetComponent<MeshRenderComponent>("MeshRenderComponent");
-	if (mrc) mrc->Render();
+	if (mrc) mrc->Render(pScene);
 	return S_OK;
 	
 }

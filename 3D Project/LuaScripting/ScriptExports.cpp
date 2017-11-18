@@ -73,8 +73,8 @@ public:
 	static unsigned long GetTickCount(void);
 
 	// physics
-	static void ApplyForce(LuaPlus::LuaObject normalDir, float force, int actorId);
-	static void ApplyTorque(LuaPlus::LuaObject axis, float force, int actorId);
+	//static void ApplyForce(LuaPlus::LuaObject normalDir, float force, int actorId);
+	//static void ApplyTorque(LuaPlus::LuaObject axis, float force, int actorId);
 
 private:
 	static ScriptEvent* BuildEvent(EventType eventType, LuaPlus::LuaObject& eventData);
@@ -265,28 +265,6 @@ unsigned long InternalScriptExports::GetTickCount(void)
 	return ::GetTickCount();
 }
 
-void InternalScriptExports::ApplyForce(LuaPlus::LuaObject normalDir, float force, int actorId)
-{
-	if (normalDir.IsTable())
-	{
-		vec3 normalDir(normalDir["x"].GetFloat(), normalDir["y"].GetFloat(), normalDir["z"].GetFloat());
-		gPhysic()->VApplyForce(normalDir, force, actorId);
-		return;
-	}
-	E_ERROR(string("Invalid object passed to ApplyForce(); type = ") + std::string(normalDir.TypeName()));
-}
-
-void InternalScriptExports::ApplyTorque(LuaPlus::LuaObject axis, float force, int actorId)
-{
-	if (axis.IsTable())
-	{
-		vec3 normalDir(axis["x"].GetFloat(), axis["y"].GetFloat(), axis["z"].GetFloat());
-		gPhysic()->VApplyTorque(normalDir, force, actorId);
-		return;
-	}
-	E_ERROR(string("Invalid object passed to ApplyForce(); type = ") + std::string(axis.TypeName()));
-}
-
 ScriptEvent * InternalScriptExports::BuildEvent(EventType eventType, LuaPlus::LuaObject & eventData)
 {
 	// create the event from the event type
@@ -337,8 +315,8 @@ void ScriptExports::Register(void)
 	globals.RegisterDirect("GetTickCount", &InternalScriptExports::GetTickCount);
 
 	// Physics
-	globals.RegisterDirect("ApplyForce", &InternalScriptExports::ApplyForce);
-	globals.RegisterDirect("ApplyTorque", &InternalScriptExports::ApplyTorque);
+	//globals.RegisterDirect("ApplyForce", &InternalScriptExports::ApplyForce);
+	//globals.RegisterDirect("ApplyTorque", &InternalScriptExports::ApplyTorque);
 
 
 	// Timer

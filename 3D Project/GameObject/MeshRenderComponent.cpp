@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 const char* MeshRenderComponent::Name = "MeshRenderComponent";
 
@@ -33,7 +33,7 @@ bool MeshRenderComponent::VInit(tinyxml2::XMLElement * pData)
 	}
 	else if(pFileName = pModelPath->Attribute("Shape"))
 	{
-		m_MeshList.push_back(gResources()->CreateShape(CUBE));
+		m_MeshList.push_back(gResources()->CreateShape(SHAPE_BOX));
 		m_Material.Ka = vec3(1.0f);
 		m_Material.Kd = vec3(1.0f);
 		m_Material.Ks = vec3(1.0f);
@@ -68,16 +68,19 @@ tinyxml2::XMLElement * MeshRenderComponent::VGenerateXml(tinyxml2::XMLDocument *
 	return nullptr;
 }
 
-void MeshRenderComponent::Render()
+void MeshRenderComponent::Render(Scene* pScene)
 {
 	Shader* p = m_pOwner->VGetShader();
+	RenderAPICore* pRender = pScene->GetRenderer();
 
 	for (size_t i = 0; i < m_MeshList.size(); i++)
 	{
-		if(m_MeshList[i]->Tex) m_MeshList[i]->Tex->Bind(0);
+		if (m_MeshList[i]->Tex) pRender->SetTexture(m_MeshList[i]->Tex);
 		else p->SetUniform("ObjColor", m_MeshList[i]->Color);
-		glBindVertexArray(m_MeshList[i]->VAO);
-		glDrawElements(m_MeshList[i]->Topology, m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
+
+		pRender->SetVertexArrayBuffer(m_MeshList[i]->VAO);
+		pRender->SetDrawMode(m_MeshList[i]->Topology);
+		pRender->DrawElement(m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
 	}
 }
 

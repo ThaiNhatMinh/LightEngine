@@ -1,22 +1,4 @@
-#include "..\pch.h"
-
-struct MaterialData
-{
-	float m_restitution;
-	float m_friction;
-
-	MaterialData(float restitution, float friction)
-	{
-		m_restitution = restitution;
-		m_friction = friction;
-	}
-
-	MaterialData(const MaterialData& other)
-	{
-		m_restitution = other.m_restitution;
-		m_friction = other.m_friction;
-	}
-};
+#include "pch.h"
 
 // helpers for conversion to and from Bullet's data types
 static btVector3 Vec3_to_btVector3(vec3 const & v)
@@ -29,53 +11,6 @@ static vec3 btVector3_to_Vec3(btVector3 const & btvec)
 	return vec3(btvec.x(), btvec.y(), btvec.z());
 }
 
-static btTransform Mat4x4_to_btTransform(mat4 const & mat)
-{
-	// convert from Mat4x4 (GameCode) to btTransform (Bullet)
-	btMatrix3x3 bulletRotation;
-	btVector3 bulletPosition;
-
-	// copy rotation matrix
-	for (int row = 0; row<3; ++row)
-		for (int column = 0; column<3; ++column)
-			bulletRotation[row][column] = mat[row][ column]; // note the reversed indexing (row/column vs. column/row)
-															  //  this is because Mat4x4s are row-major matrices and
-															  //  btMatrix3x3 are column-major.  This reversed indexing
-															  //  implicitly transposes (flips along the diagonal) 
-															  //  the matrix when it is copied.
-
-															  // copy position
-	for (int column = 0; column<3; ++column)
-		bulletPosition[column] = mat[3][column];
-
-	return btTransform(bulletRotation, bulletPosition);
-}
-
-static mat4 btTransform_to_Mat4x4(btTransform const & trans)
-{
-	mat4 returnValue;
-
-	// convert from btTransform (Bullet) to Mat4x4 (GameCode)
-	btMatrix3x3 const & bulletRotation = trans.getBasis();
-	btVector3 const & bulletPosition = trans.getOrigin();
-
-	// copy rotation matrix
-	for (int row = 0; row<3; ++row)
-		for (int column = 0; column<3; ++column)
-			returnValue[row][column] = bulletRotation[row][column];
-	// note the reversed indexing (row/column vs. column/row)
-	//  this is because Mat4x4s are row-major matrices and
-	//  btMatrix3x3 are column-major.  This reversed indexing
-	//  implicitly transposes (flips along the diagonal) 
-	//  the matrix when it is copied.
-
-	// copy position
-	for (int column = 0; column<3; ++column)
-		returnValue[3][column] = bulletPosition[column];
-
-	return returnValue;
-}
-
 /////////////////////////////////////////////////////////////////////////////
 // struct ActorMotionState						
 //
@@ -85,32 +20,14 @@ static mat4 btTransform_to_Mat4x4(btTransform const & trans)
 //   an additional transformation would need to be stored here to represent
 //   that difference.
 //
-struct ActorMotionState : public btMotionState
-{
-	mat4 m_worldToPositionTransform;
-
-	ActorMotionState(mat4 const & startingTransform)
-		: m_worldToPositionTransform(startingTransform) { }
-
-	// btMotionState interface:  Bullet calls these
-	virtual void getWorldTransform(btTransform& worldTrans) const
-	{
-		worldTrans = Mat4x4_to_btTransform(m_worldToPositionTransform);
-	}
-
-	virtual void setWorldTransform(const btTransform& worldTrans)
-	{
-		m_worldToPositionTransform = btTransform_to_Mat4x4(worldTrans);
-	}
-};
-
 
 BulletPhysics::BulletPhysics()
 {
 	REGISTER_EVENT(EvtData_PhysTrigger_Enter);
 	REGISTER_EVENT(EvtData_PhysTrigger_Leave);
-	REGISTER_EVENT(EvtData_PhysCollision);
-	REGISTER_EVENT(EvtData_PhysSeparation);
+	REGISTER_EVENT(EvtData_PhysCollisionStart);
+	REGISTER_EVENT(EvtData_PhysOnCollision);
+	REGISTER_EVENT(EvtData_PhysCollisionEnd);
 }
 
 
@@ -231,7 +148,8 @@ bool BulletPhysics::VInitialize()
 
 
 	// and set the internal tick callback to our own method "BulletInternalTickCallback"
-	m_dynamicsWorld->setInternalTickCallback(BulletInternalTickCallback);
+	m_dynamicsWorld->setInternalTickCallback(BulletInternalTickCallback, static_cast<void*>(this),false);
+	m_dynamicsWorld->setInternalTickCallback(BulletInternalPreTickCallback, static_cast<void*>(this), true);
 	m_dynamicsWorld->setWorldUserInfo(this);
 
 	return true;
@@ -247,21 +165,26 @@ void BulletPhysics::VOnUpdate(float const deltaSeconds)
 	//   in increments of the fixed timestep until "deltaSeconds" amount of time has
 	//   passed, but will only run a maximum of 4 steps this way.
 	m_dynamicsWorld->stepSimulation(deltaSeconds, 4);
+	//E_DEBUG("Physuic Update()");
+	
 
-	/*
-	//print positions of all objects
-	for (int j = m_dynamicsWorld->getNumCollisionObjects() - 1; j >= 0; j--)
-	{
-		btCollisionObject* obj = m_dynamicsWorld->getCollisionObjectArray()[j];
-		btRigidBody* body = btRigidBody::upcast(obj);
-		if (body && body->getMotionState())
-		{
-			btTransform trans;
-			body->getMotionState()->getWorldTransform(trans);
-			printf("world pos = %f,%f,%f\n", float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
-		}
-	}*/
+}
 
+void BulletPhysics::VPostStep(float timeStep)
+{
+
+
+	SendCollisionEvents();
+
+
+	IEvent* pEvent = new EvtData_PhysPostStep(timeStep);
+	gEventManager()->VTriggerEvent(pEvent);
+}
+
+void BulletPhysics::VPreStep(float timeStep)
+{
+	IEvent* pEvent = new EvtData_PhysPreStep(timeStep);
+	gEventManager()->VTriggerEvent(pEvent);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -273,40 +196,36 @@ void BulletPhysics::VSyncVisibleScene()
 
 	// check all the existing actor's bodies for changes. 
 	//  If there is a change, send the appropriate event for the game system.
-	for (ActorIDToBulletRigidBodyMap::const_iterator it = m_actorIdToRigidBody.begin();
-	it != m_actorIdToRigidBody.end();
-		++it)
+	for (ActorIDToRigidBodyMap::const_iterator it = m_actorIdToRigidBody.begin(); it != m_actorIdToRigidBody.end();	++it)
 	{
 		ActorId const id = it->first;
 
 		// get the MotionState.  this object is updated by Bullet.
 		// it's safe to cast the btMotionState to ActorMotionState, because all the bodies in m_actorIdToRigidBody
-		//   were created through AddShape()
-		ActorMotionState const * const actorMotionState = static_cast<ActorMotionState*>(it->second->getMotionState());
+		//   were created through AddShape()E
+		ActorMotionState const * const actorMotionState = static_cast<ActorMotionState*>(it->second->GetMotionState());
 		//GCC_ASSERT(actorMotionState);
-
-		/*
-		Actor* pGameActor = MakeStrongPtr(g_pApp->m_pGame->VGetActor(id));
-		if (pGameActor && actorMotionState)
+		Actor* pGameActor = 0;
+		RigidBodyComponent *pRb = FindBulletRigidBody(id);
+		pGameActor = pRb->GetOwner();
+		TransformComponent* pTransformComponent = pGameActor->GetComponent<TransformComponent>(TransformComponent::Name);
+		if (pTransformComponent)
 		{
-			TransformComponent* pTransformComponent = pGameActor->GetComponent<TransformComponent>(TransformComponent::Name);
-			if (pTransformComponent)
+			if (pTransformComponent->GetTransform() != actorMotionState->m_worldToPositionTransform)
 			{
-				if (pTransformComponent->GetTransform() != actorMotionState->m_worldToPositionTransform)
-				{
-					// Bullet has moved the actor's physics object.  Sync the transform and inform the game an actor has moved
-					pTransformComponent->SetTransform(actorMotionState->m_worldToPositionTransform);
-					//shared_ptr<EvtData_Move_Actor> pEvent(GCC_NEW EvtData_Move_Actor(id, actorMotionState->m_worldToPositionTransform));
-					//IEventManager::Get()->VQueueEvent(pEvent);
-				}
+				// Bullet has moved the actor's physics object.  Sync the transform and inform the game an actor has moved
+				pTransformComponent->SetTransform(actorMotionState->m_worldToPositionTransform);
+				//shared_ptr<EvtData_Move_Actor> pEvent(GCC_NEW EvtData_Move_Actor(id, actorMotionState->m_worldToPositionTransform));
+				//IEventManager::Get()->VQueueEvent(pEvent);
 			}
-		}*/
+		}
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // BulletPhysics::AddShape						
 //
+/*
 void BulletPhysics::AddShape(Actor* pGameActor, btCollisionShape* shape, float mass, const std::string& physicsMaterial)
 {
 	//GCC_ASSERT(pGameActor);
@@ -354,7 +273,13 @@ void BulletPhysics::AddShape(Actor* pGameActor, btCollisionShape* shape, float m
 	m_actorIdToRigidBody[actorID] = body;
 	m_rigidBodyToActorId[body] = actorID;
 }
-
+*/
+void BulletPhysics::AddRigidBody(ActorId id, RigidBodyComponent * rb)
+{
+	m_dynamicsWorld->addRigidBody(rb->GetRigidBody());
+	m_actorIdToRigidBody[id] = rb;
+	m_rigidBodyToActorId[rb] = id;
+}
 /////////////////////////////////////////////////////////////////////////////
 // BulletPhysics::RemoveCollisionObject			
 //
@@ -374,7 +299,7 @@ void BulletPhysics::RemoveCollisionObject(btCollisionObject * const removeMe)
 
 		if (it->first == removeMe || it->second == removeMe)
 		{
-			SendCollisionPairRemoveEvent(it->first, it->second);
+			//SendCollisionPairRemoveEvent(it->first, it->second);
 			m_previousTickCollisionPairs.erase(it);
 		}
 
@@ -385,10 +310,10 @@ void BulletPhysics::RemoveCollisionObject(btCollisionObject * const removeMe)
 	if (btRigidBody * const body = btRigidBody::upcast(removeMe))
 	{
 		// delete the components of the object
-		delete body->getMotionState();
-		delete body->getCollisionShape();
-		delete body->getUserPointer();
-		delete body->getUserPointer();
+		if(body->getMotionState()) delete body->getMotionState();
+		if(body->getCollisionShape()) delete body->getCollisionShape();
+		//delete body->getUserPointer();
+		//delete body->getUserPointer();
 
 		for (int ii = body->getNumConstraintRefs() - 1; ii >= 0; --ii)
 		{
@@ -405,9 +330,9 @@ void BulletPhysics::RemoveCollisionObject(btCollisionObject * const removeMe)
 // BulletPhysics::FindBulletRigidBody			
 //    Finds a Bullet rigid body given an actor ID
 //
-btRigidBody* BulletPhysics::FindBulletRigidBody(ActorId const id) const
+RigidBodyComponent* BulletPhysics::FindBulletRigidBody(ActorId const id) const
 {
-	ActorIDToBulletRigidBodyMap::const_iterator found = m_actorIdToRigidBody.find(id);
+	ActorIDToRigidBodyMap::const_iterator found = m_actorIdToRigidBody.find(id);
 	if (found != m_actorIdToRigidBody.end())
 		return found->second;
 
@@ -418,15 +343,17 @@ btRigidBody* BulletPhysics::FindBulletRigidBody(ActorId const id) const
 // BulletPhysics::FindActorID				- not described in the book
 //    Finds an Actor ID given a Bullet rigid body 
 //
-ActorId BulletPhysics::FindActorID(btRigidBody const * const body) const
+ActorId BulletPhysics::FindActorID(RigidBodyComponent const * const body) const
 {
-	BulletRigidBodyToActorIDMap::const_iterator found = m_rigidBodyToActorId.find(body);
+	RigidBodyToActorIDMap::const_iterator found = m_rigidBodyToActorId.find(body);
 	if (found != m_rigidBodyToActorId.end())
 		return found->second;
 
 	return ActorId();
 }
 
+
+/*
 /////////////////////////////////////////////////////////////////////////////
 // BulletPhysics::VAddSphere					- Chapter 17, page 599
 //
@@ -444,7 +371,7 @@ void BulletPhysics::VAddSphere(float const radius, Actor* pGameActor, const std:
 	float const volume = (4.f / 3.f) * glm::pi<float>()* radius * radius * radius;
 	btScalar const mass = volume * specificGravity;
 
-	AddShape(pGameActor, /*initialTransform,*/ collisionShape, mass, physicsMaterial);
+	AddShape(pGameActor, /*initialTransform, collisionShape, mass, physicsMaterial);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -464,13 +391,13 @@ void BulletPhysics::VAddBox(const vec3& dimensions, Actor* pGameActor, const std
 	float const volume = dimensions.x * dimensions.y * dimensions.z;
 	btScalar const mass = volume * specificGravity;
 
-	AddShape(pGameActor,/* initialTransform,*/ boxShape, mass, physicsMaterial);
+	AddShape(pGameActor,/* initialTransform, boxShape, mass, physicsMaterial);
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // BulletPhysics::VAddPointCloud				- Chapter 17, page 601
 //
-void BulletPhysics::VAddPointCloud(vec3 *verts, int numPoints, Actor* pGameActor, /*const Mat4x4& initialTransform,*/ const std::string& densityStr, const std::string& physicsMaterial)
+void BulletPhysics::VAddPointCloud(vec3 *verts, int numPoints, Actor* pGameActor, /*const Mat4x4& initialTransform, const std::string& densityStr, const std::string& physicsMaterial)
 {
 	//StrongActorPtr pStrongActor = MakeStrongPtr(pGameActor);
 	//if (!pStrongActor)
@@ -494,7 +421,7 @@ void BulletPhysics::VAddPointCloud(vec3 *verts, int numPoints, Actor* pGameActor
 
 	AddShape(pGameActor, shape, mass, physicsMaterial);
 }
-
+*/
 /////////////////////////////////////////////////////////////////////////////
 // BulletPhysics::VRemoveActor					
 //
@@ -502,15 +429,16 @@ void BulletPhysics::VAddPointCloud(vec3 *verts, int numPoints, Actor* pGameActor
 //
 void BulletPhysics::VRemoveActor(ActorId id)
 {
-	if (btRigidBody * const body = FindBulletRigidBody(id))
+	if (RigidBodyComponent * const body = FindBulletRigidBody(id))
 	{
 		// destroy the body and all its components
-		RemoveCollisionObject(body);
+		RemoveCollisionObject(body->GetRigidBody());
 		m_actorIdToRigidBody.erase(id);
 		m_rigidBodyToActorId.erase(body);
 	}
 }
 
+/*
 void BulletPhysics::VAddCharacter(const vec3 & dimensions, Actor * pGameActor)
 {
 	btBoxShape * const boxShape = new btBoxShape(Vec3_to_btVector3(dimensions));
@@ -543,7 +471,7 @@ void BulletPhysics::VAddCharacter(const vec3 & dimensions, Actor * pGameActor)
 
 	//btGeneric6DofSpringConstraint* joint = new btGeneric6DofSpringConstraint();
 }
-
+*/
 /////////////////////////////////////////////////////////////////////////////
 // BulletPhysics::VRenderDiagnostics			- Chapter 17, page 604
 //
@@ -557,7 +485,7 @@ void BulletPhysics::VRenderDiagnostics()
 //
 // FUTURE WORK: Mike create a trigger actor archetype that can be instantiated in the editor!!!!!
 //
-void BulletPhysics::VCreateTrigger(Actor* pGameActor, const vec3 &pos, const float dim)
+/*void BulletPhysics::VCreateTrigger(Actor* pGameActor, const vec3 &pos, const float dim)
 {
 	//StrongActorPtr pStrongActor = MakeStrongPtr(pGameActor);
 	//if (!pStrongActor)
@@ -591,15 +519,13 @@ void BulletPhysics::VCreateTrigger(Actor* pGameActor, const vec3 &pos, const flo
 //
 void BulletPhysics::VApplyForce(const vec3 &dir, float newtons, ActorId aid)
 {
-	if (btRigidBody * const body = FindBulletRigidBody(aid))
+	if (RigidBodyComponent * const body = FindBulletRigidBody(aid))
 	{
-		body->setActivationState(DISABLE_DEACTIVATION);
-
-		btVector3 const force(dir.x * newtons,
+		vec3 const force(dir.x * newtons,
 			dir.y * newtons,
 			dir.z * newtons);
 
-		body->applyCentralImpulse(force);
+		body->ApplyForce(force);
 	}
 }
 
@@ -608,15 +534,15 @@ void BulletPhysics::VApplyForce(const vec3 &dir, float newtons, ActorId aid)
 //
 void BulletPhysics::VApplyTorque(const vec3 &dir, float magnitude, ActorId aid)
 {
-	if (btRigidBody * const body = FindBulletRigidBody(aid))
+	if (RigidBodyComponent * const body = FindBulletRigidBody(aid))
 	{
-		body->setActivationState(DISABLE_DEACTIVATION);
+		//body->setActivationState(DISABLE_DEACTIVATION);
 
-		btVector3 const torque(dir.x * magnitude,
+		vec3 const torque(dir.x * magnitude,
 			dir.y * magnitude,
 			dir.z * magnitude);
 
-		body->applyTorqueImpulse(torque);
+		body->ApplyTorqueImpulse(torque);
 	}
 }
 
@@ -627,12 +553,11 @@ void BulletPhysics::VApplyTorque(const vec3 &dir, float magnitude, ActorId aid)
 //
 bool BulletPhysics::VKinematicMove(const mat4 &mat, ActorId aid)
 {
-	if (btRigidBody * const body = FindBulletRigidBody(aid))
+	if (RigidBodyComponent * const body = FindBulletRigidBody(aid))
 	{
-		body->setActivationState(DISABLE_DEACTIVATION);
 
 		// warp the body to the new position
-		body->setWorldTransform(Mat4x4_to_btTransform(mat));
+		//body->setWorldTransform(Mat4x4_to_btTransform(mat));
 		return true;
 	}
 
@@ -646,20 +571,20 @@ bool BulletPhysics::VKinematicMove(const mat4 &mat, ActorId aid)
 //
 mat4 BulletPhysics::VGetTransform(const ActorId id)
 {
-	btRigidBody * pRigidBody = FindBulletRigidBody(id);
+	RigidBodyComponent * pRigidBody = FindBulletRigidBody(id);
 	//GCC_ASSERT(pRigidBody);
 
-	const btTransform& actorTransform = pRigidBody->getCenterOfMassTransform();
+	const btTransform& actorTransform = pRigidBody->GetTransform();
 	return btTransform_to_Mat4x4(actorTransform);
 }
 
 void BulletPhysics::VClearForce(ActorId id)
 {
-	btRigidBody * pRigidBody = FindBulletRigidBody(id);
+	RigidBodyComponent * pRigidBody = FindBulletRigidBody(id);
 	//GCC_ASSERT(pRigidBody);
 	if (!pRigidBody)
 		return;
-	pRigidBody->clearForces();
+	pRigidBody->ResetForces();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -677,6 +602,7 @@ void BulletPhysics::VSetTransform(ActorId actorId, const mat4& mat)
 //
 //   A helper function used to turn objects to a new heading
 //
+/*
 void BulletPhysics::VRotateY(ActorId const actorId, float const deltaAngleRadians, float const time)
 {
 	btRigidBody * pRigidBody = FindBulletRigidBody(actorId);
@@ -792,7 +718,7 @@ void BulletPhysics::VTranslate(ActorId actorId, const vec3& vec)
 	pRigidBody->translate(btVec);
 }
 
-
+*/
 /////////////////////////////////////////////////////////////////////////////
 // BulletPhysics::BulletInternalTickCallback
 //
@@ -801,16 +727,33 @@ void BulletPhysics::VTranslate(ActorId actorId, const vec3& vec)
 //
 void BulletPhysics::BulletInternalTickCallback(btDynamicsWorld * const world, btScalar const timeStep)
 {
+	//E_DEBUG("BulletInternalTickCallback()");
 	assert(world);
 
 	assert(world->getWorldUserInfo());
 	BulletPhysics * const bulletPhysics = static_cast<BulletPhysics*>(world->getWorldUserInfo());
 
+	bulletPhysics->VPostStep(timeStep);
+
+}
+
+void BulletPhysics::BulletInternalPreTickCallback(btDynamicsWorld * const world, btScalar const timeStep)
+{
+	//E_DEBUG("BulletInternalPreTickCallback()");
+	assert(world);
+
+	assert(world->getWorldUserInfo());
+	BulletPhysics * const bulletPhysics = static_cast<BulletPhysics*>(world->getWorldUserInfo());
+	bulletPhysics->VPreStep(timeStep);
+}
+
+void BulletPhysics::SendCollisionEvents()
+{
 	CollisionPairs currentTickCollisionPairs;
 
 	// look at all existing contacts
-	btDispatcher * const dispatcher = world->getDispatcher();
-	for (int manifoldIdx = 0; manifoldIdx<dispatcher->getNumManifolds(); ++manifoldIdx)
+	btDispatcher * const dispatcher = m_dynamicsWorld->getDispatcher();
+	for (int manifoldIdx = 0; manifoldIdx < dispatcher->getNumManifolds(); ++manifoldIdx)
 	{
 		// get the "manifold", which is the set of data corresponding to a contact point
 		//   between two physics objects
@@ -833,63 +776,11 @@ void BulletPhysics::BulletInternalTickCallback(btDynamicsWorld * const world, bt
 		CollisionPair const thisPair = std::make_pair(sortedBodyA, sortedBodyB);
 		currentTickCollisionPairs.insert(thisPair);
 
-		if (bulletPhysics->m_previousTickCollisionPairs.find(thisPair) == bulletPhysics->m_previousTickCollisionPairs.end())
-		{
-			// this is a new contact, which wasn't in our list before.  send an event to the game.
-			bulletPhysics->SendCollisionPairAddEvent(manifold, body0, body1);
-		}
-	}
-
-	CollisionPairs removedCollisionPairs;
-
-	// use the STL set difference function to find collision pairs that existed during the previous tick but not any more
-	std::set_difference(bulletPhysics->m_previousTickCollisionPairs.begin(), bulletPhysics->m_previousTickCollisionPairs.end(),
-		currentTickCollisionPairs.begin(), currentTickCollisionPairs.end(),
-		std::inserter(removedCollisionPairs, removedCollisionPairs.begin()));
-
-	for (CollisionPairs::const_iterator it = removedCollisionPairs.begin(),
-		end = removedCollisionPairs.end(); it != end; ++it)
-	{
-		btRigidBody const * const body0 = it->first;
-		btRigidBody const * const body1 = it->second;
-
-		bulletPhysics->SendCollisionPairRemoveEvent(body0, body1);
-	}
-
-	// the current tick becomes the previous tick.  this is the way of all things.
-	bulletPhysics->m_previousTickCollisionPairs = currentTickCollisionPairs;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////
-void BulletPhysics::SendCollisionPairAddEvent(btPersistentManifold const * manifold, btRigidBody const * const body0, btRigidBody const * const body1)
-{
-	if (body0->getUserPointer() || body1->getUserPointer())
-	{
-		// only triggers have non-NULL userPointers
-
-		// figure out which actor is the trigger
-		btRigidBody const * triggerBody, *otherBody;
-
-		if (body0->getUserPointer())
-		{
-			triggerBody = body0;
-			otherBody = body1;
-		}
-		else
-		{
-			otherBody = body0;
-			triggerBody = body1;
-		}
-
-		// send the trigger event.
-		int const triggerId = *static_cast<int*>(triggerBody->getUserPointer());
-		EvtData_PhysTrigger_Enter* pEvent(new EvtData_PhysTrigger_Enter(triggerId, FindActorID(otherBody)));
-		gEventManager()->VQueueEvent(pEvent);
-	}
-	else
-	{
-		ActorId const id0 = FindActorID(body0);
-		ActorId const id1 = FindActorID(body1);
+		RigidBodyComponent* bodyC0 = static_cast<RigidBodyComponent*>(body0->getUserPointer());
+		RigidBodyComponent* bodyC1 = static_cast<RigidBodyComponent*>(body1->getUserPointer());
+		// this is a new contact, which wasn't in our list before.  send an event to the game.
+		ActorId const id0 = FindActorID(bodyC0);
+		ActorId const id1 = FindActorID(bodyC1);
 
 		if (id0 == 0 || id1 == 0)
 		{
@@ -912,40 +803,38 @@ void BulletPhysics::SendCollisionPairAddEvent(btPersistentManifold const * manif
 			sumFrictionForce += btVector3_to_Vec3(point.m_combinedFriction * point.m_lateralFrictionDir1);
 		}
 
+		if (m_previousTickCollisionPairs.find(thisPair) == m_previousTickCollisionPairs.end())
+		{
+			// this is new collision
+			// send the event for the game
+			EvtData_PhysCollisionStart* pEvent = new EvtData_PhysCollisionStart(id0, id1, sumNormalForce, sumFrictionForce, collisionPoints);
+			gEventManager()->VQueueEvent(pEvent);
+		}
+		
 		// send the event for the game
-		EvtData_PhysCollision* pEvent = new EvtData_PhysCollision(id0, id1, sumNormalForce, sumFrictionForce, collisionPoints);
+		EvtData_PhysOnCollision* pEvent = new EvtData_PhysOnCollision(id0, id1, sumNormalForce, sumFrictionForce, collisionPoints);
 		gEventManager()->VQueueEvent(pEvent);
+		
 	}
-}
 
-//////////////////////////////////////////////////////////////////////////////////////////
-void BulletPhysics::SendCollisionPairRemoveEvent(btRigidBody const * const body0, btRigidBody const * const body1)
-{
-	if (body0->getUserPointer() || body1->getUserPointer())
+	CollisionPairs removedCollisionPairs;
+
+	// use the STL set difference function to find collision pairs that existed during the previous tick but not any more
+	std::set_difference(m_previousTickCollisionPairs.begin(), m_previousTickCollisionPairs.end(),
+		currentTickCollisionPairs.begin(), currentTickCollisionPairs.end(),
+		std::inserter(removedCollisionPairs, removedCollisionPairs.begin()));
+
+	for (CollisionPairs::const_iterator it = removedCollisionPairs.begin(),
+		end = removedCollisionPairs.end(); it != end; ++it)
 	{
-		// figure out which actor is the trigger
-		btRigidBody const * triggerBody, *otherBody;
+		btRigidBody const * const body0 = it->first;
+		btRigidBody const * const body1 = it->second;
 
-		if (body0->getUserPointer())
-		{
-			triggerBody = body0;
-			otherBody = body1;
-		}
-		else
-		{
-			otherBody = body0;
-			triggerBody = body1;
-		}
+		RigidBodyComponent* bodyA = static_cast<RigidBodyComponent*>(body0->getUserPointer());
+		RigidBodyComponent* bodyB = static_cast<RigidBodyComponent*>(body1->getUserPointer());
 
-		// send the trigger event.
-		int const triggerId = *static_cast<int*>(triggerBody->getUserPointer());
-		EvtData_PhysTrigger_Leave* pEvent(new EvtData_PhysTrigger_Leave(triggerId, FindActorID(otherBody)));
-		gEventManager()->VQueueEvent(pEvent);
-	}
-	else
-	{
-		ActorId const id0 = FindActorID(body0);
-		ActorId const id1 = FindActorID(body1);
+		ActorId const id0 = FindActorID(bodyA);
+		ActorId const id1 = FindActorID(bodyB);
 
 		if (id0 == 0 || id1 == 0)
 		{
@@ -953,10 +842,14 @@ void BulletPhysics::SendCollisionPairRemoveEvent(btRigidBody const * const body0
 			return;
 		}
 
-		EvtData_PhysSeparation* pEvent(new EvtData_PhysSeparation(id0, id1));
+		EvtData_PhysCollisionEnd* pEvent(new EvtData_PhysCollisionEnd(id0, id1));
 		gEventManager()->VQueueEvent(pEvent);
 	}
+
+	// the current tick becomes the previous tick.  this is the way of all things.
+	m_previousTickCollisionPairs = currentTickCollisionPairs;
 }
+
 
 float BulletPhysics::LookupSpecificGravity(const std::string& densityStr)
 {

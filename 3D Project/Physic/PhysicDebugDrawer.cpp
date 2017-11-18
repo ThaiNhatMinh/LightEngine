@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 
 void BulletDebugDrawer::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)

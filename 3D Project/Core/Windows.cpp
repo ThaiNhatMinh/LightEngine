@@ -1,4 +1,4 @@
-#include "..\pch.h"
+#include "pch.h"
 
 
 
@@ -44,42 +44,54 @@ bool Windows::InitWindow()
 		return false;
 	}
 	
+	
 	glfwMakeContextCurrent(window);
 	//glfwSwapInterval(1);
 	glfwSetCursorPos(window, m_iWidth / 2, m_iHeight / 2);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glewExperimental = GL_TRUE;
-	// Initialize GLEW to setup the OpenGL Function pointers
-	GLenum err = glewInit();
-	if (err != GLEW_OK) {
-		// Problem: glewInit failed, something is seriously wrong.
-		string Error = string("glewInit failed: ");
-		E_ERROR(Error);
-		return false;
-	}
-	// Define the viewport dimensions
-	glViewport(0, 0, m_iWidth, m_iHeight);
-	glEnable(GL_DEPTH_TEST);
-	//glDepthFunc(GL_LESS);
-
-	//glFrontFace(GL_CW);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	
+	
 	//glfwSetKeyCallback(window, key_callback);
 	//glfwSetCursorPosCallback(window, mouse_callback);
 	//glfwSetScrollCallback(window, scroll_callback);
 	//glfwSetMouseButtonCallback(window, mouse_button_callback);
 	m_pWindow = window;
+
+	HideWindows();
 	
 	return true;
-	
 }
 
 void Windows::SetSize(int W, int H)
 {
-	glfwSetWindowSize(m_pWindow, W, H);
 	m_iWidth = W;
 	m_iHeight = H;
+	if (m_pWindow) glfwSetWindowSize(m_pWindow, W, H);
+}
+
+void Windows::SetPos(vec2 pos)
+{
+	m_Pos = pos;
+	if (pos.x == -1 || pos.y == -1)
+	{
+		m_Pos.x = m_iScreenWidth / 2 - m_iWidth / 2;
+		m_Pos.y = m_iScreenHeight / 2 - m_iHeight / 2;
+	}
+
+
+	if(m_pWindow) glfwSetWindowPos(m_pWindow, m_Pos.x, m_Pos.y);
+	
+}
+
+void Windows::ShowWindows()
+{
+	glfwShowWindow(m_pWindow);
+}
+
+void Windows::HideWindows()
+{
+	glfwHideWindow(m_pWindow);
 }
 
 void Windows::EnableFullScreen(bool enable)

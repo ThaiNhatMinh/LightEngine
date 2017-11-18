@@ -6,17 +6,6 @@
 typedef unsigned int ActorId;
 typedef unsigned int ComponentId;
 
-
-enum ShapeType
-{
-	CUBE,
-	SPHERE,
-	CAPSULE,
-	CYLINDER
-};
-
-const char ShapeName[][MAX_NAME] = { "Cube","Sphere","Capsule","Cylinder" };
-
 class Scene;
 class Actor;
 class SceneNode;
@@ -106,36 +95,38 @@ public:
 	virtual bool VInitialize() = 0;
 	virtual void VSyncVisibleScene() = 0;
 	virtual void VOnUpdate(float deltaSeconds) = 0;
+	virtual void VPreStep(float timeStep) = 0;
+	virtual void VPostStep(float timeStep) = 0;
 
 	// Initialization of Physics Objects
-	virtual void VAddSphere(float radius, Actor* actor, /*const Mat4x4& initialTransform, */const std::string& densityStr, const std::string& physicsMaterial) = 0;
-	virtual void VAddBox(const vec3& dimensions, Actor* gameActor, /*const Mat4x4& initialTransform, */ const std::string& densityStr, const std::string& physicsMaterial) = 0;
-	virtual void VAddPointCloud(vec3 *verts, int numPoints, Actor* gameActor, /*const Mat4x4& initialTransform, */ const std::string& densityStr, const std::string& physicsMaterial) = 0;
+	//virtual void VAddSphere(float radius, Actor* actor, /*const Mat4x4& initialTransform, */const std::string& densityStr, const std::string& physicsMaterial) = 0;
+	//virtual void VAddBox(const vec3& dimensions, Actor* gameActor, /*const Mat4x4& initialTransform, */ const std::string& densityStr, const std::string& physicsMaterial) = 0;
+	//virtual void VAddPointCloud(vec3 *verts, int numPoints, Actor* gameActor, /*const Mat4x4& initialTransform, */ const std::string& densityStr, const std::string& physicsMaterial) = 0;
 	virtual void VRemoveActor(ActorId id) = 0;
-	virtual void VAddCharacter(const vec3& dimensions, Actor* gameActor) = 0;
+	//virtual void VAddCharacter(const vec3& dimensions, Actor* gameActor) = 0;
 	// Debugging
 	virtual void VRenderDiagnostics() = 0;
 
 	// Physics world modifiers
-	virtual void VCreateTrigger(Actor* pGameActor, const vec3 &pos, const float dim) = 0;
-	virtual void VApplyForce(const vec3 &dir, float newtons, ActorId aid) = 0;
-	virtual void VApplyTorque(const vec3 &dir, float newtons, ActorId aid) = 0;
-	virtual bool VKinematicMove(const mat4 &mat, ActorId aid) = 0;
+	//virtual void VCreateTrigger(Actor* pGameActor, const vec3 &pos, const float dim) = 0;
+	//virtual void VApplyForce(const vec3 &dir, float newtons, ActorId aid) = 0;
+	//virtual void VApplyTorque(const vec3 &dir, float newtons, ActorId aid) = 0;
+	//virtual bool VKinematicMove(const mat4 &mat, ActorId aid) = 0;
 
 	// Physics actor states
-	virtual void VRotateY(ActorId actorId, float angleRadians, float time) = 0;
-	virtual float VGetOrientationY(ActorId actorId) = 0;
-	virtual void VStopActor(ActorId actorId) = 0;
-	virtual vec3 VGetVelocity(ActorId actorId) = 0;
-	virtual void VSetVelocity(ActorId actorId, const vec3& vel) = 0;
-	virtual vec3 VGetAngularVelocity(ActorId actorId) = 0;
-	virtual void VSetAngularVelocity(ActorId actorId, const vec3& vel) = 0;
-	virtual void VTranslate(ActorId actorId, const vec3& vec) = 0;
+	//virtual void VRotateY(ActorId actorId, float angleRadians, float time) = 0;
+	//virtual float VGetOrientationY(ActorId actorId) = 0;
+	//virtual void VStopActor(ActorId actorId) = 0;
+	//virtual vec3 VGetVelocity(ActorId actorId) = 0;
+	//virtual void VSetVelocity(ActorId actorId, const vec3& vel) = 0;
+	//virtual vec3 VGetAngularVelocity(ActorId actorId) = 0;
+	//virtual void VSetAngularVelocity(ActorId actorId, const vec3& vel) = 0;
+	//virtual void VTranslate(ActorId actorId, const vec3& vec) = 0;
 
-	virtual void VSetTransform(const ActorId id, const mat4& mat) = 0;
-	virtual mat4 VGetTransform(const ActorId id) = 0;
+	////virtual void VSetTransform(const ActorId id, const mat4& mat) = 0;
+	//virtual mat4 VGetTransform(const ActorId id) = 0;
 
-	virtual void VClearForce(ActorId id) = 0;
+	//virtual void VClearForce(ActorId id) = 0;
 	virtual ~IGamePhysics() { };
 };
 

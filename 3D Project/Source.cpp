@@ -1,5 +1,5 @@
 #include "pch.h"
-#include <glm\gtx\matrix_decompose.hpp>
+
 void main()
 {
 	
@@ -8,6 +8,12 @@ void main()
 #endif
 
 	
+
+	char pwd[MAX_PATH];
+	GetCurrentDirectory(MAX_PATH, pwd);
+	std::string str(pwd);
+
+	File::SetExecDir(str.c_str());
 
 	CoreApplication::startUp();
 	

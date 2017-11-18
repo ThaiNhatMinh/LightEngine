@@ -4,7 +4,7 @@
 //
 // Part of the GameCode4 Application
 //
-#include "..\pch.h"
+#include "pch.h"
 
 
 

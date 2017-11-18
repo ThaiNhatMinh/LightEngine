@@ -1,13 +1,16 @@
 <Actor type="Cube" name="Ground" shader="NoTexture">
+	<ColliderComponent>
+		<Shape>Box</Shape>
+		<HalfSize x="200" y="1" z="200" />
+	</ColliderComponent>
 	
-	<PhysicsComponent>
-        <Shape>Box</Shape>
-        <Density>Infinite</Density>
-        <PhysicsMaterial>Normal</PhysicsMaterial>
-        <RigidBodyTransform>
-			<Scale x="50.0" y="1.0" z="50.0"/>
+	<RigidBodyComponent>
+		<Mass value="0.0" />
+		<PhysicsMaterial>Normal</PhysicsMaterial>
+		<RigidBodyTransform>
+			<Position x="0.0" y="0.0" z="0.0"/>
 		</RigidBodyTransform>
-  </PhysicsComponent>
+	</RigidBodyComponent>
 	
 	<TransformComponent>
 		<Position x="0" y="0" z="0"/>
@@ -16,7 +19,7 @@
 	
 	<MeshRenderComponent>
 		<Model Shape="Cube" />
-		<Scale x="50.0" y="1.0" z="50.0"/>
+		<Scale x="200.0" y="1.0" z="200.0"/>
     <Color r ="1.0" g="1.0" b="1.0" />
 	</MeshRenderComponent>
 	

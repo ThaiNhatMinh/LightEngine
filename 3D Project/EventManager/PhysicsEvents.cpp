@@ -7,12 +7,8 @@
 // {FA8D43FB-6DC7-4B0B-8533-A77BF867DD14}
 const EventType EvtData_PhysTrigger_Enter::sk_EventType(0xc74b2e59);
 const EventType EvtData_PhysTrigger_Leave::sk_EventType(0xC879C281);
-const EventType EvtData_PhysCollision::sk_EventType(0xDEC84258);
-const EventType EvtData_PhysSeparation::sk_EventType(0xFA8D43FB);
-
-void EvtData_PhysCollision::VBuildEventData(void)
-{
-	m_eventData.AssignNewTable(gLuaState()->GetLuaState());
-	m_eventData.SetInteger("actorA", m_ActorA);
-	m_eventData.SetInteger("actorB", m_ActorB);
-}
+const EventType EvtData_PhysCollisionStart::sk_EventType(0xDEC84258);
+const EventType EvtData_PhysOnCollision::sk_EventType(0x14805649);
+const EventType EvtData_PhysCollisionEnd::sk_EventType(0xFA8D43FB);
+const EventType EvtData_PhysPostStep::sk_EventType(0xb50408d8);
+const EventType EvtData_PhysPreStep::sk_EventType(0x942d64cb);

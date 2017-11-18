@@ -1,7 +1,7 @@
 #pragma once
 #pragma once
 
-#include "..\pch.h"
+#include "pch.h"
 
 // Shader with texture and lighting
 class SkeShader : public Shader
