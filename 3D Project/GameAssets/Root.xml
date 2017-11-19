@@ -1,4 +1,4 @@
-<Actor type="Root" name="Root Scene" shader="Debug">
+<Actor type="Root" name="Root Scene">
 
 	<TransformComponent>
 		<Position x="0" y="0" z="0"/>

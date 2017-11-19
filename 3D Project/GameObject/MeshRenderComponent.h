@@ -8,6 +8,7 @@ class MeshRenderComponent : public ActorComponent
 private:
 	vector<IMesh*>			m_MeshList;
 	Material				m_Material;
+	Shader					*m_pShader;
 public:
 	static const char* Name;
 	virtual const char* VGetName() const { return Name; }

@@ -42,12 +42,12 @@ void CoreApplication::SetupSubmodule()
 	*/
 	
 
-	//Actor* p1 = factory.CreateActor("GameAssets\\Player.xml", nullptr,nullptr);
+	Actor* p1 = factory.CreateActor("GameAssets\\Player.xml", nullptr,nullptr);
 	Actor* p2 = factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
 	Actor* p3 = factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
 	Actor* p4 = factory.CreateActor("GameAssets\\Camera.xml", nullptr, nullptr);
 
-	//m_pScene->GetRoot()->VAddChild(p1);
+	m_pScene->GetRoot()->VAddChild(p1);
 	m_pScene->GetRoot()->VAddChild(p2);
 	m_pScene->GetRoot()->VAddChild(p3);
 	m_pScene->GetRoot()->VAddChild(p4);
@@ -116,7 +116,7 @@ void CoreApplication::MainLoop()
 
 		gPhysic()->VOnUpdate(gTimer()->GetDeltaTime());
 		gPhysic()->VSyncVisibleScene();
-		cout << gTimer()->GetFPS() << endl;
+		//cout << gTimer()->GetFPS() << endl;
 		
 		//gPhysic()->VRenderDiagnostics();
 		

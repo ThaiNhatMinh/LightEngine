@@ -14,7 +14,6 @@ public:
 protected:
 	ActorList				m_Children;
 	Actor*					m_pParent;
-	Shader*					m_pShader;
 	string					m_Name;
 	string					m_Tag;
 
@@ -35,9 +34,6 @@ public:
 	virtual void VSetTransform(const mat4 *toWorld);
 	virtual mat4 VGetTransform();
 	virtual mat4 VGetGlobalTransform();
-	virtual Shader* VGetShader() ;
-	virtual void VSetShader(Shader* p) ;
-	virtual void VSetShader(const char *pName);
 	virtual HRESULT VOnUpdate(Scene *, float elapsedMs);
 
 	virtual HRESULT VPreRender(Scene *pScene);

@@ -1,6 +1,6 @@
 #include "pch.h"
 
-Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr), m_pShader(nullptr)
+Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr)
 {
 
 }
@@ -24,14 +24,7 @@ bool Actor::Init(tinyxml2::XMLElement * pData)
 {
 	const char* tag = pData->Attribute("type");
 	const char* name = pData->Attribute("name");
-	const char* shaderName = pData->Attribute("shader");
 
-	if (shaderName !="")
-	{
-		m_pShader = gResources()->GetShader(shaderName);
-		if (m_pShader == nullptr)
-			E_ERROR("Can not find shader name: " + string(shaderName));
-	}
 
 	m_Tag = tag;
 	m_Name = name;
@@ -91,21 +84,6 @@ mat4 Actor::VGetGlobalTransform()
 		transform = transform*m_pParent->VGetGlobalTransform();
 
 	return transform;
-}
-
-Shader * Actor::VGetShader()
-{
-	return m_pShader;
-}
-
-void Actor::VSetShader(Shader * p)
-{
-	m_pShader = p;
-}
-
-void Actor::VSetShader(const char *pName)
-{
-	m_pShader = gResources()->GetShader(pName);;
 }
 
 HRESULT Actor::VPreRender(Scene * pScene)

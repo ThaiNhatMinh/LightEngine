@@ -1,4 +1,4 @@
-<Actor type="None" name="Camera" shader="">
+<Actor type="None" name="Camera" >
   <TransformComponent>
     <Position x="0" y="10" z="10"/>
     <YawPitchRoll x="0" y="0" z="0"/>

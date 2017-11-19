@@ -49,10 +49,6 @@ public:
 
 	virtual void VSetName(string name) = 0;
 	virtual string VGetName() = 0;
-
-	virtual Shader* VGetShader() = 0;
-	virtual void VSetShader(Shader* p) = 0;
-	virtual void VSetShader(const char* pName) = 0;
 	virtual void VSetTransform(const mat4 *toWorld) = 0;
 
 	// return transform with parent

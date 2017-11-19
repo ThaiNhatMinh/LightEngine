@@ -4,10 +4,9 @@ const char* MeshRenderComponent::Name = "MeshRenderComponent";
 
 void MeshRenderComponent::VPostInit(void)
 {
-	Shader* p = m_pOwner->VGetShader();
 	for (vector<IMesh*>::iterator it = m_MeshList.begin(); it != m_MeshList.end(); it++)
 	{
-		(*it)->Finalize(p);
+		(*it)->Finalize(m_pShader);
 	}
 }
 
@@ -56,7 +55,14 @@ bool MeshRenderComponent::VInit(tinyxml2::XMLElement * pData)
 			m_MeshList[i]->Scale(scale);
 		}
 	}
-	
+
+	tinyxml2::XMLElement* pShader = pData->FirstChildElement("Shader");
+	if (pShader)
+	{
+		m_pShader = gResources()->GetShader(pShader->Attribute("name"));
+		if (m_pShader == nullptr)
+			E_ERROR("Can not find shader name: " + string(pShader->Attribute("name")));
+	}
 	return true;
 
 }
@@ -70,16 +76,15 @@ tinyxml2::XMLElement * MeshRenderComponent::VGenerateXml(tinyxml2::XMLDocument *
 
 void MeshRenderComponent::Render(Scene* pScene)
 {
-	Shader* p = m_pOwner->VGetShader();
 
-	p->SetupRender(pScene, m_pOwner);
+	m_pShader->SetupRender(pScene, m_pOwner);
 
 	RenderAPICore* pRender = pScene->GetRenderer();
 
 	for (size_t i = 0; i < m_MeshList.size(); i++)
 	{
 		if (m_MeshList[i]->Tex) pRender->SetTexture(m_MeshList[i]->Tex);
-		else p->SetUniform("ObjColor", m_MeshList[i]->Color);
+		else m_pShader->SetUniform("ObjColor", m_MeshList[i]->Color);
 
 		pRender->SetVertexArrayBuffer(m_MeshList[i]->VAO);
 		pRender->SetDrawMode(m_MeshList[i]->Topology);
