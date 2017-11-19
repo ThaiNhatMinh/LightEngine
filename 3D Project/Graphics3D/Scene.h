@@ -2,19 +2,22 @@
 #include "pch.h"
 #include "RenderAPI.h"
 
+#include "Core\Camera.h"
 class Scene
 {
 private:
 	// Simple Object with only transform component
 	// This store every thing in scene
-	Actor*			m_pRoot;
+	Actor*				m_pRoot;
 
-	Camera			m_DefaultCamera;
+	Camera				m_DefaultCamera;
 	
-	Light			m_DirectionLight; // only one direction light
-	CameraComponent *m_CurrentCamera;
+	Light				m_DirectionLight; // only one direction light
+	CameraComponent		*m_CurrentCamera;
 
-	RenderAPICore* m_pRenderer;
+	RenderAPICore*		m_pRenderer;
+	Debug				m_Debug;
+	ActorFactory		m_ActorFactory;
 public:
 	Scene(RenderAPICore* pRender);
 	~Scene();
@@ -34,6 +37,7 @@ public:
 	Light GetDirLight() { return m_DirectionLight; };
 	void SetCamera(CameraComponent* pActor);
 	mat4 GetViewProj();
-
+	const Debug& GetDebug() { return m_Debug; }
+	ActorFactory& GetActorFactory() { return m_ActorFactory; }
 	RenderAPICore* GetRenderer() { return m_pRenderer; }
 };

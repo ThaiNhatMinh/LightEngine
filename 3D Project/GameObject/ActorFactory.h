@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 
-class ActorFactory: public Singleton<ActorFactory>
+class ActorFactory
 {
 	ActorId m_lastActorId;
 
@@ -10,7 +10,7 @@ protected:
 	std::map<std::string, std::function<ActorComponent*()>> m_ComponentFactory;
 
 public:
-	void onStartUp();
+	ActorFactory(Scene* pScene);
 
 	// Create Actor from file
 	Actor* CreateActor(const char* actorResource, tinyxml2::XMLElement* overrides, const mat4* initialTransform);
@@ -26,5 +26,3 @@ public:
 private:
 	ActorId GetNextActorId(void) { ++m_lastActorId; return m_lastActorId; }
 };
-
-ActorFactory* gActorFactory();

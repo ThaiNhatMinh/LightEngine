@@ -12,6 +12,7 @@ class SceneNode;
 class Mesh;
 class Windows;
 class ScriptEvent;
+class Debug;
 struct Texture;
 
 
@@ -218,3 +219,15 @@ public:
 	virtual void VExecuteFile(const char* resource) = 0;
 	virtual void VExecuteString(const char* str) = 0;
 };
+
+class IApplication
+{
+
+public:
+	virtual void Setup() {};
+	virtual void Start() {};
+	virtual const Debug& GetDebug()=0;
+	virtual void MainLoop() = 0;
+	virtual ~IApplication() {};
+};
+extern IApplication* APP;

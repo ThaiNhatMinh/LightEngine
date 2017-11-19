@@ -15,6 +15,7 @@ void Camera::UpdateVector()
 	m_Front = glm::normalize(front);
 	m_Right = glm::normalize(glm::cross(m_Front, WorldUp));
 	m_Up = glm::normalize(glm::cross(m_Right, m_Front));
+	m_Frustum.Update(m_Position, m_Front, m_Right);
 
 	
 }
@@ -27,7 +28,7 @@ Camera::Camera()
 	m_Speed = 50.0f;
 	m_Pitch = 0;
 	m_Yaw = -90;
-	m_Frustum = Frustum(45.0f, 4.0 / 3.0f, 1.0, 500.0f);
+	m_Frustum = Frustum(45.0f, 4.0 / 3.0f, 1.0, 1000.0f);
 	MouseSensitivity = 0.25;
 	UpdateVector();
 }
@@ -82,6 +83,10 @@ mat4 Camera::GetViewMatrix()
 mat4 Camera::GetProjMatrix()
 {
 	return m_Frustum.GetProjMatrix();
+}
+mat4 Camera::GetVPMatrix()
+{
+	return GetViewMatrix()*m_Frustum.GetProjMatrix();
 }
 /*
 void Camera::SetCameraActor(Actor * p)

@@ -1,12 +1,11 @@
 #include "pch.h"
 #include "..\Graphics3D\OpenGLRenderer.h"
 
-void CoreApplication::onStartUp()
+void CoreApplication::SetupSubmodule()
 {
 	E_DEBUG("Application StartUp...");
 	// Event Manager must be startup first
 	EventManager::startUp();
-	ActorFactory::startUp();
 
 	GameTimer::startUp();
 	Resources::startUp();
@@ -28,11 +27,11 @@ void CoreApplication::onStartUp()
 	
 	
 	m_pScene = new Scene(pRender);
-
+	ActorFactory& factory = m_pScene->GetActorFactory();
 	
 	
 	
-	Debug::startUp(m_pScene);
+	
 
 	/*
 	No longer need this. Delete it if you want
@@ -43,11 +42,11 @@ void CoreApplication::onStartUp()
 	*/
 	
 
-	Actor* p1 = gActorFactory()->CreateActor("GameAssets\\player_teapot.xml", nullptr,nullptr);
-	Actor* p2 = gActorFactory()->CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
-	Actor* p3 = gActorFactory()->CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
+	//Actor* p1 = factory.CreateActor("GameAssets\\Player.xml", nullptr,nullptr);
+	Actor* p2 = factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
+	Actor* p3 = factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
 	//cam->SetCameraActor(p3);
-	m_pScene->GetRoot()->VAddChild(p1);
+	//m_pScene->GetRoot()->VAddChild(p1);
 	m_pScene->GetRoot()->VAddChild(p2);
 	m_pScene->GetRoot()->VAddChild(p3);
 	//gResources()->LoadModelXML("GameAssets\\MODEL\\707.xml");
@@ -57,7 +56,7 @@ void CoreApplication::onStartUp()
 
 }
 
-void CoreApplication::onShutDown()
+CoreApplication::~CoreApplication()
 {
 	E_DEBUG("Application ShutDown...");
 
@@ -65,7 +64,6 @@ void CoreApplication::onShutDown()
 	delete m_pScene;
 	
 	DirectInput::shutDown();
-	ActorFactory::shutDown();
 	GameTimer::shutDown();
 	Resources::shutDown();
 
@@ -73,18 +71,21 @@ void CoreApplication::onShutDown()
 	//LuaStateManager::shutDown();
 	BulletPhysics::shutDown();
 	EventManager::shutDown();
-	Debug::shutDown();
 	
-	//delete m_pWindow;
 }
 
-void CoreApplication::SetGameLogic(BaseGameLogic * pGameLogic)
+
+const Debug & CoreApplication::GetDebug()
 {
-	m_pGameLogic = pGameLogic;
+	// TODO: insert return statement here
+	return m_pScene->GetDebug();
 }
 
-bool CoreApplication::MainLoop()
+void CoreApplication::MainLoop()
 {
+	Setup();
+	SetupSubmodule();
+	Start();
 
 	m_bRunMainLoop = true;
 	// PROBLEM: How every thing update ?
@@ -130,5 +131,4 @@ bool CoreApplication::MainLoop()
 
 	}
 
-	return false;
 }

@@ -17,7 +17,7 @@ Line::Line()
 
 }
 
-void Line::Draw(const vec3 & from, const vec3 & to)
+void Line::Draw(const vec3 & from, const vec3 & to)const
 {
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);

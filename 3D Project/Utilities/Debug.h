@@ -1,21 +1,16 @@
 #pragma once
 #include "pch.h"
+#include "Utilities\PrimitiveShape\Line.h"
 
 class Line;
-class Debug : public Singleton<Debug>
+class Debug
 {
 private:
-	Line* m_Line;
+	Line m_Line;
 	Scene* m_pScene;
 public:
 	Debug(Scene* pScene);
 	~Debug();
-	virtual void onStartUp() override;
-	virtual void onShutDown()override;
 
-
-	void DrawLine(const vec3& from, const vec3& to, const vec3& color);
+	void DrawLine(const vec3& from, const vec3& to, const vec3& color)const;
 };
-
-
-Debug* gDebug();

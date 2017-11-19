@@ -155,7 +155,8 @@ void BulletDebugDrawer::drawLine(const btVector3& from, const btVector3& to, con
 	//Color color = D3DCOLOR_XRGB(BYTE(255 * lineColor.x()), BYTE(255 * lineColor.y()), BYTE(255 * lineColor.z()));
 
 	//pRenderer->VDrawLine(vec3From, vec3To, color);
-	gDebug()->DrawLine(vec3From, vec3To, color);
+	const Debug& debug = APP->GetDebug();
+	debug.DrawLine(vec3From, vec3To, color);
 }
 
 

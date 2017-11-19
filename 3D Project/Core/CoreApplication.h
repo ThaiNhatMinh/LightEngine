@@ -2,21 +2,19 @@
 #include "pch.h"
 #include "..\GameLogic\BaseGameLogic.h"
 
-class CoreApplication : public Singleton<CoreApplication>
+class CoreApplication : public IApplication
 {
 public:
+	CoreApplication() {};
+	~CoreApplication();
+	virtual void Setup() {};
+	virtual void Start() {};
 
-	virtual void onStartUp();
-	virtual void onShutDown();
-
-	// This only set one when everything begin
-	virtual void SetGameLogic(BaseGameLogic* pGameLogic);
+	const Debug& GetDebug();
 	
-	bool MainLoop();
+	void MainLoop();
 private:
 	bool m_bRunMainLoop;
-
-	BaseGameLogic* m_pGameLogic;
-	//Actor *p2,*p3;
+	void SetupSubmodule();
 	Scene* m_pScene;
 };

@@ -1,6 +1,6 @@
 #include "pch.h"
 
-void ActorFactory::onStartUp(void)
+ActorFactory::ActorFactory(Scene* pScene)
 {
 	m_lastActorId = 1;
 
@@ -19,7 +19,12 @@ void ActorFactory::onStartUp(void)
 	m_ComponentFactory.insert(std::make_pair(ColliderComponent::Name, []() { return new ColliderComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(RigidBodyComponent::Name, []() { return new RigidBodyComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(AnimationComponent::Name, []() { return new AnimationComponent(); }));
-	m_ComponentFactory.insert(std::make_pair(CameraComponent::Name, []() { return new CameraComponent(); }));
+	m_ComponentFactory.insert(std::make_pair(CharacterControllerComponent::Name, []() { return new CharacterControllerComponent(); }));
+	m_ComponentFactory.insert(std::make_pair(CameraComponent::Name, [pScene]()
+		{ 
+			auto a = new CameraComponent();
+			pScene->SetCamera(a);
+			return a; }));
 	
 	
 }
@@ -107,7 +112,8 @@ void ActorFactory::ModifyActor(Actor * pActor, tinyxml2::XMLElement * overrides)
 ActorComponent * ActorFactory::VCreateComponent(tinyxml2::XMLElement * pData)
 {
 	const char* name = pData->Value();
-	ActorComponent* pComponent(m_componentFactory.Create(ActorComponent::GetIdFromName(name)));
+	auto factory = m_ComponentFactory.find(name);
+	ActorComponent* pComponent(factory->second());
 	// initialize the component if we found one
 	if (pComponent)
 	{
@@ -129,7 +135,3 @@ ActorComponent * ActorFactory::VCreateComponent(tinyxml2::XMLElement * pData)
 	return pComponent;
 }
 
-ActorFactory * gActorFactory()
-{
-	return ActorFactory::InstancePtr();
-}

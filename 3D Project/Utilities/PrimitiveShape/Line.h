@@ -10,5 +10,5 @@ private:
 public:
 	Line();
 	~Line() {};
-	void Draw(const vec3& from, const vec3& to);
+	void Draw(const vec3& from, const vec3& to)const;
 };

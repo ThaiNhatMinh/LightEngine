@@ -8,27 +8,14 @@ Debug::~Debug()
 {
 }
 
-void Debug::onStartUp()
-{
-	m_Line = new Line;
-}
 
-void Debug::onShutDown()
-{
-	delete m_Line;
-}
 
-void Debug::DrawLine(const vec3 & from, const vec3 & to, const vec3 & color)
+void Debug::DrawLine(const vec3 & from, const vec3 & to, const vec3 & color)const
 {
 	Shader* pShader = gResources()->GetShader("Debug");
 	pShader->Use();
 	pShader->SetUniform("color", color);
 	pShader->SetUniformMatrix("MVP", glm::value_ptr(m_pScene->GetViewProj()));
 
-	m_Line->Draw(from, to);
-}
-
-Debug * gDebug()
-{
-	return Debug::InstancePtr();
+	m_Line.Draw(from, to);
 }

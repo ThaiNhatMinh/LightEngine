@@ -31,7 +31,7 @@ public:
 	//virtual void OnMouse(float dx, float dy);
 	mat4 GetViewMatrix();
 	mat4 GetProjMatrix();
-
+	mat4 GetVPMatrix();
 	inline void SetSpeed(float speed) { m_Speed = speed; };
 	inline vec3 GetFront() { return m_Front; };
 	inline const vec3 GetPosition()const { return m_Position; };

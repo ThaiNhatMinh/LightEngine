@@ -1,5 +1,7 @@
 #include "pch.h"
 
+IApplication* APP;
+
 void main()
 {
 	
@@ -15,9 +17,9 @@ void main()
 
 	File::SetExecDir(str.c_str());
 
-	CoreApplication::startUp();
-	
-	CoreApplication::InstancePtr()->MainLoop();
-	CoreApplication::shutDown();
+	CoreApplication app;
+	APP = &app;
+	app.MainLoop();
+
 
 }
