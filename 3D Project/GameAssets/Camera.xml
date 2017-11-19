@@ -1,0 +1,13 @@
+<Actor type="None" name="Camera" shader="">
+  <TransformComponent>
+    <Position x="0" y="10" z="10"/>
+    <YawPitchRoll x="0" y="0" z="0"/>
+  </TransformComponent>
+
+  <LogicComponent>
+    
+  </LogicComponent>
+  <CameraComponent>
+    <Frustum fov="52.0" aspect ="-1.0" nplane ="1.0" fplan="1000.0" />
+  </CameraComponent>
+</Actor>

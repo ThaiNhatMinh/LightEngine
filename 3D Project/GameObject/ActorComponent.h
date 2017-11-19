@@ -16,10 +16,10 @@ public:
 	virtual void VOnChanged(void) { }				
 													// for the editor
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) = 0;
+	virtual const char *VGetName() const = 0;
 	virtual Actor* GetOwner() { return m_pOwner; }
 	// This function should be overridden by the interface class.
 	virtual ComponentId VGetId(void) const { return GetIdFromName(VGetName()); }
-	virtual const char *VGetName() const = 0;
 	static ComponentId GetIdFromName(const char* componentStr)
 	{
 		void* rawId = HashedString::hash_name(componentStr);

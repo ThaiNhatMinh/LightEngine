@@ -26,14 +26,16 @@ bool Actor::Init(tinyxml2::XMLElement * pData)
 	const char* name = pData->Attribute("name");
 	const char* shaderName = pData->Attribute("shader");
 
-	m_pShader = gResources()->GetShader(shaderName);
-	if (m_pShader == nullptr)
-		E_ERROR("Can not find shader name: " + string(shaderName));
+	if (shaderName !="")
+	{
+		m_pShader = gResources()->GetShader(shaderName);
+		if (m_pShader == nullptr)
+			E_ERROR("Can not find shader name: " + string(shaderName));
+	}
+
 	m_Tag = tag;
 	m_Name = name;
 
-	//
-	PostInit();
 	return 1;
 }
 
@@ -119,7 +121,7 @@ void Actor::AddComponent(ActorComponent * pComponent)
 
 HRESULT Actor::VRender(Scene * pScene)
 {
-	m_pShader->SetupRender(pScene, this);
+	//m_pShader->SetupRender(pScene, this);
 
 	// this only using on derived class of Actor. This only a test for Component Archir
 	MeshRenderComponent* mrc = GetComponent<MeshRenderComponent>("MeshRenderComponent");

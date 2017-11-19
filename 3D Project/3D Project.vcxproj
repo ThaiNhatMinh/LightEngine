@@ -170,6 +170,7 @@
     <ClInclude Include="GameObject\CameraComponent.h" />
     <ClInclude Include="GameObject\CharacterControllerComponent.h" />
     <ClInclude Include="GameObject\ColliderComponent.h" />
+    <ClInclude Include="GameObject\LogicComponent.h" />
     <ClInclude Include="GameObject\MeshRenderComponent.h" />
     <ClInclude Include="GameObject\PhysicComponent.h" />
     <ClInclude Include="GameObject\RigidBodyComponent.h" />
@@ -192,6 +193,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Physic\Physic.h" />
     <ClInclude Include="Physic\PhysicDebugDrawer.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceCache\LTBDef.h" />
     <ClInclude Include="ResourceCache\LTBFileLoader.h" />
     <ClInclude Include="ResourceCache\ModelCache.h" />
@@ -225,6 +227,7 @@
     <ClCompile Include="GameObject\CameraComponent.cpp" />
     <ClCompile Include="GameObject\CharacterControllerComponent.cpp" />
     <ClCompile Include="GameObject\ColliderComponent.cpp" />
+    <ClCompile Include="GameObject\LogicComponent.cpp" />
     <ClCompile Include="GameObject\MeshRenderComponent.cpp" />
     <ClCompile Include="GameObject\PhysicComponent.cpp" />
     <ClCompile Include="GameObject\RigidBodyComponent.cpp" />
@@ -274,6 +277,7 @@
     <Xml Include="GameAssets\Box.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="GameAssets\Camera.xml" />
     <Xml Include="GameAssets\Ground.xml">
       <SubType>Designer</SubType>
     </Xml>
@@ -284,6 +288,9 @@
     <Xml Include="GameAssets\Player.xml" />
     <Xml Include="GameAssets\Renderer.xml" />
     <Xml Include="GameAssets\Root.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="3D Project.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

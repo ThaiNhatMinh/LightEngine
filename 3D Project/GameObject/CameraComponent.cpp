@@ -23,6 +23,7 @@ bool CameraComponent::VInit(tinyxml2::XMLElement * pData)
 	if (as < 0.0f)
 	{
 		// [TODO] using windows subsystem to get aspect raito
+		as = 4.0f / 3.0f;
 	}
 
 	m_Frustum  = Frustum(fov, as, np, fp);
@@ -73,7 +74,7 @@ mat4 CameraComponent::GetProjMatrix()
 
 mat4 CameraComponent::GetVPMatrix()
 {
-	return GetViewMatrix()*m_Frustum.GetProjMatrix();
+	return m_Frustum.GetProjMatrix()*GetViewMatrix();
 }
 
 const Frustum& CameraComponent::GetFrustum()const

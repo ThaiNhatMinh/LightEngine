@@ -15,6 +15,7 @@ void Camera::UpdateVector()
 	m_Front = glm::normalize(front);
 	m_Right = glm::normalize(glm::cross(m_Front, WorldUp));
 	m_Up = glm::normalize(glm::cross(m_Right, m_Front));
+
 	m_Frustum.Update(m_Position, m_Front, m_Right);
 
 	
@@ -36,7 +37,7 @@ Camera::Camera()
 Camera::Camera(const vec3 & pos, const vec3 & target, const vec3 & up, float fov, float as, float n, float f)
 {
 	m_Position = pos;
-	m_Front = glm::normalize(target - m_Position);;
+	m_Front = glm::normalize(target - m_Position);
 	WorldUp = up;
 	m_Speed = 50.0f;
 	m_Pitch = 0;
@@ -66,7 +67,7 @@ void Camera::Update(float deltaTIme)
 
 	UpdateVector();
 
-	//cout << m_Position << endl;
+	
 }
 
 
@@ -86,7 +87,7 @@ mat4 Camera::GetProjMatrix()
 }
 mat4 Camera::GetVPMatrix()
 {
-	return GetViewMatrix()*m_Frustum.GetProjMatrix();
+	return m_Frustum.GetProjMatrix()*GetViewMatrix();
 }
 /*
 void Camera::SetCameraActor(Actor * p)

@@ -71,6 +71,9 @@ tinyxml2::XMLElement * MeshRenderComponent::VGenerateXml(tinyxml2::XMLDocument *
 void MeshRenderComponent::Render(Scene* pScene)
 {
 	Shader* p = m_pOwner->VGetShader();
+
+	p->SetupRender(pScene, m_pOwner);
+
 	RenderAPICore* pRender = pScene->GetRenderer();
 
 	for (size_t i = 0; i < m_MeshList.size(); i++)

@@ -348,5 +348,5 @@ public:
 	{
 		return "EvtData_PhysPostStep";
 	}
-	float GetTimeStep() { return m_fTimeStep; };
+	float GetTimeStep() const{ return m_fTimeStep; };
 };

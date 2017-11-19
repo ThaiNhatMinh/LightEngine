@@ -36,7 +36,7 @@ bool Scene::OnRender()
 	// Root doesn't have anything to render, so just render children
 	//m_pRoot->VRender(this);
 	m_pRenderer->Clear();
-
+	//glPolygonMode(GL_FRONT, GL_LINE);
 	m_pRoot->VRenderChildren(this);
 	
 	m_pRenderer->SwapBuffer();
@@ -45,9 +45,7 @@ bool Scene::OnRender()
 
 bool Scene::OnUpdate(float dt)
 {
-	//m_Camera->Update(dt);
-	//m_Frustum->Update(*m_Camera);
-	//m_DefaultCamera.Update(dt);
+	m_DefaultCamera.Update(dt);
 	m_pRoot->VOnUpdate(this, dt);
 	return true;
 }
@@ -57,8 +55,10 @@ void Scene::SetCamera(CameraComponent * pCam)
 }
 mat4 Scene::GetViewProj()
 {
+	if(m_CurrentCamera)
 	return m_CurrentCamera->GetVPMatrix();
-	//return m_DefaultCamera.GetVPMatrix();
+	else 
+		return m_DefaultCamera.GetVPMatrix();
 }
 /*
 void Scene::SetCameraNode(Actor * pActor)

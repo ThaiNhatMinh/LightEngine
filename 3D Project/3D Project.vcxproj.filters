@@ -168,6 +168,10 @@
     <ClInclude Include="GameLogic\BaseGameLogic.h">
       <Filter>GameLogic</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\LogicComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -295,6 +299,9 @@
     <ClCompile Include="Graphics3D\OpenGLRenderer.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\LogicComponent.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -391,5 +398,11 @@
     <Xml Include="GameAssets\Player.xml">
       <Filter>GameAssets</Filter>
     </Xml>
+    <Xml Include="GameAssets\Camera.xml">
+      <Filter>GameAssets</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="3D Project.rc" />
   </ItemGroup>
 </Project>
