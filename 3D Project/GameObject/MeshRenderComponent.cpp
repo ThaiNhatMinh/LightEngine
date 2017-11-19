@@ -90,6 +90,14 @@ void MeshRenderComponent::Render(Scene* pScene)
 		pRender->SetDrawMode(m_MeshList[i]->Topology);
 		pRender->DrawElement(m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
 	}
+
+	if (1)
+	{
+		mat4 globalTransform = m_pOwner->VGetGlobalTransform();
+		AnimationComponent* ac = m_pOwner->GetComponent<AnimationComponent>("AnimationComponent");
+		if (ac) ac->DrawSkeleton(pScene->GetDebug(), globalTransform);
+	}
+
 }
 
 Material MeshRenderComponent::GetMaterial()

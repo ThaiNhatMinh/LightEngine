@@ -364,6 +364,30 @@ ModelCache * Resources::LoadModel(const char * filename)
 	}
 
 	strcpy(pModel->szName, filename);
+	vector<AABB> abb(pModel->pSkeNodes.size());
+	for (size_t i = 0; i < pModel->pMeshs.size(); i++)
+	{
+		SkeMesh* pMesh = pModel->pMeshs[i];
+		for (size_t j = 0; j < pMesh->m_Vertexs.size(); j++)
+		{
+			SkeVertex& vertex = pMesh->m_Vertexs[j];
+			for (int k = 0; k < 4; k++)
+			{
+				if (vertex.weights[k].Bone != 255&& vertex.weights[k].weight!=0)
+				{
+					vec3 local = pModel->pSkeNodes[vertex.weights[k].Bone]->m_InvBindPose*vec4(vertex.pos, 1.0f);
+					abb[vertex.weights[k].Bone].Insert(local);
+					pModel->pSkeNodes[vertex.weights[k].Bone]->m_Flag = 1;
+				}
+			}
+		}
+	}
+
+	for (size_t i = 0; i < pModel->pSkeNodes.size(); i++)
+	{
+		pModel->pSkeNodes[i]->m_BoundBox = abb[i];
+	}
+
 	m_ModelCaches.push_back(pModel);
 	return pModel;
 }

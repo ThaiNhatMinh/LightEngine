@@ -74,6 +74,49 @@ void AnimationComponent::SendAnimationEvent(string data)
 	gEventManager()->VQueueEvent(pEvent);
 }
 
+void AnimationComponent::DrawSkeleton(const Debug & debug,const mat4& m )
+{
+	//return;
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_DEPTH_TEST);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	for (size_t i = 0; i < m_pSkeNodes.size(); i++)
+	{
+		int parentID = m_pSkeNodes[i]->m_ParentIndex;
+		if (parentID != -1)
+		{
+			vec3 pos1 = m_DbTransform[i][3];
+			vec3 pos2 = m_DbTransform[parentID][3];
+			debug.DrawLine(pos1, pos2, vec3(1.0f, 1.0f, 1.0f),m);
+		}
+		if (m_pSkeNodes[i]->m_Flag != 1) continue;
+		vec3 v[8];
+		m_pSkeNodes[i]->m_BoundBox.GenPoint(v);
+		//mat4 mm = temp;
+		mat4 temp = m*m_DbTransform[i];
+		debug.DrawLine(v[0], v[1], vec3(1.0f, 1.0f, 1.0f), temp);
+		debug.DrawLine(v[1], v[2], vec3(1.0f, 1.0f, 1.0f), temp);
+		debug.DrawLine(v[2], v[3], vec3(1.0f, 1.0f, 1.0f), temp);
+		debug.DrawLine(v[3], v[0], vec3(1.0f, 1.0f, 1.0f), temp);
+
+		debug.DrawLine(v[4], v[5], vec3(1.0f, 1.0f, 1.0f), temp);
+		debug.DrawLine(v[5], v[6], vec3(1.0f, 1.0f, 1.0f), temp);
+		debug.DrawLine(v[6], v[7], vec3(1.0f, 1.0f, 1.0f), temp);
+		debug.DrawLine(v[7], v[4], vec3(1.0f, 1.0f, 1.0f), temp);
+
+		debug.DrawLine(v[0], v[4], vec3(1.0f, 1.0f, 1.0f), temp);
+		debug.DrawLine(v[1], v[5], vec3(1.0f, 1.0f, 1.0f), temp);
+		debug.DrawLine(v[2], v[6], vec3(1.0f, 1.0f, 1.0f), temp);
+		debug.DrawLine(v[3], v[7], vec3(1.0f, 1.0f, 1.0f), temp);
+		
+
+		
+	}
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
 AnimationComponent::AnimationComponent(void):m_iDefaultAnimation(0)
 {
 	m_Control[upper].m_fTime = 0;
@@ -115,6 +158,7 @@ bool AnimationComponent::VInit(tinyxml2::XMLElement* pData)
 	m_WB = pModel->wb;
 	m_SkeTransform.resize(m_pSkeNodes.size());
 	m_CurrentFrames.resize(m_pSkeNodes.size());
+	m_DbTransform.resize(m_pSkeNodes.size());
 	
 	return true;
 }
@@ -195,10 +239,12 @@ void AnimationComponent::VUpdate(float deltaMs)
 		mat4 translate = glm::translate(mat4(), m_CurrentFrames[i].m_Pos);
 		mat4 transform = translate*rotate;
 
-		if (animLower->AnimNodeLists[i].Parent != -1) m_TransformLocal = m_SkeTransform[animLower->AnimNodeLists[i].Parent] * transform;
+		if (animLower->AnimNodeLists[i].Parent != -1) m_TransformLocal = m_DbTransform[animLower->AnimNodeLists[i].Parent] * transform;
 		else m_TransformLocal = transform;
 		
 		m_SkeTransform[i] = m_TransformLocal;
+		m_DbTransform[i] = m_SkeTransform[i];
+		m_SkeTransform[i] = m_SkeTransform[i] * m_pSkeNodes[i]->m_InvBindPose;
 
 
 	}
@@ -210,11 +256,6 @@ void AnimationComponent::VUpdate(float deltaMs)
 
 const vector<mat4>& AnimationComponent::GetTransform()
 {
-	for (size_t i = 0; i < m_pSkeNodes.size(); i++)
-	{
-		m_SkeTransform[i] = m_SkeTransform[i] * m_pSkeNodes[i]->m_InvBindPose;
-	}
-
 	return m_SkeTransform;
 }
 

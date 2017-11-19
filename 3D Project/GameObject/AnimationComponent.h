@@ -10,34 +10,41 @@ struct AnimKeyFrame
 	// A string of information about this key..
 	std::string			m_pString;
 };
+
+
+struct SkeNode
+{
+	// Name of node
+	string m_Name;
+	// Index of Node 
+	GLint m_Index;
+	// Parent of node, -1 if root
+	GLint m_ParentIndex;
+	// transform to default vertex;
+	mat4 m_GlobalTransform;
+	// transform vertex to local coord;
+	mat4 m_InvBindPose;
+
+	GLuint m_Flag;
+	// BoundBox OBB;
+	AABB m_BoundBox;
+};
+
+// animation data in one node
+
 struct FrameData
 {
 	vec3 m_Pos;
 	quat m_Ort;
 };
-
-
-struct LTAJoint
-{
-	mat4 LocalTransform;
-};
-typedef std::vector<LTAJoint> JointList;
-
-struct SkeNode
-{
-	string m_Name;
-	GLint m_Index, m_ParentIndex;
-	mat4 m_GlobalTransform;
-	mat4 m_InvBindPose;
-};
-
-// animation data in one node
 typedef vector<FrameData> AnimData;
+
 struct AnimNode
 {
 	GLint Parent;
 	AnimData Data;
 };
+
 struct Animation
 {
 	string Name;
@@ -73,7 +80,7 @@ private:
 
 	
 	vector<mat4>		m_SkeTransform;
-
+	vector<mat4>		m_DbTransform;
 	AnimControl			m_Control[2];
 	float				m_fBlendTime;
 	GLuint				m_iDefaultAnimation;
@@ -82,6 +89,7 @@ protected:
 	blendset			GetBlendSet(GLuint id);
 	void				ResetControl(blendset bs, GLuint anim,AnimationState state);
 	void				SendAnimationEvent(string data);
+	
 public:
 	AnimationComponent(void);
 	~AnimationComponent(void);
@@ -94,10 +102,10 @@ public:
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) { return nullptr; };
 	virtual void		VUpdate(float deltaMs);
 
-
+	void				DrawSkeleton(const Debug& debug,const mat4& m);
 	const vector<mat4>&	GetTransform();
 
 	// Event 
-	void SetAnimationEvent(const IEvent* pEvent);
+	void				SetAnimationEvent(const IEvent* pEvent);
 
 };

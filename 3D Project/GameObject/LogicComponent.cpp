@@ -45,8 +45,8 @@ void LogicComponent::VUpdate(float deltaTIme)
 
 	if (gInput()->KeyDown(DIK_W)) m_Position += m_Front*m_Speed*deltaTIme;
 	if (gInput()->KeyDown(DIK_S)) m_Position -= m_Front*m_Speed*deltaTIme;
-	if (gInput()->KeyDown(DIK_D)) m_Position += m_Right*m_Speed*deltaTIme;
-	if (gInput()->KeyDown(DIK_A)) m_Position -= m_Right*m_Speed*deltaTIme;
+	if (gInput()->KeyDown(DIK_D)) m_Position -= m_Right*m_Speed*deltaTIme;
+	if (gInput()->KeyDown(DIK_A)) m_Position += m_Right*m_Speed*deltaTIme;
 
 	m_Pitch -= gInput()->mouseDY()*MouseSensitivity;
 	m_Yaw -= gInput()->mouseDX()*MouseSensitivity;

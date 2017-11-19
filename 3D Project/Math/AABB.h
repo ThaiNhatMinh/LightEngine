@@ -22,7 +22,8 @@ public:
 		Max = max;
 	};
 	bool Intersect(const AABB& a);
-
+	void Insert(const vec3& v);
+	void GenPoint(vec3 a[8]);
 	void Translate(const vec3& v)
 	{
 		Min += v;
