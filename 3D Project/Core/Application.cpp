@@ -8,10 +8,11 @@ void Application::SetupSubmodule()
 	EventManager::startUp();
 
 	GameTimer::startUp();
-	Resources::startUp();
 	OpenGLRenderer* pRender = new OpenGLRenderer;
 	pRender->Init();
-	
+
+	Resources::startUp();
+
 	DirectInput::startUp(pRender->GetWindow(), DISCL_NONEXCLUSIVE | DISCL_FOREGROUND, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 	//LuaStateManager::startUp();
 	//ScriptExports::Register();
@@ -24,6 +25,7 @@ void Application::SetupSubmodule()
 	Shader* pShader = gResources()->LoadShader<PrimShader>("NoTexture", "GameAssets\\SHADER\\NoTexture.vs", "GameAssets\\SHADER\\NoTexture.fs");
 	gResources()->LoadShader<Shader>("Debug", "GameAssets\\SHADER\\Debug.vs", "GameAssets\\SHADER\\Debug.fs");
 	Shader* pShader2 = gResources()->LoadShader<SkeShader>("SkeShader", "GameAssets\\SHADER\\Skeleton.vs", "GameAssets\\SHADER\\Texture.fs");
+	gResources()->LoadShader<PrimShader>("Texture", "GameAssets\\SHADER\\Texture.vs", "GameAssets\\SHADER\\Texture.fs");
 	
 	
 	m_pScene = new Scene(pRender);
@@ -42,15 +44,17 @@ void Application::SetupSubmodule()
 	*/
 	
 
-	//Actor* p1 = factory.CreateActor("GameAssets\\Player.xml", nullptr,nullptr);
-	Actor* p2 = factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
-	Actor* p3 = factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
+	Actor* p1 = factory.CreateActor("GameAssets\\Player.xml", nullptr,nullptr);
+	//Actor* p2 = factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
+	//Actor* p3 = factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
 	//Actor* p4 = factory.CreateActor("GameAssets\\Camera.xml", nullptr, nullptr);
+	Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
 
-	//m_pScene->GetRoot()->VAddChild(p1);
-	m_pScene->GetRoot()->VAddChild(p2);
-	m_pScene->GetRoot()->VAddChild(p3);
+	m_pScene->GetRoot()->VAddChild(p1);
+	//m_pScene->GetRoot()->VAddChild(p2);
+	//m_pScene->GetRoot()->VAddChild(p3);
 	//m_pScene->GetRoot()->VAddChild(p4);
+	m_pScene->GetRoot()->VAddChild(p5);
 
 
 }

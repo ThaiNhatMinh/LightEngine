@@ -55,6 +55,8 @@ void Mesh::Finalize(Shader* p)
 	
 
 	glBindVertexArray(0);
+	NumIndices = m_Indices.size();
+	Topology = GL_TRIANGLES;
 }
 
 void Mesh::Scale(vec3 scale)

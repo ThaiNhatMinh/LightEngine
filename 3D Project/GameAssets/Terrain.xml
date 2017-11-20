@@ -1,0 +1,12 @@
+<Actor type="World" name="Terrain">
+  <TransformComponent>
+    <Position x="0" y="15" z="5"/>
+    <YawPitchRoll x="0" y="0" z="0"/>
+  </TransformComponent>
+  <TerrainRenderComponent>
+    <Model File="GameAssets\WORLD\DDD.png" />
+    <Scale x="1.0" y="1.0" z="1.0"/>
+    <Shader name="Texture" />
+  </TerrainRenderComponent>
+
+</Actor>

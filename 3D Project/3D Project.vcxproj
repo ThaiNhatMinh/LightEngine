@@ -174,6 +174,7 @@
     <ClInclude Include="GameObject\MeshRenderComponent.h" />
     <ClInclude Include="GameObject\PhysicComponent.h" />
     <ClInclude Include="GameObject\RigidBodyComponent.h" />
+    <ClInclude Include="GameObject\TerrainRenderComponent.h" />
     <ClInclude Include="GameObject\TransformComponent.h" />
     <ClInclude Include="Graphics3D\AnimationDef.h" />
     <ClInclude Include="Graphics3D\OpenGLRenderer.h" />
@@ -212,6 +213,8 @@
     <ClInclude Include="Utilities\Shader.h" />
     <ClInclude Include="Utilities\String.h" />
     <ClInclude Include="Utilities\Timer.h" />
+    <ClInclude Include="World\TerrainMesh.h" />
+    <ClInclude Include="World\TerrainWorld.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Camera.cpp" />
@@ -231,6 +234,7 @@
     <ClCompile Include="GameObject\MeshRenderComponent.cpp" />
     <ClCompile Include="GameObject\PhysicComponent.cpp" />
     <ClCompile Include="GameObject\RigidBodyComponent.cpp" />
+    <ClCompile Include="GameObject\TerrainRenderComponent.cpp" />
     <ClCompile Include="GameObject\TransformComponent.cpp" />
     <ClCompile Include="Graphics3D\Mesh.cpp" />
     <ClCompile Include="Graphics3D\OpenGLRenderer.cpp" />
@@ -262,6 +266,7 @@
     <ClCompile Include="Utilities\Shader.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
     <ClCompile Include="Utilities\Timer.cpp" />
+    <ClCompile Include="World\TerrainWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameAssets\SCRIPTS\Box.lua" />
@@ -272,6 +277,7 @@
     <None Include="GameAssets\Shader\NoTexture.vs" />
     <None Include="GameAssets\SHADER\Skeleton.vs" />
     <None Include="GameAssets\SHADER\Texture.fs" />
+    <None Include="GameAssets\SHADER\Texture.vs" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="GameAssets\Box.xml">
@@ -290,6 +296,7 @@
     </Xml>
     <Xml Include="GameAssets\Renderer.xml" />
     <Xml Include="GameAssets\Root.xml" />
+    <Xml Include="GameAssets\Terrain.xml" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="3D Project.rc" />

@@ -172,6 +172,15 @@
     <ClInclude Include="Core\Application.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="World\TerrainWorld.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\TerrainMesh.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\TerrainRenderComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -222,9 +231,6 @@
       <Filter>GameObject</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\MeshRenderComponent.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\ActorFactory.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\Scene.cpp">
@@ -302,6 +308,15 @@
     <ClCompile Include="Core\Application.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\TerrainRenderComponent.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="World\TerrainWorld.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\ActorFactory.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -349,6 +364,9 @@
     <Filter Include="GameLogic">
       <UniqueIdentifier>{82da1a8d-c523-422c-a568-31fbf34e8b86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{ca959d2e-619f-4e25-a864-991fc425c9d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="GameAssets\Shader\NoTexture.vs">
@@ -375,6 +393,9 @@
     <None Include="GameAssets\SCRIPTS\Box.lua">
       <Filter>GameAssets\SCRIPT</Filter>
     </None>
+    <None Include="GameAssets\SHADER\Texture.vs">
+      <Filter>GameAssets\SHADER</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="GameAssets\MODEL\707.xml">
@@ -399,6 +420,9 @@
       <Filter>GameAssets</Filter>
     </Xml>
     <Xml Include="GameAssets\Camera.xml">
+      <Filter>GameAssets</Filter>
+    </Xml>
+    <Xml Include="GameAssets\Terrain.xml">
       <Filter>GameAssets</Filter>
     </Xml>
   </ItemGroup>

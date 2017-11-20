@@ -25,9 +25,9 @@ public:
 	Actor(ActorId id);
 	~Actor();
 
-	bool Init(tinyxml2::XMLElement* pData);
-	void PostInit(void);
-	void Destroy(void);
+	virtual bool Init(tinyxml2::XMLElement* pData);
+	virtual void PostInit(void);
+	virtual void Destroy(void);
 
 	virtual void VSetName(string name) { m_Name = name; }
 	virtual string VGetName() {	return m_Name;	};

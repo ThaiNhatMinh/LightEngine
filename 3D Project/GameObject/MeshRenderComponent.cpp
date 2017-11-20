@@ -30,7 +30,7 @@ bool MeshRenderComponent::VInit(tinyxml2::XMLElement * pData)
 		}
 		m_Material = pModel->mat;
 	}
-	else if(pFileName = pModelPath->Attribute("Shape"))
+	else if(!strcmp(pFileName ,pModelPath->Attribute("Shape")))
 	{
 		m_MeshList.push_back(gResources()->CreateShape(SHAPE_BOX));
 		m_Material.Ka = vec3(1.0f);
@@ -76,7 +76,7 @@ tinyxml2::XMLElement * MeshRenderComponent::VGenerateXml(tinyxml2::XMLDocument *
 
 void MeshRenderComponent::Render(Scene* pScene)
 {
-
+	//glPolygonMode(GL_FRONT, GL_LINE);
 	m_pShader->SetupRender(pScene, m_pOwner);
 
 	RenderAPICore* pRender = pScene->GetRenderer();
@@ -84,14 +84,18 @@ void MeshRenderComponent::Render(Scene* pScene)
 	for (size_t i = 0; i < m_MeshList.size(); i++)
 	{
 		if (m_MeshList[i]->Tex) pRender->SetTexture(m_MeshList[i]->Tex);
-		else m_pShader->SetUniform("ObjColor", m_MeshList[i]->Color);
-
+		else
+		{
+			assert(m_MeshList[i]->Tex);
+			m_pShader->SetUniform("ObjColor", m_MeshList[i]->Color);
+		}
 		pRender->SetVertexArrayBuffer(m_MeshList[i]->VAO);
 		pRender->SetDrawMode(m_MeshList[i]->Topology);
 		pRender->DrawElement(m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
+		//pRender->DrawElement(6, GL_UNSIGNED_INT, 0);
 	}
 
-	if (1)
+	if (0)
 	{
 		mat4 globalTransform = m_pOwner->VGetGlobalTransform();
 		AnimationComponent* ac = m_pOwner->GetComponent<AnimationComponent>("AnimationComponent");

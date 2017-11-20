@@ -26,10 +26,10 @@ Camera::Camera()
 	m_Position = vec3(0, 0, 200);
 	m_Front = glm::normalize(vec3(0, 0, 0) - m_Position);
 	WorldUp = vec3(0, 1, 0);
-	m_Speed = 50.0f;
+	m_Speed = 200.0f;
 	m_Pitch = 0;
 	m_Yaw = -90;
-	m_Frustum = Frustum(45.0f, 4.0 / 3.0f, 1.0, 1000.0f);
+	m_Frustum = Frustum(45.0f, 4.0 / 3.0f, 1.0, 10000.0f);
 	MouseSensitivity = 0.25;
 	UpdateVector();
 }
@@ -39,7 +39,7 @@ Camera::Camera(const vec3 & pos, const vec3 & target, const vec3 & up, float fov
 	m_Position = pos;
 	m_Front = glm::normalize(target - m_Position);
 	WorldUp = up;
-	m_Speed = 50.0f;
+	m_Speed = 200.0f;
 	m_Pitch = 0;
 	m_Yaw = -90;
 	MouseSensitivity = 0.25;

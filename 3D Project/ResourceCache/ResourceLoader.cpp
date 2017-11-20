@@ -61,6 +61,9 @@ void Resources::onStartUp()
 
 	if (Error != IL_NO_ERROR)
 		Log::Message(Log::LOG_ERROR, "Can't init Devil Lib.");
+
+	// Load default tex
+	LoadTexture("GameAssets/TEXTURE/Default.png");
 		
 }
 
@@ -80,7 +83,7 @@ Texture * Resources::LoadTexture(const char * filename)
 		//string error = iluErrorString(Error);
 		Log::Message(Log::LOG_ERROR, "Can't load texture " + string(filename));
 		//Log::Message(Log::LOG_ERROR, "Devil: " + error);
-		return NULL;
+		return HasTexture("GameAssets/TEXTURE/Default.png");
 	}
 	
 	width = ilGetInteger(IL_IMAGE_WIDTH);
@@ -103,7 +106,7 @@ Texture * Resources::LoadTexture(const char * filename)
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	ilResetMemory();
-
+	
 	tex = new Texture;
 	sprintf(tex->szName, "%s", filename);
 	tex->iIndex = id;
@@ -134,7 +137,7 @@ Texture * Resources::LoadCubeTex(const vector<string>& filelist)
 			//string error = iluErrorString(Error);
 			Log::Message(Log::LOG_ERROR, "Can't load texture " + filelist[i]);
 			//Log::Message(Log::LOG_ERROR, "Devil: " + error);
-			return NULL;
+			return HasTexture("GameAssets/TEXTURE/Default.png");
 		}
 
 		width = ilGetInteger(IL_IMAGE_WIDTH);

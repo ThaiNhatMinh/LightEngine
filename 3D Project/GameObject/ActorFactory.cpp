@@ -4,16 +4,7 @@ ActorFactory::ActorFactory(Scene* pScene)
 {
 	m_lastActorId = 1;
 
-	//m_componentFactory.Register<TransformComponent>(ActorComponent::GetIdFromName(TransformComponent::Name));
-	//m_componentFactory.Register<MeshRenderComponent>(ActorComponent::GetIdFromName(MeshRenderComponent::Name));
-	//m_componentFactory.Register<PhysicsComponent>(ActorComponent::GetIdFromName(PhysicsComponent::Name));
-	//m_componentFactory.Register<ColliderComponent>(ActorComponent::GetIdFromName(ColliderComponent::Name));
-	//m_componentFactory.Register<RigidBodyComponent>(ActorComponent::GetIdFromName(RigidBodyComponent::Name));
-	//m_componentFactory.Register<AnimationComponent>(ActorComponent::GetIdFromName(AnimationComponent::Name));
-	//m_componentFactory.Register<ScriptComponent>(ActorComponent::GetIdFromName(ScriptComponent::Name));
-	//m_componentFactory.Register<CharacterControllerComponent>(ActorComponent::GetIdFromName(CharacterControllerComponent::Name));
-	//m_componentFactory.Register<CameraComponent>(ActorComponent::GetIdFromName(CameraComponent::Name));
-
+	
 	m_ComponentFactory.insert(std::make_pair(TransformComponent::Name, []() { return new TransformComponent(); } ));
 	m_ComponentFactory.insert(std::make_pair(MeshRenderComponent::Name, []() { return new MeshRenderComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(ColliderComponent::Name, []() { return new ColliderComponent(); }));
@@ -21,6 +12,7 @@ ActorFactory::ActorFactory(Scene* pScene)
 	m_ComponentFactory.insert(std::make_pair(AnimationComponent::Name, []() { return new AnimationComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(CharacterControllerComponent::Name, []() { return new CharacterControllerComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(LogicComponent::Name, []() { return new LogicComponent(); }));
+	m_ComponentFactory.insert(std::make_pair(TerrainRenderComponent::Name, []() { return new TerrainRenderComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(CameraComponent::Name, [pScene]()
 		{ 
 			auto a = new CameraComponent();
@@ -30,56 +22,7 @@ ActorFactory::ActorFactory(Scene* pScene)
 	
 }
 
-Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLElement * overrides, const mat4 * initialTransform)
-{
-	tinyxml2::XMLDocument doc;
-	int errorID = doc.LoadFile(actorResource);
-	if (errorID)
-	{
-		E_ERROR("Failed to create Actor from file: " + string(actorResource));
-		return nullptr;
-	}
 
-	Actor* pActor = new Actor(GetNextActorId());
-
-	tinyxml2::XMLElement* pActorData = doc.FirstChildElement("Actor");
-	if (!pActor->Init(pActorData))
-	{
-		E_ERROR("Failed to init Actor:" + string(actorResource));
-		return nullptr;
-	}
-
-	// Loop through each child element and load the component
-	for (tinyxml2::XMLElement* pNode = pActorData->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
-	{
-		ActorComponent* pComponent(VCreateComponent(pNode));
-		if (pComponent)
-		{
-			pActor->AddComponent(pComponent);
-			pComponent->SetOwner(pActor);
-		}
-		else
-		{
-			E_ERROR("Failed to create Component for actor: " + string(actorResource));
-		}
-	}
-
-
-	if (overrides)
-	{
-		ModifyActor(pActor, overrides);
-	}
-
-	if (initialTransform)
-	{
-		TransformComponent* pTc = pActor->GetComponent<TransformComponent>("TransformComponent");
-		pTc->SetTransform(*initialTransform);
-	}
-
-	pActor->PostInit();
-
-	return pActor;
-}
 
 Actor * ActorFactory::CreateActor(const char * name, ShapeType type, const mat4& initialTransform)
 {

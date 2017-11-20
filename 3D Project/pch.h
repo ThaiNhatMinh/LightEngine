@@ -145,6 +145,7 @@ using glm::quat;
 #include "GameObject\ColliderComponent.h"
 #include "GameObject\TransformComponent.h"
 #include "GameObject\MeshRenderComponent.h"
+#include "GameObject\TerrainRenderComponent.h"
 #include "GameObject\PhysicComponent.h"
 #include "GameObject\RigidBodyComponent.h"
 #include "GameObject\AnimationComponent.h"
@@ -159,6 +160,8 @@ using glm::quat;
 #include "Physic\Physic.h"
 
 #include "Graphics3D\Scene.h"
+
+#include "World\TerrainWorld.h"
 
 #include "Core\Camera.h"
 #include "Core\Windows.h"
