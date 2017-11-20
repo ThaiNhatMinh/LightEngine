@@ -2,7 +2,7 @@
 #include "OpenGLRenderer.h"
 
 
-Scene::Scene(RenderAPICore* pRender):m_Debug(this), m_ActorFactory(this)
+Scene::Scene(RenderAPICore* pRender):m_Debug(this), m_ActorFactory(this), m_CurrentCamera(nullptr)
 {
 	m_pRoot = m_ActorFactory.CreateActor("GameAssets\\Root.xml",nullptr,&mat4());
 	if (!m_pRoot)
@@ -15,7 +15,7 @@ Scene::Scene(RenderAPICore* pRender):m_Debug(this), m_ActorFactory(this)
 	m_DirectionLight.direction = glm::normalize(vec3(1, -1, 1));
 
 	m_pRenderer = pRender;
-	m_DefaultCamera = Camera(vec3(0, 0, 100), vec3(0), vec3(0, 1, 0), 45.0f, 4.0 / 3.0, 1.0, 1000.0f);
+	m_DefaultCamera = Camera(vec3(0, 0, 100), vec3(0), vec3(0, 1, 0), 45.0f, 4.0f / 3.0, 1.0, 1000.0f);
 }
 
 Scene::~Scene()

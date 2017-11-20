@@ -25,49 +25,49 @@ public:
 
 	vec3 GetLinearVelocity();
 	void SetLinearVelocity(const vec3& velocity);
-	/// Set linear degrees of freedom. Use 1 to enable an axis or 0 to disable. Default is all axes enabled (1, 1, 1).
+	// Set linear degrees of freedom. Use 1 to enable an axis or 0 to disable. Default is all axes enabled (1, 1, 1).
 	void SetLinearFactor(const vec3& factor);
-	/// Set linear velocity damping factor.
+	// Set linear velocity damping factor.
 	void SetLinearDamping(float damping);
-	/// Set angular velocity.
+	// Set angular velocity.
 	void SetAngularVelocity(const vec3& angularVelocity);
-	/// Set angular degrees of freedom. Use 1 to enable an axis or 0 to disable. Default is all axes enabled (1, 1, 1).
+	// Set angular degrees of freedom. Use 1 to enable an axis or 0 to disable. Default is all axes enabled (1, 1, 1).
 	void SetAngularFactor(const vec3& factor);
-	/// Set angular velocity damping factor.
+	// Set angular velocity damping factor.
 	void SetAngularDamping(float factor);
-	/// Set friction coefficient.
+	// Set friction coefficient.
 	void SetFriction(float friction);
-	/// Set anisotropic friction.
+	// Set anisotropic friction.
 	void SetAnisotropicFriction(const vec3& friction);
-	/// Set restitution coefficient.
+	// Set restitution coefficient.
 	void SetRestitution(float restitution);
-	/// Set contact processing threshold.
+	// Set contact processing threshold.
 	void SetContactProcessingThreshold(float threshold);
-	/// Set continuous collision detection swept sphere radius.
+	// Set continuous collision detection swept sphere radius.
 	void SetCcdRadius(float radius);
-	/// Set continuous collision detection motion-per-simulation-step threshold. 0 disables, which is the default.
+	// Set continuous collision detection motion-per-simulation-step threshold. 0 disables, which is the default.
 	void SetCcdMotionThreshold(float threshold);
-	/// Set whether gravity is applied to rigid body.
+	// Set whether gravity is applied to rigid body.
 	void SetUseGravity(bool enable);
-	/// Set gravity override. If zero, uses physics world's gravity.
+	// Set gravity override. If zero, uses physics world's gravity.
 	void SetCustomGravity(const vec3& gravity);
-	/// Set rigid body trigger mode. In trigger mode collisions are reported but do not apply forces.
+	// Set rigid body trigger mode. In trigger mode collisions are reported but do not apply forces.
 	void SetTrigger(bool enable);
-	/// Apply force to center of mass.
+	// Apply force to center of mass.
 	void ApplyForce(const vec3& force);
-	/// Apply force at local position.
+	// Apply force at local position.
 	void ApplyForce(const vec3& force, const vec3& position);
-	/// Apply torque.
+	// Apply torque.
 	void ApplyTorque(const vec3& torque);
-	/// Apply impulse to center of mass.
+	// Apply impulse to center of mass.
 	void ApplyImpulse(const vec3& impulse);
-	/// Apply impulse at local position.
+	// Apply impulse at local position.
 	void ApplyImpulse(const vec3& impulse, const vec3& position);
-	/// Apply torque impulse.
+	// Apply torque impulse.
 	void ApplyTorqueImpulse(const vec3& torque);
-	/// Reset accumulated forces.
+	// Reset accumulated forces.
 	void ResetForces();
-	/// Activate rigid body if it was resting.
+	// Activate rigid body if it was resting.
 	void Activate();
 protected:
 	void UpdateGravity();

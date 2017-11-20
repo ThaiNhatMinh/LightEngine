@@ -87,29 +87,42 @@ void AnimationComponent::DrawSkeleton(const Debug & debug,const mat4& m )
 		{
 			vec3 pos1 = m_DbTransform[i][3];
 			vec3 pos2 = m_DbTransform[parentID][3];
-			debug.DrawLine(pos1, pos2, vec3(1.0f, 1.0f, 1.0f),m);
+			debug.DrawLine(pos1, pos2, vec3(0.5f, 0.3, 1.0f),m);
 		}
 		if (m_pSkeNodes[i]->m_Flag != 1) continue;
 		vec3 v[8];
 		m_pSkeNodes[i]->m_BoundBox.GenPoint(v);
 		//mat4 mm = temp;
 		mat4 temp = m*m_DbTransform[i];
-		debug.DrawLine(v[0], v[1], vec3(1.0f, 1.0f, 1.0f), temp);
-		debug.DrawLine(v[1], v[2], vec3(1.0f, 1.0f, 1.0f), temp);
-		debug.DrawLine(v[2], v[3], vec3(1.0f, 1.0f, 1.0f), temp);
-		debug.DrawLine(v[3], v[0], vec3(1.0f, 1.0f, 1.0f), temp);
-
-		debug.DrawLine(v[4], v[5], vec3(1.0f, 1.0f, 1.0f), temp);
-		debug.DrawLine(v[5], v[6], vec3(1.0f, 1.0f, 1.0f), temp);
-		debug.DrawLine(v[6], v[7], vec3(1.0f, 1.0f, 1.0f), temp);
-		debug.DrawLine(v[7], v[4], vec3(1.0f, 1.0f, 1.0f), temp);
-
-		debug.DrawLine(v[0], v[4], vec3(1.0f, 1.0f, 1.0f), temp);
-		debug.DrawLine(v[1], v[5], vec3(1.0f, 1.0f, 1.0f), temp);
-		debug.DrawLine(v[2], v[6], vec3(1.0f, 1.0f, 1.0f), temp);
-		debug.DrawLine(v[3], v[7], vec3(1.0f, 1.0f, 1.0f), temp);
+		vec3 color;
+		if (select == i) color = vec3(0, 1, 0);
+		else color = vec3(1,1,1);
+		if (i != 6) continue;
+		debug.DrawLine(m_pSkeNodes[i]->m_BoundBox.Min, m_pSkeNodes[i]->m_BoundBox.Max, vec3(0, 1, 0), temp);
 		
+		debug.DrawLine(v[0], v[1], color, temp);
+		debug.DrawLine(v[1], v[2], color, temp);
+		debug.DrawLine(v[2], v[3], color, temp);
+		debug.DrawLine(v[3], v[0], color, temp);
 
+		debug.DrawLine(v[4], v[5], color, temp);
+		debug.DrawLine(v[5], v[6], color, temp);
+		debug.DrawLine(v[6], v[7], color, temp);
+		debug.DrawLine(v[7], v[4], color, temp);
+
+		debug.DrawLine(v[0], v[4], color, temp);
+		debug.DrawLine(v[1], v[5], color, temp);
+		debug.DrawLine(v[2], v[6], color, temp);
+		debug.DrawLine(v[3], v[7], color, temp);
+		
+		vec3 pos1 = m_DbTransform[i][3];
+
+		vec3 front = vec3(m_DbTransform[i][0]) + pos1;
+		debug.DrawLine(pos1, front, vec3(1, 0, 0), m);
+		front = 2.0f*vec3(m_DbTransform[i][1]) + pos1;
+		debug.DrawLine(pos1, front, vec3(0, 1, 0), m);
+		front = 4.0f*vec3(m_DbTransform[i][2]) + pos1;
+		debug.DrawLine(pos1, front, vec3(0, 0, 1), m);
 		
 	}
 	glEnable(GL_CULL_FACE);
@@ -119,6 +132,7 @@ void AnimationComponent::DrawSkeleton(const Debug & debug,const mat4& m )
 
 AnimationComponent::AnimationComponent(void):m_iDefaultAnimation(0)
 {
+	select = 6;
 	m_Control[upper].m_fTime = 0;
 	m_Control[upper].m_iCurrentAnim = 0;
 	m_Control[upper].m_iCurrentFrame = 0;
@@ -171,7 +185,8 @@ void AnimationComponent::VPostInit(void)
 void AnimationComponent::VUpdate(float deltaMs)
 {
 	if (!m_pAnimList.size()) return;
-
+	if (gInput()->KeyDown(DIK_DOWN)) { if (select > 0) select--; }
+	else if (gInput()->KeyDown(DIK_UP)) { if (select < m_pSkeNodes.size() - 1) select++; }
 
 	if (m_Control[upper].m_State != ANIM_STOP)
 	{

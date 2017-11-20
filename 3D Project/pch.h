@@ -162,4 +162,4 @@ using glm::quat;
 
 #include "Core\Camera.h"
 #include "Core\Windows.h"
-#include "Core\CoreApplication.h"
+#include "Core\Application.h"

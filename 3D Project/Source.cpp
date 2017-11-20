@@ -17,7 +17,7 @@ void main()
 
 	File::SetExecDir(str.c_str());
 
-	CoreApplication app;
+	Application app;
 	APP = &app;
 	app.MainLoop();
 

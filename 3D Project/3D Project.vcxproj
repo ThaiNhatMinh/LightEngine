@@ -154,7 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Core\Camera.h" />
-    <ClInclude Include="Core\CoreApplication.h" />
+    <ClInclude Include="Core\Application.h" />
     <ClInclude Include="Core\Windows.h" />
     <ClInclude Include="EventManager\AnimationEvent.h" />
     <ClInclude Include="EventManager\EventManager.h" />
@@ -215,7 +215,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Camera.cpp" />
-    <ClCompile Include="Core\CoreApplication.cpp" />
+    <ClCompile Include="Core\Application.cpp" />
     <ClCompile Include="Core\Windows.cpp" />
     <ClCompile Include="EventManager\EventManager.cpp" />
     <ClCompile Include="EventManager\Events.cpp" />
@@ -285,7 +285,9 @@
     <Xml Include="GameAssets\physics.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="GameAssets\Player.xml" />
+    <Xml Include="GameAssets\Player.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="GameAssets\Renderer.xml" />
     <Xml Include="GameAssets\Root.xml" />
   </ItemGroup>

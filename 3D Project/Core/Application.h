@@ -2,11 +2,11 @@
 #include "pch.h"
 #include "..\GameLogic\BaseGameLogic.h"
 
-class CoreApplication : public IApplication
+class Application : public IApplication
 {
 public:
-	CoreApplication() {};
-	~CoreApplication();
+	Application() {};
+	~Application();
 	virtual void Setup() {};
 	virtual void Start() {};
 

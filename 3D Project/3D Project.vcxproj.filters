@@ -29,9 +29,6 @@
     <ClInclude Include="Core\Camera.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\CoreApplication.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceCache\ModelCache.h">
       <Filter>ResourceCache</Filter>
     </ClInclude>
@@ -172,6 +169,9 @@
       <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Core\Application.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -198,9 +198,6 @@
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="Core\Camera.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\CoreApplication.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="ResourceCache\ResourceLoader.cpp">
@@ -301,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\LogicComponent.cpp">
       <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Application.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

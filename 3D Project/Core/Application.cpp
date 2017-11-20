@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "..\Graphics3D\OpenGLRenderer.h"
 
-void CoreApplication::SetupSubmodule()
+void Application::SetupSubmodule()
 {
 	E_DEBUG("Application StartUp...");
 	// Event Manager must be startup first
@@ -42,20 +42,20 @@ void CoreApplication::SetupSubmodule()
 	*/
 	
 
-	Actor* p1 = factory.CreateActor("GameAssets\\Player.xml", nullptr,nullptr);
+	//Actor* p1 = factory.CreateActor("GameAssets\\Player.xml", nullptr,nullptr);
 	Actor* p2 = factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
 	Actor* p3 = factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
-	Actor* p4 = factory.CreateActor("GameAssets\\Camera.xml", nullptr, nullptr);
+	//Actor* p4 = factory.CreateActor("GameAssets\\Camera.xml", nullptr, nullptr);
 
-	m_pScene->GetRoot()->VAddChild(p1);
+	//m_pScene->GetRoot()->VAddChild(p1);
 	m_pScene->GetRoot()->VAddChild(p2);
 	m_pScene->GetRoot()->VAddChild(p3);
-	m_pScene->GetRoot()->VAddChild(p4);
+	//m_pScene->GetRoot()->VAddChild(p4);
 
 
 }
 
-CoreApplication::~CoreApplication()
+Application::~Application()
 {
 	E_DEBUG("Application ShutDown...");
 
@@ -74,13 +74,13 @@ CoreApplication::~CoreApplication()
 }
 
 
-const Debug & CoreApplication::GetDebug()
+const Debug & Application::GetDebug()
 {
 	// TODO: insert return statement here
 	return m_pScene->GetDebug();
 }
 
-void CoreApplication::MainLoop()
+void Application::MainLoop()
 {
 	Setup();
 	SetupSubmodule();

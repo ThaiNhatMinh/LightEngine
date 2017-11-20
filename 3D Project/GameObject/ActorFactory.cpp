@@ -4,15 +4,15 @@ ActorFactory::ActorFactory(Scene* pScene)
 {
 	m_lastActorId = 1;
 
-	m_componentFactory.Register<TransformComponent>(ActorComponent::GetIdFromName(TransformComponent::Name));
-	m_componentFactory.Register<MeshRenderComponent>(ActorComponent::GetIdFromName(MeshRenderComponent::Name));
+	//m_componentFactory.Register<TransformComponent>(ActorComponent::GetIdFromName(TransformComponent::Name));
+	//m_componentFactory.Register<MeshRenderComponent>(ActorComponent::GetIdFromName(MeshRenderComponent::Name));
 	//m_componentFactory.Register<PhysicsComponent>(ActorComponent::GetIdFromName(PhysicsComponent::Name));
-	m_componentFactory.Register<ColliderComponent>(ActorComponent::GetIdFromName(ColliderComponent::Name));
-	m_componentFactory.Register<RigidBodyComponent>(ActorComponent::GetIdFromName(RigidBodyComponent::Name));
-	m_componentFactory.Register<AnimationComponent>(ActorComponent::GetIdFromName(AnimationComponent::Name));
-//	m_componentFactory.Register<ScriptComponent>(ActorComponent::GetIdFromName(ScriptComponent::Name));
-	m_componentFactory.Register<CharacterControllerComponent>(ActorComponent::GetIdFromName(CharacterControllerComponent::Name));
-	m_componentFactory.Register<CameraComponent>(ActorComponent::GetIdFromName(CameraComponent::Name));
+	//m_componentFactory.Register<ColliderComponent>(ActorComponent::GetIdFromName(ColliderComponent::Name));
+	//m_componentFactory.Register<RigidBodyComponent>(ActorComponent::GetIdFromName(RigidBodyComponent::Name));
+	//m_componentFactory.Register<AnimationComponent>(ActorComponent::GetIdFromName(AnimationComponent::Name));
+	//m_componentFactory.Register<ScriptComponent>(ActorComponent::GetIdFromName(ScriptComponent::Name));
+	//m_componentFactory.Register<CharacterControllerComponent>(ActorComponent::GetIdFromName(CharacterControllerComponent::Name));
+	//m_componentFactory.Register<CameraComponent>(ActorComponent::GetIdFromName(CameraComponent::Name));
 
 	m_ComponentFactory.insert(std::make_pair(TransformComponent::Name, []() { return new TransformComponent(); } ));
 	m_ComponentFactory.insert(std::make_pair(MeshRenderComponent::Name, []() { return new MeshRenderComponent(); }));
@@ -131,8 +131,7 @@ ActorComponent * ActorFactory::VCreateComponent(tinyxml2::XMLElement * pData)
 		return nullptr;  // fail
 	}
 
-	// pComponent will be NULL if the component wasn't found.  This isn't necessarily an error since you might have a 
-	// custom CreateComponent() function in a sub class.
+	
 	return pComponent;
 }
 

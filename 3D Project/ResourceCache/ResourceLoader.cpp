@@ -373,18 +373,21 @@ ModelCache * Resources::LoadModel(const char * filename)
 			SkeVertex& vertex = pMesh->m_Vertexs[j];
 			for (int k = 0; k < 4; k++)
 			{
-				if (vertex.weights[k].Bone != 255&& vertex.weights[k].weight!=0)
+				if (vertex.weights[k].Bone <100.0f && vertex.weights[k].weight>=0.01)
 				{
 					vec3 local = pModel->pSkeNodes[vertex.weights[k].Bone]->m_InvBindPose*vec4(vertex.pos, 1.0f);
+					local *= vertex.weights[k].weight;
 					abb[vertex.weights[k].Bone].Insert(local);
 					pModel->pSkeNodes[vertex.weights[k].Bone]->m_Flag = 1;
 				}
+				else break;
 			}
 		}
 	}
 
 	for (size_t i = 0; i < pModel->pSkeNodes.size(); i++)
 	{
+		
 		pModel->pSkeNodes[i]->m_BoundBox = abb[i];
 	}
 

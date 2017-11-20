@@ -89,7 +89,7 @@ protected:
 	blendset			GetBlendSet(GLuint id);
 	void				ResetControl(blendset bs, GLuint anim,AnimationState state);
 	void				SendAnimationEvent(string data);
-	
+	int					select ;
 public:
 	AnimationComponent(void);
 	~AnimationComponent(void);

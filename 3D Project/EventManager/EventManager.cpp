@@ -18,7 +18,10 @@ EventManager::EventManager()
 //---------------------------------------------------------------------------------------------------------------------
 EventManager::~EventManager()
 {
-	//
+	// find event not fire and delete it
+	const IEvent* pEvent = nullptr;
+	while (!m_queues[0].empty() && (pEvent = m_queues[0].front()) != nullptr) delete pEvent;
+	while (!m_queues[0].empty() && (pEvent = m_queues[1].front()) != nullptr) delete pEvent;
 }
 
 void EventManager::onStartUp()
@@ -218,7 +221,6 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 	m_activeQueue = (m_activeQueue + 1) % EVENTMANAGER_NUM_QUEUES;
 	m_queues[m_activeQueue].clear();
 
-	//E_DEBUG("EventLoop Processing Event Queue " + ToStr(queueToProcess) + "; " + ToStr((unsigned long)m_queues[queueToProcess].size()) + " events to process");
 
 	// Process the queue
 	while (!m_queues[queueToProcess].empty())
@@ -226,7 +228,7 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 		// pop the front of the queue
 		const IEvent* pEvent = m_queues[queueToProcess].front();
 		m_queues[queueToProcess].pop_front();
-		E_DEBUG("EventLoop \t\tProcessing Event " + std::string(pEvent->GetName()));
+		//E_DEBUG("EventLoop \t\tProcessing Event " + std::string(pEvent->GetName()));
 
 		const EventType& eventType = pEvent->VGetEventType();
 
@@ -235,13 +237,13 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 		if (findIt != m_eventListeners.end())
 		{
 			const EventListenerList& eventListeners = findIt->second;
-			E_DEBUG("EventLoop \t\tFound " + ToStr((unsigned long)eventListeners.size()) + " delegates");
+			//E_DEBUG("EventLoop \t\tFound " + ToStr((unsigned long)eventListeners.size()) + " delegates");
 
 			// call each listener
 			for (auto it = eventListeners.begin(); it != eventListeners.end(); ++it)
 			{
 				EventListenerDelegate listener = (*it);
-				E_DEBUG("EventLoop \t\tSending event " + std::string(pEvent->GetName()) + " to delegate");
+				//E_DEBUG("EventLoop \t\tSending event " + std::string(pEvent->GetName()) + " to delegate");
 				listener(pEvent);
 			}
 		}
