@@ -1,4 +1,18 @@
 <Actor type="World" name="Terrain">
+  
+  <ColliderComponent>
+    <Shape>HeightMap</Shape>
+    <File Path="GameAssets\WORLD\heightmap.png"/>
+  </ColliderComponent>
+
+  <RigidBodyComponent>
+    <Mass value="0.0" />
+    <PhysicsMaterial>player</PhysicsMaterial>
+    <RigidBodyTransform>
+      <Position x="0.0" y="0.0" z="0.0"/>
+    </RigidBodyTransform>
+  </RigidBodyComponent>
+  
   <TransformComponent>
     <Position x="0" y="15" z="5"/>
     <YawPitchRoll x="0" y="0" z="0"/>

@@ -15,18 +15,29 @@ struct DtxHeader
 	unsigned char ubExtra[12];
 	char szCommandString[128];
 };
-
+#define MAX_FILE_NAME 128
+struct HeightMap
+{
+	char filename[MAX_FILE_NAME];
+	GLuint Width=-1;
+	GLuint Height=-1;
+	float stepsize=-1;
+	float minH, maxH;
+	GLubyte* Data=nullptr;
+};
 class Resources : public Singleton<Resources>
 {
 private:
 	vector<Texture*> m_Textures;
 	vector<ModelCache*> m_ModelCaches;
+	vector<HeightMap> m_HeightMaps;
 	map<string, Shader*> m_ShaderList;
 	// this list store primitive shape 
 	vector<IMesh*> m_PrimList;
 private:
 	Texture* HasTexture(const char* filename);
 	ModelCache* HasModel(const char* filename);
+	HeightMap HasHeighMap(const char* filename);
 	void ReleaseModel(ModelCache* p);
 
 public:
@@ -35,7 +46,7 @@ public:
 	virtual void  onStartUp();
 	virtual void  onShutDown();
 
-
+	HeightMap LoadHeightMap(const char* filename);
 	Texture* LoadTexture(const char* filename);
 	Texture* LoadCubeTex(const vector<string>& filelist);
 	Texture* LoadTexMemory(const char* filename, unsigned char* data, int w, int h);

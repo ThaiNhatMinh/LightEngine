@@ -4,6 +4,7 @@
 
 class BulletDebugDrawer : public btIDebugDraw
 {
+public:
 	DebugDrawModes               m_DebugModes;
 public:
 	// btIDebugDraw interface

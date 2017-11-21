@@ -60,8 +60,8 @@ TerrainRenderComponent::~TerrainRenderComponent()
 Mesh * TerrainRenderComponent::ReadFile(const char * filename)
 {
 	if (filename == nullptr) return nullptr;
-
-	GLint width, height, iType, iBpp;
+	HeightMap hm = gResources()->LoadHeightMap(filename);
+	/*GLint width, height, iType, iBpp;
 
 	ilLoadImage(filename);
 
@@ -79,7 +79,10 @@ Mesh * TerrainRenderComponent::ReadFile(const char * filename)
 	ILubyte *Data = ilGetData();
 	iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
-	float stepsize = 50;
+	float stepsize = 50;*/
+	GLint width = hm.Width, height = hm.Height;
+	float stepsize = hm.stepsize;
+	GLubyte* Data = hm.Data;
 	vec2 size = vec2(width*stepsize, height*stepsize);
 	Mesh* p = new Mesh;
 
@@ -92,10 +95,10 @@ Mesh * TerrainRenderComponent::ReadFile(const char * filename)
 		for (int j = 0; j < width; j++)
 		{
 			x += stepsize;
-			int b = i*width*iBpp + j*iBpp;
+			int b = i*width + j;
 			
 			
-			y = (Data[b] + Data[b+1] + Data[b+2])/3.0;
+			y = Data[b];
 			vec3 pos(x, y, z);
 			vec2 uv((x + size[0] / 2) / size[0], (z + size[1] / 2) / size[1]);
 			vec3 normal(0, 1, 0);

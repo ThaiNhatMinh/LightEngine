@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h>
 
 const char* ColliderComponent::Name = "ColliderComponent";
 
@@ -33,6 +34,16 @@ btCollisionShape * ColliderComponent::GetCollisionShape()
 	return m_pCollisionShape;
 }
 
+ShapeType ColliderComponent::GetType()
+{
+	return m_Type;
+}
+
+vec2 ColliderComponent::GetMinMax()
+{
+	return m_MM;
+}
+
 void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pData)
 {
 	if (name == "Box")
@@ -47,9 +58,7 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 
 		m_pCollisionShape = new btBoxShape(ToBtVector3(v));
 		return;
-	}
-
-	if (name == "Sphere")
+	}else if (name == "Sphere")
 	{
 		// size
 		const tinyxml2::XMLElement* pSize = pData->FirstChildElement("Radius");
@@ -57,5 +66,18 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		float r = pSize->DoubleAttribute("r", 1.0f);
 		m_pCollisionShape = new btSphereShape(r);
 		return;
+	}
+	else if (name == "HeightMap")
+	{
+		const tinyxml2::XMLElement* pFile = pData->FirstChildElement("File");
+		if (pFile == nullptr) return;
+		const char* path = pFile->Attribute("Path");
+		if (path == nullptr) return;
+		HeightMap hm = gResources()->LoadHeightMap(path);
+		m_pCollisionShape = new btHeightfieldTerrainShape(hm.Width, hm.Height, hm.Data, 1.0f, hm.minH, hm.maxH, 1, PHY_UCHAR, false);
+		btVector3 localScaling(hm.stepsize, 1.0, hm.stepsize);
+		m_pCollisionShape->setLocalScaling(localScaling);
+		m_MM = vec2(hm.minH, hm.maxH);
+		m_Type = SHAPE_TERRAIN;
 	}
 }

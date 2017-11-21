@@ -156,7 +156,13 @@ void BulletDebugDrawer::drawLine(const btVector3& from, const btVector3& to, con
 
 	//pRenderer->VDrawLine(vec3From, vec3To, color);
 	const Debug& debug = APP->GetDebug();
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_DEPTH_TEST);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	debug.DrawLine(vec3From, vec3To, color);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 

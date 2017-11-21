@@ -38,7 +38,7 @@ bool Scene::OnRender()
 	m_pRenderer->Clear();
 	//glPolygonMode(GL_FRONT, GL_LINE);
 	m_pRoot->VRenderChildren(this);
-	
+	gPhysic()->VRenderDiagnostics();
 	m_pRenderer->SwapBuffer();
 	return true;
 }

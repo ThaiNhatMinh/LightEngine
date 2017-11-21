@@ -10,7 +10,7 @@
 	</ColliderComponent>
 	
 	<RigidBodyComponent>
-		<Mass value="10.0" />
+		<Mass value="50.0" />
 		<PhysicsMaterial>player</PhysicsMaterial>
 		<RigidBodyTransform>
 			<Position x="0.0" y="0.0" z="0.0"/>
@@ -19,7 +19,7 @@
 	  
   
 	<TransformComponent>
-		<Position x="0" y="15" z="5"/>
+		<Position x="0" y="100" z="0"/>
 		<YawPitchRoll x="0" y="0" z="0"/>
 	</TransformComponent>
 	

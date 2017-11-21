@@ -32,16 +32,20 @@ public:
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument * doc) override;
 
 	// ActorComponent interface
-	virtual bool VInit(const tinyxml2::XMLElement* pData) override;
+	virtual bool		VInit(const tinyxml2::XMLElement* pData) override;
 
 	// Component interface
-	btCollisionShape* GetCollisionShape();
-
+	btCollisionShape*	GetCollisionShape();
+	ShapeType			GetType();
+	// for heightmap
+	vec2				GetMinMax();
+	
 protected:
 	void CreateShape(string name, const tinyxml2::XMLElement* pData);
 
 private:
-
+	vec2				m_MM;
+	ShapeType			m_Type;
 	btCollisionShape*	m_pCollisionShape;
 	string				m_ShapeName;
 };

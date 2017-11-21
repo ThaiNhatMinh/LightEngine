@@ -135,6 +135,7 @@ bool BulletPhysics::VInitialize()
 	m_dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
 	m_debugDrawer = new BulletDebugDrawer;
+	m_debugDrawer->m_DebugModes = btIDebugDraw::DBG_DrawWireframe;
 	//m_debugDrawer->ReadOptions();
 
 	if (!m_collisionConfiguration || !m_dispatcher || !m_broadphase ||
@@ -151,7 +152,7 @@ bool BulletPhysics::VInitialize()
 	m_dynamicsWorld->setInternalTickCallback(BulletInternalTickCallback, static_cast<void*>(this),false);
 	m_dynamicsWorld->setInternalTickCallback(BulletInternalPreTickCallback, static_cast<void*>(this), true);
 	m_dynamicsWorld->setWorldUserInfo(this);
-
+	//m_dynamicsWorld->debugDrawWorld();
 	return true;
 }
 
@@ -168,6 +169,12 @@ void BulletPhysics::VOnUpdate(float const deltaSeconds)
 	//E_DEBUG("Physuic Update()");
 	
 
+}
+
+
+void BulletPhysics::VRenderDiagnostics()
+{
+	m_dynamicsWorld->debugDrawWorld();
 }
 
 void BulletPhysics::VPostStep(float timeStep)
@@ -313,10 +320,6 @@ void BulletPhysics::VRemoveActor(ActorId id)
 	}
 }
 
-void BulletPhysics::VRenderDiagnostics()
-{
-	m_dynamicsWorld->debugDrawWorld();
-}
 
 /////////////////////////////////////////////////////////////////////////////
 // BulletPhysics::BulletInternalTickCallback

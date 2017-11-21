@@ -29,6 +29,13 @@ ModelCache * Resources::HasModel(const char * filename)
 	return NULL;
 }
 
+HeightMap Resources::HasHeighMap(const char * filename)
+{
+	for (size_t i = 0; i < m_HeightMaps.size(); i++)
+		if (!strcmp(filename, m_HeightMaps[i].filename)) return m_HeightMaps[i];
+	return HeightMap();
+}
+
 void Resources::ReleaseModel(ModelCache * p)
 {
 	if (!p) return;
@@ -65,6 +72,67 @@ void Resources::onStartUp()
 	// Load default tex
 	LoadTexture("GameAssets/TEXTURE/Default.png");
 		
+}
+
+HeightMap Resources::LoadHeightMap(const char * filename)
+{
+	HeightMap hm;
+	hm = HasHeighMap(filename);
+	if (hm.Data != nullptr) return hm;
+
+	if (filename == nullptr) return HeightMap();
+
+	GLint width, height, iType, iBpp;
+
+	ilLoadImage(filename);
+
+	ILenum Error;
+	Error = ilGetError();
+
+	if (Error != IL_NO_ERROR)
+	{
+		Log::Message(Log::LOG_ERROR, "Can't load terrain " + string(filename));
+		return  HeightMap();
+	}
+	width = ilGetInteger(IL_IMAGE_WIDTH);
+	height = ilGetInteger(IL_IMAGE_HEIGHT);
+	iType = ilGetInteger(IL_IMAGE_FORMAT);
+	ILubyte *Data = ilGetData();
+	iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
+
+	float stepsize = 1;
+	vec2 size = vec2(width*stepsize, height*stepsize);
+	
+	GLubyte* h = new GLubyte[width*height];
+	int c = 0;
+	float min = 100000000;
+	float max = -min;
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			int b = i*width*iBpp + j*iBpp;
+
+
+			h[c] = (Data[b] + Data[b + 1] + Data[b + 2]) / 3.0;
+			if (min > h[c]) min = h[c];
+			if (max < h[c]) max = h[c];
+			c++;
+		}
+	}
+	
+	ilResetMemory();
+
+	
+	hm.Data = h;
+	hm.Width = width;
+	hm.Height = height;
+	hm.stepsize = stepsize;
+	hm.maxH = max;
+	hm.minH = min;
+	m_HeightMaps.push_back(hm);
+
+	return hm;
 }
 
 Texture * Resources::LoadTexture(const char * filename)
@@ -494,5 +562,8 @@ void Resources::onShutDown()
 
 	for (size_t i = 0; i < m_PrimList.size(); i++)
 		delete m_PrimList[i];
+
+	for (int i = 0; i < m_HeightMaps.size(); i++)
+		delete[] m_HeightMaps[i].Data;
 }
 

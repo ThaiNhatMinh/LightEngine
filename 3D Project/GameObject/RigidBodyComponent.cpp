@@ -41,8 +41,18 @@ void RigidBodyComponent::VPostInit(void)
 	ColliderComponent* pCollider = m_pOwner->GetComponent<ColliderComponent>(ColliderComponent::Name);
 	TransformComponent* pTransformComponent = m_pOwner->GetComponent<TransformComponent>(TransformComponent::Name);
 	btCollisionShape* pShape = pCollider->GetCollisionShape();
+	ActorMotionState * myMotionState = nullptr;
 
-	ActorMotionState * myMotionState = new ActorMotionState(pTransformComponent->GetTransform());
+	if (pCollider->GetType() == SHAPE_TERRAIN)
+	{
+		vec2 mm = pCollider->GetMinMax();
+		float off = (mm.x + mm.y) / 2.0f;
+		mat4 m;
+		//m = glm::translate(m, vec3(0, -off, 0));
+		myMotionState = new ActorMotionState((pTransformComponent->GetTransform()*m));
+	}
+	else myMotionState = new ActorMotionState(pTransformComponent->GetTransform());
+	
 
 	// localInertia defines how the object's mass is distributed
 	btVector3 localInertia(0.f, 0.f, 0.f);

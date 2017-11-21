@@ -40,10 +40,10 @@ void Application::SetupSubmodule()
 
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
-	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
+	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
 	m_pScene->GetRoot()->VAddChild(factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr));
 	//m_pScene->GetRoot()->VAddChild(p5);
-
+	
 
 }
 
@@ -108,9 +108,9 @@ void Application::MainLoop()
 
 		gPhysic()->VOnUpdate(gTimer()->GetDeltaTime());
 		gPhysic()->VSyncVisibleScene();
-		//cout << gTimer()->GetFPS() << endl;
+		cout << gTimer()->GetFPS() << endl;
 		
-		//gPhysic()->VRenderDiagnostics();
+		
 		
 		//m_pGameLogic->Update();
 		//m_pGameLogic->Render();
