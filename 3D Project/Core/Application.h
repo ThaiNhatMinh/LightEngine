@@ -10,7 +10,7 @@ public:
 	virtual void Setup() {};
 	virtual void Start() {};
 
-	const Debug& GetDebug();
+	Debug& GetDebug();
 	
 	void MainLoop();
 private:

@@ -38,7 +38,11 @@ bool Scene::OnRender()
 	m_pRenderer->Clear();
 	//glPolygonMode(GL_FRONT, GL_LINE);
 	m_pRoot->VRenderChildren(this);
-	gPhysic()->VRenderDiagnostics();
+
+	//gPhysic()->VRenderDiagnostics();
+
+	m_Debug.Render();
+
 	m_pRenderer->SwapBuffer();
 	return true;
 }

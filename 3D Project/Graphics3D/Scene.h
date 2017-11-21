@@ -37,7 +37,7 @@ public:
 	Light GetDirLight() { return m_DirectionLight; };
 	void SetCamera(CameraComponent* pActor);
 	mat4 GetViewProj();
-	const Debug& GetDebug() { return m_Debug; }
+	Debug& GetDebug() { return m_Debug; }
 	ActorFactory& GetActorFactory() { return m_ActorFactory; }
 	RenderAPICore* GetRenderer() { return m_pRenderer; }
 };

@@ -149,7 +149,6 @@ Mesh * TerrainRenderComponent::ReadFile(const char * filename)
 			p->m_Vertexs[id].normal = N;
 			id++;
 		}
-	ilResetMemory();
 
 	return p;
 }

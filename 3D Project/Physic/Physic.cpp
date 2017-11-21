@@ -77,7 +77,7 @@ void BulletPhysics::onShutDown()
 void BulletPhysics::LoadXml()
 {
 	// Load the physics config file and grab the root XML node
-	tinyxml2::XMLDocument doc;// = new tinyxml2::XMLDocument;
+	tinyxml2::XMLDocument doc;
 	doc.LoadFile("GameAssets\\Physics.xml");
 
 	tinyxml2::XMLElement* pRoot = doc.FirstChildElement("Physics");
@@ -267,8 +267,6 @@ void BulletPhysics::RemoveCollisionObject(btCollisionObject * const removeMe)
 		// delete the components of the object
 		delete body->getMotionState();
 		delete body->getCollisionShape();
-		//delete body->getUserPointer();
-		//delete body->getUserPointer();
 
 		for (int ii = body->getNumConstraintRefs() - 1; ii >= 0; --ii)
 		{
@@ -381,8 +379,8 @@ void BulletPhysics::SendCollisionEvents()
 		RigidBodyComponent* bodyC0 = static_cast<RigidBodyComponent*>(body0->getUserPointer());
 		RigidBodyComponent* bodyC1 = static_cast<RigidBodyComponent*>(body1->getUserPointer());
 		// this is a new contact, which wasn't in our list before.  send an event to the game.
-		ActorId const id0 = FindActorID(bodyC0);
-		ActorId const id1 = FindActorID(bodyC1);
+		ActorId const id0 = bodyC0->GetOwner()->GetId();
+		ActorId const id1 = bodyC1->GetOwner()->GetId();
 
 		if (id0 == 0 || id1 == 0)
 		{
@@ -435,8 +433,8 @@ void BulletPhysics::SendCollisionEvents()
 		RigidBodyComponent* bodyA = static_cast<RigidBodyComponent*>(body0->getUserPointer());
 		RigidBodyComponent* bodyB = static_cast<RigidBodyComponent*>(body1->getUserPointer());
 
-		ActorId const id0 = FindActorID(bodyA);
-		ActorId const id1 = FindActorID(bodyB);
+		ActorId const id0 = bodyA->GetOwner()->GetId();
+		ActorId const id1 = bodyB->GetOwner()->GetId();
 
 		if (id0 == 0 || id1 == 0)
 		{

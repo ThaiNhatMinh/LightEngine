@@ -74,7 +74,7 @@ void AnimationComponent::SendAnimationEvent(string data)
 	gEventManager()->VQueueEvent(pEvent);
 }
 
-void AnimationComponent::DrawSkeleton(const Debug & debug,const mat4& m )
+void AnimationComponent::DrawSkeleton(Debug & debug,const mat4& m )
 {
 	//return;
 	glDisable(GL_CULL_FACE);
@@ -137,7 +137,7 @@ AnimationComponent::AnimationComponent(void):m_iDefaultAnimation(0)
 	m_Control[upper].m_iCurrentAnim = 0;
 	m_Control[upper].m_iCurrentFrame = 0;
 	m_Control[upper].KeyFrameID = 0;
-	m_Control[upper].m_State = ANIM_STOP;
+	m_Control[upper].m_State = ANIM_PLAYING;
 
 	m_Control[lower].m_fTime = 0;
 	m_Control[lower].m_iCurrentAnim = 0;
@@ -186,8 +186,8 @@ void AnimationComponent::VPostInit(void)
 void AnimationComponent::VUpdate(float deltaMs)
 {
 	if (!m_pAnimList.size()) return;
-	if (gInput()->KeyDown(DIK_DOWN)) { if (select > 0) select--; }
-	else if (gInput()->KeyDown(DIK_UP)) { if (select < m_pSkeNodes.size() - 1) select++; }
+	//if (gInput()->KeyDown(DIK_DOWN)) { if (select > 0) select--; }
+	//else if (gInput()->KeyDown(DIK_UP)) { if (select < m_pSkeNodes.size() - 1) select++; }
 
 	if (m_Control[upper].m_State != ANIM_STOP)
 	{

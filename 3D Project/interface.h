@@ -212,7 +212,7 @@ class IApplication
 public:
 	virtual void Setup() {};
 	virtual void Start() {};
-	virtual const Debug& GetDebug()=0;
+	virtual Debug& GetDebug()=0;
 	virtual void MainLoop() = 0;
 	virtual ~IApplication() {};
 };

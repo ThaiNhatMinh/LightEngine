@@ -80,7 +80,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>D:\Code Collection\3D Project\3D Project\include;E:\Code Collection\Game Coding Complete\Source\GCC4\3rdParty\bullet-2.79\src;E:\Code Collection\3D Project\3D Project;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\Game Coding Complete\Source\GCC4\3rdParty\bullet-2.79\lib\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet-2.79\lib\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

@@ -38,10 +38,15 @@ void Application::SetupSubmodule()
 	//Actor* p4 = factory.CreateActor("GameAssets\\Camera.xml", nullptr, nullptr);
 	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
 
-	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, nullptr));
+	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, nullptr));
+	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Zombie.xml", nullptr, nullptr));
+	mat4 t = glm::translate(mat4(), vec3(0, 0, 100));
+	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
+	t = glm::translate(mat4(), vec3(0, 0, 200));
+	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
-	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
-	m_pScene->GetRoot()->VAddChild(factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr));
+	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
+	//m_pScene->GetRoot()->VAddChild(factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr));
 	//m_pScene->GetRoot()->VAddChild(p5);
 	
 
@@ -66,7 +71,7 @@ Application::~Application()
 }
 
 
-const Debug & Application::GetDebug()
+Debug & Application::GetDebug()
 {
 	// TODO: insert return statement here
 	return m_pScene->GetDebug();
