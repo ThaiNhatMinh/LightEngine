@@ -22,11 +22,12 @@ public:
 	//protected:
 	// [rez] This function can be overridden by a subclass so you can create game-specific C++ components.  If you do
 	// this, make sure you call the base-class version first.  If it returns NULL, you know it's not an engine component.
-	virtual ActorComponent* VCreateComponent(tinyxml2::XMLElement* pData);
+	virtual ActorComponent* VCreateComponent(const tinyxml2::XMLElement* pData);
 
 private:
 	ActorId GetNextActorId(void) { ++m_lastActorId; return m_lastActorId; }
 };
+
 
 template<class Type>
 Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLElement * overrides, const mat4 * initialTransform)

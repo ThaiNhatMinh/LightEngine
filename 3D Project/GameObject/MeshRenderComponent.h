@@ -2,7 +2,6 @@
 #include "pch.h"
 
 // This component using to render model for actor
-// Store vector of IMesh 
 class MeshRenderComponent : public ActorComponent
 {
 protected:
@@ -15,8 +14,9 @@ public:
 	MeshRenderComponent(void) {}
 	MeshRenderComponent(const vector<IMesh*>& v) { m_MeshList = v; }
 	virtual ~MeshRenderComponent() {};
+	
+	virtual bool VInit(const tinyxml2::XMLElement* pData);
 	virtual void VPostInit(void);
-	virtual bool VInit(tinyxml2::XMLElement* pData);
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p);
 	virtual const char* VGetName() const { return Name; }
 

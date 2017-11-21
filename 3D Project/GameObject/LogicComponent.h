@@ -17,7 +17,7 @@ public:
 	static const char*	Name;
 	LogicComponent();
 	~LogicComponent();
-	virtual bool VInit(tinyxml2::XMLElement* pData) { return 1; };
+	virtual bool VInit(const tinyxml2::XMLElement* pData) { return 1; };
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p);
 	virtual const char *VGetName() const ;
 	virtual void VPostInit(void);

@@ -15,10 +15,11 @@ tinyxml2::XMLElement * ColliderComponent::VGenerateXml(tinyxml2::XMLDocument * d
 	return nullptr;
 }
 
-bool ColliderComponent::VInit(tinyxml2::XMLElement * pData)
+bool ColliderComponent::VInit(const tinyxml2::XMLElement* pData)
 {
+	if (!pData) return false;
 	// shape
-	tinyxml2::XMLElement* pShape = pData->FirstChildElement("Shape");
+	const tinyxml2::XMLElement* pShape = pData->FirstChildElement("Shape");
 	if (pShape == nullptr) return false;
 	m_ShapeName = pShape->FirstChild()->Value();
 
@@ -32,12 +33,12 @@ btCollisionShape * ColliderComponent::GetCollisionShape()
 	return m_pCollisionShape;
 }
 
-void ColliderComponent::CreateShape(string name, tinyxml2::XMLElement* pData)
+void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pData)
 {
 	if (name == "Box")
 	{
 		// size
-		tinyxml2::XMLElement* pSize = pData->FirstChildElement("HalfSize");
+		const tinyxml2::XMLElement* pSize = pData->FirstChildElement("HalfSize");
 		if (pSize == nullptr) return;
 		vec3 v;
 		v.x = pSize->DoubleAttribute("x", 1.0f);
@@ -51,7 +52,7 @@ void ColliderComponent::CreateShape(string name, tinyxml2::XMLElement* pData)
 	if (name == "Sphere")
 	{
 		// size
-		tinyxml2::XMLElement* pSize = pData->FirstChildElement("Radius");
+		const tinyxml2::XMLElement* pSize = pData->FirstChildElement("Radius");
 		if (pSize == nullptr) return;
 		float r = pSize->DoubleAttribute("r", 1.0f);
 		m_pCollisionShape = new btSphereShape(r);

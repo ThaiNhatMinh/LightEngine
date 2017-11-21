@@ -32,29 +32,17 @@ void Application::SetupSubmodule()
 	ActorFactory& factory = m_pScene->GetActorFactory();
 	
 	
-	
-	
 
-	/*
-	No longer need this. Delete it if you want
-	Camera* cam = new Camera(vec3(0,0,20),vec3(0,0,0),vec3(0,1,0));
-	Frustum* frustum = new Frustum(52.0f, 4.0f / 3.0f, 1.0f, 1000.0f);
-	m_pScene->SetCamera(cam);
-	m_pScene->SetFrustum(frustum);
-	*/
+	//Actor* p2 = ;
 	
-
-	Actor* p1 = factory.CreateActor("GameAssets\\Player.xml", nullptr,nullptr);
-	//Actor* p2 = factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr);
-	//Actor* p3 = factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr);
 	//Actor* p4 = factory.CreateActor("GameAssets\\Camera.xml", nullptr, nullptr);
-	Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
+	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
 
-	m_pScene->GetRoot()->VAddChild(p1);
-	//m_pScene->GetRoot()->VAddChild(p2);
-	//m_pScene->GetRoot()->VAddChild(p3);
-	//m_pScene->GetRoot()->VAddChild(p4);
-	m_pScene->GetRoot()->VAddChild(p5);
+	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, nullptr));
+	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
+	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
+	m_pScene->GetRoot()->VAddChild(factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr));
+	//m_pScene->GetRoot()->VAddChild(p5);
 
 
 }

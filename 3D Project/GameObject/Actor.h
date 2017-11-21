@@ -25,7 +25,7 @@ public:
 	Actor(ActorId id);
 	~Actor();
 
-	virtual bool Init(tinyxml2::XMLElement* pData);
+	virtual bool Init(const tinyxml2::XMLElement* pData);
 	virtual void PostInit(void);
 	virtual void Destroy(void);
 

@@ -97,7 +97,7 @@ public:
 	static const char*	Name;
 	virtual const char* VGetName() const { return Name; }
 	
-	virtual bool		VInit(tinyxml2::XMLElement* pData);
+	virtual bool		VInit(const tinyxml2::XMLElement* pData);
 	virtual void		VPostInit(void);
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) { return nullptr; };
 	virtual void		VUpdate(float deltaMs);

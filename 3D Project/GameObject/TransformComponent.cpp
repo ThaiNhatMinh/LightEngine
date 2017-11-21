@@ -1,14 +1,14 @@
 #include "pch.h"
 
 const char* TransformComponent::Name = "TransformComponent";
-bool TransformComponent::VInit(tinyxml2::XMLElement * pData)
+bool TransformComponent::VInit(const tinyxml2::XMLElement* pData)
 {
 	if (!pData) return false;
 
 	vec3 yawPitchRoll;
 	vec3 position;
 	vec3 Scale;
-	tinyxml2::XMLElement* pPositionElement = pData->FirstChildElement("Position");
+	const tinyxml2::XMLElement* pPositionElement = pData->FirstChildElement("Position");
 	if (pPositionElement)
 	{
 		float x = 0;
@@ -20,7 +20,7 @@ bool TransformComponent::VInit(tinyxml2::XMLElement * pData)
 		position = vec3(x, y, z);
 	}
 
-	tinyxml2::XMLElement* pOrientationElement = pData->FirstChildElement("YawPitchRoll");
+	const tinyxml2::XMLElement* pOrientationElement = pData->FirstChildElement("YawPitchRoll");
 	if (pOrientationElement)
 	{
 		float yaw = 0;

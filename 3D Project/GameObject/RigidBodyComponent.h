@@ -14,7 +14,7 @@ public:
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument * doc) override;
 
 	// ActorComponent interface
-	virtual bool VInit(tinyxml2::XMLElement* pData) override;
+	virtual bool VInit(const tinyxml2::XMLElement* pData) override;
 	virtual void VPostInit(void) override;
 	virtual void VUpdate(float deltaMs) override;
 
@@ -73,7 +73,7 @@ protected:
 	void UpdateGravity();
 private:
 
-	void BuildRigidBodyTransform(tinyxml2::XMLElement* pTransformElement);
+	void BuildRigidBodyTransform(const tinyxml2::XMLElement* pTransformElement);
 
 	btRigidBody*	m_pRigidBody;
 	vec3			m_CenterOfMass;

@@ -6,12 +6,12 @@ ActorFactory::ActorFactory(Scene* pScene)
 
 	
 	m_ComponentFactory.insert(std::make_pair(TransformComponent::Name, []() { return new TransformComponent(); } ));
-	m_ComponentFactory.insert(std::make_pair(MeshRenderComponent::Name, []() { return new MeshRenderComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(ColliderComponent::Name, []() { return new ColliderComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(RigidBodyComponent::Name, []() { return new RigidBodyComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(AnimationComponent::Name, []() { return new AnimationComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(CharacterControllerComponent::Name, []() { return new CharacterControllerComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(LogicComponent::Name, []() { return new LogicComponent(); }));
+	m_ComponentFactory.insert(std::make_pair(MeshRenderComponent::Name, []() { return new MeshRenderComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(TerrainRenderComponent::Name, []() { return new TerrainRenderComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(CameraComponent::Name, [pScene]()
 		{ 
@@ -21,7 +21,6 @@ ActorFactory::ActorFactory(Scene* pScene)
 	
 	
 }
-
 
 
 Actor * ActorFactory::CreateActor(const char * name, ShapeType type, const mat4& initialTransform)
@@ -53,14 +52,20 @@ void ActorFactory::ModifyActor(Actor * pActor, tinyxml2::XMLElement * overrides)
 {
 }
 
-ActorComponent * ActorFactory::VCreateComponent(tinyxml2::XMLElement * pData)
+void Testfunc(const tinyxml2::XMLElement* pData)
+{
+
+}
+ActorComponent * ActorFactory::VCreateComponent(const tinyxml2::XMLElement* pData)
 {
 	const char* name = pData->Value();
 	auto factory = m_ComponentFactory.find(name);
-	ActorComponent* pComponent(factory->second());
+	ActorComponent* pComponent = factory->second();
 	// initialize the component if we found one
 	if (pComponent)
 	{
+		if (!strcmp(name, "MeshRenderComponent")) 
+			Testfunc(pData);
 		if (!pComponent->VInit(pData))
 		{
 			E_ERROR("Component failed to initialize: " + std::string(name));

@@ -20,7 +20,7 @@ Actor::~Actor()
 	}
 }
 
-bool Actor::Init(tinyxml2::XMLElement * pData)
+bool Actor::Init(const tinyxml2::XMLElement* pData)
 {
 	const char* tag = pData->Attribute("type");
 	const char* name = pData->Attribute("name");

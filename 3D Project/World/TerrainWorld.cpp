@@ -4,7 +4,7 @@
 
 
 
-bool TerrainWorld::Init(tinyxml2::XMLElement * pData)
+bool TerrainWorld::Init(const tinyxml2::XMLElement* pData)
 {
 	return Actor::Init(pData);
 

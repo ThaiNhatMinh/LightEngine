@@ -153,10 +153,11 @@ AnimationComponent::~AnimationComponent(void)
 	gEventManager()->VRemoveListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
 }
 
-bool AnimationComponent::VInit(tinyxml2::XMLElement* pData)
+bool AnimationComponent::VInit(const tinyxml2::XMLElement* pData)
 {
+	if (!pData) return false;
 	// load model
-	tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
+	const tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
 	const char* pFileName = pModelNode->Attribute("File");
 
 	ModelCache* pModel = gResources()->LoadModel(pFileName);

@@ -13,7 +13,7 @@ public:
 	static const char* Name;
 	CameraComponent();
 	~CameraComponent();
-	virtual bool VInit(tinyxml2::XMLElement* pData) ;
+	virtual bool VInit(const tinyxml2::XMLElement* pData) ;
 	virtual void VPostInit(void);
 	//virtual void VUpdate(float dt);
 	virtual const char *VGetName() const;

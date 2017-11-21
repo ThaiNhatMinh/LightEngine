@@ -213,7 +213,6 @@
     <ClInclude Include="Utilities\Shader.h" />
     <ClInclude Include="Utilities\String.h" />
     <ClInclude Include="Utilities\Timer.h" />
-    <ClInclude Include="World\TerrainMesh.h" />
     <ClInclude Include="World\TerrainWorld.h" />
   </ItemGroup>
   <ItemGroup>
@@ -269,6 +268,7 @@
     <ClCompile Include="World\TerrainWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="GameAssets\SCRIPTS\Box.lua" />
     <None Include="GameAssets\SCRIPTS\test.lua" />
     <None Include="GameAssets\SHADER\Debug.fs" />

@@ -12,7 +12,7 @@ public:
 	virtual const char* VGetName() const { return Name; }
 	TransformComponent(void)  { }
 	TransformComponent(const mat4& t) { m_Transform = t; }
-	virtual bool VInit(tinyxml2::XMLElement* pData) ;
+	virtual bool VInit(const tinyxml2::XMLElement* pData) ;
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) ;
 
 	// transform functions

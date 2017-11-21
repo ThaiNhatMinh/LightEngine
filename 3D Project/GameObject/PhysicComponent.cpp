@@ -30,28 +30,28 @@ PhysicsComponent::~PhysicsComponent(void)
 	gPhysic()->VRemoveActor(m_pOwner->GetId());
 }
 
-bool PhysicsComponent::VInit(tinyxml2::XMLElement* pData)
+bool PhysicsComponent::VInit(const tinyxml2::XMLElement* pData)
 {
 
 	// shape
-	tinyxml2::XMLElement* pShape = pData->FirstChildElement("Shape");
+	const tinyxml2::XMLElement* pShape = pData->FirstChildElement("Shape");
 	if (pShape)
 	{
 		m_shape = pShape->FirstChild()->Value();
 	}
 
 	// density
-	tinyxml2::XMLElement* pDensity = pData->FirstChildElement("Density");
+	const tinyxml2::XMLElement* pDensity = pData->FirstChildElement("Density");
 	if (pDensity)
 		m_density = pDensity->FirstChild()->Value();
 
 	// material
-	tinyxml2::XMLElement* pMaterial = pData->FirstChildElement("PhysicsMaterial");
+	const tinyxml2::XMLElement* pMaterial = pData->FirstChildElement("PhysicsMaterial");
 	if (pMaterial)
 		m_material = pMaterial->FirstChild()->Value();
 
 	// initial transform
-	tinyxml2::XMLElement* pRigidBodyTransform = pData->FirstChildElement("RigidBodyTransform");
+	const tinyxml2::XMLElement* pRigidBodyTransform = pData->FirstChildElement("RigidBodyTransform");
 	if (pRigidBodyTransform)
 		BuildRigidBodyTransform(pRigidBodyTransform);
 
@@ -182,11 +182,11 @@ void PhysicsComponent::VUpdate(float deltaMs)
 
 }
 
-void PhysicsComponent::BuildRigidBodyTransform(tinyxml2::XMLElement* pTransformElement)
+void PhysicsComponent::BuildRigidBodyTransform(const tinyxml2::XMLElement* pTransformElement)
 {
 	// FUTURE WORK Mrmike - this should be exactly the same as the TransformComponent - maybe factor into a helper method?
 
-	tinyxml2::XMLElement* pPositionElement = pTransformElement->FirstChildElement("Position");
+	const tinyxml2::XMLElement* pPositionElement = pTransformElement->FirstChildElement("Position");
 	if (pPositionElement)
 	{
 		double x = pPositionElement->DoubleAttribute("x");
@@ -195,7 +195,7 @@ void PhysicsComponent::BuildRigidBodyTransform(tinyxml2::XMLElement* pTransformE
 		m_RigidBodyLocation = vec3(x, y, z);
 	}
 
-	tinyxml2::XMLElement* pOrientationElement = pTransformElement->FirstChildElement("Orientation");
+	const tinyxml2::XMLElement* pOrientationElement = pTransformElement->FirstChildElement("Orientation");
 	if (pOrientationElement)
 	{
 		double yaw = pPositionElement->DoubleAttribute("yaw");
@@ -206,7 +206,7 @@ void PhysicsComponent::BuildRigidBodyTransform(tinyxml2::XMLElement* pTransformE
 		m_RigidBodyOrientation = vec3((float)glm::radians(yaw), (float)glm::radians(pitch), (float)glm::radians(roll));
 	}
 
-	tinyxml2::XMLElement* pScaleElement = pTransformElement->FirstChildElement("Scale");
+	const tinyxml2::XMLElement* pScaleElement = pTransformElement->FirstChildElement("Scale");
 	if (pScaleElement)
 	{
 		double x = pScaleElement->DoubleAttribute("x");

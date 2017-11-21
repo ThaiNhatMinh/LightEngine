@@ -4,7 +4,8 @@
     <YawPitchRoll x="0" y="0" z="0"/>
   </TransformComponent>
   <TerrainRenderComponent>
-    <Model File="GameAssets\WORLD\DDD.png" />
+    <Model File="GameAssets\WORLD\heightmap.png" />
+    <Texture File0 ="GameAssets\TEXTURE\grass_autumn_orn_d.jpg" />
     <Scale x="1.0" y="1.0" z="1.0"/>
     <Shader name="Texture" />
   </TerrainRenderComponent>

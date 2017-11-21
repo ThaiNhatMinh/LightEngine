@@ -6,6 +6,7 @@ struct Texture
 	GLuint iIndex;
 	GLuint iWidth;
 	GLuint iHeight;
+	float scale = 1.0f;
 	/*
 	inline void Bind(GLuint tex_unit) {
 		glActiveTexture(GL_TEXTURE0 + tex_unit);

@@ -15,20 +15,21 @@ tinyxml2::XMLElement * RigidBodyComponent::VGenerateXml(tinyxml2::XMLDocument * 
 	return nullptr;
 }
 
-bool RigidBodyComponent::VInit(tinyxml2::XMLElement * pData)
+bool RigidBodyComponent::VInit(const tinyxml2::XMLElement* pData)
 {
+	if (!pData) return false;
 	// mass
-	tinyxml2::XMLElement* pMass = pData->FirstChildElement("Mass");
+	const tinyxml2::XMLElement* pMass = pData->FirstChildElement("Mass");
 	if (pMass)
 		m_fMass = pMass->DoubleAttribute("value");
 
 	// material
-	tinyxml2::XMLElement* pMaterial = pData->FirstChildElement("PhysicsMaterial");
+	const tinyxml2::XMLElement* pMaterial = pData->FirstChildElement("PhysicsMaterial");
 	if (pMaterial)
 		m_material = pMaterial->FirstChild()->Value();
 
 	// initial transform
-	tinyxml2::XMLElement* pRigidBodyTransform = pData->FirstChildElement("RigidBodyTransform");
+	const tinyxml2::XMLElement* pRigidBodyTransform = pData->FirstChildElement("RigidBodyTransform");
 	if (pRigidBodyTransform)
 		BuildRigidBodyTransform(pRigidBodyTransform);
 
@@ -181,9 +182,9 @@ void RigidBodyComponent::SetTrigger(bool enable)
 
 
 
-void RigidBodyComponent::BuildRigidBodyTransform(tinyxml2::XMLElement * pTransformElement)
+void RigidBodyComponent::BuildRigidBodyTransform(const tinyxml2::XMLElement * pTransformElement)
 {
-	tinyxml2::XMLElement* pPositionElement = pTransformElement->FirstChildElement("Position");
+	const tinyxml2::XMLElement* pPositionElement = pTransformElement->FirstChildElement("Position");
 	if (pPositionElement)
 	{
 		double x = pPositionElement->DoubleAttribute("x");
@@ -192,7 +193,7 @@ void RigidBodyComponent::BuildRigidBodyTransform(tinyxml2::XMLElement * pTransfo
 		m_RigidBodyLocation = vec3(x, y, z);
 	}
 
-	tinyxml2::XMLElement* pOrientationElement = pTransformElement->FirstChildElement("Orientation");
+	const tinyxml2::XMLElement* pOrientationElement = pTransformElement->FirstChildElement("Orientation");
 	if (pOrientationElement)
 	{
 		double yaw = pPositionElement->DoubleAttribute("yaw");

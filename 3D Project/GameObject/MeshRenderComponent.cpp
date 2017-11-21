@@ -10,11 +10,11 @@ void MeshRenderComponent::VPostInit(void)
 	}
 }
 
-bool MeshRenderComponent::VInit(tinyxml2::XMLElement * pData)
+bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 {
 	if(!pData) return false;
 
-	tinyxml2::XMLElement* pModelPath = pData->FirstChildElement("Model");
+	const tinyxml2::XMLElement* pModelPath = pData->FirstChildElement("Model");
 	
 	const char* pFileName = pModelPath->Attribute("File");
 	if (pFileName)
@@ -30,7 +30,7 @@ bool MeshRenderComponent::VInit(tinyxml2::XMLElement * pData)
 		}
 		m_Material = pModel->mat;
 	}
-	else if(!strcmp(pFileName ,pModelPath->Attribute("Shape")))
+	else //if(!strcmp(pFileName ,pModelPath->Attribute("Shape")))
 	{
 		m_MeshList.push_back(gResources()->CreateShape(SHAPE_BOX));
 		m_Material.Ka = vec3(1.0f);
@@ -38,14 +38,14 @@ bool MeshRenderComponent::VInit(tinyxml2::XMLElement * pData)
 		m_Material.Ks = vec3(1.0f);
 		m_Material.exp = 64;
 
-		tinyxml2::XMLElement* pColor = pData->FirstChildElement("Color");
+		const tinyxml2::XMLElement* pColor = pData->FirstChildElement("Color");
 		for (size_t i = 0; i < m_MeshList.size(); i++)
 		{
 			m_MeshList[i]->Color = vec3(pColor->DoubleAttribute("r", 1.0f), pColor->DoubleAttribute("g", 1.0f), pColor->DoubleAttribute("b", 1.0f));
 		}
 	}
 	
-	tinyxml2::XMLElement* pScale = pData->FirstChildElement("Scale");
+	const tinyxml2::XMLElement* pScale = pData->FirstChildElement("Scale");
 	if (pScale)
 	{
 		vec3 scale(pScale->DoubleAttribute("x", 1.0), pScale->DoubleAttribute("y", 1.0), pScale->DoubleAttribute("z", 1.0));
@@ -56,7 +56,7 @@ bool MeshRenderComponent::VInit(tinyxml2::XMLElement * pData)
 		}
 	}
 
-	tinyxml2::XMLElement* pShader = pData->FirstChildElement("Shader");
+	const tinyxml2::XMLElement* pShader = pData->FirstChildElement("Shader");
 	if (pShader)
 	{
 		m_pShader = gResources()->GetShader(pShader->Attribute("name"));
@@ -76,7 +76,6 @@ tinyxml2::XMLElement * MeshRenderComponent::VGenerateXml(tinyxml2::XMLDocument *
 
 void MeshRenderComponent::Render(Scene* pScene)
 {
-	//glPolygonMode(GL_FRONT, GL_LINE);
 	m_pShader->SetupRender(pScene, m_pOwner);
 
 	RenderAPICore* pRender = pScene->GetRenderer();
@@ -86,7 +85,7 @@ void MeshRenderComponent::Render(Scene* pScene)
 		if (m_MeshList[i]->Tex) pRender->SetTexture(m_MeshList[i]->Tex);
 		else
 		{
-			assert(m_MeshList[i]->Tex);
+			//assert(m_MeshList[i]->Tex);
 			m_pShader->SetUniform("ObjColor", m_MeshList[i]->Color);
 		}
 		pRender->SetVertexArrayBuffer(m_MeshList[i]->VAO);

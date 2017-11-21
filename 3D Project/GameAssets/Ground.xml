@@ -11,17 +11,18 @@
 			<Position x="0.0" y="0.0" z="0.0"/>
 		</RigidBodyTransform>
 	</RigidBodyComponent>
-	
+
+  <MeshRenderComponent>
+    <Model Shape="Cube" />
+    <Scale x="200.0" y="1.0" z="200.0"/>
+    <Shader name="NoTexture" />
+    <Color r ="1.0" g="1.0" b="1.0" />
+  </MeshRenderComponent>
+  
 	<TransformComponent>
 		<Position x="0" y="0" z="0"/>
 		<YawPitchRoll x="0" y="0" z="0"/>
 	</TransformComponent>
 	
-	<MeshRenderComponent>
-		<Model Shape="Cube" />
-		<Scale x="200.0" y="1.0" z="200.0"/>
-    <Color r ="1.0" g="1.0" b="1.0" />
-    <Shader name="NoTexture" />
-	</MeshRenderComponent>
 	
 </Actor>

@@ -5,38 +5,30 @@
 
 const char* TerrainRenderComponent::Name = "TerrainRenderComponent";
 
-bool TerrainRenderComponent::VInit(tinyxml2::XMLElement * pData)
+bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 {
 	if (!pData) return false;
-	tinyxml2::XMLElement* pModelPath = pData->FirstChildElement("Model");
+	const tinyxml2::XMLElement* pModelPath = pData->FirstChildElement("Model");
 
 	const char* pFileName = pModelPath->Attribute("File");
 	if (pFileName)
 	{
 		Mesh* p = ReadFile(pFileName);
-		p->Tex = gResources()->LoadTexture("GameAssets\\TEXTURE\\Default.png");
-		m_Material.Ka = vec3(1.0f);
-		m_Material.Kd = vec3(1.0f);
-		m_Material.Ks = vec3(1.0f);
-		m_Material.exp = 64;
-		m_MeshList.push_back(p);
-	}
-	else if (pFileName = pModelPath->Attribute("Shape"))
-	{
-		m_MeshList.push_back(gResources()->CreateShape(SHAPE_BOX));
-		m_Material.Ka = vec3(1.0f);
-		m_Material.Kd = vec3(1.0f);
-		m_Material.Ks = vec3(1.0f);
-		m_Material.exp = 64;
-
-		tinyxml2::XMLElement* pColor = pData->FirstChildElement("Color");
-		for (size_t i = 0; i < m_MeshList.size(); i++)
+		if (p)
 		{
-			m_MeshList[i]->Color = vec3(pColor->DoubleAttribute("r", 1.0f), pColor->DoubleAttribute("g", 1.0f), pColor->DoubleAttribute("b", 1.0f));
+			const tinyxml2::XMLElement* pTexPath = pData->FirstChildElement("Texture");
+			const char* pFileName1 = pTexPath->Attribute("File0");
+			p->Tex = gResources()->LoadTexture(pFileName1);
+
+			m_Material.Ka = vec3(1.0f);
+			m_Material.Kd = vec3(1.0f);
+			m_Material.Ks = vec3(1.0f);
+			m_Material.exp = 64;
+			m_MeshList.push_back(p);
 		}
 	}
 
-	tinyxml2::XMLElement* pScale = pData->FirstChildElement("Scale");
+	const tinyxml2::XMLElement* pScale = pData->FirstChildElement("Scale");
 	if (pScale)
 	{
 		vec3 scale(pScale->DoubleAttribute("x", 1.0), pScale->DoubleAttribute("y", 1.0), pScale->DoubleAttribute("z", 1.0));
@@ -47,7 +39,7 @@ bool TerrainRenderComponent::VInit(tinyxml2::XMLElement * pData)
 		}
 	}
 
-	tinyxml2::XMLElement* pShader = pData->FirstChildElement("Shader");
+	const tinyxml2::XMLElement* pShader = pData->FirstChildElement("Shader");
 	if (pShader)
 	{
 		m_pShader = gResources()->GetShader(pShader->Attribute("name"));
@@ -100,7 +92,10 @@ Mesh * TerrainRenderComponent::ReadFile(const char * filename)
 		for (int j = 0; j < width; j++)
 		{
 			x += stepsize;
-			y = Data[i*width + j]*0.1;
+			int b = i*width*iBpp + j*iBpp;
+			
+			
+			y = (Data[b] + Data[b+1] + Data[b+2])/3.0;
 			vec3 pos(x, y, z);
 			vec2 uv((x + size[0] / 2) / size[0], (z + size[1] / 2) / size[1]);
 			vec3 normal(0, 1, 0);
@@ -124,11 +119,32 @@ Mesh * TerrainRenderComponent::ReadFile(const char * filename)
 		}
 
 	// computer normal
-	vec3 off = vec3(1.0, 1.0, 0.0);
-	for (int i = 1; i < height - 1; i++)
-		for (int j = 1; j < width - 1; j++)
+	
+	auto heightF = [Data,width,height](int x,int z) {
+		if (x < 0) x = 0;
+		if (z < 0) z = 0;
+		if (x >= width) x = width;
+		if (z >= height) z = height;
+		int a = (int)(x*width + z);
+		return Data[a];
+	};
+	
+	int id = 0;
+	for (int i = 0; i < height ; i++)
+		for (int j = 0; j < width ; j++)
 		{
-			//	vec2 v()
+			vec2 P(i, j);
+			float hL = heightF(j-1,i);
+			float hR = heightF(j+1,i);
+			float hD = heightF(j,i-1);
+			float hU = heightF(j,i+1);
+			vec3 N;
+			N.x = hL - hR;
+			N.y = hD - hU;
+			N.z = 2.0;
+			N = normalize(N);
+			p->m_Vertexs[id].normal = N;
+			id++;
 		}
 	ilResetMemory();
 

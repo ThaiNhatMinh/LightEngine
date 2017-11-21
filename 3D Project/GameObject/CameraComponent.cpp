@@ -9,9 +9,10 @@ CameraComponent::~CameraComponent()
 {
 }
 
-bool CameraComponent::VInit(tinyxml2::XMLElement * pData)
+bool CameraComponent::VInit(const tinyxml2::XMLElement* pData)
 {
-	tinyxml2::XMLElement* pIns = pData->FirstChildElement("Frustum");
+	if (!pData) return false;
+	const tinyxml2::XMLElement* pIns = pData->FirstChildElement("Frustum");
 	if (pIns == nullptr) return false;
 
 

@@ -175,9 +175,6 @@
     <ClInclude Include="World\TerrainWorld.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="World\TerrainMesh.h">
-      <Filter>World</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\TerrainRenderComponent.h">
       <Filter>GameObject</Filter>
     </ClInclude>
@@ -396,6 +393,7 @@
     <None Include="GameAssets\SHADER\Texture.vs">
       <Filter>GameAssets\SHADER</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="GameAssets\MODEL\707.xml">

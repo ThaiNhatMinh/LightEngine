@@ -15,12 +15,13 @@ CharacterControllerComponent::~CharacterControllerComponent()
 	gEventManager()->VRemoveListener(MakeDelegate(this, &CharacterControllerComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
 }
 
-bool CharacterControllerComponent::VInit(tinyxml2::XMLElement * pData)
+bool CharacterControllerComponent::VInit(const tinyxml2::XMLElement* pData)
 {
-	tinyxml2::XMLElement* pSpeedElement = pData->FirstChildElement("Speed");
+	if (!pData) return false;
+	const tinyxml2::XMLElement* pSpeedElement = pData->FirstChildElement("Speed");
 	m_fMaxSpeed = pSpeedElement->DoubleAttribute("max", 1.0f);
 
-	tinyxml2::XMLElement* pJumpElement = pData->FirstChildElement("Jump");
+	const tinyxml2::XMLElement* pJumpElement = pData->FirstChildElement("Jump");
 	m_fJumpForce = pJumpElement->DoubleAttribute("force", 1.0f);
 
 	return true;

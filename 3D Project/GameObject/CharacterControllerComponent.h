@@ -25,7 +25,7 @@ public:
 	~CharacterControllerComponent();
 	static const char*	Name;
 
-	virtual bool VInit(tinyxml2::XMLElement* pData);
+	virtual bool VInit(const tinyxml2::XMLElement* pData);
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p);
 	virtual void VPostInit(void);
 	virtual void VUpdate(float dt);

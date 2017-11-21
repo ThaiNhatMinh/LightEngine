@@ -15,7 +15,7 @@ public:
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument * doc) override;
 
 	// ActorComponent interface
-	virtual bool VInit(tinyxml2::XMLElement* pData) override;
+	virtual bool VInit(const tinyxml2::XMLElement* pData) override;
 	virtual void VPostInit(void) override;
 	virtual void VUpdate(float deltaMs) override;
 
@@ -40,7 +40,7 @@ public:
 
 protected:
 	
-	void BuildRigidBodyTransform(tinyxml2::XMLElement* pTransformElement);
+	void BuildRigidBodyTransform(const tinyxml2::XMLElement* pTransformElement);
 
 	float m_acceleration, m_angularAcceleration;
 	float m_maxVelocity, m_maxAngularVelocity;

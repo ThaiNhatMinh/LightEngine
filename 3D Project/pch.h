@@ -21,7 +21,7 @@
 #include <list>
 #include <strstream>
 #include <functional>
-
+#include <memory>
 using std::cout;
 using std::endl;
 using std::string;
@@ -150,7 +150,6 @@ using glm::quat;
 #include "GameObject\RigidBodyComponent.h"
 #include "GameObject\AnimationComponent.h"
 #include "GameObject\CharacterControllerComponent.h"
-//#include "GameObject\ScriptComponent.h"
 #include "GameObject\CameraComponent.h"
 #include "GameObject\LogicComponent.h"
 #include "GameObject\ActorFactory.h"
