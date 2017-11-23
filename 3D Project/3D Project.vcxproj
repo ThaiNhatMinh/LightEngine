@@ -34,7 +34,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -202,7 +202,6 @@
     <ClInclude Include="ResourceCache\Texture.h" />
     <ClInclude Include="Utilities\Debug.h" />
     <ClInclude Include="Utilities\DirectInput.h" />
-    <ClInclude Include="Utilities\File.h" />
     <ClInclude Include="Utilities\PhysicsUtilities.h" />
     <ClInclude Include="Utilities\PrimitiveShape\Cube.h" />
     <ClInclude Include="Utilities\PrimitiveShape\Line.h" />
@@ -257,7 +256,6 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Utilities\Debug.cpp" />
     <ClCompile Include="Utilities\DirectInput.cpp" />
-    <ClCompile Include="Utilities\File.cpp" />
     <ClCompile Include="Utilities\Input.cpp" />
     <ClCompile Include="Utilities\Log.cpp" />
     <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp" />

@@ -84,9 +84,6 @@
     <ClInclude Include="Utilities\PrimitiveShape\Cube.h">
       <Filter>Utilities\Primitive Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\DirectInput.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\Light.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
@@ -147,9 +144,6 @@
     <ClInclude Include="Graphics3D\RenderAPI.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\File.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\RigidBodyComponent.h">
       <Filter>GameObject</Filter>
     </ClInclude>
@@ -177,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\TerrainRenderComponent.h">
       <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\DirectInput.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -236,9 +233,6 @@
     <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp">
       <Filter>Utilities\Primitive Shape</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\DirectInput.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Physic\Physic.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
@@ -287,9 +281,6 @@
     <ClCompile Include="GameObject\CameraComponent.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\File.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\RigidBodyComponent.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
@@ -313,6 +304,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\ActorFactory.cpp">
       <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\DirectInput.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

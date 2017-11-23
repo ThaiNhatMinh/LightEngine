@@ -1,6 +1,5 @@
 #include "pch.h"
 
-//DirectInput* gDInput;
 DirectInput* gInput()
 {
 	return DirectInput::InstancePtr();

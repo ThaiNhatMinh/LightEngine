@@ -23,5 +23,6 @@ public:
 
 #define E_ERROR(x) Log::Message(Log::LOG_ERROR,(x))
 #define E_WARNING(x) Log::Message(Log::LOG_WARNING,(x))
-#define E_DEBUG(x) Log::Message(Log::LOG_DEBUG,(x))
+//#define E_DEBUG(x) Log::Message(Log::LOG_DEBUG,(x))
 #define E_ASSERT(expr) 
+#define E_DEBUG(x)

@@ -1,7 +1,6 @@
 #pragma once
 #include "pch.h"
-#include "..\GameLogic\BaseGameLogic.h"
-
+#include "Graphics3D\OpenGLRenderer.h"
 class Application : public IApplication
 {
 public:
@@ -17,4 +16,6 @@ private:
 	bool m_bRunMainLoop;
 	void SetupSubmodule();
 	Scene* m_pScene;
+	Actor* pp;
+	int anim;
 };

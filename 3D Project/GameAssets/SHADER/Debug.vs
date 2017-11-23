@@ -1,9 +1,9 @@
 #version 140
 
-in vec3 position;
+in vec4 position;
 uniform mat4 MVP;
-
 void main()
 {
-	gl_Position = MVP * vec4(position,1.0f);
+	gl_Position = MVP * position;
+
 }

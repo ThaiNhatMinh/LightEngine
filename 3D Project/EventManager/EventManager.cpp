@@ -26,7 +26,7 @@ EventManager::~EventManager()
 
 void EventManager::onStartUp()
 {
-	E_DEBUG("Event Manager Initialize...");
+	//E_DEBUG("Event Manager Initialize...");
 }
 
 void EventManager::onShutDown()
@@ -40,7 +40,7 @@ void EventManager::onShutDown()
 //---------------------------------------------------------------------------------------------------------------------
 bool EventManager::VAddListener(const EventListenerDelegate& eventDelegate, const EventType& type)
 {
-	E_DEBUG(("Events Attempting to add delegate function for event type: " + ToStr(type, 16)));
+	//E_DEBUG(("Events Attempting to add delegate function for event type: " + ToStr(type, 16)));
 
 	EventListenerList& eventListenerList = m_eventListeners[type];  // this will find or create the entry
 	for (auto it = eventListenerList.begin(); it != eventListenerList.end(); ++it)
@@ -53,7 +53,7 @@ bool EventManager::VAddListener(const EventListenerDelegate& eventDelegate, cons
 	}
 
 	eventListenerList.push_back(eventDelegate);
-	E_DEBUG("Events Successfully added delegate for event type: " + ToStr(type, 16));
+	//E_DEBUG("Events Successfully added delegate for event type: " + ToStr(type, 16));
 
 	return true;
 }
@@ -64,7 +64,7 @@ bool EventManager::VAddListener(const EventListenerDelegate& eventDelegate, cons
 //---------------------------------------------------------------------------------------------------------------------
 bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, const EventType& type)
 {
-	E_DEBUG("Events Attempting to remove delegate function from event type: " + ToStr(type, 16));
+	//E_DEBUG("Events Attempting to remove delegate function from event type: " + ToStr(type, 16));
 	bool success = false;
 
 	auto findIt = m_eventListeners.find(type);
@@ -76,7 +76,7 @@ bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, c
 			if (eventDelegate == (*it))
 			{
 				listeners.erase(it);
-				E_DEBUG("Events Successfully removed delegate function from event type: " + ToStr(type, 16));
+				//E_DEBUG("Events Successfully removed delegate function from event type: " + ToStr(type, 16));
 				success = true;
 				break;  // we don't need to continue because it should be impossible for the same delegate function to be registered for the same event more than once
 			}
@@ -125,7 +125,8 @@ bool EventManager::VQueueEvent(const IEvent* pEvent)
 	// make sure the event is valid
 	if (!pEvent)
 	{
-		E_ERROR("Invalid event in VQueueEvent()");
+		//E_ERROR("Invalid event in VQueueEvent()");
+		delete pEvent;
 		return false;
 	}
 
@@ -141,6 +142,7 @@ bool EventManager::VQueueEvent(const IEvent* pEvent)
 	else
 	{
 		//E_DEBUG("Events Skipping event since there are no delegates registered to receive it: " + std::string(pEvent->GetName()));
+		delete pEvent;
 		return false;
 	}
 }

@@ -5,9 +5,10 @@
 class DebugData
 {
 public:
+	glm::vec3 pos[2];
 	glm::mat4 MVP;
 	glm::vec3 color;
-	vec3 data[2];
+	
 };
 
 class Debug

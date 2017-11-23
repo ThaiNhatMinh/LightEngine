@@ -76,10 +76,8 @@ void AnimationComponent::SendAnimationEvent(string data)
 
 void AnimationComponent::DrawSkeleton(Debug & debug,const mat4& m )
 {
-	//return;
-	glDisable(GL_CULL_FACE);
-	glDisable(GL_DEPTH_TEST);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if(!this->debug) return;
+	
 	for (size_t i = 0; i < m_pSkeNodes.size(); i++)
 	{
 		int parentID = m_pSkeNodes[i]->m_ParentIndex;
@@ -89,6 +87,7 @@ void AnimationComponent::DrawSkeleton(Debug & debug,const mat4& m )
 			vec3 pos2 = m_DbTransform[parentID][3];
 			debug.DrawLine(pos1, pos2, vec3(0.5f, 0.3, 1.0f),m);
 		}
+		/*
 		if (m_pSkeNodes[i]->m_Flag != 1) continue;
 		vec3 v[8];
 		m_pSkeNodes[i]->m_BoundBox.GenPoint(v);
@@ -123,15 +122,14 @@ void AnimationComponent::DrawSkeleton(Debug & debug,const mat4& m )
 		debug.DrawLine(pos1, front, vec3(0, 1, 0), m);
 		front = 4.0f*vec3(m_DbTransform[i][2]) + pos1;
 		debug.DrawLine(pos1, front, vec3(0, 0, 1), m);
-		
+		*/
 	}
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	
 }
 
 AnimationComponent::AnimationComponent(void):m_iDefaultAnimation(0)
 {
+	debug = 0;
 	select = 6;
 	m_Control[upper].m_fTime = 0;
 	m_Control[upper].m_iCurrentAnim = 0;
@@ -186,7 +184,9 @@ void AnimationComponent::VPostInit(void)
 void AnimationComponent::VUpdate(float deltaMs)
 {
 	if (!m_pAnimList.size()) return;
-	//if (gInput()->KeyDown(DIK_DOWN)) { if (select > 0) select--; }
+	if (gInput()->KeyDown(DIK_SPACE)) {
+		debug = !debug;
+	}
 	//else if (gInput()->KeyDown(DIK_UP)) { if (select < m_pSkeNodes.size() - 1) select++; }
 
 	if (m_Control[upper].m_State != ANIM_STOP)
@@ -283,6 +283,7 @@ void AnimationComponent::SetAnimationEvent(const IEvent * pEvent)
 
 	GLuint animID = p->GetAnimation();
 
+	if (animID >= m_pAnimList.size()) return;
 	blendset bs = GetBlendSet(animID);
 	
 	m_Control[bs].KeyFrameID = 0;

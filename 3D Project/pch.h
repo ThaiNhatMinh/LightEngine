@@ -108,7 +108,6 @@ using glm::quat;
 #include "Utilities\String.h"
 #include "Utilities\Template.h"
 #include "Utilities\Debug.h"
-#include "Utilities\File.h"
 #include "Utilities\PhysicsUtilities.h"
 
 #include "ResourceCache\ModelCache.h"

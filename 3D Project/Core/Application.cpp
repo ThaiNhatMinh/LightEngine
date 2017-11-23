@@ -3,19 +3,18 @@
 
 void Application::SetupSubmodule()
 {
-	E_DEBUG("Application StartUp...");
+	//E_DEBUG("Application StartUp...");
 	// Event Manager must be startup first
 	EventManager::startUp();
 
 	GameTimer::startUp();
-	OpenGLRenderer* pRender = new OpenGLRenderer;
-	pRender->Init();
+	OpenGLRenderer* p = new OpenGLRenderer;
+	p->Init();
 
 	Resources::startUp();
 
-	DirectInput::startUp(pRender->GetWindow(), DISCL_NONEXCLUSIVE | DISCL_FOREGROUND, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
-	//LuaStateManager::startUp();
-	//ScriptExports::Register();
+	DirectInput::startUp(p->GetWindow(), DISCL_NONEXCLUSIVE | DISCL_FOREGROUND, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
+	
 	
 	BulletPhysics::startUp();
 	
@@ -28,7 +27,7 @@ void Application::SetupSubmodule()
 	gResources()->LoadShader<PrimShader>("Texture", "GameAssets\\SHADER\\Texture.vs", "GameAssets\\SHADER\\Texture.fs");
 	
 	
-	m_pScene = new Scene(pRender);
+	m_pScene = new Scene(p);
 	ActorFactory& factory = m_pScene->GetActorFactory();
 	
 	
@@ -39,22 +38,29 @@ void Application::SetupSubmodule()
 	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
 
 	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, nullptr));
-	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Zombie.xml", nullptr, nullptr));
+	pp = factory.CreateActor("GameAssets\\Zombie.xml", nullptr, nullptr);
+	m_pScene->GetRoot()->VAddChild(pp);
 	mat4 t = glm::translate(mat4(), vec3(0, 0, 100));
 	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
 	t = glm::translate(mat4(), vec3(0, 0, 200));
 	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
+
+	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\PlayerWoman.xml", nullptr,nullptr));
+	
+	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ZombieAssassin.xml", nullptr, nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr));
 	//m_pScene->GetRoot()->VAddChild(p5);
-	
+	anim = 0;
+	EvtData_SetAnimation* pE = new EvtData_SetAnimation(pp->GetId(), anim, true);
+	gEventManager()->VQueueEvent(pE);
 
 }
 
 Application::~Application()
 {
-	E_DEBUG("Application ShutDown...");
+	//E_DEBUG("Application ShutDown...");
 
 	
 	delete m_pScene;
@@ -63,8 +69,8 @@ Application::~Application()
 	GameTimer::shutDown();
 	Resources::shutDown();
 
-	//ScriptExports::Unregister();
-	//LuaStateManager::shutDown();
+	
+	
 	BulletPhysics::shutDown();
 	EventManager::shutDown();
 	
@@ -91,9 +97,10 @@ void Application::MainLoop()
 	// 4. Physic
 	// 5. 
 	
-	glPolygonMode(GL_BACK, GL_LINE);
+	//glPolygonMode(GL_BACK, GL_LINE);
 	bool m_bUpdatePhysic = false;
 	gTimer()->Reset();
+
 	while (m_bRunMainLoop)
 	{
 
@@ -111,9 +118,23 @@ void Application::MainLoop()
 
 		gInput()->Update();
 
+		if (gInput()->KeyDown(DIK_P))
+		{
+			anim++;
+			EvtData_SetAnimation* pE = new EvtData_SetAnimation(pp->GetId(), anim, true);
+			gEventManager()->VQueueEvent(pE);
+		}
+		else if (gInput()->KeyDown(DIK_L))
+		{
+			anim--;
+			if (anim < 0) anim = 0;
+			EvtData_SetAnimation* pE = new EvtData_SetAnimation(pp->GetId(), anim, true);
+			gEventManager()->VQueueEvent(pE);
+		}
+
 		gPhysic()->VOnUpdate(gTimer()->GetDeltaTime());
 		gPhysic()->VSyncVisibleScene();
-		cout << gTimer()->GetFPS() << endl;
+		//cout << gTimer()->GetFPS() << endl;
 		
 		
 		
@@ -126,5 +147,5 @@ void Application::MainLoop()
 
 
 	}
-
+	//glfwTerminate();
 }

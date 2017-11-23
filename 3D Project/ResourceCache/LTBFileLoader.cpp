@@ -277,7 +277,8 @@ vector<SkeMesh*> LTBFile::LoadMesh()
 					fread(&iMaxBonesPerVert, sizeof(uint32), 1, pFile);
 					fread(StreamData, sizeof(uint32) * 4, 1, pFile);
 					fread(&Bone, sizeof(uint32), 1, pFile);
-					fread(&iVertCount, sizeof(uint32), 1, pFile);
+					uint32 p;
+					//fread(&p, sizeof(uint32), 1, pFile);
 					Index.resize(iPolyCount *3);
 					for (uint32 iStream = 0; iStream < 4; ++iStream)
 						for (uint32 i = 0; i < iVertCount; ++i)
