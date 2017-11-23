@@ -19,7 +19,7 @@
 	  
   
 	<TransformComponent>
-		<Position x="0" y="100" z="0"/>
+		<Position x="0" y="200" z="0"/>
 		<YawPitchRoll x="0" y="0" z="0"/>
 	</TransformComponent>
 	

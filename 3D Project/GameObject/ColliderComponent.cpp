@@ -34,6 +34,11 @@ btCollisionShape * ColliderComponent::GetCollisionShape()
 	return m_pCollisionShape;
 }
 
+void ColliderComponent::SetCollisionShape(btCollisionShape * shape)
+{
+	m_pCollisionShape = shape;
+}
+
 ShapeType ColliderComponent::GetType()
 {
 	return m_Type;
@@ -57,6 +62,8 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		v.z = pSize->DoubleAttribute("z", 1.0f);
 
 		m_pCollisionShape = new btBoxShape(ToBtVector3(v));
+		
+		m_Type = SHAPE_BOX;
 		return;
 	}else if (name == "Sphere")
 	{
@@ -65,7 +72,15 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		if (pSize == nullptr) return;
 		float r = pSize->DoubleAttribute("r", 1.0f);
 		m_pCollisionShape = new btSphereShape(r);
+		m_Type = SHAPE_SPHERE;
 		return;
+	}
+	else if (name == "Character")
+	{
+		// create temp box, will delete in Rigid body
+		//m_pCollisionShape = new btBoxShape(btVector3(1,1,1));
+
+		m_Type = SHAPE_CHARACTER;
 	}
 	else if (name == "HeightMap")
 	{
@@ -74,7 +89,7 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		const char* path = pFile->Attribute("Path");
 		if (path == nullptr) return;
 		HeightMap hm = gResources()->LoadHeightMap(path);
-		m_pCollisionShape = new btHeightfieldTerrainShape(hm.Width, hm.Height, hm.Data, 1.0f, hm.minH, hm.maxH, 1, PHY_UCHAR, false);
+		m_pCollisionShape = new btHeightfieldTerrainShape(hm.Width, hm.Height, hm.Data, 1, hm.minH, hm.maxH, 1, PHY_UCHAR, false);
 		btVector3 localScaling(hm.stepsize, 1.0, hm.stepsize);
 		m_pCollisionShape->setLocalScaling(localScaling);
 		m_MM = vec2(hm.minH, hm.maxH);

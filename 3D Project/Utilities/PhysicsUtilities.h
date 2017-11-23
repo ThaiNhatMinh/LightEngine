@@ -29,7 +29,7 @@ static btTransform Mat4x4_to_btTransform(mat4 const & mat)
 	// copy rotation matrix
 	for (int row = 0; row<3; ++row)
 		for (int column = 0; column<3; ++column)
-			bulletRotation[row][column] = mat[row][column]; // note the reversed indexing (row/column vs. column/row)
+			bulletRotation[row][column] = mat[column][row]; // note the reversed indexing (row/column vs. column/row)
 															//  this is because Mat4x4s are row-major matrices and
 															//  btMatrix3x3 are column-major.  This reversed indexing
 															//  implicitly transposes (flips along the diagonal) 
@@ -53,7 +53,7 @@ static mat4 btTransform_to_Mat4x4(btTransform const & trans)
 	// copy rotation matrix
 	for (int row = 0; row<3; ++row)
 		for (int column = 0; column<3; ++column)
-			returnValue[row][column] = bulletRotation[row][column];
+			returnValue[row][column] = bulletRotation[column][row];
 	// note the reversed indexing (row/column vs. column/row)
 	//  this is because Mat4x4s are row-major matrices and
 	//  btMatrix3x3 are column-major.  This reversed indexing

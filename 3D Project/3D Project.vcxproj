@@ -161,7 +161,6 @@
     <ClInclude Include="EventManager\Events.h" />
     <ClInclude Include="EventManager\PhysicsEvents.h" />
     <ClInclude Include="EventManager\TestScriptEvent.h" />
-    <ClInclude Include="GameLogic\BaseGameLogic.h" />
     <ClInclude Include="GameObject\Actor.h" />
     <ClInclude Include="GameObject\ActorComponent.h" />
     <ClInclude Include="GameObject\ActorFactory.h" />

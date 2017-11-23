@@ -38,23 +38,22 @@ void Application::SetupSubmodule()
 	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
 
 	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, nullptr));
-	pp = factory.CreateActor("GameAssets\\Zombie.xml", nullptr, nullptr);
-	m_pScene->GetRoot()->VAddChild(pp);
-	mat4 t = glm::translate(mat4(), vec3(0, 0, 100));
-	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
-	t = glm::translate(mat4(), vec3(0, 0, 200));
-	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
+	//pp = factory.CreateActor("GameAssets\\Zombie.xml", nullptr, nullptr);
+	//m_pScene->GetRoot()->VAddChild(pp);
+	//mat4 t = glm::translate(mat4(), vec3(0, 0, 100));
+	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
+	//t = glm::translate(mat4(), vec3(0, 0, 200));
+	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
 
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\PlayerWoman.xml", nullptr,nullptr));
 	
-	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ZombieAssassin.xml", nullptr, nullptr));
+	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ZombieAssassin.xml", nullptr, nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
-	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
-	//m_pScene->GetRoot()->VAddChild(factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr));
-	//m_pScene->GetRoot()->VAddChild(p5);
-	anim = 0;
-	EvtData_SetAnimation* pE = new EvtData_SetAnimation(pp->GetId(), anim, true);
-	gEventManager()->VQueueEvent(pE);
+	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
+	m_pScene->GetRoot()->VAddChild(factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr));
+	//anim = 0;
+	//EvtData_SetAnimation* pE = new EvtData_SetAnimation(pp->GetId(), anim, true);
+	//gEventManager()->VQueueEvent(pE);
 
 }
 
@@ -118,7 +117,7 @@ void Application::MainLoop()
 
 		gInput()->Update();
 
-		if (gInput()->KeyDown(DIK_P))
+		/*if (gInput()->KeyDown(DIK_P))
 		{
 			anim++;
 			EvtData_SetAnimation* pE = new EvtData_SetAnimation(pp->GetId(), anim, true);
@@ -130,7 +129,7 @@ void Application::MainLoop()
 			if (anim < 0) anim = 0;
 			EvtData_SetAnimation* pE = new EvtData_SetAnimation(pp->GetId(), anim, true);
 			gEventManager()->VQueueEvent(pE);
-		}
+		}*/
 
 		gPhysic()->VOnUpdate(gTimer()->GetDeltaTime());
 		gPhysic()->VSyncVisibleScene();

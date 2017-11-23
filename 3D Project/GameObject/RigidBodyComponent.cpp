@@ -46,10 +46,18 @@ void RigidBodyComponent::VPostInit(void)
 	if (pCollider->GetType() == SHAPE_TERRAIN)
 	{
 		vec2 mm = pCollider->GetMinMax();
-		float off = (mm.x + mm.y) / 2.0f;
+		float off = (mm.x + mm.y) / 2.0;
 		mat4 m;
-		//m = glm::translate(m, vec3(0, -off, 0));
+		m = glm::translate(m, vec3(0, off, 0));
 		myMotionState = new ActorMotionState((pTransformComponent->GetTransform()*m));
+	}
+	else if (pCollider->GetType() == SHAPE_CHARACTER)
+	{
+		AnimationComponent* pAnim = m_pOwner->GetComponent<AnimationComponent>(AnimationComponent::Name);
+		AABB aabb = pAnim->GetUserDimesion();
+		pShape = new btBoxShape(ToBtVector3(aabb.Max));
+		pCollider->SetCollisionShape(pShape);
+		myMotionState = new ActorMotionState(pTransformComponent->GetTransform());
 	}
 	else myMotionState = new ActorMotionState(pTransformComponent->GetTransform());
 	

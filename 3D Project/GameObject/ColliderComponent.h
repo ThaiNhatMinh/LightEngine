@@ -13,7 +13,8 @@ enum ShapeType
 	SHAPE_CONE,
 	SHAPE_TRIANGLEMESH,
 	SHAPE_CONVEXHULL,
-	SHAPE_TERRAIN
+	SHAPE_TERRAIN,
+	SHAPE_CHARACTER
 };
 
 const char ShapeName[][MAX_NAME] = { "Box","Sphere","Capsule","Cylinder" };
@@ -36,6 +37,7 @@ public:
 
 	// Component interface
 	btCollisionShape*	GetCollisionShape();
+	void				SetCollisionShape(btCollisionShape* shape);
 	ShapeType			GetType();
 	// for heightmap
 	vec2				GetMinMax();

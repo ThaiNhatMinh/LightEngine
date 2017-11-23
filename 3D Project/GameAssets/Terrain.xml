@@ -14,7 +14,7 @@
   </RigidBodyComponent>
   
   <TransformComponent>
-    <Position x="0" y="15" z="5"/>
+    <Position x="0" y="0" z="0"/>
     <YawPitchRoll x="0" y="0" z="0"/>
   </TransformComponent>
   <TerrainRenderComponent>

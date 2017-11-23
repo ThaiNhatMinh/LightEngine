@@ -83,29 +83,29 @@ Mesh * TerrainRenderComponent::ReadFile(const char * filename)
 	GLint width = hm.Width, height = hm.Height;
 	float stepsize = hm.stepsize;
 	GLubyte* Data = hm.Data;
-	vec2 size = vec2(width*stepsize, height*stepsize);
+	vec2 size = vec2((width-1)*stepsize, (height-1)*stepsize);
 	Mesh* p = new Mesh;
 
 	int x = -size[0] / 2, y = 0, z = -size[1] / 2;
-
+	float t = (hm.minH + hm.maxH) / 2.0f;
 	// computer vertex xyz
 	for (int i = 0; i < height; i++)
 	{
-		z += stepsize;
+		
 		for (int j = 0; j < width; j++)
 		{
-			x += stepsize;
 			int b = i*width + j;
 			
-			
-			y = Data[b];
+			y = Data[b]-t;
 			vec3 pos(x, y, z);
 			vec2 uv((x + size[0] / 2) / size[0], (z + size[1] / 2) / size[1]);
 			vec3 normal(0, 1, 0);
 			DefaultVertex vertex{ pos,normal,uv };
 			p->m_Vertexs.push_back(vertex);
+			x += stepsize;
 		}
 		x = -size[0] / 2;
+		z += stepsize;
 	}
 	// computer indices
 	GLuint cnt = 0;

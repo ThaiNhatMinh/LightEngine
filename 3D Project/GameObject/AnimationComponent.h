@@ -89,7 +89,6 @@ protected:
 	blendset			GetBlendSet(GLuint id);
 	void				ResetControl(blendset bs, GLuint anim,AnimationState state);
 	void				SendAnimationEvent(string data);
-	int					select ;
 public:
 	AnimationComponent(void);
 	~AnimationComponent(void);
@@ -104,8 +103,8 @@ public:
 
 	void				DrawSkeleton(Debug& debug,const mat4& m);
 	const vector<mat4>&	GetTransform();
-	bool debug;
 	// Event 
 	void				SetAnimationEvent(const IEvent* pEvent);
+	AABB				GetUserDimesion();
 
 };

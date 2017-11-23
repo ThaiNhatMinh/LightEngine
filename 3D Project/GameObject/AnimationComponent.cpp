@@ -76,7 +76,7 @@ void AnimationComponent::SendAnimationEvent(string data)
 
 void AnimationComponent::DrawSkeleton(Debug & debug,const mat4& m )
 {
-	if(!this->debug) return;
+	
 	
 	for (size_t i = 0; i < m_pSkeNodes.size(); i++)
 	{
@@ -129,8 +129,7 @@ void AnimationComponent::DrawSkeleton(Debug & debug,const mat4& m )
 
 AnimationComponent::AnimationComponent(void):m_iDefaultAnimation(0)
 {
-	debug = 0;
-	select = 6;
+	
 	m_Control[upper].m_fTime = 0;
 	m_Control[upper].m_iCurrentAnim = 0;
 	m_Control[upper].m_iCurrentFrame = 0;
@@ -184,11 +183,7 @@ void AnimationComponent::VPostInit(void)
 void AnimationComponent::VUpdate(float deltaMs)
 {
 	if (!m_pAnimList.size()) return;
-	if (gInput()->KeyDown(DIK_SPACE)) {
-		debug = !debug;
-	}
-	//else if (gInput()->KeyDown(DIK_UP)) { if (select < m_pSkeNodes.size() - 1) select++; }
-
+	
 	if (m_Control[upper].m_State != ANIM_STOP)
 	{
 		m_Control[upper].m_fTime += deltaMs;
@@ -294,4 +289,10 @@ void AnimationComponent::SetAnimationEvent(const IEvent * pEvent)
 	else m_Control[bs].m_State = ANIM_PLAYING;
 	if (p->isDefault()) m_iDefaultAnimation = animID;
 
+}
+
+AABB AnimationComponent::GetUserDimesion()
+{
+	if (m_Control[lower].m_iCurrentAnim<0 || m_Control[lower].m_iCurrentAnim>=m_pAnimList.size()) return AABB();
+	return m_pAnimList[m_Control[lower].m_iCurrentAnim]->m_BV;
 }
