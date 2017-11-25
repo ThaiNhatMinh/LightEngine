@@ -16,6 +16,8 @@ private:
 	vec3			m_JumpDirection;
 	float			m_fMaxSpeed;
 	float			m_fJumpForce;
+	float			m_fMoveForce;
+	float			m_fBrakeForce;
 	float			m_fInAirTime;
 	RigidBodyComponent*	m_pRB;
 	bool			m_bOnGround;

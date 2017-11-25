@@ -101,10 +101,10 @@ HeightMap Resources::LoadHeightMap(const char * filename)
 	iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
 
-	width = 5;
-	height = 5;
+	width = 16;
+	height = 16;
 
-	float stepsize = 10;
+	float stepsize = 50;
 	vec2 size = vec2(width*stepsize, height*stepsize);
 	
 	GLubyte* h = new GLubyte[width*height];
@@ -119,6 +119,7 @@ HeightMap Resources::LoadHeightMap(const char * filename)
 
 
 			h[c] = (Data[b] + Data[b + 1] + Data[b + 2]) / 3.0;
+			h[c] = 10;
 			if (min > h[c]) min = h[c];
 			if (max < h[c]) max = h[c];
 			c++;

@@ -1,8 +1,5 @@
 <Actor type="Cube" name="Box">
-  <CharacterControllerComponent>
-    <Speed max="10.0" />
-    <Jump force="500.0" />
-  </CharacterControllerComponent>
+  
 
 	<ColliderComponent>
 		<Shape>Box</Shape>

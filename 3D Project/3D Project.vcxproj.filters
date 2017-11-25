@@ -172,6 +172,9 @@
     <ClInclude Include="Utilities\DirectInput.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\Octree.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -304,6 +307,9 @@
     </ClCompile>
     <ClCompile Include="Utilities\DirectInput.cpp">
       <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Octree.cpp">
+      <Filter>Graphics3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

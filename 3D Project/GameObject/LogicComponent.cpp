@@ -39,6 +39,7 @@ void LogicComponent::VPostInit(void)
 
 void LogicComponent::VUpdate(float deltaTIme)
 {
+	/*
 	// Camera controls
 	m_Front = m_TF->GetFront();
 	m_Right = m_TF->GetRight();
@@ -73,7 +74,7 @@ void LogicComponent::VUpdate(float deltaTIme)
 	glm::mat4 translate = glm::mat4(1.0f);
 	translate = glm::translate(translate, m_Position);
 	m_TF->SetTransform(translate*rotate);
-
+	*/
 }
 
 void LogicComponent::FixedUpdate(float timeStep)

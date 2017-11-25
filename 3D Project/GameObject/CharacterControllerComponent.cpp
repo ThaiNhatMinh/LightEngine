@@ -22,8 +22,11 @@ bool CharacterControllerComponent::VInit(const tinyxml2::XMLElement* pData)
 	m_fMaxSpeed = pSpeedElement->DoubleAttribute("max", 1.0f);
 
 	const tinyxml2::XMLElement* pJumpElement = pData->FirstChildElement("Jump");
-	m_fJumpForce = pJumpElement->DoubleAttribute("force", 1.0f);
+	m_fJumpForce = pJumpElement->DoubleAttribute("force", 100.0f);
 
+	const tinyxml2::XMLElement* pMoveElement = pData->FirstChildElement("Move");
+	m_fMoveForce = pMoveElement->DoubleAttribute("force", 100.0f);
+	m_fBrakeForce = pMoveElement->DoubleAttribute("brakeforce", 30.0f);
 	return true;
 
 }
@@ -39,29 +42,21 @@ void CharacterControllerComponent::VPostInit(void)
 	m_pTransformC = m_pOwner->GetComponent<TransformComponent>(TransformComponent::Name);
 
 	// register event
-	gEventManager()->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicCollisionEvent), EvtData_PhysCollisionStart::sk_EventType);
+	gEventManager()->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicCollisionEvent), EvtData_PhysOnCollision::sk_EventType);
 	gEventManager()->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
 	gEventManager()->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
 	
 
 	// Get Rigidbody
-	//BulletPhysics* pPhysic = (BulletPhysics*)gPhysic();
 	m_pRB = m_pOwner->GetComponent<RigidBodyComponent>(RigidBodyComponent::Name);
-	m_pRB->SetAngularFactor(vec3(0, 0, 0));
-	m_pRB->SetFriction(10.0f);
+
 	//m_pRB->Activate(DISABLE_DEACTIVATION);
 	
 }
 
 void CharacterControllerComponent::VUpdate(float dt)
 {
-	m_MoveDirection = vec3(0);
-	m_JumpDirection = vec3(0);
-	if (gInput()->KeyDown(DIK_Y)) m_MoveDirection += m_pTransformC->GetFront();
-	if (gInput()->KeyDown(DIK_H)) m_MoveDirection -= m_pTransformC->GetFront();
-	if (gInput()->KeyDown(DIK_G)) m_MoveDirection += m_pTransformC->GetRight();
-	if (gInput()->KeyDown(DIK_J)) m_MoveDirection -= m_pTransformC->GetRight();
-	if (gInput()->KeyDown(DIK_SPACE)) m_JumpDirection = vec3(0, 1, 0);
+	
 	
 }
 
@@ -93,26 +88,47 @@ void CharacterControllerComponent::PhysicPreStepEvent(const IEvent * pEvent)
 	const float INAIR_THRESHOLD_TIME = 0.1f;
 	const float INAIR_MOVE_FORCE = 0.02f;
 	const float MOVE_FORCE = 100.0f;
-	const float BRAKE_FORCE = 1.5f;
-	// When character has been in air less than 1/10 second, it's still interpreted as being on ground
+	const float BRAKE_FORCE = 50.0f;
+	
 	bool softGrounded = m_fInAirTime < INAIR_THRESHOLD_TIME;
 	const vec3& v = m_pRB->GetLinearVelocity();
-	if (m_MoveDirection != vec3(0))
+
+	// Velocity on the XZ plane
+	vec3 planeVelocity(v.x, 0.0f, v.z);
+
+	m_MoveDirection = vec3(0);
+	m_JumpDirection = vec3(0);
+	if (gInput()->KeyDown(DIK_Y)) m_MoveDirection += m_pTransformC->GetFront();
+	else if (gInput()->KeyDown(DIK_H)) m_MoveDirection -= m_pTransformC->GetFront();
+	else if (gInput()->KeyDown(DIK_G)) m_MoveDirection += m_pTransformC->GetRight();
+	else if (gInput()->KeyDown(DIK_J)) m_MoveDirection -= m_pTransformC->GetRight();
+	if (gInput()->KeyDown(DIK_SPACE)) m_JumpDirection = vec3(0, 1, 0);
+
+	cout << m_bOnGround << endl;
+	if (m_MoveDirection != vec3(0)&& m_bOnGround)
 	{
 		m_MoveDirection = glm::normalize(m_MoveDirection);
-		m_pRB->ApplyImpulse(m_MoveDirection *MOVE_FORCE);
+		m_pRB->ApplyImpulse(m_MoveDirection *m_fMoveForce);
+	}
+	
+	if (m_bOnGround)
+	{
+		vec3 brakeForce = -planeVelocity * m_fBrakeForce;
+		m_pRB->ApplyImpulse(brakeForce);
+		m_pRB->ApplyImpulse(vec3(0,1,0)*40.0f);
 	}
 
-	
+	if (m_JumpDirection!=vec3(0)&& m_bOnGround)
+	{
+		
+		m_pRB->ApplyImpulse(vec3(0,1,0)*m_fJumpForce);
+		
+	}
+
+	m_bOnGround = false;
 }
 
 void CharacterControllerComponent::PhysicPostStepEvent(const IEvent * pEvent)
 {
-	vec3 v = m_pRB->GetLinearVelocity();
-	float l = glm::length(v);
-	if (l > 20.0f && m_bOnGround)
-	{
-		v *= 2.0f / l;
-		m_pRB->SetLinearVelocity(v);
-	}
+	
 }

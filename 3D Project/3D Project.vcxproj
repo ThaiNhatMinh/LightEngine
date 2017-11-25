@@ -176,6 +176,7 @@
     <ClInclude Include="GameObject\TerrainRenderComponent.h" />
     <ClInclude Include="GameObject\TransformComponent.h" />
     <ClInclude Include="Graphics3D\AnimationDef.h" />
+    <ClInclude Include="Graphics3D\Octree.h" />
     <ClInclude Include="Graphics3D\OpenGLRenderer.h" />
     <ClInclude Include="Graphics3D\RenderAPI.h" />
     <ClInclude Include="Graphics3D\SkeShader.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="GameObject\TerrainRenderComponent.cpp" />
     <ClCompile Include="GameObject\TransformComponent.cpp" />
     <ClCompile Include="Graphics3D\Mesh.cpp" />
+    <ClCompile Include="Graphics3D\Octree.cpp" />
     <ClCompile Include="Graphics3D\OpenGLRenderer.cpp" />
     <ClCompile Include="Graphics3D\PrimitiveShader.cpp" />
     <ClCompile Include="Graphics3D\Scene.cpp" />
@@ -280,7 +282,9 @@
     <Xml Include="GameAssets\Box.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="GameAssets\Camera.xml" />
+    <Xml Include="GameAssets\Camera.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="GameAssets\Ground.xml">
       <SubType>Designer</SubType>
     </Xml>

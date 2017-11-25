@@ -21,7 +21,7 @@ struct ActorMotionState : public btMotionState
 	}
 };
 
-
+const float WORLD_GRAVITY = 100.0f;
 
 struct MaterialData
 {

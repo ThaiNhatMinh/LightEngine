@@ -41,13 +41,13 @@ BulletPhysics::~BulletPhysics()
 
 void BulletPhysics::onStartUp()
 {
-	E_DEBUG("Physic Engine Initialize...");
+	//E_DEBUG("Physic Engine Initialize...");
 	this->VInitialize();
 }
 
 void BulletPhysics::onShutDown()
 {
-	E_DEBUG("Physic Engine Shutdown...");
+	//E_DEBUG("Physic Engine Shutdown...");
 	// delete any physics objects which are still in the world
 
 	// iterate backwards because removing the last object doesn't affect the
@@ -132,7 +132,7 @@ bool BulletPhysics::VInitialize()
 		m_solver,
 		m_collisionConfiguration);
 
-	m_dynamicsWorld->setGravity(btVector3(0, -10, 0));
+	m_dynamicsWorld->setGravity(btVector3(0, -WORLD_GRAVITY, 0));
 
 	m_debugDrawer = new BulletDebugDrawer;
 	m_debugDrawer->m_DebugModes = btIDebugDraw::DBG_DrawWireframe;
@@ -165,7 +165,7 @@ void BulletPhysics::VOnUpdate(float const deltaSeconds)
 	//   We pass in 4 as a max number of sub steps.  Bullet will run the simulation
 	//   in increments of the fixed timestep until "deltaSeconds" amount of time has
 	//   passed, but will only run a maximum of 4 steps this way.
-	m_dynamicsWorld->stepSimulation(deltaSeconds, 4);
+	m_dynamicsWorld->stepSimulation(deltaSeconds);
 	//E_DEBUG("Physuic Update()");
 	
 

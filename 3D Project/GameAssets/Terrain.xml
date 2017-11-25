@@ -16,7 +16,8 @@
   <TransformComponent>
     <Position x="0" y="0" z="0"/>
     <YawPitchRoll x="0" y="0" z="0"/>
-  </TransformComponent>
+  </TransformComponent>.
+  
   <TerrainRenderComponent>
     <Model File="GameAssets\WORLD\heightmap.png" />
     <Texture File0 ="GameAssets\TEXTURE\grass_autumn_orn_d.jpg" />

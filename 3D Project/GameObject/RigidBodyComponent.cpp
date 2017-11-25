@@ -79,7 +79,12 @@ void RigidBodyComponent::VPostInit(void)
 	m_pRigidBody = new btRigidBody(rbInfo);
 	m_pRigidBody->setUserPointer(this);
 
-	
+	if (pCollider->GetType() == SHAPE_CHARACTER)
+	{
+		this->SetAngularFactor(vec3(0));
+		m_pRigidBody->setSleepingThresholds(0, 0);
+		
+	}
 	ActorId actorID = m_pOwner->GetId();
 	BulletPhysics::InstancePtr()->AddRigidBody(actorID, this);
 
