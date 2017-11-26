@@ -1,5 +1,6 @@
 #include "pch.h"
-
+#include <BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h>
+#include <BulletCollision\CollisionDispatch\btInternalEdgeUtility.h>
 // helpers for conversion to and from Bullet's data types
 static btVector3 Vec3_to_btVector3(vec3 const & v)
 {
@@ -11,15 +12,18 @@ static vec3 btVector3_to_Vec3(btVector3 const & btvec)
 	return vec3(btvec.x(), btvec.y(), btvec.z());
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// struct ActorMotionState						
-//
-// Interface that Bullet uses to communicate position and orientation changes
-//   back to the game.  note:  this assumes that the actor's center of mass
-//   and world position are the same point.  If that was not the case,
-//   an additional transformation would need to be stored here to represent
-//   that difference.
-//
+extern ContactAddedCallback      gContactAddedCallback;
+
+static bool CustomMaterialCombinerCallback(btManifoldPoint& cp, const btCollisionObject* colObj0Wrap, int partId0,
+	int index0, const btCollisionObject* colObj1Wrap, int partId1, int index1)
+{
+	btAdjustInternalEdgeContacts(cp, colObj1Wrap, colObj0Wrap, partId1, index1);
+
+	cp.m_combinedFriction = colObj0Wrap->getFriction() * colObj1Wrap->getFriction();
+	cp.m_combinedRestitution = colObj0Wrap->getRestitution() * colObj1Wrap->getRestitution();
+
+	return true;
+}
 
 BulletPhysics::BulletPhysics()
 {
@@ -110,6 +114,8 @@ void BulletPhysics::LoadXml()
 bool BulletPhysics::VInitialize()
 {
 	LoadXml();
+
+	gContactAddedCallback = CustomMaterialCombinerCallback;
 
 	// this controls how Bullet does internal memory management during the collision pass
 	m_collisionConfiguration = new btDefaultCollisionConfiguration();

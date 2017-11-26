@@ -19,7 +19,16 @@ enum ShapeType
 
 const char ShapeName[][MAX_NAME] = { "Box","Sphere","Capsule","Cylinder" };
 
-
+class TriangleMesh : public btBvhTriangleMeshShape
+{
+public:
+	TriangleMesh(btStridingMeshInterface *meshInterface, bool useQuantizedAabbCompression, bool buildBvh = true);
+	~TriangleMesh();
+	void SetInfoMap(btTriangleInfoMap* p) { m_pInfoMap = p; }
+private:
+	btStridingMeshInterface *m_pMeshInterface;
+	btTriangleInfoMap		*m_pInfoMap;
+};
 
 class ColliderComponent : public ActorComponent
 {

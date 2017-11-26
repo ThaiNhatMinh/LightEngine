@@ -51,14 +51,7 @@ void RigidBodyComponent::VPostInit(void)
 		m = glm::translate(m, vec3(0, off, 0));
 		myMotionState = new ActorMotionState((pTransformComponent->GetTransform()*m));
 	}
-	else if (pCollider->GetType() == SHAPE_CHARACTER)
-	{
-		AnimationComponent* pAnim = m_pOwner->GetComponent<AnimationComponent>(AnimationComponent::Name);
-		AABB aabb = pAnim->GetUserDimesion();
-		pShape = new btBoxShape(ToBtVector3(aabb.Max));
-		pCollider->SetCollisionShape(pShape);
-		myMotionState = new ActorMotionState(pTransformComponent->GetTransform());
-	}
+	
 	else myMotionState = new ActorMotionState(pTransformComponent->GetTransform());
 	
 
@@ -83,7 +76,14 @@ void RigidBodyComponent::VPostInit(void)
 	{
 		this->SetAngularFactor(vec3(0));
 		m_pRigidBody->setSleepingThresholds(0, 0);
+		//m_pRigidBody->setContactProcessingThreshold(0.0);
 		
+	}
+	else if (pCollider->GetType() == SHAPE_TRIANGLEMESH)
+	{
+		//enable custom material callback
+		m_pRigidBody->setCollisionFlags(m_pRigidBody->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+
 	}
 	ActorId actorID = m_pOwner->GetId();
 	BulletPhysics::InstancePtr()->AddRigidBody(actorID, this);

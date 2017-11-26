@@ -52,10 +52,7 @@ void ActorFactory::ModifyActor(Actor * pActor, tinyxml2::XMLElement * overrides)
 {
 }
 
-void Testfunc(const tinyxml2::XMLElement* pData)
-{
 
-}
 ActorComponent * ActorFactory::VCreateComponent(const tinyxml2::XMLElement* pData)
 {
 	const char* name = pData->Value();
@@ -64,14 +61,7 @@ ActorComponent * ActorFactory::VCreateComponent(const tinyxml2::XMLElement* pDat
 	// initialize the component if we found one
 	if (pComponent)
 	{
-		if (!strcmp(name, "MeshRenderComponent")) 
-			Testfunc(pData);
-		if (!pComponent->VInit(pData))
-		{
-			E_ERROR("Component failed to initialize: " + std::string(name));
-			delete pComponent;
-			return nullptr;
-		}
+		
 	}
 	else
 	{

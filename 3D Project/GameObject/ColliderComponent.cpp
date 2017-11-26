@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h>
+#include <BulletCollision\CollisionDispatch\btInternalEdgeUtility.h>
 
 const char* ColliderComponent::Name = "ColliderComponent";
 
@@ -77,8 +78,9 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 	}
 	else if (name == "Character")
 	{
-		// create temp box, will delete in Rigid body
-		//m_pCollisionShape = new btBoxShape(btVector3(1,1,1));
+		AnimationComponent* pAnim = m_pOwner->GetComponent<AnimationComponent>(AnimationComponent::Name);
+		AABB aabb = pAnim->GetUserDimesion();
+		m_pCollisionShape = new btBoxShape(ToBtVector3(aabb.Max));
 
 		m_Type = SHAPE_CHARACTER;
 	}
@@ -95,4 +97,31 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		m_MM = vec2(hm.minH, hm.maxH);
 		m_Type = SHAPE_TERRAIN;
 	}
+	else if (name == "TriangleMesh")
+	{
+		TerrainRenderComponent* pMesh = m_pOwner->GetComponent<TerrainRenderComponent>(TerrainRenderComponent::Name);
+		vector<IMesh*>& pMeshList = pMesh->GetMeshList();
+		Mesh* m = static_cast<Mesh*>(pMeshList[0]);
+		int totaltriangle = m->NumIndices / 3;
+		int totalVerts = m->m_Vertexs.size();
+		int indexStride = sizeof(unsigned int) * 3;
+		int vertStride = sizeof(DefaultVertex);
+		btTriangleIndexVertexArray* pIntexVertexArray = new btTriangleIndexVertexArray(totaltriangle, (int*)&m->m_Indices[0], indexStride, totalVerts, &m->m_Vertexs[0].pos.x, vertStride);
+		TriangleMesh* pShape = new TriangleMesh(pIntexVertexArray, true, true);
+		btTriangleInfoMap* triangleInfoMap = new btTriangleInfoMap();
+
+		btGenerateInternalEdgeInfo(pShape, triangleInfoMap);
+		m_pCollisionShape = pShape;
+		m_Type = SHAPE_TRIANGLEMESH;
+	}
+}
+
+TriangleMesh::TriangleMesh(btStridingMeshInterface *meshInterface, bool useQuantizedAabbCompression, bool buildBvh): btBvhTriangleMeshShape(meshInterface,useQuantizedAabbCompression,buildBvh),m_pMeshInterface(meshInterface)
+{
+
+}
+
+TriangleMesh::~TriangleMesh()
+{
+	delete m_pMeshInterface;
 }

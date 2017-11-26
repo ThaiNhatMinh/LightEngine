@@ -55,8 +55,14 @@ Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLEleme
 		ActorComponent* pComponent(VCreateComponent(pNode));
 		if (pComponent)
 		{
-			pActor->AddComponent(pComponent);
 			pComponent->SetOwner(pActor);
+			if (!pComponent->VInit(pNode))
+			{
+				E_ERROR("Component failed to initialize: " + std::string(pNode->Value()));
+				continue;
+			}
+			pActor->AddComponent(pComponent);
+			
 		}
 		else
 		{

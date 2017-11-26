@@ -1,29 +1,30 @@
 <Actor type="Player" name="707" >
 	<CharacterControllerComponent>
-    <Speed max="10.0" />
-    <Jump force="3000.0" />
-	<Move force="3900.0" brakefore="30"/>
-  </CharacterControllerComponent>
+		<Speed max="10.0" />
+		<Jump force="3000.0" />
+		<Move force="3900.0" brakefore="30"/>
+	</CharacterControllerComponent>
+	
+	<AnimationComponent>
+		<Model File="GameAssets\MODEL\M-MOTION.LTB" />
+	</AnimationComponent>
+	
 	<ColliderComponent>
-    <Shape>Character</Shape>
-  </ColliderComponent>
+		<Shape>Character</Shape>
+	</ColliderComponent>
 
-  <RigidBodyComponent>
-    <Mass value="50.0" />
-    <PhysicsMaterial>player</PhysicsMaterial>
-    <RigidBodyTransform>
-      <Position x="0.0" y="0.0" z="0.0"/>
-    </RigidBodyTransform>
-  </RigidBodyComponent>
+	<RigidBodyComponent>
+		<Mass value="50.0" />
+		<PhysicsMaterial>player</PhysicsMaterial>
+		<RigidBodyTransform>
+			<Position x="0.0" y="0.0" z="0.0"/>
+		</RigidBodyTransform>
+	</RigidBodyComponent>
   
 	<TransformComponent>
 		<Position x="0" y="200" z="0"/>
 		<YawPitchRoll x="0" y="0" z="0"/>
 	</TransformComponent>
-  
-	<AnimationComponent>
-		<Model File="GameAssets\MODEL\M-MOTION.LTB" />
-	</AnimationComponent>
 	
 	<MeshRenderComponent>
 		<Model File="GameAssets\MODEL\707.xml" />

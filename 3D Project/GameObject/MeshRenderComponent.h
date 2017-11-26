@@ -25,6 +25,7 @@ public:
 	// For easy now just render it
 	// Request mesh and texture
 	void Render(Scene*);
+	vector<IMesh*>& GetMeshList();
 	// Get Material for this render
 	Material GetMaterial();
 };

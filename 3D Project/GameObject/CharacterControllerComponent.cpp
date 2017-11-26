@@ -107,6 +107,7 @@ void CharacterControllerComponent::PhysicPreStepEvent(const IEvent * pEvent)
 	cout << m_bOnGround << endl;
 	if (m_MoveDirection != vec3(0)&& m_bOnGround)
 	{
+	
 		m_MoveDirection = glm::normalize(m_MoveDirection);
 		m_pRB->ApplyImpulse(m_MoveDirection *m_fMoveForce);
 	}
@@ -115,7 +116,7 @@ void CharacterControllerComponent::PhysicPreStepEvent(const IEvent * pEvent)
 	{
 		vec3 brakeForce = -planeVelocity * m_fBrakeForce;
 		m_pRB->ApplyImpulse(brakeForce);
-		m_pRB->ApplyImpulse(vec3(0,1,0)*40.0f);
+		
 	}
 
 	if (m_JumpDirection!=vec3(0)&& m_bOnGround)

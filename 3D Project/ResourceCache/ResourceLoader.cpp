@@ -101,8 +101,8 @@ HeightMap Resources::LoadHeightMap(const char * filename)
 	iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
 
-	width = 16;
-	height = 16;
+	width = 8;
+	height = 8;
 
 	float stepsize = 50;
 	vec2 size = vec2(width*stepsize, height*stepsize);

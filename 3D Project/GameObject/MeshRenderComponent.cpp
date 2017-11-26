@@ -103,6 +103,11 @@ void MeshRenderComponent::Render(Scene* pScene)
 
 }
 
+vector<IMesh*>& MeshRenderComponent::GetMeshList()
+{
+	return m_MeshList;
+}
+
 Material MeshRenderComponent::GetMaterial()
 {
 	return m_Material;
