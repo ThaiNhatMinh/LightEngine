@@ -13,7 +13,7 @@ private:
 	vec4			m_ClearColor;
 	vec4			m_Viewport;
 	bool			m_HasInit;
-	Windows			*m_pWindows;
+	std::unique_ptr<Windows>			m_pWindows;
 	unsigned int	m_iClearFlag;
 	GLenum			m_DrawMode;
 public:
@@ -42,7 +42,7 @@ public:
 	virtual void SwapBuffer();
 
 	Windows* GetWindow() {
-		return m_pWindows;
+		return m_pWindows.get();
 	};
 
 private:

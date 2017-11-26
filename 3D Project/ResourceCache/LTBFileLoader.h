@@ -56,7 +56,7 @@ public:
 	LTBFile() {};
 	~LTBFile() {};
 	static bool BeginLoad(const char* filename);
-	static LTBProp*				LoadProp();
+	static LTBProp				LoadProp();
 	static vector<SkeMesh*>		LoadMesh();
 	static vector<SkeNode*>		LoadSkeleton();
 	static vector<WeightBlend>	LoadWS();

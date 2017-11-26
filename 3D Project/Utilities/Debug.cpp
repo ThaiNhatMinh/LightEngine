@@ -39,7 +39,7 @@ void Debug::Render()
 	pShader->Use();
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	for (int i = 0; i < m_Lists.size(); i++)
+	for (size_t i = 0; i < m_Lists.size(); i++)
 	{
 		DebugData& db = m_Lists[i];
 		pShader->SetUniform("color", db.color);

@@ -19,7 +19,7 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	const char* pFileName = pModelPath->Attribute("File");
 	if (pFileName)
 	{
-		ModelCache* pModel = gResources()->LoadModelXML(pFileName);
+		ModelCache* pModel = gResources()->GetModel(pFileName);
 		if (!pModel)
 		{
 			return false;
@@ -32,7 +32,9 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	}
 	else //if(!strcmp(pFileName ,pModelPath->Attribute("Shape")))
 	{
-		m_MeshList.push_back(gResources()->CreateShape(SHAPE_BOX));
+		// Not support now. Return
+		return false;
+		//m_MeshList.push_back(gResources()->CreateShape(SHAPE_BOX));
 		m_Material.Ka = vec3(1.0f);
 		m_Material.Kd = vec3(1.0f);
 		m_Material.Ks = vec3(1.0f);

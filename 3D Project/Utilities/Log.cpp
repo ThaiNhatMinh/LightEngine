@@ -3,9 +3,9 @@
 vector<string> Log::m_Log;
 
 string logString[] = {
-	"Error: ",
-	"Warning: ",
-	"Debug: " };
+	"ERROR: ",
+	"WARNING: ",
+	"DEBUG: " };
 
 Log::Log()
 {

@@ -18,10 +18,10 @@ EventManager::EventManager()
 //---------------------------------------------------------------------------------------------------------------------
 EventManager::~EventManager()
 {
-	// find event not fire and delete it
-	const IEvent* pEvent = nullptr;
-	while (!m_queues[0].empty() && (pEvent = m_queues[0].front()) != nullptr) delete pEvent;
-	while (!m_queues[0].empty() && (pEvent = m_queues[1].front()) != nullptr) delete pEvent;
+	// find event not fire and deleteit
+	//const IEvent* pEvent = nullptr;
+	//while (!m_queues[0].empty() && (pEvent = m_queues[0].front()) != nullptr) deletepEvent;
+	//while (!m_queues[0].empty() && (pEvent = m_queues[1].front()) != nullptr) deletepEvent;
 }
 
 void EventManager::onStartUp()
@@ -90,7 +90,7 @@ bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, c
 //---------------------------------------------------------------------------------------------------------------------
 // EventManager::VTrigger
 //---------------------------------------------------------------------------------------------------------------------
-bool EventManager::VTriggerEvent(const IEvent* pEvent) const
+bool EventManager::VTriggerEvent(std::shared_ptr<const IEvent> pEvent) const
 {
 	//E_DEBUG("Events Attempting to trigger event " + std::string(pEvent->GetName()));
 	bool processed = false;
@@ -108,7 +108,6 @@ bool EventManager::VTriggerEvent(const IEvent* pEvent) const
 		}
 	}
 
-	delete pEvent;
 
 	return processed;
 }
@@ -117,7 +116,7 @@ bool EventManager::VTriggerEvent(const IEvent* pEvent) const
 //---------------------------------------------------------------------------------------------------------------------
 // EventManager::VQueueEvent
 //---------------------------------------------------------------------------------------------------------------------
-bool EventManager::VQueueEvent(const IEvent* pEvent)
+bool EventManager::VQueueEvent(std::shared_ptr<const IEvent> pEvent)
 {
 	//GCC_ASSERT(m_activeQueue >= 0);
 	//GCC_ASSERT(m_activeQueue < EVENTMANAGER_NUM_QUEUES);
@@ -126,7 +125,7 @@ bool EventManager::VQueueEvent(const IEvent* pEvent)
 	if (!pEvent)
 	{
 		//E_ERROR("Invalid event in VQueueEvent()");
-		delete pEvent;
+		
 		return false;
 	}
 
@@ -142,7 +141,7 @@ bool EventManager::VQueueEvent(const IEvent* pEvent)
 	else
 	{
 		//E_DEBUG("Events Skipping event since there are no delegates registered to receive it: " + std::string(pEvent->GetName()));
-		delete pEvent;
+		
 		return false;
 	}
 }
@@ -151,7 +150,7 @@ bool EventManager::VQueueEvent(const IEvent* pEvent)
 //---------------------------------------------------------------------------------------------------------------------
 // EventManager::VThreadSafeQueueEvent
 //---------------------------------------------------------------------------------------------------------------------
-bool EventManager::VThreadSafeQueueEvent(const IEvent* pEvent)
+bool EventManager::VThreadSafeQueueEvent(std::shared_ptr<const IEvent>)
 {
 	//m_realtimeEventQueue.push(pEvent);
 	return true;
@@ -228,7 +227,7 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 	while (!m_queues[queueToProcess].empty())
 	{
 		// pop the front of the queue
-		const IEvent* pEvent = m_queues[queueToProcess].front();
+		std::shared_ptr<const IEvent> pEvent = m_queues[queueToProcess].front();
 		m_queues[queueToProcess].pop_front();
 		//E_DEBUG("EventLoop \t\tProcessing Event " + std::string(pEvent->GetName()));
 
@@ -250,7 +249,7 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 			}
 		}
 
-		delete pEvent;
+		
 		// check to see if time ran out
 		currMs = GetTickCount();
 		if (maxMillis != IEventManager::kINFINITE && currMs >= maxMs)
@@ -267,7 +266,7 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 	{
 		while (!m_queues[queueToProcess].empty())
 		{
-			const IEvent* pEvent = m_queues[queueToProcess].back();
+			std::shared_ptr<const IEvent> pEvent = m_queues[queueToProcess].back();
 			m_queues[queueToProcess].pop_back();
 			m_queues[m_activeQueue].push_front(pEvent);
 		}

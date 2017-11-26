@@ -393,28 +393,13 @@
     <Xml Include="GameAssets\MODEL\707.xml">
       <Filter>GameAssets\MODEL</Filter>
     </Xml>
-    <Xml Include="GameAssets\Box.xml">
-      <Filter>GameAssets</Filter>
-    </Xml>
-    <Xml Include="GameAssets\Ground.xml">
-      <Filter>GameAssets</Filter>
-    </Xml>
     <Xml Include="GameAssets\physics.xml">
-      <Filter>GameAssets</Filter>
-    </Xml>
-    <Xml Include="GameAssets\Root.xml">
       <Filter>GameAssets</Filter>
     </Xml>
     <Xml Include="GameAssets\Renderer.xml">
       <Filter>GameAssets</Filter>
     </Xml>
-    <Xml Include="GameAssets\Player.xml">
-      <Filter>GameAssets</Filter>
-    </Xml>
-    <Xml Include="GameAssets\Camera.xml">
-      <Filter>GameAssets</Filter>
-    </Xml>
-    <Xml Include="GameAssets\Terrain.xml">
+    <Xml Include="GameAssets\Resources.xml">
       <Filter>GameAssets</Filter>
     </Xml>
   </ItemGroup>

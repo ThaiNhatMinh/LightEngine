@@ -3,10 +3,12 @@
 
 OpenGLRenderer::OpenGLRenderer():m_RenderName("OpenGL"),m_ClearColor(1.0f,1.0f,1.0f,1.0f),m_HasInit(0),m_iClearFlag(0),m_pWindows(nullptr),m_DrawMode(GL_TRIANGLES)
 {
+	Init();
 }
 
 OpenGLRenderer::~OpenGLRenderer()
 {
+	ShutDown();
 }
 
 bool OpenGLRenderer::ReadConfig(string path)
@@ -32,7 +34,7 @@ bool OpenGLRenderer::ReadConfig(string path)
 	pos.x = pWindows->DoubleAttribute("posx", 0);
 	pos.y = pWindows->DoubleAttribute("posy", 0);
 
-	m_pWindows = new Windows(m_WindowName, size.x, size.y);
+	m_pWindows = std::make_unique<Windows>(m_WindowName, size.x, size.y);
 	m_pWindows->InitWindow();
 	m_pWindows->SetPos(pos);
 
@@ -81,7 +83,6 @@ bool OpenGLRenderer::Init()
 
 bool OpenGLRenderer::ShutDown()
 {
-	delete m_pWindows;
 	return 1;
 }
 

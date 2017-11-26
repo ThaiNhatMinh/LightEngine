@@ -279,25 +279,12 @@
     <None Include="GameAssets\SHADER\Texture.vs" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="GameAssets\Box.xml">
-      <SubType>Designer</SubType>
-    </Xml>
-    <Xml Include="GameAssets\Camera.xml">
-      <SubType>Designer</SubType>
-    </Xml>
-    <Xml Include="GameAssets\Ground.xml">
-      <SubType>Designer</SubType>
-    </Xml>
     <Xml Include="GameAssets\MODEL\707.xml" />
     <Xml Include="GameAssets\physics.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="GameAssets\Player.xml">
-      <SubType>Designer</SubType>
-    </Xml>
     <Xml Include="GameAssets\Renderer.xml" />
-    <Xml Include="GameAssets\Root.xml" />
-    <Xml Include="GameAssets\Terrain.xml" />
+    <Xml Include="GameAssets\Resources.xml" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="3D Project.rc" />

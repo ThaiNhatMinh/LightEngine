@@ -1,0 +1,13 @@
+<Resources Path ="GameAssets\">
+
+  <Shader Name="Debug" FileVS="SHADER\Debug.vs" FileFS="SHADER\Debug.fs" />
+  <Shader Name="SkeShader" FileVS="SHADER\Skeleton.vs" FileFS="SHADER\Texture.fs" />
+  <Shader Name="PrimShader" FileVS="SHADER\Texture.vs" FileFS="SHADER\Texture.fs" />
+  <HeightMap File="WORLD\heightmap.png" Size="10" Width="8" Height="8" SubDevided="1"/>
+  
+  <Texture File="TEXTURE\Default.png" />
+  <Texture File="TEXTURE\grass_autumn_orn_d.jpg" />
+  <Texture File="WORLD\heightmap.png" />
+  <ModelXML File="MODEL\707.xml"/>
+  <Model File="MODEL\M-MOTION.LTB" />
+</Resources>

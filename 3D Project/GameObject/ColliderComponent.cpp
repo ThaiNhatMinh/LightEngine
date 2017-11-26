@@ -90,18 +90,23 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		if (pFile == nullptr) return;
 		const char* path = pFile->Attribute("Path");
 		if (path == nullptr) return;
-		HeightMap hm = gResources()->LoadHeightMap(path);
-		m_pCollisionShape = new btHeightfieldTerrainShape(hm.Width, hm.Height, hm.Data, 1, hm.minH, hm.maxH, 1, PHY_UCHAR, false);
-		btVector3 localScaling(hm.stepsize, 1.0, hm.stepsize);
+		HeightMap* hm = gResources()->GetHeightMap(path);
+		m_pCollisionShape = new btHeightfieldTerrainShape(hm->Width, hm->Height, hm->Data, 1, hm->minH, hm->maxH, 1, PHY_UCHAR, false);
+		btVector3 localScaling(hm->stepsize, 1.0, hm->stepsize);
 		m_pCollisionShape->setLocalScaling(localScaling);
-		m_MM = vec2(hm.minH, hm.maxH);
+		m_MM = vec2(hm->minH, hm->maxH);
 		m_Type = SHAPE_TERRAIN;
 	}
 	else if (name == "TriangleMesh")
 	{
-		TerrainRenderComponent* pMesh = m_pOwner->GetComponent<TerrainRenderComponent>(TerrainRenderComponent::Name);
-		vector<IMesh*>& pMeshList = pMesh->GetMeshList();
-		Mesh* m = static_cast<Mesh*>(pMeshList[0]);
+		const tinyxml2::XMLElement* pFile = pData->FirstChildElement("File");
+		if (pFile == nullptr) return;
+		const char* path = pFile->Attribute("Path");
+		if (path == nullptr) return;
+
+		HeightMap* hm = gResources()->GetHeightMap(path);
+		
+		Mesh* m = static_cast<Mesh*>(hm->m_Mesh[0].get());
 		int totaltriangle = m->NumIndices / 3;
 		int totalVerts = m->m_Vertexs.size();
 		int indexStride = sizeof(unsigned int) * 3;
@@ -124,4 +129,5 @@ TriangleMesh::TriangleMesh(btStridingMeshInterface *meshInterface, bool useQuant
 TriangleMesh::~TriangleMesh()
 {
 	delete m_pMeshInterface;
+	delete m_pInfoMap;
 }

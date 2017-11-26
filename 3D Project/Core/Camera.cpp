@@ -29,7 +29,7 @@ Camera::Camera()
 	m_Speed = 200.0f;
 	m_Pitch = 0;
 	m_Yaw = -90;
-	m_Frustum = Frustum(45.0f, 4.0 / 3.0f, 1.0, 10000.0f);
+	m_Frustum = Frustum(45.0f, 4.0 / 3.0f, 1.0f, 10000.0f);
 	MouseSensitivity = 0.25;
 	UpdateVector();
 }

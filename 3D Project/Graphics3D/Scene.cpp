@@ -4,7 +4,7 @@
 
 Scene::Scene(RenderAPICore* pRender):m_Debug(this), m_ActorFactory(this), m_CurrentCamera(nullptr)
 {
-	m_pRoot = m_ActorFactory.CreateActor("GameAssets\\Root.xml",nullptr,&mat4());
+	m_pRoot = std::unique_ptr<Actor>(m_ActorFactory.CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,nullptr));
 	if (!m_pRoot)
 	{
 		E_ERROR("Can't create Root Node.");
@@ -15,14 +15,11 @@ Scene::Scene(RenderAPICore* pRender):m_Debug(this), m_ActorFactory(this), m_Curr
 	m_DirectionLight.direction = glm::normalize(vec3(1, -1, 1));
 
 	m_pRenderer = pRender;
-	m_DefaultCamera = Camera(vec3(0, 0, 100), vec3(0), vec3(0, 1, 0), 45.0f, 4.0f / 3.0, 1.0, 10000.0f);
+	m_DefaultCamera = Camera(vec3(0, 0, 100), vec3(0), vec3(0, 1, 0), 45.0f, 4.0f / 3.0, 1.0f, 10000.0f);
 }
 
 Scene::~Scene()
 {
-	m_pRenderer->ShutDown();
-	delete m_pRenderer;
-	delete m_pRoot;
 }
 
 bool Scene::OnRender()

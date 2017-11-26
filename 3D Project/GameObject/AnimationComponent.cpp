@@ -157,7 +157,7 @@ bool AnimationComponent::VInit(const tinyxml2::XMLElement* pData)
 	const tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
 	const char* pFileName = pModelNode->Attribute("File");
 
-	ModelCache* pModel = gResources()->LoadModel(pFileName);
+	ModelCache* pModel = gResources()->GetModel(pFileName);
 
 	if (!pModel)
 	{

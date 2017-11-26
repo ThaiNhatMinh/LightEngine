@@ -8,10 +8,11 @@ struct WeightBlend;
 struct Animation;
 struct LTBSocket;
 struct LTBProp;
-struct ModelCache
+class ModelCache
 {
+public:
 	char				szName[128];
-	LTBProp*			pProp;
+	LTBProp				Prop;
 	Material			mat;
 	vector<SkeMesh*>	pMeshs;
 	vector<SkeNode*>	pSkeNodes;
@@ -19,4 +20,14 @@ struct ModelCache
 	vector<string>		ChildName;
 	vector<Animation*>	pAnims;
 	vector<LTBSocket>	Sockets;
+	ModelCache() {}
+	~ModelCache()
+	{
+		for (size_t i = 0; i < pMeshs.size(); i++)
+			delete pMeshs[i];
+		for (size_t i = 0; i < pSkeNodes.size(); i++)
+			delete pSkeNodes[i];
+		for (size_t i = 0; i < pAnims.size(); i++)
+			delete pAnims[i];
+	}
 };

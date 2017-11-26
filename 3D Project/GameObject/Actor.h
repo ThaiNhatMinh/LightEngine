@@ -9,8 +9,8 @@ class Actor: public ISceneNode
 {
 	friend class ActorFactory;
 public:
-	typedef std::vector<ISceneNode*> ActorList;
-	typedef std::map<ComponentId, ActorComponent*> ActorComponents;
+	typedef std::vector<std::unique_ptr<Actor>> ActorList;
+	typedef std::map<ComponentId, std::unique_ptr<ActorComponent>> ActorComponents;
 protected:
 	ActorList				m_Children;
 	Actor*					m_pParent;
@@ -65,7 +65,7 @@ inline ComponentType * Actor::GetComponent(ComponentId id)
 	ActorComponents::iterator findIt = m_components.find(id);
 	if (findIt != m_components.end())
 	{
-		ActorComponent* pBase(findIt->second);
+		ActorComponent* pBase(findIt->second.get());
 		ComponentType* pWeakSub = static_cast<ComponentType*>(pBase);
 		return pWeakSub;  // return the weak pointer
 	}
@@ -82,7 +82,7 @@ inline ComponentType * Actor::GetComponent(const char * name)
 	ActorComponents::iterator findIt = m_components.find(id);
 	if (findIt != m_components.end())
 	{
-		ActorComponent* pBase(findIt->second);
+		ActorComponent* pBase(findIt->second.get());
 		ComponentType* pWeakSub = static_cast<ComponentType*>(pBase);
 		return pWeakSub;  // return the weak pointer
 	}

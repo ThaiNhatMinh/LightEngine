@@ -15,8 +15,12 @@ public:
 	// Create Actor from file
 	template<class Type = Actor>
 	Actor* CreateActor(const char* actorResource, tinyxml2::XMLElement* overrides, const mat4* initialTransform);
-	// Create Actor with primitive shape
-	Actor* CreateActor(const char* name,ShapeType type, const mat4& initialTransform);
+
+	// Create Actor with primitive shape. Not support now. Need to load from file
+	// [TODO]- Load from file
+	//Actor* CreateActor(const char* name,ShapeType type, const mat4& initialTransform);
+
+
 	void ModifyActor(Actor* pActor, tinyxml2::XMLElement* overrides);
 
 	//protected:

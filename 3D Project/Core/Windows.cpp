@@ -31,8 +31,6 @@ Windows::Windows(string title,int W,int H)
 Windows::~Windows()
 {
 	glfwDestroyWindow(m_pWindow);
-	//delete m_pWindow;
-	//delete m_pMonitor;
 	glfwTerminate();
 }
 

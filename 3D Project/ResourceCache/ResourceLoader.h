@@ -16,37 +16,44 @@ struct DtxHeader
 	char szCommandString[128];
 };
 #define MAX_FILE_NAME 128
-struct HeightMap
+
+class HeightMap
 {
+public:
 	char filename[MAX_FILE_NAME];
-	GLuint Width=-1;
-	GLuint Height=-1;
-	float stepsize=-1;
+	GLuint Width;
+	GLuint Height;
+	float stepsize;
 	float minH, maxH;
-	GLubyte* Data=nullptr;
+	GLubyte* Data;
+	std::vector<std::unique_ptr<IMesh>> m_Mesh;
+	~HeightMap()
+	{
+		delete[] Data;
+	}
 };
+
+
 class Resources : public Singleton<Resources>
 {
 private:
-	vector<Texture*> m_Textures;
-	vector<ModelCache*> m_ModelCaches;
-	vector<HeightMap> m_HeightMaps;
-	map<string, Shader*> m_ShaderList;
+	vector<std::unique_ptr<Texture>> m_Textures;
+	vector<std::unique_ptr<ModelCache>> m_ModelCaches;
+	vector<std::unique_ptr<HeightMap>> m_HeightMaps;
+	map<string, std::unique_ptr<Shader>> m_ShaderList;
+	map<string, std::function<std::unique_ptr<Shader>(const char *, const char*)>> m_ShaderFactory;
 	// this list store primitive shape 
-	vector<IMesh*> m_PrimList;
+	vector<IMesh*>	m_PrimList;
+
+	// Path to resource
+	std::string		m_Path;
 private:
 	Texture* HasTexture(const char* filename);
 	ModelCache* HasModel(const char* filename);
-	HeightMap HasHeighMap(const char* filename);
-	void ReleaseModel(ModelCache* p);
+	HeightMap* HasHeighMap(const char* filename);
 
-public:
-	Resources();
-	~Resources();
-	virtual void  onStartUp();
-	virtual void  onShutDown();
 
-	HeightMap LoadHeightMap(const char* filename);
+	HeightMap* LoadHeightMap(const char* filename, int size, int w, int h, int sub);
 	Texture* LoadTexture(const char* filename);
 	Texture* LoadCubeTex(const vector<string>& filelist);
 	Texture* LoadTexMemory(const char* filename, unsigned char* data, int w, int h);
@@ -54,24 +61,25 @@ public:
 	unsigned char* LoadHeightMap(const char* filename, int& w, int& h);
 	ModelCache* LoadModel(const char* filename);
 	ModelCache* LoadModelXML(const char* XMLFile);
-
-	template <class shaderType>
-	Shader* LoadShader(string key, const char* vs, const char* fs,bool linkshader = true);
-	Shader* GetShader(string key);
-
 	IMesh* CreateShape(ShapeType type);
+	
+	Shader* LoadShader(string key, const char* vs, const char* fs, bool linkshader = true);
 
+	void LoadResources(string path);
 
+public:
+	Resources();
+	~Resources();
+	virtual void  onStartUp();
+	virtual void  onShutDown();
+
+	
+	Shader*		GetShader(string key);
+	Texture*	GetTexture(const char* filename);
+	ModelCache*	GetModel(const char* filename);
+	HeightMap*	GetHeightMap(const char* filename);
+	
 };
-template <class shaderType>
-Shader * Resources::LoadShader(string key, const char * vs, const char* fs, bool linkshader)
-{
-	map<string, Shader*>::iterator pos = m_ShaderList.find(key);
-	if (pos != m_ShaderList.end()) return pos->second;
 
-	Shader* p = new shaderType(vs, fs);
-	m_ShaderList.insert({ key, p });
-	if (linkshader) p->LinkShader();
-	return p;
-}
+
 Resources* gResources();

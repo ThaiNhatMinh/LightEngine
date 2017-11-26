@@ -4,6 +4,12 @@
 #include "LTBFileLoader.h"
 
 
+
+namespace LightEngine
+{
+	const char* RESOURCES_FILE = "Resources.xml";
+}
+
 Resources* gResources()
 {
 	return Resources::InstancePtr();
@@ -15,7 +21,7 @@ Texture * Resources::HasTexture(const char * filename)
 {
 	for (size_t i = 0; i < m_Textures.size(); i++)
 		if (!strcmp(m_Textures[i]->szName, filename))
-			return m_Textures[i];
+			return m_Textures[i].get();
 	
 	return NULL;
 }
@@ -24,34 +30,24 @@ ModelCache * Resources::HasModel(const char * filename)
 {
 	for (size_t i = 0; i < m_ModelCaches.size(); i++)
 		if (!strcmp(m_ModelCaches[i]->szName, filename))
-			return m_ModelCaches[i];
+			return m_ModelCaches[i].get();
 
 	return NULL;
 }
 
-HeightMap Resources::HasHeighMap(const char * filename)
+HeightMap* Resources::HasHeighMap(const char * filename)
 {
 	for (size_t i = 0; i < m_HeightMaps.size(); i++)
-		if (!strcmp(filename, m_HeightMaps[i].filename)) return m_HeightMaps[i];
-	return HeightMap();
+		if (!strcmp(filename, m_HeightMaps[i]->filename)) return m_HeightMaps[i].get();
+	return nullptr;
 }
 
-void Resources::ReleaseModel(ModelCache * p)
-{
-	if (!p) return;
-	delete p->pProp;
-	for (size_t i = 0; i < p->pMeshs.size(); i++)
-		delete p->pMeshs[i];
-	for (size_t i = 0; i < p->pSkeNodes.size(); i++)
-		delete p->pSkeNodes[i];
-	for (size_t i = 0; i < p->pAnims.size(); i++)
-		delete p->pAnims[i];
-
-	delete p;
-}
 
 Resources::Resources()
 {
+	m_ShaderFactory.insert(std::make_pair("SkeShader", [](const char*vs, const char* fs) {return std::make_unique<SkeShader>(vs, fs); }));
+	m_ShaderFactory.insert(std::make_pair("PrimShader", [](const char*vs, const char* fs) {return std::make_unique<PrimShader>(vs, fs); }));
+	m_ShaderFactory.insert(std::make_pair("Debug", [](const char*vs, const char* fs) {return std::make_unique<Shader>(vs,fs); }));
 }
 
 
@@ -71,20 +67,23 @@ void Resources::onStartUp()
 
 	// Load default tex
 	LoadTexture("GameAssets/TEXTURE/Default.png");
+
+	LoadResources("GameAssets/" + string(LightEngine::RESOURCES_FILE));
 		
 }
 
-HeightMap Resources::LoadHeightMap(const char * filename)
+HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, int h, int sub)
 {
-	HeightMap hm;
+	HeightMap* hm=nullptr;
 	hm = HasHeighMap(filename);
-	if (hm.Data != nullptr) return hm;
+	if (hm != nullptr) return hm;
 
-	if (filename == nullptr) return HeightMap();
+	if (filename == nullptr) return nullptr;
 
 	GLint width, height, iType, iBpp;
 
-	ilLoadImage(filename);
+	string fullpath = m_Path + filename;
+	ilLoadImage(fullpath.c_str());
 
 	ILenum Error;
 	Error = ilGetError();
@@ -92,7 +91,7 @@ HeightMap Resources::LoadHeightMap(const char * filename)
 	if (Error != IL_NO_ERROR)
 	{
 		Log::Message(Log::LOG_ERROR, "Can't load terrain " + string(filename));
-		return  HeightMap();
+		return  nullptr;
 	}
 	width = ilGetInteger(IL_IMAGE_WIDTH);
 	height = ilGetInteger(IL_IMAGE_HEIGHT);
@@ -101,13 +100,13 @@ HeightMap Resources::LoadHeightMap(const char * filename)
 	iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
 
-	width = 8;
-	height = 8;
+	if(w!=-1) width = w;
+	if(h!=-1) height = h;
 
-	float stepsize = 50;
-	vec2 size = vec2(width*stepsize, height*stepsize);
 	
-	GLubyte* h = new GLubyte[width*height];
+	//vec2 size = vec2(width*stepsize, height*stepsize);
+	
+	GLubyte* pRawData = new GLubyte[width*height];
 	int c = 0;
 	float min = 100000000;
 	float max = -min;
@@ -118,36 +117,107 @@ HeightMap Resources::LoadHeightMap(const char * filename)
 			int b = i*width*iBpp + j*iBpp;
 
 
-			h[c] = (Data[b] + Data[b + 1] + Data[b + 2]) / 3.0;
-			h[c] = 10;
-			if (min > h[c]) min = h[c];
-			if (max < h[c]) max = h[c];
+			pRawData[c] = (Data[b] + Data[b + 1] + Data[b + 2]) / 3.0;
+			pRawData[c] = 10;
+			if (min > pRawData[c]) min = pRawData[c];
+			if (max < pRawData[c]) max = pRawData[c];
 			c++;
 		}
 	}
 	
-	ilResetMemory();
 
-	
-	hm.Data = h;
-	hm.Width = width;
-	hm.Height = height;
-	hm.stepsize = stepsize;
-	hm.maxH = max;
-	hm.minH = min;
-	m_HeightMaps.push_back(hm);
+	vec2 size = vec2((width - 1)*stepsize, (height - 1)*stepsize);
+	Mesh* p = new Mesh;
+
+	int x = -size[0] / 2, y = 0, z = -size[1] / 2;
+	float t = (min + max) / 2.0f;
+	// computer vertex xyz
+	for (int i = 0; i < height; i++)
+	{
+
+		for (int j = 0; j < width; j++)
+		{
+			int b = i*width + j;
+
+			y = Data[b] - t;
+			vec3 pos(x, y, z);
+			vec2 uv((x + size[0] / 2) / size[0], (z + size[1] / 2) / size[1]);
+			vec3 normal(0, 1, 0);
+			DefaultVertex vertex{ pos,normal,uv };
+			p->m_Vertexs.push_back(vertex);
+			x += stepsize;
+		}
+		x = -size[0] / 2;
+		z += stepsize;
+	}
+	// computer indices
+	GLuint cnt = 0;
+	for (int i = 0; i < height - 1; i++)
+		for (int j = 0; j <width - 1; j++)
+		{
+			p->m_Indices.push_back(j + (i + 1)*width + 1);
+			p->m_Indices.push_back(j + i*width + 1);
+			p->m_Indices.push_back(j + i*width);
+
+			p->m_Indices.push_back(j + (i + 1)*width);
+			p->m_Indices.push_back(j + (i + 1)*width + 1);
+			p->m_Indices.push_back(j + i*width);
+		}
+
+	// computer normal
+
+	auto heightF = [Data, width, height](int x, int z) {
+		if (x < 0) x = 0;
+		if (z < 0) z = 0;
+		if (x >= width) x = width;
+		if (z >= height) z = height;
+		int a = (int)(x*width + z);
+		return Data[a];
+	};
+
+	int id = 0;
+	for (int i = 0; i < height; i++)
+		for (int j = 0; j < width; j++)
+		{
+			vec2 P(i, j);
+			float hL = heightF(j - 1, i);
+			float hR = heightF(j + 1, i);
+			float hD = heightF(j, i - 1);
+			float hU = heightF(j, i + 1);
+			vec3 N;
+			N.x = hL - hR;
+			N.y = hD - hU;
+			N.z = 2.0;
+			N = normalize(N);
+			p->m_Vertexs[id].normal = N;
+			id++;
+		}
+	ilResetMemory();
+	hm = new HeightMap;
+	hm->Data = pRawData;
+	hm->Width = width;
+	hm->Height = height;
+	hm->stepsize = stepsize;
+	hm->maxH = max;
+	hm->minH = min;
+	strcpy(hm->filename, filename);
+	// [TODO]- Devide large mesh into small mesh
+	hm->m_Mesh.push_back(std::unique_ptr<IMesh>(p));
+
+	m_HeightMaps.push_back(std::unique_ptr<HeightMap>(hm));
 
 	return hm;
 }
 
 Texture * Resources::LoadTexture(const char * filename)
 {
-	Texture* tex=NULL;
-	if ((tex = HasTexture(filename)) != NULL) return tex;
+	Texture* tex=nullptr;
+	if ((tex = HasTexture(filename)) != nullptr) return tex;
 
 	GLint width, height, iType, iBpp;
 
-	ilLoadImage(filename);
+	string fullpath = m_Path + filename;
+	ilLoadImage(fullpath.c_str());
 	ILenum Error;
 	Error = ilGetError();
 
@@ -186,7 +256,7 @@ Texture * Resources::LoadTexture(const char * filename)
 	tex->iWidth = width;
 	tex->iHeight = height;
 
-	m_Textures.push_back(tex);
+	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
 
 	return tex;
@@ -201,7 +271,8 @@ Texture * Resources::LoadCubeTex(const vector<string>& filelist)
 	GLint width, height, iType, iBpp;
 	for (size_t i = 0; i < filelist.size(); i++)
 	{
-		ilLoadImage(filelist[i].c_str());
+		string fullpath = m_Path + filelist[i];
+		ilLoadImage(fullpath.c_str());
 		ILenum Error;
 		Error = ilGetError();
 
@@ -239,7 +310,7 @@ Texture * Resources::LoadCubeTex(const vector<string>& filelist)
 	tex->iWidth = width;
 	tex->iHeight = height;
 
-	m_Textures.push_back(tex);
+	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
 
 	return tex;
@@ -269,7 +340,7 @@ Texture * Resources::LoadTexMemory(const char* filename,unsigned char * data, in
 	tex->iWidth = w;
 	tex->iHeight = h;
 
-	m_Textures.push_back(tex);
+	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
 
 	return tex;
@@ -282,7 +353,9 @@ Texture * Resources::LoadDTX(const char * filename)
 	Texture* tex = NULL;
 	if ((tex = HasTexture(filename)) != NULL) return tex;
 
-	FILE* pFile = fopen(filename, "rb");
+	string fullpath = m_Path + filename;
+
+	FILE* pFile = fopen(fullpath.c_str(), "rb");
 	if (!pFile)
 	{
 		Log::Message(Log::LOG_ERROR, "Can't open file: " + string(filename));
@@ -383,7 +456,7 @@ Texture * Resources::LoadDTX(const char * filename)
 	tex->iWidth = W;
 	tex->iHeight = H;
 	
-	m_Textures.push_back(tex);
+	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
 	fclose(pFile);
 	delete[] ubBuffer;
@@ -417,13 +490,15 @@ byte * Resources::LoadHeightMap(const char * filename, int& w, int& h)
 
 ModelCache * Resources::LoadModel(const char * filename)
 {
-	ModelCache* pModel = NULL;
-	if ((pModel = HasModel(filename)) != NULL) return pModel;
+	ModelCache* pModel = nullptr;
+	if ((pModel = HasModel(filename)) != nullptr) return pModel;
+
+	string fullpath = m_Path + filename;
 
 	pModel = new ModelCache;
-	if (LTBFile::BeginLoad(filename))
+	if (LTBFile::BeginLoad(fullpath.c_str()))
 	{
-		pModel->pProp = LTBFile::LoadProp();
+		pModel->Prop = LTBFile::LoadProp();
 		pModel->pMeshs = LTBFile::LoadMesh();
 		pModel->pSkeNodes = LTBFile::LoadSkeleton();
 		pModel->wb = LTBFile::LoadWS();
@@ -435,7 +510,7 @@ ModelCache * Resources::LoadModel(const char * filename)
 	}
 	else
 	{
-		Log::Message(Log::LOG_ERROR, "Can't open file: " + string(filename));
+		E_ERROR("Can't open file: " + string(filename));
 		return NULL;
 	}
 
@@ -467,14 +542,15 @@ ModelCache * Resources::LoadModel(const char * filename)
 		pModel->pSkeNodes[i]->m_BoundBox = abb[i];
 	}
 
-	m_ModelCaches.push_back(pModel);
+	m_ModelCaches.push_back(std::unique_ptr<ModelCache>(pModel));
 	return pModel;
 }
 
 ModelCache * Resources::LoadModelXML(const char * XMLFile)
 {
+	string fullpath = m_Path + XMLFile;
 	tinyxml2::XMLDocument doc;
-	int errorID = doc.LoadFile(XMLFile);
+	int errorID = doc.LoadFile(fullpath.c_str());
 	if (errorID)
 	{
 		E_ERROR("Failed to load file: " + string(XMLFile));
@@ -528,15 +604,54 @@ ModelCache * Resources::LoadModelXML(const char * XMLFile)
 
 	// Done return ModelCache
 
-//	delete doc;
+
 	return pModel;
 }
 
+Shader * Resources::LoadShader(string key, const char * vs, const char* fs, bool linkshader)
+{
+	auto pos = m_ShaderList.find(key);
+	if (pos != m_ShaderList.end()) return pos->second.get();
 
+	auto func = m_ShaderFactory.find(key);
+	if (func == m_ShaderFactory.end()) return nullptr;
+	string fullPathvs = m_Path + vs;
+	string fullPathfs = m_Path + fs;
+	std::unique_ptr<Shader> p = func->second(fullPathvs.c_str(), fullPathvs.c_str());
+	Shader* result = p.get();
+
+	if (linkshader) p->LinkShader();
+
+	m_ShaderList.insert({ key, std::move(p) });
+
+	return result;
+}
 
 Shader * Resources::GetShader(string key)
 {
-	return m_ShaderList[key];
+	return m_ShaderList[key].get();
+}
+
+Texture * Resources::GetTexture(const char * filename)
+{
+	Texture* tex = nullptr;
+	tex = HasTexture(filename);
+	return tex;
+	
+}
+
+ModelCache * Resources::GetModel(const char * filename)
+{
+	ModelCache* pModel = nullptr;
+	pModel = HasModel(filename);
+	return pModel;
+}
+
+HeightMap * Resources::GetHeightMap(const char * filename)
+{
+	HeightMap* hm = nullptr;
+	hm = HasHeighMap(filename);
+	return hm;
 }
 
 IMesh * Resources::CreateShape(ShapeType type)
@@ -549,26 +664,56 @@ IMesh * Resources::CreateShape(ShapeType type)
 	return pBox;
 }
 
+void Resources::LoadResources(string path)
+{
+	tinyxml2::XMLDocument doc;
+	doc.LoadFile(path.c_str());
+	tinyxml2::XMLElement* p = doc.FirstChildElement("Resources");
+	m_Path = p->Attribute("Path");
+	// Loop through each child element and load the component
+	for (tinyxml2::XMLElement* pNode = p->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+	{
+		const char* name = pNode->Value();
+		if (name == nullptr) continue;
+		
+		if (!strcmp(name, "Texture"))
+		{
+			const char* pFile = pNode->Attribute("File");
+			if (pFile == nullptr) LoadTexture("TEXTURE//Default.png");
+			else LoadTexture(pFile);
+		}
+		else if (!strcmp(name, "Shader"))
+		{
+			const char* pTag = pNode->Attribute("Name");
+			const char* pFileVS = pNode->Attribute("FileVS");
+			const char* pFileFS = pNode->Attribute("FileFS");
+			if (!pTag || !pFileVS || !pFileFS) continue;
+			LoadShader(pTag, pFileVS, pFileFS);
+		}
+		else if (!strcmp(name, "ModelXML"))
+		{
+			const char* pFile = pNode->Attribute("File");
+			if (pFile) LoadModelXML(pFile);
+		}
+		else if (!strcmp(name, "Model"))
+		{
+			const char* pFile = pNode->Attribute("File");
+			if (pFile) LoadModel(pFile);
+		}
+		else if (!strcmp(name, "HeightMap"))
+		{
+			const char* pFile = pNode->Attribute("File");
+			int size = pNode->DoubleAttribute("Size", 5.0f);
+			int w = pNode->DoubleAttribute("Width", 2.0f);
+			int h = pNode->DoubleAttribute("Height", 2.0f);
+			int s = pNode->DoubleAttribute("SubDevided", 1.0);
+			if (pFile) LoadHeightMap(pFile,size,w,h,s);
+		}
+	}
+}
+
 void Resources::onShutDown()
 {
-	for (size_t i = 0; i < m_Textures.size(); i++)
-		delete m_Textures[i];
 
-	for (size_t i = 0; i < m_ModelCaches.size(); i++)
-		ReleaseModel(m_ModelCaches[i]);
-
-	map<string, Shader*>::iterator pos = m_ShaderList.begin();
-	while (pos != m_ShaderList.end())
-	{
-		delete pos->second;
-		//pos->second = NULL;
-		pos++;
-	}
-
-	for (size_t i = 0; i < m_PrimList.size(); i++)
-		delete m_PrimList[i];
-
-	for (int i = 0; i < m_HeightMaps.size(); i++)
-		delete[] m_HeightMaps[i].Data;
 }
 

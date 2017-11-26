@@ -1,12 +1,11 @@
 #include "pch.h"
 #include "..\Graphics3D\OpenGLRenderer.h"
-
+#include <type_traits>
 void Application::SetupSubmodule()
 {
 	//E_DEBUG("Application StartUp...");
 	// Event Manager must be startup first
 	EventManager::startUp();
-
 	GameTimer::startUp();
 	OpenGLRenderer* p = new OpenGLRenderer;
 	p->Init();
@@ -20,14 +19,14 @@ void Application::SetupSubmodule()
 	
 	// test code
 	
-
-	Shader* pShader = gResources()->LoadShader<PrimShader>("NoTexture", "GameAssets\\SHADER\\NoTexture.vs", "GameAssets\\SHADER\\NoTexture.fs");
-	gResources()->LoadShader<Shader>("Debug", "GameAssets\\SHADER\\Debug.vs", "GameAssets\\SHADER\\Debug.fs");
-	Shader* pShader2 = gResources()->LoadShader<SkeShader>("SkeShader", "GameAssets\\SHADER\\Skeleton.vs", "GameAssets\\SHADER\\Texture.fs");
-	gResources()->LoadShader<PrimShader>("Texture", "GameAssets\\SHADER\\Texture.vs", "GameAssets\\SHADER\\Texture.fs");
+	
+	//Shader* pShader = gResources()->LoadShader<PrimShader>("NoTexture", "GameAssets\\SHADER\\NoTexture.vs", "GameAssets\\SHADER\\NoTexture.fs");
+	//gResources()->LoadShader<Shader>("Debug", "GameAssets\\SHADER\\Debug.vs", "GameAssets\\SHADER\\Debug.fs");
+	//Shader* pShader2 = gResources()->LoadShader<SkeShader>("SkeShader", "GameAssets\\SHADER\\Skeleton.vs", "GameAssets\\SHADER\\Texture.fs");
+	//gResources()->LoadShader<PrimShader>("Texture", "GameAssets\\SHADER\\Texture.vs", "GameAssets\\SHADER\\Texture.fs");
 	
 	
-	m_pScene = new Scene(p);
+	m_pScene = std::unique_ptr<Scene>(new Scene(p));
 	ActorFactory& factory = m_pScene->GetActorFactory();
 	
 	
@@ -37,7 +36,7 @@ void Application::SetupSubmodule()
 	//Actor* p4 = factory.CreateActor("GameAssets\\Camera.xml", nullptr, nullptr);
 	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
 
-	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, nullptr));
+	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr));
 	//pp = factory.CreateActor("GameAssets\\Zombie.xml", nullptr, nullptr);
 	//m_pScene->GetRoot()->VAddChild(pp);
 	//mat4 t = glm::translate(mat4(), vec3(0, 0, 100));
@@ -50,7 +49,7 @@ void Application::SetupSubmodule()
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ZombieAssassin.xml", nullptr, nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
-	m_pScene->GetRoot()->VAddChild(factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr));
+	m_pScene->GetRoot()->VAddChild(factory.CreateActor<TerrainWorld>("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr));
 	//anim = 0;
 	//EvtData_SetAnimation* pE = new EvtData_SetAnimation(pp->GetId(), anim, true);
 	//gEventManager()->VQueueEvent(pE);
@@ -61,8 +60,6 @@ Application::~Application()
 {
 	//E_DEBUG("Application ShutDown...");
 
-	
-	delete m_pScene;
 	
 	DirectInput::shutDown();
 	GameTimer::shutDown();

@@ -120,7 +120,7 @@ public:
 
 class IEvent;
 typedef unsigned long EventType;
-typedef fastdelegate::FastDelegate1<const IEvent*> EventListenerDelegate;
+typedef fastdelegate::FastDelegate1<std::shared_ptr<const IEvent>> EventListenerDelegate;
 //typedef concurrent_queue<IEvent*> ThreadSafeEventQueue;
 
 

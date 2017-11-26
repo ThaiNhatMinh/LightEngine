@@ -13,12 +13,13 @@ bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	const char* pFileName = pModelPath->Attribute("File");
 	if (pFileName)
 	{
-		Mesh* p = ReadFile(pFileName);
+		HeightMap* hm = gResources()->GetHeightMap(pFileName);
+		Mesh* p = static_cast<Mesh*>(hm->m_Mesh[0].get());
 		if (p)
 		{
 			const tinyxml2::XMLElement* pTexPath = pData->FirstChildElement("Texture");
 			const char* pFileName1 = pTexPath->Attribute("File0");
-			p->Tex = gResources()->LoadTexture(pFileName1);
+			p->Tex = gResources()->GetTexture(pFileName1);
 
 			m_Material.Ka = vec3(1.0f);
 			m_Material.Kd = vec3(1.0f);
@@ -51,16 +52,14 @@ bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 
 TerrainRenderComponent::~TerrainRenderComponent()
 {
-	for (int i = 0; i < m_MeshList.size(); i++)
-	{
-		delete m_MeshList[i];
-	}
+	
 }
 
+/*
 Mesh * TerrainRenderComponent::ReadFile(const char * filename)
 {
 	if (filename == nullptr) return nullptr;
-	HeightMap hm = gResources()->LoadHeightMap(filename);
+	HeightMap* hm = gResources()->GetHeightMap(filename);
 	/*GLint width, height, iType, iBpp;
 
 	ilLoadImage(filename);
@@ -79,7 +78,7 @@ Mesh * TerrainRenderComponent::ReadFile(const char * filename)
 	ILubyte *Data = ilGetData();
 	iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
-	float stepsize = 50;*/
+	float stepsize = 50; 
 	GLint width = hm.Width, height = hm.Height;
 	float stepsize = hm.stepsize;
 	GLubyte* Data = hm.Data;
@@ -151,4 +150,4 @@ Mesh * TerrainRenderComponent::ReadFile(const char * filename)
 		}
 
 	return p;
-}
+}*/ 

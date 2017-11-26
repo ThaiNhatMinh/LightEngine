@@ -124,9 +124,9 @@ bool LTBFile::BeginLoad(const char * pFileName)
 	return true;
 }
 
-LTBProp* LTBFile::LoadProp()
+LTBProp LTBFile::LoadProp()
 {
-	LTBProp* prop = new LTBProp;
+	LTBProp prop;
 	LTB_Header Header;
 
 	uint32		m_iFileVersion;
@@ -180,26 +180,26 @@ LTBProp* LTBFile::LoadProp()
 	fread(&m_GlobalRadius, sizeof(float), 1, pFile);
 	fread(&m_iNumEnabledOBBs, sizeof(uint32), 1, pFile);
 	
-	prop->m_iFileVersion= m_iFileVersion;
-	prop->m_nKeyFrames= m_nKeyFrames;	
-	prop->m_nParentAnims= m_nParentAnims;		
-	prop->m_nNodes= m_nNodes;			
-	prop->m_nPieces= m_nPieces;		
-	prop->m_nChildModels= m_nChildModels;	
-	prop->m_nTris= m_nTris;		
-	prop->m_nVerts= m_nVerts;		
-	prop->m_nVertexWeights= m_nVertexWeights;	
-	prop->m_nLODs= m_nLODs;			
-	prop->m_nSockets= m_nSockets;			
-	prop->m_nWeightSets= m_nWeightSets;		
-	prop->m_nAnimData= m_nAnimData;		
-	prop->m_nStrings= m_nStrings;			
-	prop->m_StringLengths= m_StringLengths;
-	prop->m_VertAnimDataSize= m_VertAnimDataSize; 
+	prop.m_iFileVersion= m_iFileVersion;
+	prop.m_nKeyFrames= m_nKeyFrames;	
+	prop.m_nParentAnims= m_nParentAnims;		
+	prop.m_nNodes= m_nNodes;			
+	prop.m_nPieces= m_nPieces;		
+	prop.m_nChildModels= m_nChildModels;	
+	prop.m_nTris= m_nTris;		
+	prop.m_nVerts= m_nVerts;		
+	prop.m_nVertexWeights= m_nVertexWeights;	
+	prop.m_nLODs= m_nLODs;			
+	prop.m_nSockets= m_nSockets;			
+	prop.m_nWeightSets= m_nWeightSets;		
+	prop.m_nAnimData= m_nAnimData;		
+	prop.m_nStrings= m_nStrings;			
+	prop.m_StringLengths= m_StringLengths;
+	prop.m_VertAnimDataSize= m_VertAnimDataSize; 
 									
-	//prop->m_nAnimDataPos= m_nAnimDataPos;	
-	prop->m_GlobalRadius = m_GlobalRadius;		
-	prop->m_iNumEnabledOBBs= m_iNumEnabledOBBs;
+	//prop.m_nAnimDataPos= m_nAnimDataPos;	
+	prop.m_GlobalRadius = m_GlobalRadius;		
+	prop.m_iNumEnabledOBBs= m_iNumEnabledOBBs;
 	return prop;
 }
 
@@ -277,7 +277,7 @@ vector<SkeMesh*> LTBFile::LoadMesh()
 					fread(&iMaxBonesPerVert, sizeof(uint32), 1, pFile);
 					fread(StreamData, sizeof(uint32) * 4, 1, pFile);
 					fread(&Bone, sizeof(uint32), 1, pFile);
-					uint32 p;
+					//uint32 p;
 					//fread(&p, sizeof(uint32), 1, pFile);
 					Index.resize(iPolyCount *3);
 					for (uint32 iStream = 0; iStream < 4; ++iStream)

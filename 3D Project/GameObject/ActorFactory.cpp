@@ -22,7 +22,7 @@ ActorFactory::ActorFactory(Scene* pScene)
 	
 }
 
-
+/*
 Actor * ActorFactory::CreateActor(const char * name, ShapeType type, const mat4& initialTransform)
 {
 
@@ -47,7 +47,7 @@ Actor * ActorFactory::CreateActor(const char * name, ShapeType type, const mat4&
 
 	return pActor;
 }
-
+*/
 void ActorFactory::ModifyActor(Actor * pActor, tinyxml2::XMLElement * overrides)
 {
 }
