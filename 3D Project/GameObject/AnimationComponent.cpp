@@ -165,8 +165,12 @@ bool AnimationComponent::VInit(const tinyxml2::XMLElement* pData)
 		return 0;
 	}
 
-	m_pSkeNodes = pModel->pSkeNodes;
-	m_pAnimList = pModel->pAnims;
+	// We cannot assign so just coppy pointer
+	for(size_t i=0; i<pModel->pSkeNodes.size(); i++)
+		m_pSkeNodes.push_back(pModel->pSkeNodes[i].get());
+	for (size_t i = 0; i<pModel->pAnims.size(); i++)
+		m_pAnimList.push_back(pModel->pAnims[i].get());
+
 	m_WB = pModel->wb;
 	m_SkeTransform.resize(m_pSkeNodes.size());
 	m_CurrentFrames.resize(m_pSkeNodes.size());

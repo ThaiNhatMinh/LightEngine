@@ -50,18 +50,18 @@ class LTBFile
 public:
 	static FILE* pFile;
 protected:
-	static bool LoadSkeleton(FILE * pFile, SkeNode* pParent, vector<SkeNode*>& nodeLists);
+	static bool LoadSkeleton(FILE * pFile, SkeNode* pParent, vector<std::unique_ptr<SkeNode>>& nodeLists);
 	static void ReadData(FILE* pFile, AnimNode& node, const vector<AnimKeyFrame>&, unsigned int);
 public:
 	LTBFile() {};
 	~LTBFile() {};
 	static bool BeginLoad(const char* filename);
 	static LTBProp				LoadProp();
-	static vector<SkeMesh*>		LoadMesh();
-	static vector<SkeNode*>		LoadSkeleton();
+	static vector<std::unique_ptr<SkeMesh>>		LoadMesh();
+	static vector<std::unique_ptr<SkeNode>>		LoadSkeleton();
 	static vector<WeightBlend>	LoadWS();
 	static vector<string>		LoadChildName();
-	static vector<Animation*>	LoadAnimation(const vector<SkeNode*>& skenode);
+	static vector<std::unique_ptr<Animation>>	LoadAnimation(const vector<std::unique_ptr<SkeNode>>& skenode);
 	static vector<LTBSocket>	LoadSocket();
 	static void					EndLoad();
 };

@@ -72,7 +72,7 @@ void Resources::onStartUp()
 		
 }
 
-HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, int h, int sub)
+HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, int h, float hscale, int sub)
 {
 	HeightMap* hm=nullptr;
 	hm = HasHeighMap(filename);
@@ -118,7 +118,7 @@ HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, 
 
 
 			pRawData[c] = (Data[b] + Data[b + 1] + Data[b + 2]) / 3.0;
-			pRawData[c] = 10;
+			//pRawData[c] = 10;
 			if (min > pRawData[c]) min = pRawData[c];
 			if (max < pRawData[c]) max = pRawData[c];
 			c++;
@@ -139,7 +139,7 @@ HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, 
 		{
 			int b = i*width + j;
 
-			y = Data[b] - t;
+			y = (pRawData[b] - t)*hscale;
 			vec3 pos(x, y, z);
 			vec2 uv((x + size[0] / 2) / size[0], (z + size[1] / 2) / size[1]);
 			vec3 normal(0, 1, 0);
@@ -194,7 +194,7 @@ HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, 
 		}
 	ilResetMemory();
 	hm = new HeightMap;
-	hm->Data = pRawData;
+	hm->Data = std::unique_ptr<GLubyte>(pRawData);
 	hm->Width = width;
 	hm->Height = height;
 	hm->stepsize = stepsize;
@@ -518,7 +518,7 @@ ModelCache * Resources::LoadModel(const char * filename)
 	vector<AABB> abb(pModel->pSkeNodes.size());
 	for (size_t i = 0; i < pModel->pMeshs.size(); i++)
 	{
-		SkeMesh* pMesh = pModel->pMeshs[i];
+		SkeMesh* pMesh = pModel->pMeshs[i].get();
 		for (size_t j = 0; j < pMesh->m_Vertexs.size(); j++)
 		{
 			SkeVertex& vertex = pMesh->m_Vertexs[j];
@@ -567,7 +567,7 @@ ModelCache * Resources::LoadModelXML(const char * XMLFile)
 	{
 		// load texture
 		tinyxml2::XMLElement* pTextureNode = pData->FirstChildElement("Texture");
-		vector<SkeMesh*>& ve = pModel->pMeshs;
+		vector<std::unique_ptr<SkeMesh>>& ve = pModel->pMeshs;
 		for (size_t i = 0; i < ve.size(); i++)
 		{
 			tinyxml2::XMLElement* pTexture = pTextureNode->FirstChildElement(ve[i]->Name.c_str());
@@ -617,7 +617,7 @@ Shader * Resources::LoadShader(string key, const char * vs, const char* fs, bool
 	if (func == m_ShaderFactory.end()) return nullptr;
 	string fullPathvs = m_Path + vs;
 	string fullPathfs = m_Path + fs;
-	std::unique_ptr<Shader> p = func->second(fullPathvs.c_str(), fullPathvs.c_str());
+	std::unique_ptr<Shader> p = func->second(fullPathvs.c_str(), fullPathfs.c_str());
 	Shader* result = p.get();
 
 	if (linkshader) p->LinkShader();
@@ -643,7 +643,8 @@ Texture * Resources::GetTexture(const char * filename)
 ModelCache * Resources::GetModel(const char * filename)
 {
 	ModelCache* pModel = nullptr;
-	pModel = HasModel(filename);
+	if (strstr(filename, ".xml") != nullptr) pModel = LoadModelXML(filename);
+	else pModel = HasModel(filename);
 	return pModel;
 }
 
@@ -706,8 +707,9 @@ void Resources::LoadResources(string path)
 			int size = pNode->DoubleAttribute("Size", 5.0f);
 			int w = pNode->DoubleAttribute("Width", 2.0f);
 			int h = pNode->DoubleAttribute("Height", 2.0f);
+			float hscale = pNode->DoubleAttribute("HeightScale", 1.0);
 			int s = pNode->DoubleAttribute("SubDevided", 1.0);
-			if (pFile) LoadHeightMap(pFile,size,w,h,s);
+			if (pFile) LoadHeightMap(pFile,size,w,h,hscale,s);
 		}
 	}
 }

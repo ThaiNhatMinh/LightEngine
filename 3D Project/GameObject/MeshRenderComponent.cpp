@@ -26,7 +26,7 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 		}
 		for (size_t i = 0; i < pModel->pMeshs.size(); i++)
 		{
-			m_MeshList.push_back(pModel->pMeshs[i]);
+			m_MeshList.push_back(pModel->pMeshs[i].get());
 		}
 		m_Material = pModel->mat;
 	}

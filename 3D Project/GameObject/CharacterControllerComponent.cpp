@@ -104,7 +104,7 @@ void CharacterControllerComponent::PhysicPreStepEvent(std::shared_ptr<const IEve
 	else if (gInput()->KeyDown(DIK_J)) m_MoveDirection -= m_pTransformC->GetRight();
 	if (gInput()->KeyDown(DIK_SPACE)) m_JumpDirection = vec3(0, 1, 0);
 
-	cout << m_bOnGround << endl;
+	
 	if (m_MoveDirection != vec3(0)&& m_bOnGround)
 	{
 	

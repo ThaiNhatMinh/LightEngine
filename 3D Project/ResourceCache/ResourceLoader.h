@@ -25,11 +25,11 @@ public:
 	GLuint Height;
 	float stepsize;
 	float minH, maxH;
-	GLubyte* Data;
+	std::unique_ptr<GLubyte> Data;
 	std::vector<std::unique_ptr<IMesh>> m_Mesh;
 	~HeightMap()
 	{
-		delete[] Data;
+
 	}
 };
 
@@ -53,7 +53,7 @@ private:
 	HeightMap* HasHeighMap(const char* filename);
 
 
-	HeightMap* LoadHeightMap(const char* filename, int size, int w, int h, int sub);
+	HeightMap* LoadHeightMap(const char* filename, int size, int w, int h,float hscale, int sub);
 	Texture* LoadTexture(const char* filename);
 	Texture* LoadCubeTex(const vector<string>& filelist);
 	Texture* LoadTexMemory(const char* filename, unsigned char* data, int w, int h);

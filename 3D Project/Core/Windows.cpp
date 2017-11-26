@@ -40,7 +40,7 @@ bool Windows::InitWindow()
 	GLFWwindow* window = glfwCreateWindow(m_iWidth, m_iHeight, m_WindowTitle.c_str(), nullptr, nullptr);
 	if (!window)
 	{
-		Log::Message(Log::LOG_ERROR, "Can't create Window.");
+		E_ERROR("Can't create Window.");
 		return false;
 	}
 	
@@ -52,10 +52,6 @@ bool Windows::InitWindow()
 	glewExperimental = GL_TRUE;
 	
 	
-	//glfwSetKeyCallback(window, key_callback);
-	//glfwSetCursorPosCallback(window, mouse_callback);
-	//glfwSetScrollCallback(window, scroll_callback);
-	//glfwSetMouseButtonCallback(window, mouse_button_callback);
 	m_pWindow = window;
 
 	HideWindows();

@@ -7,18 +7,7 @@ Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr)
 
 Actor::~Actor()
 {
-	/*
-	// release children
-	for (size_t i = 0; i < m_Children.size(); i++)
-	{
-		deletem_Children[i];
-	}
-	
-	// release component
-	for (ActorComponents::iterator it = m_components.begin(); it != m_components.end(); ++it)
-	{
-		deleteit->second;
-	}*/
+
 }
 
 bool Actor::Init(const tinyxml2::XMLElement* pData)
@@ -148,8 +137,9 @@ HRESULT Actor::VPostRender(Scene * pScene)
 
 bool Actor::VAddChild(std::unique_ptr<Actor> kid)
 {
+	Actor* p = kid.get();
 	m_Children.push_back(std::move(kid));
-	kid->m_pParent = this;
+	p->m_pParent = this;
 	return true;
 }
 

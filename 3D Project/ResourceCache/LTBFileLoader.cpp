@@ -2,7 +2,7 @@
 #include "LTBDef.h"
 #include <pch.h>
 FILE* LTBFile::pFile = NULL;
-bool LTBFile::LoadSkeleton(FILE * pFile, SkeNode* pParent, vector<SkeNode*>& nodeLists)
+bool LTBFile::LoadSkeleton(FILE * pFile, SkeNode* pParent, vector<std::unique_ptr<SkeNode>>& nodeLists)
 {
 	SkeNode* p = new SkeNode;
 	if(pParent!=NULL)	p->m_ParentIndex = pParent->m_Index;
@@ -39,7 +39,7 @@ bool LTBFile::LoadSkeleton(FILE * pFile, SkeNode* pParent, vector<SkeNode*>& nod
 	uint32 numChild;
 	fread(&numChild, sizeof(uint32), 1, pFile);
 
-	nodeLists.push_back(p);
+	nodeLists.push_back(std::unique_ptr<SkeNode>(p));
 	for (size_t i = 0; i < numChild; i++) LoadSkeleton(pFile, p, nodeLists);
 
 	return true;
@@ -204,9 +204,9 @@ LTBProp LTBFile::LoadProp()
 }
 
 
-vector<SkeMesh*> LTBFile::LoadMesh()
+vector<std::unique_ptr<SkeMesh>> LTBFile::LoadMesh()
 {
-	vector<SkeMesh*> meshlist;
+	vector<std::unique_ptr<SkeMesh>> meshlist;
 
 	uint32 numPieces;
 	fread(&numPieces, sizeof(uint32), 1, pFile);
@@ -525,21 +525,16 @@ vector<SkeMesh*> LTBFile::LoadMesh()
 			}
 		}
 
-		//string file = pFileName;
-		//size_t t1 = file.find_last_of("\\/");
-		//size_t t2 = file.size() - t1;
-		//string texFile = file.substr(t1, t2 - 4) + ".DTX";
-		//string TexPathFile = (file.substr(0, t1)) + texFile;
-		//pmesh->m_pTexture = Resources::LoadDTX(TexPathFile.c_str());
-		meshlist[iPieceCnt] = pmesh;
+	
+		meshlist[iPieceCnt] = std::unique_ptr<SkeMesh>(pmesh);
 	}
 
 	return meshlist;
 }
 
-vector<SkeNode*> LTBFile::LoadSkeleton()
+vector<std::unique_ptr<SkeNode>> LTBFile::LoadSkeleton()
 {
-	vector<SkeNode*> nodelist;
+	vector<std::unique_ptr<SkeNode>> nodelist;
 
 	//m_pSkeleton = new SkeletonNode;
 	//m_pSkeleton->m_pParent = NULL;
@@ -601,11 +596,11 @@ vector<string> LTBFile::LoadChildName()
 	return childs;
 }
 
-vector<Animation*> LTBFile::LoadAnimation(const vector<SkeNode*>& skenode)
+vector<std::unique_ptr<Animation>> LTBFile::LoadAnimation(const vector<std::unique_ptr<SkeNode>>& skenode)
  {
 	 uint32 m_CompressionType = 0;
 	 uint32 m_InterpolationMS = 0;
-	 vector<Animation*>m_pAnimList;
+	 vector<std::unique_ptr<Animation>>m_pAnimList;
 	
 	 // Save animations.
 	 uint32 nAnimDataSize = 0;
@@ -661,7 +656,7 @@ vector<Animation*> LTBFile::LoadAnimation(const vector<SkeNode*>& skenode)
 			 ReadData(pFile, node, p->KeyFrames,m_CompressionType);
 			 p->AnimNodeLists.push_back(node);
 		 }
-		 m_pAnimList[i] = p;
+		 m_pAnimList[i] = std::unique_ptr<Animation>(p);
 	 }
 
 

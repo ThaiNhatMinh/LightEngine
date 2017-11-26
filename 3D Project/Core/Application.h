@@ -15,6 +15,6 @@ public:
 private:
 	bool m_bRunMainLoop;
 	void SetupSubmodule();
-	std::unique_ptr<Scene> m_pScene;
+	Scene* m_pScene;
 	
 };

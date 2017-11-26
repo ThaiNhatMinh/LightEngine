@@ -18,7 +18,7 @@ void Shader::LinkShader()
 	if (check == GL_FALSE)
 	{
 		glGetProgramInfoLog(m_iProgramID, 512, NULL, infoLog);
-		Log::Message(Log::LOG_ERROR, "Program Shader link error -> " + string(infoLog));
+		E_ERROR( "Program Shader link error -> " + string(infoLog));
 	}
 
 	GLint nUniform, maxLen;
@@ -39,7 +39,7 @@ void Shader::LinkShader()
 		cout << location << " " << name << endl;
 #endif
 	}
-	delete name;
+	delete[] name;
 	 
 }
 
@@ -65,7 +65,7 @@ bool Shader::Load(const char * vertexShaderFile, const char * fragmentShaderFile
 	FILE* pvFile = fopen(vertexShaderFile, "rt");
 	if (!pvFile)
 	{
-		Log::Message(Log::LOG_ERROR, "Can't open File: " + string(vertexShaderFile));
+		E_ERROR( "Can't open File: " + string(vertexShaderFile));
 		return false;
 	}
 	if (fseek(pvFile, 0L, SEEK_END) == 0)
@@ -80,7 +80,7 @@ bool Shader::Load(const char * vertexShaderFile, const char * fragmentShaderFile
 	FILE* pfFile = fopen(fragmentShaderFile, "rt");
 	if (!pfFile)
 	{
-		Log::Message(Log::LOG_ERROR, "Can't open File: " + string(fragmentShaderFile));
+		E_ERROR( "Can't open File: " + string(fragmentShaderFile));
 		return false;
 	}
 	if (fseek(pfFile, 0L, SEEK_END) == 0)
@@ -102,7 +102,8 @@ bool Shader::Load(const char * vertexShaderFile, const char * fragmentShaderFile
 	if (check == GL_FALSE)
 	{
 		glGetShaderInfoLog(m_iVertexShader, 512, NULL, infoLog);
-		Log::Message(Log::LOG_ERROR, "Vertex shader compile error -> " + string(infoLog));
+		E_ERROR("FILE: " + string(vertexShaderFile));
+		E_ERROR( "Vertex shader compile error -> " + string(infoLog));
 
 	}
 
@@ -116,7 +117,8 @@ bool Shader::Load(const char * vertexShaderFile, const char * fragmentShaderFile
 	if (check == GL_FALSE)
 	{
 		glGetShaderInfoLog(m_iFragmentShader, 512, NULL, infoLog);
-		Log::Message(Log::LOG_ERROR, "Fragment shader compile error -> " + string(infoLog));
+		E_ERROR("FILE: " + string(fragmentShaderFile));
+		E_ERROR( "Fragment shader compile error -> " + string(infoLog));
 
 	}
 

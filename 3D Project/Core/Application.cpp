@@ -8,7 +8,7 @@ void Application::SetupSubmodule()
 	EventManager::startUp();
 	GameTimer::startUp();
 	OpenGLRenderer* p = new OpenGLRenderer;
-	p->Init();
+
 
 	Resources::startUp();
 
@@ -26,17 +26,18 @@ void Application::SetupSubmodule()
 	//gResources()->LoadShader<PrimShader>("Texture", "GameAssets\\SHADER\\Texture.vs", "GameAssets\\SHADER\\Texture.fs");
 	
 	
-	m_pScene = std::unique_ptr<Scene>(new Scene(p));
+	m_pScene = new Scene(p);
 	ActorFactory& factory = m_pScene->GetActorFactory();
 	
 	
 
 	//Actor* p2 = ;
 	
-	//Actor* p4 = factory.CreateActor("GameAssets\\Camera.xml", nullptr, nullptr);
+	Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
+	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
 	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
-	Actor* pp = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
-	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
+	//Actor* pp = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
+	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 	//pp = factory.CreateActor("GameAssets\\Zombie.xml", nullptr, nullptr);
 	//m_pScene->GetRoot()->VAddChild(pp);
 	//mat4 t = glm::translate(mat4(), vec3(0, 0, 100));
@@ -49,11 +50,8 @@ void Application::SetupSubmodule()
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ZombieAssassin.xml", nullptr, nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
-	pp = factory.CreateActor<TerrainWorld>("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
-	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-	//anim = 0;
-	//EvtData_SetAnimation* pE = new EvtData_SetAnimation(pp->GetId(), anim, true);
-	//gEventManager()->VQueueEvent(pE);
+	//Actor*pp = factory.CreateActor<TerrainWorld>("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
+	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 
 }
 
@@ -61,7 +59,7 @@ Application::~Application()
 {
 	//E_DEBUG("Application ShutDown...");
 
-	
+	delete m_pScene;
 	DirectInput::shutDown();
 	GameTimer::shutDown();
 	Resources::shutDown();
@@ -115,19 +113,7 @@ void Application::MainLoop()
 
 		gInput()->Update();
 
-		/*if (gInput()->KeyDown(DIK_P))
-		{
-			anim++;
-			EvtData_SetAnimation* pE = new EvtData_SetAnimation(pp->GetId(), anim, true);
-			gEventManager()->VQueueEvent(pE);
-		}
-		else if (gInput()->KeyDown(DIK_L))
-		{
-			anim--;
-			if (anim < 0) anim = 0;
-			EvtData_SetAnimation* pE = new EvtData_SetAnimation(pp->GetId(), anim, true);
-			gEventManager()->VQueueEvent(pE);
-		}*/
+		
 
 		gPhysic()->VOnUpdate(gTimer()->GetDeltaTime());
 		gPhysic()->VSyncVisibleScene();

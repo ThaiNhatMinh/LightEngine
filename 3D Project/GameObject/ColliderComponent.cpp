@@ -91,7 +91,7 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		const char* path = pFile->Attribute("Path");
 		if (path == nullptr) return;
 		HeightMap* hm = gResources()->GetHeightMap(path);
-		m_pCollisionShape = new btHeightfieldTerrainShape(hm->Width, hm->Height, hm->Data, 1, hm->minH, hm->maxH, 1, PHY_UCHAR, false);
+		m_pCollisionShape = new btHeightfieldTerrainShape(hm->Width, hm->Height, hm->Data.get(), 1, hm->minH, hm->maxH, 1, PHY_UCHAR, false);
 		btVector3 localScaling(hm->stepsize, 1.0, hm->stepsize);
 		m_pCollisionShape->setLocalScaling(localScaling);
 		m_MM = vec2(hm->minH, hm->maxH);
