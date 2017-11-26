@@ -1,9 +1,102 @@
 #include "pch.h"
 
-
 const char* AnimationComponent::Name = "AnimationComponent";
+const char* PVAnimationComponent::Name = "PVAnimationComponent";
 
-FrameData AnimationComponent::InterpolateFrame(AnimControl & control, const AnimNode & Anim, const vector<AnimKeyFrame>& KeyFrames)
+void BaseAnimComponent::DrawSkeleton(Debug & debug, const mat4& m)
+{
+
+
+	for (size_t i = 0; i < m_pSkeNodes.size(); i++)
+	{
+		int parentID = m_pSkeNodes[i]->m_ParentIndex;
+		if (parentID != -1)
+		{
+			vec3 pos1 = m_DbTransform[i][3];
+			vec3 pos2 = m_DbTransform[parentID][3];
+			debug.DrawLine(pos1, pos2, vec3(0.5f, 0.3, 1.0f), m);
+		}
+		/*
+		if (m_pSkeNodes[i]->m_Flag != 1) continue;
+		vec3 v[8];
+		m_pSkeNodes[i]->m_BoundBox.GenPoint(v);
+		//mat4 mm = temp;
+		mat4 temp = m*m_DbTransform[i];
+		vec3 color;
+		if (select == i) color = vec3(0, 1, 0);
+		else color = vec3(1,1,1);
+		if (i != 6) continue;
+		debug.DrawLine(m_pSkeNodes[i]->m_BoundBox.Min, m_pSkeNodes[i]->m_BoundBox.Max, vec3(0, 1, 0), temp);
+
+		debug.DrawLine(v[0], v[1], color, temp);
+		debug.DrawLine(v[1], v[2], color, temp);
+		debug.DrawLine(v[2], v[3], color, temp);
+		debug.DrawLine(v[3], v[0], color, temp);
+
+		debug.DrawLine(v[4], v[5], color, temp);
+		debug.DrawLine(v[5], v[6], color, temp);
+		debug.DrawLine(v[6], v[7], color, temp);
+		debug.DrawLine(v[7], v[4], color, temp);
+
+		debug.DrawLine(v[0], v[4], color, temp);
+		debug.DrawLine(v[1], v[5], color, temp);
+		debug.DrawLine(v[2], v[6], color, temp);
+		debug.DrawLine(v[3], v[7], color, temp);
+
+		vec3 pos1 = m_DbTransform[i][3];
+
+		vec3 front = vec3(m_DbTransform[i][0]) + pos1;
+		debug.DrawLine(pos1, front, vec3(1, 0, 0), m);
+		front = 2.0f*vec3(m_DbTransform[i][1]) + pos1;
+		debug.DrawLine(pos1, front, vec3(0, 1, 0), m);
+		front = 4.0f*vec3(m_DbTransform[i][2]) + pos1;
+		debug.DrawLine(pos1, front, vec3(0, 0, 1), m);
+		*/
+	}
+
+}
+
+
+const vector<mat4>& BaseAnimComponent::GetTransform()
+{
+	return m_SkeTransform;
+}
+
+
+
+bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
+{
+	if (!pData) return false;
+	// load model
+	const tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
+	const char* pFileName = pModelNode->Attribute("File");
+
+	ModelCache* pModel = gResources()->GetModel(pFileName);
+
+	if (!pModel)
+	{
+		E_ERROR("AnimationComponent can't load data.");
+		return 0;
+	}
+
+	// We cannot assign so just coppy pointer
+	for (size_t i = 0; i<pModel->pSkeNodes.size(); i++)
+		m_pSkeNodes.push_back(pModel->pSkeNodes[i].get());
+	for (size_t i = 0; i<pModel->pAnims.size(); i++)
+		m_pAnimList.push_back(pModel->pAnims[i].get());
+
+	m_WB = pModel->wb;
+	m_SkeTransform.resize(m_pSkeNodes.size());
+	m_CurrentFrames.resize(m_pSkeNodes.size());
+	m_DbTransform.resize(m_pSkeNodes.size());
+
+	return true;
+}
+
+
+
+
+FrameData BaseAnimComponent::InterpolateFrame(AnimControl & control, const AnimNode & Anim, const vector<AnimKeyFrame>& KeyFrames)
 {
 	int frame0 = -1;
 	int frame1 = -1;
@@ -13,7 +106,7 @@ FrameData AnimationComponent::InterpolateFrame(AnimControl & control, const Anim
 	{
 		frame1 = control.KeyFrameID;
 		if (KeyFrames[frame1].m_pString.size() > 0)	
-			SendAnimationEvent(KeyFrames[frame1].m_pString);
+			AnimEvent(KeyFrames[frame1].m_pString);
 		return	Anim.Data[frame1];
 	}
 	else if (control.m_iCurrentFrame > KeyFrames[control.KeyFrameID].m_Time)
@@ -23,7 +116,7 @@ FrameData AnimationComponent::InterpolateFrame(AnimControl & control, const Anim
 		{
 			control.m_iCurrentFrame = 0;
 			control.KeyFrameID = 0;
-			if (KeyFrames[control.KeyFrameID].m_pString.size() > 0)	SendAnimationEvent(KeyFrames[control.KeyFrameID].m_pString);
+			if (KeyFrames[control.KeyFrameID].m_pString.size() > 0)	AnimEvent(KeyFrames[control.KeyFrameID].m_pString);
 			control.m_bFinished = 1;
 			return	Anim.Data[control.KeyFrameID];
 		}
@@ -68,68 +161,15 @@ void AnimationComponent::ResetControl(blendset bs, GLuint anim, AnimationState s
 	m_Control[bs].m_bFinished = 0;
 }
 
-void AnimationComponent::SendAnimationEvent(string data)
+void AnimationComponent::AnimEvent(const string& data)
 {
 	std::shared_ptr<const IEvent> pEvent(new EvtData_AnimationString(m_pOwner->GetId(), data));
 	gEventManager()->VQueueEvent(pEvent);
 }
 
-void AnimationComponent::DrawSkeleton(Debug & debug,const mat4& m )
+AnimationComponent::AnimationComponent(void)
 {
-	
-	
-	for (size_t i = 0; i < m_pSkeNodes.size(); i++)
-	{
-		int parentID = m_pSkeNodes[i]->m_ParentIndex;
-		if (parentID != -1)
-		{
-			vec3 pos1 = m_DbTransform[i][3];
-			vec3 pos2 = m_DbTransform[parentID][3];
-			debug.DrawLine(pos1, pos2, vec3(0.5f, 0.3, 1.0f),m);
-		}
-		/*
-		if (m_pSkeNodes[i]->m_Flag != 1) continue;
-		vec3 v[8];
-		m_pSkeNodes[i]->m_BoundBox.GenPoint(v);
-		//mat4 mm = temp;
-		mat4 temp = m*m_DbTransform[i];
-		vec3 color;
-		if (select == i) color = vec3(0, 1, 0);
-		else color = vec3(1,1,1);
-		if (i != 6) continue;
-		debug.DrawLine(m_pSkeNodes[i]->m_BoundBox.Min, m_pSkeNodes[i]->m_BoundBox.Max, vec3(0, 1, 0), temp);
-		
-		debug.DrawLine(v[0], v[1], color, temp);
-		debug.DrawLine(v[1], v[2], color, temp);
-		debug.DrawLine(v[2], v[3], color, temp);
-		debug.DrawLine(v[3], v[0], color, temp);
-
-		debug.DrawLine(v[4], v[5], color, temp);
-		debug.DrawLine(v[5], v[6], color, temp);
-		debug.DrawLine(v[6], v[7], color, temp);
-		debug.DrawLine(v[7], v[4], color, temp);
-
-		debug.DrawLine(v[0], v[4], color, temp);
-		debug.DrawLine(v[1], v[5], color, temp);
-		debug.DrawLine(v[2], v[6], color, temp);
-		debug.DrawLine(v[3], v[7], color, temp);
-		
-		vec3 pos1 = m_DbTransform[i][3];
-
-		vec3 front = vec3(m_DbTransform[i][0]) + pos1;
-		debug.DrawLine(pos1, front, vec3(1, 0, 0), m);
-		front = 2.0f*vec3(m_DbTransform[i][1]) + pos1;
-		debug.DrawLine(pos1, front, vec3(0, 1, 0), m);
-		front = 4.0f*vec3(m_DbTransform[i][2]) + pos1;
-		debug.DrawLine(pos1, front, vec3(0, 0, 1), m);
-		*/
-	}
-	
-}
-
-AnimationComponent::AnimationComponent(void):m_iDefaultAnimation(0)
-{
-	
+	m_iDefaultAnimation = 0;
 	m_Control[upper].m_fTime = 0;
 	m_Control[upper].m_iCurrentAnim = 0;
 	m_Control[upper].m_iCurrentFrame = 0;
@@ -150,34 +190,6 @@ AnimationComponent::~AnimationComponent(void)
 	gEventManager()->VRemoveListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
 }
 
-bool AnimationComponent::VInit(const tinyxml2::XMLElement* pData)
-{
-	if (!pData) return false;
-	// load model
-	const tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
-	const char* pFileName = pModelNode->Attribute("File");
-
-	ModelCache* pModel = gResources()->GetModel(pFileName);
-
-	if (!pModel)
-	{
-		E_ERROR("AnimationComponent can't load data.");
-		return 0;
-	}
-
-	// We cannot assign so just coppy pointer
-	for(size_t i=0; i<pModel->pSkeNodes.size(); i++)
-		m_pSkeNodes.push_back(pModel->pSkeNodes[i].get());
-	for (size_t i = 0; i<pModel->pAnims.size(); i++)
-		m_pAnimList.push_back(pModel->pAnims[i].get());
-
-	m_WB = pModel->wb;
-	m_SkeTransform.resize(m_pSkeNodes.size());
-	m_CurrentFrames.resize(m_pSkeNodes.size());
-	m_DbTransform.resize(m_pSkeNodes.size());
-	
-	return true;
-}
 
 void AnimationComponent::VPostInit(void)
 {
@@ -269,10 +281,6 @@ void AnimationComponent::VUpdate(float deltaMs)
 	if (m_Control[lower].m_bFinished) ResetControl(lower, m_iDefaultAnimation, ANIM_PLAYING);
 }
 
-const vector<mat4>& AnimationComponent::GetTransform()
-{
-	return m_SkeTransform;
-}
 
 void AnimationComponent::SetAnimationEvent(std::shared_ptr<const IEvent> pEvent)
 {
@@ -299,4 +307,114 @@ AABB AnimationComponent::GetUserDimesion()
 {
 	if (m_Control[lower].m_iCurrentAnim<0 || m_Control[lower].m_iCurrentAnim>=m_pAnimList.size()) return AABB();
 	return m_pAnimList[m_Control[lower].m_iCurrentAnim]->m_BV;
+}
+
+
+void PVAnimationComponent::ResetControl(GLuint anim, AnimationState state)
+{
+	m_Control.m_fTime = 0;
+	m_Control.m_iCurrentAnim = anim;
+	m_Control.m_iCurrentFrame = 0;
+	m_Control.KeyFrameID = 0;
+	m_Control.m_State = state;
+	m_Control.m_bFinished = 0;
+}
+
+
+PVAnimationComponent::PVAnimationComponent(void)
+{
+	m_iDefaultAnimation = 0;
+	m_Control.m_fTime = 0;
+	m_Control.m_iCurrentAnim = 0;
+	m_Control.m_iCurrentFrame = 0;
+	m_Control.KeyFrameID = 0;
+	m_Control.m_State = ANIM_PLAYING;
+}
+
+
+void PVAnimationComponent::VPostInit(void)
+{
+}
+
+void PVAnimationComponent::VUpdate(float deltaMs)
+{
+	if (!m_pAnimList.size()) return;
+
+	if (m_Control.m_State != ANIM_STOP)
+	{
+		m_Control.m_fTime += deltaMs;
+		m_Control.m_iCurrentFrame = (GLuint)(m_Control.m_fTime * 1000);
+	}
+
+	Animation* anim = m_pAnimList[m_Control.m_iCurrentAnim];
+	for (GLuint i = 0; i < anim->AnimNodeLists.size(); i++)
+	{
+		if (m_Control.m_State == ANIM_TRANSITION)
+		{
+			if (m_Control.m_fTime > m_fBlendTime)
+			{
+				m_Control.m_State = ANIM_PLAYING;
+				m_Control.m_fTime = 0.0f;
+			}
+			else
+			{
+				float t = m_Control.m_fTime / m_fBlendTime;
+				m_CurrentFrames[i].m_Pos = glm::lerp(m_CurrentFrames[i].m_Pos, anim->AnimNodeLists[i].Data[0].m_Pos, t);
+				m_CurrentFrames[i].m_Ort = glm::slerp(m_CurrentFrames[i].m_Ort, anim->AnimNodeLists[i].Data[0].m_Ort, t);
+			}
+		}
+		else if (m_Control.m_State == ANIM_PLAYING)
+		{
+			m_CurrentFrames[i] = InterpolateFrame(m_Control, anim->AnimNodeLists[i], anim->KeyFrames);
+		}
+
+
+
+
+		mat4 m_TransformLocal;
+		mat4 rotate = glm::toMat4(m_CurrentFrames[i].m_Ort);
+		mat4 translate = glm::translate(mat4(), m_CurrentFrames[i].m_Pos);
+		mat4 transform = translate*rotate;
+
+		if (anim->AnimNodeLists[i].Parent != -1) m_TransformLocal = m_DbTransform[anim->AnimNodeLists[i].Parent] * transform;
+		else m_TransformLocal = transform;
+
+		m_SkeTransform[i] = m_TransformLocal;
+		m_DbTransform[i] = m_SkeTransform[i];
+		m_SkeTransform[i] = m_SkeTransform[i] * m_pSkeNodes[i]->m_InvBindPose;
+
+
+	}
+
+
+	if (m_Control.m_bFinished) ResetControl(m_iDefaultAnimation, ANIM_PLAYING);
+
+}
+
+void PVAnimationComponent::SetAnimationEvent(std::shared_ptr<const IEvent> pEvent)
+{
+	const EvtData_SetAnimation* p = dynamic_cast<const EvtData_SetAnimation*>(pEvent.get());
+
+	if (p->GetId() != m_pOwner->GetId()) return;
+
+	GLuint animID = p->GetAnimation();
+
+	if (animID >= m_pAnimList.size()) return;
+
+	m_Control.KeyFrameID = 0;
+	m_Control.m_iCurrentFrame = 0;
+	m_Control.m_iCurrentAnim = animID;
+	m_Control.m_fTime = 0.0f;				// restart time to zero
+	m_Control.m_State = ANIM_PLAYING;
+	if (p->isDefault()) m_iDefaultAnimation = animID;
+}
+
+AABB PVAnimationComponent::GetUserDimesion()
+{
+	if (m_Control.m_iCurrentAnim<0 || m_Control.m_iCurrentAnim >= m_pAnimList.size()) return AABB();
+	return m_pAnimList[m_Control.m_iCurrentAnim]->m_BV;
+}
+
+void PVAnimationComponent::AnimEvent(const string&)
+{
 }

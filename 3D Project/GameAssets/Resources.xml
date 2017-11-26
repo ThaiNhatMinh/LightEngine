@@ -9,5 +9,6 @@
   <Texture File="TEXTURE\grass_autumn_orn_d.jpg" />
   <Texture File="WORLD\heightmap.png" />
   <ModelXML File="MODEL\707.xml"/>
+  <ModelXML File="MODEL\AK47.xml"/>
   <Model File="MODEL\M-MOTION.LTB" />
 </Resources>

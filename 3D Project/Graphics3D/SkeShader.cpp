@@ -3,7 +3,8 @@
 void SkeShader::SetupRender(Scene * pScene, Actor * pActor)
 {
 	mat4 globalTransform = pActor->VGetGlobalTransform();
-	AnimationComponent* ac = pActor->GetComponent<AnimationComponent>("AnimationComponent");
+	BaseAnimComponent* ac = pActor->GetComponent<AnimationComponent>("AnimationComponent");
+	if (!ac) ac = pActor->GetComponent<PVAnimationComponent>("PVAnimationComponent");
 	
 	this->Use();
 	// ----- Transform Matricies ------

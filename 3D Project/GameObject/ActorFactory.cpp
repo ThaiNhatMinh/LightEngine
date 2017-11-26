@@ -7,6 +7,7 @@ ActorFactory::ActorFactory(Scene* pScene)
 	m_ComponentFactory.insert(std::make_pair(ColliderComponent::Name, []() { return new ColliderComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(RigidBodyComponent::Name, []() { return new RigidBodyComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(AnimationComponent::Name, []() { return new AnimationComponent(); }));
+	m_ComponentFactory.insert(std::make_pair(PVAnimationComponent::Name, []() { return new PVAnimationComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(CharacterControllerComponent::Name, []() { return new CharacterControllerComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(LogicComponent::Name, []() { return new LogicComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(MeshRenderComponent::Name, []() { return new MeshRenderComponent(); }));

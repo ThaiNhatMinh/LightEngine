@@ -59,19 +59,10 @@
     <ClInclude Include="GameObject\Actor.h">
       <Filter>GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\ActorComponent.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities\String.h">
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\ActorFactory.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\TransformComponent.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\MeshRenderComponent.h">
       <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="interface.h" />
@@ -105,17 +96,11 @@
     <ClInclude Include="Utilities\PrimitiveShape\Line.h">
       <Filter>Utilities\Primitive Shape</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\AnimationComponent.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Math\AABB.h">
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="EventManager\AnimationEvent.h">
       <Filter>EventManager</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\CharacterControllerComponent.h">
-      <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\PrimitiveShader.h">
       <Filter>Graphics3D\Shader</Filter>
@@ -129,32 +114,17 @@
     <ClInclude Include="EventManager\TestScriptEvent.h">
       <Filter>EventManager</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\ActorScript.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager\PhysicsEvents.h">
       <Filter>EventManager</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\CameraComponent.h">
-      <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\RenderAPI.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\RigidBodyComponent.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities\PhysicsUtilities.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\ColliderComponent.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\OpenGLRenderer.h">
       <Filter>Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\LogicComponent.h">
-      <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="Core\Application.h">
@@ -163,14 +133,44 @@
     <ClInclude Include="World\TerrainWorld.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\TerrainRenderComponent.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities\DirectInput.h">
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\Octree.h">
       <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\ActorComponent.h">
+      <Filter>GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\AnimationComponent.h">
+      <Filter>GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\CameraComponent.h">
+      <Filter>GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\CharacterControllerComponent.h">
+      <Filter>GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\ColliderComponent.h">
+      <Filter>GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\LogicComponent.h">
+      <Filter>GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\MeshRenderComponent.h">
+      <Filter>GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\RigidBodyComponent.h">
+      <Filter>GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\TerrainRenderComponent.h">
+      <Filter>GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\TransformComponent.h">
+      <Filter>GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Player.h">
+      <Filter>GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -218,12 +218,6 @@
     <ClCompile Include="Utilities\String.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\TransformComponent.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\MeshRenderComponent.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics3D\Scene.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
@@ -248,14 +242,8 @@
     <ClCompile Include="Utilities\Debug.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\AnimationComponent.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Math\AABB.cpp">
       <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\CharacterControllerComponent.cpp">
-      <Filter>GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\PrimitiveShader.cpp">
       <Filter>Graphics3D\Shader</Filter>
@@ -272,26 +260,11 @@
     <ClCompile Include="EventManager\PhysicsEvents.cpp">
       <Filter>EventManager</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\CameraComponent.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\RigidBodyComponent.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\ColliderComponent.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics3D\OpenGLRenderer.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\LogicComponent.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Application.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\TerrainRenderComponent.cpp">
-      <Filter>GameObject</Filter>
     </ClCompile>
     <ClCompile Include="World\TerrainWorld.cpp">
       <Filter>World</Filter>
@@ -304,6 +277,36 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\Octree.cpp">
       <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\AnimationComponent.cpp">
+      <Filter>GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\CameraComponent.cpp">
+      <Filter>GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\CharacterControllerComponent.cpp">
+      <Filter>GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\ColliderComponent.cpp">
+      <Filter>GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\LogicComponent.cpp">
+      <Filter>GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\MeshRenderComponent.cpp">
+      <Filter>GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\RigidBodyComponent.cpp">
+      <Filter>GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\TerrainRenderComponent.cpp">
+      <Filter>GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\TransformComponent.cpp">
+      <Filter>GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Player.cpp">
+      <Filter>GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -351,6 +354,9 @@
     </Filter>
     <Filter Include="World">
       <UniqueIdentifier>{ca959d2e-619f-4e25-a864-991fc425c9d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Component">
+      <UniqueIdentifier>{2be29528-ced4-459a-bea9-46e666d0fc85}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

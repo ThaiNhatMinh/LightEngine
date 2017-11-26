@@ -70,25 +70,45 @@ struct AnimControl
 	bool			m_bFinished;
 };
 
-class AnimationComponent : public ActorComponent
+class BaseAnimComponent : public ActorComponent
 {
-private:
+protected:
 	vector<SkeNode*>	m_pSkeNodes;
 	vector<Animation*>	m_pAnimList;
 	vector<WeightBlend> m_WB;
 	vector<FrameData>	m_CurrentFrames;
 
-	
+
 	vector<mat4>		m_SkeTransform;
 	vector<mat4>		m_DbTransform;
-	AnimControl			m_Control[2];
 	float				m_fBlendTime;
 	GLuint				m_iDefaultAnimation;
 protected:
 	FrameData			InterpolateFrame(AnimControl& control, const AnimNode& Anim, const vector<AnimKeyFrame>&);
+
+public:
+	BaseAnimComponent() {};
+	~BaseAnimComponent() {};
+	virtual bool		VInit(const tinyxml2::XMLElement* pData);
+	void				DrawSkeleton(Debug& debug, const mat4& m);
+	const vector<mat4>&	GetTransform();
+	virtual AABB		GetUserDimesion()=0;
+	virtual void		AnimEvent(const string&) = 0;
+
+};
+
+class AnimationComponent : public BaseAnimComponent
+{
+private:
+	
+	AnimControl			m_Control[2];
+	
+
 	blendset			GetBlendSet(GLuint id);
 	void				ResetControl(blendset bs, GLuint anim,AnimationState state);
-	void				SendAnimationEvent(string data);
+	
+protected:
+	
 public:
 	AnimationComponent(void);
 	~AnimationComponent(void);
@@ -96,15 +116,45 @@ public:
 	static const char*	Name;
 	virtual const char* VGetName() const { return Name; }
 	
-	virtual bool		VInit(const tinyxml2::XMLElement* pData);
+	//virtual bool		VInit(const tinyxml2::XMLElement* pData);
 	virtual void		VPostInit(void);
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) { return nullptr; };
 	virtual void		VUpdate(float deltaMs);
 
-	void				DrawSkeleton(Debug& debug,const mat4& m);
-	const vector<mat4>&	GetTransform();
+	
 	// Event 
 	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
 	AABB				GetUserDimesion();
+	virtual void		AnimEvent(const string&);
+
+};
+
+// Player view animation
+class PVAnimationComponent : public BaseAnimComponent
+{
+private:
+
+	AnimControl			m_Control;
+
+
+
+	void				ResetControl(GLuint anim, AnimationState state);
+public:
+	PVAnimationComponent(void);
+	~PVAnimationComponent(void) {};
+
+	static const char*	Name;
+	virtual const char* VGetName() const { return Name; }
+
+	//virtual bool		VInit(const tinyxml2::XMLElement* pData);
+	virtual void		VPostInit(void);
+	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) { return nullptr; };
+	virtual void		VUpdate(float deltaMs);
+
+
+	// Event 
+	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
+	AABB				GetUserDimesion();
+	virtual void		AnimEvent(const string&);
 
 };

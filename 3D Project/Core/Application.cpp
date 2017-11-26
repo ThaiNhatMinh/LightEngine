@@ -52,6 +52,8 @@ void Application::SetupSubmodule()
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
 	pp = factory.CreateActor<TerrainWorld>("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
 	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
+	pp = factory.CreateActor<Actor>("GameAssets\\ACTOR\\PV.xml", nullptr, nullptr);
+	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 
 }
 

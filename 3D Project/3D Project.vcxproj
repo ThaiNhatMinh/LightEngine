@@ -164,13 +164,13 @@
     <ClInclude Include="GameObject\Actor.h" />
     <ClInclude Include="GameObject\ActorComponent.h" />
     <ClInclude Include="GameObject\ActorFactory.h" />
-    <ClInclude Include="GameObject\ActorScript.h" />
     <ClInclude Include="GameObject\AnimationComponent.h" />
     <ClInclude Include="GameObject\CameraComponent.h" />
     <ClInclude Include="GameObject\CharacterControllerComponent.h" />
     <ClInclude Include="GameObject\ColliderComponent.h" />
     <ClInclude Include="GameObject\LogicComponent.h" />
     <ClInclude Include="GameObject\MeshRenderComponent.h" />
+    <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\RigidBodyComponent.h" />
     <ClInclude Include="GameObject\TerrainRenderComponent.h" />
     <ClInclude Include="GameObject\TransformComponent.h" />
@@ -229,6 +229,7 @@
     <ClCompile Include="GameObject\ColliderComponent.cpp" />
     <ClCompile Include="GameObject\LogicComponent.cpp" />
     <ClCompile Include="GameObject\MeshRenderComponent.cpp" />
+    <ClCompile Include="GameObject\Player.cpp" />
     <ClCompile Include="GameObject\RigidBodyComponent.cpp" />
     <ClCompile Include="GameObject\TerrainRenderComponent.cpp" />
     <ClCompile Include="GameObject\TransformComponent.cpp" />
