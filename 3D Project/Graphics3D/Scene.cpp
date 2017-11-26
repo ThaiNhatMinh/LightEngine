@@ -14,7 +14,7 @@ Scene::Scene(RenderAPICore* pRender):m_Debug(this), m_ActorFactory(this), m_Curr
 	m_DirectionLight.Ls = vec3(1.0f, 1.0f, 1.0f);
 	m_DirectionLight.direction = glm::normalize(vec3(1, -1, 1));
 
-	m_pRenderer = pRender;
+	m_pRenderer =std::unique_ptr<RenderAPICore>(pRender);
 	m_DefaultCamera = Camera(vec3(0, 0, 100), vec3(0), vec3(0, 1, 0), 45.0f, 4.0f / 3.0, 1.0f, 10000.0f);
 }
 

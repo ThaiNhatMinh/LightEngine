@@ -50,12 +50,12 @@ class BulletPhysics : public IGamePhysics, public Singleton<BulletPhysics>
 
 	// these are all of the objects that Bullet uses to do its work.
 	//   see BulletPhysics::VInitialize() for some more info.
-	btDynamicsWorld*                 m_dynamicsWorld;
-	btBroadphaseInterface*           m_broadphase;
-	btCollisionDispatcher*           m_dispatcher;
-	btConstraintSolver*              m_solver;
-	btDefaultCollisionConfiguration* m_collisionConfiguration;
-	BulletDebugDrawer*               m_debugDrawer;
+	std::unique_ptr<btDynamicsWorld>                 m_dynamicsWorld;
+	std::unique_ptr<btBroadphaseInterface>           m_broadphase;
+	std::unique_ptr<btCollisionDispatcher>           m_dispatcher;
+	std::unique_ptr<btConstraintSolver>              m_solver;
+	std::unique_ptr<btDefaultCollisionConfiguration> m_collisionConfiguration;
+	std::unique_ptr<BulletDebugDrawer>               m_debugDrawer;
 
 	// tables read from the XML
 	typedef std::map<std::string, float> DensityTable;
@@ -120,31 +120,11 @@ public:
 	virtual void VOnUpdate(float deltaSeconds) override;
 	virtual void VPostStep(float timeStep) override;
 	virtual void VPreStep(float timeStep) override;
-	// Initialization of Physics Objects
-	//virtual void VAddSphere(float radius, Actor* pGameActor, const std::string& densityStr, const std::string& physicsMaterial) override;
-	//virtual void VAddBox(const vec3& dimensions, Actor* pGameActor, const std::string& densityStr, const std::string& physicsMaterial) override;
-	//virtual void VAddPointCloud(vec3 *verts, int numPoints, Actor* pGameActor, const std::string& densityStr, const std::string& physicsMaterial) override;
+	
 	virtual void VRemoveActor(ActorId id) override;
-	//virtual void VAddCharacter(const vec3& dimensions, Actor* gameActor);
 	// Debugging
 	virtual void VRenderDiagnostics() override;
 
-	// Physics world modifiers
-	//virtual void VCreateTrigger(Actor* pGameActor, const vec3 &pos, const float dim) override;
-	//virtual void VApplyForce(const vec3 &dir, float newtons, ActorId aid) override;
-	//virtual void VApplyTorque(const vec3 &dir, float newtons, ActorId aid) override;
-	//virtual bool VKinematicMove(const mat4 &mat, ActorId aid) override;
-	//virtual void VRotateY(ActorId actorId, float angleRadians, float time);
-	//virtual float VGetOrientationY(ActorId actorId);
-	//virtual void VStopActor(ActorId actorId);
-	//virtual vec3 VGetVelocity(ActorId actorId);
-	//virtual void VSetVelocity(ActorId actorId, const vec3& vel);
-	//virtual vec3 VGetAngularVelocity(ActorId actorId);
-	//virtual void VSetAngularVelocity(ActorId actorId, const vec3& vel);
-	//virtual void VTranslate(ActorId actorId, const vec3& vec);
-	//virtual void VSetTransform(const ActorId id, const mat4& mat);
-	//virtual mat4 VGetTransform(const ActorId id);
-	//virtual void VClearForce(ActorId id);
 };
 
 

@@ -24,10 +24,10 @@ class TriangleMesh : public btBvhTriangleMeshShape
 public:
 	TriangleMesh(btStridingMeshInterface *meshInterface, bool useQuantizedAabbCompression, bool buildBvh = true);
 	~TriangleMesh();
-	void SetInfoMap(btTriangleInfoMap* p) { m_pInfoMap = p; }
+	void SetInfoMap(btTriangleInfoMap* p) { m_pInfoMap = std::unique_ptr<btTriangleInfoMap>(p); }
 private:
-	btStridingMeshInterface *m_pMeshInterface;
-	btTriangleInfoMap		*m_pInfoMap;
+	std::unique_ptr<btStridingMeshInterface>	m_pMeshInterface;
+	std::unique_ptr<btTriangleInfoMap>			m_pInfoMap;
 };
 
 class ColliderComponent : public ActorComponent

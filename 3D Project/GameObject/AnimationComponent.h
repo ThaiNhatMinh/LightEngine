@@ -104,7 +104,7 @@ public:
 	void				DrawSkeleton(Debug& debug,const mat4& m);
 	const vector<mat4>&	GetTransform();
 	// Event 
-	void				SetAnimationEvent(const IEvent* pEvent);
+	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
 	AABB				GetUserDimesion();
 
 };

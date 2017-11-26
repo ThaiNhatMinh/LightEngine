@@ -65,12 +65,7 @@ void BulletPhysics::onShutDown()
 
 	m_rigidBodyToActorId.clear();
 
-	delete m_debugDrawer;
-	delete m_dynamicsWorld;
-	delete m_solver;
-	delete m_broadphase;
-	delete m_dispatcher;
-	delete m_collisionConfiguration;
+	
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -118,29 +113,29 @@ bool BulletPhysics::VInitialize()
 	gContactAddedCallback = CustomMaterialCombinerCallback;
 
 	// this controls how Bullet does internal memory management during the collision pass
-	m_collisionConfiguration = new btDefaultCollisionConfiguration();
+	m_collisionConfiguration = std::unique_ptr<btDefaultCollisionConfiguration>(new btDefaultCollisionConfiguration());
 
 	// this manages how Bullet detects precise collisions between pairs of objects
-	m_dispatcher = new btCollisionDispatcher(m_collisionConfiguration);
+	m_dispatcher = std::unique_ptr<btCollisionDispatcher>(new btCollisionDispatcher(m_collisionConfiguration.get()));
 
 	// Bullet uses this to quickly (imprecisely) detect collisions between objects.
 	//   Once a possible collision passes the broad phase, it will be passed to the
 	//   slower but more precise narrow-phase collision detection (btCollisionDispatcher).
-	m_broadphase = new btDbvtBroadphase();
+	m_broadphase = std::unique_ptr<btDbvtBroadphase>(new btDbvtBroadphase());
 
 	// Manages constraints which apply forces to the physics simulation.  Used
 	//  for e.g. springs, motors.  We don't use any constraints right now.
-	m_solver = new btSequentialImpulseConstraintSolver;
+	m_solver = std::unique_ptr<btSequentialImpulseConstraintSolver>(new btSequentialImpulseConstraintSolver);
 
 	// This is the main Bullet interface point.  Pass in all these components to customize its behavior.
-	m_dynamicsWorld = new btDiscreteDynamicsWorld(m_dispatcher,
-		m_broadphase,
-		m_solver,
-		m_collisionConfiguration);
+	m_dynamicsWorld = std::unique_ptr<btDiscreteDynamicsWorld>(new btDiscreteDynamicsWorld(m_dispatcher.get(),
+		m_broadphase.get(),
+		m_solver.get(),
+		m_collisionConfiguration.get()));
 
 	m_dynamicsWorld->setGravity(btVector3(0, -WORLD_GRAVITY, 0));
 
-	m_debugDrawer = new BulletDebugDrawer;
+	m_debugDrawer = std::unique_ptr<BulletDebugDrawer>(new BulletDebugDrawer);
 	m_debugDrawer->m_DebugModes = btIDebugDraw::DBG_DrawWireframe;
 	//m_debugDrawer->ReadOptions();
 
@@ -151,7 +146,7 @@ bool BulletPhysics::VInitialize()
 		return false;
 	}
 
-	m_dynamicsWorld->setDebugDrawer(m_debugDrawer);
+	m_dynamicsWorld->setDebugDrawer(m_debugDrawer.get());
 
 
 	// and set the internal tick callback to our own method "BulletInternalTickCallback"
@@ -190,13 +185,13 @@ void BulletPhysics::VPostStep(float timeStep)
 	SendCollisionEvents();
 
 
-	IEvent* pEvent = new EvtData_PhysPostStep(timeStep);
+	std::shared_ptr<const IEvent> pEvent(new EvtData_PhysPostStep(timeStep));
 	gEventManager()->VTriggerEvent(pEvent);
 }
 
 void BulletPhysics::VPreStep(float timeStep)
 {
-	IEvent* pEvent = new EvtData_PhysPreStep(timeStep);
+	std::shared_ptr<const IEvent>pEvent(new EvtData_PhysPreStep(timeStep));
 	gEventManager()->VTriggerEvent(pEvent);
 }
 
@@ -228,8 +223,8 @@ void BulletPhysics::VSyncVisibleScene()
 			{
 				// Bullet has moved the actor's physics object.  Sync the transform and inform the game an actor has moved
 				pTransformComponent->SetTransform(actorMotionState->m_worldToPositionTransform);
-				//shared_ptr<EvtData_Move_Actor> pEvent(GCC_NEW EvtData_Move_Actor(id, actorMotionState->m_worldToPositionTransform));
-				//IEventManager::Get()->VQueueEvent(pEvent);
+				std::shared_ptr<const IEvent> pEvent(new EvtData_Move_Actor(id, actorMotionState->m_worldToPositionTransform));
+				gEventManager()->VQueueEvent(pEvent);
 			}
 		}
 	}
@@ -413,12 +408,12 @@ void BulletPhysics::SendCollisionEvents()
 		{
 			// this is new collision
 			// send the event for the game
-			EvtData_PhysCollisionStart* pEvent = new EvtData_PhysCollisionStart(id0, id1, sumNormalForce, sumFrictionForce, collisionPoints);
+			std::shared_ptr<const IEvent>  pEvent(new EvtData_PhysCollisionStart(id0, id1, sumNormalForce, sumFrictionForce, collisionPoints));
 			gEventManager()->VQueueEvent(pEvent);
 		}
 		
 		// send the event for the game
-		EvtData_PhysOnCollision* pEvent = new EvtData_PhysOnCollision(id0, id1, sumNormalForce, sumFrictionForce, collisionPoints);
+		std::shared_ptr<const IEvent>  pEvent( new EvtData_PhysOnCollision(id0, id1, sumNormalForce, sumFrictionForce, collisionPoints));
 		gEventManager()->VQueueEvent(pEvent);
 		
 	}
@@ -448,7 +443,7 @@ void BulletPhysics::SendCollisionEvents()
 			return;
 		}
 
-		EvtData_PhysCollisionEnd* pEvent(new EvtData_PhysCollisionEnd(id0, id1));
+		std::shared_ptr<const IEvent>  pEvent(new EvtData_PhysCollisionEnd(id0, id1));
 		gEventManager()->VQueueEvent(pEvent);
 	}
 

@@ -67,7 +67,7 @@ public:
 	virtual HRESULT VRenderChildren(Scene *pScene) = 0;
 	virtual HRESULT VPostRender(Scene *pScene) = 0;
 
-	virtual bool VAddChild(Actor* kid) = 0;
+	virtual bool VAddChild(std::unique_ptr<Actor> kid) = 0;
 	virtual bool VRemoveChild(ActorId id) =0;
 	virtual Actor* VGetParent() = 0;
 	
@@ -170,12 +170,12 @@ public:
 
 	// Fire off event NOW.  This bypasses the queue entirely and immediately calls all delegate functions registered 
 	// for the event.
-	virtual bool VTriggerEvent(const IEvent* pEvent) const = 0;
+	virtual bool VTriggerEvent(std::shared_ptr<const IEvent> pEvent) const = 0;
 
 	// Fire off event.  This uses the queue and will call the delegate function on the next call to VTick(), assuming
 	// there's enough time.
-	virtual bool VQueueEvent(const IEvent* pEvent) = 0;
-	virtual bool VThreadSafeQueueEvent(const IEvent* pEvent) = 0;
+	virtual bool VQueueEvent(std::shared_ptr<const IEvent> pEvent) = 0;
+	virtual bool VThreadSafeQueueEvent(std::shared_ptr<const IEvent> pEvent) = 0;
 
 	// Find the next-available instance of the named event type and remove it from the processing queue.  This 
 	// may be done up to the point that it is actively being processed ...  e.g.: is safe to happen during event

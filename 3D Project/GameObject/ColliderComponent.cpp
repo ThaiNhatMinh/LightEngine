@@ -128,6 +128,5 @@ TriangleMesh::TriangleMesh(btStridingMeshInterface *meshInterface, bool useQuant
 
 TriangleMesh::~TriangleMesh()
 {
-	delete m_pMeshInterface;
-	delete m_pInfoMap;
+	
 }

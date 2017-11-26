@@ -69,18 +69,18 @@ const char * CharacterControllerComponent::VGetName() const
 	return Name;
 }
 
-void CharacterControllerComponent::PhysicCollisionEvent(const IEvent * pEvent)
+void CharacterControllerComponent::PhysicCollisionEvent(std::shared_ptr<const IEvent> pEvent)
 {
-	const EvtData_PhysCollisionStart* p = static_cast<const EvtData_PhysCollisionStart*>(pEvent);
+	const EvtData_PhysCollisionStart* p = static_cast<const EvtData_PhysCollisionStart*>(pEvent.get());
 	if (p->GetActorA() == m_pOwner->GetId() || p->GetActorB() == m_pOwner->GetId())
 		m_bOnGround = true;
 
 }
 
-void CharacterControllerComponent::PhysicPreStepEvent(const IEvent * pEvent)
+void CharacterControllerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEvent)
 {
 	
-	const EvtData_PhysPreStep *p = static_cast<const EvtData_PhysPreStep*>(pEvent);
+	const EvtData_PhysPreStep *p = static_cast<const EvtData_PhysPreStep*>(pEvent.get());
 	if (!m_bOnGround)
 		m_fInAirTime += p->GetTimeStep();
 	else m_fInAirTime = 0.0f;
@@ -129,7 +129,7 @@ void CharacterControllerComponent::PhysicPreStepEvent(const IEvent * pEvent)
 	m_bOnGround = false;
 }
 
-void CharacterControllerComponent::PhysicPostStepEvent(const IEvent * pEvent)
+void CharacterControllerComponent::PhysicPostStepEvent(std::shared_ptr<const IEvent> pEvent)
 {
 	
 }

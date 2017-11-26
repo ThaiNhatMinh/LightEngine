@@ -9,7 +9,7 @@ class Actor: public ISceneNode
 {
 	friend class ActorFactory;
 public:
-	typedef std::vector<std::unique_ptr<Actor>> ActorList;
+	typedef std::vector<std::unique_ptr<ISceneNode>> ActorList;
 	typedef std::map<ComponentId, std::unique_ptr<ActorComponent>> ActorComponents;
 protected:
 	ActorList				m_Children;
@@ -42,7 +42,7 @@ public:
 	virtual HRESULT VPostRender(Scene *pScene);
 	virtual HRESULT VRender(Scene *pScene);
 
-	virtual bool VAddChild(Actor* kid);
+	virtual bool VAddChild(std::unique_ptr<Actor> kid);
 	virtual bool VRemoveChild(ActorId id);
 	virtual Actor* VGetParent();
 	// accessors

@@ -146,9 +146,9 @@ HRESULT Actor::VPostRender(Scene * pScene)
 	return E_NOTIMPL;
 }
 
-bool Actor::VAddChild(Actor * kid)
+bool Actor::VAddChild(std::unique_ptr<Actor> kid)
 {
-	m_Children.push_back(kid);
+	m_Children.push_back(std::move(kid));
 	kid->m_pParent = this;
 	return true;
 }

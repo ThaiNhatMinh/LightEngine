@@ -70,7 +70,7 @@ void AnimationComponent::ResetControl(blendset bs, GLuint anim, AnimationState s
 
 void AnimationComponent::SendAnimationEvent(string data)
 {
-	IEvent* pEvent = new EvtData_AnimationString(m_pOwner->GetId(), data);
+	std::shared_ptr<const IEvent> pEvent(new EvtData_AnimationString(m_pOwner->GetId(), data));
 	gEventManager()->VQueueEvent(pEvent);
 }
 
@@ -270,9 +270,9 @@ const vector<mat4>& AnimationComponent::GetTransform()
 	return m_SkeTransform;
 }
 
-void AnimationComponent::SetAnimationEvent(const IEvent * pEvent)
+void AnimationComponent::SetAnimationEvent(std::shared_ptr<const IEvent> pEvent)
 {
-	const EvtData_SetAnimation* p = dynamic_cast<const EvtData_SetAnimation*>(pEvent);
+	const EvtData_SetAnimation* p = dynamic_cast<const EvtData_SetAnimation*>(pEvent.get());
 
 	if (p->GetId() != m_pOwner->GetId()) return;
 

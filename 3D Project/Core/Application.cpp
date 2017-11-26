@@ -35,8 +35,8 @@ void Application::SetupSubmodule()
 	
 	//Actor* p4 = factory.CreateActor("GameAssets\\Camera.xml", nullptr, nullptr);
 	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
-
-	m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr));
+	Actor* pp = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
+	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 	//pp = factory.CreateActor("GameAssets\\Zombie.xml", nullptr, nullptr);
 	//m_pScene->GetRoot()->VAddChild(pp);
 	//mat4 t = glm::translate(mat4(), vec3(0, 0, 100));
@@ -49,7 +49,8 @@ void Application::SetupSubmodule()
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ZombieAssassin.xml", nullptr, nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
-	m_pScene->GetRoot()->VAddChild(factory.CreateActor<TerrainWorld>("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr));
+	pp = factory.CreateActor<TerrainWorld>("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
+	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 	//anim = 0;
 	//EvtData_SetAnimation* pE = new EvtData_SetAnimation(pp->GetId(), anim, true);
 	//gEventManager()->VQueueEvent(pE);

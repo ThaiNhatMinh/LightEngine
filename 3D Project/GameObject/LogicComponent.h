@@ -26,7 +26,7 @@ public:
 	virtual void FixedPostUpdate(float timeStep);
 private:
 	// Event
-	void PhysicPreStepEvent(const IEvent* pEvent);
-	void PhysicPostStepEvent(const IEvent* pEvent);
+	void PhysicPreStepEvent(std::shared_ptr<const IEvent> pEvent);
+	void PhysicPostStepEvent(std::shared_ptr<const IEvent> pEvent);
 };
 
