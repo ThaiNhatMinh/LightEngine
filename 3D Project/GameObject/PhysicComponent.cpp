@@ -131,7 +131,7 @@ void PhysicsComponent::VPostInit(void)
 void PhysicsComponent::VUpdate(float deltaMs)
 {
 	// get the transform component
-	TransformComponent* pTransformComponent = m_pOwner->GetComponent<TransformComponent>(TransformComponent::Name);
+	TransformComponent* pTransformComponent = m_pOwner->GetTransform();
 	if (!pTransformComponent)
 	{
 		E_ERROR("No transform component!");
@@ -265,7 +265,7 @@ void PhysicsComponent::SetVelocity(const vec3& velocity)
 
 void PhysicsComponent::RotateY(float angleRadians)
 {
-	TransformComponent* pTransformComponent = m_pOwner->GetComponent<TransformComponent>(TransformComponent::Name);
+	TransformComponent* pTransformComponent = m_pOwner->GetTransform();
 	if (pTransformComponent)
 	{
 		mat4 transform = pTransformComponent->GetTransform();
@@ -286,7 +286,7 @@ void PhysicsComponent::RotateY(float angleRadians)
 
 void PhysicsComponent::SetPosition(float x, float y, float z)
 {
-	TransformComponent* pTransformComponent = m_pOwner->GetComponent<TransformComponent>(TransformComponent::Name);
+	TransformComponent* pTransformComponent = m_pOwner->GetTransform();
 	if (pTransformComponent)
 	{
 		mat4 transform = pTransformComponent->GetTransform();

@@ -194,12 +194,13 @@ HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, 
 		}
 	ilResetMemory();
 	hm = new HeightMap;
-	hm->Data = std::unique_ptr<GLubyte>(pRawData);
+	hm->Data = pRawData;
 	hm->Width = width;
 	hm->Height = height;
 	hm->stepsize = stepsize;
 	hm->maxH = max;
 	hm->minH = min;
+	hm->hscale = hscale;
 	strcpy(hm->filename, filename);
 	// [TODO]- Devide large mesh into small mesh
 	hm->m_Mesh.push_back(std::unique_ptr<IMesh>(p));

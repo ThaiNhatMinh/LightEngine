@@ -3,9 +3,7 @@
 ActorFactory::ActorFactory(Scene* pScene)
 {
 	m_lastActorId = 1;
-
-	
-	m_ComponentFactory.insert(std::make_pair(TransformComponent::Name, []() { return new TransformComponent(); } ));
+	m_ComponentFactory.insert(std::make_pair(TransformComponent::Name, []() { return new TransformComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(ColliderComponent::Name, []() { return new ColliderComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(RigidBodyComponent::Name, []() { return new RigidBodyComponent(); }));
 	m_ComponentFactory.insert(std::make_pair(AnimationComponent::Name, []() { return new AnimationComponent(); }));

@@ -8,7 +8,7 @@
   </TerrainRenderComponent>	
   
   <ColliderComponent>
-    <Shape>Terrain</Shape>
+    <Shape>TriangleMesh</Shape>
     <File Path="WORLD\heightmap.png"/>
   </ColliderComponent>
 

@@ -56,20 +56,19 @@ HRESULT Actor::VOnUpdate(Scene *pScene, float deltaMs)
 
 void Actor::VSetTransform(const mat4 * toWorld)
 {
-	TransformComponent* Tc = GetComponent<TransformComponent>("TransformComponent");
-	Tc->SetTransform(*toWorld);
+	m_TransformComponent->SetTransform(*toWorld);
 }
 
 mat4 Actor::VGetTransform()
 {
-	mat4 transform = GetComponent<TransformComponent>("TransformComponent")->GetTransform();
+	mat4 transform = m_TransformComponent->GetTransform();
 	return transform;
 }
 
 mat4 Actor::VGetGlobalTransform()
 {
 	
-	mat4 transform = GetComponent<TransformComponent>("TransformComponent")->GetTransform();
+	mat4 transform = m_TransformComponent->GetTransform();
 	if (m_pParent)
 		transform = transform*m_pParent->VGetGlobalTransform();
 
@@ -81,10 +80,25 @@ HRESULT Actor::VPreRender(Scene * pScene)
 	return S_OK;
 }
 
+bool Actor::VIsVisible(Scene * pScene) const
+{
+	return true;
+}
+
+TransformComponent * Actor::GetTransform()
+{
+	return m_TransformComponent.get();
+}
+
 void Actor::AddComponent(ActorComponent * pComponent)
 {
 	std::pair<ActorComponents::iterator, bool> success = m_components.insert(std::make_pair(pComponent->VGetId(), pComponent));
 	//GCC_ASSERT(success.second);
+}
+
+void Actor::SetTransformComponent(TransformComponent * pTC)
+{
+	m_TransformComponent = std::unique_ptr<TransformComponent>(pTC);
 }
 
 HRESULT Actor::VRender(Scene * pScene)
@@ -108,21 +122,11 @@ HRESULT Actor::VRenderChildren(Scene * pScene)
 	{
 		if ((*i)->VPreRender(pScene) == S_OK)
 		{
-			// You could short-circuit rendering
-			// if an object returns E_FAIL from
-			// VPreRender()
 
 			// Don't render this node if you can't see it
-			if ((*i)->VIsVisible(pScene))
-			{
-				(*i)->VRender(pScene);
-				// [mrmike] see comment just below...
-				(*i)->VRenderChildren(pScene);
-			}
+			if ((*i)->VIsVisible(pScene)) (*i)->VRender(pScene);
 
-			// [mrmike] post-press fix - if the parent is not visible, the childrend
-			//           shouldn't be visible either.
-			//(*i)->VRenderChildren(pScene);
+			(*i)->VRenderChildren(pScene);
 		}
 		(*i)->VPostRender(pScene);
 		++i;

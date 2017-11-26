@@ -24,4 +24,5 @@ public:
 	mat4 GetVPMatrix();
 	const Frustum& GetFrustum()const;
 	Frustum& GetFrustum();
+	vec3 GetPosition();
 };

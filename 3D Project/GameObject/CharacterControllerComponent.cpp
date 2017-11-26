@@ -39,7 +39,7 @@ tinyxml2::XMLElement * CharacterControllerComponent::VGenerateXml(tinyxml2::XMLD
 void CharacterControllerComponent::VPostInit(void)
 {
 	// Get Transform component
-	m_pTransformC = m_pOwner->GetComponent<TransformComponent>(TransformComponent::Name);
+	m_pTransformC = m_pOwner->GetTransform();
 
 	// register event
 	gEventManager()->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicCollisionEvent), EvtData_PhysOnCollision::sk_EventType);

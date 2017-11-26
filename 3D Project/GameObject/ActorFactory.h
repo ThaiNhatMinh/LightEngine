@@ -65,7 +65,8 @@ Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLEleme
 				E_ERROR("Component failed to initialize: " + std::string(pNode->Value()));
 				continue;
 			}
-			pActor->AddComponent(pComponent);
+			if (!strcmp(pNode->Value(), "TransformComponent")) pActor->SetTransformComponent(static_cast<TransformComponent*>(pComponent));
+			else pActor->AddComponent(pComponent);
 			
 		}
 		else
@@ -82,7 +83,7 @@ Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLEleme
 
 	if (initialTransform)
 	{
-		TransformComponent* pTc = pActor->GetComponent<TransformComponent>("TransformComponent");
+		TransformComponent* pTc = pActor->GetTransform();
 		pTc->SetTransform(*initialTransform);
 	}
 

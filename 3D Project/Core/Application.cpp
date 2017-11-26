@@ -36,7 +36,7 @@ void Application::SetupSubmodule()
 	Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
 	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
 	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
-	//Actor* pp = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
+	Actor* pp;// = factory.CreateActor("GameAssets\\ACTOR\\Camera.xml", nullptr, nullptr);
 	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 	//pp = factory.CreateActor("GameAssets\\Zombie.xml", nullptr, nullptr);
 	//m_pScene->GetRoot()->VAddChild(pp);
@@ -50,8 +50,8 @@ void Application::SetupSubmodule()
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ZombieAssassin.xml", nullptr, nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
 	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
-	//Actor*pp = factory.CreateActor<TerrainWorld>("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
-	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
+	pp = factory.CreateActor<TerrainWorld>("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
+	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 
 }
 

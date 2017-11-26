@@ -34,7 +34,7 @@ bool CameraComponent::VInit(const tinyxml2::XMLElement* pData)
 
 void CameraComponent::VPostInit(void)
 {
-	m_pTransform = m_pOwner->GetComponent<TransformComponent>(TransformComponent::Name);
+	m_pTransform = m_pOwner->GetTransform();
 }
 /*
 void CameraComponent::VUpdate(float dt)
@@ -86,4 +86,9 @@ const Frustum& CameraComponent::GetFrustum()const
 Frustum& CameraComponent::GetFrustum()
 {
 	return m_Frustum;
+}
+
+vec3 CameraComponent::GetPosition()
+{
+	return m_pTransform->GetPosition();
 }

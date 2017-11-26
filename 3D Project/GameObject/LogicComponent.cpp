@@ -33,13 +33,13 @@ void LogicComponent::VPostInit(void)
 	gEventManager()->VAddListener(MakeDelegate(this, &LogicComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
 	gEventManager()->VAddListener(MakeDelegate(this, &LogicComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
 
-	m_TF = m_pOwner->GetComponent<TransformComponent>(TransformComponent::Name);
+	m_TF = m_pOwner->GetTransform();
 	m_Position = m_TF->GetPosition();
 }
 
 void LogicComponent::VUpdate(float deltaTIme)
 {
-	/*
+	
 	// Camera controls
 	m_Front = m_TF->GetFront();
 	m_Right = m_TF->GetRight();
@@ -74,7 +74,7 @@ void LogicComponent::VUpdate(float deltaTIme)
 	glm::mat4 translate = glm::mat4(1.0f);
 	translate = glm::translate(translate, m_Position);
 	m_TF->SetTransform(translate*rotate);
-	*/
+	
 }
 
 void LogicComponent::FixedUpdate(float timeStep)

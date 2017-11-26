@@ -35,6 +35,7 @@ bool LTBFile::LoadSkeleton(FILE * pFile, SkeNode* pParent, vector<std::unique_pt
 	p->m_GlobalTransform[2] = v3;
 	p->m_GlobalTransform[3] = v4;
 
+	
 	p->m_InvBindPose = glm::inverse(p->m_GlobalTransform);
 	uint32 numChild;
 	fread(&numChild, sizeof(uint32), 1, pFile);

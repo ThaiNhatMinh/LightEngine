@@ -216,7 +216,7 @@ void BulletPhysics::VSyncVisibleScene()
 		Actor* pGameActor = 0;
 		RigidBodyComponent *pRb = FindBulletRigidBody(id);
 		pGameActor = pRb->GetOwner();
-		TransformComponent* pTransformComponent = pGameActor->GetComponent<TransformComponent>(TransformComponent::Name);
+		TransformComponent* pTransformComponent = pGameActor->GetTransform();
 		if (pTransformComponent)
 		{
 			if (pTransformComponent->GetTransform() != actorMotionState->m_worldToPositionTransform)

@@ -33,4 +33,6 @@ public:
 	Debug& GetDebug() { return m_Debug; }
 	ActorFactory& GetActorFactory() { return m_ActorFactory; }
 	RenderAPICore* GetRenderer() { return m_pRenderer.get(); }
+	CameraComponent* GetCamera() { return m_CurrentCamera; }
+	Camera* GetDefaultCamera() { return &m_DefaultCamera; }
 };

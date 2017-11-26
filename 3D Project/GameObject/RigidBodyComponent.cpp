@@ -39,7 +39,7 @@ bool RigidBodyComponent::VInit(const tinyxml2::XMLElement* pData)
 void RigidBodyComponent::VPostInit(void)
 {
 	ColliderComponent* pCollider = m_pOwner->GetComponent<ColliderComponent>(ColliderComponent::Name);
-	TransformComponent* pTransformComponent = m_pOwner->GetComponent<TransformComponent>(TransformComponent::Name);
+	TransformComponent* pTransformComponent = m_pOwner->GetTransform();
 	btCollisionShape* pShape = pCollider->GetCollisionShape();
 	ActorMotionState * myMotionState = nullptr;
 
@@ -75,7 +75,7 @@ void RigidBodyComponent::VPostInit(void)
 	if (pCollider->GetType() == SHAPE_CHARACTER)
 	{
 		this->SetAngularFactor(vec3(0));
-		m_pRigidBody->setSleepingThresholds(0, 0);
+		//m_pRigidBody->setSleepingThresholds(0, 0);
 		//m_pRigidBody->setContactProcessingThreshold(0.0);
 		
 	}

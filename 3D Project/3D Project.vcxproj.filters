@@ -99,9 +99,6 @@
     <ClInclude Include="Physic\PhysicDebugDrawer.h">
       <Filter>Physics</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\PhysicComponent.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities\Debug.h">
       <Filter>Utilities</Filter>
     </ClInclude>
@@ -244,9 +241,6 @@
     </ClCompile>
     <ClCompile Include="Physic\PhysicDebugDrawer.cpp">
       <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\PhysicComponent.cpp">
-      <Filter>GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Utilities\PrimitiveShape\Line.cpp">
       <Filter>Utilities\Primitive Shape</Filter>

@@ -24,12 +24,13 @@ public:
 	GLuint Width;
 	GLuint Height;
 	float stepsize;
+	float hscale;
 	float minH, maxH;
-	std::unique_ptr<GLubyte> Data;
+	GLubyte* Data;
 	std::vector<std::unique_ptr<IMesh>> m_Mesh;
 	~HeightMap()
 	{
-
+		delete[] Data;
 	}
 };
 

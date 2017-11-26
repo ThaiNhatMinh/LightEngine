@@ -9,15 +9,15 @@ class Actor: public ISceneNode
 {
 	friend class ActorFactory;
 public:
-	typedef std::vector<std::unique_ptr<ISceneNode>> ActorList;
+	typedef std::vector<std::unique_ptr<Actor>> ActorList;
 	typedef std::map<ComponentId, std::unique_ptr<ActorComponent>> ActorComponents;
 protected:
 	ActorList				m_Children;
 	Actor*					m_pParent;
 	string					m_Name;
 	string					m_Tag;
-
-private:
+	std::unique_ptr<TransformComponent>		m_TransformComponent;
+protected:
 	ActorId m_id;					// unique id for the actor
 	ActorComponents m_components;	// all components this actor has
 
@@ -37,7 +37,7 @@ public:
 	virtual HRESULT VOnUpdate(Scene *, float elapsedMs);
 
 	virtual HRESULT VPreRender(Scene *pScene);
-	virtual bool VIsVisible(Scene *pScene) const { return true; };
+	virtual bool VIsVisible(Scene *pScene) const ;
 	virtual HRESULT VRenderChildren(Scene *pScene);
 	virtual HRESULT VPostRender(Scene *pScene);
 	virtual HRESULT VRender(Scene *pScene);
@@ -51,10 +51,11 @@ public:
 	template<class ComponentType>ComponentType* GetComponent(const char*  name);
 
 	const ActorComponents* GetComponents() { return &m_components; }
+	TransformComponent* GetTransform();
 protected:
 
 	void AddComponent(ActorComponent* pComponent);
-
+	void SetTransformComponent(TransformComponent* pTC);
 	
 	
 };
