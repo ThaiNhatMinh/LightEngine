@@ -156,5 +156,6 @@ public:
 	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
 	AABB				GetUserDimesion();
 	virtual void		AnimEvent(const string&);
+	mat4				GetRootTransform();
 
 };

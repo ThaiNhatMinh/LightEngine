@@ -418,3 +418,8 @@ AABB PVAnimationComponent::GetUserDimesion()
 void PVAnimationComponent::AnimEvent(const string&)
 {
 }
+
+mat4 PVAnimationComponent::GetRootTransform()
+{
+	return m_DbTransform[0];
+}

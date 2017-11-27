@@ -1,5 +1,15 @@
-<Actor type="Player" name="707" >	
-	
+<Actor type="PlayerView" name="AK47Weapon" >
+	<PVTransform>
+		<Position x="1.860001" y="0" z="7.8"/>
+		<YawPitchRoll x="-0.067000" y="-0.110000" z="0"/>
+		<FOV fov ="45.0"/>
+	</PVTransform>
+	<LogicComponent>
+    
+	</LogicComponent>
+	<CameraComponent>
+		<Frustum fov="45.0" aspect ="-1.0" nplane ="1.0" fplan="1000.0" />
+	</CameraComponent>
   
 	<TransformComponent>
 		<Position x="0" y="500" z="0"/>

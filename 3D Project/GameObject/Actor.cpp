@@ -102,14 +102,8 @@ void Actor::SetTransformComponent(TransformComponent * pTC)
 }
 
 HRESULT Actor::VRender(Scene * pScene)
-{
-	//m_pShader->SetupRender(pScene, this);
-
-	// this only using on derived class of Actor. This only a test for Component Archir
-	MeshRenderComponent* mrc = GetComponent<MeshRenderComponent>("MeshRenderComponent");
-	if (mrc) mrc->Render(pScene);
-	return S_OK;
-	
+{	
+	return S_OK;	
 }
 
 HRESULT Actor::VRenderChildren(Scene * pScene)

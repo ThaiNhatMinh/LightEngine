@@ -16,12 +16,19 @@ bool TerrainWorld::Init(const tinyxml2::XMLElement* pData)
 void TerrainWorld::PostInit(void)
 {
 	Actor::PostInit();
-
+	TRC = GetComponent<TerrainRenderComponent>("TerrainRenderComponent");
 }
 
 
 void TerrainWorld::Destroy(void)
 {
+}
+
+HRESULT TerrainWorld::VRender(Scene * pScene)
+{
+	
+	if (TRC) TRC->Render(pScene);
+	return S_OK;
 }
 
 TerrainWorld::~TerrainWorld()

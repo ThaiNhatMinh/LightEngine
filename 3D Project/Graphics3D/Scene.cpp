@@ -38,6 +38,9 @@ bool Scene::OnRender()
 
 	//gPhysic()->VRenderDiagnostics();
 	//m_Debug.DrawLine(vec3(0,0,0), vec3(0, 1000, 0), vec3(1, 1, 1));
+	//m_Debug.DrawLine(vec3(0), vec3(2,0,0), vec3(1.0f, 1.0f, 1.0f));
+	//m_Debug.DrawLine(vec3(0), vec3(0, 2, 0), vec3(1.0f, 1.0f, 1.0f));
+	//m_Debug.DrawLine(vec3(0), vec3(0, 0, 2), vec3(1.0f, 1.0f, 1.0f));
 	m_Debug.Render();
 
 	m_pRenderer->SwapBuffer();

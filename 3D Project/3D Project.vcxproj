@@ -171,6 +171,7 @@
     <ClInclude Include="GameObject\LogicComponent.h" />
     <ClInclude Include="GameObject\MeshRenderComponent.h" />
     <ClInclude Include="GameObject\Player.h" />
+    <ClInclude Include="GameObject\PlayerView.h" />
     <ClInclude Include="GameObject\RigidBodyComponent.h" />
     <ClInclude Include="GameObject\TerrainRenderComponent.h" />
     <ClInclude Include="GameObject\TransformComponent.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="GameObject\LogicComponent.cpp" />
     <ClCompile Include="GameObject\MeshRenderComponent.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
+    <ClCompile Include="GameObject\PlayerView.cpp" />
     <ClCompile Include="GameObject\RigidBodyComponent.cpp" />
     <ClCompile Include="GameObject\TerrainRenderComponent.cpp" />
     <ClCompile Include="GameObject\TransformComponent.cpp" />

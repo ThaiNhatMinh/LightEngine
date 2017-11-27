@@ -96,10 +96,10 @@ void MeshRenderComponent::Render(Scene* pScene)
 		//pRender->DrawElement(6, GL_UNSIGNED_INT, 0);
 	}
 
-	if (0)
+	if (1)
 	{
 		mat4 globalTransform = m_pOwner->VGetGlobalTransform();
-		AnimationComponent* ac = m_pOwner->GetComponent<AnimationComponent>("AnimationComponent");
+		PVAnimationComponent* ac = m_pOwner->GetComponent<PVAnimationComponent>("PVAnimationComponent");
 		if (ac) ac->DrawSkeleton(pScene->GetDebug(), globalTransform);
 	}
 
