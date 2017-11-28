@@ -216,4 +216,19 @@ public:
 	virtual void MainLoop() = 0;
 	virtual ~IApplication() {};
 };
+
+class Context;
+class ISubSystem
+{
+protected:
+	
+public:
+	virtual void Init(Context* c) = 0;
+	virtual void ShutDown() = 0;
+	virtual ~ISubSystem() {};
+	static Context* m_Context;
+};
+
+
+
 extern IApplication* APP;

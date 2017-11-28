@@ -35,7 +35,7 @@ public:
 };
 
 
-class Resources : public Singleton<Resources>
+class Resources : public ISubSystem
 {
 private:
 	vector<std::unique_ptr<Texture>> m_Textures;
@@ -71,8 +71,8 @@ private:
 public:
 	Resources();
 	~Resources();
-	virtual void  onStartUp();
-	virtual void  onShutDown();
+	virtual void  Init(Context* c);
+	virtual void  ShutDown();
 
 	
 	Shader*		GetShader(string key);
@@ -81,6 +81,3 @@ public:
 	HeightMap*	GetHeightMap(const char* filename);
 	
 };
-
-
-Resources* gResources();

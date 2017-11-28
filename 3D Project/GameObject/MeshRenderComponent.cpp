@@ -19,7 +19,7 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	const char* pFileName = pModelPath->Attribute("File");
 	if (pFileName)
 	{
-		ModelCache* pModel = gResources()->GetModel(pFileName);
+		ModelCache* pModel = m_Context->m_pResources->GetModel(pFileName);
 		if (!pModel)
 		{
 			return false;
@@ -34,7 +34,7 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	{
 		// Not support now. Return
 		return false;
-		//m_MeshList.push_back(gResources()->CreateShape(SHAPE_BOX));
+		//m_MeshList.push_back(m_Context->m_pResources->CreateShape(SHAPE_BOX));
 		m_Material.Ka = vec3(1.0f);
 		m_Material.Kd = vec3(1.0f);
 		m_Material.Ks = vec3(1.0f);
@@ -61,7 +61,7 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	const tinyxml2::XMLElement* pShader = pData->FirstChildElement("Shader");
 	if (pShader)
 	{
-		m_pShader = gResources()->GetShader(pShader->Attribute("name"));
+		m_pShader = m_Context->m_pResources->GetShader(pShader->Attribute("name"));
 		if (m_pShader == nullptr)
 			E_ERROR("Can not find shader name: " + string(pShader->Attribute("name")));
 	}
@@ -80,7 +80,7 @@ void MeshRenderComponent::Render(Scene* pScene)
 {
 	m_pShader->SetupRender(pScene, m_pOwner);
 
-	RenderAPICore* pRender = pScene->GetRenderer();
+	RenderAPICore* pRender = m_Context->m_pRenderer.get();
 
 	for (size_t i = 0; i < m_MeshList.size(); i++)
 	{

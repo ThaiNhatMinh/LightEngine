@@ -2,21 +2,27 @@
 
 
 
-Windows::Windows(string title,int W,int H)
+vec2 Windows::ReadConfig(tinyxml2::XMLElement * pWindows)
 {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-	GLFWmonitor* m_pMonitor = glfwGetPrimaryMonitor();
+	if (!pWindows) return vec2(0,0);
 
-	m_iWidth = W;
-	m_iHeight = H;
-	m_WindowTitle = title;
+	m_WindowTitle = pWindows->Attribute("name");
+	
+	m_iWidth = pWindows->DoubleAttribute("sizex", 800);
+	m_iHeight = pWindows->DoubleAttribute("sizey", 600);
+	vec2 pos;
+	pos.x = pWindows->DoubleAttribute("posx", 0);
+	pos.y = pWindows->DoubleAttribute("posy", 0);
 
-	m_iScreenWidth = GetSystemMetrics(SM_CXSCREEN);
-	m_iScreenHeight = GetSystemMetrics(SM_CYSCREEN);
+	return pos;
+	//m_pWindows = std::make_unique<Windows>(m_WindowName, size.x, size.y);
+	//m_pWindows->InitWindow();
+	//m_pWindows->SetPos(pos);
+}
+
+Windows::Windows()
+{
+	
 	
 	/*int	 count;
 	const GLFWvidmode* mode = glfwGetVideoModes(m_pMonitor, &count);
@@ -34,29 +40,46 @@ Windows::~Windows()
 	glfwTerminate();
 }
 
-bool Windows::InitWindow()
+void Windows::Init(Context* c)
 {
+
+	vec2 pos = ReadConfig(c->GetElement("Window"));
 	
-	GLFWwindow* window = glfwCreateWindow(m_iWidth, m_iHeight, m_WindowTitle.c_str(), nullptr, nullptr);
-	if (!window)
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	GLFWmonitor* m_pMonitor = glfwGetPrimaryMonitor();
+
+	m_iScreenWidth = GetSystemMetrics(SM_CXSCREEN);
+	m_iScreenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+	m_pWindow = glfwCreateWindow(m_iWidth, m_iHeight, m_WindowTitle.c_str(), nullptr, nullptr);
+	if (!m_pWindow)
 	{
 		E_ERROR("Can't create Window.");
-		return false;
+		return ;
 	}
 	
-	
-	glfwMakeContextCurrent(window);
+	glfwSetWindowUserPointer(m_pWindow, c);
+	glfwMakeContextCurrent(m_pWindow);
 	//glfwSwapInterval(1);
-	glfwSetCursorPos(window, m_iWidth / 2, m_iHeight / 2);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glewExperimental = GL_TRUE;
+	glfwSetCursorPos(m_pWindow, m_iWidth / 2, m_iHeight / 2);
+	glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
 	
-	m_pWindow = window;
+	SetPos(pos);
 
 	HideWindows();
+	c->m_pWindows = std::unique_ptr<Windows>(this);
 	
-	return true;
+	return ;
+}
+
+void Windows::ShutDown()
+{
+
 }
 
 void Windows::SetSize(int W, int H)

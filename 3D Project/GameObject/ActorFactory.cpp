@@ -34,7 +34,7 @@ Actor * ActorFactory::CreateActor(const char * name, ShapeType type, const mat4&
 	// Create mesh renderer
 	
 	vector<IMesh*> v;
-	v.push_back(gResources()->CreateShape(SHAPE_BOX));
+	v.push_back(m_Context->m_pResources->CreateShape(SHAPE_BOX));
 
 	ActorComponent* pMeshRenderC = new MeshRenderComponent(v);
 	pActor->AddComponent(pMeshRenderC);

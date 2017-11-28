@@ -1,8 +1,8 @@
 #include "pch.h"
 
-Debug::Debug(Scene * pScene):m_pScene(pScene)
+Debug::Debug(Scene * pScene, Context* c):m_pScene(pScene)
 {
-	pShader = gResources()->GetShader("Debug");
+	pShader = c->m_pResources->GetShader("Debug");
 
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);

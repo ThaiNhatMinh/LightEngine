@@ -10,10 +10,6 @@ namespace LightEngine
 	const char* RESOURCES_FILE = "Resources.xml";
 }
 
-Resources* gResources()
-{
-	return Resources::InstancePtr();
-}
 //vector<Texture*> Resources::m_Textures;
 //vector<ModelCache*> Resources::m_ModelCaches;
 
@@ -56,7 +52,7 @@ Resources::~Resources()
 	
 }
 
-void Resources::onStartUp()
+void Resources::Init(Context* c)
 {
 	ilInit();
 	ILenum Error;
@@ -69,6 +65,8 @@ void Resources::onStartUp()
 	LoadTexture("GameAssets/TEXTURE/Default.png");
 
 	LoadResources("GameAssets/" + string(LightEngine::RESOURCES_FILE));
+
+	c->m_pResources = std::unique_ptr<Resources>(this);
 		
 }
 
@@ -715,7 +713,7 @@ void Resources::LoadResources(string path)
 	}
 }
 
-void Resources::onShutDown()
+void Resources::ShutDown()
 {
 
 }

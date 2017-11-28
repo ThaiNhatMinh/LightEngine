@@ -1,27 +1,25 @@
 #pragma once
 #include "RenderAPI.h"
+#include <GLFW\glfw3.h>
 
 
-
-class OpenGLRenderer : public RenderAPICore
+class OpenGLRenderer : public RenderAPICore,public ISubSystem
 {
 	friend class Scene;
 private:
-	const char*		RendererConfig = "Renderer.xml";
 	string			m_RenderName;
-	string			m_WindowName;
 	vec4			m_ClearColor;
 	vec4			m_Viewport;
 	bool			m_HasInit;
-	std::unique_ptr<Windows>			m_pWindows;
 	unsigned int	m_iClearFlag;
 	GLenum			m_DrawMode;
+	GLFWwindow*		m_glfwWindow;
 public:
 	OpenGLRenderer();
 	~OpenGLRenderer();
 
-	virtual bool Init();
-	virtual bool ShutDown();
+	virtual void Init(Context* c);
+	virtual void ShutDown();
 
 	virtual bool HasInit();
 	virtual void ClearBuffer();
@@ -41,12 +39,8 @@ public:
 
 	virtual void SwapBuffer();
 
-	Windows* GetWindow() {
-		return m_pWindows.get();
-	};
-
 private:
 	
 
-	bool ReadConfig(string path);
+	bool ReadConfig(tinyxml2::XMLElement *pData);
 };

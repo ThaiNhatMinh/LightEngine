@@ -10,9 +10,9 @@ CharacterControllerComponent::CharacterControllerComponent():m_fJumpForce(0),m_f
 
 CharacterControllerComponent::~CharacterControllerComponent()
 {
-	gEventManager()->VRemoveListener(MakeDelegate(this, &CharacterControllerComponent::PhysicCollisionEvent), EvtData_PhysCollisionStart::sk_EventType);
-	gEventManager()->VRemoveListener(MakeDelegate(this, &CharacterControllerComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
-	gEventManager()->VRemoveListener(MakeDelegate(this, &CharacterControllerComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
+	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &CharacterControllerComponent::PhysicCollisionEvent), EvtData_PhysCollisionStart::sk_EventType);
+	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &CharacterControllerComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
+	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &CharacterControllerComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
 }
 
 bool CharacterControllerComponent::VInit(const tinyxml2::XMLElement* pData)
@@ -42,9 +42,9 @@ void CharacterControllerComponent::VPostInit(void)
 	m_pTransformC = m_pOwner->GetTransform();
 
 	// register event
-	gEventManager()->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicCollisionEvent), EvtData_PhysOnCollision::sk_EventType);
-	gEventManager()->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
-	gEventManager()->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
+	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicCollisionEvent), EvtData_PhysOnCollision::sk_EventType);
+	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
+	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
 	
 
 	// Get Rigidbody
@@ -98,11 +98,11 @@ void CharacterControllerComponent::PhysicPreStepEvent(std::shared_ptr<const IEve
 
 	m_MoveDirection = vec3(0);
 	m_JumpDirection = vec3(0);
-	if (gInput()->KeyDown(DIK_Y)) m_MoveDirection += m_pTransformC->GetFront();
-	else if (gInput()->KeyDown(DIK_H)) m_MoveDirection -= m_pTransformC->GetFront();
-	else if (gInput()->KeyDown(DIK_G)) m_MoveDirection += m_pTransformC->GetRight();
-	else if (gInput()->KeyDown(DIK_J)) m_MoveDirection -= m_pTransformC->GetRight();
-	if (gInput()->KeyDown(DIK_SPACE)) m_JumpDirection = vec3(0, 1, 0);
+	if (m_Context->m_pInput->KeyDown(DIK_Y)) m_MoveDirection += m_pTransformC->GetFront();
+	else if (m_Context->m_pInput->KeyDown(DIK_H)) m_MoveDirection -= m_pTransformC->GetFront();
+	else if (m_Context->m_pInput->KeyDown(DIK_G)) m_MoveDirection += m_pTransformC->GetRight();
+	else if (m_Context->m_pInput->KeyDown(DIK_J)) m_MoveDirection -= m_pTransformC->GetRight();
+	if (m_Context->m_pInput->KeyDown(DIK_SPACE)) m_JumpDirection = vec3(0, 1, 0);
 
 	
 	if (m_MoveDirection != vec3(0)&& m_bOnGround)

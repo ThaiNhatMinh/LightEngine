@@ -26,6 +26,8 @@ public:
 		return reinterpret_cast<ComponentId>(rawId);
 	}
 
+	static Context* m_Context;
+
 private:
 	void SetOwner(Actor* pOwner) { m_pOwner = pOwner; }
 };

@@ -71,7 +71,7 @@ bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 	const tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
 	const char* pFileName = pModelNode->Attribute("File");
 
-	ModelCache* pModel = gResources()->GetModel(pFileName);
+	ModelCache* pModel = m_Context->m_pResources->GetModel(pFileName);
 
 	if (!pModel)
 	{
@@ -164,7 +164,7 @@ void AnimationComponent::ResetControl(blendset bs, GLuint anim, AnimationState s
 void AnimationComponent::AnimEvent(const string& data)
 {
 	std::shared_ptr<const IEvent> pEvent(new EvtData_AnimationString(m_pOwner->GetId(), data));
-	gEventManager()->VQueueEvent(pEvent);
+	m_Context->m_pEventManager->VQueueEvent(pEvent);
 }
 
 AnimationComponent::AnimationComponent(void)
@@ -187,13 +187,13 @@ AnimationComponent::AnimationComponent(void)
 
 AnimationComponent::~AnimationComponent(void)
 {
-	gEventManager()->VRemoveListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
+	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
 }
 
 
 void AnimationComponent::VPostInit(void)
 {
-	gEventManager()->VAddListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
+	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
 }
 
 void AnimationComponent::VUpdate(float deltaMs)

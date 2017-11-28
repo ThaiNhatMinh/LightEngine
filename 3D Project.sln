@@ -1,13 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3D Project", "3D Project\3D Project.vcxproj", "{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RS Extract", "..\RS Extract\RS Extract.vcxproj", "{ABCB0CA8-D4E8-4AE9-9C04-872152E55813}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OGRE3D", "OGRE3D\OGRE3D.vcxproj", "{EABAE53B-283F-4C18-BEB0-D125699FAE33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,24 +21,11 @@ Global
 		{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}.Release|x64.Build.0 = Release|x64
 		{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}.Release|x86.ActiveCfg = Release|Win32
 		{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}.Release|x86.Build.0 = Release|Win32
-		{ABCB0CA8-D4E8-4AE9-9C04-872152E55813}.Debug|x64.ActiveCfg = Debug|x64
-		{ABCB0CA8-D4E8-4AE9-9C04-872152E55813}.Debug|x64.Build.0 = Debug|x64
-		{ABCB0CA8-D4E8-4AE9-9C04-872152E55813}.Debug|x86.ActiveCfg = Debug|Win32
-		{ABCB0CA8-D4E8-4AE9-9C04-872152E55813}.Debug|x86.Build.0 = Debug|Win32
-		{ABCB0CA8-D4E8-4AE9-9C04-872152E55813}.Release|x64.ActiveCfg = Release|x64
-		{ABCB0CA8-D4E8-4AE9-9C04-872152E55813}.Release|x64.Build.0 = Release|x64
-		{ABCB0CA8-D4E8-4AE9-9C04-872152E55813}.Release|x86.ActiveCfg = Release|Win32
-		{ABCB0CA8-D4E8-4AE9-9C04-872152E55813}.Release|x86.Build.0 = Release|Win32
-		{EABAE53B-283F-4C18-BEB0-D125699FAE33}.Debug|x64.ActiveCfg = Debug|x64
-		{EABAE53B-283F-4C18-BEB0-D125699FAE33}.Debug|x64.Build.0 = Debug|x64
-		{EABAE53B-283F-4C18-BEB0-D125699FAE33}.Debug|x86.ActiveCfg = Debug|Win32
-		{EABAE53B-283F-4C18-BEB0-D125699FAE33}.Debug|x86.Build.0 = Debug|Win32
-		{EABAE53B-283F-4C18-BEB0-D125699FAE33}.Release|x64.ActiveCfg = Release|x64
-		{EABAE53B-283F-4C18-BEB0-D125699FAE33}.Release|x64.Build.0 = Release|x64
-		{EABAE53B-283F-4C18-BEB0-D125699FAE33}.Release|x86.ActiveCfg = Release|Win32
-		{EABAE53B-283F-4C18-BEB0-D125699FAE33}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {94933E83-2144-44C9-82D4-81C16CF6445B}
 	EndGlobalSection
 EndGlobal

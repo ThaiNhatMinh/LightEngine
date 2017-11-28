@@ -52,6 +52,8 @@ public:
 
 	const ActorComponents* GetComponents() { return &m_components; }
 	TransformComponent* GetTransform();
+
+	static Context* m_Context;
 protected:
 
 	void AddComponent(ActorComponent* pComponent);

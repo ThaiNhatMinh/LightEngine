@@ -6,7 +6,7 @@ extern void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 extern void scroll_callback(GLFWwindow*, double, double);
 
 
-class Windows
+class Windows: public ISubSystem
 {
 private:
 	GLuint m_iWidth;
@@ -18,10 +18,16 @@ private:
 	GLboolean m_bIsFullscreen;
 	GLuint m_iScreenWidth;
 	GLuint m_iScreenHeight;
+
+private:
+	// Read config from XMLElement
+	// return init pos window
+	vec2 ReadConfig(tinyxml2::XMLElement* pData);
 public:
-	Windows(string title,int W,int H);
+	Windows();
 	~Windows();
-	bool InitWindow();
+	virtual void Init(Context* c);
+	virtual void ShutDown();
 	void SetSize(int W, int H);
 	void SetPos(vec2 pos);
 	void ShowWindows();

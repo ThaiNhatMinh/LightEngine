@@ -100,15 +100,16 @@ using glm::quat;
 #include "interface.h"
 
 #include "Utilities\Module.h"
-#include "Utilities\Log.h"
+#include "Core\Log.h"
 #include "Utilities\Input.h"
-#include "Utilities\DirectInput.h"
+#include "Core\DirectInput.h"
 #include "Utilities\Shader.h"
 #include "Utilities\Timer.h"
 #include "Utilities\String.h"
 #include "Utilities\Template.h"
 #include "Utilities\Debug.h"
 #include "Utilities\PhysicsUtilities.h"
+#include "Core\Console.h"
 
 #include "ResourceCache\ModelCache.h"
 #include "ResourceCache\Texture.h"
@@ -159,9 +160,11 @@ using glm::quat;
 #include "Physic\Physic.h"
 
 #include "Graphics3D\Scene.h"
+#include "Graphics3D\Camera.h"
 
 #include "World\TerrainWorld.h"
 
-#include "Core\Camera.h"
+
 #include "Core\Windows.h"
 #include "Core\Application.h"
+#include "Core\Context.h"

@@ -2,7 +2,7 @@
 #include "OpenGLRenderer.h"
 
 
-Scene::Scene(RenderAPICore* pRender):m_Debug(this), m_ActorFactory(this), m_CurrentCamera(nullptr)
+Scene::Scene(Context* c):m_Debug(this,c), m_ActorFactory(this), m_CurrentCamera(nullptr)
 {
 	m_pRoot = std::unique_ptr<Actor>(m_ActorFactory.CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,nullptr));
 	if (!m_pRoot)
@@ -14,8 +14,7 @@ Scene::Scene(RenderAPICore* pRender):m_Debug(this), m_ActorFactory(this), m_Curr
 	m_DirectionLight.Ls = vec3(1.0f, 1.0f, 1.0f);
 	m_DirectionLight.direction = glm::normalize(vec3(1, -1, 1));
 
-	m_pRenderer =std::unique_ptr<RenderAPICore>(pRender);
-	m_DefaultCamera = Camera(vec3(0, 0, 100), vec3(0), vec3(0, 1, 0), 45.0f, 4.0f / 3.0, 1.0f, 10000.0f);
+	m_DefaultCamera = Camera(c,vec3(0, 0, 100), vec3(0), vec3(0, 1, 0), 45.0f, 4.0f / 3.0, 1.0f, 10000.0f);
 }
 
 Scene::~Scene()
@@ -24,6 +23,7 @@ Scene::~Scene()
 
 bool Scene::OnRender()
 {
+	OpenGLRenderer* O = m_pContext->m_pRenderer.get();
 	// The render passes usually go like this 
 	// 1. Static objects & terrain
 	// 2. Actors (dynamic objects that can move)
@@ -32,7 +32,7 @@ bool Scene::OnRender()
 	
 	// Root doesn't have anything to render, so just render children
 	//m_pRoot->VRender(this);
-	m_pRenderer->Clear();
+	O->Clear();
 	//glPolygonMode(GL_FRONT, GL_LINE);
 	m_pRoot->VRenderChildren(this);
 
@@ -43,7 +43,7 @@ bool Scene::OnRender()
 	//m_Debug.DrawLine(vec3(0), vec3(0, 0, 2), vec3(1.0f, 1.0f, 1.0f));
 	m_Debug.Render();
 
-	m_pRenderer->SwapBuffer();
+	O->SwapBuffer();
 	return true;
 }
 

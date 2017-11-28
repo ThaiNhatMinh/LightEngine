@@ -34,8 +34,9 @@ Camera::Camera()
 	UpdateVector();
 }
 
-Camera::Camera(const vec3 & pos, const vec3 & target, const vec3 & up, float fov, float as, float n, float f)
+Camera::Camera(Context* c,const vec3 & pos, const vec3 & target, const vec3 & up, float fov, float as, float n, float f)
 {
+	m_Context = c;
 	m_Position = pos;
 	m_Front = glm::normalize(target - m_Position);
 	WorldUp = up;
@@ -55,13 +56,13 @@ Camera::~Camera()
 void Camera::Update(float deltaTIme)
 {
 	// Camera controls
-	if (gInput()->KeyDown(DIK_W)) m_Position += m_Front*m_Speed*deltaTIme;
-	if (gInput()->KeyDown(DIK_S)) m_Position -= m_Front*m_Speed*deltaTIme;
-	if (gInput()->KeyDown(DIK_D)) m_Position += m_Right*m_Speed*deltaTIme;
-	if (gInput()->KeyDown(DIK_A)) m_Position -= m_Right*m_Speed*deltaTIme;
+	if (m_Context->m_pInput->KeyDown(DIK_W)) m_Position += m_Front*m_Speed*deltaTIme;
+	if (m_Context->m_pInput->KeyDown(DIK_S)) m_Position -= m_Front*m_Speed*deltaTIme;
+	if (m_Context->m_pInput->KeyDown(DIK_D)) m_Position += m_Right*m_Speed*deltaTIme;
+	if (m_Context->m_pInput->KeyDown(DIK_A)) m_Position -= m_Right*m_Speed*deltaTIme;
 
-	m_Pitch += gInput()->mouseDY()*MouseSensitivity;
-	m_Yaw += gInput()->mouseDX()*MouseSensitivity;
+	m_Pitch += m_Context->m_pInput->mouseDY()*MouseSensitivity;
+	m_Yaw += m_Context->m_pInput->mouseDX()*MouseSensitivity;
 	if (m_Pitch > 89.0f) m_Pitch = 89.0f;
 	if (m_Pitch < -89.0f) m_Pitch = -89.0f;
 

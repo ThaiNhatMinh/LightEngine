@@ -2,7 +2,7 @@
 #pragma once
 #include "pch.h"
 
-class GameTimer : public Singleton<GameTimer>
+class GameTimer : public ISubSystem
 {
 private:
 
@@ -18,7 +18,8 @@ private:
 public:
 	GameTimer();
 	~GameTimer();
-	virtual void  onStartUp();
+	virtual void  Init(Context* c);
+	virtual void ShutDown();
 	float GetGameTime() const; // in second
 	float GetDeltaTime() const; // in second
 
@@ -29,5 +30,3 @@ public:
 	int GetFPS();
 
 };
-
-GameTimer* gTimer();

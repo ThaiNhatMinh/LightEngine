@@ -4,7 +4,7 @@
 
 //void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
-class Input : public Singleton<Input>
+class Input : public ISubSystem
 {
 private:
 	bool keys[1024]; // hold key status
@@ -22,9 +22,4 @@ public:
 	bool MousePress(int m);
 	float dX() { return MouseD[0]; }
 	float dY() { return MouseD[1]; }
-	friend void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
-	friend void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
-	friend void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 };
-
-//Input* gInput();

@@ -22,3 +22,22 @@ public:
 	virtual void Scale(vec3 scale);
 };
 
+struct imguiVertex
+{
+	vec2 pos;
+	vec2 uv;
+	vec4 color;
+};
+
+class imguiMesh : public IMesh
+{
+public:
+	vector<DefaultVertex>	m_Vertexs;
+	vector<unsigned int>	m_Indices;
+public:
+	imguiMesh();
+	~imguiMesh();
+
+	// dirive class can redifine this function to add more data;
+	virtual void Finalize(Shader* p);
+};

@@ -2,10 +2,6 @@
 
 GenericObjectFactory<IEvent, EventType> g_eventFactory;
 
-IEventManager* gEventManager()
-{
-	return EventManager::InstancePtr();
-}
 
 EventManager::EventManager()
 {
@@ -24,12 +20,13 @@ EventManager::~EventManager()
 	//while (!m_queues[0].empty() && (pEvent = m_queues[1].front()) != nullptr) deletepEvent;
 }
 
-void EventManager::onStartUp()
+void EventManager::Init(Context* c)
 {
 	//E_DEBUG("Event Manager Initialize...");
+	c->m_pEventManager = std::unique_ptr<EventManager>(this);
 }
 
-void EventManager::onShutDown()
+void EventManager::ShutDown()
 {
 	E_DEBUG("Event Manager Shutdown...");
 }

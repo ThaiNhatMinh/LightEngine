@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "RenderAPI.h"
 
-#include "Core\Camera.h"
+#include "Camera.h"
 class Scene
 {
 private:
@@ -15,11 +15,11 @@ private:
 	Light				m_DirectionLight; // only one direction light
 	CameraComponent		*m_CurrentCamera;
 
-	std::unique_ptr<RenderAPICore>		m_pRenderer;
 	Debug				m_Debug;
 	ActorFactory		m_ActorFactory;
+	Context*			m_pContext;
 public:
-	Scene(RenderAPICore* pRender);
+	Scene(Context* c);
 	~Scene();
 
 	bool OnRender();
@@ -32,7 +32,6 @@ public:
 	mat4 GetViewProj();
 	Debug& GetDebug() { return m_Debug; }
 	ActorFactory& GetActorFactory() { return m_ActorFactory; }
-	RenderAPICore* GetRenderer() { return m_pRenderer.get(); }
 	CameraComponent* GetCamera() { return m_CurrentCamera; }
 	Camera* GetDefaultCamera() { return &m_DefaultCamera; }
 };

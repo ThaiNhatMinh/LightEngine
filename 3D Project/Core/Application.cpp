@@ -4,56 +4,29 @@
 void Application::SetupSubmodule()
 {
 	//E_DEBUG("Application StartUp...");
-	// Event Manager must be startup first
-	EventManager::startUp();
-	GameTimer::startUp();
-	OpenGLRenderer* p = new OpenGLRenderer;
+	Context			*C = new Context();
+	Windows			*W = new Windows();
+	OpenGLRenderer	*O = new OpenGLRenderer();
+	EventManager	*E = new EventManager();
+	GameTimer		*G = new GameTimer();
+	Resources		*R = new Resources();
+	DirectInput		*D = new DirectInput();
+	BulletPhysics	*B = new BulletPhysics();
+	Console			*Con = new Console();
 
+	W->Init(C);
+	O->Init(C);
+	E->Init(C);
+	G->Init(C);
+	R->Init(C);
+	D->Init(C);
+	B->Init(C);
+	Con->Init(C);
 
-	Resources::startUp();
-
-	DirectInput::startUp(p->GetWindow(), DISCL_NONEXCLUSIVE | DISCL_FOREGROUND, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
-	
-	
-	BulletPhysics::startUp();
-	
-	// test code
-	
-	
-	//Shader* pShader = gResources()->LoadShader<PrimShader>("NoTexture", "GameAssets\\SHADER\\NoTexture.vs", "GameAssets\\SHADER\\NoTexture.fs");
-	//gResources()->LoadShader<Shader>("Debug", "GameAssets\\SHADER\\Debug.vs", "GameAssets\\SHADER\\Debug.fs");
-	//Shader* pShader2 = gResources()->LoadShader<SkeShader>("SkeShader", "GameAssets\\SHADER\\Skeleton.vs", "GameAssets\\SHADER\\Texture.fs");
-	//gResources()->LoadShader<PrimShader>("Texture", "GameAssets\\SHADER\\Texture.vs", "GameAssets\\SHADER\\Texture.fs");
-	
-	
-	m_pScene = new Scene(p);
-	ActorFactory& factory = m_pScene->GetActorFactory();
-	
-	
-
-	//Actor* p2 = ;
-	
-	//Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
-	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
-	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
-	Actor* pp;// = factory.CreateActor("GameAssets\\ACTOR\\Camera.xml", nullptr, nullptr);
-	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-	//pp = factory.CreateActor("GameAssets\\Zombie.xml", nullptr, nullptr);
-	//m_pScene->GetRoot()->VAddChild(pp);
-	//mat4 t = glm::translate(mat4(), vec3(0, 0, 100));
-	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
-	//t = glm::translate(mat4(), vec3(0, 0, 200));
-	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
-
-	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\PlayerWoman.xml", nullptr,nullptr));
-	
-	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ZombieAssassin.xml", nullptr, nullptr));
-	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
-	//m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
-	//pp = factory.CreateActor("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
-	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-	pp = factory.CreateActor("GameAssets\\ACTOR\\PV.xml", nullptr, nullptr);
-	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
+	Actor::m_Context = C;
+	ActorComponent::m_Context = C;
+	ISubSystem::m_Context = C;
+	m_Context = std::unique_ptr<Context>(C);
 
 }
 
@@ -62,15 +35,48 @@ Application::~Application()
 	//E_DEBUG("Application ShutDown...");
 
 	delete m_pScene;
-	DirectInput::shutDown();
-	GameTimer::shutDown();
-	Resources::shutDown();
+	
+}
 
-	
-	
-	BulletPhysics::shutDown();
-	EventManager::shutDown();
-	
+void Application::Start()
+{
+	m_pScene = new Scene(m_Context.get());
+	ActorFactory& factory = m_pScene->GetActorFactory();
+
+
+	// test code
+
+
+	//Shader* pShader = m_Context->m_pResources->LoadShader<PrimShader>("NoTexture", "GameAssets\\SHADER\\NoTexture.vs", "GameAssets\\SHADER\\NoTexture.fs");
+	//m_Context->m_pResources->LoadShader<Shader>("Debug", "GameAssets\\SHADER\\Debug.vs", "GameAssets\\SHADER\\Debug.fs");
+	//Shader* pShader2 = m_Context->m_pResources->LoadShader<SkeShader>("SkeShader", "GameAssets\\SHADER\\Skeleton.vs", "GameAssets\\SHADER\\Texture.fs");
+	//m_Context->m_pResources->LoadShader<PrimShader>("Texture", "GameAssets\\SHADER\\Texture.vs", "GameAssets\\SHADER\\Texture.fs");
+
+
+
+	//Actor* p2 = ;
+
+	Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
+	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
+	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
+	Actor* pp;// = factory.CreateActor("GameAssets\\ACTOR\\Camera.xml", nullptr, nullptr);
+			  //m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
+			  //pp = factory.CreateActor("GameAssets\\Zombie.xml", nullptr, nullptr);
+			  //m_pScene->GetRoot()->VAddChild(pp);
+			  //mat4 t = glm::translate(mat4(), vec3(0, 0, 100));
+			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
+			  //t = glm::translate(mat4(), vec3(0, 0, 200));
+			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
+
+			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\PlayerWoman.xml", nullptr,nullptr));
+
+			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ZombieAssassin.xml", nullptr, nullptr));
+			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
+			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
+	pp = factory.CreateActor("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
+	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
+	pp = factory.CreateActor("GameAssets\\ACTOR\\PV.xml", nullptr, nullptr);
+	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 }
 
 
@@ -94,14 +100,17 @@ void Application::MainLoop()
 	// 4. Physic
 	// 5. 
 	
-	//glPolygonMode(GL_BACK, GL_LINE);
-	bool m_bUpdatePhysic = false;
-	gTimer()->Reset();
+	EventManager	*E = m_Context->m_pEventManager.get();
+	GameTimer		*G = m_Context->m_pTimer.get();
+	DirectInput		*D = m_Context->m_pInput.get();
+	BulletPhysics	*B = m_Context->m_pPhysic.get();
+
+	G->Reset();
 
 	while (m_bRunMainLoop)
 	{
 
-		if (gInput()->KeyDown(DIK_ESCAPE))
+		if (D->KeyDown(DIK_ESCAPE))
 		{
 			//glfwSetWindowShouldClose(m_pWindow->Window(), GLFW_TRUE);
 			m_bRunMainLoop = false;
@@ -109,24 +118,19 @@ void Application::MainLoop()
 		glfwPollEvents();
 
 		
-		gTimer()->Tick();
+		G->Tick();
 
-		gEventManager()->VUpdate(20);
+		E->VUpdate(20);
 
-		gInput()->Update();
+		D->Update();
 
 		
 
-		gPhysic()->VOnUpdate(gTimer()->GetDeltaTime());
-		gPhysic()->VSyncVisibleScene();
+		B->VOnUpdate(G->GetDeltaTime());
+		B->VSyncVisibleScene();
 		//cout << gTimer()->GetFPS() << endl;
 		
-		
-		
-		//m_pGameLogic->Update();
-		//m_pGameLogic->Render();
-
-		m_pScene->OnUpdate(gTimer()->GetDeltaTime());
+		m_pScene->OnUpdate(G->GetDeltaTime());
 		m_pScene->OnRender();
 		
 

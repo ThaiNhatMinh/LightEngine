@@ -9,9 +9,6 @@ public:
 	RenderAPICore() {};
 	virtual ~RenderAPICore() {};
 
-	virtual bool Init() = 0;
-	virtual bool ShutDown() = 0;
-
 	virtual bool HasInit() = 0;
 	virtual void ClearBuffer() = 0;
 	virtual void ClearColor() = 0;

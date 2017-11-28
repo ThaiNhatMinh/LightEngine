@@ -17,13 +17,14 @@ protected:
 	float m_Yaw;	// y axis
 	float MouseSensitivity;
 	Frustum m_Frustum;
+	Context* m_Context;
 protected:
 	void UpdateVector();
 public:
 	Camera();
 	
 	// target and up vector must be normalize
-	Camera(const vec3& pos, const vec3& target, const vec3& up,float fov,float as,float n,float f);
+	Camera(Context*,const vec3& pos, const vec3& target, const vec3& up,float fov,float as,float n,float f);
 	~Camera();
 
 	//virtual void OnKeyboard(int key,float deltaTime);

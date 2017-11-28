@@ -153,8 +153,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Camera.h" />
     <ClInclude Include="Core\Application.h" />
+    <ClInclude Include="Core\Console.h" />
+    <ClInclude Include="Core\Context.h" />
+    <ClInclude Include="Core\DirectInput.h" />
+    <ClInclude Include="Core\Log.h" />
     <ClInclude Include="Core\Windows.h" />
     <ClInclude Include="EventManager\AnimationEvent.h" />
     <ClInclude Include="EventManager\EventManager.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="GameObject\TerrainRenderComponent.h" />
     <ClInclude Include="GameObject\TransformComponent.h" />
     <ClInclude Include="Graphics3D\AnimationDef.h" />
+    <ClInclude Include="Graphics3D\Camera.h" />
     <ClInclude Include="Graphics3D\Octree.h" />
     <ClInclude Include="Graphics3D\OpenGLRenderer.h" />
     <ClInclude Include="Graphics3D\RenderAPI.h" />
@@ -187,6 +191,12 @@
     <ClInclude Include="Graphics3D\Mesh.h" />
     <ClInclude Include="Graphics3D\SkeMesh.h" />
     <ClInclude Include="Graphics3D\TexShader.h" />
+    <ClInclude Include="include\imgui\imconfig.h" />
+    <ClInclude Include="include\imgui\imgui.h" />
+    <ClInclude Include="include\imgui\imgui_internal.h" />
+    <ClInclude Include="include\imgui\stb_rect_pack.h" />
+    <ClInclude Include="include\imgui\stb_textedit.h" />
+    <ClInclude Include="include\imgui\stb_truetype.h" />
     <ClInclude Include="interface.h" />
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="Math\Frustum.h" />
@@ -194,35 +204,35 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Physic\Physic.h" />
     <ClInclude Include="Physic\PhysicDebugDrawer.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceCache\LTBDef.h" />
     <ClInclude Include="ResourceCache\LTBFileLoader.h" />
     <ClInclude Include="ResourceCache\ModelCache.h" />
     <ClInclude Include="ResourceCache\ResourceLoader.h" />
     <ClInclude Include="ResourceCache\Texture.h" />
     <ClInclude Include="Utilities\Debug.h" />
-    <ClInclude Include="Utilities\DirectInput.h" />
     <ClInclude Include="Utilities\PhysicsUtilities.h" />
     <ClInclude Include="Utilities\PrimitiveShape\Cube.h" />
     <ClInclude Include="Utilities\PrimitiveShape\Line.h" />
     <ClInclude Include="Utilities\Template.h" />
     <ClInclude Include="Utilities\Input.h" />
-    <ClInclude Include="Utilities\Log.h" />
-    <ClInclude Include="Utilities\Module.h" />
     <ClInclude Include="Utilities\Shader.h" />
     <ClInclude Include="Utilities\String.h" />
     <ClInclude Include="Utilities\Timer.h" />
     <ClInclude Include="World\TerrainWorld.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\Application.cpp" />
+    <ClCompile Include="Core\Console.cpp" />
+    <ClCompile Include="Core\Context.cpp" />
+    <ClCompile Include="Core\DirectInput.cpp" />
+    <ClCompile Include="Core\Log.cpp" />
     <ClCompile Include="Core\Windows.cpp" />
     <ClCompile Include="EventManager\EventManager.cpp" />
     <ClCompile Include="EventManager\Events.cpp" />
     <ClCompile Include="EventManager\PhysicsEvents.cpp" />
     <ClCompile Include="EventManager\TestScriptEvent.cpp" />
     <ClCompile Include="GameObject\Actor.cpp" />
+    <ClCompile Include="GameObject\ActorComponent.cpp" />
     <ClCompile Include="GameObject\ActorFactory.cpp" />
     <ClCompile Include="GameObject\AnimationComponent.cpp" />
     <ClCompile Include="GameObject\CameraComponent.cpp" />
@@ -235,6 +245,7 @@
     <ClCompile Include="GameObject\RigidBodyComponent.cpp" />
     <ClCompile Include="GameObject\TerrainRenderComponent.cpp" />
     <ClCompile Include="GameObject\TransformComponent.cpp" />
+    <ClCompile Include="Graphics3D\Camera.cpp" />
     <ClCompile Include="Graphics3D\Mesh.cpp" />
     <ClCompile Include="Graphics3D\Octree.cpp" />
     <ClCompile Include="Graphics3D\OpenGLRenderer.cpp" />
@@ -243,6 +254,8 @@
     <ClCompile Include="Graphics3D\SkeMesh.cpp" />
     <ClCompile Include="Graphics3D\SkeShader.cpp" />
     <ClCompile Include="Graphics3D\TexShader.cpp" />
+    <ClCompile Include="include\imgui\imgui.cpp" />
+    <ClCompile Include="include\imgui\imgui_draw.cpp" />
     <ClCompile Include="Math\AABB.cpp" />
     <ClCompile Include="Math\Frustum.cpp" />
     <ClCompile Include="Math\Plane.cpp" />
@@ -257,9 +270,7 @@
     <ClCompile Include="ResourceCache\ResourceLoader.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Utilities\Debug.cpp" />
-    <ClCompile Include="Utilities\DirectInput.cpp" />
     <ClCompile Include="Utilities\Input.cpp" />
-    <ClCompile Include="Utilities\Log.cpp" />
     <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp" />
     <ClCompile Include="Utilities\PrimitiveShape\Line.cpp" />
     <ClCompile Include="Utilities\Shader.cpp" />
@@ -268,11 +279,12 @@
     <ClCompile Include="World\TerrainWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="GameAssets\SCRIPTS\Box.lua" />
     <None Include="GameAssets\SCRIPTS\test.lua" />
     <None Include="GameAssets\SHADER\Debug.fs" />
     <None Include="GameAssets\SHADER\Debug.vs" />
+    <None Include="GameAssets\SHADER\imgui.fs" />
+    <None Include="GameAssets\SHADER\imgui.vs" />
     <None Include="GameAssets\Shader\NoTexture.fs" />
     <None Include="GameAssets\Shader\NoTexture.vs" />
     <None Include="GameAssets\SHADER\Skeleton.vs" />
@@ -286,9 +298,6 @@
     </Xml>
     <Xml Include="GameAssets\Renderer.xml" />
     <Xml Include="GameAssets\Resources.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="3D Project.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

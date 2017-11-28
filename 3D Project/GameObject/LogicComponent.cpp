@@ -13,8 +13,8 @@ LogicComponent::LogicComponent()
 
 LogicComponent::~LogicComponent()
 {
-	gEventManager()->VRemoveListener(MakeDelegate(this, &LogicComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
-	gEventManager()->VRemoveListener(MakeDelegate(this, &LogicComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
+	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &LogicComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
+	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &LogicComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
 }
 
 tinyxml2::XMLElement * LogicComponent::VGenerateXml(tinyxml2::XMLDocument * p)
@@ -30,8 +30,8 @@ const char * LogicComponent::VGetName() const
 void LogicComponent::VPostInit(void)
 {
 	// register event
-	gEventManager()->VAddListener(MakeDelegate(this, &LogicComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
-	gEventManager()->VAddListener(MakeDelegate(this, &LogicComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
+	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &LogicComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
+	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &LogicComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
 
 	m_TF = m_pOwner->GetTransform();
 	m_Position = m_TF->GetPosition();
@@ -44,13 +44,13 @@ void LogicComponent::VUpdate(float deltaTIme)
 	m_Front = m_TF->GetFront();
 	m_Right = m_TF->GetRight();
 
-	if (gInput()->KeyDown(DIK_W)) m_Position += m_Front*m_Speed*deltaTIme;
-	if (gInput()->KeyDown(DIK_S)) m_Position -= m_Front*m_Speed*deltaTIme;
-	if (gInput()->KeyDown(DIK_D)) m_Position -= m_Right*m_Speed*deltaTIme;
-	if (gInput()->KeyDown(DIK_A)) m_Position += m_Right*m_Speed*deltaTIme;
+	if (m_Context->m_pInput->KeyDown(DIK_W)) m_Position += m_Front*m_Speed*deltaTIme;
+	if (m_Context->m_pInput->KeyDown(DIK_S)) m_Position -= m_Front*m_Speed*deltaTIme;
+	if (m_Context->m_pInput->KeyDown(DIK_D)) m_Position -= m_Right*m_Speed*deltaTIme;
+	if (m_Context->m_pInput->KeyDown(DIK_A)) m_Position += m_Right*m_Speed*deltaTIme;
 
-	m_Pitch -= gInput()->mouseDY()*MouseSensitivity;
-	m_Yaw -= gInput()->mouseDX()*MouseSensitivity;
+	m_Pitch -= m_Context->m_pInput->mouseDY()*MouseSensitivity;
+	m_Yaw -= m_Context->m_pInput->mouseDX()*MouseSensitivity;
 	if (m_Pitch > 89.0f) m_Pitch = 89.0f;
 	if (m_Pitch < -89.0f) m_Pitch = -89.0f;
 

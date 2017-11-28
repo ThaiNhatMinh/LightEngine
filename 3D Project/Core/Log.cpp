@@ -18,9 +18,12 @@ Log::~Log()
 
 void Log::Message(LogType type, string infomarion)
 {
+	
 	string t = logString[type] + infomarion;
 	m_Log.push_back(t);
-
+	if (type == LOG_ERROR) system("color 4");
+	else if(type ==LOG_WARNING) system("color 1");
+	else system("color 7");
 	cout << t << endl;
 }
 

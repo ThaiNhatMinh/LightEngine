@@ -20,7 +20,7 @@ private:
 	unsigned int			VBO;
 	std::vector<DebugData> m_Lists;
 public:
-	Debug(Scene* pScene);
+	Debug(Scene* pScene,Context* c);
 	~Debug();
 
 	void DrawLine(const vec3& from, const vec3& to, const vec3& color,const mat4& m = mat4(1.0f));

@@ -7,7 +7,7 @@ public:
 	Application() {};
 	~Application();
 	virtual void Setup() {};
-	virtual void Start() {};
+	virtual void Start();
 
 	Debug& GetDebug();
 	
@@ -16,5 +16,7 @@ private:
 	bool m_bRunMainLoop;
 	void SetupSubmodule();
 	Scene* m_pScene;
+	
+	std::unique_ptr<Context> m_Context;
 	
 };

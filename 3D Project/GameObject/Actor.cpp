@@ -1,5 +1,7 @@
 #include "pch.h"
 
+
+Context* Actor::m_Context = nullptr;
 Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr)
 {
 

@@ -38,6 +38,7 @@ bool RigidBodyComponent::VInit(const tinyxml2::XMLElement* pData)
 
 void RigidBodyComponent::VPostInit(void)
 {
+	BulletPhysics* B = m_Context->m_pPhysic.get();
 	ColliderComponent* pCollider = m_pOwner->GetComponent<ColliderComponent>(ColliderComponent::Name);
 	TransformComponent* pTransformComponent = m_pOwner->GetTransform();
 	btCollisionShape* pShape = pCollider->GetCollisionShape();
@@ -63,7 +64,7 @@ void RigidBodyComponent::VPostInit(void)
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(m_fMass, myMotionState, pShape, localInertia);
 
 	// lookup the material
-	MaterialData material(BulletPhysics::Instance().LookupMaterialData(m_material));
+	MaterialData material(B->LookupMaterialData(m_material));
 
 	// set up the materal properties
 	//rbInfo.m_restitution = material.m_restitution;
@@ -86,7 +87,7 @@ void RigidBodyComponent::VPostInit(void)
 
 	}
 	ActorId actorID = m_pOwner->GetId();
-	BulletPhysics::InstancePtr()->AddRigidBody(actorID, this);
+	B->AddRigidBody(actorID, this);
 
 }
 
@@ -277,6 +278,8 @@ void RigidBodyComponent::Activate()
 
 void RigidBodyComponent::UpdateGravity()
 {
+	BulletPhysics* B = m_Context->m_pPhysic.get();
+
 	int flag = m_pRigidBody->getFlags();
 
 	// first set flag for bullet physic
@@ -289,7 +292,7 @@ void RigidBodyComponent::UpdateGravity()
 	if (m_bUseGravity)
 	{
 		if (m_CustomGravity == vec3(0))
-			m_pRigidBody->setGravity(BulletPhysics::Instance().m_dynamicsWorld->getGravity());
+			m_pRigidBody->setGravity(B->m_dynamicsWorld->getGravity());
 		else m_pRigidBody->setGravity(ToBtVector3(m_CustomGravity));
 	}
 	else m_pRigidBody->setGravity(btVector3(0, 0, 0));

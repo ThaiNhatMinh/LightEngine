@@ -1,10 +1,7 @@
 #include "pch.h"
 
 
-GameTimer* gTimer()
-{
-	return GameTimer::InstancePtr();
-}
+
 
 
 GameTimer::GameTimer():m_bStoped(0),m_CurrentTime(0),m_DeltaTime(0),m_PauseTime(0),m_PrevTime(0), m_SecondPerCount(0),m_StartTime(0),
@@ -17,7 +14,7 @@ GameTimer::~GameTimer()
 {
 }
 
-void GameTimer::onStartUp()
+void GameTimer::Init(Context* c)
 {
 	__int64 tickperSecond;
 	if (!QueryPerformanceFrequency((LARGE_INTEGER*)&tickperSecond))
@@ -29,7 +26,13 @@ void GameTimer::onStartUp()
 	m_SecondPerCount = 1.0 / (double)tickperSecond;
 	QueryPerformanceCounter((LARGE_INTEGER*)&m_StartTime);
 
+	c->m_pTimer = std::unique_ptr<GameTimer>(this);
+
 	return;
+}
+
+void GameTimer::ShutDown()
+{
 }
 
 float GameTimer::GetGameTime() const

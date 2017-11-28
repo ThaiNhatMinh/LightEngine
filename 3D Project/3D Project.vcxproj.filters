@@ -5,9 +5,6 @@
     <ClInclude Include="Core\Windows.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Log.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities\Shader.h">
       <Filter>Utilities</Filter>
     </ClInclude>
@@ -17,17 +14,11 @@
     <ClInclude Include="Utilities\Input.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Module.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="Math\Frustum.h">
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Math\Plane.h">
       <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Camera.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="ResourceCache\ModelCache.h">
       <Filter>ResourceCache</Filter>
@@ -126,15 +117,11 @@
     <ClInclude Include="Graphics3D\OpenGLRenderer.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Core\Application.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="World\TerrainWorld.h">
       <Filter>World</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\DirectInput.h">
-      <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\Octree.h">
       <Filter>Graphics3D</Filter>
@@ -175,6 +162,39 @@
     <ClInclude Include="GameObject\PlayerView.h">
       <Filter>GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Context.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\imconfig.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\imgui.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\imgui_internal.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\stb_rect_pack.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\stb_textedit.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\stb_truetype.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Camera.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Console.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DirectInput.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Log.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -182,9 +202,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Utilities\Log.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Utilities\Shader.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
@@ -199,9 +216,6 @@
     </ClCompile>
     <ClCompile Include="Math\Plane.cpp">
       <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Camera.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="ResourceCache\ResourceLoader.cpp">
       <Filter>ResourceCache</Filter>
@@ -275,9 +289,6 @@
     <ClCompile Include="GameObject\ActorFactory.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\DirectInput.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics3D\Octree.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
@@ -313,6 +324,30 @@
     </ClCompile>
     <ClCompile Include="GameObject\PlayerView.cpp">
       <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="include\imgui\imgui.cpp">
+      <Filter>Utilities\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="include\imgui\imgui_draw.cpp">
+      <Filter>Utilities\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Camera.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Console.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DirectInput.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Log.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Context.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\ActorComponent.cpp">
+      <Filter>GameObject\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -364,6 +399,9 @@
     <Filter Include="GameObject\Component">
       <UniqueIdentifier>{2be29528-ced4-459a-bea9-46e666d0fc85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities\imgui">
+      <UniqueIdentifier>{e56bc35b-3139-4a90-aaf9-47b79952884a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="GameAssets\Shader\NoTexture.vs">
@@ -393,7 +431,12 @@
     <None Include="GameAssets\SHADER\Texture.vs">
       <Filter>GameAssets\SHADER</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
+    <None Include="GameAssets\SHADER\imgui.vs">
+      <Filter>GameAssets\SHADER</Filter>
+    </None>
+    <None Include="GameAssets\SHADER\imgui.fs">
+      <Filter>GameAssets\SHADER</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="GameAssets\MODEL\707.xml">
@@ -408,8 +451,5 @@
     <Xml Include="GameAssets\Resources.xml">
       <Filter>GameAssets</Filter>
     </Xml>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="3D Project.rc" />
   </ItemGroup>
 </Project>

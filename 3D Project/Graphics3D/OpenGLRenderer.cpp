@@ -1,9 +1,8 @@
 #include "pch.h"
 #include "OpenGLRenderer.h"
 
-OpenGLRenderer::OpenGLRenderer():m_RenderName("OpenGL"),m_ClearColor(1.0f,1.0f,1.0f,1.0f),m_HasInit(0),m_iClearFlag(0),m_pWindows(nullptr),m_DrawMode(GL_TRIANGLES)
+OpenGLRenderer::OpenGLRenderer():m_RenderName("OpenGL"),m_ClearColor(1.0f,1.0f,1.0f,1.0f),m_HasInit(0),m_iClearFlag(0),m_DrawMode(GL_TRIANGLES)
 {
-	Init();
 }
 
 OpenGLRenderer::~OpenGLRenderer()
@@ -11,32 +10,11 @@ OpenGLRenderer::~OpenGLRenderer()
 	ShutDown();
 }
 
-bool OpenGLRenderer::ReadConfig(string path)
+bool OpenGLRenderer::ReadConfig(tinyxml2::XMLElement *pRenderer)
 {
-	tinyxml2::XMLDocument doc;
-	int errorID = doc.LoadFile(path.c_str());
-	if (errorID)
-	{
-		E_ERROR("Failed to load file: " + path);
-		return false;
-	}
-	tinyxml2::XMLElement* pRenderer = doc.FirstChildElement("Renderer");
-	if (!pRenderer) return false;
-
-	tinyxml2::XMLElement* pWindows = pRenderer->FirstChildElement("Windows");
-	if (!pWindows) return false;
-
-	m_WindowName = pWindows->Attribute("name");
-	vec2 size;
-	size.x = pWindows->DoubleAttribute("sizex", 800);
-	size.y = pWindows->DoubleAttribute("sizey", 600);
-	vec2 pos;
-	pos.x = pWindows->DoubleAttribute("posx", 0);
-	pos.y = pWindows->DoubleAttribute("posy", 0);
-
-	m_pWindows = std::make_unique<Windows>(m_WindowName, size.x, size.y);
-	m_pWindows->InitWindow();
-	m_pWindows->SetPos(pos);
+	/*
+	
+	*/
 
 	tinyxml2::XMLElement* pClearColor = pRenderer->FirstChildElement("ClearColor");
 
@@ -45,27 +23,33 @@ bool OpenGLRenderer::ReadConfig(string path)
 	m_ClearColor.z = pClearColor->DoubleAttribute("b", 0.3);
 	m_ClearColor.w = pClearColor->DoubleAttribute("a", 1.0);
 
-	m_Viewport = vec4(0, 0, size.x, size.y);
+	
 
 	return true;
 }
 
-bool OpenGLRenderer::Init()
+void OpenGLRenderer::Init(Context* c)
 {
-	if (!ReadConfig("GameAssets\\" + string(RendererConfig)))
+	if (!ReadConfig(c->GetElement("Graphic")))
 	{
 		E_ERROR("Failed to init OpenGL Renderer");
 	}
 
 	// Initialize GLEW to setup the OpenGL Function pointers
+	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();
 	if (err != GLEW_OK) 
 	{
-		string Error = string("glewInit failed: ");
+		string Error = string("glewInit failed! ");
 		E_ERROR(Error);
-		return false;
+		return;
 	}
 
+	vec2 size = c->m_pWindows->GetWindowSize();
+	m_glfwWindow = c->m_pWindows->Window();
+
+
+	m_Viewport = vec4(0, 0, size.x, size.y);
 	// Define the viewport dimensions
 	glViewport(m_Viewport.x, m_Viewport.y, m_Viewport.z, m_Viewport.w);
 	glEnable(GL_DEPTH_TEST);
@@ -76,14 +60,16 @@ bool OpenGLRenderer::Init()
 	glCullFace(GL_BACK);
 	
 	SetClearFlag(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	m_pWindows->ShowWindows();
+	
 	glfwSwapInterval(0);
-	return true;
+
+	c->m_pRenderer = std::unique_ptr<OpenGLRenderer>(this);
+	
 }
 
-bool OpenGLRenderer::ShutDown()
+void OpenGLRenderer::ShutDown()
 {
-	return 1;
+
 }
 
 bool OpenGLRenderer::HasInit()
@@ -162,6 +148,6 @@ vec4 OpenGLRenderer::GetViewport()
 
 void OpenGLRenderer::SwapBuffer()
 {
-	glfwSwapBuffers(m_pWindows->Window());
+	glfwSwapBuffers(m_glfwWindow);
 	
 }

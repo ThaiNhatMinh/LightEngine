@@ -41,7 +41,7 @@ struct MaterialData
 	}
 };
 
-class BulletPhysics : public IGamePhysics, public Singleton<BulletPhysics>
+class BulletPhysics : public IGamePhysics, public ISubSystem
 {
 	friend class CharacterControllerComponent;
 	friend class RigidBodyComponent;;
@@ -104,15 +104,14 @@ class BulletPhysics : public IGamePhysics, public Singleton<BulletPhysics>
 	// callback from bullet for each physics time step.  set in VInitialize
 	static void BulletInternalPreTickCallback(btDynamicsWorld * const world, btScalar const timeStep);
 
-
 protected:
 	
 public:
 	BulletPhysics();				// [mrmike] This was changed post-press to add event registration!
 	virtual ~BulletPhysics();
 
-	virtual void onStartUp();
-	virtual void onShutDown();
+	virtual void Init(Context* c);
+	virtual void ShutDown();
 
 	// Initialiazation and Maintenance of the Physics World
 	virtual bool VInitialize() override;
@@ -127,5 +126,3 @@ public:
 
 };
 
-
-IGamePhysics *gPhysic();

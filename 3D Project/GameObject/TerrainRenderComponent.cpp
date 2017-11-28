@@ -13,13 +13,13 @@ bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	const char* pFileName = pModelPath->Attribute("File");
 	if (pFileName)
 	{
-		HeightMap* hm = gResources()->GetHeightMap(pFileName);
+		HeightMap* hm = m_Context->m_pResources->GetHeightMap(pFileName);
 		Mesh* p = static_cast<Mesh*>(hm->m_Mesh[0].get());
 		if (p)
 		{
 			const tinyxml2::XMLElement* pTexPath = pData->FirstChildElement("Texture");
 			const char* pFileName1 = pTexPath->Attribute("File0");
-			p->Tex = gResources()->GetTexture(pFileName1);
+			p->Tex = m_Context->m_pResources->GetTexture(pFileName1);
 
 			m_Material.Ka = vec3(1.0f);
 			m_Material.Kd = vec3(1.0f);
@@ -43,7 +43,7 @@ bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	const tinyxml2::XMLElement* pShader = pData->FirstChildElement("Shader");
 	if (pShader)
 	{
-		m_pShader = gResources()->GetShader(pShader->Attribute("name"));
+		m_pShader = m_Context->m_pResources->GetShader(pShader->Attribute("name"));
 		if (m_pShader == nullptr)
 			E_ERROR("Can not find shader name: " + string(pShader->Attribute("name")));
 	}
@@ -59,7 +59,7 @@ TerrainRenderComponent::~TerrainRenderComponent()
 Mesh * TerrainRenderComponent::ReadFile(const char * filename)
 {
 	if (filename == nullptr) return nullptr;
-	HeightMap* hm = gResources()->GetHeightMap(filename);
+	HeightMap* hm = m_Context->m_pResources->GetHeightMap(filename);
 	/*GLint width, height, iType, iBpp;
 
 	ilLoadImage(filename);

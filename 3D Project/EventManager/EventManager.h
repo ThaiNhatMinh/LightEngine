@@ -11,7 +11,7 @@ extern GenericObjectFactory<IEvent, EventType> g_eventFactory;
 
 const unsigned int EVENTMANAGER_NUM_QUEUES = 2;
 
-class EventManager : public IEventManager, public Singleton<EventManager>
+class EventManager : public IEventManager, public ISubSystem
 {
 	typedef std::list<EventListenerDelegate> EventListenerList;
 	typedef std::map<EventType, EventListenerList> EventListenerMap;
@@ -31,8 +31,8 @@ public:
 	EventManager();
 	virtual ~EventManager(void);
 
-	virtual void onStartUp();
-	virtual void onShutDown();
+	virtual void Init(Context* c);
+	virtual void ShutDown();
 
 	virtual bool VAddListener(const EventListenerDelegate& eventDelegate, const EventType& type);
 	virtual bool VRemoveListener(const EventListenerDelegate& eventDelegate, const EventType& type);
@@ -45,5 +45,3 @@ public:
 	virtual bool VUpdate(unsigned long maxMillis = kINFINITE);
 };
 
-
-IEventManager* gEventManager();
