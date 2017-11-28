@@ -9,7 +9,7 @@ void ImGui_ImplGlfwGL3_KeyCallback(GLFWwindow* w, int key, int, int action, int 
 		io.KeysDown[key] = true;
 	if (action == GLFW_RELEASE)
 		io.KeysDown[key] = false;
-
+	cout << key << endl;
 	(void)mods; // Modifiers are not reliable across systems
 	io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
 	io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
@@ -173,6 +173,12 @@ void Console::Init(Context* c)
 	glfwSetCharCallback(w, ImGui_ImplGlfwGL3_CharCallback);
 
 	c->m_pConsole = std::unique_ptr<Console>(this);
+
+	m_pShader = c->m_pResources->GetShader("Shader");
+	m_Mesh = std::make_unique<imguiMesh>();
+	m_Mesh->Finalize(m_pShader);
+
+	CreateFontsTexture();
 }
 
 void Console::ShutDown()
@@ -185,7 +191,6 @@ void Console::Draw()
 	static float f = 0.0f;
 	ImGui::Text("Hello, world!");
 	ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-	ImGui::ColorEdit3("clear color", (float*)&vec3(0,1,0));
 	if (ImGui::Button("Test Window")) {};
 	if (ImGui::Button("Another Window")) {}
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -193,8 +198,8 @@ void Console::Draw()
 	int display_w, display_h;
 	glfwGetFramebufferSize(this->w, &display_w, &display_h);
 	glViewport(0, 0, display_w, display_h);
-	glClearColor(0.0f,1.0f,0.0f,1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	//glClearColor(0.0f,1.0f,0.0f,1.0f);
+	//glClear(GL_COLOR_BUFFER_BIT);
 	ImGui::Render();
 }
 
@@ -220,16 +225,25 @@ void Console::OnRenderDrawLists(ImDrawData * draw_data)
 	glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
 
 	m_pShader->Use();
-
+	glBindVertexArray(m_Mesh->VAO);
+	glBindSampler(0, 0);
 	mat4 ortho = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y,0.0f);
-	m_pShader->SetUniformMatrix("ProjMtx", glm::value_ptr(ortho));
+	const float ortho_projection[4][4] =
+	{
+		{ 2.0f / io.DisplaySize.x, 0.0f,                   0.0f, 0.0f },
+		{ 0.0f,                  2.0f / -io.DisplaySize.y, 0.0f, 0.0f },
+		{ 0.0f,                  0.0f,                  -1.0f, 0.0f },
+		{ -1.0f,                  1.0f,                   0.0f, 1.0f },
+	};
+
+	m_pShader->SetUniformMatrix("ProjMtx", &ortho_projection[0][0]);
 	
 	for (int n = 0; n < draw_data->CmdListsCount; n++)
 	{
 		const ImDrawList* cmd_list = draw_data->CmdLists[n];
 		const ImDrawIdx* idx_buffer_offset = 0;
 
-		glBindBuffer(GL_ARRAY_BUFFER, m_Mesh->VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, m_Mesh->VBO);
 		glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Mesh->EBO);

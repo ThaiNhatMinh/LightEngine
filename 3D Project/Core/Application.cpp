@@ -56,8 +56,8 @@ void Application::Start()
 
 	//Actor* p2 = ;
 
-	Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
-	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
+	//Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
+	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
 	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
 	Actor* pp;// = factory.CreateActor("GameAssets\\ACTOR\\Camera.xml", nullptr, nullptr);
 			  //m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
@@ -73,10 +73,10 @@ void Application::Start()
 			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ZombieAssassin.xml", nullptr, nullptr));
 			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
 			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
-	pp = factory.CreateActor("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
-	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-	pp = factory.CreateActor("GameAssets\\ACTOR\\PV.xml", nullptr, nullptr);
-	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
+	//pp = factory.CreateActor("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
+	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
+	//pp = factory.CreateActor("GameAssets\\ACTOR\\PV.xml", nullptr, nullptr);
+	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 }
 
 
@@ -104,6 +104,8 @@ void Application::MainLoop()
 	GameTimer		*G = m_Context->m_pTimer.get();
 	DirectInput		*D = m_Context->m_pInput.get();
 	BulletPhysics	*B = m_Context->m_pPhysic.get();
+
+	m_Context->m_pWindows->ShowWindows();
 
 	G->Reset();
 

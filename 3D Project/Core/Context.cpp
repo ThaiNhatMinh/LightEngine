@@ -20,8 +20,8 @@ Context::~Context()
 tinyxml2::XMLElement * Context::GetElement(const char * p)
 {
 	tinyxml2::XMLElement * pData = nullptr;
-
-	pData = ConfigData.FirstChildElement(p);
+	tinyxml2::XMLElement* pRoot = ConfigData.FirstChildElement("GameConfig");
+	pData = pRoot->FirstChildElement(p);
 
 	return pData;
 }

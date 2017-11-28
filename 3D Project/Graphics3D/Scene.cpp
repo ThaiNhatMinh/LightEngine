@@ -2,7 +2,7 @@
 #include "OpenGLRenderer.h"
 
 
-Scene::Scene(Context* c):m_Debug(this,c), m_ActorFactory(this), m_CurrentCamera(nullptr)
+Scene::Scene(Context* c) :m_Debug(this, c), m_ActorFactory(this), m_CurrentCamera(nullptr), m_Context(c)
 {
 	m_pRoot = std::unique_ptr<Actor>(m_ActorFactory.CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,nullptr));
 	if (!m_pRoot)
@@ -23,7 +23,7 @@ Scene::~Scene()
 
 bool Scene::OnRender()
 {
-	OpenGLRenderer* O = m_pContext->m_pRenderer.get();
+	OpenGLRenderer* O = m_Context->m_pRenderer.get();
 	// The render passes usually go like this 
 	// 1. Static objects & terrain
 	// 2. Actors (dynamic objects that can move)
@@ -41,8 +41,8 @@ bool Scene::OnRender()
 	//m_Debug.DrawLine(vec3(0), vec3(2,0,0), vec3(1.0f, 1.0f, 1.0f));
 	//m_Debug.DrawLine(vec3(0), vec3(0, 2, 0), vec3(1.0f, 1.0f, 1.0f));
 	//m_Debug.DrawLine(vec3(0), vec3(0, 0, 2), vec3(1.0f, 1.0f, 1.0f));
-	m_Debug.Render();
-
+	//m_Debug.Render();
+	m_Context->m_pConsole->Draw();
 	O->SwapBuffer();
 	return true;
 }

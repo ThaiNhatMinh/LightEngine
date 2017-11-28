@@ -44,6 +44,7 @@ Resources::Resources()
 	m_ShaderFactory.insert(std::make_pair("SkeShader", [](const char*vs, const char* fs) {return std::make_unique<SkeShader>(vs, fs); }));
 	m_ShaderFactory.insert(std::make_pair("PrimShader", [](const char*vs, const char* fs) {return std::make_unique<PrimShader>(vs, fs); }));
 	m_ShaderFactory.insert(std::make_pair("Debug", [](const char*vs, const char* fs) {return std::make_unique<Shader>(vs,fs); }));
+	m_ShaderFactory.insert(std::make_pair("Shader", [](const char*vs, const char* fs) {return std::make_unique<Shader>(vs, fs); }));
 }
 
 

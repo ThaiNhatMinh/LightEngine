@@ -17,7 +17,7 @@ private:
 
 	Debug				m_Debug;
 	ActorFactory		m_ActorFactory;
-	Context*			m_pContext;
+	Context*			m_Context;
 public:
 	Scene(Context* c);
 	~Scene();
