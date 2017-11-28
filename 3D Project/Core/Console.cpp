@@ -9,7 +9,7 @@ void ImGui_ImplGlfwGL3_KeyCallback(GLFWwindow* w, int key, int, int action, int 
 		io.KeysDown[key] = true;
 	if (action == GLFW_RELEASE)
 		io.KeysDown[key] = false;
-	cout << key << endl;
+	//cout << key << endl;
 	(void)mods; // Modifiers are not reliable across systems
 	io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
 	io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
@@ -117,8 +117,9 @@ void Console::NewFrame()
 
 
 
-Console::Console():m_Time(0)
+Console::Console():m_Time(0),Show(0)
 {
+	memset(InputBuf, 0, sizeof(InputBuf));
 }
 
 Console::~Console()
@@ -179,6 +180,7 @@ void Console::Init(Context* c)
 	m_Mesh->Finalize(m_pShader);
 
 	CreateFontsTexture();
+
 }
 
 void Console::ShutDown()
@@ -187,19 +189,74 @@ void Console::ShutDown()
 
 void Console::Draw()
 {
+	if (!Show) return;
 	NewFrame();
-	static float f = 0.0f;
+	
+	if (!ImGui::Begin("Console", nullptr, ImGuiWindowFlags_NoResize| ImGuiWindowFlags_NoCollapse))
+	{
+		ImGui::End();
+		return;
+	}
+
+	ImGui::SetWindowSize(ImVec2(520, 400), ImGuiCond_Appearing);
+
+	ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing()), false, ImGuiWindowFlags_HorizontalScrollbar);
+	if (ImGui::BeginPopupContextWindow())
+	{
+		ImGui::EndPopup();
+	}
+
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
+	
+	for (int i = 0; i < m_Items.size(); i++)
+	{
+		string item = m_Items[i];
+		
+		ImVec4 col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // A better implementation may store a type per-item. For the sample let's just parse the text.
+		if (strstr(item.c_str(), "[error]")) col = ImColor(1.0f, 0.4f, 0.4f, 1.0f);
+		else if (strncmp(item.c_str(), "# ", 2) == 0) col = ImColor(1.0f, 0.78f, 0.58f, 1.0f);
+		ImGui::PushStyleColor(ImGuiCol_Text, col);
+		ImGui::TextUnformatted(item.c_str());
+		ImGui::PopStyleColor();
+	}
+
+	if (ScrollToBottom)
+		ImGui::SetScrollHere();
+	ScrollToBottom = false;
+	ImGui::PopStyleVar();
+	ImGui::EndChild();
+	ImGui::Separator();
+
+	// Command-line
+
+	if (ImGui::InputText("Input", InputBuf, IM_ARRAYSIZE(InputBuf), ImGuiInputTextFlags_EnterReturnsTrue, CallBack, this))
+	{
+		//char* input_end = InputBuf + strlen(InputBuf);
+		//while (input_end > InputBuf && input_end[-1] == ' ') { input_end--; } *input_end = 0;
+		//if (InputBuf[0])
+		//	ExecCommand(InputBuf);
+		ExecCommand(InputBuf);
+		//cout << InputBuf << endl;
+		strcpy(InputBuf, "");
+	}
+
+	if (ImGui::IsItemHovered() || (ImGui::IsRootWindowOrAnyChildFocused() && !ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0)))
+		ImGui::SetKeyboardFocusHere(-1); // Auto focus previous widget
+
+	ImGui::End();
+	/*static float f = 0.0f;
+	ImGui::Begin("Console", false, 0);
 	ImGui::Text("Hello, world!");
 	ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
 	if (ImGui::Button("Test Window")) {};
 	if (ImGui::Button("Another Window")) {}
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-
+	ImGui::End();
 	int display_w, display_h;
 	glfwGetFramebufferSize(this->w, &display_w, &display_h);
 	glViewport(0, 0, display_w, display_h);
 	//glClearColor(0.0f,1.0f,0.0f,1.0f);
-	//glClear(GL_COLOR_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT);*/
 	ImGui::Render();
 }
 
@@ -228,15 +285,7 @@ void Console::OnRenderDrawLists(ImDrawData * draw_data)
 	glBindVertexArray(m_Mesh->VAO);
 	glBindSampler(0, 0);
 	mat4 ortho = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y,0.0f);
-	const float ortho_projection[4][4] =
-	{
-		{ 2.0f / io.DisplaySize.x, 0.0f,                   0.0f, 0.0f },
-		{ 0.0f,                  2.0f / -io.DisplaySize.y, 0.0f, 0.0f },
-		{ 0.0f,                  0.0f,                  -1.0f, 0.0f },
-		{ -1.0f,                  1.0f,                   0.0f, 1.0f },
-	};
-
-	m_pShader->SetUniformMatrix("ProjMtx", &ortho_projection[0][0]);
+	m_pShader->SetUniformMatrix("ProjMtx", glm::value_ptr(ortho));
 	
 	for (int n = 0; n < draw_data->CmdListsCount; n++)
 	{
@@ -266,9 +315,38 @@ void Console::OnRenderDrawLists(ImDrawData * draw_data)
 	}
 
 	glDisable(GL_BLEND);
-	glBlendEquation(GL_FUNC_ADD);
-	glDisable(GL_CULL_FACE);
-	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_SCISSOR_TEST);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+void Console::ExecCommand(const char * command_line)
+{
+	AddLog(command_line);
+
+}
+
+void Console::CheckStatus(bool s)
+{
+	static bool oldstatus = false;
+	if (s && !oldstatus)
+	{
+		Show = !Show;
+		strcpy(InputBuf, "");
+	}
+	oldstatus = s;
+}
+
+void Console::AddLog(const char * fmt, ...) IM_FMTARGS(2)
+{
+	// FIXME-OPT
+	char buf[1024];
+	va_list args;
+	va_start(args, fmt);
+	vsnprintf(buf, IM_ARRAYSIZE(buf), fmt, args);
+	buf[IM_ARRAYSIZE(buf) - 1] = 0;
+	va_end(args);
+	m_Items.push_back(string(buf));
+	ScrollToBottom = true;
 }

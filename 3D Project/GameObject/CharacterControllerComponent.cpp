@@ -33,7 +33,26 @@ bool CharacterControllerComponent::VInit(const tinyxml2::XMLElement* pData)
 
 tinyxml2::XMLElement * CharacterControllerComponent::VGenerateXml(tinyxml2::XMLDocument * p)
 {
-	return nullptr;
+	if (!p) return nullptr;
+	tinyxml2::XMLElement* pBaseElement = p->NewElement(VGetName());
+
+	// initial transform -> position
+	tinyxml2::XMLElement* pSpeedElement = p->NewElement("Speed");
+	pSpeedElement->SetAttribute("max", m_fMaxSpeed);
+	pBaseElement->LinkEndChild(pSpeedElement);
+
+
+	tinyxml2::XMLElement* pJumpElement = p->NewElement("Jump");
+	pJumpElement->SetAttribute("force", m_fJumpForce);
+	pBaseElement->LinkEndChild(pJumpElement);
+
+	tinyxml2::XMLElement* pMoveElement = p->NewElement("Move");
+	pMoveElement->SetAttribute("force", m_fMoveForce);
+	pMoveElement->SetAttribute("brakeforce", m_fBrakeForce);
+	pBaseElement->LinkEndChild(pMoveElement);
+
+	return pBaseElement;
+	
 }
 
 void CharacterControllerComponent::VPostInit(void)

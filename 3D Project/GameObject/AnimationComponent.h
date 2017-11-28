@@ -94,6 +94,7 @@ public:
 	const vector<mat4>&	GetTransform();
 	virtual AABB		GetUserDimesion()=0;
 	virtual void		AnimEvent(const string&) = 0;
+	virtual void		SetAnimation(string anim) = 0;
 
 };
 

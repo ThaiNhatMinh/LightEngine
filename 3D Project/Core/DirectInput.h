@@ -8,6 +8,7 @@ private:
 	IDirectInput8*				m_pDInput;
 	IDirectInputDevice8*		m_pKeyboard;
 	char						m_KeyState[256];
+	bool						m_KeyLock[256];
 	IDirectInputDevice8*		m_pMouse;
 	DIMOUSESTATE2				m_MouseState;
 	
@@ -19,6 +20,8 @@ public:
 	void ShutDown();
 	void Update();
 	bool KeyDown(char key);
+	// Support look key from user
+	void LookKey(char key, bool v);
 	bool MouseButtonDown(int button);
 	float mouseDX();
 	float mouseDY();

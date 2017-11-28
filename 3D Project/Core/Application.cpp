@@ -75,8 +75,8 @@ void Application::Start()
 			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
 	//pp = factory.CreateActor("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
 	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-	//pp = factory.CreateActor("GameAssets\\ACTOR\\PV.xml", nullptr, nullptr);
-	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
+	pp = factory.CreateActor("GameAssets\\ACTOR\\PV.xml", nullptr, nullptr);
+	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 }
 
 
@@ -104,27 +104,28 @@ void Application::MainLoop()
 	GameTimer		*G = m_Context->m_pTimer.get();
 	DirectInput		*D = m_Context->m_pInput.get();
 	BulletPhysics	*B = m_Context->m_pPhysic.get();
-
+	OpenGLRenderer	*O = m_Context->m_pRenderer.get();
+	Console			*C = m_Context->m_pConsole.get();
 	m_Context->m_pWindows->ShowWindows();
 
 	G->Reset();
 
 	while (m_bRunMainLoop)
 	{
-
-		if (D->KeyDown(DIK_ESCAPE))
-		{
-			//glfwSetWindowShouldClose(m_pWindow->Window(), GLFW_TRUE);
-			m_bRunMainLoop = false;
-		}
 		glfwPollEvents();
+		D->Update();
+		if (D->KeyDown(DIK_ESCAPE)|| m_Context->m_pWindows->ShouldClose())	m_bRunMainLoop = false;
+		
+		C->CheckStatus(D->KeyDown(DIK_GRAVE));
+
+		
 
 		
 		G->Tick();
 
 		E->VUpdate(20);
 
-		D->Update();
+		
 
 		
 
@@ -132,9 +133,16 @@ void Application::MainLoop()
 		B->VSyncVisibleScene();
 		//cout << gTimer()->GetFPS() << endl;
 		
-		m_pScene->OnUpdate(G->GetDeltaTime());
-		m_pScene->OnRender();
 		
+		m_pScene->OnUpdate(G->GetDeltaTime());
+
+		O->Clear();
+
+		m_pScene->OnRender();
+
+		m_Context->m_pConsole->Draw();
+
+		O->SwapBuffer();
 
 
 	}

@@ -23,17 +23,14 @@ Scene::~Scene()
 
 bool Scene::OnRender()
 {
-	OpenGLRenderer* O = m_Context->m_pRenderer.get();
+	
 	// The render passes usually go like this 
 	// 1. Static objects & terrain
 	// 2. Actors (dynamic objects that can move)
 	// 3. The Sky
 	// 4. Anything with Alpha
 	
-	// Root doesn't have anything to render, so just render children
-	//m_pRoot->VRender(this);
-	O->Clear();
-	//glPolygonMode(GL_FRONT, GL_LINE);
+	// Root doesn't have anything to render, so just render children	
 	m_pRoot->VRenderChildren(this);
 
 	//gPhysic()->VRenderDiagnostics();
@@ -42,8 +39,8 @@ bool Scene::OnRender()
 	//m_Debug.DrawLine(vec3(0), vec3(0, 2, 0), vec3(1.0f, 1.0f, 1.0f));
 	//m_Debug.DrawLine(vec3(0), vec3(0, 0, 2), vec3(1.0f, 1.0f, 1.0f));
 	//m_Debug.Render();
-	m_Context->m_pConsole->Draw();
-	O->SwapBuffer();
+	
+	
 	return true;
 }
 

@@ -141,3 +141,8 @@ void Windows::SwitchMode()
 	if (m_bIsFullscreen) EnableFullScreen(false);
 	else EnableFullScreen(true);
 }
+
+int Windows::ShouldClose()
+{
+	return glfwWindowShouldClose(m_pWindow);
+}

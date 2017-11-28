@@ -3,6 +3,7 @@
 
 DirectInput::DirectInput():m_pDInput(0), m_pKeyboard(0), m_pMouse(0)
 {
+	memset(m_KeyLock, 0, sizeof(m_KeyLock));
 }
 
 DirectInput::~DirectInput()
@@ -70,8 +71,14 @@ void DirectInput::Update()
 
 bool DirectInput::KeyDown(char key)
 {
-	return (m_KeyState[key] & 0x80) != 0;
+	return ((m_KeyState[key] & 0x80) != 0 && !m_KeyLock[key]);
 }
+
+void DirectInput::LookKey(char key, bool v)
+{
+	m_KeyLock[key] = v;
+}
+
 
 bool DirectInput::MouseButtonDown(int button)
 {

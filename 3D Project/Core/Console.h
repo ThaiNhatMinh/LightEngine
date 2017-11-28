@@ -15,6 +15,11 @@ private:
 	bool m_MousePress[3];
 	float m_MouseWhell;
 	float m_Time;
+	vector<string>			m_Items;
+	bool					ScrollToBottom;
+	char					InputBuf[256];
+	bool					p_Open;
+	bool					Show;
 protected:
 	void CreateFontsTexture();
 	void NewFrame();
@@ -27,6 +32,16 @@ public:
 
 	void OnRenderDrawLists(ImDrawData* data);
 
+	void    ExecCommand(const char* command_line);
+	void    AddLog(const char* fmt, ...);
+	void	SetStatus(bool s) { Show = s; }
+	bool	GetStatus() { return Show; }
+	void	CheckStatus(bool s);
 	friend void ImGui_ImplGlfwGL3_MouseButtonCallback(GLFWwindow* w, int button, int action, int /*mods*/);
 	friend void ImGui_ImplGlfwGL3_ScrollCallback(GLFWwindow* w, double /*xoffset*/, double yoffset);
+
+	int(*CallBack)(ImGuiTextEditCallbackData* testData) = [](ImGuiTextEditCallbackData* testData)
+	{
+		return 0;
+	};
 };
