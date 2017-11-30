@@ -10,12 +10,13 @@ public:
 	GLuint			m_iCurrentFrame;
 	AnimationState	m_State;
     int             m_KeyBind;
+    char            m_Flags;
 };
 
 class BaseAnimComponent
 {
 private:
-    std::map<int,std::unique_ptr<IMachineState>> m_KeyToState;
+    std::map<int,IMachineState> m_KeyToState;
     IMachineState   *m_MainState;
     IMachineState   *m_SubState;
 public:
@@ -24,9 +25,16 @@ public:
         m_MainState=nullptr;
         m_SubState = nullptr;
     }
+    virtual bool VInit(const tinyxml2::XMLElement* pData)
+    {
+        //... Read data
+        // find main state IMachineState mainstate;
+        m_MainState = mainstate;
+        m_SubState = mainstate;
+    }
     void OnKey(int key)
     {
-        IMachineState* state = m_KeyToState[key];
+        IMachineState state = m_KeyToState[key];
         if(!state) return;
         char bodypart = FindBS(state->m_iCurrentAnim);
         if(bodypart==upper)
@@ -40,5 +48,11 @@ public:
             ResetControl(m_MainState);
         }
 
+    }
+    void VUpdate(float deltaMs)
+    {
+        m_MainState.Update(deltaMs);
+        if(m_SubState) m_SubState.Update(deltaMs);
+        
     }
 };

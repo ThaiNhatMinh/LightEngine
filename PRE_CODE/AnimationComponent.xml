@@ -1,20 +1,20 @@
 <State>
-    <!--Bodypart-2 mean anim in gobal list,-1 mean main state, 0 mean upper, 1 mean lower-->
-    <idle BodyPart="-1" Anim="0" Key=""  />
-	<shoot BodyPart="0"Anim="1"Key="FIRE1"  />
-	<reload BodyPart="0"Anim="2"Key="R"  />
-	<c_walk BodyPart="1"Anim="3"Key="CTRL+FORWARD"  />
-	<c_walkBside BodyPart="1"Anim="4"Key="CTRL+BACKWARD"  />
-	<c_walkRside BodyPart="1"Anim="5"Key="CTRL+RIGHT"  />
-	<c_walkLside BodyPart="1" Anim="6"Key="CTRL+LEFT"  />
-	<walk BodyPart="1" Anim="7"Key="SHIFT+FORWARD"  />
-	<walkBside BodyPart="1"Anim="8"Key="SHIFT+BACKWARD"  />
-	<walkRside BodyPart="1"Anim="9"Key="SHIFT+RIGHT"  />
-	<walkLside BodyPart="1"Anim="10"Key="SHIFT+LEFT"  />
-	<run BodyPart="1"Anim="11"Key="FORWARD"  />
-	<runBside BodyPart="1"Anim="12"Key="BACKWARD"  />
-	<runRside BodyPart="1"Anim="13"Key="RIGHT"  />
-	<runLside BodyPart="1"Anim="14"Key="LEFT"  />
-    <death BodyPart="-2"Anim="15"Key=""  />
+    <!--Flags-2 mean anim in gobal list,-1 mean main state, 0 mean upper, 1 mean lower-->
+    <idle Flags="-1" Anim="0" Key=""  />
+	<shoot Flags="0"Anim="1"Key="FIRE1"  />
+	<reload Flags="0"Anim="2"Key="R"  />
+	<c_walk Flags="1"Anim="3"Key="CTRL+FORWARD"  />
+	<c_walkBside Flags="1"Anim="4"Key="CTRL+BACKWARD"  />
+	<c_walkRside Flags="1"Anim="5"Key="CTRL+RIGHT"  />
+	<c_walkLside Flags="1" Anim="6"Key="CTRL+LEFT"  />
+	<walk Flags="1" Anim="7"Key="SHIFT+FORWARD"  />
+	<walkBside Flags="1"Anim="8"Key="SHIFT+BACKWARD"  />
+	<walkRside Flags="1"Anim="9"Key="SHIFT+RIGHT"  />
+	<walkLside Flags="1"Anim="10"Key="SHIFT+LEFT"  />
+	<run Flags="1"Anim="11"Key="FORWARD"  />
+	<runBside Flags="1"Anim="12"Key="BACKWARD"  />
+	<runRside Flags="1"Anim="13"Key="RIGHT"  />
+	<runLside Flags="1"Anim="14"Key="LEFT"  />
+    <death Flags="-2"Anim="15"Key=""  />
 
 </State>

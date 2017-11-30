@@ -132,7 +132,7 @@ void Application::MainLoop()
 		B->VOnUpdate(G->GetDeltaTime());
 		B->VSyncVisibleScene();
 		//cout << gTimer()->GetFPS() << endl;
-		
+		//glPolygonMode(GL_FRONT, GL_LINE);
 		
 		m_pScene->OnUpdate(G->GetDeltaTime());
 
