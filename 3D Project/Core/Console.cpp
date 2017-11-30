@@ -107,8 +107,7 @@ void Console::NewFrame()
 	io.MouseWheel = m_MouseWhell;
 	m_MouseWhell = 0.0f;
 
-	// Hide OS mouse cursor if ImGui is drawing it
-	glfwSetInputMode(this->w, GLFW_CURSOR, io.MouseDrawCursor ? GLFW_CURSOR_HIDDEN : GLFW_CURSOR_NORMAL);
+	
 
 	// Start the frame. This call will update the io.WantCaptureMouse, io.WantCaptureKeyboard flag that you can use to dispatch inputs (or not) to your application.
 	ImGui::NewFrame();
@@ -230,7 +229,7 @@ void Console::Draw()
 
 	// Command-line
 
-	if (ImGui::InputText("Input", InputBuf, IM_ARRAYSIZE(InputBuf), ImGuiInputTextFlags_EnterReturnsTrue, CallBack, this))
+	if (ImGui::InputText("Input", InputBuf, IM_ARRAYSIZE(InputBuf), ImGuiInputTextFlags_EnterReturnsTrue| ImGuiInputTextFlags_CallbackCharFilter, CallBack, this))
 	{
 		//char* input_end = InputBuf + strlen(InputBuf);
 		//while (input_end > InputBuf && input_end[-1] == ' ') { input_end--; } *input_end = 0;
@@ -328,15 +327,20 @@ void Console::ExecCommand(const char * command_line)
 
 }
 
-void Console::CheckStatus(bool s)
+void Console::CheckStatus()
 {
+	ImGuiIO& io = ImGui::GetIO();
+	
 	static bool oldstatus = false;
-	if (s && !oldstatus)
+	if (io.KeysDown[GLFW_KEY_GRAVE_ACCENT] && !oldstatus)
 	{
+		
+		m_Context->m_pInput->LookAll();
 		Show = !Show;
+		m_Context->m_pWindows->SetMouse(!Show);
 		strcpy(InputBuf, "");
 	}
-	oldstatus = s;
+	oldstatus = io.KeysDown[GLFW_KEY_GRAVE_ACCENT];
 }
 
 void Console::AddLog(const char * fmt, ...) IM_FMTARGS(2)

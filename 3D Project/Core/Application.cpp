@@ -116,7 +116,7 @@ void Application::MainLoop()
 		D->Update();
 		if (D->KeyDown(DIK_ESCAPE)|| m_Context->m_pWindows->ShouldClose())	m_bRunMainLoop = false;
 		
-		C->CheckStatus(D->KeyDown(DIK_GRAVE));
+		C->CheckStatus();
 
 		
 

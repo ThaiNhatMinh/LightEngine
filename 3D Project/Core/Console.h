@@ -36,12 +36,14 @@ public:
 	void    AddLog(const char* fmt, ...);
 	void	SetStatus(bool s) { Show = s; }
 	bool	GetStatus() { return Show; }
-	void	CheckStatus(bool s);
+	void	CheckStatus();
 	friend void ImGui_ImplGlfwGL3_MouseButtonCallback(GLFWwindow* w, int button, int action, int /*mods*/);
 	friend void ImGui_ImplGlfwGL3_ScrollCallback(GLFWwindow* w, double /*xoffset*/, double yoffset);
 
 	int(*CallBack)(ImGuiTextEditCallbackData* testData) = [](ImGuiTextEditCallbackData* testData)
 	{
+		if (testData->EventChar == '`')
+			return 1;
 		return 0;
 	};
 };

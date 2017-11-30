@@ -39,6 +39,7 @@ void DirectInput::Init(Context * c)
 	m_pMouse->SetCooperativeLevel(glfwGetWin32Window(w), DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 	m_pMouse->Acquire();
 	c->m_pInput = std::unique_ptr<DirectInput>(this);
+	m_Lock = 0;
 
 }
 
@@ -71,12 +72,18 @@ void DirectInput::Update()
 
 bool DirectInput::KeyDown(char key)
 {
-	return ((m_KeyState[key] & 0x80) != 0 && !m_KeyLock[key]);
+	if (m_Lock|| m_KeyLock[key]) return false;
+	return (m_KeyState[key] & 0x80) != 0;
 }
 
 void DirectInput::LookKey(char key, bool v)
 {
 	m_KeyLock[key] = v;
+}
+
+void DirectInput::LookAll()
+{
+	m_Lock = !m_Lock;
 }
 
 
@@ -87,16 +94,19 @@ bool DirectInput::MouseButtonDown(int button)
 
 float DirectInput::mouseDX()
 {
+	if (m_Lock) return 0;
 	return (float)m_MouseState.lX;
 }
 
 float DirectInput::mouseDY()
 {
+	if (m_Lock) return 0;
 	return (float)-m_MouseState.lY;
 }
 
 float DirectInput::mouseDZ()
 {
+	if (m_Lock) return 0;
 	return (float)m_MouseState.lZ;
 }
 
