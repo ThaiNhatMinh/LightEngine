@@ -58,7 +58,7 @@ tinyxml2::XMLElement * CharacterControllerComponent::VGenerateXml(tinyxml2::XMLD
 void CharacterControllerComponent::VPostInit(void)
 {
 	// Get Transform component
-	m_pTransformC = m_pOwner->GetTransform();
+	m_pTC = m_pOwner->GetTransform();
 
 	// register event
 	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &CharacterControllerComponent::PhysicCollisionEvent), EvtData_PhysOnCollision::sk_EventType);
@@ -67,16 +67,44 @@ void CharacterControllerComponent::VPostInit(void)
 	
 
 	// Get Rigidbody
-	m_pRB = m_pOwner->GetComponent<RigidBodyComponent>(RigidBodyComponent::Name);
-
+	m_pRBC = m_pOwner->GetComponent<RigidBodyComponent>(RigidBodyComponent::Name);
+	m_pBAC = m_pOwner->GetComponent<AnimationComponent>(AnimationComponent::Name);
 	//m_pRB->Activate(DISABLE_DEACTIVATION);
 	
 }
 
 void CharacterControllerComponent::VUpdate(float dt)
 {
-	
-	
+	m_MoveDirection = vec3(0);
+	m_JumpDirection = vec3(0);
+
+	if (m_Context->m_pInput->KeyDown(DIK_Y))
+	{
+		m_MoveDirection -= m_pTC->GetFront();
+		m_pBAC->PlayAnimation(run);
+	}
+	else if (m_Context->m_pInput->KeyDown(DIK_H))
+	{
+		m_MoveDirection += m_pTC->GetFront();
+		m_pBAC->PlayAnimation(runBside);
+	}
+	else if (m_Context->m_pInput->KeyDown(DIK_G))
+	{
+		m_MoveDirection += m_pTC->GetRight();
+		m_pBAC->PlayAnimation(runRside);
+	}
+	else if (m_Context->m_pInput->KeyDown(DIK_J))
+	{
+		m_MoveDirection -= m_pTC->GetRight();
+		m_pBAC->PlayAnimation(runLside);
+	}
+	if (m_Context->m_pInput->KeyDown(DIK_SPACE)) m_JumpDirection = vec3(0, 1, 0);
+
+	if (m_MoveDirection == vec3(0))
+	{
+		m_pBAC->PlayDefaultAnimation();
+	}
+	m_MoveDirection = vec3(0);
 }
 
 void CharacterControllerComponent::VOnChanged(void)
@@ -110,38 +138,31 @@ void CharacterControllerComponent::PhysicPreStepEvent(std::shared_ptr<const IEve
 	const float BRAKE_FORCE = 50.0f;
 	
 	bool softGrounded = m_fInAirTime < INAIR_THRESHOLD_TIME;
-	const vec3& v = m_pRB->GetLinearVelocity();
+	const vec3& v = m_pRBC->GetLinearVelocity();
 
 	// Velocity on the XZ plane
 	vec3 planeVelocity(v.x, 0.0f, v.z);
 
-	m_MoveDirection = vec3(0);
-	m_JumpDirection = vec3(0);
-	if (m_Context->m_pInput->KeyDown(DIK_Y)) m_MoveDirection += m_pTransformC->GetFront();
-	else if (m_Context->m_pInput->KeyDown(DIK_H)) m_MoveDirection -= m_pTransformC->GetFront();
-	else if (m_Context->m_pInput->KeyDown(DIK_G)) m_MoveDirection += m_pTransformC->GetRight();
-	else if (m_Context->m_pInput->KeyDown(DIK_J)) m_MoveDirection -= m_pTransformC->GetRight();
-	if (m_Context->m_pInput->KeyDown(DIK_SPACE)) m_JumpDirection = vec3(0, 1, 0);
-
 	
+
 	if (m_MoveDirection != vec3(0)&& m_bOnGround)
 	{
 	
 		m_MoveDirection = glm::normalize(m_MoveDirection);
-		m_pRB->ApplyImpulse(m_MoveDirection *m_fMoveForce);
+		m_pRBC->ApplyImpulse(m_MoveDirection *m_fMoveForce);
 	}
 	
 	if (m_bOnGround)
 	{
 		vec3 brakeForce = -planeVelocity * m_fBrakeForce;
-		m_pRB->ApplyImpulse(brakeForce);
+		m_pRBC->ApplyImpulse(brakeForce);
 		
 	}
 
 	if (m_JumpDirection!=vec3(0)&& m_bOnGround)
 	{
 		
-		m_pRB->ApplyImpulse(vec3(0,1,0)*m_fJumpForce);
+		m_pRBC->ApplyImpulse(vec3(0,1,0)*m_fJumpForce);
 		
 	}
 

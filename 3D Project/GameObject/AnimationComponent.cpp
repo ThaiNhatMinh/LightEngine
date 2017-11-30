@@ -2,6 +2,9 @@
 
 const char* AnimationComponent::Name = "AnimationComponent";
 const char* PVAnimationComponent::Name = "PVAnimationComponent";
+#pragma region BaseAnimComponent
+
+
 
 void BaseAnimComponent::DrawSkeleton(Debug & debug, const mat4& m)
 {
@@ -71,6 +74,10 @@ bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 	const tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
 	const char* pFileName = pModelNode->Attribute("File");
 
+	const tinyxml2::XMLElement* pAnimNode = pData->FirstChildElement("DefaultAnim");
+	const char* pNameAnim = pAnimNode->Attribute("Anim");
+
+
 	ModelCache* pModel = m_Context->m_pResources->GetModel(pFileName);
 
 	if (!pModel)
@@ -78,7 +85,7 @@ bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 		E_ERROR("AnimationComponent can't load data.");
 		return 0;
 	}
-
+	
 	// We cannot assign so just coppy pointer
 	for (size_t i = 0; i<pModel->pSkeNodes.size(); i++)
 		m_pSkeNodes.push_back(pModel->pSkeNodes[i].get());
@@ -90,10 +97,11 @@ bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 	m_CurrentFrames.resize(m_pSkeNodes.size());
 	m_DbTransform.resize(m_pSkeNodes.size());
 
+	m_iDefaultAnimation = FindAnimation(pNameAnim);
+
+
 	return true;
 }
-
-
 
 
 FrameData BaseAnimComponent::InterpolateFrame(AnimControl & control, const AnimNode & Anim, const vector<AnimKeyFrame>& KeyFrames)
@@ -138,6 +146,20 @@ FrameData BaseAnimComponent::InterpolateFrame(AnimControl & control, const AnimN
 
 	return frame;
 }
+
+GLint BaseAnimComponent::FindAnimation(string name)
+{
+	for (size_t i = 0; i<m_pAnimList.size(); i++)
+		if (m_pAnimList[i]->Name == name)
+		{
+			return i;
+		}
+
+
+	return -1;
+}
+
+#pragma endregion
 
 blendset AnimationComponent::GetBlendSet(GLuint id)
 {
@@ -194,24 +216,49 @@ AnimationComponent::~AnimationComponent(void)
 void AnimationComponent::VPostInit(void)
 {
 	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
+	
+	ResetControl(upper, m_iDefaultAnimation, ANIM_PLAYING);
+	ResetControl(lower, m_iDefaultAnimation, ANIM_PLAYING);
 }
 
 void AnimationComponent::VUpdate(float deltaMs)
 {
 	if (!m_pAnimList.size()) return;
-	
-	if (m_Control[upper].m_State != ANIM_STOP)
+	m_Control[lower].m_fTime += deltaMs;
+	m_Control[upper].m_fTime += deltaMs;
+	if (m_Control[upper].m_State == ANIM_PLAYING)
 	{
-		m_Control[upper].m_fTime += deltaMs;
+		
 		m_Control[upper].m_iCurrentFrame = (GLuint)(m_Control[upper].m_fTime * 1000);
 	}
-	if (m_Control[lower].m_State != ANIM_STOP)
+	else if(m_Control[upper].m_State == ANIM_TRANSITION)
 	{
-		m_Control[lower].m_fTime += deltaMs;
-		m_Control[lower].m_iCurrentFrame = (GLuint)(m_Control[lower].m_fTime * 1000);
+		if (m_Control[upper].m_fTime > m_fBlendTime)
+		{
+			m_Control[upper].m_State = ANIM_PLAYING;
+			m_Control[upper].m_fTime = 0.0f;
+			m_Control[upper].m_iCurrentFrame = 0;
+		}
 	}
 
+	if (m_Control[lower].m_State == ANIM_PLAYING)
+	{
+		
+		m_Control[lower].m_iCurrentFrame = (GLuint)(m_Control[lower].m_fTime * 1000);
+	}
+	else if(m_Control[lower].m_State == ANIM_TRANSITION)
+	{
+		
+		if (m_Control[lower].m_fTime > m_fBlendTime)
+		{
+			m_Control[lower].m_State = ANIM_PLAYING;
+			m_Control[lower].m_fTime = 0.0f;
+			m_Control[lower].m_iCurrentFrame = 0;
+		}
+	}
 
+	
+	
 	Animation* animUpper = m_pAnimList[m_Control[upper].m_iCurrentAnim];
 	Animation* animLower = m_pAnimList[m_Control[lower].m_iCurrentAnim];
 
@@ -221,17 +268,9 @@ void AnimationComponent::VUpdate(float deltaMs)
 		// process upper 
 		if (m_Control[upper].m_State == ANIM_TRANSITION && m_WB[upper].Blend[i])
 		{
-			if (m_Control[upper].m_fTime > m_fBlendTime)
-			{
-				m_Control[upper].m_State = ANIM_PLAYING;
-				m_Control[upper].m_fTime = 0.0f;
-			}
-			else
-			{
-				float t = m_Control[upper].m_fTime / m_fBlendTime;
-				m_CurrentFrames[i].m_Pos = glm::lerp(m_CurrentFrames[i].m_Pos, animUpper->AnimNodeLists[i].Data[0].m_Pos, t);
-				m_CurrentFrames[i].m_Ort = glm::slerp(m_CurrentFrames[i].m_Ort, animUpper->AnimNodeLists[i].Data[0].m_Ort, t);
-			}
+			float t = m_Control[upper].m_fTime / m_fBlendTime;
+			m_CurrentFrames[i].m_Pos = glm::lerp(m_CurrentFrames[i].m_Pos, animUpper->AnimNodeLists[i].Data[0].m_Pos, t);
+			m_CurrentFrames[i].m_Ort = glm::slerp(m_CurrentFrames[i].m_Ort, animUpper->AnimNodeLists[i].Data[0].m_Ort, t);
 		}
 		else if (m_Control[upper].m_State == ANIM_PLAYING && m_WB[upper].Blend[i])
 		{
@@ -239,19 +278,11 @@ void AnimationComponent::VUpdate(float deltaMs)
 		}
 
 		// process lower -- default animation
-		if (m_Control[lower].m_State == ANIM_TRANSITION && m_WB[lower].Blend[i])
+		else if (m_Control[lower].m_State == ANIM_TRANSITION && m_WB[lower].Blend[i])
 		{
-			if (m_Control[lower].m_fTime > m_fBlendTime)
-			{
-				m_Control[lower].m_State = ANIM_PLAYING;
-				m_Control[lower].m_fTime = 0.0f;
-			}
-			else
-			{
-				float t = m_Control[lower].m_fTime / m_fBlendTime;
-				m_CurrentFrames[i].m_Pos = glm::lerp(m_CurrentFrames[i].m_Pos, animLower->AnimNodeLists[i].Data[0].m_Pos, t);
-				m_CurrentFrames[i].m_Ort = glm::slerp(m_CurrentFrames[i].m_Ort, animLower->AnimNodeLists[i].Data[0].m_Ort, t);
-			}
+			float t = m_Control[lower].m_fTime / m_fBlendTime;
+			m_CurrentFrames[i].m_Pos = glm::lerp(m_CurrentFrames[i].m_Pos, animLower->AnimNodeLists[i].Data[0].m_Pos, t);
+			m_CurrentFrames[i].m_Ort = glm::slerp(m_CurrentFrames[i].m_Ort, animLower->AnimNodeLists[i].Data[0].m_Ort, t);
 		}
 		else if (m_Control[lower].m_State == ANIM_PLAYING && m_WB[lower].Blend[i])
 		{
@@ -270,15 +301,15 @@ void AnimationComponent::VUpdate(float deltaMs)
 		else m_TransformLocal = transform;
 		
 		m_SkeTransform[i] = m_TransformLocal;
-		m_DbTransform[i] = m_SkeTransform[i];
+		m_DbTransform[i] = m_TransformLocal;
 		m_SkeTransform[i] = m_SkeTransform[i] * m_pSkeNodes[i]->m_InvBindPose;
 
 
 	}
 
 
-	if (m_Control[upper].m_bFinished) ResetControl(upper, m_iDefaultAnimation, ANIM_PLAYING);
-	if (m_Control[lower].m_bFinished) ResetControl(lower, m_iDefaultAnimation, ANIM_PLAYING);
+	if (m_Control[upper].m_bFinished) ResetControl(upper, m_Control[upper].m_iCurrentAnim, ANIM_PLAYING);
+	if (m_Control[lower].m_bFinished) ResetControl(lower, m_Control[lower].m_iCurrentAnim, ANIM_PLAYING);
 }
 
 
@@ -303,11 +334,38 @@ void AnimationComponent::SetAnimationEvent(std::shared_ptr<const IEvent> pEvent)
 
 }
 
+void AnimationComponent::PlayAnimation(int anim)
+{
+	//GLint animID = FindAnimation(anim);
+	
+
+	//if (animID == -1) return;
+	int animID = anim + m_iDefaultAnimation;
+	blendset bs = GetBlendSet(animID);
+	
+	if (m_Control[bs].m_iCurrentAnim == animID) return;
+	
+	ResetControl(bs, animID, ANIM_TRANSITION);
+}
+
+void AnimationComponent::PlayDefaultAnimation()
+{
+	//blendset bs = GetBlendSet(m_iDefaultAnimation);
+
+	if (m_Control[lower].m_iCurrentAnim == m_iDefaultAnimation) return;
+
+	ResetControl(upper, m_iDefaultAnimation, ANIM_TRANSITION);
+	ResetControl(lower, m_iDefaultAnimation, ANIM_TRANSITION);
+}
+
 AABB AnimationComponent::GetUserDimesion()
 {
 	if (m_Control[lower].m_iCurrentAnim<0 || m_Control[lower].m_iCurrentAnim>=m_pAnimList.size()) return AABB();
 	return m_pAnimList[m_Control[lower].m_iCurrentAnim]->m_BV;
 }
+
+#pragma region PlayerViewAnimation
+// Using to control PV Model
 
 
 void PVAnimationComponent::ResetControl(GLuint anim, AnimationState state)
@@ -423,3 +481,4 @@ mat4 PVAnimationComponent::GetRootTransform()
 {
 	return m_DbTransform[0];
 }
+#pragma endregion

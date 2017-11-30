@@ -19,9 +19,10 @@ private:
 	float			m_fMoveForce;
 	float			m_fBrakeForce;
 	float			m_fInAirTime;
-	RigidBodyComponent*	m_pRB;
+	RigidBodyComponent	*m_pRBC;
+	TransformComponent	*m_pTC;
+	BaseAnimComponent	*m_pBAC;
 	bool			m_bOnGround;
-	TransformComponent *m_pTransformC;
 public:
 	CharacterControllerComponent();
 	~CharacterControllerComponent();

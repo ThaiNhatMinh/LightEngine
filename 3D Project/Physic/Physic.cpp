@@ -40,7 +40,7 @@ BulletPhysics::BulletPhysics()
 //
 BulletPhysics::~BulletPhysics()
 {
-	
+	ShutDown();
 }
 
 void BulletPhysics::Init(Context* c)

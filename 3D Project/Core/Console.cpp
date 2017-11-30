@@ -9,12 +9,13 @@ void ImGui_ImplGlfwGL3_KeyCallback(GLFWwindow* w, int key, int, int action, int 
 		io.KeysDown[key] = true;
 	if (action == GLFW_RELEASE)
 		io.KeysDown[key] = false;
-	//cout << key << endl;
+	
 	(void)mods; // Modifiers are not reliable across systems
 	io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
 	io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
 	io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
 	io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+	
 }
 
 void ImGui_ImplGlfwGL3_CharCallback(GLFWwindow*, unsigned int c)

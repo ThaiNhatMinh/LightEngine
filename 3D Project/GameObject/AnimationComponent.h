@@ -85,7 +85,7 @@ protected:
 	GLuint				m_iDefaultAnimation;
 protected:
 	FrameData			InterpolateFrame(AnimControl& control, const AnimNode& Anim, const vector<AnimKeyFrame>&);
-
+	GLint				FindAnimation(string name);
 public:
 	BaseAnimComponent() {};
 	~BaseAnimComponent() {};
@@ -94,7 +94,8 @@ public:
 	const vector<mat4>&	GetTransform();
 	virtual AABB		GetUserDimesion()=0;
 	virtual void		AnimEvent(const string&) = 0;
-	virtual void		SetAnimation(string anim) = 0;
+	virtual void		PlayAnimation(int anim) = 0;
+	virtual void		PlayDefaultAnimation() = 0;
 
 };
 
@@ -125,6 +126,8 @@ public:
 	
 	// Event 
 	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
+	virtual void		PlayAnimation(int anim);
+	virtual void		PlayDefaultAnimation();
 	AABB				GetUserDimesion();
 	virtual void		AnimEvent(const string&);
 
@@ -155,6 +158,8 @@ public:
 
 	// Event 
 	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
+	virtual void		PlayAnimation(int anim) {};
+	virtual void		PlayDefaultAnimation() {};
 	AABB				GetUserDimesion();
 	virtual void		AnimEvent(const string&);
 	mat4				GetRootTransform();

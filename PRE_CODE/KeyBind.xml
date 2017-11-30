@@ -1,0 +1,10 @@
+<Key>
+    <FORWARD Key="W" />
+    <BACKWARD Key="S" />
+    <LEFT Key="A" />
+    <RIGHT Key="D" />
+    <FIRE1 Key="MOUSE1" />
+    <FIRE2 Key="MOUSE2" />
+    <RELOAD Key="R"/>
+    <DROPWEAPON Key="G"/>
+</Key>
