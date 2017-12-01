@@ -6,7 +6,6 @@ class MeshRenderComponent : public ActorComponent
 {
 protected:
 	vector<IMesh*>			m_MeshList;
-	Material				m_Material;
 	Shader					*m_pShader;
 public:
 	static const char* Name;
@@ -26,6 +25,4 @@ public:
 	// Request mesh and texture
 	void Render(Scene*);
 	vector<IMesh*>& GetMeshList();
-	// Get Material for this render
-	Material GetMaterial();
 };

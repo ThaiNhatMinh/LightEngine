@@ -23,8 +23,8 @@ bool CameraComponent::VInit(const tinyxml2::XMLElement* pData)
 	
 	if (as < 0.0f)
 	{
-		// [TODO] using windows subsystem to get aspect raito
-		as = 4.0f / 3.0f;
+		vec2 size = m_Context->m_pWindows->GetWindowSize();
+		as = size[0]/size[1];
 	}
 
 	m_Frustum  = Frustum(fov, as, np, fp);

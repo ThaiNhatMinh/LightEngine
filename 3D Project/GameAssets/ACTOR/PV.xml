@@ -8,11 +8,11 @@
     
 	</LogicComponent>
 	<CameraComponent>
-		<Frustum fov="45.0" aspect ="-1.0" nplane ="1.0" fplan="10000.0" />
+		<Frustum fov="45.0" aspect ="-1.0" nplane ="1.0" fplane="4000.0" />
 	</CameraComponent>
   
 	<TransformComponent>
-		<Position x="0" y="500" z="0"/>
+		<Position x="0" y="200" z="0"/>
 		<YawPitchRoll x="0" y="0" z="0"/>
 	</TransformComponent>
 	

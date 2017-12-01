@@ -20,11 +20,6 @@ bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 			const tinyxml2::XMLElement* pTexPath = pData->FirstChildElement("Texture");
 			const char* pFileName1 = pTexPath->Attribute("File0");
 			p->Tex = m_Context->m_pResources->GetTexture(pFileName1);
-
-			m_Material.Ka = vec3(1.0f);
-			m_Material.Kd = vec3(1.0f);
-			m_Material.Ks = vec3(1.0f);
-			m_Material.exp = 64;
 			m_MeshList.push_back(p);
 		}
 	}

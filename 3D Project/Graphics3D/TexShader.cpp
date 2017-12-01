@@ -17,14 +17,6 @@ void TexShader::SetupRender(Scene * pScene, Actor * pActor)
 	SetUniform("gLight.Ls", dirLight.Ls);
 	SetUniform("gLight.direction", dirLight.direction);
 
-	// ----- Material ------
-
-	MeshRenderComponent* mrc =  pActor->GetComponent<MeshRenderComponent>("MeshRenderComponent");
-	if (!mrc) return;
-	const Material& mat = mrc->GetMaterial();
-	SetUniform("gMaterial.Ka", mat.Ka);
-	SetUniform("gMaterial.Kd", mat.Kd);
-	SetUniform("gMaterial.Ks", mat.Ks);
-	SetUniform("gMaterial.exp", mat.exp);
+	
 
 }

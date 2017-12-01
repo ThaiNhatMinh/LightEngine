@@ -16,12 +16,18 @@ class Debug;
 struct Texture;
 
 
-struct Material
+class Material
 {
+public:
+	
 	vec3 Ka;
 	vec3 Kd;
 	vec3 Ks;
-	float exp;
+	vec3 exp;
+	Material() :Ka(1.0f), Kd(1.0f), Ks(1.0f), exp(128)
+	{
+
+	}
 };
 
 // mesh interface
@@ -36,9 +42,12 @@ public:
 	Texture*				Tex;
 	vec3					Color;
 	GLuint					Topology;
+	Material				material;
 	// Use to generate Vertex Buffer Object, Vertex Array Object.
 	virtual void Finalize(Shader* p) = 0;
 	virtual void Scale(vec3 scale) {};
+
+	
 	// Virtual destructor
 	virtual ~IMesh() {};
 };

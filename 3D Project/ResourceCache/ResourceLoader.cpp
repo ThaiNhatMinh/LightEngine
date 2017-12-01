@@ -126,23 +126,48 @@ HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, 
 	
 
 	vec2 size = vec2((width - 1)*stepsize, (height - 1)*stepsize);
+	vec2 size2 = vec2((width - 0)*stepsize, (height - 0)*stepsize);
 	Mesh* p = new Mesh;
 
 	int x = -size[0] / 2, y = 0, z = -size[1] / 2;
 	float t = (min + max) / 2.0f;
+
+	auto heightF = [pRawData, width, height,t,hscale](int x, int z) {
+		if (x < 0) x = 0;
+		if (z < 0) z = 0;
+		if (x >= width) x = width;
+		if (z >= height) z = height;
+		int b = (int)(z*width + x);
+		return (pRawData[b] - t)*hscale;
+	};
+
 	// computer vertex xyz
-	for (int i = 0; i < height; i++)
+	for (int i = 0; i < height; i++) // z axis
 	{
 
-		for (int j = 0; j < width; j++)
+		for (int j = 0; j < width; j++) // x axis
 		{
 			int b = i*width + j;
 
 			y = (pRawData[b] - t)*hscale;
 			vec3 pos(x, y, z);
 			vec2 uv((x + size[0] / 2) / size[0], (z + size[1] / 2) / size[1]);
-			vec3 normal(0, 1, 0);
-			DefaultVertex vertex{ pos,normal,uv };
+			//computer normal;
+
+			vec2 P(i, j);
+			float hL = heightF(j - 1, i);
+			float hR = heightF(j + 1, i);
+			float hD = heightF(j, i - 1);
+			float hU = heightF(j, i + 1);
+			vec3 N(0, 1, 0);
+			N.x = hL - hR;
+			N.y = 2.0f;
+			N.z = hD - hU;
+			N = normalize(N);
+			
+
+			
+			DefaultVertex vertex{ pos,N,uv };
 			p->m_Vertexs.push_back(vertex);
 			x += stepsize;
 		}
@@ -163,34 +188,8 @@ HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, 
 			p->m_Indices.push_back(j + i*width);
 		}
 
-	// computer normal
-
-	auto heightF = [Data, width, height](int x, int z) {
-		if (x < 0) x = 0;
-		if (z < 0) z = 0;
-		if (x >= width) x = width;
-		if (z >= height) z = height;
-		int a = (int)(x*width + z);
-		return Data[a];
-	};
-
-	int id = 0;
-	for (int i = 0; i < height; i++)
-		for (int j = 0; j < width; j++)
-		{
-			vec2 P(i, j);
-			float hL = heightF(j - 1, i);
-			float hR = heightF(j + 1, i);
-			float hD = heightF(j, i - 1);
-			float hU = heightF(j, i + 1);
-			vec3 N;
-			N.x = hL - hR;
-			N.y = hD - hU;
-			N.z = 2.0;
-			N = normalize(N);
-			p->m_Vertexs[id].normal = N;
-			id++;
-		}
+	// comput
+		
 	ilResetMemory();
 	hm = new HeightMap;
 	hm->Data = pRawData;
@@ -593,14 +592,14 @@ ModelCache * Resources::LoadModelXML(const char * XMLFile)
 	mat.Ks.x = pKs->FloatAttribute("r", 1.0f);
 	mat.Ks.y = pKs->FloatAttribute("g", 1.0f);
 	mat.Ks.z = pKs->FloatAttribute("b", 1.0f);
-	mat.exp = pKs->FloatAttribute("exp", 1.0f);
+	mat.exp = vec3(pKs->FloatAttribute("exp", 32.0f));
 
-	pModel->mat  = mat;
+	
 	// Get mesh list and update Material 
-	//for (size_t i = 0; i < pModel->pMeshs.size(); i++)
-	//{
-	//	pModel->pMeshs[i]->mat = mat;
-	//}
+	for (size_t i = 0; i < pModel->pMeshs.size(); i++)
+	{
+		pModel->pMeshs[i]->material = mat;
+	}
 
 	// Done return ModelCache
 

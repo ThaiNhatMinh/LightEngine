@@ -208,7 +208,7 @@ void Console::Draw()
 
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
 	
-	for (int i = 0; i < m_Items.size(); i++)
+	for (size_t i = 0; i < m_Items.size(); i++)
 	{
 		string item = m_Items[i];
 		

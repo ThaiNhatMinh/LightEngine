@@ -56,8 +56,8 @@ void Application::Start()
 
 	//Actor* p2 = ;
 
-	Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
-	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
+	//Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
+	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
 	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
 	Actor* pp;// = factory.CreateActor("GameAssets\\ACTOR\\Camera.xml", nullptr, nullptr);
 			  //m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));

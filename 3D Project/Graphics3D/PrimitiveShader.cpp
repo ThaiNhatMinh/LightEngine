@@ -22,21 +22,4 @@ void PrimShader::SetupRender(Scene * pScene, Actor * pActor)
 	{
 		SetUniform("EyePos", pScene->GetDefaultCamera()->GetPosition());
 	}
-	// ----- Material ------
-
-	MeshRenderComponent* mrc = pActor->GetComponent<MeshRenderComponent>("MeshRenderComponent");
-	if (!mrc)
-	{
-		SetUniform("gMaterial.Ka", vec3(1.0));
-		SetUniform("gMaterial.Kd", vec3(1.0));
-		SetUniform("gMaterial.Ks", vec3(1.0));
-		SetUniform("gMaterial.exp", 128);
-		return;
-	}
-	const Material& mat = mrc->GetMaterial();
-	SetUniform("gMaterial.Ka", mat.Ka);
-	SetUniform("gMaterial.Kd", mat.Kd);
-	SetUniform("gMaterial.Ks", mat.Ks);
-	SetUniform("gMaterial.exp", mat.exp);
-
 }

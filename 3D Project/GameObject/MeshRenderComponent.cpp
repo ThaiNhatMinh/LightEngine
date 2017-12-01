@@ -28,17 +28,12 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 		{
 			m_MeshList.push_back(pModel->pMeshs[i].get());
 		}
-		m_Material = pModel->mat;
 	}
 	else //if(!strcmp(pFileName ,pModelPath->Attribute("Shape")))
 	{
 		// Not support now. Return
 		return false;
 		//m_MeshList.push_back(m_Context->m_pResources->CreateShape(SHAPE_BOX));
-		m_Material.Ka = vec3(1.0f);
-		m_Material.Kd = vec3(1.0f);
-		m_Material.Ks = vec3(1.0f);
-		m_Material.exp = 64;
 
 		const tinyxml2::XMLElement* pColor = pData->FirstChildElement("Color");
 		for (size_t i = 0; i < m_MeshList.size(); i++)
@@ -90,13 +85,22 @@ void MeshRenderComponent::Render(Scene* pScene)
 			//assert(m_MeshList[i]->Tex);
 			m_pShader->SetUniform("ObjColor", m_MeshList[i]->Color);
 		}
+
+		// ----- Material per Mesh ------
+
+		const Material& mat = m_MeshList[i]->material;
+		m_pShader->SetUniform("gMaterial.Ka", mat.Ka);
+		m_pShader->SetUniform("gMaterial.Kd", mat.Kd);
+		m_pShader->SetUniform("gMaterial.Ks", mat.Ks);
+		m_pShader->SetUniform("gMaterial.exp", mat.exp);
+
+		// ------- Render mesh ----------
 		pRender->SetVertexArrayBuffer(m_MeshList[i]->VAO);
 		pRender->SetDrawMode(m_MeshList[i]->Topology);
 		pRender->DrawElement(m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
-		//pRender->DrawElement(6, GL_UNSIGNED_INT, 0);
 	}
 
-	if (1)
+	if (0)
 	{
 		mat4 globalTransform = m_pOwner->VGetGlobalTransform();
 		PVAnimationComponent* ac = m_pOwner->GetComponent<PVAnimationComponent>("PVAnimationComponent");
@@ -108,9 +112,4 @@ void MeshRenderComponent::Render(Scene* pScene)
 vector<IMesh*>& MeshRenderComponent::GetMeshList()
 {
 	return m_MeshList;
-}
-
-Material MeshRenderComponent::GetMaterial()
-{
-	return m_Material;
 }

@@ -14,7 +14,7 @@ struct Material
 	vec3 Ka;	// reflect ambient light
 	vec3 Kd;	// diffuse surface reflectance
 	vec3 Ks;	// reflect specular light
-	float exp;
+	vec3 exp;
 };
 
 struct SurfaceInfo
@@ -68,8 +68,11 @@ vec4 ParallelLight(SurfaceInfo v, Light L, vec3 eyePos)
 	
 	vec3 Id = v.prop.Kd * L.Ld * diffuseS;
 	vec3 halfwayDir = normalize(lightDir + viewDir);
-
-	float specularS = pow(max(dot(v.normal, halfwayDir), 0.0), v.prop.exp);
+	
+	float exp = v.prop.exp.z;
+	//if(exp==128.0) exp = 128;
+	//else exp = 0;
+	float specularS = pow(max(dot(v.normal, halfwayDir), 0.0), exp);
 
 	vec3 Is = v.prop.Ks * L.Ls * specularS;
 
