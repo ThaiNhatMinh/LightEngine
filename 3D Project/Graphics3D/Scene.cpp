@@ -2,7 +2,7 @@
 #include "OpenGLRenderer.h"
 
 
-Scene::Scene(Context* c) :m_Debug(this, c), m_ActorFactory(this), m_CurrentCamera(nullptr), m_Context(c)
+Scene::Scene(Context* c) :m_ActorFactory(this), m_CurrentCamera(nullptr), m_Context(c)
 {
 	m_pRoot = std::unique_ptr<Actor>(m_ActorFactory.CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,nullptr));
 	if (!m_pRoot)

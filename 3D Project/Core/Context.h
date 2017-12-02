@@ -10,7 +10,7 @@ class Resources;
 class DirectInput;
 class BulletPhysics;
 
-class Context
+class MYDLL_API Context
 {
 public:
 	std::unique_ptr<Windows>			m_pWindows;

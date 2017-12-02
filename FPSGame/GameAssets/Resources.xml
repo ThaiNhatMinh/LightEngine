@@ -1,0 +1,6 @@
+<Resources Path ="GameAssets\">
+  <Shader Name="Debug" FileVS="SHADER\Debug.vs" FileFS="SHADER\Debug.fs" />
+  <Shader Name="SkeShader" FileVS="SHADER\Skeleton.vs" FileFS="SHADER\Texture.fs" />
+  <Shader Name="PrimShader" FileVS="SHADER\Texture.vs" FileFS="SHADER\Texture.fs" />
+  <Shader Name="Shader" FileVS="SHADER\imgui.vs" FileFS="SHADER\imgui.fs" />
+</Resources>

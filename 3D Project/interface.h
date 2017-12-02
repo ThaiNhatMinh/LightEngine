@@ -221,7 +221,6 @@ class IApplication
 public:
 	virtual void Setup() {};
 	virtual void Start() {};
-	virtual Debug& GetDebug()=0;
 	virtual void MainLoop() = 0;
 	virtual ~IApplication() {};
 };
@@ -236,4 +235,15 @@ public:
 	virtual void ShutDown() = 0;
 	virtual ~ISubSystem() {};
 	static Context* m_Context;
+};
+
+
+// Our game
+class IGame
+{
+public:
+	virtual void Init() {};
+	virtual void Update(float dt) {};
+	virtual void Render() {};
+	virtual ~IGame() {};
 };

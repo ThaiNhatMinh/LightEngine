@@ -104,7 +104,7 @@ void MeshRenderComponent::Render(Scene* pScene)
 	{
 		mat4 globalTransform = m_pOwner->VGetGlobalTransform();
 		PVAnimationComponent* ac = m_pOwner->GetComponent<PVAnimationComponent>("PVAnimationComponent");
-		if (ac) ac->DrawSkeleton(pScene->GetDebug(), globalTransform);
+//		if (ac) ac->DrawSkeleton(pScene->GetDebug(), globalTransform);
 	}
 
 }

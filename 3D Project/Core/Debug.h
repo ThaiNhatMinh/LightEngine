@@ -9,7 +9,7 @@ public:
 	glm::vec3 color;
 	
 };
-
+class CameraComponent;
 class Debug: public ISubSystem
 {
 private:

@@ -68,6 +68,11 @@ using fastdelegate::MakeDelegate;
 //#pragma comment(lib, "lib/luaplus51-1201.lib")
 //#pragma comment(lib, "Mono/lib/mono-2.0-sgen.lib")
 
+#ifdef BUILDING_MYDLL
+#define MYDLL_API __declspec(dllexport)
+#else
+#define MYDLL_API __declspec(dllimport)
+#endif
 
 // Math
 #include <glm\mat4x4.hpp>

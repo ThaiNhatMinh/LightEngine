@@ -130,11 +130,11 @@ void Application::MainLoop()
 		//cout << gTimer()->GetFPS() << endl;
 		//glPolygonMode(GL_FRONT, GL_LINE);
 		
-		//m_pScene->OnUpdate(G->GetDeltaTime());
+		m_Game->Update(G->GetDeltaTime());
 
 		O->Clear();
 
-		//m_pScene->OnRender();
+		m_Game->Render();
 
 		m_Context->m_pConsole->Draw();
 
@@ -142,5 +142,4 @@ void Application::MainLoop()
 
 
 	}
-	//glfwTerminate();
 }

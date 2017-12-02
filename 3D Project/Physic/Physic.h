@@ -114,7 +114,7 @@ public:
 	virtual void ShutDown();
 
 	// Initialiazation and Maintenance of the Physics World
-	virtual bool VInitialize() override;
+	virtual bool VInitialize() override { return 1; };
 	virtual void VSyncVisibleScene() override;
 	virtual void VOnUpdate(float deltaSeconds) override;
 	virtual void VPostStep(float timeStep) override;
