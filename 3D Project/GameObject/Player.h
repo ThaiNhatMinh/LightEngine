@@ -1,6 +1,8 @@
 #pragma once
 
 
+// player character
+
 class Player : public Actor
 {
 public:

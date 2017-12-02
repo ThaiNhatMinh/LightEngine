@@ -2,7 +2,7 @@
 	<CharacterControllerComponent>
 		<Speed max="10.0" />
 		<Jump force="1500.0" />
-		<Move force="3900.0" brakefore="30"/>
+		<Move force="5900.0" brakefore="40"/>
 	</CharacterControllerComponent>
 	
 	<AnimationComponent>

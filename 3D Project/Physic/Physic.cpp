@@ -46,7 +46,53 @@ BulletPhysics::~BulletPhysics()
 void BulletPhysics::Init(Context* c)
 {
 	//E_DEBUG("Physic Engine Initialize...");
-	this->VInitialize();
+	LoadXml();
+
+	gContactAddedCallback = CustomMaterialCombinerCallback;
+
+	// this controls how Bullet does internal memory management during the collision pass
+	m_collisionConfiguration = std::unique_ptr<btDefaultCollisionConfiguration>(new btDefaultCollisionConfiguration());
+
+	// this manages how Bullet detects precise collisions between pairs of objects
+	m_dispatcher = std::unique_ptr<btCollisionDispatcher>(new btCollisionDispatcher(m_collisionConfiguration.get()));
+
+	// Bullet uses this to quickly (imprecisely) detect collisions between objects.
+	//   Once a possible collision passes the broad phase, it will be passed to the
+	//   slower but more precise narrow-phase collision detection (btCollisionDispatcher).
+	m_broadphase = std::unique_ptr<btDbvtBroadphase>(new btDbvtBroadphase());
+
+	// Manages constraints which apply forces to the physics simulation.  Used
+	//  for e.g. springs, motors.  We don't use any constraints right now.
+	m_solver = std::unique_ptr<btSequentialImpulseConstraintSolver>(new btSequentialImpulseConstraintSolver);
+
+	// This is the main Bullet interface point.  Pass in all these components to customize its behavior.
+	m_dynamicsWorld = std::unique_ptr<btDiscreteDynamicsWorld>(new btDiscreteDynamicsWorld(m_dispatcher.get(),
+		m_broadphase.get(),
+		m_solver.get(),
+		m_collisionConfiguration.get()));
+
+	m_dynamicsWorld->setGravity(btVector3(0, -WORLD_GRAVITY, 0));
+
+	m_debugDrawer = std::unique_ptr<BulletDebugDrawer>(new BulletDebugDrawer(c));
+	m_debugDrawer->m_DebugModes = btIDebugDraw::DBG_DrawWireframe;
+	//m_debugDrawer->ReadOptions();
+
+	if (!m_collisionConfiguration || !m_dispatcher || !m_broadphase ||
+		!m_solver || !m_dynamicsWorld || !m_debugDrawer)
+	{
+		E_ERROR("BulletPhysics::VInitialize failed!");
+		return;
+	}
+
+	m_dynamicsWorld->setDebugDrawer(m_debugDrawer.get());
+
+
+	// and set the internal tick callback to our own method "BulletInternalTickCallback"
+	m_dynamicsWorld->setInternalTickCallback(BulletInternalTickCallback, static_cast<void*>(this), false);
+	m_dynamicsWorld->setInternalTickCallback(BulletInternalPreTickCallback, static_cast<void*>(this), true);
+	m_dynamicsWorld->setWorldUserInfo(this);
+	//m_dynamicsWorld->debugDrawWorld();
+	
 	c->m_pPhysic = std::unique_ptr<BulletPhysics>(this);
 }
 
@@ -109,53 +155,7 @@ void BulletPhysics::LoadXml()
 //
 bool BulletPhysics::VInitialize()
 {
-	LoadXml();
-
-	gContactAddedCallback = CustomMaterialCombinerCallback;
-
-	// this controls how Bullet does internal memory management during the collision pass
-	m_collisionConfiguration = std::unique_ptr<btDefaultCollisionConfiguration>(new btDefaultCollisionConfiguration());
-
-	// this manages how Bullet detects precise collisions between pairs of objects
-	m_dispatcher = std::unique_ptr<btCollisionDispatcher>(new btCollisionDispatcher(m_collisionConfiguration.get()));
-
-	// Bullet uses this to quickly (imprecisely) detect collisions between objects.
-	//   Once a possible collision passes the broad phase, it will be passed to the
-	//   slower but more precise narrow-phase collision detection (btCollisionDispatcher).
-	m_broadphase = std::unique_ptr<btDbvtBroadphase>(new btDbvtBroadphase());
-
-	// Manages constraints which apply forces to the physics simulation.  Used
-	//  for e.g. springs, motors.  We don't use any constraints right now.
-	m_solver = std::unique_ptr<btSequentialImpulseConstraintSolver>(new btSequentialImpulseConstraintSolver);
-
-	// This is the main Bullet interface point.  Pass in all these components to customize its behavior.
-	m_dynamicsWorld = std::unique_ptr<btDiscreteDynamicsWorld>(new btDiscreteDynamicsWorld(m_dispatcher.get(),
-		m_broadphase.get(),
-		m_solver.get(),
-		m_collisionConfiguration.get()));
-
-	m_dynamicsWorld->setGravity(btVector3(0, -WORLD_GRAVITY, 0));
-
-	m_debugDrawer = std::unique_ptr<BulletDebugDrawer>(new BulletDebugDrawer);
-	m_debugDrawer->m_DebugModes = btIDebugDraw::DBG_DrawWireframe;
-	//m_debugDrawer->ReadOptions();
-
-	if (!m_collisionConfiguration || !m_dispatcher || !m_broadphase ||
-		!m_solver || !m_dynamicsWorld || !m_debugDrawer)
-	{
-		E_ERROR("BulletPhysics::VInitialize failed!");
-		return false;
-	}
-
-	m_dynamicsWorld->setDebugDrawer(m_debugDrawer.get());
-
-
-	// and set the internal tick callback to our own method "BulletInternalTickCallback"
-	m_dynamicsWorld->setInternalTickCallback(BulletInternalTickCallback, static_cast<void*>(this),false);
-	m_dynamicsWorld->setInternalTickCallback(BulletInternalPreTickCallback, static_cast<void*>(this), true);
-	m_dynamicsWorld->setWorldUserInfo(this);
-	//m_dynamicsWorld->debugDrawWorld();
-	return true;
+	
 }
 
 /////////////////////////////////////////////////////////////////////////////

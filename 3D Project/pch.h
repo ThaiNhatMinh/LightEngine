@@ -107,7 +107,7 @@ using glm::quat;
 #include "Utilities\Timer.h"
 #include "Utilities\String.h"
 #include "Utilities\Template.h"
-#include "Utilities\Debug.h"
+#include "Core\Debug.h"
 #include "Utilities\PhysicsUtilities.h"
 #include "Core\Console.h"
 

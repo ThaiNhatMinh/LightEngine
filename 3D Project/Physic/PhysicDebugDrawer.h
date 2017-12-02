@@ -5,9 +5,11 @@
 class BulletDebugDrawer : public btIDebugDraw
 {
 public:
-	DebugDrawModes               m_DebugModes;
+	DebugDrawModes              m_DebugModes;
+	Debug						*m_Debug;
 public:
 	// btIDebugDraw interface
+	BulletDebugDrawer(Context* c);
 	virtual void	drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color) override;
 	virtual void	reportErrorWarning(const char* warningString) override;
 	virtual void	draw3dText(const btVector3& location, const char* textString) override;

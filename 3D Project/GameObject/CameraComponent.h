@@ -19,9 +19,9 @@ public:
 	virtual const char *VGetName() const;
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p);
 
-	mat4 GetViewMatrix();
-	mat4 GetProjMatrix();
-	mat4 GetVPMatrix();
+	const mat4& GetViewMatrix();
+	const mat4& GetProjMatrix();
+	const mat4& GetVPMatrix();
 	const Frustum& GetFrustum()const;
 	Frustum& GetFrustum();
 	vec3 GetPosition();

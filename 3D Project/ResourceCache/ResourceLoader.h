@@ -45,7 +45,8 @@ private:
 	map<string, std::function<std::unique_ptr<Shader>(const char *, const char*)>> m_ShaderFactory;
 	// this list store primitive shape 
 	vector<IMesh*>	m_PrimList;
-
+	// Default texture when can't found tex
+	Texture* m_pDefaultTex;
 	// Path to resource
 	std::string		m_Path;
 private:

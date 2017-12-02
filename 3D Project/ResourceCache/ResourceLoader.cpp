@@ -19,7 +19,7 @@ Texture * Resources::HasTexture(const char * filename)
 		if (!strcmp(m_Textures[i]->szName, filename))
 			return m_Textures[i].get();
 	
-	return NULL;
+	return nullptr;
 }
 
 ModelCache * Resources::HasModel(const char * filename)
@@ -63,7 +63,7 @@ void Resources::Init(Context* c)
 		Log::Message(Log::LOG_ERROR, "Can't init Devil Lib.");
 
 	// Load default tex
-	LoadTexture("GameAssets/TEXTURE/Default.png");
+	m_pDefaultTex =  LoadTexture("GameAssets/TEXTURE/Default.png");
 
 	LoadResources("GameAssets/" + string(LightEngine::RESOURCES_FILE));
 
@@ -635,6 +635,7 @@ Texture * Resources::GetTexture(const char * filename)
 {
 	Texture* tex = nullptr;
 	tex = HasTexture(filename);
+	if (tex == nullptr) return m_pDefaultTex;
 	return tex;
 	
 }

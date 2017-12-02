@@ -1,6 +1,11 @@
 #include "pch.h"
 
 
+BulletDebugDrawer::BulletDebugDrawer(Context * c)
+{
+	m_Debug = c->m_pDebuger.get();
+}
+
 void BulletDebugDrawer::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)
 {
 	// draw a line to represent the normal.  This only lasts one frame, and is hard to see.
@@ -155,9 +160,9 @@ void BulletDebugDrawer::drawLine(const btVector3& from, const btVector3& to, con
 	//Color color = D3DCOLOR_XRGB(BYTE(255 * lineColor.x()), BYTE(255 * lineColor.y()), BYTE(255 * lineColor.z()));
 
 	//pRenderer->VDrawLine(vec3From, vec3To, color);
-	Debug& debug = APP->GetDebug();
+	
 
-	debug.DrawLine(vec3From, vec3To, color);
+	m_Debug->DrawLine(vec3From, vec3To, color);
 }
 
 

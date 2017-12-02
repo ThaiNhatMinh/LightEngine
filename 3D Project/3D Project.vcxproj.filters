@@ -81,9 +81,6 @@
     <ClInclude Include="Physic\PhysicDebugDrawer.h">
       <Filter>Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Debug.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities\PrimitiveShape\Line.h">
       <Filter>Utilities\Primitive Shape</Filter>
     </ClInclude>
@@ -195,6 +192,9 @@
     <ClInclude Include="Core\Log.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Debug.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -255,9 +255,6 @@
     </ClCompile>
     <ClCompile Include="Utilities\PrimitiveShape\Line.cpp">
       <Filter>Utilities\Primitive Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities\Debug.cpp">
-      <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Math\AABB.cpp">
       <Filter>Math</Filter>
@@ -349,6 +346,9 @@
     <ClCompile Include="GameObject\ActorComponent.cpp">
       <Filter>GameObject\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Debug.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -402,6 +402,12 @@
     <Filter Include="Utilities\imgui">
       <UniqueIdentifier>{e56bc35b-3139-4a90-aaf9-47b79952884a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameAssets\ACTOR">
+      <UniqueIdentifier>{a57646c4-e4a6-45cf-bd22-e45239463c23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameAssets\WEAPON">
+      <UniqueIdentifier>{7bb93134-dcf5-459d-8479-958495850ed0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="GameAssets\Shader\NoTexture.vs">
@@ -450,6 +456,42 @@
     </Xml>
     <Xml Include="GameAssets\Resources.xml">
       <Filter>GameAssets</Filter>
+    </Xml>
+    <Xml Include="GameAssets\ACTOR\Box.xml">
+      <Filter>GameAssets\ACTOR</Filter>
+    </Xml>
+    <Xml Include="GameAssets\ACTOR\Camera.xml">
+      <Filter>GameAssets\ACTOR</Filter>
+    </Xml>
+    <Xml Include="GameAssets\ACTOR\Ground.xml">
+      <Filter>GameAssets\ACTOR</Filter>
+    </Xml>
+    <Xml Include="GameAssets\ACTOR\Player.xml">
+      <Filter>GameAssets\ACTOR</Filter>
+    </Xml>
+    <Xml Include="GameAssets\ACTOR\PlayerWoman.xml">
+      <Filter>GameAssets\ACTOR</Filter>
+    </Xml>
+    <Xml Include="GameAssets\ACTOR\PV.xml">
+      <Filter>GameAssets\ACTOR</Filter>
+    </Xml>
+    <Xml Include="GameAssets\ACTOR\Root.xml">
+      <Filter>GameAssets\ACTOR</Filter>
+    </Xml>
+    <Xml Include="GameAssets\ACTOR\Terrain.xml">
+      <Filter>GameAssets\ACTOR</Filter>
+    </Xml>
+    <Xml Include="GameAssets\ACTOR\Zombie.xml">
+      <Filter>GameAssets\ACTOR</Filter>
+    </Xml>
+    <Xml Include="GameAssets\ACTOR\ZombieAssassin.xml">
+      <Filter>GameAssets\ACTOR</Filter>
+    </Xml>
+    <Xml Include="GameAssets\WEAPON\Weapon.xml">
+      <Filter>GameAssets\WEAPON</Filter>
+    </Xml>
+    <Xml Include="GameAssets\WEAPON\Character.xml">
+      <Filter>GameAssets\WEAPON</Filter>
     </Xml>
   </ItemGroup>
 </Project>

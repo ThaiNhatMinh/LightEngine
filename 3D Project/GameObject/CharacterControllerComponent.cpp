@@ -19,6 +19,7 @@ bool CharacterControllerComponent::VInit(const tinyxml2::XMLElement* pData)
 {
 	if (!pData) return false;
 	const tinyxml2::XMLElement* pSpeedElement = pData->FirstChildElement("Speed");
+	
 	m_fMaxSpeed = pSpeedElement->DoubleAttribute("max", 1.0f);
 
 	const tinyxml2::XMLElement* pJumpElement = pData->FirstChildElement("Jump");
@@ -104,7 +105,7 @@ void CharacterControllerComponent::VUpdate(float dt)
 	{
 		m_pBAC->PlayDefaultAnimation();
 	}
-	m_MoveDirection = vec3(0);
+	//m_MoveDirection = vec3(0);
 }
 
 void CharacterControllerComponent::VOnChanged(void)

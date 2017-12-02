@@ -32,7 +32,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -81,6 +81,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>D:\Code Collection\3D Project\3D Project\include;E:\Code Collection\Game Coding Complete\Source\GCC4\3rdParty\bullet-2.79\src;E:\Code Collection\3D Project\3D Project;$(IncludePath)</IncludePath>
     <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet-2.79\lib\Release;$(LibraryPath)</LibraryPath>
+    <TargetName>Engine</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -156,6 +157,7 @@
     <ClInclude Include="Core\Application.h" />
     <ClInclude Include="Core\Console.h" />
     <ClInclude Include="Core\Context.h" />
+    <ClInclude Include="Core\Debug.h" />
     <ClInclude Include="Core\DirectInput.h" />
     <ClInclude Include="Core\Log.h" />
     <ClInclude Include="Core\Windows.h" />
@@ -209,7 +211,6 @@
     <ClInclude Include="ResourceCache\ModelCache.h" />
     <ClInclude Include="ResourceCache\ResourceLoader.h" />
     <ClInclude Include="ResourceCache\Texture.h" />
-    <ClInclude Include="Utilities\Debug.h" />
     <ClInclude Include="Utilities\PhysicsUtilities.h" />
     <ClInclude Include="Utilities\PrimitiveShape\Cube.h" />
     <ClInclude Include="Utilities\PrimitiveShape\Line.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="Core\Application.cpp" />
     <ClCompile Include="Core\Console.cpp" />
     <ClCompile Include="Core\Context.cpp" />
+    <ClCompile Include="Core\Debug.cpp" />
     <ClCompile Include="Core\DirectInput.cpp" />
     <ClCompile Include="Core\Log.cpp" />
     <ClCompile Include="Core\Windows.cpp" />
@@ -269,7 +271,6 @@
     <ClCompile Include="ResourceCache\LTBFileLoader.cpp" />
     <ClCompile Include="ResourceCache\ResourceLoader.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Utilities\Debug.cpp" />
     <ClCompile Include="Utilities\Input.cpp" />
     <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp" />
     <ClCompile Include="Utilities\PrimitiveShape\Line.cpp" />
@@ -292,12 +293,28 @@
     <None Include="GameAssets\SHADER\Texture.vs" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="GameAssets\ACTOR\Box.xml" />
+    <Xml Include="GameAssets\ACTOR\Camera.xml" />
+    <Xml Include="GameAssets\ACTOR\Ground.xml" />
+    <Xml Include="GameAssets\ACTOR\Player.xml" />
+    <Xml Include="GameAssets\ACTOR\PlayerWoman.xml" />
+    <Xml Include="GameAssets\ACTOR\PV.xml" />
+    <Xml Include="GameAssets\ACTOR\Root.xml" />
+    <Xml Include="GameAssets\ACTOR\Terrain.xml" />
+    <Xml Include="GameAssets\ACTOR\Zombie.xml" />
+    <Xml Include="GameAssets\ACTOR\ZombieAssassin.xml" />
     <Xml Include="GameAssets\MODEL\707.xml" />
     <Xml Include="GameAssets\physics.xml">
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="GameAssets\Renderer.xml" />
     <Xml Include="GameAssets\Resources.xml" />
+    <Xml Include="GameAssets\WEAPON\Character.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="GameAssets\WEAPON\Weapon.xml">
+      <SubType>Designer</SubType>
+    </Xml>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

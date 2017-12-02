@@ -237,7 +237,3 @@ public:
 	virtual ~ISubSystem() {};
 	static Context* m_Context;
 };
-
-
-
-extern IApplication* APP;

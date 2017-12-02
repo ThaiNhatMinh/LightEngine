@@ -1,6 +1,11 @@
 #include "pch.h"
 
-Debug::Debug(Scene * pScene, Context* c):m_pScene(pScene)
+
+Debug::Debug()
+{
+}
+
+void Debug::Init(Context * c)
 {
 	pShader = c->m_pResources->GetShader("Debug");
 
@@ -9,9 +14,21 @@ Debug::Debug(Scene * pScene, Context* c):m_pScene(pScene)
 
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3)*2, NULL, GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * 2, NULL, GL_STREAM_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vec3), (GLvoid*)0);
+	c->m_pDebuger = std::unique_ptr<Debug>(this);
+}
+
+void Debug::ShutDown()
+{
+}
+
+void Debug::SetView(CameraComponent * cam)
+{
+	m_View = cam->GetViewMatrix();
+	m_Proj = cam->GetProjMatrix();
+	VP = cam->GetVPMatrix();
 }
 
 Debug::~Debug()
@@ -27,7 +44,6 @@ void Debug::DrawLine(const vec3 & from, const vec3 & to, const vec3 & color, con
 	db.color = color;
 	db.pos[0] = from;
 	db.pos[1] = to;
-	db.MVP = m_pScene->GetViewProj()*m;
 	m_Lists.push_back(db);
 }
 
@@ -39,11 +55,11 @@ void Debug::Render()
 	pShader->Use();
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	pShader->SetUniformMatrix("MVP", glm::value_ptr(VP));
 	for (size_t i = 0; i < m_Lists.size(); i++)
 	{
 		DebugData& db = m_Lists[i];
 		pShader->SetUniform("color", db.color);
-		pShader->SetUniformMatrix("MVP", glm::value_ptr(db.MVP));
 		glBufferSubData(GL_ARRAY_BUFFER, 0, 2*sizeof(vec3), db.pos);
 		glDrawArrays(GL_LINES, 0, 2);
 		

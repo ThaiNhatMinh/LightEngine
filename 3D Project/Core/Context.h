@@ -15,6 +15,7 @@ class Context
 public:
 	std::unique_ptr<Windows>			m_pWindows;
 	std::unique_ptr<OpenGLRenderer>		m_pRenderer;
+	std::unique_ptr<Debug>				m_pDebuger;
 	std::unique_ptr<EventManager>		m_pEventManager;
 	std::unique_ptr<GameTimer>			m_pTimer;
 	std::unique_ptr<Resources>			m_pResources;

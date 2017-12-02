@@ -1,0 +1,24 @@
+<Weapon>
+  <AK-47>
+    <Class Class="3"/>
+    <LeftClickAttribute></LeftClickAttribute>
+    <RightClickAttribute></RightClickAttribute>
+    <ModelFileName>MODELS\WEAPONS\AK47.LTB</ModelFileName>
+    <SkinFileName>TEXTURES\WEAPONS\AK47.DTX</SkinFileName>
+    <PViewModelFileName>MODELS\PLAYERVIEW\PV-AK47.LTB</PViewModelFileName>
+    <PViewSkinFileName>TEXTURES\PLAYERVIEW\PV-AK47.DTX</PViewSkinFileName>
+    <GViewAnimName>M4A1</GViewAnimName>
+    <Info Range="300.0" MaxAmmo="60" AmmoPerMagazine="30" AmmoDamage="116" TargetSlot="0" />
+  </AK-47>
+  <M4A1>
+    <Class Class="3"/>
+    <LeftClickAttribute></LeftClickAttribute>
+    <RightClickAttribute></RightClickAttribute>
+    <ModelFileName>MODELS\WEAPONS\M4A1.LTB</ModelFileName>
+    <SkinFileName>TEXTURES\WEAPONS\L-M4A1.DTX</SkinFileName>
+    <PViewModelFileName>MODELS\PLAYERVIEW\PV-M4A1.LTB</PViewModelFileName>
+    <PViewSkinFileName>TEXTURES\PLAYERVIEW\PV-M4A1.DTX</PViewSkinFileName>
+    <GViewAnimName>M4A1</GViewAnimName>
+    <Info Range="300.0" MaxAmmo="60" AmmoPerMagazine="30" AmmoDamage="116" TargetSlot="0" />
+  </M4A1>
+</Weapon>

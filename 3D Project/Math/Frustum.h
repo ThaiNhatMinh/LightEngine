@@ -40,5 +40,5 @@ public:
 	void Update(const vec3& pos,const vec3& front,const vec3& right);
 	void Render(Shader* shader, mat4& view);
 
-	mat4 GetProjMatrix();
+	const mat4& GetProjMatrix();
 };

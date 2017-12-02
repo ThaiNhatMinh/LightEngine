@@ -177,7 +177,7 @@ void Frustum::Render(Shader* shader,mat4& view)
 
 }
 
-mat4 Frustum::GetProjMatrix()
+const mat4& Frustum::GetProjMatrix()
 {
 	return m_ProjMatrix;
 }

@@ -58,7 +58,7 @@ tinyxml2::XMLElement * CameraComponent::VGenerateXml(tinyxml2::XMLDocument * p)
 	return nullptr;
 }
 
-mat4 CameraComponent::GetViewMatrix()
+const mat4& CameraComponent::GetViewMatrix()
 {
 	vec3 pos = m_pTransform->GetPosition();
 	vec3 front = m_pTransform->GetFront();
@@ -68,12 +68,12 @@ mat4 CameraComponent::GetViewMatrix()
 	return ViewMatrix;
 }
 
-mat4 CameraComponent::GetProjMatrix()
+const mat4& CameraComponent::GetProjMatrix()
 {
 	return m_Frustum.GetProjMatrix();
 }
 
-mat4 CameraComponent::GetVPMatrix()
+const mat4& CameraComponent::GetVPMatrix()
 {
 	return m_Frustum.GetProjMatrix()*GetViewMatrix();
 }

@@ -15,7 +15,7 @@ private:
 	Light				m_DirectionLight; // only one direction light
 	CameraComponent		*m_CurrentCamera;
 
-	Debug				m_Debug;
+	
 	ActorFactory		m_ActorFactory;
 	Context*			m_Context;
 public:
@@ -30,7 +30,6 @@ public:
 	Light GetDirLight() { return m_DirectionLight; };
 	void SetCamera(CameraComponent* pActor);
 	mat4 GetViewProj();
-	Debug& GetDebug() { return m_Debug; }
 	ActorFactory& GetActorFactory() { return m_ActorFactory; }
 	CameraComponent* GetCamera() { return m_CurrentCamera; }
 	Camera* GetDefaultCamera() { return &m_DefaultCamera; }

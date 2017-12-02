@@ -13,6 +13,7 @@ void Application::SetupSubmodule()
 	DirectInput		*D = new DirectInput();
 	BulletPhysics	*B = new BulletPhysics();
 	Console			*Con = new Console();
+	Debug			*Db = new Debug();
 
 	W->Init(C);
 	O->Init(C);
@@ -22,7 +23,7 @@ void Application::SetupSubmodule()
 	D->Init(C);
 	B->Init(C);
 	Con->Init(C);
-
+	Db->Init(C);
 	Actor::m_Context = C;
 	ActorComponent::m_Context = C;
 	ISubSystem::m_Context = C;
@@ -34,10 +35,10 @@ Application::~Application()
 {
 	//E_DEBUG("Application ShutDown...");
 
-	delete m_pScene;
+	//delete m_pScene;
 	
 }
-
+/*
 void Application::Start()
 {
 	m_pScene = new Scene(m_Context.get());
@@ -56,8 +57,8 @@ void Application::Start()
 
 	//Actor* p2 = ;
 
-	//Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
-	//m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
+	Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
+	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
 	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
 	Actor* pp;// = factory.CreateActor("GameAssets\\ACTOR\\Camera.xml", nullptr, nullptr);
 			  //m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
@@ -77,14 +78,9 @@ void Application::Start()
 	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 	pp = factory.CreateActor("GameAssets\\ACTOR\\PV.xml", nullptr, nullptr);
 	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-}
+	
+}*/
 
-
-Debug & Application::GetDebug()
-{
-	// TODO: insert return statement here
-	return m_pScene->GetDebug();
-}
 
 void Application::MainLoop()
 {
@@ -134,11 +130,11 @@ void Application::MainLoop()
 		//cout << gTimer()->GetFPS() << endl;
 		//glPolygonMode(GL_FRONT, GL_LINE);
 		
-		m_pScene->OnUpdate(G->GetDeltaTime());
+		//m_pScene->OnUpdate(G->GetDeltaTime());
 
 		O->Clear();
 
-		m_pScene->OnRender();
+		//m_pScene->OnRender();
 
 		m_Context->m_pConsole->Draw();
 
