@@ -195,6 +195,7 @@
     <ClInclude Include="Core\Debug.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="PIplm.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -349,6 +350,7 @@
     <ClCompile Include="Core\Debug.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Pimpl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

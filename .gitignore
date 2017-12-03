@@ -210,3 +210,5 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/3D Project/Pimpl.cpp
+/3D Project/PIplm.h

@@ -207,6 +207,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Physic\Physic.h" />
     <ClInclude Include="Physic\PhysicDebugDrawer.h" />
+    <ClInclude Include="PIplm.h" />
     <ClInclude Include="ResourceCache\LTBDef.h" />
     <ClInclude Include="ResourceCache\LTBFileLoader.h" />
     <ClInclude Include="ResourceCache\ModelCache.h" />
@@ -269,6 +270,7 @@
     </ClCompile>
     <ClCompile Include="Physic\Physic.cpp" />
     <ClCompile Include="Physic\PhysicDebugDrawer.cpp" />
+    <ClCompile Include="Pimpl.cpp" />
     <ClCompile Include="ResourceCache\LTBFileLoader.cpp" />
     <ClCompile Include="ResourceCache\ResourceLoader.cpp" />
     <ClCompile Include="Source.cpp" />

@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "Graphics3D\OpenGLRenderer.h"
-class MYDLL_API Application : public IApplication
+class Application : public IApplication
 {
 public:
 	Application() {};
