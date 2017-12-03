@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>E:\Code Collection\3D Project\3D Project;E:\Code Collection\3D Project\3D Project\include;E:\Code Collection\bullet-2.79\src;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Code Collection\3D Project\3D Project;E:\Code Collection\3D Project\3D Project\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\Code Collection\3D Project\3D Project;E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\3D Project\Release;E:\Code Collection\bullet-2.79\lib\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -101,6 +101,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
