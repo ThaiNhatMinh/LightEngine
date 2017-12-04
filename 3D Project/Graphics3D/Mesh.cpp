@@ -90,14 +90,14 @@ void imguiMesh::Init()
 #define OFFSETOF(TYPE, ELEMENT) ((size_t)&(((TYPE *)0)->ELEMENT))
 
 	// position
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, pos));
+	glEnableVertexAttribArray(SHADER_POSITION_ATTRIBUTE);
+	glVertexAttribPointer(SHADER_POSITION_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, pos));
 	// nuv
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, uv));
+	glEnableVertexAttribArray(SHADER_NORMAL_ATTRIBUTE);
+	glVertexAttribPointer(SHADER_NORMAL_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, uv));
 	//color
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
+	glEnableVertexAttribArray(SHADER_TEXCOORD_ATTRIBUTE);
+	glVertexAttribPointer(SHADER_TEXCOORD_ATTRIBUTE, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
 #undef OFFSETOF
 
 	Topology = GL_TRIANGLES;

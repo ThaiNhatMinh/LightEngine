@@ -10,6 +10,7 @@ public:
 	PrimShader() {};
 	virtual ~PrimShader() { };
 	PrimShader(const char* vertexShaderFile, const char* fragmentShaderFile) :Shader(vertexShaderFile,fragmentShaderFile) {};
-	virtual void SetupRender(Scene* pScene, Actor* pActor);
 
+	virtual void SetupRender(Scene* pScene, Actor* pActor);
+	virtual void LinkShader();
 };

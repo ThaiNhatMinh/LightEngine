@@ -12,5 +12,5 @@ public:
 	~TexShader() {  };
 
 	virtual void SetupRender(Scene* pScene, Actor* pActor);
-
+	virtual void LinkShader();
 };

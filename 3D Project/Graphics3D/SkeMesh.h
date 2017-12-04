@@ -30,5 +30,6 @@ public:
 public:
 	SkeMesh() { Tex = 0; };
 	~SkeMesh() {};
-	void Finalize(Shader* p);
+	virtual void Init();
+	virtual void Shutdown();
 };

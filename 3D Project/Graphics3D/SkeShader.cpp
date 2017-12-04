@@ -31,6 +31,14 @@ void SkeShader::SetupRender(Scene * pScene, Actor * pActor)
 
 void SkeShader::LinkShader()
 {
+	glBindAttribLocation(m_iProgramID, SHADER_POSITION_ATTRIBUTE, "position");
+	glBindAttribLocation(m_iProgramID, SHADER_NORMAL_ATTRIBUTE, "normal");
+	glBindAttribLocation(m_iProgramID, SHADER_TEXCOORD_ATTRIBUTE, "uv");
+	glBindAttribLocation(m_iProgramID, SHADER_BLEND1_ATTRIBUTE, "ws1");
+	glBindAttribLocation(m_iProgramID, SHADER_BLEND2_ATTRIBUTE, "ws2");
+	glBindAttribLocation(m_iProgramID, SHADER_BLEND3_ATTRIBUTE, "ws3");
+	glBindAttribLocation(m_iProgramID, SHADER_BLEND4_ATTRIBUTE, "ws4");
+
 	Shader::LinkShader();
 
 	for (auto it = m_UniformLists.begin(); it != m_UniformLists.end(); it++)

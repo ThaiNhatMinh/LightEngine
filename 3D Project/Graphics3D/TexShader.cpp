@@ -20,3 +20,11 @@ void TexShader::SetupRender(Scene * pScene, Actor * pActor)
 	
 
 }
+
+void TexShader::LinkShader()
+{
+	glBindAttribLocation(m_iProgramID, SHADER_POSITION_ATTRIBUTE, "position");
+	glBindAttribLocation(m_iProgramID, SHADER_NORMAL_ATTRIBUTE, "normal");
+	glBindAttribLocation(m_iProgramID, SHADER_TEXCOORD_ATTRIBUTE, "uv");
+	Shader::LinkShader();
+}
