@@ -1,7 +1,10 @@
 #pragma once
 #include "pch.h"
-struct Texture
+class Texture: public GLBO
 {
+public:
+	virtual void Init();
+	virtual void Shutdown();
 	char szName[64];
 	GLuint iIndex;
 	GLuint iWidth;

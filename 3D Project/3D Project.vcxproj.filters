@@ -373,6 +373,9 @@
     <ClCompile Include="MyGame\Weapon.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceCache\Texture.cpp">
+      <Filter>ResourceCache</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

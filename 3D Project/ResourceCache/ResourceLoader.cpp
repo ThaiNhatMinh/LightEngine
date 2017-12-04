@@ -201,6 +201,10 @@ HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, 
 	hm->hscale = hscale;
 	strcpy(hm->filename, filename);
 	// [TODO]- Devide large mesh into small mesh
+
+	// Generate Buffer Objet
+	p->Init();
+
 	hm->m_Mesh.push_back(std::unique_ptr<IMesh>(p));
 
 	m_HeightMaps.push_back(std::unique_ptr<HeightMap>(hm));
@@ -234,9 +238,9 @@ Texture * Resources::LoadTexture(const char * filename)
 	ILubyte *Data = ilGetData();
 	iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
-	GLuint id;
-	glGenTextures(1, &id);
-	glBindTexture(GL_TEXTURE_2D, id);
+	tex = new Texture;
+	tex->Init();
+
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -249,9 +253,8 @@ Texture * Resources::LoadTexture(const char * filename)
 
 	ilResetMemory();
 	
-	tex = new Texture;
+	
 	sprintf(tex->szName, "%s", filename);
-	tex->iIndex = id;
 	tex->iWidth = width;
 	tex->iHeight = height;
 
@@ -518,6 +521,9 @@ ModelCache * Resources::LoadModel(const char * filename)
 	for (size_t i = 0; i < pModel->pMeshs.size(); i++)
 	{
 		SkeMesh* pMesh = pModel->pMeshs[i].get();
+		// Generate Buffer Object
+		pMesh->Init();
+
 		for (size_t j = 0; j < pMesh->m_Vertexs.size(); j++)
 		{
 			SkeVertex& vertex = pMesh->m_Vertexs[j];
@@ -594,12 +600,6 @@ ModelCache * Resources::LoadModelXML(const char * XMLFile)
 	mat.Ks.z = pKs->FloatAttribute("b", 1.0f);
 	mat.exp = vec3(pKs->FloatAttribute("exp", 32.0f));
 
-	
-	// Get mesh list and update Material 
-	for (size_t i = 0; i < pModel->pMeshs.size(); i++)
-	{
-		pModel->pMeshs[i]->material = mat;
-	}
 
 	// Done return ModelCache
 
@@ -716,6 +716,31 @@ void Resources::LoadResources(string path)
 
 void Resources::ShutDown()
 {
+	for (size_t i = 0; i < m_Textures.size(); i++)
+	{
+		m_Textures[i]->Shutdown();
+	}
 
+	for (size_t i = 0; i < m_ModelCaches.size(); i++)
+	{
+		
+		for (size_t j = 0; j < m_ModelCaches[i]->pMeshs.size(); j++)
+		{
+			m_ModelCaches[i]->pMeshs[j]->Shutdown();
+		}
+	}
+
+	for (size_t i = 0; i < m_ShaderList.size(); i++)
+	{
+		m_ShaderList[i]->Shutdown();
+	}
+
+	for (size_t i = 0; i < m_HeightMaps.size(); i++)
+	{
+		for (size_t j = 0; j < m_HeightMaps[i]->m_Mesh.size(); j++)
+		{
+			m_HeightMaps[i]->m_Mesh[i]->Shutdown();
+		}
+	}
 }
 

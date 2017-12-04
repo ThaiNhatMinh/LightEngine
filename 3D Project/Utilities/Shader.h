@@ -12,7 +12,7 @@ enum ShaderAttribute
 	SHADER_BLEND4_ATTRIBUTE
 };
 // base shader class
-class Shader
+class Shader: public GLBO
 {
 public:
 	GLuint m_iProgramID;
@@ -25,7 +25,8 @@ public:
 public:
 	Shader() {};
 	Shader(const char* vertexShaderFile, const char* fragmentShaderFile);
-
+	virtual void Init() {};
+	virtual void Shutdown();
 	virtual ~Shader();
 	virtual void LinkShader();
 	virtual void SetupRender(Scene*, Actor*) {};

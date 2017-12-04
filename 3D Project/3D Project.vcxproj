@@ -279,6 +279,7 @@
     <ClCompile Include="Physic\PhysicDebugDrawer.cpp" />
     <ClCompile Include="ResourceCache\LTBFileLoader.cpp" />
     <ClCompile Include="ResourceCache\ResourceLoader.cpp" />
+    <ClCompile Include="ResourceCache\Texture.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Utilities\Input.cpp" />
     <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp" />
