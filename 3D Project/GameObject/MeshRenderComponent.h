@@ -8,6 +8,7 @@ class MeshRenderComponent : public ActorComponent
 protected:
 	vector<IMesh*>			m_MeshList;
 	Shader					*m_pShader;
+	Material				m_Material;
 public:
 	static const char* Name;
 	

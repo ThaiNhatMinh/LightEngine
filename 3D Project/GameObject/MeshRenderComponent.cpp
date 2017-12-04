@@ -4,10 +4,6 @@ const char* MeshRenderComponent::Name = "MeshRenderComponent";
 
 void MeshRenderComponent::VPostInit(void)
 {
-	for (vector<IMesh*>::iterator it = m_MeshList.begin(); it != m_MeshList.end(); it++)
-	{
-		(*it)->Finalize(m_pShader);
-	}
 }
 
 bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
@@ -30,16 +26,6 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 		}
 	}
 	
-	const tinyxml2::XMLElement* pScale = pData->FirstChildElement("Scale");
-	if (pScale)
-	{
-		vec3 scale(pScale->DoubleAttribute("x", 1.0), pScale->DoubleAttribute("y", 1.0), pScale->DoubleAttribute("z", 1.0));
-
-		for (size_t i = 0; i < m_MeshList.size(); i++)
-		{
-			m_MeshList[i]->Scale(scale);
-		}
-	}
 
 	const tinyxml2::XMLElement* pShader = pData->FirstChildElement("Shader");
 	if (pShader)
@@ -66,22 +52,15 @@ void MeshRenderComponent::Render(Scene* pScene)
 
 	RenderAPICore* pRender = m_Context->m_pRenderer.get();
 
+	
+	m_pShader->SetUniform("gMaterial.Ka", m_Material.Ka);
+	m_pShader->SetUniform("gMaterial.Kd", m_Material.Kd);
+	m_pShader->SetUniform("gMaterial.Ks", m_Material.Ks);
+	m_pShader->SetUniform("gMaterial.exp", m_Material.exp);
+
 	for (size_t i = 0; i < m_MeshList.size(); i++)
 	{
-		if (m_MeshList[i]->Tex) pRender->SetTexture(m_MeshList[i]->Tex);
-		else
-		{
-			//assert(m_MeshList[i]->Tex);
-			m_pShader->SetUniform("ObjColor", m_MeshList[i]->Color);
-		}
-
-		// ----- Material per Mesh ------
-
-		const Material& mat = m_MeshList[i]->material;
-		m_pShader->SetUniform("gMaterial.Ka", mat.Ka);
-		m_pShader->SetUniform("gMaterial.Kd", mat.Kd);
-		m_pShader->SetUniform("gMaterial.Ks", mat.Ks);
-		m_pShader->SetUniform("gMaterial.exp", mat.exp);
+		pRender->SetTexture(m_MeshList[i]->Tex);
 
 		// ------- Render mesh ----------
 		pRender->SetVertexArrayBuffer(m_MeshList[i]->VAO);
