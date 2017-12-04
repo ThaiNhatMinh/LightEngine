@@ -1,0 +1,31 @@
+<Actor type="Cube" name="Box">
+  
+
+	<ColliderComponent>
+		<Shape>Box</Shape>
+		<HalfSize x="1" y="1" z="1" />
+	</ColliderComponent>
+	
+	<RigidBodyComponent>
+		<Mass value="50.0" />
+		<PhysicsMaterial>player</PhysicsMaterial>
+		<RigidBodyTransform>
+			<Position x="0.0" y="0.0" z="0.0"/>
+		</RigidBodyTransform>
+	</RigidBodyComponent>
+	  
+  
+	<TransformComponent>
+		<Position x="0" y="200" z="0"/>
+		<YawPitchRoll x="0" y="0" z="0"/>
+	</TransformComponent>
+	
+	<MeshRenderComponent>
+		<Model Shape="Cube" />
+		<Scale x="1.0" y="1.0" z="1.0"/>
+    <Shader name="NoTexture" />
+    <Color r ="1.0" g="0.0" b="1.0" />
+	</MeshRenderComponent>
+  
+  
+</Actor>

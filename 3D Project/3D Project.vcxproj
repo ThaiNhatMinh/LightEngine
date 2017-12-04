@@ -81,7 +81,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>D:\Code Collection\3D Project\3D Project\include;E:\Code Collection\Game Coding Complete\Source\GCC4\3rdParty\bullet-2.79\src;E:\Code Collection\3D Project\3D Project;$(IncludePath)</IncludePath>
     <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet-2.79\lib\Release;$(LibraryPath)</LibraryPath>
-    <TargetName>Engine</TargetName>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -167,6 +167,7 @@
     <ClInclude Include="EventManager\Events.h" />
     <ClInclude Include="EventManager\PhysicsEvents.h" />
     <ClInclude Include="EventManager\TestScriptEvent.h" />
+    <ClInclude Include="GameHeader.h" />
     <ClInclude Include="GameObject\Actor.h" />
     <ClInclude Include="GameObject\ActorComponent.h" />
     <ClInclude Include="GameObject\ActorFactory.h" />
@@ -204,10 +205,14 @@
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="Math\Frustum.h" />
     <ClInclude Include="Math\Plane.h" />
+    <ClInclude Include="MyGame\CharacterResource.h" />
+    <ClInclude Include="MyGame\EvtData.h" />
+    <ClInclude Include="MyGame\Game.h" />
+    <ClInclude Include="MyGame\Weapon.h" />
+    <ClInclude Include="MyGame\WeaponResource.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Physic\Physic.h" />
     <ClInclude Include="Physic\PhysicDebugDrawer.h" />
-    <ClInclude Include="PIplm.h" />
     <ClInclude Include="ResourceCache\LTBDef.h" />
     <ClInclude Include="ResourceCache\LTBFileLoader.h" />
     <ClInclude Include="ResourceCache\ModelCache.h" />
@@ -263,6 +268,8 @@
     <ClCompile Include="Math\AABB.cpp" />
     <ClCompile Include="Math\Frustum.cpp" />
     <ClCompile Include="Math\Plane.cpp" />
+    <ClCompile Include="MyGame\Game.cpp" />
+    <ClCompile Include="MyGame\Weapon.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
@@ -270,7 +277,6 @@
     </ClCompile>
     <ClCompile Include="Physic\Physic.cpp" />
     <ClCompile Include="Physic\PhysicDebugDrawer.cpp" />
-    <ClCompile Include="Pimpl.cpp" />
     <ClCompile Include="ResourceCache\LTBFileLoader.cpp" />
     <ClCompile Include="ResourceCache\ResourceLoader.cpp" />
     <ClCompile Include="Source.cpp" />

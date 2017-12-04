@@ -29,18 +29,6 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 			m_MeshList.push_back(pModel->pMeshs[i].get());
 		}
 	}
-	else //if(!strcmp(pFileName ,pModelPath->Attribute("Shape")))
-	{
-		// Not support now. Return
-		return false;
-		//m_MeshList.push_back(m_Context->m_pResources->CreateShape(SHAPE_BOX));
-
-		const tinyxml2::XMLElement* pColor = pData->FirstChildElement("Color");
-		for (size_t i = 0; i < m_MeshList.size(); i++)
-		{
-			m_MeshList[i]->Color = vec3(pColor->DoubleAttribute("r", 1.0f), pColor->DoubleAttribute("g", 1.0f), pColor->DoubleAttribute("b", 1.0f));
-		}
-	}
 	
 	const tinyxml2::XMLElement* pScale = pData->FirstChildElement("Scale");
 	if (pScale)
@@ -73,6 +61,7 @@ tinyxml2::XMLElement * MeshRenderComponent::VGenerateXml(tinyxml2::XMLDocument *
 
 void MeshRenderComponent::Render(Scene* pScene)
 {
+	if (m_MeshList.empty()) return;
 	m_pShader->SetupRender(pScene, m_pOwner);
 
 	RenderAPICore* pRender = m_Context->m_pRenderer.get();

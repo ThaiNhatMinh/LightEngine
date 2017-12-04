@@ -173,3 +173,5 @@ using glm::quat;
 #include "Core\Windows.h"
 #include "Core\Application.h"
 #include "Core\Context.h"
+
+#include "GameHeader.h"

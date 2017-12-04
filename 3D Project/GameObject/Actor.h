@@ -31,6 +31,8 @@ public:
 
 	virtual void VSetName(string name) { m_Name = name; }
 	virtual string VGetName() {	return m_Name;	};
+	virtual void VSetTag(string tag) { m_Tag=tag; };
+	virtual string VGetTag() { return m_Tag; };
 	virtual void VSetTransform(const mat4 *toWorld);
 	virtual mat4 VGetTransform();
 	virtual mat4 VGetGlobalTransform();

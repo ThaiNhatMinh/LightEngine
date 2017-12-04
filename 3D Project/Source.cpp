@@ -8,7 +8,7 @@
 #include "pch.h"
 
 
-/*
+
 void main()
 {
 
@@ -20,7 +20,7 @@ void main()
 
 
 
-	Application app;
+	MyGame app;
 	app.MainLoop();
 
-}*/
+}

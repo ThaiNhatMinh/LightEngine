@@ -2,6 +2,7 @@
 #include "pch.h"
 
 // This component using to render model for actor
+// If m_MeshList is null mean 
 class MeshRenderComponent : public ActorComponent
 {
 protected:

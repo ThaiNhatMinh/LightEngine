@@ -195,7 +195,24 @@
     <ClInclude Include="Core\Debug.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="PIplm.h" />
+    <ClInclude Include="MyGame\Game.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="GameHeader.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\WeaponResource.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\CharacterResource.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Weapon.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\EvtData.h">
+      <Filter>MyGame\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -350,7 +367,12 @@
     <ClCompile Include="Core\Debug.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Pimpl.cpp" />
+    <ClCompile Include="MyGame\Game.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Weapon.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -409,6 +431,12 @@
     </Filter>
     <Filter Include="GameAssets\WEAPON">
       <UniqueIdentifier>{7bb93134-dcf5-459d-8479-958495850ed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyGame">
+      <UniqueIdentifier>{e94714dd-ad1b-4fa2-a4ee-a2ad7f9ce945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyGame\Event">
+      <UniqueIdentifier>{dde52c79-37a7-4582-b1c8-f2612d78f59c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

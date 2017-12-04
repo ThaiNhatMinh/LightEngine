@@ -30,26 +30,34 @@ public:
 	}
 };
 
-// mesh interface
-class IMesh
+// OpenGL Buffer Object
+// All other buffer must deliver form this class
+// Call to Init to init buffer
+// Call to shutdown to delete buffer
+// Not to delete buffer in destructor because it lead to auto delete buffer when still run
+class GLBO
 {
 public:
-	string					Name;
-	unsigned int			VAO;
-	unsigned int			VBO;
-	unsigned int			EBO;
-	unsigned int			NumIndices;
-	Texture*				Tex;
-	vec3					Color;
-	GLuint					Topology;
-	Material				material;
+	virtual ~GLBO() {};
+	virtual void Init() = 0;
+	virtual void Shutdown() = 0;
+};
+// mesh interface
+class IMesh: public GLBO
+{
+public:
 	// Use to generate Vertex Buffer Object, Vertex Array Object.
-	virtual void Finalize(Shader* p) = 0;
-	virtual void Scale(vec3 scale) {};
-
-	
-	// Virtual destructor
+	IMesh() :VAO(0), VBO(0), EBO(0){}
+	virtual void Init() = 0;
+	virtual void Shutdown() = 0;
 	virtual ~IMesh() {};
+	string					Name;
+	GLuint					VAO;
+	GLuint					VBO;
+	GLuint					EBO;
+	GLuint					NumIndices;
+	Texture*				Tex;
+	GLuint					Topology;	
 };
 
 class ISceneNode
@@ -139,7 +147,9 @@ class IEvent
 public:
 	virtual ~IEvent(void) {}
 	virtual const EventType& VGetEventType(void) const = 0;
-	virtual float GetTimeStamp(void) const = 0;
+	virtual float GetTimeStamp(void) const {
+		return 0;
+	};
 	virtual void VSerialize(std::ostrstream& out) const = 0;
 	virtual void VDeserialize(std::istrstream& in) = 0;
 	virtual IEvent* VCopy(void) const = 0;
@@ -242,8 +252,9 @@ public:
 class IGame
 {
 public:
-	virtual void Init() {};
+	virtual void Init(Context*) {};
 	virtual void Update(float dt) {};
 	virtual void Render() {};
+	virtual void ShutDown() {};
 	virtual ~IGame() {};
 };

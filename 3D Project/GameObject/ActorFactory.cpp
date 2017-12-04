@@ -103,8 +103,9 @@ Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLEleme
 		return nullptr;
 	}
 
+	tinyxml2::XMLElement* pComponentData = pActorData->FirstChildElement("Component");
 	// Loop through each child element and load the component
-	for (tinyxml2::XMLElement* pNode = pActorData->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+	for (tinyxml2::XMLElement* pNode = pComponentData->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
 	{
 		ActorComponent* pComponent(VCreateComponent(pNode));
 		if (pComponent)

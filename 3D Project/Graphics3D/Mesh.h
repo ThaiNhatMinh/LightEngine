@@ -17,9 +17,8 @@ public:
 	Mesh();
 	~Mesh();
 
-	// dirive class can redifine this function to add more data;
-	virtual void Finalize(Shader* p);
-	virtual void Scale(vec3 scale);
+	virtual void Init();
+	virtual void Shutdown();
 };
 
 struct imguiVertex
@@ -38,6 +37,6 @@ public:
 	imguiMesh();
 	~imguiMesh();
 
-	// dirive class can redifine this function to add more data;
-	virtual void Finalize(Shader* p);
+	virtual void Init();
+	virtual void Shutdown();
 };

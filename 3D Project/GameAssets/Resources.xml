@@ -6,8 +6,8 @@
   <Shader Name="Shader" FileVS="SHADER\imgui.vs" FileFS="SHADER\imgui.fs" />
   <HeightMap File="WORLD\heightmap.png" Size="40" Width="-1" Height="-1" HeightScale="2.0" SubDevided="1"/>
   
-  <Texture File="TEXTURE\Default.png" />
-  <Texture File="TEXTURE\grass_autumn_orn_d.jpg" />
+  <Texture File="TEXTURES\Default.png" />
+  <Texture File="TEXTURES\grass_autumn_orn_d.jpg" />
   <Texture File="WORLD\heightmap.png" />
   <ModelXML File="MODEL\707.xml"/>
   <ModelXML File="MODEL\AK47.xml"/>
