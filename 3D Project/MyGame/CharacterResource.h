@@ -11,7 +11,7 @@ class CharacterResource
 public:
 	string Name;
 	string ModelFile[2];
-	string TexFile[2];
+	map<string,string> TexFile[2];
 	string ArmTex[2];
 	string HandTex[2];
 	string AnimFile;

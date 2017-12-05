@@ -52,6 +52,7 @@ public:
 	template<class ComponentType>ComponentType* GetComponent(ComponentId id);
 	template<class ComponentType>ComponentType* GetComponent(const char*  name);
 
+	template<class ComponentType>ComponentType* RemoveComponent(const char*  name);
 	const ActorComponents* GetComponents() { return &m_components; }
 	TransformComponent* GetTransform();
 
@@ -97,3 +98,19 @@ inline ComponentType * Actor::GetComponent(const char * name)
 	}
 }
 
+template<class ComponentType>ComponentType* Actor::RemoveComponent(const char*  name)
+{
+	ComponentId id = ActorComponent::GetIdFromName(name);
+	ActorComponents::iterator findIt = m_components.find(id);
+	if (findIt != m_components.end())
+	{
+		ActorComponent* pBase(findIt->second.release());
+		m_components.erase(id);
+		ComponentType* pWeakSub = static_cast<ComponentType*>(pBase);
+		return pWeakSub;  // return the weak pointer
+	}
+	else
+	{
+		return nullptr;
+	}
+}

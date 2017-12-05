@@ -15,12 +15,15 @@ void Game::Init(Context *c)
 
 	Actor*pp = factory.CreateActor("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
 	m_Scene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-	pp = factory.CreateActor("GameAssets\\ACTOR\\PV.xml", nullptr, nullptr);
+	pp = factory.CreateActor("GameAssets\\ACTOR\\Camera.xml", nullptr, nullptr);
 	m_Scene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 
 	// send wp data;
+	std::shared_ptr<const IEvent> p2(new EvtData_PlayerCharData(m_CharacterResources));
+	c->m_pEventManager->VTriggerEvent(p2);
 	std::shared_ptr<const IEvent> p(new EvtData_PlayerWpData(m_WeaponResources));
 	c->m_pEventManager->VTriggerEvent(p);
+	
 
 }
 
@@ -43,9 +46,12 @@ void Game::LoadWeapon()
 	tinyxml2::XMLElement* pWeapon = doc.FirstChildElement("Weapon");
 	
 	// Loop through each child element and load the component
+	int i = 0;
 	for (tinyxml2::XMLElement* pNode = pWeapon->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
 	{
 		WeaponResource wr;
+		wr.index = i++;
+		wr.Name = pNode->Value();
 		wr.Class = pNode->FirstChildElement("Class")->DoubleAttribute("Class");
 		wr.ModelFile = pNode->FirstChildElement("ModelFileName")->Attribute("File");
 		wr.ModelTex = pNode->FirstChildElement("SkinFileName")->Attribute("File");
@@ -58,7 +64,7 @@ void Game::LoadWeapon()
 		wr.AmmoPerMagazine = pNode->FirstChildElement("Info")->DoubleAttribute("AmmoPerMagazine");
 		wr.AmmoDamage = pNode->FirstChildElement("Info")->DoubleAttribute("AmmoDamage");
 		wr.TargetSlot = pNode->FirstChildElement("Info")->DoubleAttribute("TargetSlot");
-
+		
 		m_WeaponResources.push_back(wr);
 	}
 
@@ -77,17 +83,21 @@ void Game::LoadCharacter()
 		cr.Name = pNode->Value();
 		tinyxml2::XMLElement* pBL = pNode->FirstChildElement("BL");
 		cr.ModelFile[TEAM_BL] = pBL->FirstChildElement("Model")->Attribute("File");
-		cr.ModelFile[TEAM_BL] = pBL->FirstChildElement("Skin")->Attribute("File");
-		cr.ModelFile[TEAM_BL] = pBL->FirstChildElement("Arm")->Attribute("File");
-		cr.ModelFile[TEAM_BL] = pBL->FirstChildElement("Hand")->Attribute("File");
+		for (const tinyxml2::XMLAttribute* pSkin = pBL->FirstChildElement("Skin")->FirstAttribute(); pSkin; pSkin = pSkin->Next())
+			cr.TexFile[TEAM_BL].insert({ pSkin->Name(),pSkin->Value() });
+		cr.ArmTex[TEAM_BL] = pBL->FirstChildElement("Arm")->Attribute("File");
+		cr.HandTex[TEAM_BL] = pBL->FirstChildElement("Hand")->Attribute("File");
 
-		tinyxml2::XMLElement* pBL = pNode->FirstChildElement("GR");
+		pBL = pNode->FirstChildElement("GR");
 		cr.ModelFile[TEAM_GR] = pBL->FirstChildElement("Model")->Attribute("File");
-		cr.ModelFile[TEAM_GR] = pBL->FirstChildElement("Skin")->Attribute("File");
-		cr.ModelFile[TEAM_GR] = pBL->FirstChildElement("Arm")->Attribute("File");
-		cr.ModelFile[TEAM_GR] = pBL->FirstChildElement("Hand")->Attribute("File");
+		for (const tinyxml2::XMLAttribute* pSkin = pBL->FirstChildElement("Skin")->FirstAttribute(); pSkin; pSkin = pSkin->Next())
+			cr.TexFile[TEAM_GR].insert({ pSkin->Name(),pSkin->Value() });
+		cr.ArmTex[TEAM_GR] = pBL->FirstChildElement("Arm")->Attribute("File");
+		cr.HandTex[TEAM_GR] = pBL->FirstChildElement("Hand")->Attribute("File");
 
 		cr.AnimFile = pNode->FirstChildElement("Animation")->Attribute("File");
+		
+		
 		m_CharacterResources.push_back(cr);
 	}
 

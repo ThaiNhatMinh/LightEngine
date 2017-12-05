@@ -14,10 +14,13 @@ void Debug::Init(Context * c)
 
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * 2, NULL, GL_STREAM_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vec3), (GLvoid*)0);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * 2, NULL, GL_STREAM_DRAW);
+	glEnableVertexAttribArray(SHADER_POSITION_ATTRIBUTE);
+	glVertexAttribPointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, sizeof(DebugData), (GLvoid*)0);
+	glEnableVertexAttribArray(SHADER_COLOR_ATTRIBUTE);
+	glVertexAttribPointer(SHADER_COLOR_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, sizeof(DebugData), (GLvoid*)(sizeof(vec3)));
 	c->m_pDebuger = std::unique_ptr<Debug>(this);
+	glBindVertexArray(0);
 }
 
 void Debug::ShutDown()
@@ -42,9 +45,21 @@ void Debug::DrawLine(const vec3 & from, const vec3 & to, const vec3 & color, con
 	
 	DebugData db;
 	db.color = color;
-	db.pos[0] = from;
-	db.pos[1] = to;
+	db.pos = m*vec4(from,1.0f);
 	m_Lists.push_back(db);
+	db.pos = m*vec4(to,1.0f);
+	m_Lists.push_back(db);
+}
+
+void Debug::DrawCoord(const mat4 & m)
+{
+	vec3 pos = m[3];
+	vec3 x = m[0];
+	vec3 y = m[1];
+	vec3 z = m[2];
+	DrawLine(pos, pos+x, vec3(1, 0, 0));
+	DrawLine(pos, pos+y, vec3(0, 1, 0));
+	DrawLine(pos, pos+z, vec3(0, 0,1));
 }
 
 void Debug::Render()
@@ -55,15 +70,10 @@ void Debug::Render()
 	pShader->Use();
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(DebugData) * m_Lists.size(), &m_Lists[0], GL_STREAM_DRAW);
 	pShader->SetUniformMatrix("MVP", glm::value_ptr(VP));
-	for (size_t i = 0; i < m_Lists.size(); i++)
-	{
-		DebugData& db = m_Lists[i];
-		pShader->SetUniform("color", db.color);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, 2*sizeof(vec3), db.pos);
-		glDrawArrays(GL_LINES, 0, 2);
+	glDrawArrays(GL_LINES, 0, m_Lists.size());
 		
-	}
 	m_Lists.clear();
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);

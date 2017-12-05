@@ -6,7 +6,7 @@ const char* PVAnimationComponent::Name = "PVAnimationComponent";
 
 
 
-void BaseAnimComponent::DrawSkeleton(Debug & debug, const mat4& m)
+void BaseAnimComponent::DrawSkeleton(const mat4& m)
 {
 
 
@@ -17,7 +17,7 @@ void BaseAnimComponent::DrawSkeleton(Debug & debug, const mat4& m)
 		{
 			vec3 pos1 = m_DbTransform[i][3];
 			vec3 pos2 = m_DbTransform[parentID][3];
-			debug.DrawLine(pos1, pos2, vec3(0.5f, 0.3, 1.0f), m);
+			m_Context->m_pDebuger->DrawLine(pos1, pos2, vec3(1.0f, 1.0, 1.0f), m);
 		}
 		/*
 		if (m_pSkeNodes[i]->m_Flag != 1) continue;
@@ -59,8 +59,13 @@ void BaseAnimComponent::DrawSkeleton(Debug & debug, const mat4& m)
 
 }
 
+const vector<mat4>& BaseAnimComponent::GetBoneTransform()
+{
+	return m_DbTransform;
+}
 
-const vector<mat4>& BaseAnimComponent::GetTransform()
+
+const vector<mat4>& BaseAnimComponent::GetVertexTransform()
 {
 	return m_SkeTransform;
 }
@@ -161,6 +166,7 @@ GLint BaseAnimComponent::FindAnimation(string name)
 
 #pragma endregion
 
+#pragma region AnimationComponent
 blendset AnimationComponent::GetBlendSet(GLuint id)
 {
 	Animation* pAnim = m_pAnimList.at(id);
@@ -363,6 +369,9 @@ AABB AnimationComponent::GetUserDimesion()
 	if (m_Control[lower].m_iCurrentAnim<0 || m_Control[lower].m_iCurrentAnim>=m_pAnimList.size()) return AABB();
 	return m_pAnimList[m_Control[lower].m_iCurrentAnim]->m_BV;
 }
+
+
+#pragma endregion
 
 #pragma region PlayerViewAnimation
 // Using to control PV Model

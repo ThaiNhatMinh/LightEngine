@@ -15,7 +15,7 @@ void SkeShader::SetupRender(Scene * pScene, Actor * pActor)
 
 	// ----- Animation Matrix ------
 	
-	const vector<mat4>& tf = ac->GetTransform();
+	const vector<mat4>& tf = ac->GetVertexTransform();
 	for (size_t i = 0; i < tf.size(); i++)
 	{
 		this->SetUniformMatrix(m_BaseTransformLocation+i, glm::value_ptr(tf[i]));

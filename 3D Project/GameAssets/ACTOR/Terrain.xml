@@ -1,7 +1,7 @@
 <Actor type="World" name="Terrain">
 
   
-  
+   <Component>
   <ColliderComponent>
     <Shape>TriangleMesh</Shape>
     <File Path="WORLD\heightmap.png"/>
@@ -19,10 +19,11 @@
     <Position x="0" y="0" z="0"/>
     <YawPitchRoll x="0" y="0" z="0"/>
   </TransformComponent>
-<TerrainRenderComponent>
+	<TerrainRenderComponent>
     <Model File="WORLD\heightmap.png" />
-    <Texture File0 ="TEXTURE\grass_autumn_orn_d.jpg" />
+    <Texture File0 ="TEXTURES\grass_autumn_orn_d.jpg" />
     <Scale x="1.0" y="1.0" z="1.0"/>
     <Shader name="PrimShader" />
   </TerrainRenderComponent>	
+   </Component>
 </Actor>

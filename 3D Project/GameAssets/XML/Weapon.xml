@@ -1,5 +1,5 @@
 <Weapon>
-  <AK-47>
+  <AK47>
     <Class Class="3"/>
     <LeftClickAttribute File=""/>
     <RightClickAttribute File=""/>
@@ -9,7 +9,7 @@
     <PViewSkinFileName File="TEXTURES\PLAYERVIEW\PV-AK47.DTX"/>
     <GViewAnimName File="M4A1"/>
     <Info Range="300.0" MaxAmmo="60" AmmoPerMagazine="30" AmmoDamage="116" TargetSlot="0" />
-  </AK-47>
+  </AK47>
   <M4A1>
     <Class Class="3"/>
     <LeftClickAttribute></LeftClickAttribute>

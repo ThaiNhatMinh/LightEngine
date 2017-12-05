@@ -80,5 +80,8 @@ public:
 	Texture*	GetTexture(const char* filename);
 	ModelCache*	GetModel(const char* filename);
 	HeightMap*	GetHeightMap(const char* filename);
-	
+	const char* GetPath(Shader* p) { return nullptr; };
+	const char* GetPath(Texture* p) { return nullptr; };
+	const char* GetPath(ModelCache* p) { return nullptr; };
+	const char* GetPath(HeightMap* p) { return nullptr; };
 };

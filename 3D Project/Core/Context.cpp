@@ -14,7 +14,7 @@ Context::Context()
 
 Context::~Context()
 {
-	
+	E_WARNING("Context Release...");
 }
 
 tinyxml2::XMLElement * Context::GetElement(const char * p)

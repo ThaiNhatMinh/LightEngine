@@ -1,8 +1,8 @@
 <Actor type="Player" name="707" >
 
-	<Info HP="100" AC="100" />
+	<Info Team="1" HP="100" AC="100" />
 	<Weapon Name1="AK47"/>
-	<Character Name"SAS" />
+	<Character Name="SAS" />
 	
   <Component>
 	  <CharacterControllerComponent>
@@ -12,8 +12,8 @@
 	  </CharacterControllerComponent>
 	
 	  <AnimationComponent>
-		  <Model File="MODEL\M-MOTION.LTB" />
-		  <DefaultAnim Anim="M-idle-M700" />
+		  <Model File="MODELS\CHARACTER\M-MOTION.LTB" />
+		  <DefaultAnim Anim="M-wait0" />
 	  </AnimationComponent>
 	
 	  <ColliderComponent>

@@ -153,12 +153,6 @@
     <ClInclude Include="GameObject\TransformComponent.h">
       <Filter>GameObject\Component</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Player.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\PlayerView.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Context.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -212,6 +206,18 @@
     </ClInclude>
     <ClInclude Include="MyGame\EvtData.h">
       <Filter>MyGame\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\ImGuiShader.h">
+      <Filter>Graphics3D\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Player.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\PlayerView.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\DebugShader.h">
+      <Filter>Graphics3D\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -334,12 +340,6 @@
     <ClCompile Include="GameObject\TransformComponent.cpp">
       <Filter>GameObject\Component</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Player.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\PlayerView.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="include\imgui\imgui.cpp">
       <Filter>Utilities\imgui</Filter>
     </ClCompile>
@@ -375,6 +375,21 @@
     </ClCompile>
     <ClCompile Include="ResourceCache\Texture.cpp">
       <Filter>ResourceCache</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\EvtDdata.cpp">
+      <Filter>MyGame\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Player.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\PlayerView.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\ImGuiShader.cpp">
+      <Filter>Graphics3D\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\DebugShader.cpp">
+      <Filter>Graphics3D\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

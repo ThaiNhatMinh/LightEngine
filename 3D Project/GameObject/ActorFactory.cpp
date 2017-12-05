@@ -1,6 +1,16 @@
 #include "pch.h"
 
-ActorFactory::ActorFactory(Scene* pScene)
+void ActorFactory::EventCreateWeapon(std::shared_ptr<const IEvent> pEvents)
+{
+	const EvtData_RequestCreateWeapon* p = static_cast<const EvtData_RequestCreateWeapon*>(pEvents.get());
+	Actor* Parent = p->Parent;
+	Actor* child = CreateActor(p->File.c_str(), nullptr, nullptr);
+	child->VSetName(p->WPName);
+	Parent->VAddChild(std::unique_ptr<Actor>(child));
+
+}
+
+ActorFactory::ActorFactory(Context*c,Scene* pScene):m_Context(c)
 {
 	m_lastActorId = 1;
 	m_ComponentFactoryMap.insert(std::make_pair(TransformComponent::Name, []() { return new TransformComponent(); }));
@@ -21,7 +31,15 @@ ActorFactory::ActorFactory(Scene* pScene)
 	m_ActorFactoryMap.insert(std::make_pair("Player", [](int id) {return new Player(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("World", [](int id) {return new TerrainWorld(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("PlayerView", [](int id) {return new PlayerView(id); }));
+	m_ActorFactoryMap.insert(std::make_pair("Weapon", [](int id) {return new Weapon(id); }));
 	
+	
+	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &ActorFactory::EventCreateWeapon), EvtData_RequestCreateWeapon::sk_EventType);
+}
+
+ActorFactory::~ActorFactory()
+{
+	//m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &ActorFactory::EventCreateWeapon), EvtData_RequestCreateWeapon::sk_EventType);
 }
 
 /*

@@ -73,6 +73,7 @@ public:
 	{
 		return "EvtData_RequestCreateActor";
 	};
+	string File;
 	const char* WPName;
 	Actor* Parent;
 };

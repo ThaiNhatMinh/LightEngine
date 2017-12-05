@@ -18,7 +18,8 @@ protected:
 	virtual void Setup() {};
 	virtual void Start() {};
 	//Scene* m_pScene;
-	std::unique_ptr<IGame> m_Game;
+
 	std::unique_ptr<Context> m_Context;
+	std::unique_ptr<IGame> m_Game;
 	
 };

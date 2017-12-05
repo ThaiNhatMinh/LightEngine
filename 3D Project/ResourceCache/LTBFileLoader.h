@@ -30,9 +30,7 @@ struct LTBSocket
 {
 	uint32 m_iNode;
 	char m_Name[100];
-	vec3 m_Pos;
-	quat m_Ort;
-	vec3 m_Scale;
+	mat4 Transform;
 };
 
 struct WeightBlend

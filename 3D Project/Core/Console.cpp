@@ -124,6 +124,7 @@ Console::Console():m_Time(0),Show(0)
 
 Console::~Console()
 {
+	m_Mesh->Shutdown();
 	ImGui::Shutdown();
 }
 
@@ -175,9 +176,9 @@ void Console::Init(Context* c)
 
 	c->m_pConsole = std::unique_ptr<Console>(this);
 
-	m_pShader = c->m_pResources->GetShader("Shader");
+	m_pShader = c->m_pResources->GetShader("ImGuiShader");
 	m_Mesh = std::make_unique<imguiMesh>();
-	m_Mesh->Finalize(m_pShader);
+	m_Mesh->Init();
 
 	CreateFontsTexture();
 

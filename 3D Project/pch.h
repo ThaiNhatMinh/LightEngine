@@ -131,7 +131,8 @@ using glm::quat;
 #include "Graphics3D\TexShader.h"
 #include "Graphics3D\PrimitiveShader.h"
 #include "Graphics3D\SkeShader.h"
-
+#include "Graphics3D\ImGuiShader.h"
+#include "Graphics3D\DebugShader.h"
 #include "Utilities\PrimitiveShape\Cube.h"
 #include "Utilities\PrimitiveShape\Line.h"
 
@@ -159,8 +160,6 @@ using glm::quat;
 #include "GameObject\LogicComponent.h"
 #include "GameObject\ActorFactory.h"
 #include "GameObject\Actor.h"
-#include "GameObject\Player.h"
-#include "GameObject\PlayerView.h"
 #include "Physic\PhysicDebugDrawer.h"
 #include "Physic\Physic.h"
 

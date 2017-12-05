@@ -13,6 +13,10 @@ namespace LightEngine
 //vector<Texture*> Resources::m_Textures;
 //vector<ModelCache*> Resources::m_ModelCaches;
 
+#pragma region CheckLoadedResource
+
+
+
 Texture * Resources::HasTexture(const char * filename)
 {
 	for (size_t i = 0; i < m_Textures.size(); i++)
@@ -37,14 +41,15 @@ HeightMap* Resources::HasHeighMap(const char * filename)
 		if (!strcmp(filename, m_HeightMaps[i]->filename)) return m_HeightMaps[i].get();
 	return nullptr;
 }
-
+#pragma endregion
 
 Resources::Resources()
 {
 	m_ShaderFactory.insert(std::make_pair("SkeShader", [](const char*vs, const char* fs) {return std::make_unique<SkeShader>(vs, fs); }));
 	m_ShaderFactory.insert(std::make_pair("PrimShader", [](const char*vs, const char* fs) {return std::make_unique<PrimShader>(vs, fs); }));
-	m_ShaderFactory.insert(std::make_pair("Debug", [](const char*vs, const char* fs) {return std::make_unique<Shader>(vs,fs); }));
+	m_ShaderFactory.insert(std::make_pair("Debug", [](const char*vs, const char* fs) {return std::make_unique<DebugShader>(vs,fs); }));
 	m_ShaderFactory.insert(std::make_pair("Shader", [](const char*vs, const char* fs) {return std::make_unique<Shader>(vs, fs); }));
+	m_ShaderFactory.insert(std::make_pair("ImGuiShader", [](const char*vs, const char* fs) {return std::make_unique<ImGuiShader>(vs, fs); }));
 }
 
 
@@ -63,7 +68,7 @@ void Resources::Init(Context* c)
 		Log::Message(Log::LOG_ERROR, "Can't init Devil Lib.");
 
 	// Load default tex
-	m_pDefaultTex =  LoadTexture("GameAssets/TEXTURE/Default.png");
+	m_pDefaultTex =  LoadTexture("GameAssets/TEXTURES/Default.png");
 
 	LoadResources("GameAssets/" + string(LightEngine::RESOURCES_FILE));
 
@@ -217,6 +222,7 @@ Texture * Resources::LoadTexture(const char * filename)
 	Texture* tex=nullptr;
 	if ((tex = HasTexture(filename)) != nullptr) return tex;
 
+	if (strstr(filename, ".DTX") != 0) return LoadDTX(filename);
 	GLint width, height, iType, iBpp;
 
 	string fullpath = m_Path + filename;
@@ -635,7 +641,11 @@ Texture * Resources::GetTexture(const char * filename)
 {
 	Texture* tex = nullptr;
 	tex = HasTexture(filename);
-	if (tex == nullptr) return m_pDefaultTex;
+	if (tex == nullptr)
+	{
+		E_ERROR("Cound not find texture: " + string(filename));
+		return m_pDefaultTex;
+	}
 	return tex;
 	
 }
@@ -730,9 +740,9 @@ void Resources::ShutDown()
 		}
 	}
 
-	for (size_t i = 0; i < m_ShaderList.size(); i++)
+	for (map<string, std::unique_ptr<Shader>>::iterator it = m_ShaderList.begin(); it!= m_ShaderList.end(); it++)
 	{
-		m_ShaderList[i]->Shutdown();
+		(it)->second->Shutdown();
 	}
 
 	for (size_t i = 0; i < m_HeightMaps.size(); i++)

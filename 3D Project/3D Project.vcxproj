@@ -177,13 +177,13 @@
     <ClInclude Include="GameObject\ColliderComponent.h" />
     <ClInclude Include="GameObject\LogicComponent.h" />
     <ClInclude Include="GameObject\MeshRenderComponent.h" />
-    <ClInclude Include="GameObject\Player.h" />
-    <ClInclude Include="GameObject\PlayerView.h" />
     <ClInclude Include="GameObject\RigidBodyComponent.h" />
     <ClInclude Include="GameObject\TerrainRenderComponent.h" />
     <ClInclude Include="GameObject\TransformComponent.h" />
     <ClInclude Include="Graphics3D\AnimationDef.h" />
     <ClInclude Include="Graphics3D\Camera.h" />
+    <ClInclude Include="Graphics3D\DebugShader.h" />
+    <ClInclude Include="Graphics3D\ImGuiShader.h" />
     <ClInclude Include="Graphics3D\Octree.h" />
     <ClInclude Include="Graphics3D\OpenGLRenderer.h" />
     <ClInclude Include="Graphics3D\RenderAPI.h" />
@@ -208,6 +208,8 @@
     <ClInclude Include="MyGame\CharacterResource.h" />
     <ClInclude Include="MyGame\EvtData.h" />
     <ClInclude Include="MyGame\Game.h" />
+    <ClInclude Include="MyGame\Player.h" />
+    <ClInclude Include="MyGame\PlayerView.h" />
     <ClInclude Include="MyGame\Weapon.h" />
     <ClInclude Include="MyGame\WeaponResource.h" />
     <ClInclude Include="pch.h" />
@@ -249,12 +251,12 @@
     <ClCompile Include="GameObject\ColliderComponent.cpp" />
     <ClCompile Include="GameObject\LogicComponent.cpp" />
     <ClCompile Include="GameObject\MeshRenderComponent.cpp" />
-    <ClCompile Include="GameObject\Player.cpp" />
-    <ClCompile Include="GameObject\PlayerView.cpp" />
     <ClCompile Include="GameObject\RigidBodyComponent.cpp" />
     <ClCompile Include="GameObject\TerrainRenderComponent.cpp" />
     <ClCompile Include="GameObject\TransformComponent.cpp" />
     <ClCompile Include="Graphics3D\Camera.cpp" />
+    <ClCompile Include="Graphics3D\DebugShader.cpp" />
+    <ClCompile Include="Graphics3D\ImGuiShader.cpp" />
     <ClCompile Include="Graphics3D\Mesh.cpp" />
     <ClCompile Include="Graphics3D\Octree.cpp" />
     <ClCompile Include="Graphics3D\OpenGLRenderer.cpp" />
@@ -268,7 +270,10 @@
     <ClCompile Include="Math\AABB.cpp" />
     <ClCompile Include="Math\Frustum.cpp" />
     <ClCompile Include="Math\Plane.cpp" />
+    <ClCompile Include="MyGame\EvtDdata.cpp" />
     <ClCompile Include="MyGame\Game.cpp" />
+    <ClCompile Include="MyGame\Player.cpp" />
+    <ClCompile Include="MyGame\PlayerView.cpp" />
     <ClCompile Include="MyGame\Weapon.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

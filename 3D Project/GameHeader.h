@@ -5,4 +5,6 @@
 
 #include "MyGame\EvtData.h"
 
+#include "MyGame\PlayerView.h"
+#include "MyGame\Player.h"
 #include "MyGame\Game.h"

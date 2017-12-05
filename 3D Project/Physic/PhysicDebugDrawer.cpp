@@ -162,7 +162,7 @@ void BulletDebugDrawer::drawLine(const btVector3& from, const btVector3& to, con
 	//pRenderer->VDrawLine(vec3From, vec3To, color);
 	
 
-	m_Debug->DrawLine(vec3From, vec3To, color);
+	m_Debug->DrawLine(vec3From, vec3To, color,mat4());
 }
 
 

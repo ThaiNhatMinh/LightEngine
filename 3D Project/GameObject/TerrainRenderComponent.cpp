@@ -24,17 +24,6 @@ bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 		}
 	}
 
-	const tinyxml2::XMLElement* pScale = pData->FirstChildElement("Scale");
-	if (pScale)
-	{
-		vec3 scale(pScale->DoubleAttribute("x", 1.0), pScale->DoubleAttribute("y", 1.0), pScale->DoubleAttribute("z", 1.0));
-
-		for (size_t i = 0; i < m_MeshList.size(); i++)
-		{
-			m_MeshList[i]->Scale(scale);
-		}
-	}
-
 	const tinyxml2::XMLElement* pShader = pData->FirstChildElement("Shader");
 	if (pShader)
 	{

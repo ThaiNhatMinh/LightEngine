@@ -15,14 +15,15 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	const char* pFileName = pModelPath->Attribute("File");
 	if (pFileName)
 	{
-		ModelCache* pModel = m_Context->m_pResources->GetModel(pFileName);
-		if (!pModel)
+		if (pFileName[0] != '\0')
 		{
-			return false;
-		}
-		for (size_t i = 0; i < pModel->pMeshs.size(); i++)
-		{
-			m_MeshList.push_back(pModel->pMeshs[i].get());
+			ModelCache* pModel = m_Context->m_pResources->GetModel(pFileName);
+			if (!pModel)return false;
+			
+			for (size_t i = 0; i < pModel->pMeshs.size(); i++)
+			{
+				m_MeshList.push_back(pModel->pMeshs[i].get());
+			}
 		}
 	}
 	
@@ -40,8 +41,9 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 
 tinyxml2::XMLElement * MeshRenderComponent::VGenerateXml(tinyxml2::XMLDocument * p)
 {
-	// Nothing here. 
-	// Update late.
+	tinyxml2::XMLElement* pBaseElement = p->NewElement(VGetName());
+	tinyxml2::XMLElement* pModelPath = p->NewElement("Model");
+	pModelPath->SetAttribute("File", "");
 	return nullptr;
 }
 
@@ -68,11 +70,11 @@ void MeshRenderComponent::Render(Scene* pScene)
 		pRender->DrawElement(m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
 	}
 
-	if (0)
+	if (1)
 	{
 		mat4 globalTransform = m_pOwner->VGetGlobalTransform();
-		PVAnimationComponent* ac = m_pOwner->GetComponent<PVAnimationComponent>("PVAnimationComponent");
-//		if (ac) ac->DrawSkeleton(pScene->GetDebug(), globalTransform);
+		AnimationComponent* ac = m_pOwner->GetComponent<AnimationComponent>("AnimationComponent");
+		if (ac) ac->DrawSkeleton(globalTransform);
 	}
 
 }

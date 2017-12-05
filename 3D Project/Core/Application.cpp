@@ -33,53 +33,9 @@ void Application::SetupSubmodule()
 
 Application::~Application()
 {
-	//E_DEBUG("Application ShutDown...");
-
-	//delete m_pScene;
 	
 }
-/*
-void Application::Start()
-{
-	m_pScene = new Scene(m_Context.get());
-	ActorFactory& factory = m_pScene->GetActorFactory();
 
-
-	// test code
-
-
-	//Shader* pShader = m_Context->m_pResources->LoadShader<PrimShader>("NoTexture", "GameAssets\\SHADER\\NoTexture.vs", "GameAssets\\SHADER\\NoTexture.fs");
-	//m_Context->m_pResources->LoadShader<Shader>("Debug", "GameAssets\\SHADER\\Debug.vs", "GameAssets\\SHADER\\Debug.fs");
-	//Shader* pShader2 = m_Context->m_pResources->LoadShader<SkeShader>("SkeShader", "GameAssets\\SHADER\\Skeleton.vs", "GameAssets\\SHADER\\Texture.fs");
-	//m_Context->m_pResources->LoadShader<PrimShader>("Texture", "GameAssets\\SHADER\\Texture.vs", "GameAssets\\SHADER\\Texture.fs");
-
-
-
-	//Actor* p2 = ;
-
-	Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
-	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
-	//Actor* p5 = factory.CreateActor<TerrainWorld>("GameAssets\\Terrain.xml", nullptr, nullptr);
-	Actor* pp;// = factory.CreateActor("GameAssets\\ACTOR\\Camera.xml", nullptr, nullptr);
-			  //m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-			  //pp = factory.CreateActor("GameAssets\\Zombie.xml", nullptr, nullptr);
-			  //m_pScene->GetRoot()->VAddChild(pp);
-			  //mat4 t = glm::translate(mat4(), vec3(0, 0, 100));
-			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
-			  //t = glm::translate(mat4(), vec3(0, 0, 200));
-			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Player.xml", nullptr, &t));
-
-			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\PlayerWoman.xml", nullptr,nullptr));
-
-			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\ZombieAssassin.xml", nullptr, nullptr));
-			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Ground.xml",nullptr,nullptr));
-			  //m_pScene->GetRoot()->VAddChild(factory.CreateActor("GameAssets\\Box.xml", nullptr, nullptr));
-	pp = factory.CreateActor("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
-	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-	pp = factory.CreateActor("GameAssets\\ACTOR\\PV.xml", nullptr, nullptr);
-	m_pScene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-	
-}*/
 
 
 void Application::MainLoop()
@@ -137,7 +93,8 @@ void Application::MainLoop()
 		m_Game->Render();
 
 		m_Context->m_pConsole->Draw();
-
+		
+		m_Context->m_pDebuger->Render();
 		O->SwapBuffer();
 
 

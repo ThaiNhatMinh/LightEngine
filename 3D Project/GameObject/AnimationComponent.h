@@ -90,8 +90,9 @@ public:
 	BaseAnimComponent() {};
 	~BaseAnimComponent() {};
 	virtual bool		VInit(const tinyxml2::XMLElement* pData);
-	void				DrawSkeleton(Debug& debug, const mat4& m);
-	const vector<mat4>&	GetTransform();
+	void				DrawSkeleton(const mat4& m);
+	const vector<mat4>&	GetVertexTransform();
+	const vector<mat4>&	GetBoneTransform();
 	virtual AABB		GetUserDimesion()=0;
 	virtual void		AnimEvent(const string&) = 0;
 	virtual void		PlayAnimation(int anim) = 0;

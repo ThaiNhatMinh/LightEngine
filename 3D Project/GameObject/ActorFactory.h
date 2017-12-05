@@ -4,15 +4,16 @@
 class ActorFactory
 {
 	ActorId m_lastActorId;
-
-protected:
 	
+protected:
+	Context* m_Context;
 	std::map<std::string, std::function<ActorComponent*()>> m_ComponentFactoryMap;
 	std::map<std::string, std::function<Actor*(int id)>> m_ActorFactoryMap;
 
+	void EventCreateWeapon(std::shared_ptr<const IEvent> pEvents);
 public:
-	ActorFactory(Scene* pScene);
-
+	ActorFactory(Context*,Scene* pScene);
+	~ActorFactory();
 	// Create Actor from file
 	
 	Actor* CreateActor(const char* actorResource, tinyxml2::XMLElement* overrides, const mat4* initialTransform);

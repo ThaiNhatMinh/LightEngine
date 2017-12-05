@@ -3,6 +3,7 @@
 class WeaponResource
 {
 public:
+	int index;
 	string Name;
 	int Class;
 	string ModelFile;

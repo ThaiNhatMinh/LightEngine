@@ -92,12 +92,12 @@ void imguiMesh::Init()
 	// position
 	glEnableVertexAttribArray(SHADER_POSITION_ATTRIBUTE);
 	glVertexAttribPointer(SHADER_POSITION_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, pos));
-	// nuv
-	glEnableVertexAttribArray(SHADER_NORMAL_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_NORMAL_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, uv));
-	//color
+	// uv
 	glEnableVertexAttribArray(SHADER_TEXCOORD_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_TEXCOORD_ATTRIBUTE, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
+	glVertexAttribPointer(SHADER_TEXCOORD_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, uv));
+	//color
+	glEnableVertexAttribArray(SHADER_COLOR_ATTRIBUTE);
+	glVertexAttribPointer(SHADER_COLOR_ATTRIBUTE, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
 #undef OFFSETOF
 
 	Topology = GL_TRIANGLES;

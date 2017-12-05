@@ -2,7 +2,7 @@
 #include "OpenGLRenderer.h"
 
 
-Scene::Scene(Context* c) :m_ActorFactory(this), m_CurrentCamera(nullptr), m_Context(c)
+Scene::Scene(Context* c) :m_ActorFactory(c,this), m_CurrentCamera(nullptr), m_Context(c)
 {
 	m_pRoot = std::unique_ptr<Actor>(m_ActorFactory.CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,nullptr));
 	if (!m_pRoot)
@@ -48,6 +48,7 @@ bool Scene::OnUpdate(float dt)
 {
 	m_DefaultCamera.Update(dt);
 	m_pRoot->VOnUpdate(this, dt);
+	m_Context->m_pDebuger->SetView(m_CurrentCamera);
 	return true;
 }
 void Scene::SetCamera(CameraComponent * pCam)

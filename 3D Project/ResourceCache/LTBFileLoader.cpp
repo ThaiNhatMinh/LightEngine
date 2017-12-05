@@ -680,13 +680,18 @@ vector<std::unique_ptr<Animation>> LTBFile::LoadAnimation(const vector<std::uniq
 		fread(str1, str_len, 1, pFile);
 		str1[str_len] = '\0';
 		strcpy(socket.m_Name, str1);
-		quat rot;
-		fread(&socket.m_Ort, sizeof(float) * 4, 1, pFile);
+		float ort[4];
+		fread(&ort, sizeof(float) * 4, 1, pFile);
 		vec3 pos;
-		fread(&socket.m_Pos, sizeof(float) * 3, 1, pFile);
+		fread(&pos, sizeof(float) * 3, 1, pFile);
 		vec3 scale;
-		fread(&socket.m_Scale, sizeof(float) * 3, 1, pFile);
+		fread(&scale, sizeof(float) * 3, 1, pFile);
 		
+		quat q(ort[0], ort[1], ort[2], ort[3]);
+		q = glm::pow(q, 0.5f);
+		mat4 rotate = glm::toMat4(q);
+		mat4 trf = glm::translate(mat4(),pos)*glm::scale(mat4(), scale);
+		socket.Transform = trf;
 		socketlist.push_back(socket);
 	}
 

@@ -5,7 +5,7 @@
 class DebugData
 {
 public:
-	glm::vec3 pos[2];
+	glm::vec3 pos;
 	glm::vec3 color;
 	
 };
@@ -27,6 +27,7 @@ public:
 	void SetView(CameraComponent* cam);
 	~Debug();
 
-	void DrawLine(const vec3& from, const vec3& to, const vec3& color,const mat4& m = mat4(1.0f));
+	void DrawLine(const vec3& from, const vec3& to, const vec3& color,const mat4& m = mat4());
+	void DrawCoord(const mat4& m);
 	void Render();
 };
