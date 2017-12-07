@@ -122,13 +122,18 @@ bool Console::RegisterVar(const char * command, void * address, int num, int siz
 	return 1;
 }
 
-void Console::ExecCommand(const char * command_line)
+void Console::ExecCommand(char * command_line)
 {
-
+	int len = strlen(command_line);
+	while (command_line[len - 1] == ' ')
+	{
+		command_line[len - 1] = '\0';
+		len--;
+	}
 	// get command
 	char cmd[64];
 	int i = 0;
-	while (command_line[i] != ' ')
+	while (command_line[i] != ' '&&i<=len)
 	{
 		cmd[i] = command_line[i];
 		i++;
@@ -149,6 +154,43 @@ void Console::ExecCommand(const char * command_line)
 		return;
 	}
 
+	// if no param input, show current var
+	if (i>= len)
+	{
+		char var[512];
+		char number[512];
+		int _i = 0;
+		switch (m_VarList[j].type)
+		{
+		case TYPE_INT:
+		{
+			int* buffer = (int*)m_VarList[j].val;
+			for (int k = 0; k < m_VarList[j].num; k++)
+			{
+				sprintf(number, "%d", buffer[k]);
+				strcpy(&var[_i], number);
+				_i += strlen(number) + 1;
+			}
+			var[_i + 1] = '\0';
+			break;
+		}
+		case TYPE_FLOAT:
+		{
+			float* buffer = (float*)m_VarList[j].val;
+			for (int k = 0; k < m_VarList[j].num; k++)
+			{
+				sprintf(number, "%f", buffer[k]);
+				strcpy(&var[_i], number);
+				_i += strlen(number) + 1;
+			}
+			var[_i + 1] = '\0';
+			break;
+		}
+
+		AddLog(var);
+		}
+	}
+
 	// get param from command
 	char param[8][64];
 	int k = 0;
@@ -162,8 +204,9 @@ void Console::ExecCommand(const char * command_line)
 				m++;
 			}
 			param[k][m] = '\0';
+			i++;
 		}
-
+	
 	// convert to type
 	switch (m_VarList[j].type)
 	{

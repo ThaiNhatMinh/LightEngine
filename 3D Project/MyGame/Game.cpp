@@ -31,6 +31,7 @@ void Game::Init(Context *c)
 	test[1] = 24;
 	test[2] = 48;
 	test[3] = 463;
+	c->m_pConsole->RegisterVar("test_cmd", test, 4, sizeof(int), TYPE_INT);
 
 }
 

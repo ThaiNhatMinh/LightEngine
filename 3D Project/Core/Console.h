@@ -41,7 +41,7 @@ public:
 
 	
 	bool	RegisterVar(const char* command, void* address, int num, int size, ConVarType type);
-	void    ExecCommand(const char* command_line);
+	void    ExecCommand(char* command_line);
 	void    AddLog(const char* fmt, ...)IM_FMTARGS(2);
 	void	SetStatus(bool s) { Show = s; }
 	bool	GetStatus() { return Show; }
