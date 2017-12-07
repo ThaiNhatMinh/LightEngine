@@ -1,4 +1,5 @@
 #pragma once
+#include "MyGame\LocalPlayerComponent.h"
 #include "MyGame\WeaponResource.h"
 #include "MyGame\CharacterResource.h"
 #include "MyGame\Weapon.h"

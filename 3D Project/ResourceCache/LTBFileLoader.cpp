@@ -109,6 +109,10 @@ void LTBFile::ReadData(FILE * pFile, AnimNode & node, const vector<AnimKeyFrame>
 			node.Data[i].m_Ort = node.Data[0].m_Ort;
 		}
 	}
+	else
+	{
+		cout << "Unkown type" << endl;
+	}
 }
 
 bool LTBFile::BeginLoad(const char * pFileName)

@@ -19,7 +19,7 @@ void Weapon::PostInit(void)
 
 HRESULT Weapon::VRender(Scene * pScene)
 {
-	m_Context->m_pDebuger->DrawCoord(VGetGlobalTransform());
+	//m_Context->m_pDebuger->DrawCoord(VGetGlobalTransform());
 	m_MeshRender->Render(pScene);
 	return E_NOTIMPL;
 }

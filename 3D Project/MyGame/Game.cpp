@@ -8,22 +8,29 @@ void Game::Init(Context *c)
 	LoadCharacter();
 
 	m_Scene = std::unique_ptr<Scene>(new Scene(c));
-	ActorFactory& factory = m_Scene->GetActorFactory();
+	m_Scene->LoadScene("GameAssets\\ACTOR\\Scene.xml");
+	//ActorFactory& factory = m_Scene->GetActorFactory();
 
-	Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
+/*	Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
 	m_Scene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
+
+	Actor* p5 = factory.CreateActor("GameAssets\\ACTOR\\NPC.xml", nullptr, nullptr);
+	m_Scene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p5));
 
 	Actor*pp = factory.CreateActor("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
 	m_Scene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
 	pp = factory.CreateActor("GameAssets\\ACTOR\\Camera.xml", nullptr, nullptr);
 	m_Scene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-
+	*/
 	// send wp data;
 	std::shared_ptr<const IEvent> p2(new EvtData_PlayerCharData(m_CharacterResources));
 	c->m_pEventManager->VTriggerEvent(p2);
 	std::shared_ptr<const IEvent> p(new EvtData_PlayerWpData(m_WeaponResources));
 	c->m_pEventManager->VTriggerEvent(p);
-	
+	test[0] = 12;
+	test[1] = 24;
+	test[2] = 48;
+	test[3] = 463;
 
 }
 

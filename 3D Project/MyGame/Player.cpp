@@ -11,8 +11,7 @@ Player::Player(ActorId id):Actor(id)
 
 Player::~Player()
 {
-	E_WARNING("Player Release...");
-	cout << m_Name << " " << m_Tag << endl;
+	
 	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &Player::EventCharacterData), EvtData_PlayerCharData::sk_EventType);
 	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &Player::EventWeaponData), EvtData_PlayerWpData::sk_EventType);
 }
@@ -28,7 +27,7 @@ bool Player::Init(const tinyxml2::XMLElement * pData)
 	if (t == TEAM_BL) m_Team = TEAM_BL;
 	else if (t == TEAM_GR) m_Team = TEAM_GR;
 	const tinyxml2::XMLElement * pWeapon = pData->FirstChildElement("Weapon");
-
+	m_iCurrentWP = pWeapon->DoubleAttribute("Default", -1.0f);
 	int i = 1;
 	while (1)
 	{
@@ -55,31 +54,39 @@ bool Player::Init(const tinyxml2::XMLElement * pData)
 void Player::PostInit(void)
 {
 	Actor::PostInit();
+
+	m_MeshRender = std::unique_ptr<MeshRenderComponent>(RemoveComponent<MeshRenderComponent>(MeshRenderComponent::Name));
 }
 
 HRESULT Player::VRender(Scene * pScene)
 {
-	MeshRenderComponent* mrc = GetComponent<MeshRenderComponent>("MeshRenderComponent");
-	if (mrc) mrc->Render(pScene);
+	m_MeshRender->Render(pScene);
 	return S_OK;
 }
 
 void Player::EventWeaponData(std::shared_ptr<const IEvent> pEvents)
 {
 	const EvtData_PlayerWpData *p = static_cast<const EvtData_PlayerWpData*>(pEvents.get());
+	AnimationComponent* pAC = GetComponent<AnimationComponent>(AnimationComponent::Name);
+	
 	const vector<WeaponResource>& wr = p->wr;
 	for (int i = 0; i < m_Children.size(); i++)
 	{
 		if (m_Children[i]->VGetTag() == "Weapon")
 		{
 			Weapon* pWp = static_cast<Weapon*>(m_Children[i].get());
+
 			int j = 0;
 			for (j = 0; j < wr.size(); j++)
 				if (wr[j].Name == pWp->VGetName()) break;
+
 			size_t i = 0;
 			for (i = 0; i < m_RModel->Sockets.size(); i++)
 				if (strstr(m_RModel->Sockets[i].m_Name, "weapo") != 0) 
 					break;
+			if (wr[j].TargetSlot == m_iCurrentWP) pAC->SetBaseAnim(wr[j].AnimName);
+
+			m_WPList[wr[j].TargetSlot] = i;
 
 			if(i== m_RModel->Sockets.size()) pWp->LoadData(wr[j], nullptr);
 			else pWp->LoadData(wr[j], &m_RModel->Sockets[i]);
@@ -100,8 +107,9 @@ void Player::EventCharacterData(std::shared_ptr<const IEvent> pEvents)
 	for (i = 0; i < wr.size(); i++)
 		if (wr[i].Name == m_Character) break;
 
-	MeshRenderComponent* pRC = GetComponent<MeshRenderComponent>(MeshRenderComponent::Name);
-	if (pRC == nullptr) return;
+	
+	
+	if (m_MeshRender == nullptr) return;
 
 	m_RModel= m_Context->m_pResources->GetModel(wr[i].ModelFile[m_Team].c_str());
 	if (m_RModel)
@@ -115,7 +123,7 @@ void Player::EventCharacterData(std::shared_ptr<const IEvent> pEvents)
 			const char* pTextureFile = ss[ve[j]->Name].c_str();
 			
 			ve[j]->Tex = m_Context->m_pResources->GetTexture(pTextureFile);
-			pRC->GetMeshList().push_back(m_RModel->pMeshs[j].get());
+			m_MeshRender->GetMeshList().push_back(m_RModel->pMeshs[j].get());
 		}
 	}
 }

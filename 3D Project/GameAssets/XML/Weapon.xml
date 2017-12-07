@@ -21,4 +21,15 @@
    <GViewAnimName File="M4A1"/>
     <Info Range="300.0" MaxAmmo="60" AmmoPerMagazine="30" AmmoDamage="116" TargetSlot="0" />
   </M4A1>
+  <Ultimax100>
+    <Class Class="3"/>
+    <LeftClickAttribute></LeftClickAttribute>
+    <RightClickAttribute></RightClickAttribute>
+    <ModelFileName File="MODELS\WEAPONS\QV-SU_ULTIMAX100.LTB"/>
+     <SkinFileName File="TEXTURES\WEAPONS\QV-SU_ULTIMAX100.DTX"/>
+     <PViewModelFileName File="MODELS\PLAYERVIEW\PV-SU_ULTIMAX100.LTB"/>
+    <PViewSkinFileName File="TEXTURES\PLAYERVIEW\PV-SU_ULTIMAX100.DTX"/>
+   <GViewAnimName File="M4A1-A"/>
+    <Info Range="400.0" MaxAmmo="100" AmmoPerMagazine="100" AmmoDamage="90" TargetSlot="0" />
+  </Ultimax100>
 </Weapon>

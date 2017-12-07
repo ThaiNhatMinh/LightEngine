@@ -15,6 +15,7 @@ private:
 	std::unique_ptr<Scene> m_Scene;
 	std::vector<WeaponResource> m_WeaponResources;
 	std::vector<CharacterResource> m_CharacterResources;
+	int test[5];
 };
 
 class MyGame : public Application

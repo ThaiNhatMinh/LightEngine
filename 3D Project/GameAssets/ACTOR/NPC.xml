@@ -1,16 +1,10 @@
-<Actor type="Player" name="707" >
+<Actor type="Player" name="NPC" >
 
 	<Info Team="1" HP="100" AC="100" />
 	<Weapon Name1="Ultimax100" Default="0"/>
 	<Character Name="SAS" />
 	
-  <Component>
-	  <CharacterControllerComponent>
-		  <Speed max="10.0" />
-		  <Jump force="1000.0" />
-		  <Move force="5900.0" brakefore="40"/>
-	  </CharacterControllerComponent>
-	
+  <Component>	
 	  <AnimationComponent>
 		  <Model File="MODELS\CHARACTER\M-MOTION.LTB" />
 		  <DefaultAnim Anim="M-idle-M700" />
@@ -29,7 +23,7 @@
 	  </RigidBodyComponent>
   
 	  <TransformComponent>
-		  <Position x="0" y="500" z="0"/>
+		  <Position x="0" y="500" z="200"/>
 		  <YawPitchRoll x="0" y="0" z="0"/>
 	  </TransformComponent>
 	
@@ -40,4 +34,7 @@
 	  </MeshRenderComponent>
   
   </Component>
+  <Children>
+
+  </Children>
 </Actor>

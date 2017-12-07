@@ -219,6 +219,12 @@
     <ClInclude Include="Graphics3D\DebugShader.h">
       <Filter>Graphics3D\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="Core\SystemUI.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\LocalPlayerComponent.h">
+      <Filter>MyGame\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -391,6 +397,12 @@
     <ClCompile Include="Graphics3D\DebugShader.cpp">
       <Filter>Graphics3D\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="Core\SystemUI.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\LocalPlayerComponent.cpp">
+      <Filter>MyGame\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -455,6 +467,9 @@
     </Filter>
     <Filter Include="MyGame\Event">
       <UniqueIdentifier>{dde52c79-37a7-4582-b1c8-f2612d78f59c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyGame\Component">
+      <UniqueIdentifier>{b5ee274c-05cc-4339-870d-3b1aea57751c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

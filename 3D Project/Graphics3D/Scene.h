@@ -22,6 +22,7 @@ public:
 	Scene(Context* c);
 	~Scene();
 
+	bool LoadScene(const char* filename);
 	bool OnRender();
 	bool OnUpdate(float dt);
 

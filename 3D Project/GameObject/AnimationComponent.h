@@ -95,7 +95,7 @@ public:
 	const vector<mat4>&	GetBoneTransform();
 	virtual AABB		GetUserDimesion()=0;
 	virtual void		AnimEvent(const string&) = 0;
-	virtual void		PlayAnimation(int anim) = 0;
+	virtual void		PlayAnimation(int anim,bool fromBaseAnim = true) = 0;
 	virtual void		PlayDefaultAnimation() = 0;
 
 };
@@ -127,10 +127,11 @@ public:
 	
 	// Event 
 	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
-	virtual void		PlayAnimation(int anim);
+	virtual void		PlayAnimation(int anim,bool fromBaseAnim=true);
 	virtual void		PlayDefaultAnimation();
 	AABB				GetUserDimesion();
 	virtual void		AnimEvent(const string&);
+	void				SetBaseAnim(const string& name);
 
 };
 
@@ -159,7 +160,7 @@ public:
 
 	// Event 
 	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
-	virtual void		PlayAnimation(int anim) {};
+	virtual void		PlayAnimation(int anim, bool fromBaseAnim = true) {};
 	virtual void		PlayDefaultAnimation() {};
 	AABB				GetUserDimesion();
 	virtual void		AnimEvent(const string&);

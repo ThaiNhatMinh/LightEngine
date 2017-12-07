@@ -15,5 +15,5 @@ public:
 	int MaxAmmo;
 	int AmmoPerMagazine;
 	int AmmoDamage;
-	int TargetSlot;
+	int TargetSlot;		// slot of weapon 1,2,3,4,5
 };

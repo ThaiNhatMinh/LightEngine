@@ -21,6 +21,36 @@ Scene::~Scene()
 {
 }
 
+bool Scene::LoadScene(const char * filename)
+{
+	tinyxml2::XMLDocument doc;
+	if (doc.LoadFile(filename)!= tinyxml2::XML_SUCCESS)
+	{
+		E_ERROR("Can't load Scene file: " + string(filename));
+		return 0;
+	}
+
+	tinyxml2::XMLElement* pScene = doc.FirstChildElement("Scene");
+	if (!pScene)
+	{
+		E_ERROR("Can't load Scene file: " + string(filename));
+		return 0;
+	}
+
+	for (tinyxml2::XMLElement* pNode = pScene->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+	{
+		if (!strcmp(pNode->Value(), "Actor"))
+		{
+			const char* pFile = pNode->Attribute("File");
+			if (!pFile) continue;
+			Actor* p4 = m_ActorFactory.CreateActor(pFile, nullptr, nullptr);
+			m_pRoot->VAddChild(std::unique_ptr<Actor>(p4));
+		}
+	}
+
+	return 1;
+}
+
 bool Scene::OnRender()
 {
 	

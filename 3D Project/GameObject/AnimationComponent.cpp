@@ -2,6 +2,7 @@
 
 const char* AnimationComponent::Name = "AnimationComponent";
 const char* PVAnimationComponent::Name = "PVAnimationComponent";
+
 #pragma region BaseAnimComponent
 
 
@@ -129,8 +130,8 @@ FrameData BaseAnimComponent::InterpolateFrame(AnimControl & control, const AnimN
 		{
 			control.m_iCurrentFrame = 0;
 			control.KeyFrameID = 0;
-			if (KeyFrames[control.KeyFrameID].m_pString.size() > 0)	AnimEvent(KeyFrames[control.KeyFrameID].m_pString);
 			control.m_bFinished = 1;
+			if (KeyFrames[control.KeyFrameID].m_pString.size() > 0)	AnimEvent(KeyFrames[control.KeyFrameID].m_pString);
 			return	Anim.Data[control.KeyFrameID];
 		}
 		frame0 = control.KeyFrameID - 1;
@@ -195,6 +196,16 @@ void AnimationComponent::AnimEvent(const string& data)
 	m_Context->m_pEventManager->VQueueEvent(pEvent);
 }
 
+void AnimationComponent::SetBaseAnim(const string& name )
+{
+	for(size_t i=0; i<m_pAnimList.size(); i++)
+		if (m_pAnimList[i]->Name.find(name) != string::npos)
+		{
+			m_iDefaultAnimation = i;
+			break;
+		}
+}
+
 AnimationComponent::AnimationComponent(void)
 {
 	m_iDefaultAnimation = 0;
@@ -232,6 +243,7 @@ void AnimationComponent::VUpdate(float deltaMs)
 	if (!m_pAnimList.size()) return;
 	m_Control[lower].m_fTime += deltaMs;
 	m_Control[upper].m_fTime += deltaMs;
+
 	if (m_Control[upper].m_State == ANIM_PLAYING)
 	{
 		
@@ -249,7 +261,6 @@ void AnimationComponent::VUpdate(float deltaMs)
 
 	if (m_Control[lower].m_State == ANIM_PLAYING)
 	{
-		
 		m_Control[lower].m_iCurrentFrame = (GLuint)(m_Control[lower].m_fTime * 1000);
 	}
 	else if(m_Control[lower].m_State == ANIM_TRANSITION)
@@ -263,7 +274,6 @@ void AnimationComponent::VUpdate(float deltaMs)
 		}
 	}
 
-	
 	
 	Animation* animUpper = m_pAnimList[m_Control[upper].m_iCurrentAnim];
 	Animation* animLower = m_pAnimList[m_Control[lower].m_iCurrentAnim];
@@ -292,6 +302,7 @@ void AnimationComponent::VUpdate(float deltaMs)
 		}
 		else if (m_Control[lower].m_State == ANIM_PLAYING && m_WB[lower].Blend[i])
 		{
+			
 			m_CurrentFrames[i] = InterpolateFrame(m_Control[lower], animLower->AnimNodeLists[i], animLower->KeyFrames);
 		}
 		
@@ -313,7 +324,7 @@ void AnimationComponent::VUpdate(float deltaMs)
 
 	}
 
-
+	
 	if (m_Control[upper].m_bFinished) ResetControl(upper, m_Control[upper].m_iCurrentAnim, ANIM_PLAYING);
 	if (m_Control[lower].m_bFinished) ResetControl(lower, m_Control[lower].m_iCurrentAnim, ANIM_PLAYING);
 }
@@ -340,13 +351,15 @@ void AnimationComponent::SetAnimationEvent(std::shared_ptr<const IEvent> pEvent)
 
 }
 
-void AnimationComponent::PlayAnimation(int anim)
+void AnimationComponent::PlayAnimation(int anim, bool fromBaseAnim)
 {
-	//GLint animID = FindAnimation(anim);
+	GLint animID = 0;
 	
 
 	//if (animID == -1) return;
-	int animID = anim + m_iDefaultAnimation;
+	if(fromBaseAnim) animID = anim + m_iDefaultAnimation;
+	else animID = anim;
+
 	blendset bs = GetBlendSet(animID);
 	
 	if (m_Control[bs].m_iCurrentAnim == animID) return;
@@ -359,9 +372,10 @@ void AnimationComponent::PlayDefaultAnimation()
 	//blendset bs = GetBlendSet(m_iDefaultAnimation);
 
 	if (m_Control[lower].m_iCurrentAnim == m_iDefaultAnimation) return;
-
-	ResetControl(upper, m_iDefaultAnimation, ANIM_TRANSITION);
 	ResetControl(lower, m_iDefaultAnimation, ANIM_TRANSITION);
+
+	if (m_Control[upper].m_iCurrentAnim == m_iDefaultAnimation) return;
+	ResetControl(upper, m_iDefaultAnimation, ANIM_TRANSITION);
 }
 
 AABB AnimationComponent::GetUserDimesion()
@@ -396,6 +410,7 @@ PVAnimationComponent::PVAnimationComponent(void)
 	m_Control.m_iCurrentFrame = 0;
 	m_Control.KeyFrameID = 0;
 	m_Control.m_State = ANIM_PLAYING;
+	m_fBlendTime = 0.3;
 }
 
 

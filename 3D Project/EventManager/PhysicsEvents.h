@@ -94,8 +94,8 @@ public:
 
 class EvtData_PhysCollisionStart : public BaseEventData
 {
-	ActorId m_ActorA;
-	ActorId m_ActorB;
+	Actor* m_ActorA;
+	Actor* m_ActorB;
 	vec3 m_SumNormalForce;
 	vec3 m_SumFrictionForce;
 	std::list<vec3> m_CollisionPoints;
@@ -116,8 +116,8 @@ public:
 		m_SumFrictionForce = vec3(0.0f, 0.0f, 0.0f);
 	}
 
-	explicit EvtData_PhysCollisionStart(ActorId actorA,
-		ActorId actorB,
+	explicit EvtData_PhysCollisionStart(Actor* actorA,
+		Actor* actorB,
 		vec3 sumNormalForce,
 		vec3 sumFrictionForce,
 		std::list<vec3> collisionPoints)
@@ -138,12 +138,12 @@ public:
 		return "EvtData_PhysCollisionStart";
 	}
 
-	ActorId GetActorA(void) const
+	Actor* GetActorA(void) const
 	{
 		return m_ActorA;
 	}
 
-	ActorId GetActorB(void) const
+	Actor* GetActorB(void) const
 	{
 		return m_ActorB;
 	}
@@ -167,8 +167,8 @@ public:
 
 class EvtData_PhysOnCollision : public BaseEventData
 {
-	ActorId m_ActorA;
-	ActorId m_ActorB;
+	Actor* m_ActorA;
+	Actor* m_ActorB;
 	vec3 m_SumNormalForce;
 	vec3 m_SumFrictionForce;
 	std::list<vec3> m_CollisionPoints;
@@ -189,8 +189,8 @@ public:
 		m_SumFrictionForce = vec3(0.0f, 0.0f, 0.0f);
 	}
 
-	explicit EvtData_PhysOnCollision(ActorId actorA,
-		ActorId actorB,
+	explicit EvtData_PhysOnCollision(Actor* actorA,
+		Actor* actorB,
 		vec3 sumNormalForce,
 		vec3 sumFrictionForce,
 		std::list<vec3> collisionPoints)
@@ -211,12 +211,12 @@ public:
 		return "EvtData_PhysOnCollision";
 	}
 
-	ActorId GetActorA(void) const
+	Actor* GetActorA(void) const
 	{
 		return m_ActorA;
 	}
 
-	ActorId GetActorB(void) const
+	Actor* GetActorB(void) const
 	{
 		return m_ActorB;
 	}

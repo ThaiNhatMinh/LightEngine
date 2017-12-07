@@ -403,12 +403,12 @@ void BulletPhysics::SendCollisionEvents()
 		{
 			// this is new collision
 			// send the event for the game
-			std::shared_ptr<const IEvent>  pEvent(new EvtData_PhysCollisionStart(id0, id1, sumNormalForce, sumFrictionForce, collisionPoints));
+			std::shared_ptr<const IEvent>  pEvent(new EvtData_PhysCollisionStart(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
 			m_Context->m_pEventManager->VQueueEvent(pEvent);
 		}
 		
 		// send the event for the game
-		std::shared_ptr<const IEvent>  pEvent( new EvtData_PhysOnCollision(id0, id1, sumNormalForce, sumFrictionForce, collisionPoints));
+		std::shared_ptr<const IEvent>  pEvent( new EvtData_PhysOnCollision(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
 		m_Context->m_pEventManager->VQueueEvent(pEvent);
 		
 	}

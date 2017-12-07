@@ -54,6 +54,10 @@ using fastdelegate::MakeDelegate;
 // Lua Plus 5.1
 //#include <LuaPlus.h>
 
+
+// ImGui
+#include <imgui\imgui.h>
+
 // libary
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "lib/glfw3.lib")
@@ -172,5 +176,5 @@ using glm::quat;
 #include "Core\Windows.h"
 #include "Core\Application.h"
 #include "Core\Context.h"
-
+#include "Core\SystemUI.h"
 #include "GameHeader.h"

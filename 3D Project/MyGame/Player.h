@@ -16,12 +16,17 @@ protected:
 	void EventWeaponData(std::shared_ptr<const IEvent> pEvents);
 	void EventCharacterData(std::shared_ptr<const IEvent> pEvents);
 private:
+
+	std::unique_ptr<MeshRenderComponent> m_MeshRender;
+
 	TeamClass	m_Team;
 	GLuint		m_HP;
 	GLuint		m_AC;
 	string		m_Character;
 	ModelCache* m_RModel;
-
+	int			m_iCurrentWP;
+	int			m_WPList[5];	// store index of weapon in children list
+	
 	
 
 };
