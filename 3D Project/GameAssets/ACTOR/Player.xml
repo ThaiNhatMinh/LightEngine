@@ -5,11 +5,11 @@
 	<Character Name="SAS" />
 	
   <Component>
-	  <CharacterControllerComponent>
+	  <LocalPlayerComponent>
 		  <Speed max="10.0" />
 		  <Jump force="1000.0" />
-		  <Move force="5900.0" brakefore="40"/>
-	  </CharacterControllerComponent>
+		  <Move force="6900.0" brakefore="60"/>
+	  </LocalPlayerComponent>
 	
 	  <AnimationComponent>
 		  <Model File="MODELS\CHARACTER\M-MOTION.LTB" />
@@ -40,4 +40,8 @@
 	  </MeshRenderComponent>
   
   </Component>
+  <Children>
+	<Actor File="GameAssets\ACTOR\Camera.xml" />
+	
+  </Children>
 </Actor>

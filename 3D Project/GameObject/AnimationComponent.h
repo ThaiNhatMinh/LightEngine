@@ -73,6 +73,7 @@ struct AnimControl
 class BaseAnimComponent : public ActorComponent
 {
 protected:
+	int				m_bDrawSkeleton;
 	vector<SkeNode*>	m_pSkeNodes;
 	vector<Animation*>	m_pAnimList;
 	vector<WeightBlend> m_WB;

@@ -20,7 +20,8 @@ void PrimShader::SetupRender(Scene * pScene, Actor * pActor)
 	if(pCam) SetUniform("EyePos", pCam->GetPosition());
 	else
 	{
-		SetUniform("EyePos", pScene->GetDefaultCamera()->GetPosition());
+		//SetUniform("EyePos", pScene->GetDefaultCamera()->GetPosition());
+		E_ERROR("can't find camera");
 	}
 }
 

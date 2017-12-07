@@ -4,24 +4,14 @@
 
 void Game::Init(Context *c)
 {
+	c->m_pActorFactory->RegisterComponentFactory(LocalPlayerComponent::Name, []() {return new LocalPlayerComponent(); });
+
 	LoadWeapon();
 	LoadCharacter();
 
 	m_Scene = std::unique_ptr<Scene>(new Scene(c));
 	m_Scene->LoadScene("GameAssets\\ACTOR\\Scene.xml");
-	//ActorFactory& factory = m_Scene->GetActorFactory();
-
-/*	Actor* p4 = factory.CreateActor("GameAssets\\ACTOR\\Player.xml", nullptr, nullptr);
-	m_Scene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p4));
-
-	Actor* p5 = factory.CreateActor("GameAssets\\ACTOR\\NPC.xml", nullptr, nullptr);
-	m_Scene->GetRoot()->VAddChild(std::unique_ptr<Actor>(p5));
-
-	Actor*pp = factory.CreateActor("GameAssets\\ACTOR\\Terrain.xml", nullptr, nullptr);
-	m_Scene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-	pp = factory.CreateActor("GameAssets\\ACTOR\\Camera.xml", nullptr, nullptr);
-	m_Scene->GetRoot()->VAddChild(std::unique_ptr<Actor>(pp));
-	*/
+	
 	// send wp data;
 	std::shared_ptr<const IEvent> p2(new EvtData_PlayerCharData(m_CharacterResources));
 	c->m_pEventManager->VTriggerEvent(p2);

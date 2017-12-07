@@ -84,6 +84,7 @@ void Player::EventWeaponData(std::shared_ptr<const IEvent> pEvents)
 			for (i = 0; i < m_RModel->Sockets.size(); i++)
 				if (strstr(m_RModel->Sockets[i].m_Name, "weapo") != 0) 
 					break;
+
 			if (wr[j].TargetSlot == m_iCurrentWP) pAC->SetBaseAnim(wr[j].AnimName);
 
 			m_WPList[wr[j].TargetSlot] = i;

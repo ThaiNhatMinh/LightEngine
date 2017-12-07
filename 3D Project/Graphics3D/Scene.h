@@ -16,7 +16,7 @@ private:
 	CameraComponent		*m_CurrentCamera;
 
 	
-	ActorFactory		m_ActorFactory;
+	
 	Context*			m_Context;
 public:
 	Scene(Context* c);
@@ -31,7 +31,6 @@ public:
 	Light GetDirLight() { return m_DirectionLight; };
 	void SetCamera(CameraComponent* pActor);
 	mat4 GetViewProj();
-	ActorFactory& GetActorFactory() { return m_ActorFactory; }
 	CameraComponent* GetCamera() { return m_CurrentCamera; }
-	Camera* GetDefaultCamera() { return &m_DefaultCamera; }
+	//Camera* GetDefaultCamera() { return &m_DefaultCamera; }
 };

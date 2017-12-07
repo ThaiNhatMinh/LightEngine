@@ -1,8 +1,10 @@
 #include "pch.h"
 
 const char* CameraComponent::Name = "CameraComponent";
+vector<CameraComponent*> CameraComponent::m_CameraList;
 CameraComponent::CameraComponent()
 {
+	m_CameraList.push_back(this);
 }
 
 CameraComponent::~CameraComponent()
@@ -60,14 +62,26 @@ tinyxml2::XMLElement * CameraComponent::VGenerateXml(tinyxml2::XMLDocument * p)
 
 const mat4& CameraComponent::GetViewMatrix()
 {
-	vec3 pos = m_pTransform->GetPosition();
+	/*vec3 pos = m_pTransform->GetPosition();
 	vec3 front = m_pTransform->GetFront();
 	vec3 up = m_pTransform->GetUp();
 	ViewMatrix = glm::lookAt(pos, pos + front, up);
-	m_Frustum.Update(pos, front, m_pTransform->GetRight());
+	m_Frustum.Update(pos, front, m_pTransform->GetRight());*/
 	return ViewMatrix;
 }
 
+void CameraComponent::VUpdate(float dt)
+{
+	mat4 tt = m_pOwner->VGetGlobalTransform();
+	vec3 pos = tt[3];
+	vec3 front = tt[2];
+	vec3 up = tt[1];
+
+	ViewMatrix = glm::lookAt(pos, pos + front, up);
+	m_Frustum.Update(pos, front, tt[0]);
+
+	ImGui::Text("Pos: %f %f %f", pos.x, pos.y, pos.z);
+}
 const mat4& CameraComponent::GetProjMatrix()
 {
 	return m_Frustum.GetProjMatrix();
@@ -75,7 +89,7 @@ const mat4& CameraComponent::GetProjMatrix()
 
 const mat4& CameraComponent::GetVPMatrix()
 {
-	return m_Frustum.GetProjMatrix()*GetViewMatrix();
+	return m_Frustum.GetProjMatrix()*ViewMatrix;
 }
 
 const Frustum& CameraComponent::GetFrustum()const

@@ -15,7 +15,7 @@ void Application::SetupSubmodule()
 	Console			*Con = new Console();
 	Debug			*Db = new Debug();
 	SystemUI		*S = new SystemUI();
-
+	ActorFactory	*A = new ActorFactory();
 	
 
 	W->Init(C);
@@ -29,6 +29,7 @@ void Application::SetupSubmodule()
 	D->Init(C);
 	B->Init(C);
 	Db->Init(C);
+	A->Init(C);
 
 	Actor::m_Context = C;
 	ActorComponent::m_Context = C;

@@ -10,7 +10,18 @@ void ActorFactory::EventCreateWeapon(std::shared_ptr<const IEvent> pEvents)
 
 }
 
-ActorFactory::ActorFactory(Context*c,Scene* pScene):m_Context(c)
+void ActorFactory::Init(Context * c)
+{
+	c->m_pActorFactory = std::unique_ptr<ActorFactory>(this);
+	c->m_pEventManager->VAddListener(MakeDelegate(this, &ActorFactory::EventCreateWeapon), EvtData_RequestCreateWeapon::sk_EventType);
+}
+
+void ActorFactory::ShutDown()
+{
+	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &ActorFactory::EventCreateWeapon), EvtData_RequestCreateWeapon::sk_EventType);
+}
+
+ActorFactory::ActorFactory()
 {
 	m_lastActorId = 1;
 	m_ComponentFactoryMap.insert(std::make_pair(TransformComponent::Name, []() { return new TransformComponent(); }));
@@ -22,11 +33,7 @@ ActorFactory::ActorFactory(Context*c,Scene* pScene):m_Context(c)
 	m_ComponentFactoryMap.insert(std::make_pair(LogicComponent::Name, []() { return new LogicComponent(); }));
 	m_ComponentFactoryMap.insert(std::make_pair(MeshRenderComponent::Name, []() { return new MeshRenderComponent(); }));
 	m_ComponentFactoryMap.insert(std::make_pair(TerrainRenderComponent::Name, []() { return new TerrainRenderComponent(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(CameraComponent::Name, [pScene]()
-		{ 
-			auto a = new CameraComponent();
-			pScene->SetCamera(a);
-			return a; }));
+	m_ComponentFactoryMap.insert(std::make_pair(CameraComponent::Name, [](){ return  new CameraComponent(); }));
 	
 	m_ActorFactoryMap.insert(std::make_pair("Player", [](int id) {return new Player(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("World", [](int id) {return new TerrainWorld(id); }));
@@ -34,43 +41,14 @@ ActorFactory::ActorFactory(Context*c,Scene* pScene):m_Context(c)
 	m_ActorFactoryMap.insert(std::make_pair("Weapon", [](int id) {return new Weapon(id); }));
 	
 	
-	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &ActorFactory::EventCreateWeapon), EvtData_RequestCreateWeapon::sk_EventType);
+	
 }
 
 ActorFactory::~ActorFactory()
 {
-	//m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &ActorFactory::EventCreateWeapon), EvtData_RequestCreateWeapon::sk_EventType);
-}
-
-/*
-Actor * ActorFactory::CreateActor(const char * name, ShapeType type, const mat4& initialTransform)
-{
-
-	Actor* pActor = new Actor(GetNextActorId());
-	pActor->VSetName(name);
-
-	// Create mesh renderer
 	
-	vector<IMesh*> v;
-	v.push_back(m_Context->m_pResources->CreateShape(SHAPE_BOX));
-
-	ActorComponent* pMeshRenderC = new MeshRenderComponent(v);
-	pActor->AddComponent(pMeshRenderC);
-	pMeshRenderC->SetOwner(pActor);
-
-	// Create Transform
-	ActorComponent* pTransformC = new TransformComponent(initialTransform);
-	pActor->AddComponent(pTransformC);
-	pTransformC->SetOwner(pActor);
-
-	//pActor->PostInit();
-
-	return pActor;
 }
-*/
-void ActorFactory::ModifyActor(Actor * pActor, tinyxml2::XMLElement * overrides)
-{
-}
+
 
 
 ActorComponent * ActorFactory::VCreateComponent(const tinyxml2::XMLElement* pData)
@@ -95,6 +73,15 @@ ActorComponent * ActorFactory::VCreateComponent(const tinyxml2::XMLElement* pDat
 	return pComponent;
 }
 
+
+bool ActorFactory::RegisterComponentFactory(string name, std::function<ActorComponent*()>func)
+{
+	auto it = m_ComponentFactoryMap.find(name);
+	if (it != m_ComponentFactoryMap.end()) return false;
+
+	m_ComponentFactoryMap.insert(std::make_pair(name, func));
+	return 1;
+}
 
 Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLElement * overrides, const mat4 * initialTransform)
 {
@@ -158,5 +145,19 @@ Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLEleme
 
 	pActor->PostInit();
 
+	// load chil
+	tinyxml2::XMLElement* pChildData = pActorData->FirstChildElement("Children");
+
+	if (pChildData == nullptr) return pActor;
+
+	for (tinyxml2::XMLElement* pNode = pChildData->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+	{
+		const char* pFile = pNode->Attribute("File");
+		if (!pFile) continue;
+		if (strlen(pFile) < 1) continue;
+		Actor* child = CreateActor(pFile, nullptr, nullptr);
+		pActor->VAddChild(std::unique_ptr<Actor>(child));
+
+	}
 	return pActor;
 }

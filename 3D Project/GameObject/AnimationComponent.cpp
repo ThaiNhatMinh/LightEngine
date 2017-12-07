@@ -75,6 +75,8 @@ const vector<mat4>& BaseAnimComponent::GetVertexTransform()
 
 bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 {
+	m_bDrawSkeleton = 0;
+	m_Context->m_pConsole->RegisterVar("draw_skeleton", &m_bDrawSkeleton, 1, sizeof(int), TYPE_INT);
 	if (!pData) return false;
 	// load model
 	const tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
@@ -240,6 +242,8 @@ void AnimationComponent::VPostInit(void)
 
 void AnimationComponent::VUpdate(float deltaMs)
 {
+	if (m_bDrawSkeleton) DrawSkeleton(m_pOwner->VGetGlobalTransform());
+
 	if (!m_pAnimList.size()) return;
 	m_Control[lower].m_fTime += deltaMs;
 	m_Control[upper].m_fTime += deltaMs;

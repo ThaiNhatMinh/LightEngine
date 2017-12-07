@@ -10,6 +10,7 @@ class Resources;
 class DirectInput;
 class BulletPhysics;
 class SystemUI;
+class ActorFactory;
 class Context
 {
 public:
@@ -24,7 +25,7 @@ public:
 	std::unique_ptr<Resources>			m_pResources;
 	std::unique_ptr<DirectInput>		m_pInput;
 	std::unique_ptr<BulletPhysics>		m_pPhysic;
-	
+	std::unique_ptr<ActorFactory>		m_pActorFactory;
 
 
 	Context();

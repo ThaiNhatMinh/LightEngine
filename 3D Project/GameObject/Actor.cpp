@@ -72,7 +72,7 @@ mat4 Actor::VGetGlobalTransform()
 	
 	mat4 transform = m_TransformComponent->GetTransform();
 	if (m_pParent)
-		transform = transform*m_pParent->VGetGlobalTransform();
+		transform = m_pParent->VGetGlobalTransform()*transform;
 
 	return transform;
 }
