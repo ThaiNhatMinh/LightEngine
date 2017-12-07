@@ -35,7 +35,7 @@ public:
 	void EnableFullScreen(bool enable);
 	void SwitchMode();
 	int ShouldClose();
-	void SetMouse(bool t);
+	void SetMouse(int t);
 	vec2 GetWindowSize(){ return vec2(m_iWidth, m_iHeight); };
 	GLFWwindow* Window() {		return m_pWindow;	};
 	HWND GetHandle() { return glfwGetWin32Window(m_pWindow); }

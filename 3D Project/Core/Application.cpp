@@ -14,16 +14,22 @@ void Application::SetupSubmodule()
 	BulletPhysics	*B = new BulletPhysics();
 	Console			*Con = new Console();
 	Debug			*Db = new Debug();
+	SystemUI		*S = new SystemUI();
+
+	
 
 	W->Init(C);
 	O->Init(C);
+	R->Init(C);
+	Con->Init(C);
+	S->Init(C);
 	E->Init(C);
 	G->Init(C);
-	R->Init(C);
+	
 	D->Init(C);
 	B->Init(C);
-	Con->Init(C);
 	Db->Init(C);
+
 	Actor::m_Context = C;
 	ActorComponent::m_Context = C;
 	ISubSystem::m_Context = C;
@@ -58,6 +64,8 @@ void Application::MainLoop()
 	BulletPhysics	*B = m_Context->m_pPhysic.get();
 	OpenGLRenderer	*O = m_Context->m_pRenderer.get();
 	Console			*C = m_Context->m_pConsole.get();
+	SystemUI		*S = m_Context->m_pSystemUI.get();
+	Debug			*Db = m_Context->m_pDebuger.get();
 	m_Context->m_pWindows->ShowWindows();
 
 	G->Reset();
@@ -75,10 +83,13 @@ void Application::MainLoop()
 		
 		G->Tick();
 
+		S->NewFrame();
+
 		E->VUpdate(20);
 
 		
 
+		
 		
 
 		B->VOnUpdate(G->GetDeltaTime());
@@ -92,9 +103,11 @@ void Application::MainLoop()
 
 		m_Game->Render();
 
-		m_Context->m_pConsole->Draw();
+		C->Draw();
 		
-		m_Context->m_pDebuger->Render();
+		
+		Db->Render();
+		S->Render();
 		O->SwapBuffer();
 
 

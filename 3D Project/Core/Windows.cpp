@@ -147,9 +147,9 @@ int Windows::ShouldClose()
 	return glfwWindowShouldClose(m_pWindow);
 }
 
-void Windows::SetMouse(bool t)
+void Windows::SetMouse(int t)
 {
 	// Hide OS mouse cursor if ImGui is drawing it
 	
-	glfwSetInputMode(m_pWindow, GLFW_CURSOR, t ? GLFW_CURSOR_HIDDEN : GLFW_CURSOR_NORMAL);
+	glfwSetInputMode(m_pWindow, GLFW_CURSOR, t);
 }

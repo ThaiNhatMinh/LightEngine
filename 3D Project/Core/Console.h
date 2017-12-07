@@ -2,27 +2,36 @@
 #include <pch.h>
 #include "../Graphics3D/Mesh.h"
 #include "../Core/Context.h"
-#include <imgui\imgui.h>
+
+enum ConVarType
+{
+	TYPE_INT,
+	TYPE_FLOAT,
+	TYPE_COUNT
+};
+class ConsoleVar
+{
+public:
+	string command;
+	void* val;
+	int size;
+	int num;
+	ConVarType type;
+};
 
 class Console: public ISubSystem
 {
 
 private:
-	GLuint m_FontTexture;
-	Shader* m_pShader;
-	std::unique_ptr<imguiMesh> m_Mesh;
-	GLFWwindow* w;
-	bool m_MousePress[3];
-	float m_MouseWhell;
-	float m_Time;
+	vector<ConsoleVar>		m_VarList;
+
 	vector<string>			m_Items;
 	bool					ScrollToBottom;
 	char					InputBuf[256];
 	bool					p_Open;
 	bool					Show;
 protected:
-	void CreateFontsTexture();
-	void NewFrame();
+	
 public:
 	Console();
 	~Console();
@@ -30,15 +39,14 @@ public:
 	virtual void ShutDown();
 	void Draw();
 
-	void OnRenderDrawLists(ImDrawData* data);
-
+	
+	bool	RegisterVar(const char* command, void* address, int num, int size, ConVarType type);
 	void    ExecCommand(const char* command_line);
-	void    AddLog(const char* fmt, ...);
+	void    AddLog(const char* fmt, ...)IM_FMTARGS(2);
 	void	SetStatus(bool s) { Show = s; }
 	bool	GetStatus() { return Show; }
 	void	CheckStatus();
-	friend void ImGui_ImplGlfwGL3_MouseButtonCallback(GLFWwindow* w, int button, int action, int /*mods*/);
-	friend void ImGui_ImplGlfwGL3_ScrollCallback(GLFWwindow* w, double /*xoffset*/, double yoffset);
+	
 
 	int(*CallBack)(ImGuiTextEditCallbackData* testData) = [](ImGuiTextEditCallbackData* testData)
 	{
