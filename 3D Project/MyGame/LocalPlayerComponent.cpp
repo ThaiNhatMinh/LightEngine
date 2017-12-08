@@ -76,39 +76,33 @@ void LocalPlayerComponent::VPostInit(void)
 
 void LocalPlayerComponent::VUpdate(float dt)
 {
+	m_Context->m_pDebuger->DrawCoord(m_pOwner->VGetGlobalTransform());
 	m_MoveDirection = vec3(0);
 	m_JumpDirection = vec3(0);
 
-	if (m_Context->m_pInput->KeyDown(DIK_Y))
-	{
-		m_MoveDirection -= m_pTC->GetFront();
-		m_pBAC->PlayAnimation(run);
-	}
-	else if (m_Context->m_pInput->KeyDown(DIK_H))
+	if (m_Context->m_pInput->KeyDown(DIK_W))
 	{
 		m_MoveDirection += m_pTC->GetFront();
-		m_pBAC->PlayAnimation(runBside);
+		if (m_bOnGround) m_pBAC->PlayAnimation(run);
 	}
-	else if (m_Context->m_pInput->KeyDown(DIK_G))
+	if (m_Context->m_pInput->KeyDown(DIK_S))
+	{
+		m_MoveDirection -= m_pTC->GetFront();
+		if (m_bOnGround) m_pBAC->PlayAnimation(runBside);
+	}
+	if (m_Context->m_pInput->KeyDown(DIK_D))
 	{
 		m_MoveDirection += m_pTC->GetRight();
-		m_pBAC->PlayAnimation(runRside);
+		if (m_bOnGround) m_pBAC->PlayAnimation(runRside);
 	}
-	else if (m_Context->m_pInput->KeyDown(DIK_J))
+	if (m_Context->m_pInput->KeyDown(DIK_A))
 	{
 		m_MoveDirection -= m_pTC->GetRight();
-		m_pBAC->PlayAnimation(runLside);
+		if (m_bOnGround) m_pBAC->PlayAnimation(runLside);
 	}
-	if (m_Context->m_pInput->KeyDown(DIK_SPACE))
-	{
-		m_JumpDirection = vec3(0, 1, 0);
-		m_pBAC->PlayAnimation(jump,false);
-	}
-
-	if (m_MoveDirection == vec3(0))
-	{
-		m_pBAC->PlayDefaultAnimation();
-	}
+	
+	//ImGui::Text("On Ground: %d", m_bOnGround);
+	
 	//m_MoveDirection = vec3(0);
 
 }
@@ -130,6 +124,7 @@ void LocalPlayerComponent::PhysicCollisionEvent(std::shared_ptr<const IEvent> pE
 	if (p->GetActorB()->GetId() == m_pOwner->GetId() && p->GetActorA()->VGetTag() == "World")
 		m_bOnGround = true;
 
+	//if (p->GetActorB()->VGetName() == "707" || p->GetActorA()->VGetName() == "707")	cout << "DDDD" << endl;
 }
 
 void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEvent)
@@ -152,28 +147,36 @@ void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEve
 	vec3 planeVelocity(v.x, 0.0f, v.z);
 
 
-
-	if (m_MoveDirection != vec3(0) && m_bOnGround)
-	{
-
-		m_MoveDirection = glm::normalize(m_MoveDirection);
-		m_pRBC->ApplyImpulse(m_MoveDirection *m_fMoveForce);
-	}
-
 	if (m_bOnGround)
 	{
 		vec3 brakeForce = -planeVelocity * m_fBrakeForce;
 		m_pRBC->ApplyImpulse(brakeForce);
+		
+		if (m_Context->m_pInput->KeyDown(DIK_SPACE))
+		{
+			m_JumpDirection = vec3(0, 1, 0);
+			m_pRBC->ApplyImpulse(vec3(0, 1, 0)*m_fJumpForce);
+			m_pBAC->PlayAnimation(jump, false);
 
+		}
+
+		if (m_MoveDirection == vec3(0) && m_JumpDirection == vec3(0))
+		{
+			m_pBAC->PlayDefaultAnimation();
+		}
+
+
+		if (m_MoveDirection != vec3(0))
+		{
+
+			m_MoveDirection = glm::normalize(m_MoveDirection);
+			m_pRBC->ApplyImpulse(m_MoveDirection *m_fMoveForce);
+		}
 	}
 
-	if (m_JumpDirection != vec3(0) && m_bOnGround)
-	{
+	
 
-		m_pRBC->ApplyImpulse(vec3(0, 1, 0)*m_fJumpForce);
-
-	}
-
+	
 	m_bOnGround = false;
 }
 

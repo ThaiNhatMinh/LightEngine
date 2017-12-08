@@ -4,6 +4,7 @@
 
 void Game::Init(Context *c)
 {
+	m_Context = c;
 	c->m_pActorFactory->RegisterComponentFactory(LocalPlayerComponent::Name, []() {return new LocalPlayerComponent(); });
 
 	LoadWeapon();
@@ -17,17 +18,16 @@ void Game::Init(Context *c)
 	c->m_pEventManager->VTriggerEvent(p2);
 	std::shared_ptr<const IEvent> p(new EvtData_PlayerWpData(m_WeaponResources));
 	c->m_pEventManager->VTriggerEvent(p);
-	test[0] = 12;
-	test[1] = 24;
-	test[2] = 48;
-	test[3] = 463;
-	c->m_pConsole->RegisterVar("test_cmd", test, 4, sizeof(int), TYPE_INT);
+	
+	//c->m_pConsole->RegisterVar("test_cmd", test, 4, sizeof(int), TYPE_INT);
 
 }
 
 void Game::Update(float dt)
 {
 	m_Scene->OnUpdate(dt);
+	ImGui::Text("FPS: %d", m_Context->m_pTimer->GetFPS());
+	
 }
 
 void Game::Render()

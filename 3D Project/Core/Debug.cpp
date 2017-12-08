@@ -57,9 +57,9 @@ void Debug::DrawCoord(const mat4 & m)
 	vec3 x = m[0];
 	vec3 y = m[1];
 	vec3 z = m[2];
-	DrawLine(pos, pos+x, vec3(1, 0, 0));
-	DrawLine(pos, pos+y, vec3(0, 1, 0));
-	DrawLine(pos, pos+z, vec3(0, 0,1));
+	DrawLine(pos, pos+x*10.0f, vec3(1, 0, 0));
+	DrawLine(pos, pos+y*10.0f, vec3(0, 1, 0));
+	DrawLine(pos, pos+z*10.0f, vec3(0, 0,1));
 }
 
 void Debug::Render()

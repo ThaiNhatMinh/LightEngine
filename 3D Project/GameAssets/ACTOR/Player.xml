@@ -7,7 +7,7 @@
   <Component>
 	  <LocalPlayerComponent>
 		  <Speed max="10.0" />
-		  <Jump force="1000.0" />
+		  <Jump force="3000.0" />
 		  <Move force="6900.0" brakefore="60"/>
 	  </LocalPlayerComponent>
 	
@@ -21,7 +21,7 @@
 	  </ColliderComponent>
 
 	  <RigidBodyComponent>
-		  <Mass value="50.0" />
+		  <Mass value="70.0" />
 		  <PhysicsMaterial>player</PhysicsMaterial>
 		  <RigidBodyTransform>
 			  <Position x="0.0" y="0.0" z="0.0"/>
@@ -30,7 +30,7 @@
   
 	  <TransformComponent>
 		  <Position x="0" y="500" z="0"/>
-		  <YawPitchRoll x="0" y="0" z="0"/>
+		  <YawPitchRoll x="0" y="180" z="0"/>
 	  </TransformComponent>
 	
 	  <MeshRenderComponent>

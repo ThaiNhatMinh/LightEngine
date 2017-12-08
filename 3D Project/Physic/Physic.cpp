@@ -19,10 +19,10 @@ static bool CustomMaterialCombinerCallback(btManifoldPoint& cp, const btCollisio
 {
 	btAdjustInternalEdgeContacts(cp, colObj1Wrap, colObj0Wrap, partId1, index1);
 
-	cp.m_combinedFriction = colObj0Wrap->getFriction() * colObj1Wrap->getFriction();
-	cp.m_combinedRestitution = colObj0Wrap->getRestitution() * colObj1Wrap->getRestitution();
+	//cp.m_combinedFriction = colObj0Wrap->getFriction() * colObj1Wrap->getFriction();
+	//cp.m_combinedRestitution = colObj0Wrap->getRestitution() * colObj1Wrap->getRestitution();
 
-	return true;
+	return false;
 }
 
 BulletPhysics::BulletPhysics()

@@ -1,6 +1,10 @@
 #include "pch.h"
 
 const char* TransformComponent::Name = "TransformComponent";
+TransformComponent::TransformComponent(void)
+{
+	//m_Transform = glm::scale(mat4(), vec3(1, 1, -1));
+}
 bool TransformComponent::VInit(const tinyxml2::XMLElement* pData)
 {
 	if (!pData) return false;
@@ -29,14 +33,14 @@ bool TransformComponent::VInit(const tinyxml2::XMLElement* pData)
 		pitch = pOrientationElement->FloatAttribute("x");
 		yaw = pOrientationElement->FloatAttribute("y");
 		roll = pOrientationElement->FloatAttribute("z");
-		yawPitchRoll = vec3(pitch, yaw, roll);
+		yawPitchRoll = vec3(glm::radians(pitch), glm::radians(yaw), glm::radians(roll));
 	}
 
 
 	mat4 translation;
 	translation= glm::translate(translation,position);
 
-	mat4 rotation = glm::eulerAngleYXZ(yawPitchRoll.y, yawPitchRoll.x, yawPitchRoll.z);
+	mat4 rotation = glm::eulerAngleXYZ(yawPitchRoll.x, yawPitchRoll.y, yawPitchRoll.z);
 	
 	m_Transform = translation*rotation;
 
