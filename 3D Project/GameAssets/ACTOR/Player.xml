@@ -1,7 +1,7 @@
 <Actor type="Player" name="707" >
 
 	<Info Team="1" HP="100" AC="100" />
-	<Weapon Name1="Ultimax100" Default="0"/>
+	<Weapon Name1="MP5" Default="0"/>
 	<Character Name="SAS" />
 	
   <Component>
@@ -28,17 +28,15 @@
 		  </RigidBodyTransform>
 	  </RigidBodyComponent>
   
-	  <TransformComponent>
-		  <Position x="0" y="500" z="0"/>
-		  <YawPitchRoll x="0" y="180" z="0"/>
-	  </TransformComponent>
-	
 	  <MeshRenderComponent>
 		  <Model File="" />
 		  <Scale x="1.0" y="1.0" z="1.0"/>
 		  <Shader name="SkeShader" />
 	  </MeshRenderComponent>
-  
+	 <TransformComponent>
+		  <Position x="0" y="500" z="0"/>
+		  <YawPitchRoll x="0" y="180" z="0"/>
+	  </TransformComponent>
   </Component>
   <Children>
 	<Actor File="GameAssets\ACTOR\Camera.xml" />

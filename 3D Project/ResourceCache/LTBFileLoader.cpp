@@ -274,7 +274,7 @@ vector<std::unique_ptr<SkeMesh>> LTBFile::LoadMesh()
 				{
 				case eRigidMesh:
 					uint32 Bone;
-					printf("  PieceType: RigidMesh\n");
+					//printf("  PieceType: RigidMesh\n");
 					fread(&iRendObjectSize, sizeof(uint32), 1, pFile);
 					fread(&iVertCount, sizeof(uint32), 1, pFile);
 					fread(&iPolyCount, sizeof(uint32), 1, pFile);
@@ -694,7 +694,7 @@ vector<std::unique_ptr<Animation>> LTBFile::LoadAnimation(const vector<std::uniq
 		quat q(ort[0], ort[1], ort[2], ort[3]);
 		q = glm::pow(q, 0.5f);
 		mat4 rotate = glm::toMat4(q);
-		mat4 trf = glm::translate(mat4(),pos)*glm::scale(mat4(), scale);
+		mat4 trf = glm::translate(mat4(),pos);
 		socket.Transform = trf;
 		socketlist.push_back(socket);
 	}

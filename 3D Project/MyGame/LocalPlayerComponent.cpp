@@ -5,6 +5,7 @@ const char* LocalPlayerComponent::Name = "LocalPlayerComponent";
 
 
 LocalPlayerComponent::LocalPlayerComponent() :m_fJumpForce(0), m_fMaxSpeed(0), m_MoveDirection(0, 0, 0), m_JumpDirection(0, 1, 0), m_bOnGround(false), m_fInAirTime(0)
+, m_Shooting(0)
 {
 }
 
@@ -80,14 +81,26 @@ void LocalPlayerComponent::VUpdate(float dt)
 	m_MoveDirection = vec3(0);
 	m_JumpDirection = vec3(0);
 
+	ImGui::Text("Shoot: %d", m_Shooting);
+
+	if (m_Context->m_pInput->MouseButtonDown(0))
+	{
+		m_pBAC->PlayAnimation(shoot);
+		m_Shooting = 1;
+	}
+	else
+	{
+		m_Shooting = 0;
+	}
+
 	if (m_Context->m_pInput->KeyDown(DIK_W))
 	{
-		m_MoveDirection += m_pTC->GetFront();
+		m_MoveDirection -= m_pTC->GetFront();
 		if (m_bOnGround) m_pBAC->PlayAnimation(run);
 	}
 	if (m_Context->m_pInput->KeyDown(DIK_S))
 	{
-		m_MoveDirection -= m_pTC->GetFront();
+		m_MoveDirection += m_pTC->GetFront();
 		if (m_bOnGround) m_pBAC->PlayAnimation(runBside);
 	}
 	if (m_Context->m_pInput->KeyDown(DIK_D))
@@ -101,9 +114,17 @@ void LocalPlayerComponent::VUpdate(float dt)
 		if (m_bOnGround) m_pBAC->PlayAnimation(runLside);
 	}
 	
-	//ImGui::Text("On Ground: %d", m_bOnGround);
+	m_Yaw -= m_Context->m_pInput->mouseDX()*0.25f;
+	glm::quat qYaw = glm::angleAxis(glm::radians(m_Yaw), glm::vec3(0, 1, 0));
+	qYaw = glm::normalize(qYaw);
+	glm::mat4 rotate = glm::mat4_cast(qYaw);
+
+	vec3 pos = m_pTC->GetPosition();
+	m_pTC->GetTransform() = rotate;
+	m_pTC->SetPosition(pos);
 	
-	//m_MoveDirection = vec3(0);
+
+	
 
 }
 
@@ -124,7 +145,6 @@ void LocalPlayerComponent::PhysicCollisionEvent(std::shared_ptr<const IEvent> pE
 	if (p->GetActorB()->GetId() == m_pOwner->GetId() && p->GetActorA()->VGetTag() == "World")
 		m_bOnGround = true;
 
-	//if (p->GetActorB()->VGetName() == "707" || p->GetActorA()->VGetName() == "707")	cout << "DDDD" << endl;
 }
 
 void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEvent)
@@ -160,9 +180,9 @@ void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEve
 
 		}
 
-		if (m_MoveDirection == vec3(0) && m_JumpDirection == vec3(0))
+		if (m_MoveDirection == vec3(0) && m_JumpDirection == vec3(0)&&!m_Shooting)
 		{
-			m_pBAC->PlayDefaultAnimation();
+			m_pBAC->PlayAnimation(idle);
 		}
 
 
@@ -176,6 +196,12 @@ void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEve
 
 	
 
+	if (m_Shooting)
+	{
+		m_pBAC->PlayAnimation(shoot);
+	}
+	
+	uint8_t;
 	
 	m_bOnGround = false;
 }

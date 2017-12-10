@@ -17,6 +17,7 @@ protected:
 	void EventCharacterData(std::shared_ptr<const IEvent> pEvents);
 private:
 
+	
 	std::unique_ptr<MeshRenderComponent> m_MeshRender;
 
 	TeamClass	m_Team;

@@ -5,7 +5,8 @@
 /// Collision shape type.
 enum ShapeType
 {
-	SHAPE_BOX = 0,
+	SHAPE_NONE,
+	SHAPE_BOX ,
 	SHAPE_SPHERE,
 	SHAPE_CAPSULE,
 	SHAPE_CYLINDER,

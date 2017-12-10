@@ -47,6 +47,19 @@ bool TransformComponent::VInit(const tinyxml2::XMLElement* pData)
 	return true;
 }
 
+void TransformComponent::VPostInit()
+{
+	ColliderComponent* p = m_pOwner->GetComponent<ColliderComponent>(ColliderComponent::Name);
+	if (p == nullptr)
+	{
+		m_Type = SHAPE_NONE;
+		return;
+	}
+
+
+	m_Type = p->GetType();
+}
+
 tinyxml2::XMLElement * TransformComponent::VGenerateXml(tinyxml2::XMLDocument*p)
 {
 	tinyxml2::XMLElement* pBaseElement = p->NewElement(VGetName());
@@ -81,6 +94,15 @@ tinyxml2::XMLElement * TransformComponent::VGenerateXml(tinyxml2::XMLDocument*p)
 	**/
 
 	return pBaseElement;
+}
+
+void TransformComponent::SetTransform(const mat4 & newTransform)
+{
+	if (m_Type != SHAPE_CHARACTER) m_Transform = newTransform;
+	else
+	{
+		m_Transform[3] =newTransform[3];
+	}
 }
 
 vec3 TransformComponent::GetFront()

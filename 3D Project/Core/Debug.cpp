@@ -64,6 +64,8 @@ void Debug::DrawCoord(const mat4 & m)
 
 void Debug::Render()
 {
+	if (m_Lists.empty()) return;
+
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

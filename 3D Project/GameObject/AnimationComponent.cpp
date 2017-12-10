@@ -223,7 +223,7 @@ AnimationComponent::AnimationComponent(void)
 	m_Control[lower].KeyFrameID = 0;
 	m_Control[lower].m_State = ANIM_PLAYING;
 
-	m_fBlendTime = 0.3f;
+	m_fBlendTime = 0.2f;
 }
 
 AnimationComponent::~AnimationComponent(void)
@@ -378,8 +378,8 @@ void AnimationComponent::PlayDefaultAnimation()
 	if (m_Control[lower].m_iCurrentAnim == m_iDefaultAnimation) return;
 	ResetControl(lower, m_iDefaultAnimation, ANIM_TRANSITION);
 
-	if (m_Control[upper].m_iCurrentAnim == m_iDefaultAnimation) return;
-	ResetControl(upper, m_iDefaultAnimation, ANIM_TRANSITION);
+	//if (m_Control[upper].m_iCurrentAnim == m_iDefaultAnimation) return;
+	//ResetControl(upper, m_iDefaultAnimation, ANIM_TRANSITION);
 }
 
 AABB AnimationComponent::GetUserDimesion()

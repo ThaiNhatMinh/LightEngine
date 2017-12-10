@@ -32,4 +32,15 @@
    <GViewAnimName File="M4A1-A"/>
     <Info Range="400.0" MaxAmmo="100" AmmoPerMagazine="100" AmmoDamage="90" TargetSlot="0" />
   </Ultimax100>
+  <MP5>
+    <Class Class="2"/>
+    <LeftClickAttribute></LeftClickAttribute>
+    <RightClickAttribute></RightClickAttribute>
+    <ModelFileName File="MODELS\WEAPONS\MP5.LTB"/>
+     <SkinFileName File="TEXTURES\WEAPONS\L-MP5.DTX"/>
+     <PViewModelFileName File="MODELS\PLAYERVIEW\PV-MP5.LTB"/>
+    <PViewSkinFileName File="TEXTURES\PLAYERVIEW\PV-MP5.DTX"/>
+   <GViewAnimName File="MP5"/>
+    <Info Range="400.0" MaxAmmo="100" AmmoPerMagazine="100" AmmoDamage="90" TargetSlot="0" />
+  </MP5>
 </Weapon>

@@ -4,6 +4,8 @@
     <Position x="0" y="50" z="200"/>
     <YawPitchRoll x="0" y="180" z="0"/>
   </TransformComponent>
+
+  
   <CameraComponent>
     <Frustum fov="45.0" aspect ="-1.0" nplane ="1.0" fplane="10000.0" />
   </CameraComponent>

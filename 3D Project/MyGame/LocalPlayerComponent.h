@@ -11,11 +11,14 @@ private:
 	float			m_fMoveForce;
 	float			m_fBrakeForce;
 	float			m_fInAirTime;
-
+	float			m_Yaw;
+	float			m_Pitch;
+	int				m_Shooting;
 	RigidBodyComponent	*m_pRBC;
 	TransformComponent	*m_pTC;
 	BaseAnimComponent	*m_pBAC;
 	bool			m_bOnGround;
+
 public:
 	LocalPlayerComponent();
 	~LocalPlayerComponent();

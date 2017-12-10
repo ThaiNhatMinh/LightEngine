@@ -30,6 +30,7 @@ void Actor::PostInit(void)
 	{
 		it->second->VPostInit();
 	}
+	m_TransformComponent->VPostInit();
 }
 
 void Actor::Destroy(void)
