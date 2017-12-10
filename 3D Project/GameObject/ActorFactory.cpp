@@ -39,7 +39,14 @@ ActorFactory::ActorFactory()
 	m_ActorFactoryMap.insert(std::make_pair("World", [](int id) {return new TerrainWorld(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("PlayerView", [](int id) {return new PlayerView(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("Weapon", [](int id) {return new Weapon(id); }));
+	m_ActorFactoryMap.insert(std::make_pair("StaticObject", [](int id) {return new StaticObject(id); }));
 	
+
+	m_ShaderFactory.insert(std::make_pair("SkeShader", [](const char*vs, const char* fs) {return new SkeShader(vs, fs); }));
+	m_ShaderFactory.insert(std::make_pair("PrimShader", [](const char*vs, const char* fs) {return new PrimShader(vs, fs); }));
+	m_ShaderFactory.insert(std::make_pair("Debug", [](const char*vs, const char* fs) {return new DebugShader(vs, fs); }));
+	m_ShaderFactory.insert(std::make_pair("Shader", [](const char*vs, const char* fs) {return new Shader(vs, fs); }));
+	m_ShaderFactory.insert(std::make_pair("ImGuiShader", [](const char*vs, const char* fs) {return new ImGuiShader(vs, fs); }));
 	
 	
 }
@@ -145,7 +152,7 @@ Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLEleme
 
 	pActor->PostInit();
 
-	// load chil
+	// load child
 	tinyxml2::XMLElement* pChildData = pActorData->FirstChildElement("Children");
 
 	if (pChildData == nullptr) return pActor;
@@ -160,4 +167,13 @@ Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLEleme
 
 	}
 	return pActor;
+}
+
+Shader * ActorFactory::CreateShader(const char * type, const char * vs, const char * fs)
+{
+	auto func = m_ShaderFactory.find(type);
+	if (func == m_ShaderFactory.end()) return nullptr;
+
+	Shader* p = func->second(vs, fs);
+	return p;
 }

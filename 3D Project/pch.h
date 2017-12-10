@@ -164,6 +164,7 @@ using glm::quat;
 #include "GameObject\LogicComponent.h"
 #include "GameObject\ActorFactory.h"
 #include "GameObject\Actor.h"
+#include "GameObject\StaticObject.h"
 #include "Physic\PhysicDebugDrawer.h"
 #include "Physic\Physic.h"
 

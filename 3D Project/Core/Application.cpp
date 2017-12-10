@@ -17,23 +17,29 @@ void Application::SetupSubmodule()
 	SystemUI		*S = new SystemUI();
 	ActorFactory	*A = new ActorFactory();
 	
+	Actor::m_Context = C;
+	ActorComponent::m_Context = C;
+	ISubSystem::m_Context = C;
 
+	
 	W->Init(C);
 	O->Init(C);
-	R->Init(C);
-	Con->Init(C);
-	S->Init(C);
+	
+	
 	E->Init(C);
-	G->Init(C);
+	A->Init(C);
+	R->Init(C);
+	S->Init(C);
+	Con->Init(C);
+
 	
 	D->Init(C);
 	B->Init(C);
 	Db->Init(C);
-	A->Init(C);
 
-	Actor::m_Context = C;
-	ActorComponent::m_Context = C;
-	ISubSystem::m_Context = C;
+	G->Init(C);
+
+	
 	m_Context = std::unique_ptr<Context>(C);
 
 }

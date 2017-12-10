@@ -25,6 +25,6 @@ public:
 	// Let this component render or just return m_MeshList for other sub-system
 	// For easy now just render it
 	// Request mesh and texture
-	void Render(Scene*);
+	virtual void Render(Scene*);
 	vector<IMesh*>& GetMeshList();
 };

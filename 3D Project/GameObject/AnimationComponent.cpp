@@ -208,6 +208,18 @@ void AnimationComponent::SetBaseAnim(const string& name )
 		}
 }
 
+void AnimationComponent::Play(blendset part, int anim, bool fromBaseAnim)
+{
+	GLint animID = 0;
+
+	if (fromBaseAnim) animID = anim + m_iDefaultAnimation;
+	else animID = anim;
+
+	if (m_Control[part].m_iCurrentAnim == animID) return;
+
+	ResetControl(part, animID, ANIM_TRANSITION);
+}
+
 AnimationComponent::AnimationComponent(void)
 {
 	m_iDefaultAnimation = 0;

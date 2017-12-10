@@ -179,6 +179,7 @@
     <ClInclude Include="GameObject\LogicComponent.h" />
     <ClInclude Include="GameObject\MeshRenderComponent.h" />
     <ClInclude Include="GameObject\RigidBodyComponent.h" />
+    <ClInclude Include="GameObject\StaticObject.h" />
     <ClInclude Include="GameObject\TerrainRenderComponent.h" />
     <ClInclude Include="GameObject\TransformComponent.h" />
     <ClInclude Include="Graphics3D\AnimationDef.h" />
@@ -255,6 +256,7 @@
     <ClCompile Include="GameObject\LogicComponent.cpp" />
     <ClCompile Include="GameObject\MeshRenderComponent.cpp" />
     <ClCompile Include="GameObject\RigidBodyComponent.cpp" />
+    <ClCompile Include="GameObject\StaticObject.cpp" />
     <ClCompile Include="GameObject\TerrainRenderComponent.cpp" />
     <ClCompile Include="GameObject\TransformComponent.cpp" />
     <ClCompile Include="Graphics3D\Camera.cpp" />

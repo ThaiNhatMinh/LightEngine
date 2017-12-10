@@ -161,7 +161,7 @@ void BulletPhysics::VOnUpdate(float const deltaSeconds)
 	//   We pass in 4 as a max number of sub steps.  Bullet will run the simulation
 	//   in increments of the fixed timestep until "deltaSeconds" amount of time has
 	//   passed, but will only run a maximum of 4 steps this way.
-	m_dynamicsWorld->stepSimulation(deltaSeconds);
+	m_dynamicsWorld->stepSimulation(deltaSeconds,4);
 	//E_DEBUG("Physuic Update()");
 	
 

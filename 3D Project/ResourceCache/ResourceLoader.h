@@ -42,9 +42,9 @@ private:
 	vector<std::unique_ptr<ModelCache>> m_ModelCaches;
 	vector<std::unique_ptr<HeightMap>> m_HeightMaps;
 	map<string, std::unique_ptr<Shader>> m_ShaderList;
-	map<string, std::function<std::unique_ptr<Shader>(const char *, const char*)>> m_ShaderFactory;
+	
 	// this list store primitive shape 
-	vector<IMesh*>	m_PrimList;
+	vector<std::unique_ptr<IMesh>>	m_PrimList;
 	// Default texture when can't found tex
 	Texture* m_pDefaultTex;
 	// Path to resource
@@ -63,9 +63,8 @@ private:
 	unsigned char* LoadHeightMap(const char* filename, int& w, int& h);
 	ModelCache* LoadModel(const char* filename);
 	ModelCache* LoadModelXML(const char* XMLFile);
-	IMesh* CreateShape(ShapeType type);
 	
-	Shader* LoadShader(string key, const char* vs, const char* fs, bool linkshader = true);
+	Shader* LoadShader(string key,const char* type, const char* vs, const char* fs, bool linkshader = true);
 
 	void LoadResources(string path);
 
@@ -75,6 +74,7 @@ public:
 	virtual void  Init(Context* c);
 	virtual void  ShutDown();
 
+	IMesh*		CreateShape(ShapeType type,float* size);
 	
 	Shader*		GetShader(string key);
 	Texture*	GetTexture(const char* filename);

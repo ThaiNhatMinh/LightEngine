@@ -1,14 +1,14 @@
-<Actor type="Cube" name="Box">
+<Actor type="StaticObject" name="Box">
   
-
+<Component>
 	<ColliderComponent>
 		<Shape>Box</Shape>
-		<HalfSize x="1" y="1" z="1" />
+		<HalfSize x="25" y="25" z="25" />
 	</ColliderComponent>
 	
 	<RigidBodyComponent>
-		<Mass value="50.0" />
-		<PhysicsMaterial>player</PhysicsMaterial>
+		<Mass value="500.0" />
+		<PhysicsMaterial>Normal</PhysicsMaterial>
 		<RigidBodyTransform>
 			<Position x="0.0" y="0.0" z="0.0"/>
 		</RigidBodyTransform>
@@ -16,16 +16,15 @@
 	  
   
 	<TransformComponent>
-		<Position x="0" y="200" z="0"/>
+		<Position x="100" y="200" z="100"/>
 		<YawPitchRoll x="0" y="0" z="0"/>
 	</TransformComponent>
 	
 	<MeshRenderComponent>
-		<Model Shape="Cube" />
-		<Scale x="1.0" y="1.0" z="1.0"/>
-    <Shader name="NoTexture" />
-    <Color r ="1.0" g="0.0" b="1.0" />
+		<Model Shape="1" sx="25" sy="25" sz="25"/>
+		<Shader name="PrimShader" />
+		<Texture File ="TEXTURES\Default.png" />
 	</MeshRenderComponent>
   
-  
+  </Component>
 </Actor>

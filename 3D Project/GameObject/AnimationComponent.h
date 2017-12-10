@@ -133,6 +133,7 @@ public:
 	AABB				GetUserDimesion();
 	virtual void		AnimEvent(const string&);
 	void				SetBaseAnim(const string& name);
+	void				Play(blendset part,int anim, bool fromBaseAnim = true);
 
 };
 

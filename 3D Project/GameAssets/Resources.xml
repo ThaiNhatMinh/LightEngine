@@ -1,9 +1,10 @@
 <Resources Path ="GameAssets\">
 
-  <Shader Name="Debug" FileVS="SHADER\Debug.vs" FileFS="SHADER\Debug.fs" />
-  <Shader Name="SkeShader" FileVS="SHADER\Skeleton.vs" FileFS="SHADER\Texture.fs" />
-  <Shader Name="PrimShader" FileVS="SHADER\Texture.vs" FileFS="SHADER\Texture.fs" />
-  <Shader Name="ImGuiShader" FileVS="SHADER\imgui.vs" FileFS="SHADER\imgui.fs" />
+  <Shader Name="Debug" Tag="Debug" FileVS="SHADER\Debug.vs" FileFS="SHADER\Debug.fs" />
+  <Shader Name="SkeShader" Tag="SkeShader" FileVS="SHADER\Skeleton.vs" FileFS="SHADER\Texture.fs" />
+  <Shader Name="PrimShader" Tag="PrimShader" FileVS="SHADER\Texture.vs" FileFS="SHADER\Texture.fs" />
+  <Shader Name="PrimShader" Tag="Terrain" FileVS="SHADER\Terrain.vs" FileFS="SHADER\Texture.fs" />
+  <Shader Name="ImGuiShader" Tag="ImGuiShader" FileVS="SHADER\imgui.vs" FileFS="SHADER\imgui.fs" />
   <HeightMap File="WORLD\heightmap.png" Size="80" Width="-1" Height="-1" HeightScale="0.0" SubDevided="1"/>
   
   <Texture File="TEXTURES\Default.png" />

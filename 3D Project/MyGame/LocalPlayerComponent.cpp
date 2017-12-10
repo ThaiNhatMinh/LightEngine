@@ -81,37 +81,36 @@ void LocalPlayerComponent::VUpdate(float dt)
 	m_MoveDirection = vec3(0);
 	m_JumpDirection = vec3(0);
 
-	ImGui::Text("Shoot: %d", m_Shooting);
+	
 
 	if (m_Context->m_pInput->MouseButtonDown(0))
 	{
-		m_pBAC->PlayAnimation(shoot);
-		m_Shooting = 1;
+		m_pBAC->Play(upper, shoot);
 	}
 	else
 	{
-		m_Shooting = 0;
+		m_pBAC->Play(upper, idle);
 	}
 
 	if (m_Context->m_pInput->KeyDown(DIK_W))
 	{
 		m_MoveDirection -= m_pTC->GetFront();
-		if (m_bOnGround) m_pBAC->PlayAnimation(run);
+		if (m_bOnGround) m_pBAC->Play(lower,run);
 	}
 	if (m_Context->m_pInput->KeyDown(DIK_S))
 	{
 		m_MoveDirection += m_pTC->GetFront();
-		if (m_bOnGround) m_pBAC->PlayAnimation(runBside);
+		if (m_bOnGround) m_pBAC->Play(lower, runBside);
 	}
 	if (m_Context->m_pInput->KeyDown(DIK_D))
 	{
 		m_MoveDirection += m_pTC->GetRight();
-		if (m_bOnGround) m_pBAC->PlayAnimation(runRside);
+		if (m_bOnGround) m_pBAC->Play(lower, runRside);
 	}
 	if (m_Context->m_pInput->KeyDown(DIK_A))
 	{
 		m_MoveDirection -= m_pTC->GetRight();
-		if (m_bOnGround) m_pBAC->PlayAnimation(runLside);
+		if (m_bOnGround) m_pBAC->Play(lower, runLside);
 	}
 	
 	m_Yaw -= m_Context->m_pInput->mouseDX()*0.25f;
@@ -124,7 +123,7 @@ void LocalPlayerComponent::VUpdate(float dt)
 	m_pTC->SetPosition(pos);
 	
 
-	
+	ImGui::Text("Yaw: %.3f", m_Yaw);
 
 }
 
@@ -180,9 +179,9 @@ void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEve
 
 		}
 
-		if (m_MoveDirection == vec3(0) && m_JumpDirection == vec3(0)&&!m_Shooting)
+		if (m_MoveDirection == vec3(0) && m_JumpDirection == vec3(0))
 		{
-			m_pBAC->PlayAnimation(idle);
+			m_pBAC->Play(lower,idle);
 		}
 
 
@@ -194,14 +193,6 @@ void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEve
 		}
 	}
 
-	
-
-	if (m_Shooting)
-	{
-		m_pBAC->PlayAnimation(shoot);
-	}
-	
-	uint8_t;
 	
 	m_bOnGround = false;
 }

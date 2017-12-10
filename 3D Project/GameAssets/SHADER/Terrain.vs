@@ -6,7 +6,7 @@ in vec2 uv;
 
 uniform mat4 Model;
 uniform mat4 MVP;
-
+uniform float scale;
 out vec3 vNormal;
 out vec2 vUV;
 out vec3 vFragPos;
@@ -15,6 +15,6 @@ void main()
 {
 	gl_Position = MVP * vec4(position,1.0f);
 	vNormal = mat3(Model) * normal;
-	vUV = uv;
+	vUV = uv*scale;
 	vFragPos = vec3(Model* vec4(position,1.0f));
 }

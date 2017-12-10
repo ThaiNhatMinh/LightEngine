@@ -5,7 +5,7 @@ class CubeMesh : public Mesh
 {
 public:
 	
-	CubeMesh(float sizex = 1.0f,float sizey=1.0f,float sizez = 1.0f);
+	CubeMesh(float sizex = 0.5f,float sizey=0.5f,float sizez = 0.5f);
 	~CubeMesh() {};
 	
 };

@@ -26,6 +26,22 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 			}
 		}
 	}
+	else
+	{
+		GLuint pShape = pModelPath->DoubleAttribute("Shape");
+		float size[3];
+		size[0] = pModelPath->DoubleAttribute("sx");
+		size[1] = pModelPath->DoubleAttribute("sy");
+		size[2] = pModelPath->DoubleAttribute("sz");
+
+		const tinyxml2::XMLElement* pTexPath = pData->FirstChildElement("Texture");
+		const char* pFileName1 = pTexPath->Attribute("File");
+
+		IMesh* p = m_Context->m_pResources->CreateShape((ShapeType)pShape, size);
+
+		p->Tex = m_Context->m_pResources->GetTexture(pFileName1);
+		m_MeshList.push_back(p);
+	}
 	
 
 	const tinyxml2::XMLElement* pShader = pData->FirstChildElement("Shader");

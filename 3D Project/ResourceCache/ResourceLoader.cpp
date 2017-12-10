@@ -45,11 +45,7 @@ HeightMap* Resources::HasHeighMap(const char * filename)
 
 Resources::Resources()
 {
-	m_ShaderFactory.insert(std::make_pair("SkeShader", [](const char*vs, const char* fs) {return std::make_unique<SkeShader>(vs, fs); }));
-	m_ShaderFactory.insert(std::make_pair("PrimShader", [](const char*vs, const char* fs) {return std::make_unique<PrimShader>(vs, fs); }));
-	m_ShaderFactory.insert(std::make_pair("Debug", [](const char*vs, const char* fs) {return std::make_unique<DebugShader>(vs,fs); }));
-	m_ShaderFactory.insert(std::make_pair("Shader", [](const char*vs, const char* fs) {return std::make_unique<Shader>(vs, fs); }));
-	m_ShaderFactory.insert(std::make_pair("ImGuiShader", [](const char*vs, const char* fs) {return std::make_unique<ImGuiShader>(vs, fs); }));
+	
 }
 
 
@@ -613,16 +609,15 @@ ModelCache * Resources::LoadModelXML(const char * XMLFile)
 	return pModel;
 }
 
-Shader * Resources::LoadShader(string key, const char * vs, const char* fs, bool linkshader)
+Shader * Resources::LoadShader(string key, const char* type, const char * vs, const char* fs, bool linkshader)
 {
 	auto pos = m_ShaderList.find(key);
 	if (pos != m_ShaderList.end()) return pos->second.get();
 
-	auto func = m_ShaderFactory.find(key);
-	if (func == m_ShaderFactory.end()) return nullptr;
+	
 	string fullPathvs = m_Path + vs;
 	string fullPathfs = m_Path + fs;
-	std::unique_ptr<Shader> p = func->second(fullPathvs.c_str(), fullPathfs.c_str());
+	std::unique_ptr<Shader> p(m_Context->m_pActorFactory->CreateShader(type,fullPathvs.c_str(),fullPathfs.c_str()));
 	Shader* result = p.get();
 
 	if (linkshader) p->LinkShader();
@@ -665,14 +660,19 @@ HeightMap * Resources::GetHeightMap(const char * filename)
 	return hm;
 }
 
-IMesh * Resources::CreateShape(ShapeType type)
+IMesh * Resources::CreateShape(ShapeType type,float* size)
 {
+	if (type == SHAPE_BOX)
+	{
+		IMesh* pBox = new CubeMesh(size[0],size[1],size[2]);
+		pBox->Name = ShapeName[type];
+		pBox->Init();
+		m_PrimList.push_back(std::unique_ptr<IMesh>(pBox));
+		return pBox;
+	}
 
-	IMesh* pBox = new CubeMesh();
-	pBox->Name = ShapeName[type];
-	m_PrimList.push_back(pBox);
-
-	return pBox;
+	return nullptr;
+	
 }
 
 void Resources::LoadResources(string path)
@@ -695,11 +695,12 @@ void Resources::LoadResources(string path)
 		}
 		else if (!strcmp(name, "Shader"))
 		{
-			const char* pTag = pNode->Attribute("Name");
+			const char* pName = pNode->Attribute("Name");
+			const char* pTag = pNode->Attribute("Tag");
 			const char* pFileVS = pNode->Attribute("FileVS");
 			const char* pFileFS = pNode->Attribute("FileFS");
-			if (!pTag || !pFileVS || !pFileFS) continue;
-			LoadShader(pTag, pFileVS, pFileFS);
+			if (!pName || !pFileVS || !pFileFS) continue;
+			LoadShader(pTag, pName, pFileVS, pFileFS);
 		}
 		else if (!strcmp(name, "ModelXML"))
 		{

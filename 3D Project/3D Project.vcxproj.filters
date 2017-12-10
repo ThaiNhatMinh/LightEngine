@@ -225,6 +225,9 @@
     <ClInclude Include="MyGame\LocalPlayerComponent.h">
       <Filter>MyGame\Component</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\StaticObject.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -403,6 +406,7 @@
     <ClCompile Include="MyGame\LocalPlayerComponent.cpp">
       <Filter>MyGame\Component</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\StaticObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

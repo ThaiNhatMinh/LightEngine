@@ -7,6 +7,7 @@ const char* TerrainRenderComponent::Name = "TerrainRenderComponent";
 
 bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 {
+	m_fScale = 10.0f;
 	if (!pData) return false;
 	const tinyxml2::XMLElement* pModelPath = pData->FirstChildElement("Model");
 
@@ -32,6 +33,31 @@ bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 			E_ERROR("Can not find shader name: " + string(pShader->Attribute("name")));
 	}
 	return true;
+}
+
+void TerrainRenderComponent::Render(Scene *pScene)
+{
+	if (m_MeshList.empty()) return;
+	m_pShader->SetupRender(pScene, m_pOwner);
+
+	RenderAPICore* pRender = m_Context->m_pRenderer.get();
+
+	m_pShader->SetUniform("scale", m_fScale);
+
+	m_pShader->SetUniform("gMaterial.Ka", m_Material.Ka);
+	m_pShader->SetUniform("gMaterial.Kd", m_Material.Kd);
+	m_pShader->SetUniform("gMaterial.Ks", m_Material.Ks);
+	m_pShader->SetUniform("gMaterial.exp", m_Material.exp);
+
+	for (size_t i = 0; i < m_MeshList.size(); i++)
+	{
+		pRender->SetTexture(m_MeshList[i]->Tex);
+
+		// ------- Render mesh ----------
+		pRender->SetVertexArrayBuffer(m_MeshList[i]->VAO);
+		pRender->SetDrawMode(m_MeshList[i]->Topology);
+		pRender->DrawElement(m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
+	}
 }
 
 TerrainRenderComponent::~TerrainRenderComponent()

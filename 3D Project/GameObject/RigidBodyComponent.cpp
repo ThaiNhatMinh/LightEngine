@@ -67,8 +67,8 @@ void RigidBodyComponent::VPostInit(void)
 	MaterialData material(B->LookupMaterialData(m_material));
 
 	// set up the materal properties
-	//rbInfo.m_restitution = material.m_restitution;
-	//rbInfo.m_friction = material.m_friction;
+	rbInfo.m_restitution = material.m_restitution;
+	rbInfo.m_friction = material.m_friction;
 
 	m_pRigidBody = new btRigidBody(rbInfo);
 	m_pRigidBody->setUserPointer(this);

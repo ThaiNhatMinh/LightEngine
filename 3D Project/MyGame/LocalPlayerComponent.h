@@ -16,7 +16,7 @@ private:
 	int				m_Shooting;
 	RigidBodyComponent	*m_pRBC;
 	TransformComponent	*m_pTC;
-	BaseAnimComponent	*m_pBAC;
+	AnimationComponent	*m_pBAC;
 	bool			m_bOnGround;
 
 public:
