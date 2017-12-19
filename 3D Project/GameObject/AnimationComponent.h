@@ -53,7 +53,7 @@ struct Animation
 	std::vector<AnimNode> AnimNodeLists;
 };
 
-enum AnimationState
+enum AnimState
 {
 	ANIM_PLAYING,
 	ANIM_TRANSITION,
@@ -62,14 +62,41 @@ enum AnimationState
 
 struct AnimControl
 {
+	
 	int				KeyFrameID;
 	float			m_fTime;
 	GLuint			m_iCurrentAnim;
+	GLuint			m_iNextAnim;
 	GLuint			m_iCurrentFrame;
-	AnimationState	m_State;
+	AnimState		m_State;
 	bool			m_bFinished;
+
+	float			m_fBlendTime;
+	bool			m_loop;
+	float			m_speed;
 };
 
+class AnimationState
+{
+public:
+	AnimationState(Animation* p);
+	~AnimationState() {};
+
+
+public:
+
+
+	void			Update(float dt);
+
+	int				KeyFrameID;
+	float			m_fTime;
+	Animation		*m_pAnim;
+	GLuint			m_iCurrentFrame;
+	bool			m_bFinished;
+
+	bool			m_loop;
+	float			m_speed;
+};
 class BaseAnimComponent : public ActorComponent
 {
 protected:
@@ -109,7 +136,7 @@ private:
 	
 
 	blendset			GetBlendSet(GLuint id);
-	void				ResetControl(blendset bs, GLuint anim,AnimationState state);
+	void				ResetControl(blendset bs, GLuint anim, AnimState state);
 	
 protected:
 	
@@ -146,7 +173,7 @@ private:
 
 
 
-	void				ResetControl(GLuint anim, AnimationState state);
+	void				ResetControl(GLuint anim, AnimState state);
 public:
 	PVAnimationComponent(void);
 	~PVAnimationComponent(void) {};

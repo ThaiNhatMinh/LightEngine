@@ -23,7 +23,7 @@
 	  </RigidBodyComponent>
   
 	  <TransformComponent>
-		  <Position x="0" y="500" z="200"/>
+		  <Position x="0" y="200" z="200"/>
 		  <YawPitchRoll x="0" y="0" z="0"/>
 	  </TransformComponent>
 	

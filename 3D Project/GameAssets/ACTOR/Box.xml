@@ -8,7 +8,7 @@
 	
 	<RigidBodyComponent>
 		<Mass value="500.0" />
-		<PhysicsMaterial>Normal</PhysicsMaterial>
+		<PhysicsMaterial>Static</PhysicsMaterial>
 		<RigidBodyTransform>
 			<Position x="0.0" y="0.0" z="0.0"/>
 		</RigidBodyTransform>

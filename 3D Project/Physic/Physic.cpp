@@ -385,15 +385,15 @@ void BulletPhysics::SendCollisionEvents()
 		}
 
 		// this pair of colliding objects is new.  send a collision-begun event
-		std::list<vec3> collisionPoints;
+		vector<PhysicCollisionData> collisionPoints;
 		vec3 sumNormalForce;
 		vec3 sumFrictionForce;
 
 		for (int pointIdx = 0; pointIdx < manifold->getNumContacts(); ++pointIdx)
 		{
 			btManifoldPoint const & point = manifold->getContactPoint(pointIdx);
-
-			collisionPoints.push_back(btVector3_to_Vec3(point.getPositionWorldOnB()));
+			PhysicCollisionData data( btVector3_to_Vec3(point.m_positionWorldOnB),btVector3_to_Vec3(point.m_normalWorldOnB) );
+			collisionPoints.push_back(data);
 
 			sumNormalForce += btVector3_to_Vec3(point.m_combinedRestitution * point.m_normalWorldOnB);
 			sumFrictionForce += btVector3_to_Vec3(point.m_combinedFriction * point.m_lateralFrictionDir1);

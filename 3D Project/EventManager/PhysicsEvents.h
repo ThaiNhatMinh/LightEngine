@@ -1,6 +1,14 @@
 #pragma once
 #include <pch.h>
 
+class PhysicCollisionData
+{
+public:
+	vec3 pos;
+	vec3 normal;
+	PhysicCollisionData(vec3 p, vec3 n) :pos(p), normal(n) {}
+
+};
 
 class EvtData_PhysTrigger_Enter : public BaseEventData
 {
@@ -98,7 +106,7 @@ class EvtData_PhysCollisionStart : public BaseEventData
 	Actor* m_ActorB;
 	vec3 m_SumNormalForce;
 	vec3 m_SumFrictionForce;
-	std::list<vec3> m_CollisionPoints;
+	vector<PhysicCollisionData> m_CollisionPoints;
 
 public:
 	static const EventType sk_EventType;
@@ -120,7 +128,7 @@ public:
 		Actor* actorB,
 		vec3 sumNormalForce,
 		vec3 sumFrictionForce,
-		std::list<vec3> collisionPoints)
+		vector<PhysicCollisionData> collisionPoints)
 		: m_ActorA(actorA),
 		m_ActorB(actorB),
 		m_SumNormalForce(sumNormalForce),
@@ -158,20 +166,22 @@ public:
 		return m_SumFrictionForce;
 	}
 
-	const std::list<vec3>& GetCollisionPoints(void) const
+	const vector<PhysicCollisionData>& GetCollisionPoints(void) const
 	{
 		return m_CollisionPoints;
 	}
 
 };
 
+
 class EvtData_PhysOnCollision : public BaseEventData
 {
 	Actor* m_ActorA;
 	Actor* m_ActorB;
+	
 	vec3 m_SumNormalForce;
 	vec3 m_SumFrictionForce;
-	std::list<vec3> m_CollisionPoints;
+	vector<PhysicCollisionData> m_CollisionData;
 
 public:
 	static const EventType sk_EventType;
@@ -193,17 +203,17 @@ public:
 		Actor* actorB,
 		vec3 sumNormalForce,
 		vec3 sumFrictionForce,
-		std::list<vec3> collisionPoints)
+		vector<PhysicCollisionData> collisionPoints)
 		: m_ActorA(actorA),
 		m_ActorB(actorB),
 		m_SumNormalForce(sumNormalForce),
 		m_SumFrictionForce(sumFrictionForce),
-		m_CollisionPoints(collisionPoints)
+		m_CollisionData(collisionPoints)
 	{}
 
 	virtual IEvent* VCopy() const
 	{
-		return new EvtData_PhysOnCollision(m_ActorA, m_ActorB, m_SumNormalForce, m_SumFrictionForce, m_CollisionPoints);
+		return new EvtData_PhysOnCollision(m_ActorA, m_ActorB, m_SumNormalForce, m_SumFrictionForce, m_CollisionData);
 	}
 
 	virtual const char* GetName(void) const
@@ -231,9 +241,9 @@ public:
 		return m_SumFrictionForce;
 	}
 
-	const std::list<vec3>& GetCollisionPoints(void) const
+	const vector<PhysicCollisionData>& GetCollisionPoints(void) const
 	{
-		return m_CollisionPoints;
+		return m_CollisionData;
 	}
 
 };

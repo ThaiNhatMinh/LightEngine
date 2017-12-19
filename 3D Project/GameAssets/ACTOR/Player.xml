@@ -7,7 +7,7 @@
   <Component>
 	  <LocalPlayerComponent>
 		  <Speed max="10.0" />
-		  <Jump force="3000.0" />
+		  <Jump force="4000.0" />
 		  <Move force="6900.0" brakefore="60"/>
 	  </LocalPlayerComponent>
 	
@@ -33,7 +33,7 @@
 		  <Shader name="SkeShader" />
 	  </MeshRenderComponent>
 	 <TransformComponent>
-		  <Position x="0" y="500" z="0"/>
+		  <Position x="0" y="200" z="0"/>
 		  <YawPitchRoll x="0" y="180" z="0"/>
 	  </TransformComponent>
   </Component>

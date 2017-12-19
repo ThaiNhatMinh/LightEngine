@@ -212,3 +212,9 @@ _Pvt_Extensions/
 ModelManifest.xml
 /3D Project/Pimpl.cpp
 /3D Project/PIplm.h
+/Scene/tinyxml2.dll
+/Scene/imgui.ini
+/Scene/glfw3.dll
+/Scene/GameAssets
+/Scene/DevIL.dll
+/Scene/3D Project.exe

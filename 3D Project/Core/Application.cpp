@@ -34,13 +34,16 @@ void Application::SetupSubmodule()
 
 	
 	D->Init(C);
-	B->Init(C);
 	Db->Init(C);
+	B->Init(C);
+	
 
 	G->Init(C);
 
 	
 	m_Context = std::unique_ptr<Context>(C);
+
+	Con->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 
 }
 
@@ -96,15 +99,14 @@ void Application::MainLoop()
 
 		
 
-		
+		m_Game->Update(G->GetDeltaTime());
 		
 
 		B->VOnUpdate(G->GetDeltaTime());
 		B->VSyncVisibleScene();
-		//cout << gTimer()->GetFPS() << endl;
-		//glPolygonMode(GL_FRONT, GL_LINE);
 		
-		m_Game->Update(G->GetDeltaTime());
+		if (m_DebugPhysic) B->VRenderDiagnostics();
+		
 
 		O->Clear();
 

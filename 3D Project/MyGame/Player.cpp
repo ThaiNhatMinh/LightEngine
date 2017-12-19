@@ -56,6 +56,15 @@ void Player::PostInit(void)
 	Actor::PostInit();
 
 	m_MeshRender = std::unique_ptr<MeshRenderComponent>(RemoveComponent<MeshRenderComponent>(MeshRenderComponent::Name));
+	m_AnimC = GetComponent<BaseAnimComponent>(AnimationComponent::Name);
+}
+
+bool Player::VIsVisible(Scene * pScene) const
+{
+	CameraComponent* cam = pScene->GetCamera();
+	AABB box = m_AnimC->GetUserDimesion();
+	box.Translate(m_TransformComponent->GetPosition());
+	return cam->GetFrustum().Inside(box.Min, box.Max);
 }
 
 HRESULT Player::VRender(Scene * pScene)

@@ -10,6 +10,7 @@ public:
 	~Player();
 	virtual bool	Init(const tinyxml2::XMLElement* pData);
 	virtual void	PostInit(void);
+	virtual bool	VIsVisible(Scene * pScene) const;
 	virtual HRESULT VRender(Scene* pScene) override;
 
 protected:
@@ -17,7 +18,7 @@ protected:
 	void EventCharacterData(std::shared_ptr<const IEvent> pEvents);
 private:
 
-	
+	BaseAnimComponent* m_AnimC;
 	std::unique_ptr<MeshRenderComponent> m_MeshRender;
 
 	TeamClass	m_Team;

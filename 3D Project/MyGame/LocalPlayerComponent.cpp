@@ -123,7 +123,7 @@ void LocalPlayerComponent::VUpdate(float dt)
 	m_pTC->SetPosition(pos);
 	
 
-	ImGui::Text("Yaw: %.3f", m_Yaw);
+	ImGui::Text("m_bOnGround: %d", m_bOnGround);
 
 }
 
@@ -138,11 +138,15 @@ const char * LocalPlayerComponent::VGetName() const
 
 void LocalPlayerComponent::PhysicCollisionEvent(std::shared_ptr<const IEvent> pEvent)
 {
-	const EvtData_PhysCollisionStart* p = static_cast<const EvtData_PhysCollisionStart*>(pEvent.get());
-	if (p->GetActorA()->GetId() == m_pOwner->GetId() && p->GetActorB()->VGetTag() =="World")
-		m_bOnGround = true;
-	if (p->GetActorB()->GetId() == m_pOwner->GetId() && p->GetActorA()->VGetTag() == "World")
-		m_bOnGround = true;
+	const EvtData_PhysOnCollision* p = static_cast<const EvtData_PhysOnCollision*>(pEvent.get());
+	if (p->GetActorA()->GetId() != m_pOwner->GetId() && p->GetActorB()->GetId() != m_pOwner->GetId()) return;
+
+	for(size_t i = 0; i < p->GetCollisionPoints().size(); i++)
+	{
+		if (p->GetCollisionPoints()[i].pos.y < m_pTC->GetPosition().y + 1.0f &&p->GetCollisionPoints()[i].normal.y>0.75f)
+			m_bOnGround = true;
+	}
+	
 
 }
 

@@ -182,7 +182,7 @@ blendset AnimationComponent::GetBlendSet(GLuint id)
 
 }
 
-void AnimationComponent::ResetControl(blendset bs, GLuint anim, AnimationState state)
+void AnimationComponent::ResetControl(blendset bs, GLuint anim, AnimState state)
 {
 	m_Control[bs].m_fTime = 0;
 	m_Control[bs].m_iCurrentAnim = anim;
@@ -309,7 +309,7 @@ void AnimationComponent::VUpdate(float deltaMs)
 			m_CurrentFrames[i] = InterpolateFrame(m_Control[upper], animUpper->AnimNodeLists[i], animUpper->KeyFrames);
 		}
 
-		// process lower -- default animation
+		// process lower 
 		else if (m_Control[lower].m_State == ANIM_TRANSITION && m_WB[lower].Blend[i])
 		{
 			float t = m_Control[lower].m_fTime / m_fBlendTime;
@@ -407,7 +407,7 @@ AABB AnimationComponent::GetUserDimesion()
 // Using to control PV Model
 
 
-void PVAnimationComponent::ResetControl(GLuint anim, AnimationState state)
+void PVAnimationComponent::ResetControl(GLuint anim, AnimState state)
 {
 	m_Control.m_fTime = 0;
 	m_Control.m_iCurrentAnim = anim;
@@ -521,4 +521,18 @@ mat4 PVAnimationComponent::GetRootTransform()
 {
 	return m_DbTransform[0];
 }
+#pragma endregion
+
+
+#pragma region AnimationState
+AnimationState::AnimationState(Animation * p):KeyFrameID(0), m_fTime(0),m_pAnim(p), m_iCurrentFrame(0), m_loop(0),m_speed(1.0f)
+{
+	
+}
+
+void AnimationState::Update(float dt)
+{
+
+}
+
 #pragma endregion

@@ -4,7 +4,7 @@
 class Application : public IApplication
 {
 public:
-	Application() {};
+	Application():m_DebugPhysic(0){};
 	~Application();
 	
 
@@ -22,4 +22,5 @@ protected:
 	std::unique_ptr<Context> m_Context;
 	std::unique_ptr<IGame> m_Game;
 	
+	int m_DebugPhysic;
 };
