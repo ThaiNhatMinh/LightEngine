@@ -185,6 +185,7 @@
     <ClInclude Include="Graphics3D\AnimationDef.h" />
     <ClInclude Include="Graphics3D\Camera.h" />
     <ClInclude Include="Graphics3D\DebugShader.h" />
+    <ClInclude Include="Graphics3D\EffectSystem.h" />
     <ClInclude Include="Graphics3D\ImGuiShader.h" />
     <ClInclude Include="Graphics3D\Octree.h" />
     <ClInclude Include="Graphics3D\OpenGLRenderer.h" />
@@ -196,6 +197,8 @@
     <ClInclude Include="Graphics3D\Material.h" />
     <ClInclude Include="Graphics3D\Mesh.h" />
     <ClInclude Include="Graphics3D\SkeMesh.h" />
+    <ClInclude Include="Graphics3D\Sprite.h" />
+    <ClInclude Include="Graphics3D\SpriteShader.h" />
     <ClInclude Include="Graphics3D\TexShader.h" />
     <ClInclude Include="include\imgui\imconfig.h" />
     <ClInclude Include="include\imgui\imgui.h" />
@@ -261,6 +264,7 @@
     <ClCompile Include="GameObject\TransformComponent.cpp" />
     <ClCompile Include="Graphics3D\Camera.cpp" />
     <ClCompile Include="Graphics3D\DebugShader.cpp" />
+    <ClCompile Include="Graphics3D\EffectSystem.cpp" />
     <ClCompile Include="Graphics3D\ImGuiShader.cpp" />
     <ClCompile Include="Graphics3D\Mesh.cpp" />
     <ClCompile Include="Graphics3D\Octree.cpp" />
@@ -269,6 +273,8 @@
     <ClCompile Include="Graphics3D\Scene.cpp" />
     <ClCompile Include="Graphics3D\SkeMesh.cpp" />
     <ClCompile Include="Graphics3D\SkeShader.cpp" />
+    <ClCompile Include="Graphics3D\Sprite.cpp" />
+    <ClCompile Include="Graphics3D\SpriteShader.cpp" />
     <ClCompile Include="Graphics3D\TexShader.cpp" />
     <ClCompile Include="include\imgui\imgui.cpp" />
     <ClCompile Include="include\imgui\imgui_draw.cpp" />

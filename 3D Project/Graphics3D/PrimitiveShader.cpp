@@ -17,7 +17,7 @@ void PrimShader::SetupRender(Scene * pScene, Actor * pActor)
 	SetUniform("gLight.Ls", dirLight.Ls);
 	SetUniform("gLight.direction", dirLight.direction);
 	CameraComponent* pCam = pScene->GetCamera();
-	if(pCam) SetUniform("EyePos", pCam->GetPosition());
+	if(pCam) SetUniform("EyePos", pCam->GetPos());
 	else
 	{
 		//SetUniform("EyePos", pScene->GetDefaultCamera()->GetPosition());

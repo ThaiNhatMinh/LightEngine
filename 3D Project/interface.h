@@ -242,7 +242,7 @@ protected:
 	
 public:
 	virtual void Init(Context* c) = 0;
-	virtual void ShutDown() = 0;
+	virtual void ShutDown() {};
 	virtual ~ISubSystem() {};
 	static Context* m_Context;
 };
@@ -252,9 +252,10 @@ public:
 class IGame
 {
 public:
-	virtual void Init(Context*) {};
-	virtual void Update(float dt) {};
-	virtual void Render() {};
-	virtual void ShutDown() {};
-	virtual ~IGame() {};
+	virtual void	Init(Context*) {};
+	virtual void	Update(float dt) {};
+	virtual void	Render() {};
+	virtual void	ShutDown() {};
+	virtual Scene*	GetScene() = 0;
+	virtual			~IGame() {};
 };

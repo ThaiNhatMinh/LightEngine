@@ -1,7 +1,7 @@
 <Scene>
 	
+	
+	<Actor File="GameAssets\ACTOR\Camera.xml" />
 	<Actor File="GameAssets\ACTOR\Terrain.xml" />
-	<Actor File="GameAssets\ACTOR\Player.xml" />
-	<Actor File="GameAssets\ACTOR\NPC.xml" />
 	
 </Scene>

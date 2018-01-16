@@ -43,6 +43,10 @@ void Game::Render()
 	m_Scene->OnRender();
 }
 
+Scene * Game::GetScene() {
+	return m_Scene.get();
+}
+
 void Game::LoadWeapon()
 {
 	string file = "GameAssets\\XML\\Weapon.xml";

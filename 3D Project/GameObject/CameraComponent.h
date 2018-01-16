@@ -9,6 +9,10 @@ private:
 	mat4 ViewMatrix;
 	TransformComponent* m_pTransform;
 	Frustum			m_Frustum;
+	vec3			m_Right;
+	vec3			m_Up;
+	vec3			m_Front;
+	vec3			m_Pos;
 public:
 	static vector<CameraComponent*> m_CameraList;
 	static const char* Name;
@@ -24,7 +28,11 @@ public:
 	const mat4& GetViewMatrix();
 	const mat4& GetProjMatrix();
 	const mat4& GetVPMatrix();
+	const vec3& GetUp();
+	const vec3& GetRight();
+	const vec3& GetFront();
+	const vec3& GetPos();
 	const Frustum& GetFrustum()const;
 	Frustum& GetFrustum();
-	vec3 GetPosition();
+	
 };

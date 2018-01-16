@@ -73,14 +73,14 @@ const mat4& CameraComponent::GetViewMatrix()
 void CameraComponent::VUpdate(float dt)
 {
 	mat4 tt = m_pOwner->VGetGlobalTransform();
-	vec3 pos = tt[3];
-	vec3 front = tt[2];
-	vec3 up = tt[1];
+	m_Pos = tt[3];
+	m_Front = tt[2];
+	m_Up = tt[1];
+	m_Right = tt[0];
+	ViewMatrix = glm::lookAt(m_Pos, m_Pos + m_Front, m_Up);
+	m_Frustum.Update(m_Pos, m_Front, m_Right);
 
-	ViewMatrix = glm::lookAt(pos, pos + front, up);
-	m_Frustum.Update(pos, front, tt[0]);
-
-	ImGui::Text("Pos: %f %f %f", pos.x, pos.y, pos.z);
+	//ImGui::Text("Pos: %f %f %f", pos.x, pos.y, pos.z);
 }
 const mat4& CameraComponent::GetProjMatrix()
 {
@@ -92,6 +92,16 @@ const mat4& CameraComponent::GetVPMatrix()
 	return m_Frustum.GetProjMatrix()*ViewMatrix;
 }
 
+const vec3 & CameraComponent::GetUp() { return m_Up; }
+
+const vec3 & CameraComponent::GetRight() { return m_Right; }
+
+const vec3 & CameraComponent::GetFront() { return m_Front; }
+
+const vec3 & CameraComponent::GetPos() {
+	return m_Pos;
+}
+
 const Frustum& CameraComponent::GetFrustum()const
 {
 	return m_Frustum;
@@ -100,9 +110,4 @@ const Frustum& CameraComponent::GetFrustum()const
 Frustum& CameraComponent::GetFrustum()
 {
 	return m_Frustum;
-}
-
-vec3 CameraComponent::GetPosition()
-{
-	return m_pTransform->GetPosition();
 }

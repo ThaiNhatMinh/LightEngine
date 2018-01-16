@@ -5,12 +5,13 @@
   <Shader Name="PrimShader" Tag="PrimShader" FileVS="SHADER\Texture.vs" FileFS="SHADER\Texture.fs" />
   <Shader Name="PrimShader" Tag="Terrain" FileVS="SHADER\Terrain.vs" FileFS="SHADER\Texture.fs" />
   <Shader Name="ImGuiShader" Tag="ImGuiShader" FileVS="SHADER\imgui.vs" FileFS="SHADER\imgui.fs" />
+  <Shader Name="SpriteShader" Tag="SpriteShader" FileVS="SHADER\Sprite.vs" FileFS="SHADER\Sprite.fs" />
   <HeightMap File="WORLD\heightmap.png" Size="80" Width="-1" Height="-1" HeightScale="0.0" SubDevided="1"/>
   
   <Texture File="TEXTURES\Default.png" />
   <Texture File="TEXTURES\grass_autumn_orn_d.jpg" />
   <Texture File="WORLD\heightmap.png" />
-  
+  <Texture File="TEXTURES\ESCAPE.DTX"/>
    <Model File="MODELS\WEAPONS\AK47.LTB"/>
    <Model File="MODELS\PLAYERVIEW\PV-AK47.LTB"/>
    <Model File="MODELS\PLAYERVIEW\PV-M4A1.LTB"/>

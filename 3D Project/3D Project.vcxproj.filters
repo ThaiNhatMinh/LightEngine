@@ -228,6 +228,15 @@
     <ClInclude Include="GameObject\StaticObject.h">
       <Filter>GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\EffectSystem.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Sprite.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\SpriteShader.h">
+      <Filter>Graphics3D\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -407,6 +416,15 @@
       <Filter>MyGame\Component</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\StaticObject.cpp" />
+    <ClCompile Include="Graphics3D\EffectSystem.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Sprite.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\SpriteShader.cpp">
+      <Filter>Graphics3D\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

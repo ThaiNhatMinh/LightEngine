@@ -7,6 +7,7 @@ public:
 	virtual void Init(Context* c) ;
 	virtual void Update(float dt);
 	virtual void Render();
+	virtual Scene*	GetScene();
 protected:
 
 	void LoadWeapon();
