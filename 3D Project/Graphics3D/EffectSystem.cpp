@@ -25,6 +25,12 @@ void EffectSystem::ShutDown() {
 	glDeleteBuffers(1, &VBO);
 }
 
+void EffectSystem::Update(float dt)
+{
+	for (auto& el : m_List2)
+		el->Update(dt);
+}
+
 void EffectSystem::Render(Scene* pScene)
 {
 	
@@ -37,8 +43,6 @@ void EffectSystem::Render(Scene* pScene)
 	CameraComponent* pCam = pScene->GetCamera();
 	m_pShader->SetUniformMatrix("MVP", glm::value_ptr(pScene->GetViewProj()));
 	mat4 ViewMatrix = pCam->GetViewMatrix();
-	//m_pShader->SetUniform("CameraUp", ViewMatrix[0][1], ViewMatrix[1][1], ViewMatrix[2][1]);
-	//m_pShader->SetUniform("CameraRight", ViewMatrix[0][0], ViewMatrix[1][0], ViewMatrix[2][0]);
 	m_pShader->SetUniform("CameraUp",pCam->GetUp());
 	m_pShader->SetUniform("CameraRight", -pCam->GetRight());
 
@@ -49,5 +53,24 @@ void EffectSystem::Render(Scene* pScene)
 		m_Context->m_pRenderer->SetTexture(el.m_Tex);
 		m_Context->m_pRenderer->Draw(0, 4);
 	}
+
+	for (auto& el : m_List2)
+	{
+		m_pShader->SetUniform("SpritePos", el->GetPos());
+		auto data = el->GetCurrentFrame();
+		m_pShader->SetUniform("SpriteSize", data.Size);
+		m_Context->m_pRenderer->SetTexture(data.Tex);
+		m_Context->m_pRenderer->Draw(0, 4);
+	}
+
 	glDisable(GL_BLEND);
+}
+
+void EffectSystem::AddSprite(Sprite a) {
+	m_SpriteLists.push_back(a);
+}
+
+void EffectSystem::AddSprite(SpriteAnim * a)
+{
+	m_List2.push_back(a);
 }

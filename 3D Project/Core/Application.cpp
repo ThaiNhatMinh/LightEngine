@@ -79,8 +79,21 @@ void Application::MainLoop()
 	EffectSystem	*ES = m_Context->m_pEffectSystem.get();
 	Scene			*pScene = m_Game->GetScene();
 
+	auto b = Sprite(m_Context->m_pResources->GetTexture("TEXTURES\\ESCAPE.DTX"));
+	b.GetPos() = vec3(100, 150, 100);
+	ES->AddSprite(b);
 
-	ES->AddSprite(Sprite(m_Context->m_pResources->GetTexture("TEXTURES\\ESCAPE.DTX")));
+	auto d = Sprite(m_Context->m_pResources->GetTexture("TEXTURES\\SGFX_se_decal_04.DTX"));
+	d.GetPos() = vec3(100, 150, 300);
+	ES->AddSprite(d);
+
+	auto a = m_Context->m_pResources->GetSpriteAnimation("BLOOD3.SPR");
+	a->GetPos() = vec3(200, 150, 0);
+	ES->AddSprite(a);
+
+	auto c = m_Context->m_pResources->GetSpriteAnimation("EX.SPR");
+	c->GetPos() = vec3(250, 350, 50);
+	ES->AddSprite(c);
 
 	m_Context->m_pWindows->ShowWindows();
 
@@ -93,22 +106,18 @@ void Application::MainLoop()
 		if (D->KeyDown(DIK_ESCAPE)|| m_Context->m_pWindows->ShouldClose())	m_bRunMainLoop = false;
 		
 		C->CheckStatus();
-
-		
-
-		
 		G->Tick();
-
 		S->NewFrame();
 
+		// Update Event
 		E->VUpdate(20);
-
-		
-
+		// Update Game
 		m_Game->Update(G->GetDeltaTime());
-		
-
+		// Update Physic
 		B->VOnUpdate(G->GetDeltaTime());
+		// Update Effect
+		ES->Update(G->GetDeltaTime());
+		// Update Object
 		B->VSyncVisibleScene();
 		
 		if (m_DebugPhysic) B->VRenderDiagnostics();

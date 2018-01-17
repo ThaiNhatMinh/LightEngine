@@ -237,6 +237,12 @@
     <ClInclude Include="Graphics3D\SpriteShader.h">
       <Filter>Graphics3D\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\SpriteAnim.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager\SpriteEvent.h">
+      <Filter>EventManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -425,6 +431,7 @@
     <ClCompile Include="Graphics3D\SpriteShader.cpp">
       <Filter>Graphics3D\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics3D\SpriteAnim.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

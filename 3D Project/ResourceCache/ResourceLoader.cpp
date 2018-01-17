@@ -3,7 +3,7 @@
 #include "..\include\IL\ilu.h"
 #include "LTBFileLoader.h"
 
-
+#include "..\Graphics3D\SpriteAnim.h"
 
 namespace LightEngine
 {
@@ -41,6 +41,15 @@ HeightMap* Resources::HasHeighMap(const char * filename)
 		if (!strcmp(filename, m_HeightMaps[i]->filename)) return m_HeightMaps[i].get();
 	return nullptr;
 }
+SpriteAnim * Resources::HasSprite(const char * filename)
+{
+	for (auto& el : m_SpriteLists)
+	{
+		if (el->GetFilePath().find(filename) !=string::npos) return el.get();
+	}
+
+	return nullptr;
+}
 #pragma endregion
 
 Resources::Resources()
@@ -70,6 +79,71 @@ void Resources::Init(Context* c)
 
 	c->m_pResources = std::unique_ptr<Resources>(this);
 		
+}
+
+SpriteAnim * Resources::LoadSpriteAnimation(const char * filename)
+{
+	SpriteAnim* s = nullptr;
+	s = HasSprite(filename);
+	if (s) return s;
+
+	if (!filename) return nullptr;
+
+	string fullpath = m_Path + filename;
+
+	FILE* pFile = fopen(fullpath.c_str(), "rb");
+	if (!pFile)
+	{
+		Log::Message(Log::LOG_ERROR, "Can't load sprite " + string(filename));
+		return nullptr;
+	}
+
+	uint32 nFrames, nFrameRate, bTransparent, bTranslucent, colourKey;
+	char filetex[1024];
+	uint16 strLen;
+	fread(&nFrames, sizeof(uint32), 1, pFile);
+	fread(&nFrameRate, sizeof(uint32), 1, pFile);
+	fread(&bTransparent, sizeof(uint32), 1, pFile);
+	fread(&bTranslucent, sizeof(uint32), 1, pFile);
+	fread(&colourKey, sizeof(uint32), 1, pFile);
+
+	s = new SpriteAnim;
+
+	//s->m_FrameLists.resize(nFrames);
+	s->m_MsFrameRate = nFrameRate;
+	s->m_MsAnimLength = (1000 / nFrameRate) * nFrames;
+
+	s->m_bKeyed = (uint8)bTransparent;
+	s->m_bTranslucent = (uint8)bTranslucent;
+	s->m_ColourKey = colourKey;
+
+	for (int i = 0; i < nFrames; i++)
+	{
+		// Read in frame file name
+		fread(&strLen, sizeof(strLen), 1, pFile);
+		if (strLen > 1000)
+		{
+			delete s;
+			return nullptr;
+		}
+
+		fread(filetex, strLen, 1, pFile);
+		filetex[strLen] = 0;
+
+		for (int j = 0; j < strLen; j++)
+			if (filetex[j] > 'a' && filetex[j] < 'z') 
+				filetex[j] += 'A' - 'a';
+
+		std::string fullfile = "TEXTURES\\";
+		fullfile += filetex;
+		s->m_FrameLists.push_back(SpriteAnim::SpriteFrame(LoadTexture(fullfile.c_str())));
+		
+	}
+
+	s->m_FilePath = filename;
+
+	m_SpriteLists.push_back(std::unique_ptr<SpriteAnim>(s));
+	return s;
 }
 
 HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, int h, float hscale, int sub)
@@ -675,6 +749,13 @@ IMesh * Resources::CreateShape(ShapeType type,float* size)
 	
 }
 
+SpriteAnim * Resources::GetSpriteAnimation(const char * filename)
+{
+	SpriteAnim* s = nullptr;
+	s = HasSprite(filename);
+	return s;
+}
+
 void Resources::LoadResources(string path)
 {
 	tinyxml2::XMLDocument doc;
@@ -722,6 +803,11 @@ void Resources::LoadResources(string path)
 			int s = pNode->DoubleAttribute("SubDevided", 1.0);
 			if (pFile) LoadHeightMap(pFile,size,w,h,hscale,s);
 		}
+		else if (!strcmp(name, "SpriteAnim"))
+		{
+			const char* pFile = pNode->Attribute("File");
+			if (pFile) LoadSpriteAnimation(pFile);
+		}
 	}
 }
 
@@ -754,4 +840,5 @@ void Resources::ShutDown()
 		}
 	}
 }
+
 

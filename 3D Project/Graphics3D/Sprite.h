@@ -10,7 +10,7 @@ public:
 	Sprite(Texture *Tex);
 	~Sprite() = default;
 
-	
+	vec3& GetPos() { return m_Pos; }
 private:
 	Texture		*m_Tex;
 	vec3		m_Pos;

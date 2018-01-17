@@ -11,7 +11,7 @@ uniform mat4 MVP;
 
 void main()
 {	
-	vec3 vertexCenter = CameraRight*SpriteSize.x * pos.x + CameraUp*SpriteSize.y* pos.y;
+	vec3 vertexCenter = SpritePos + CameraRight*SpriteSize.x * pos.x + CameraUp*SpriteSize.y* pos.y;
 	
 	// Output position of the vertex
 	gl_Position = MVP * vec4(vertexCenter,1.0f);

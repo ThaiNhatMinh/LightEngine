@@ -167,6 +167,7 @@
     <ClInclude Include="EventManager\EventManager.h" />
     <ClInclude Include="EventManager\Events.h" />
     <ClInclude Include="EventManager\PhysicsEvents.h" />
+    <ClInclude Include="EventManager\SpriteEvent.h" />
     <ClInclude Include="EventManager\TestScriptEvent.h" />
     <ClInclude Include="GameHeader.h" />
     <ClInclude Include="GameObject\Actor.h" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Graphics3D\Mesh.h" />
     <ClInclude Include="Graphics3D\SkeMesh.h" />
     <ClInclude Include="Graphics3D\Sprite.h" />
+    <ClInclude Include="Graphics3D\SpriteAnim.h" />
     <ClInclude Include="Graphics3D\SpriteShader.h" />
     <ClInclude Include="Graphics3D\TexShader.h" />
     <ClInclude Include="include\imgui\imconfig.h" />
@@ -274,6 +276,7 @@
     <ClCompile Include="Graphics3D\SkeMesh.cpp" />
     <ClCompile Include="Graphics3D\SkeShader.cpp" />
     <ClCompile Include="Graphics3D\Sprite.cpp" />
+    <ClCompile Include="Graphics3D\SpriteAnim.cpp" />
     <ClCompile Include="Graphics3D\SpriteShader.cpp" />
     <ClCompile Include="Graphics3D\TexShader.cpp" />
     <ClCompile Include="include\imgui\imgui.cpp" />

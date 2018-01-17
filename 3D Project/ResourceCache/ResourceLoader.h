@@ -34,6 +34,7 @@ public:
 	}
 };
 
+class SpriteAnim;
 
 class Resources : public ISubSystem
 {
@@ -41,6 +42,7 @@ private:
 	vector<std::unique_ptr<Texture>> m_Textures;
 	vector<std::unique_ptr<ModelCache>> m_ModelCaches;
 	vector<std::unique_ptr<HeightMap>> m_HeightMaps;
+	vector<std::unique_ptr<SpriteAnim>> m_SpriteLists;
 	map<string, std::unique_ptr<Shader>> m_ShaderList;
 	
 	// this list store primitive shape 
@@ -50,19 +52,20 @@ private:
 	// Path to resource
 	std::string		m_Path;
 private:
-	Texture* HasTexture(const char* filename);
-	ModelCache* HasModel(const char* filename);
-	HeightMap* HasHeighMap(const char* filename);
+	Texture*		HasTexture(const char* filename);
+	ModelCache*		HasModel(const char* filename);
+	HeightMap*		HasHeighMap(const char* filename);
+	SpriteAnim*		HasSprite(const char* filename);
 
-
-	HeightMap* LoadHeightMap(const char* filename, int size, int w, int h,float hscale, int sub);
-	Texture* LoadTexture(const char* filename);
-	Texture* LoadCubeTex(const vector<string>& filelist);
-	Texture* LoadTexMemory(const char* filename, unsigned char* data, int w, int h);
-	Texture* LoadDTX(const char* filename);
-	unsigned char* LoadHeightMap(const char* filename, int& w, int& h);
-	ModelCache* LoadModel(const char* filename);
-	ModelCache* LoadModelXML(const char* XMLFile);
+	SpriteAnim*		LoadSpriteAnimation(const char* filename);
+	HeightMap*		LoadHeightMap(const char* filename, int size, int w, int h,float hscale, int sub);
+	Texture*		LoadTexture(const char* filename);
+	Texture*		LoadCubeTex(const vector<string>& filelist);
+	Texture*		LoadTexMemory(const char* filename, unsigned char* data, int w, int h);
+	Texture*		LoadDTX(const char* filename);
+	unsigned char*	LoadHeightMap(const char* filename, int& w, int& h);
+	ModelCache*		LoadModel(const char* filename);
+	ModelCache*		LoadModelXML(const char* XMLFile);
 	
 	Shader* LoadShader(string key,const char* type, const char* vs, const char* fs, bool linkshader = true);
 
@@ -75,7 +78,7 @@ public:
 	virtual void  ShutDown();
 
 	IMesh*		CreateShape(ShapeType type,float* size);
-	
+	SpriteAnim*	GetSpriteAnimation(const char* filename);
 	Shader*		GetShader(string key);
 	Texture*	GetTexture(const char* filename);
 	ModelCache*	GetModel(const char* filename);

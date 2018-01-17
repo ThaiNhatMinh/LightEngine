@@ -139,6 +139,8 @@ using glm::quat;
 #include "Graphics3D\DebugShader.h"
 #include "Graphics3D\SpriteShader.h"
 #include "Graphics3D\Sprite.h"
+#include "Graphics3D\SpriteAnim.h"
+
 #include "Graphics3D\EffectSystem.h"
 #include "Utilities\PrimitiveShape\Cube.h"
 #include "Utilities\PrimitiveShape\Line.h"
