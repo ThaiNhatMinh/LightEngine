@@ -114,17 +114,43 @@ void LocalPlayerComponent::VUpdate(float dt)
 	}
 	
 	m_Yaw -= m_Context->m_pInput->mouseDX()*0.25f;
+	m_Pitch += m_Context->m_pInput->mouseDY()*0.25f;
+	if (m_Pitch > 60.0) m_Pitch = 60.0f;
+	if (m_Pitch < -60.0f) m_Pitch = -60.0f;
+
 	glm::quat qYaw = glm::angleAxis(glm::radians(m_Yaw), glm::vec3(0, 1, 0));
 	qYaw = glm::normalize(qYaw);
-	glm::mat4 rotate = glm::mat4_cast(qYaw);
+	glm::mat4 rotate = glm::rotate(mat4(), glm::radians(m_Yaw), glm::vec3(0, 1, 0));
+	//rotate = glm::rotate(rotate, glm::radians(m_Pitch), glm::vec3(1, 0, 0));
 
 	vec3 pos = m_pTC->GetPosition();
 	m_pTC->GetTransform() = rotate;
 	m_pTC->SetPosition(pos);
 	
 
-	ImGui::Text("m_bOnGround: %d", m_bOnGround);
+	m_pBAC->SetBoneEdit(m_Yaw, m_Pitch);
+}
 
+void LocalPlayerComponent::VPostUpdate()
+{
+	/*
+	auto animC = m_pOwner->GetComponent<AnimationComponent>(AnimationComponent::Name);
+	
+	auto bonematrix = animC->GetBoneTransform();
+	
+	mat4 rotate = bonematrix[3];
+	vec3 front;
+	front.x = cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
+	front.y = sin(glm::radians(m_Pitch));
+	front.z = sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
+
+
+
+	vec3 m_Front = glm::normalize(front);
+	vec3 m_Right = glm::normalize(glm::cross(m_Front, vec3(0,1,0)));
+	vec3 m_Up = glm::normalize(glm::cross(m_Right, m_Front));
+
+	mat4 view = glm::lookAt(vec3(rotate[3]), vec3(rotate[3]) + m_Front, m_Up);*/
 }
 
 void LocalPlayerComponent::VOnChanged(void)

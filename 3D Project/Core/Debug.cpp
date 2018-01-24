@@ -51,6 +51,26 @@ void Debug::DrawLine(const vec3 & from, const vec3 & to, const vec3 & color, con
 	m_Lists.push_back(db);
 }
 
+
+
+void Debug::DrawLineBox(vec3 min, vec3 max, vec3 color, const mat4& m)
+{
+	DrawLine(vec3(min.x, min.y, min.z), vec3(max.x, min.y, min.z), vec3(0.5f, 1.0f, 0.7f));
+	DrawLine(vec3(max.x, min.y, min.z), vec3(max.x, min.y, max.z), vec3(0.5f, 1.0f, 0.7f));
+	DrawLine(vec3(max.x, min.y, max.z), vec3(min.x, min.y, max.z), vec3(0.5f, 1.0f, 0.7f));
+	DrawLine(vec3(min.x, min.y, max.z), vec3(min.x, min.y, min.z), vec3(0.5f, 1.0f, 0.7f));
+
+	DrawLine(vec3(min.x, max.y, min.z), vec3(max.x, max.y, min.z), vec3(0.5f, 1.0f, 0.7f));
+	DrawLine(vec3(max.x, max.y, min.z), vec3(max.x, max.y, max.z), vec3(0.5f, 1.0f, 0.7f));
+	DrawLine(vec3(max.x, max.y, max.z), vec3(min.x, max.y, max.z), vec3(0.5f, 1.0f, 0.7f));
+	DrawLine(vec3(min.x, max.y, max.z), vec3(min.x, max.y, min.z), vec3(0.5f, 1.0f, 0.7f));
+
+	DrawLine(vec3(min.x, max.y, min.z), vec3(min.x, min.y, min.z), vec3(0.5f, 1.0f, 0.7f));
+	DrawLine(vec3(max.x, max.y, min.z), vec3(max.x, min.y, min.z), vec3(0.5f, 1.0f, 0.7f));
+	DrawLine(vec3(max.x, max.y, max.z), vec3(max.x, min.y, max.z), vec3(0.5f, 1.0f, 0.7f));
+	DrawLine(vec3(min.x, max.y, max.z), vec3(min.x, min.y, max.z), vec3(0.5f, 1.0f, 0.7f));
+}
+
 void Debug::DrawCoord(const mat4 & m)
 {
 	vec3 pos = m[3];

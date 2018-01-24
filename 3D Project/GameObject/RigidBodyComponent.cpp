@@ -33,6 +33,7 @@ bool RigidBodyComponent::VInit(const tinyxml2::XMLElement* pData)
 	if (pRigidBodyTransform)
 		BuildRigidBodyTransform(pRigidBodyTransform);
 
+	
 	return true;
 }
 

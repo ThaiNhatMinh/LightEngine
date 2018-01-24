@@ -57,6 +57,24 @@ HRESULT Actor::VOnUpdate(Scene *pScene, float deltaMs)
 	
 }
 
+HRESULT Actor::VPostUpdate(Scene *pScene)
+{
+	for (ActorComponents::iterator it = m_components.begin(); it != m_components.end(); ++it)
+	{
+		it->second->VPostUpdate();
+	}
+
+	ActorList::iterator i = m_Children.begin();
+	ActorList::iterator end = m_Children.end();
+
+	while (i != end)
+	{
+		(*i)->VPostUpdate(pScene);
+		++i;
+	}
+	return S_OK;
+}
+
 void Actor::VSetTransform(const mat4 * toWorld)
 {
 	m_TransformComponent->SetTransform(*toWorld);

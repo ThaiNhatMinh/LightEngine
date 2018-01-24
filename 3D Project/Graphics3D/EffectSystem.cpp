@@ -25,34 +25,43 @@ void EffectSystem::ShutDown() {
 	glDeleteBuffers(1, &VBO);
 }
 
-void EffectSystem::Update(float dt)
+void EffectSystem::Update(Scene* pScene,float dt)
 {
+	CameraComponent* pCam = pScene->GetCamera();
+
 	for (auto& el : m_List2)
+	{
 		el->Update(dt);
+		el->CameraDistance = glm::length2(el->Pos - pCam->GetPos());
+	}
 }
 
 void EffectSystem::Render(Scene* pScene)
 {
-	
+	CameraComponent* pCam = pScene->GetCamera();
+
+
+	std::sort(m_List2.begin(), m_List2.end(), [](SpriteAnim*a, SpriteAnim*b) {return *a < *b; });
+
 	m_pShader->Use();
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_Context->m_pRenderer->SetDrawMode(GL_TRIANGLE_STRIP);
 	m_Context->m_pRenderer->SetVertexArrayBuffer(VAO);
-	CameraComponent* pCam = pScene->GetCamera();
+	
 	m_pShader->SetUniformMatrix("MVP", glm::value_ptr(pScene->GetViewProj()));
 	mat4 ViewMatrix = pCam->GetViewMatrix();
 	m_pShader->SetUniform("CameraUp",pCam->GetUp());
 	m_pShader->SetUniform("CameraRight", -pCam->GetRight());
 
-	for (auto& el : m_SpriteLists)
+	/*for (auto& el : m_SpriteLists)
 	{
-		m_pShader->SetUniform("SpritePos", el.m_Pos);
-		m_pShader->SetUniform("SpriteSize", el.m_Size);
+		m_pShader->SetUniform("SpritePos", el.Pos);
+		m_pShader->SetUniform("SpriteSize", el.size);
 		m_Context->m_pRenderer->SetTexture(el.m_Tex);
 		m_Context->m_pRenderer->Draw(0, 4);
-	}
+	}*/
 
 	for (auto& el : m_List2)
 	{

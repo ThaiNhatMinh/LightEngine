@@ -87,4 +87,5 @@ private:
 	vec3			m_CustomGravity;			// Gravity for this RigidBody
 	int				m_Flags;					// Bullet physic flag
 	bool			m_bUseGravity;
+	
 };

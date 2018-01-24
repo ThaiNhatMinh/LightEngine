@@ -104,7 +104,8 @@ using glm::quat;
 #include "Math\AABB.h"
 #include "Math\Plane.h"
 #include "Math\Frustum.h"
-
+#include "Math\Ray.h"
+#include "Math\Math.h"
 // Interface
 #include "interface.h"
 
@@ -138,9 +139,9 @@ using glm::quat;
 #include "Graphics3D\ImGuiShader.h"
 #include "Graphics3D\DebugShader.h"
 #include "Graphics3D\SpriteShader.h"
+#include "Graphics3D\Particles.h"
 #include "Graphics3D\Sprite.h"
 #include "Graphics3D\SpriteAnim.h"
-
 #include "Graphics3D\EffectSystem.h"
 #include "Utilities\PrimitiveShape\Cube.h"
 #include "Utilities\PrimitiveShape\Line.h"

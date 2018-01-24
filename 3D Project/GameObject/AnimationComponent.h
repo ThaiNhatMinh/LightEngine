@@ -25,7 +25,7 @@ struct SkeNode
 	// transform vertex to local coord;
 	mat4 m_InvBindPose;
 
-	GLuint m_Flag;
+	GLuint m_Flag=0;
 	// BoundBox OBB;
 	AABB m_BoundBox;
 };
@@ -100,7 +100,6 @@ public:
 class BaseAnimComponent : public ActorComponent
 {
 protected:
-	int				m_bDrawSkeleton;
 	vector<SkeNode*>	m_pSkeNodes;
 	vector<Animation*>	m_pAnimList;
 	vector<WeightBlend> m_WB;
@@ -137,6 +136,8 @@ private:
 
 	blendset			GetBlendSet(GLuint id);
 	void				ResetControl(blendset bs, GLuint anim, AnimState state);
+
+	float				m_Yaw, m_Pitch;
 	
 protected:
 	
@@ -161,6 +162,8 @@ public:
 	virtual void		AnimEvent(const string&);
 	void				SetBaseAnim(const string& name);
 	void				Play(blendset part,int anim, bool fromBaseAnim = true);
+
+	void				SetBoneEdit(float yaw,float pitch);
 
 };
 

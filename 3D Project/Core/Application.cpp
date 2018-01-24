@@ -95,6 +95,11 @@ void Application::MainLoop()
 	c->GetPos() = vec3(250, 350, 50);
 	ES->AddSprite(c);
 
+	
+	c = m_Context->m_pResources->GetSpriteAnimation("SGFX_se_fire_explode_01.SPR");
+	c->GetPos() = vec3(350, 250, 100);
+	ES->AddSprite(c);
+
 	m_Context->m_pWindows->ShowWindows();
 
 	G->Reset();
@@ -116,7 +121,7 @@ void Application::MainLoop()
 		// Update Physic
 		B->VOnUpdate(G->GetDeltaTime());
 		// Update Effect
-		ES->Update(G->GetDeltaTime());
+		ES->Update(pScene,G->GetDeltaTime());
 		// Update Object
 		B->VSyncVisibleScene();
 		

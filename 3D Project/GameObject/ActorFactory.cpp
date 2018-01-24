@@ -1,24 +1,14 @@
 #include "pch.h"
 
-void ActorFactory::EventCreateWeapon(std::shared_ptr<const IEvent> pEvents)
-{
-	const EvtData_RequestCreateWeapon* p = static_cast<const EvtData_RequestCreateWeapon*>(pEvents.get());
-	Actor* Parent = p->Parent;
-	Actor* child = CreateActor(p->File.c_str(), nullptr, nullptr);
-	child->VSetName(p->WPName);
-	Parent->VAddChild(std::unique_ptr<Actor>(child));
-
-}
-
 void ActorFactory::Init(Context * c)
 {
 	c->m_pActorFactory = std::unique_ptr<ActorFactory>(this);
-	c->m_pEventManager->VAddListener(MakeDelegate(this, &ActorFactory::EventCreateWeapon), EvtData_RequestCreateWeapon::sk_EventType);
+	
 }
 
 void ActorFactory::ShutDown()
 {
-	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &ActorFactory::EventCreateWeapon), EvtData_RequestCreateWeapon::sk_EventType);
+	
 }
 
 ActorFactory::ActorFactory()
@@ -34,6 +24,7 @@ ActorFactory::ActorFactory()
 	m_ComponentFactoryMap.insert(std::make_pair(MeshRenderComponent::Name, []() { return new MeshRenderComponent(); }));
 	m_ComponentFactoryMap.insert(std::make_pair(TerrainRenderComponent::Name, []() { return new TerrainRenderComponent(); }));
 	m_ComponentFactoryMap.insert(std::make_pair(CameraComponent::Name, [](){ return  new CameraComponent(); }));
+	m_ComponentFactoryMap.insert(std::make_pair(HitBox::Name, []() { return  new HitBox(); }));
 	
 	m_ActorFactoryMap.insert(std::make_pair("Player", [](int id) {return new Player(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("World", [](int id) {return new TerrainWorld(id); }));
@@ -91,7 +82,7 @@ bool ActorFactory::RegisterComponentFactory(string name, std::function<ActorComp
 	return 1;
 }
 
-Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLElement * overrides, const mat4 * initialTransform)
+Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initialTransform, bool isCreateChild)
 {
 	tinyxml2::XMLDocument doc;
 	int errorID = doc.LoadFile(actorResource);
@@ -140,33 +131,34 @@ Actor * ActorFactory::CreateActor(const char * actorResource, tinyxml2::XMLEleme
 	}
 
 
-	if (overrides)
-	{
-		//ModifyActor(pActor, overrides);
-	}
-
 	if (initialTransform)
 	{
 		TransformComponent* pTc = pActor->GetTransform();
 		pTc->SetTransform(*initialTransform);
 	}
 
-	pActor->PostInit();
+	
 
 	// load child
 	tinyxml2::XMLElement* pChildData = pActorData->FirstChildElement("Children");
 
-	if (pChildData == nullptr) return pActor;
-
-	for (tinyxml2::XMLElement* pNode = pChildData->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+	if (pChildData)
 	{
-		const char* pFile = pNode->Attribute("File");
-		if (!pFile) continue;
-		if (strlen(pFile) < 1) continue;
-		Actor* child = CreateActor(pFile, nullptr, nullptr);
-		pActor->VAddChild(std::unique_ptr<Actor>(child));
+
+		for (tinyxml2::XMLElement* pNode = pChildData->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+		{
+			const char* pFile = pNode->Attribute("File");
+			if (!pFile) continue;
+			if (strlen(pFile) < 1) continue;
+			Actor* child = CreateActor(pFile, nullptr, 1);
+			pActor->VAddChild(std::unique_ptr<Actor>(child));
+			child->PostInit();
+		}
 
 	}
+	
+	if(!isCreateChild) pActor->PostInit();
+
 	return pActor;
 }
 

@@ -27,7 +27,8 @@ public:
 	void SetView(CameraComponent* cam);
 	~Debug();
 
-	void DrawLine(const vec3& from, const vec3& to, const vec3& color,const mat4& m = mat4());
+	void DrawLine(const vec3& from, const vec3& to, const vec3& color, const mat4& m = mat4());
+	void DrawLineBox(vec3 min, vec3 max, vec3 color = vec3(0.5f), const mat4& m = mat4());
 	void DrawCoord(const mat4& m);
 	void Render();
 };

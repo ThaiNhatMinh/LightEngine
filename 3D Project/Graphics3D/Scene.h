@@ -24,8 +24,9 @@ public:
 
 	bool LoadScene(const char* filename);
 	bool OnRender();
-	bool OnUpdate(float dt);
 
+	bool OnUpdate(float dt);
+	bool PostUpdate();
 	
 	Actor* GetRoot() { return m_pRoot.get(); };
 	Light GetDirLight() { return m_DirectionLight; };

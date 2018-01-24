@@ -4,7 +4,7 @@
 
 Scene::Scene(Context* c) :m_CurrentCamera(nullptr), m_Context(c)
 {
-	m_pRoot = std::unique_ptr<Actor>(m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,nullptr));
+	m_pRoot = std::unique_ptr<Actor>(m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,0));
 	if (!m_pRoot)
 	{
 		E_ERROR("Can't create Root Node.");
@@ -43,7 +43,7 @@ bool Scene::LoadScene(const char * filename)
 		{
 			const char* pFile = pNode->Attribute("File");
 			if (!pFile) continue;
-			Actor* p4 = m_Context->m_pActorFactory->CreateActor(pFile, nullptr, nullptr);
+			Actor* p4 = m_Context->m_pActorFactory->CreateActor(pFile, nullptr, 0);
 			m_pRoot->VAddChild(std::unique_ptr<Actor>(p4));
 		}
 	}
@@ -80,6 +80,11 @@ bool Scene::OnUpdate(float dt)
 	//m_DefaultCamera.Update(dt);
 	m_pRoot->VOnUpdate(this, dt);
 	m_Context->m_pDebuger->SetView(m_CurrentCamera);
+	return true;
+}
+bool Scene::PostUpdate()
+{
+	m_pRoot->VPostUpdate(this);
 	return true;
 }
 void Scene::SetCamera(CameraComponent * pCam)

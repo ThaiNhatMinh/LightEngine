@@ -15,6 +15,9 @@ class EffectSystem;
 class Context
 {
 public:
+
+	// debug
+	bool DrawSkeleton = 0;
 	std::unique_ptr<Windows>			m_pWindows;
 	std::unique_ptr<OpenGLRenderer>		m_pRenderer;
 	std::unique_ptr<SystemUI>			m_pSystemUI;

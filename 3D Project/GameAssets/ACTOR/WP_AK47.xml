@@ -1,0 +1,15 @@
+<Actor type="Weapon" name="AK-47">
+	
+	<Info GViewAnimName="M4A1" PVModel="MODELS\PV_AK47.xml"/>
+	<Component>
+		<TransformComponent>
+		  <Position x="0" y="0" z="0"/>
+		  <YawPitchRoll x="0" y="0" z="0"/>
+		</TransformComponent>
+		<MeshRenderComponent>
+			<Model File="MODELS\AK47.xml" />
+			<Shader name="PrimShader" />
+		</MeshRenderComponent>
+	</Component>
+
+</Actor>

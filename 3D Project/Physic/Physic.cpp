@@ -173,6 +173,64 @@ void BulletPhysics::VRenderDiagnostics()
 	m_dynamicsWorld->debugDrawWorld();
 }
 
+void BulletPhysics::RayCast(PhysicsRaycastResult & result, const Ray & r, float maxdistance, unsigned mask)
+{
+	btCollisionWorld::ClosestRayResultCallback raycallback(ToBtVector3(r.pos), ToBtVector3(r.pos + r.direction*maxdistance));
+	raycallback.m_collisionFilterMask = (short)mask;
+	raycallback.m_collisionFilterGroup = 0xfffff;
+
+	m_dynamicsWorld->rayTest(raycallback.m_rayFromWorld, raycallback.m_rayToWorld, raycallback);
+
+	if (raycallback.hasHit())
+	{
+		result.position = ToVector3(raycallback.m_hitPointWorld);
+		result.normal = ToVector3(raycallback.m_hitNormalWorld);
+		result.distance = (result.position - r.pos).length();
+		result.hitFraction = raycallback.m_closestHitFraction;
+		result.body = static_cast<RigidBodyComponent*>(raycallback.m_collisionObject->getUserPointer());
+	}
+	else
+	{
+		result.position = vec3(0);
+		result.normal = vec3(0);
+		result.distance = INFINITY;
+		result.hitFraction = 0.0f;
+		result.body = 0;
+	}
+}
+
+void BulletPhysics::RayCast(std::vector<PhysicsRaycastResult>& result, const Ray & r, float maxdistance, unsigned mask)
+{
+	btCollisionWorld::AllHitsRayResultCallback
+		rayCallback(ToBtVector3(r.pos), ToBtVector3(r.pos + maxdistance * r.direction));
+	rayCallback.m_collisionFilterGroup = (short)0xffff;
+	rayCallback.m_collisionFilterMask = (short)mask;
+
+	m_dynamicsWorld->rayTest(rayCallback.m_rayFromWorld, rayCallback.m_rayToWorld, rayCallback);
+
+	for (int i = 0; i < rayCallback.m_collisionObjects.size(); ++i)
+	{
+		PhysicsRaycastResult newResult;
+		newResult.body = static_cast<RigidBodyComponent*>(rayCallback.m_collisionObjects[i]->getUserPointer());
+		newResult.position = ToVector3(rayCallback.m_hitPointWorld[i]);
+		newResult.normal = ToVector3(rayCallback.m_hitNormalWorld[i]);
+		newResult.distance = (newResult.position - r.pos).length();
+		newResult.hitFraction = rayCallback.m_closestHitFraction;
+		result.push_back(newResult);
+	}
+
+	auto CompareRaycastResults = [](const PhysicsRaycastResult& lhs, const PhysicsRaycastResult& rhs)
+	{
+		return lhs.distance < rhs.distance;
+	};
+	std::sort(result.begin(), result.end(), CompareRaycastResults);
+}
+
+btCollisionWorld * BulletPhysics::GetCollisionWorld()
+{
+	return m_dynamicsWorld.get();
+}
+
 void BulletPhysics::VPostStep(float timeStep)
 {
 

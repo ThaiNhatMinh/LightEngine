@@ -20,42 +20,42 @@ void BaseAnimComponent::DrawSkeleton(const mat4& m)
 			vec3 pos2 = m_DbTransform[parentID][3];
 			m_Context->m_pDebuger->DrawLine(pos1, pos2, vec3(1.0f, 1.0, 1.0f), m);
 		}
-		/*
+		
+		//if (m_pSkeNodes[i]->m_Name.find("Spine") == string::npos|| m_pSkeNodes[i]->m_Name.find("Finger") != string::npos) continue;
+		
 		if (m_pSkeNodes[i]->m_Flag != 1) continue;
 		vec3 v[8];
 		m_pSkeNodes[i]->m_BoundBox.GenPoint(v);
 		//mat4 mm = temp;
 		mat4 temp = m*m_DbTransform[i];
-		vec3 color;
-		if (select == i) color = vec3(0, 1, 0);
-		else color = vec3(1,1,1);
-		if (i != 6) continue;
-		debug.DrawLine(m_pSkeNodes[i]->m_BoundBox.Min, m_pSkeNodes[i]->m_BoundBox.Max, vec3(0, 1, 0), temp);
+		vec3 color = vec3(1,1,1);
+		
+		m_Context->m_pDebuger->DrawLine(m_pSkeNodes[i]->m_BoundBox.Min, m_pSkeNodes[i]->m_BoundBox.Max, vec3(0, 1, 0), temp);
 
-		debug.DrawLine(v[0], v[1], color, temp);
-		debug.DrawLine(v[1], v[2], color, temp);
-		debug.DrawLine(v[2], v[3], color, temp);
-		debug.DrawLine(v[3], v[0], color, temp);
+		m_Context->m_pDebuger->DrawLine(v[0], v[1], color, temp);
+		m_Context->m_pDebuger->DrawLine(v[1], v[2], color, temp);
+		m_Context->m_pDebuger->DrawLine(v[2], v[3], color, temp);
+		m_Context->m_pDebuger->DrawLine(v[3], v[0], color, temp);
 
-		debug.DrawLine(v[4], v[5], color, temp);
-		debug.DrawLine(v[5], v[6], color, temp);
-		debug.DrawLine(v[6], v[7], color, temp);
-		debug.DrawLine(v[7], v[4], color, temp);
+		m_Context->m_pDebuger->DrawLine(v[4], v[5], color, temp);
+		m_Context->m_pDebuger->DrawLine(v[5], v[6], color, temp);
+		m_Context->m_pDebuger->DrawLine(v[6], v[7], color, temp);
+		m_Context->m_pDebuger->DrawLine(v[7], v[4], color, temp);
 
-		debug.DrawLine(v[0], v[4], color, temp);
-		debug.DrawLine(v[1], v[5], color, temp);
-		debug.DrawLine(v[2], v[6], color, temp);
-		debug.DrawLine(v[3], v[7], color, temp);
+		m_Context->m_pDebuger->DrawLine(v[0], v[4], color, temp);
+		m_Context->m_pDebuger->DrawLine(v[1], v[5], color, temp);
+		m_Context->m_pDebuger->DrawLine(v[2], v[6], color, temp);
+		m_Context->m_pDebuger->DrawLine(v[3], v[7], color, temp);
 
-		vec3 pos1 = m_DbTransform[i][3];
+		//vec3 pos1 = m_DbTransform[i][3];
 
-		vec3 front = vec3(m_DbTransform[i][0]) + pos1;
-		debug.DrawLine(pos1, front, vec3(1, 0, 0), m);
-		front = 2.0f*vec3(m_DbTransform[i][1]) + pos1;
-		debug.DrawLine(pos1, front, vec3(0, 1, 0), m);
-		front = 4.0f*vec3(m_DbTransform[i][2]) + pos1;
-		debug.DrawLine(pos1, front, vec3(0, 0, 1), m);
-		*/
+		//vec3 front = vec3(m_DbTransform[i][0]) + pos1;
+		//m_Context->m_pDebuger->DrawLine(pos1, front, vec3(1, 0, 0), m);
+		//front = 2.0f*vec3(m_DbTransform[i][1]) + pos1;
+		//m_Context->m_pDebuger->DrawLine(pos1, front, vec3(0, 1, 0), m);
+		//front = 4.0f*vec3(m_DbTransform[i][2]) + pos1;
+		//m_Context->m_pDebuger->DrawLine(pos1, front, vec3(0, 0, 1), m);
+		
 	}
 
 }
@@ -75,8 +75,8 @@ const vector<mat4>& BaseAnimComponent::GetVertexTransform()
 
 bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 {
-	m_bDrawSkeleton = 0;
-	m_Context->m_pConsole->RegisterVar("draw_skeleton", &m_bDrawSkeleton, 1, sizeof(int), TYPE_INT);
+	
+	//m_Context->m_pConsole->RegisterVar("draw_skeleton", &m_bDrawSkeleton, 1, sizeof(int), TYPE_INT);
 	if (!pData) return false;
 	// load model
 	const tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
@@ -164,7 +164,7 @@ GLint BaseAnimComponent::FindAnimation(string name)
 		}
 
 
-	return -1;
+	return 0;
 }
 
 #pragma endregion
@@ -220,6 +220,15 @@ void AnimationComponent::Play(blendset part, int anim, bool fromBaseAnim)
 	ResetControl(part, animID, ANIM_TRANSITION);
 }
 
+void AnimationComponent::SetBoneEdit(float yaw, float pitch)
+{
+	m_Yaw = yaw;
+	m_Pitch = pitch;
+}
+
+
+
+
 AnimationComponent::AnimationComponent(void)
 {
 	m_iDefaultAnimation = 0;
@@ -236,6 +245,8 @@ AnimationComponent::AnimationComponent(void)
 	m_Control[lower].m_State = ANIM_PLAYING;
 
 	m_fBlendTime = 0.2f;
+	m_Yaw = 0;
+	m_Pitch = 0;
 }
 
 AnimationComponent::~AnimationComponent(void)
@@ -254,7 +265,7 @@ void AnimationComponent::VPostInit(void)
 
 void AnimationComponent::VUpdate(float deltaMs)
 {
-	if (m_bDrawSkeleton) DrawSkeleton(m_pOwner->VGetGlobalTransform());
+	if (m_Context->DrawSkeleton) DrawSkeleton(m_pOwner->VGetGlobalTransform());
 
 	if (!m_pAnimList.size()) return;
 	m_Control[lower].m_fTime += deltaMs;
@@ -293,8 +304,8 @@ void AnimationComponent::VUpdate(float deltaMs)
 	
 	Animation* animUpper = m_pAnimList[m_Control[upper].m_iCurrentAnim];
 	Animation* animLower = m_pAnimList[m_Control[lower].m_iCurrentAnim];
-
-
+	
+	
 	for (GLuint i = 0; i < animLower->AnimNodeLists.size(); i++)
 	{
 		// process upper 
@@ -329,6 +340,30 @@ void AnimationComponent::VUpdate(float deltaMs)
 		mat4 rotate = glm::toMat4(m_CurrentFrames[i].m_Ort);
 		mat4 translate = glm::translate(mat4(), m_CurrentFrames[i].m_Pos);
 		mat4 transform = translate*rotate;
+
+		
+		
+		if (m_Pitch != 0)
+		{
+			if (m_pSkeNodes[i]->m_Name == "M-bone Neck")
+			{
+				mat4 rotate;
+				rotate = glm::rotate(rotate, glm::radians(m_Pitch / 3), vec3(0, 1, 0));
+				transform = rotate*transform;
+			}
+			else if (m_pSkeNodes[i]->m_Name == "M-bone Spine")
+			{
+				mat4 rotate;
+				rotate = glm::rotate(rotate, glm::radians(m_Pitch / 3), vec3(0, 1, 0));
+				transform = rotate*transform;
+			}
+			else if (m_pSkeNodes[i]->m_Name == "M-bone Spine1")
+			{
+				mat4 rotate;
+				rotate = glm::rotate(rotate, glm::radians(m_Pitch / 3), vec3(0, 1, 0));
+				transform = rotate*transform;
+			}
+		}
 
 		if (animLower->AnimNodeLists[i].Parent != -1) m_TransformLocal = m_DbTransform[animLower->AnimNodeLists[i].Parent] * transform;
 		else m_TransformLocal = transform;

@@ -1,0 +1,14 @@
+<Data>
+	<Model File="MODELS\PLAYERVIEW\PV-AK47.LTB" />
+	<Texture>
+		<Box01 File="TEXTURES\PLAYERVIEW\PV-AK47.DTX" />
+		<reload2 File="TEXTURES\PLAYERVIEW\PV-AK47.DTX" />
+		<reload1 File="TEXTURES\PLAYERVIEW\PV-AK47.DTX" />
+	</Texture>
+	<Material>
+			<Ka r="1.0" g="1.0" b="1.0" />
+			<Kd r="1.0" g="1.0" b="1.0" />
+			<Ks r="1.0" g="1.0" b="1.0"  exp="128"/>
+	</Material>
+	
+</Data>

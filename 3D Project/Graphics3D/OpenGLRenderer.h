@@ -3,6 +3,8 @@
 #include <GLFW\glfw3.h>
 
 
+
+
 class OpenGLRenderer : public RenderAPICore,public ISubSystem
 {
 	friend class Scene;
@@ -28,7 +30,7 @@ public:
 
 	virtual void Draw(GLint first, GLsizei count, GLsizei primcount = 0);
 	virtual void DrawElement(GLsizei count, GLenum type, const GLvoid * indices, GLsizei primcount = 0);
-
+	
 	virtual void SetClearFlag(unsigned int flag);
 	virtual void SetTexture(Texture* p, GLuint tex_unit = 0);
 	virtual void SetViewport(int x, int y, int weight, int height);

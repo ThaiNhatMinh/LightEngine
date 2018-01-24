@@ -65,6 +65,7 @@ void OpenGLRenderer::Init(Context* c)
 
 	c->m_pRenderer = std::unique_ptr<OpenGLRenderer>(this);
 	
+
 }
 
 void OpenGLRenderer::ShutDown()
@@ -104,6 +105,8 @@ void OpenGLRenderer::DrawElement(GLsizei count, GLenum type, const GLvoid * indi
 	if (primcount) glDrawElementsInstanced(m_DrawMode, count, type, indices, primcount);
 	else glDrawElements(m_DrawMode, count, type, indices);
 }
+
+
 
 void OpenGLRenderer::SetClearFlag(unsigned int flag)
 {

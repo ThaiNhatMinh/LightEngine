@@ -605,22 +605,33 @@ ModelCache * Resources::LoadModel(const char * filename)
 			SkeVertex& vertex = pMesh->m_Vertexs[j];
 			for (int k = 0; k < 4; k++)
 			{
-				if (vertex.weights[k].Bone <100.0f && vertex.weights[k].weight>=0.01)
+				if (vertex.weights[k].Bone <100.0f && vertex.weights[k].weight>=0.0f)
 				{
 					vec3 local = pModel->pSkeNodes[vertex.weights[k].Bone]->m_InvBindPose*vec4(vertex.pos, 1.0f);
 					local *= vertex.weights[k].weight;
 					abb[vertex.weights[k].Bone].Insert(local);
 					pModel->pSkeNodes[vertex.weights[k].Bone]->m_Flag = 1;
 				}
-				else break;
+				else
+				{
+					//assert(0);
+				}
 			}
 		}
 	}
 
 	for (size_t i = 0; i < pModel->pSkeNodes.size(); i++)
 	{
+		vec3 size = abb[i].Max - abb[i].Min;
+		vec3 pos = size / 2.0f + abb[i].Min;
+		//pos.x = 0;
+		//pos.y = 0;
+		size = vec3(fabsf(size.x), fabsf(size.y), fabsf(size.z));
 		
-		pModel->pSkeNodes[i]->m_BoundBox = abb[i];
+		//if(size<vec3(20)) pModel->pSkeNodes[i]->m_Flag = 0;
+		//cout << size.x <<" " << size.y << " " << size.z << endl;
+		pModel->pSkeNodes[i]->m_BoundBox.Min =  -vec3(0,size.y*0.5,size.z*0.5);
+		pModel->pSkeNodes[i]->m_BoundBox.Max = vec3(size.x, size.y*0.5, size.z*0.5);
 	}
 
 	m_ModelCaches.push_back(std::unique_ptr<ModelCache>(pModel));
@@ -637,50 +648,55 @@ ModelCache * Resources::LoadModelXML(const char * XMLFile)
 		E_ERROR("Failed to load file: " + string(XMLFile));
 		return nullptr;
 	}
-	tinyxml2::XMLElement* pData = doc.FirstChildElement("Data");
+	tinyxml2::XMLElement* pData = doc.FirstChildElement();
 
-	// load model
-	tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
-	const char* pFileName = pModelNode->Attribute("File");
-
-	ModelCache* pModel = LoadModel(pFileName);
-	if (pModel)
+	if (strcmp(pData->Value(), "Data") == 0)
 	{
-		// load texture
-		tinyxml2::XMLElement* pTextureNode = pData->FirstChildElement("Texture");
-		vector<std::unique_ptr<SkeMesh>>& ve = pModel->pMeshs;
-		for (size_t i = 0; i < ve.size(); i++)
+		// load model
+		tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
+		const char* pFileName = pModelNode->Attribute("File");
+
+		ModelCache* pModel = LoadModel(pFileName);
+		if (pModel)
 		{
-			tinyxml2::XMLElement* pTexture = pTextureNode->FirstChildElement(ve[i]->Name.c_str());
-			const char* pTextureFile = pTexture->Attribute("File");
-			ve[i]->Tex = LoadDTX(pTextureFile);
+			// load texture
+			tinyxml2::XMLElement* pTextureNode = pData->FirstChildElement("Texture");
+			vector<std::unique_ptr<SkeMesh>>& ve = pModel->pMeshs;
+			for (size_t i = 0; i < ve.size(); i++)
+			{
+				tinyxml2::XMLElement* pTexture = pTextureNode->FirstChildElement(ve[i]->Name.c_str());
+				const char* pTextureFile = pTexture->Attribute("File");
+				ve[i]->Tex = LoadDTX(pTextureFile);
+			}
 		}
-	}		
-
-	
-
-	// load material
-	tinyxml2::XMLElement* pMaterialData = pData->FirstChildElement("Material");
-	Material mat;
-	tinyxml2::XMLElement* pKa = pMaterialData->FirstChildElement("Ka");
-	mat.Ka.x = pKa->FloatAttribute("r", 1.0f);
-	mat.Ka.y = pKa->FloatAttribute("g", 1.0f);
-	mat.Ka.z = pKa->FloatAttribute("b", 1.0f);
-	tinyxml2::XMLElement* pKd = pMaterialData->FirstChildElement("Kd");
-	mat.Kd.x = pKd->FloatAttribute("r", 1.0f);
-	mat.Kd.y = pKd->FloatAttribute("g", 1.0f);
-	mat.Kd.z = pKd->FloatAttribute("b", 1.0f);
-	tinyxml2::XMLElement* pKs = pMaterialData->FirstChildElement("Ks");
-	mat.Ks.x = pKs->FloatAttribute("r", 1.0f);
-	mat.Ks.y = pKs->FloatAttribute("g", 1.0f);
-	mat.Ks.z = pKs->FloatAttribute("b", 1.0f);
-	mat.exp = vec3(pKs->FloatAttribute("exp", 32.0f));
 
 
-	// Done return ModelCache
+
+		// load material
+		tinyxml2::XMLElement* pMaterialData = pData->FirstChildElement("Material");
+		Material mat;
+		tinyxml2::XMLElement* pKa = pMaterialData->FirstChildElement("Ka");
+		mat.Ka.x = pKa->FloatAttribute("r", 1.0f);
+		mat.Ka.y = pKa->FloatAttribute("g", 1.0f);
+		mat.Ka.z = pKa->FloatAttribute("b", 1.0f);
+		tinyxml2::XMLElement* pKd = pMaterialData->FirstChildElement("Kd");
+		mat.Kd.x = pKd->FloatAttribute("r", 1.0f);
+		mat.Kd.y = pKd->FloatAttribute("g", 1.0f);
+		mat.Kd.z = pKd->FloatAttribute("b", 1.0f);
+		tinyxml2::XMLElement* pKs = pMaterialData->FirstChildElement("Ks");
+		mat.Ks.x = pKs->FloatAttribute("r", 1.0f);
+		mat.Ks.y = pKs->FloatAttribute("g", 1.0f);
+		mat.Ks.z = pKs->FloatAttribute("b", 1.0f);
+		mat.exp = vec3(pKs->FloatAttribute("exp", 32.0f));
 
 
-	return pModel;
+		// Done return ModelCache
+		return pModel;
+	}
+	else if (strcmp(pData->Value(), "PVModel") == 0)
+	{
+
+	}
 }
 
 Shader * Resources::LoadShader(string key, const char* type, const char * vs, const char* fs, bool linkshader)

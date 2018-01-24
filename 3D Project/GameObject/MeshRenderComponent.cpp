@@ -17,12 +17,12 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	{
 		if (pFileName[0] != '\0')
 		{
-			ModelCache* pModel = m_Context->m_pResources->GetModel(pFileName);
-			if (!pModel)return false;
+			m_Model = m_Context->m_pResources->GetModel(pFileName);
+			if (!m_Model)return false;
 			
-			for (size_t i = 0; i < pModel->pMeshs.size(); i++)
+			for (size_t i = 0; i < m_Model->pMeshs.size(); i++)
 			{
-				m_MeshList.push_back(pModel->pMeshs[i].get());
+				m_MeshList.push_back(m_Model->pMeshs[i].get());
 			}
 		}
 	}
@@ -51,6 +51,9 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 		if (m_pShader == nullptr)
 			E_ERROR("Can not find shader name: " + string(pShader->Attribute("name")));
 	}
+
+	
+
 	return true;
 
 }
@@ -92,4 +95,16 @@ void MeshRenderComponent::Render(Scene* pScene)
 vector<IMesh*>& MeshRenderComponent::GetMeshList()
 {
 	return m_MeshList;
+}
+
+vector<LTBSocket>& MeshRenderComponent::GetSockets()
+{
+	assert(m_Model != nullptr);
+
+	return m_Model->Sockets;
+}
+
+vector<std::unique_ptr<SkeNode>>& MeshRenderComponent::GetNodeList()
+{
+	return m_Model->pSkeNodes;
 }

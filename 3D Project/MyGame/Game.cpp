@@ -22,10 +22,10 @@ void Game::Init(Context *c)
 			root->VAddChild(std::unique_ptr<Actor>(p));
 		}*/
 	// send wp data;
-	std::shared_ptr<const IEvent> p2(new EvtData_PlayerCharData(m_CharacterResources));
-	c->m_pEventManager->VTriggerEvent(p2);
-	std::shared_ptr<const IEvent> p(new EvtData_PlayerWpData(m_WeaponResources));
-	c->m_pEventManager->VTriggerEvent(p);
+	//std::shared_ptr<const IEvent> p2(new EvtData_PlayerCharData(m_CharacterResources));
+	//c->m_pEventManager->VTriggerEvent(p2);
+	//std::shared_ptr<const IEvent> p(new EvtData_PlayerWpData(m_WeaponResources));
+	//c->m_pEventManager->VTriggerEvent(p);
 	
 	//c->m_pConsole->RegisterVar("test_cmd", test, 4, sizeof(int), TYPE_INT);
 
@@ -34,6 +34,9 @@ void Game::Init(Context *c)
 void Game::Update(float dt)
 {
 	m_Scene->OnUpdate(dt);
+
+	m_Scene->PostUpdate();
+
 	ImGui::Text("FPS: %d", m_Context->m_pTimer->GetFPS());
 	
 }

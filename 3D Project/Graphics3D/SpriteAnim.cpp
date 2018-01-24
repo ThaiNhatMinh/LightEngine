@@ -34,9 +34,9 @@ const SpriteAnim::SpriteFrame & SpriteAnim::GetCurrentFrame()
 
 const glm::vec3 & SpriteAnim::GetPos()const
 {
-	return m_Pos;
+	return Pos;
 }
 glm::vec3 & SpriteAnim::GetPos()
 {
-	return m_Pos;
+	return Pos;
 }

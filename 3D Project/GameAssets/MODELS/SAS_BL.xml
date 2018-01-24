@@ -1,0 +1,13 @@
+<Data>
+	<Model File="MODELS\CHARACTER\SAS_BODY_BL.LTB" />
+	<Texture>
+		<SAS_BL_B File="TEXTURES\CHARACTER\SAS\SAS_BODY_BL.DTX" />
+		<SAS_BL_F File="TEXTURES\CHARACTER\SAS\SAS_FACE_BL.DTX" />
+	</Texture>
+	<Material>
+			<Ka r="1.0" g="1.0" b="1.0" />
+			<Kd r="1.0" g="1.0" b="1.0" />
+			<Ks r="1.0" g="1.0" b="1.0"  exp="128"/>
+	</Material>
+	
+</Data>

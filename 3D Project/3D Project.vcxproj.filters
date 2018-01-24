@@ -243,6 +243,21 @@
     <ClInclude Include="EventManager\SpriteEvent.h">
       <Filter>EventManager</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\Particles.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Ray.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Math.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Creature.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\HitBox.h">
+      <Filter>MyGame\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -431,7 +446,15 @@
     <ClCompile Include="Graphics3D\SpriteShader.cpp">
       <Filter>Graphics3D\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\SpriteAnim.cpp" />
+    <ClCompile Include="Graphics3D\SpriteAnim.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Creature.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\HitBox.cpp">
+      <Filter>MyGame\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

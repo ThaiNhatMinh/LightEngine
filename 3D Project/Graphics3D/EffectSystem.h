@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 class EffectSystem: public ISubSystem
 {
 private:
@@ -15,7 +17,7 @@ public:
 	virtual void	Init(Context* c);
 	virtual void	ShutDown();
 
-	void			Update(float dt);
+	void			Update(Scene* pScene,float dt);
 	void			Render(Scene* pScene);
 
 	void			AddSprite(Sprite a);

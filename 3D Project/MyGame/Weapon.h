@@ -22,4 +22,6 @@ private:
 	mat4 m_BoneTransform;
 	mat4 m_SocketTransform;
 	int m_BoneID;
+	string GViewAnimName;
+	string PVFileName;
 };

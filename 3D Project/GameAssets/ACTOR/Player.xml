@@ -1,15 +1,11 @@
 <Actor type="Player" name="707" >
-
-	<Info Team="1" HP="100" AC="100" />
-	<Weapon Name1="MP5" Default="0"/>
+	
+	<Creature HP="100" AC="100" />
+	<Info Team="1" />
 	<Character Name="SAS" />
 	
   <Component>
-	  <LocalPlayerComponent>
-		  <Speed max="10.0" />
-		  <Jump force="4000.0" />
-		  <Move force="6900.0" brakefore="60"/>
-	  </LocalPlayerComponent>
+	  
 	
 	  <AnimationComponent>
 		  <Model File="MODELS\CHARACTER\M-MOTION.LTB" />
@@ -22,6 +18,7 @@
 
 	  <RigidBodyComponent>
 		  <Mass value="70.0" />
+		  <HitBox value="1"/>
 		  <PhysicsMaterial>player</PhysicsMaterial>
 		  <RigidBodyTransform>
 			  <Position x="0.0" y="0.0" z="0.0"/>
@@ -29,16 +26,18 @@
 	  </RigidBodyComponent>
   
 	  <MeshRenderComponent>
-		  <Model File="" />
+		  <Model File="MODELS\NAVY_BL.xml" />
 		  <Shader name="SkeShader" />
 	  </MeshRenderComponent>
+	  <HitBox>
+	  </HitBox>
 	 <TransformComponent>
 		  <Position x="0" y="200" z="0"/>
-		  <YawPitchRoll x="0" y="180" z="0"/>
+		  <YawPitchRoll x="0" y="0" z="0"/>
 	  </TransformComponent>
   </Component>
   <Children>
-	<Actor File="GameAssets\ACTOR\Camera.xml" />
+	<Actor File="GameAssets\ACTOR\WP_AK47.xml" />
 	
   </Children>
 </Actor>

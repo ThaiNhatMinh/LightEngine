@@ -13,6 +13,7 @@ public:
 	virtual bool VInit(const tinyxml2::XMLElement* pData) = 0;
 	virtual void VPostInit(void) { }
 	virtual void VUpdate(float dt) { }
+	virtual void VPostUpdate() { }
 	virtual void VOnChanged(void) { }				
 													// for the editor
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) = 0;

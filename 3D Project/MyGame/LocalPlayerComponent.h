@@ -28,6 +28,7 @@ public:
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p);
 	virtual void VPostInit(void);
 	virtual void VUpdate(float dt);
+	virtual void VPostUpdate();
 	virtual void VOnChanged(void);
 
 	virtual const char *VGetName() const;

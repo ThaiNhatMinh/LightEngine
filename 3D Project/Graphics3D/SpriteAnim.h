@@ -1,7 +1,7 @@
 #pragma once
 
 class Texture;
-class SpriteAnim
+class SpriteAnim: public Particle
 {
 	friend class Resources;
 
@@ -26,7 +26,7 @@ public:
 	glm::vec3&				GetPos();
 
 private:
-	vec3					m_Pos;
+	
 	std::vector<SpriteFrame>m_FrameLists;
 	std::string				m_FilePath;
 	uint32					m_MsFrameRate;

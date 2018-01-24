@@ -10,40 +10,23 @@
   
   <SpriteAnim File="TEXTURES\FX\BLOOD3\BLOOD3.SPR" />
   <SpriteAnim File="TEXTURES\FX\EX\EX.SPR" />
+  <SpriteAnim File="TEXTURES\FX2\AI\AI_BLOOD\AI_Blood.SPR" />
+  <SpriteAnim File="TEXTURES\FX\SPRITES\fire_beam_01\SGFX_se_fire_beam_01.SPR" />
+  <SpriteAnim File="TEXTURES\FX\SPRITES\fire_explode\SGFX_se_fire_explode_01.SPR" />
   <Texture File="TEXTURES\ESCAPE.DTX"/>
   <Texture File="TEXTURES\SGFX_se_decal_04.DTX"/>
   <Texture File="TEXTURES\Default.png" />
   <Texture File="TEXTURES\grass_autumn_orn_d.jpg" />
   <Texture File="WORLD\heightmap.png" />
-   <Model File="MODELS\WEAPONS\AK47.LTB"/>
-   <Model File="MODELS\PLAYERVIEW\PV-AK47.LTB"/>
-   <Model File="MODELS\PLAYERVIEW\PV-M4A1.LTB"/>
-   <Model File="MODELS\WEAPONS\M4A1.LTB"/>
-   <Texture File="TEXTURES\WEAPONS\AK47.DTX"/>
-   <Texture File="TEXTURES\PLAYERVIEW\PV-AK47.DTX"/>
-   <Texture File="TEXTURES\WEAPONS\L-M4A1.DTX"/>
-   <Texture File="TEXTURES\PLAYERVIEW\PV-M4A1.DTX"/>
-   <Model File="MODELS\WEAPONS\MP5.LTB"/>
-     <Texture File="TEXTURES\WEAPONS\L-MP5.DTX"/>
-     <Model File="MODELS\PLAYERVIEW\PV-MP5.LTB"/>
-    <Texture File="TEXTURES\PLAYERVIEW\PV-MP5.DTX"/>
-   <Model File="MODELS\CHARACTER\SAS_BODY_BL.LTB"/>
-   <Texture File="TEXTURES\CHARACTER\SAS\SAS_BODY_BL.DTX"/>
-	<Texture File="TEXTURES\CHARACTER\SAS\SAS_FACE_BL.DTX"/>
-    <Texture File="TEXTURES\PLAYERVIEW\FVIEW_ARM_BL.DTX" />
-    <Texture File="TEXTURES\PLAYERVIEW\FVIEW_HAND_BL.DTX" />
-	
-	<Model File="MODELS\CHARACTER\SAS_BODY_GR.LTB"/>
-    <Texture File="TEXTURES\CHARACTER\SAS\SAS_BODY_GR.DTX"/>
-	<Texture File="TEXTURES\CHARACTER\SAS\SAS_FACE_GR.DTX"/>
-    <Texture File="TEXTURES\PLAYERVIEW\FVIEW_ARM_SAS_GR.DTX" />
-    <Texture File="TEXTURES\PLAYERVIEW\FVIEW_HAND_GR.DTX" />
-	
-	 <Model File="MODELS\WEAPONS\QV-SU_ULTIMAX100.LTB"/>
-     <Texture File="TEXTURES\WEAPONS\QV-SU_ULTIMAX100.DTX"/>
-     <Model File="MODELS\PLAYERVIEW\PV-SU_ULTIMAX100.LTB"/>
-    <Texture File="TEXTURES\PLAYERVIEW\PV-SU_ULTIMAX100.DTX"/>
-	
-	<Model File="MODELS\CHARACTER\M-MOTION.LTB" />
   
+   <ModelXML File="MODELS\707_BL.xml" />
+   <ModelXML File="MODELS\707_GR.xml" />
+   <ModelXML File="MODELS\SAS_BL.xml" />
+	<ModelXML File="MODELS\SAS_GR.xml" />
+	<ModelXML File="MODELS\NAVY_BL.xml" />
+   <ModelXML File="MODELS\NAVY_GR.xml" />
+    <ModelXML File="MODELS\AK47.xml" />
+   
+	<Model File="MODELS\CHARACTER\M-MOTION.LTB" />
+	<Model File="MODELS\CHARACTER\AI\AI_M-MOTION_EXPLOSIVE.LTB" />
 </Resources>

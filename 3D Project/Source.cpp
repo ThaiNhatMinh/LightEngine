@@ -19,7 +19,6 @@ void main()
 
 
 
-
 	MyGame app;
 	app.MainLoop();
 

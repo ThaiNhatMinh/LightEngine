@@ -190,6 +190,7 @@
     <ClInclude Include="Graphics3D\ImGuiShader.h" />
     <ClInclude Include="Graphics3D\Octree.h" />
     <ClInclude Include="Graphics3D\OpenGLRenderer.h" />
+    <ClInclude Include="Graphics3D\Particles.h" />
     <ClInclude Include="Graphics3D\RenderAPI.h" />
     <ClInclude Include="Graphics3D\SkeShader.h" />
     <ClInclude Include="Graphics3D\Light.h" />
@@ -211,10 +212,14 @@
     <ClInclude Include="interface.h" />
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="Math\Frustum.h" />
+    <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Math\Plane.h" />
+    <ClInclude Include="Math\Ray.h" />
     <ClInclude Include="MyGame\CharacterResource.h" />
+    <ClInclude Include="MyGame\Creature.h" />
     <ClInclude Include="MyGame\EvtData.h" />
     <ClInclude Include="MyGame\Game.h" />
+    <ClInclude Include="MyGame\HitBox.h" />
     <ClInclude Include="MyGame\LocalPlayerComponent.h" />
     <ClInclude Include="MyGame\Player.h" />
     <ClInclude Include="MyGame\PlayerView.h" />
@@ -284,8 +289,10 @@
     <ClCompile Include="Math\AABB.cpp" />
     <ClCompile Include="Math\Frustum.cpp" />
     <ClCompile Include="Math\Plane.cpp" />
+    <ClCompile Include="MyGame\Creature.cpp" />
     <ClCompile Include="MyGame\EvtDdata.cpp" />
     <ClCompile Include="MyGame\Game.cpp" />
+    <ClCompile Include="MyGame\HitBox.cpp" />
     <ClCompile Include="MyGame\Player.cpp" />
     <ClCompile Include="MyGame\PlayerView.cpp" />
     <ClCompile Include="MyGame\LocalPlayerComponent.cpp" />

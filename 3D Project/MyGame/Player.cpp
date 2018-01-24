@@ -2,77 +2,65 @@
 #include "Player.h"
 #include <string.h>
 
-Player::Player(ActorId id):Actor(id)
+Player::Player(ActorId id) :Creature(id)
 {
-	
-	m_Context->m_pEventManager->VAddListener(MakeDelegate(this,&Player::EventWeaponData), EvtData_PlayerWpData::sk_EventType);
-	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &Player::EventCharacterData), EvtData_PlayerCharData::sk_EventType);
+
 }
 
 Player::~Player()
 {
-	
-	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &Player::EventCharacterData), EvtData_PlayerCharData::sk_EventType);
-	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &Player::EventWeaponData), EvtData_PlayerWpData::sk_EventType);
+
 }
 
 bool Player::Init(const tinyxml2::XMLElement * pData)
 {
-	Actor::Init(pData);
+
 
 	const tinyxml2::XMLElement * pInfo = pData->FirstChildElement("Info");
-	m_HP = pInfo->DoubleAttribute("HP", 100.0);
-	m_AC = pInfo->DoubleAttribute("AC", 0);
+
 	int t = pInfo->DoubleAttribute("Team", 0);
 	if (t == TEAM_BL) m_Team = TEAM_BL;
 	else if (t == TEAM_GR) m_Team = TEAM_GR;
-	const tinyxml2::XMLElement * pWeapon = pData->FirstChildElement("Weapon");
-	m_iCurrentWP = pWeapon->DoubleAttribute("Default", -1.0f);
-	int i = 1;
-	while (1)
-	{
-		char t[2];
-		t[0] = '0' + i;
-		t[1] = '\0';
-		string name = "Name" + string(t);
-		const char* Name = pWeapon->Attribute(name.c_str());
-		if (!Name) break;
-		EvtData_RequestCreateWeapon* p = new EvtData_RequestCreateWeapon(this, Name);
-		p->File = "GameAssets\\ACTOR\\Weapon.xml";
-		std::shared_ptr<const IEvent> pEvent(p);
-		m_Context->m_pEventManager->VTriggerEvent(pEvent);
-		i++;
-	}
 
 	const tinyxml2::XMLElement * pCharacter = pData->FirstChildElement("Character");
 
 	m_Character = pCharacter->Attribute("Name");
 
-	return 1;
+	return Creature::Init(pData);
 }
 
 void Player::PostInit(void)
 {
 	Actor::PostInit();
 
-	m_MeshRender = std::unique_ptr<MeshRenderComponent>(RemoveComponent<MeshRenderComponent>(MeshRenderComponent::Name));
-	m_AnimC = GetComponent<BaseAnimComponent>(AnimationComponent::Name);
+	if (GetComponent<LocalPlayerComponent>(LocalPlayerComponent::Name))
+	{
+		
+	}
 }
 
 bool Player::VIsVisible(Scene * pScene) const
 {
 	CameraComponent* cam = pScene->GetCamera();
-	AABB box = m_AnimC->GetUserDimesion();
+	auto box =  GetComponent<AnimationComponent>(AnimationComponent::Name)->GetUserDimesion();
 	box.Translate(m_TransformComponent->GetPosition());
 	return cam->GetFrustum().Inside(box.Min, box.Max);
 }
 
 HRESULT Player::VRender(Scene * pScene)
 {
-	m_MeshRender->Render(pScene);
+	GetComponent<MeshRenderComponent>(MeshRenderComponent::Name)->Render(pScene);
 	return S_OK;
 }
-
+vector<LTBSocket>& Player::GetSockets()
+{
+	return GetComponent<MeshRenderComponent>(MeshRenderComponent::Name)->GetSockets();
+}
+void Player::AddWeapon(Weapon * wp)
+{
+	assert(0);
+}
+/*
 void Player::EventWeaponData(std::shared_ptr<const IEvent> pEvents)
 {
 	const EvtData_PlayerWpData *p = static_cast<const EvtData_PlayerWpData*>(pEvents.get());
@@ -135,5 +123,9 @@ void Player::EventCharacterData(std::shared_ptr<const IEvent> pEvents)
 			ve[j]->Tex = m_Context->m_pResources->GetTexture(pTextureFile);
 			m_MeshRender->GetMeshList().push_back(m_RModel->pMeshs[j].get());
 		}
+
+		
+
 	}
 }
+*/

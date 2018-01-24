@@ -37,7 +37,7 @@ public:
 	virtual mat4 VGetTransform();
 	virtual mat4 VGetGlobalTransform();
 	virtual HRESULT VOnUpdate(Scene *, float elapsedMs);
-
+	virtual HRESULT VPostUpdate(Scene *);
 	virtual HRESULT VPreRender(Scene *pScene);
 	virtual bool VIsVisible(Scene *pScene) const ;
 	virtual HRESULT VRenderChildren(Scene *pScene);
@@ -50,7 +50,7 @@ public:
 	// accessors
 	ActorId GetId(void) const { return m_id; }
 	template<class ComponentType>ComponentType* GetComponent(ComponentId id);
-	template<class ComponentType>ComponentType* GetComponent(const char*  name);
+	template<class ComponentType>ComponentType* GetComponent(const char*  name)const ;
 
 	template<class ComponentType>ComponentType* RemoveComponent(const char*  name);
 	const ActorComponents* GetComponents() { return &m_components; }
@@ -82,10 +82,10 @@ inline ComponentType * Actor::GetComponent(ComponentId id)
 }
 
 template<class ComponentType>
-inline ComponentType * Actor::GetComponent(const char * name)
+inline ComponentType * Actor::GetComponent(const char * name)const
 {
 	ComponentId id = ActorComponent::GetIdFromName(name);
-	ActorComponents::iterator findIt = m_components.find(id);
+	ActorComponents::const_iterator findIt = m_components.find(id);
 	if (findIt != m_components.end())
 	{
 		ActorComponent* pBase(findIt->second.get());

@@ -9,6 +9,7 @@ protected:
 	vector<IMesh*>			m_MeshList;
 	Shader					*m_pShader;
 	Material				m_Material;
+	ModelCache*				m_Model;
 public:
 	static const char* Name;
 	
@@ -27,4 +28,6 @@ public:
 	// Request mesh and texture
 	virtual void Render(Scene*);
 	vector<IMesh*>& GetMeshList();
+	vector<LTBSocket>& GetSockets();
+	vector<std::unique_ptr<SkeNode>>& GetNodeList();
 };

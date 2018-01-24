@@ -9,7 +9,6 @@ protected:
 	std::map<std::string, std::function<ActorComponent*()>> m_ComponentFactoryMap;
 	std::map<std::string, std::function<Actor*(int id)>> m_ActorFactoryMap;
 	std::map<string, std::function<Shader*(const char *, const char*)>> m_ShaderFactory;
-	void EventCreateWeapon(std::shared_ptr<const IEvent> pEvents);
 public:
 	void Init(Context* c);
 	void ShutDown();
@@ -18,7 +17,7 @@ public:
 	// Create Actor from file
 	bool RegisterComponentFactory(string name, std::function<ActorComponent*()>);
 
-	Actor* CreateActor(const char* actorResource, tinyxml2::XMLElement* overrides, const mat4* initialTransform);
+	Actor* CreateActor(const char* actorResource, const mat4* initialTransform,bool isCreateChild);
 
 	Shader* CreateShader(const char* type, const char* vs, const char* fs);
 

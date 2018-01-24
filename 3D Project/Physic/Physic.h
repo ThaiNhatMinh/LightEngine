@@ -1,6 +1,14 @@
 #pragma once
 #include "pch.h"
 
+enum CollisionType
+{
+	TYPE_TEAMEMATE = 1 << 1,
+	TYPE_ENEMY = 1 << 2,
+	TYPE_WORLD = 1 << 3,
+	TYPE_HITBOX = 1 << 4,
+
+};
 
 struct ActorMotionState : public btMotionState
 {
@@ -40,6 +48,34 @@ struct MaterialData
 		m_friction = other.m_friction;
 	}
 };
+
+/// Physics raycast hit.
+struct PhysicsRaycastResult
+{
+	/// Construct with defaults.
+	PhysicsRaycastResult() :
+		body(0)
+	{
+	}
+
+	/// Test for inequality, added to prevent GCC from complaining.
+	bool operator !=(const PhysicsRaycastResult& rhs) const
+	{
+		return position != rhs.position || normal != rhs.normal || distance != rhs.distance || body != rhs.body;
+	}
+
+	/// Hit worldspace position.
+	vec3 position;
+	/// Hit worldspace normal.
+	vec3 normal;
+	/// Hit distance from ray origin.
+	float distance;
+	/// Hit fraction.
+	float hitFraction;
+	/// Rigid body that was hit.
+	RigidBodyComponent* body;
+};
+
 
 class BulletPhysics : public IGamePhysics, public ISubSystem
 {
@@ -99,6 +135,7 @@ class BulletPhysics : public IGamePhysics, public ISubSystem
 	// helper for cleaning up objects
 	void RemoveCollisionObject(btCollisionObject * removeMe);
 
+	
 	// callback from bullet for each physics time step.  set in VInitialize
 	static void BulletInternalTickCallback(btDynamicsWorld * const world, btScalar const timeStep);
 	// callback from bullet for each physics time step.  set in VInitialize
@@ -124,5 +161,9 @@ public:
 	// Debugging
 	virtual void VRenderDiagnostics() override;
 
+	virtual void RayCast(PhysicsRaycastResult& result, const Ray& r, float maxdistance, unsigned mask = 0xffffffff);
+	virtual void RayCast(std::vector<PhysicsRaycastResult>& result, const Ray& r, float maxdistance, unsigned mask = 0xffffffff);
+
+	btCollisionWorld* GetCollisionWorld();
 };
 
