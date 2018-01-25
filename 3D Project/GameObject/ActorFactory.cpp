@@ -117,7 +117,7 @@ Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initial
 			pComponent->SetOwner(pActor);
 			if (!pComponent->VInit(pNode))
 			{
-				E_ERROR("Component failed to initialize: " + std::string(pNode->Value()));
+				E_ERROR(pActor->VGetName() + ": Component failed to initialize: " + std::string(pNode->Value()));
 				continue;
 			}
 			if (!strcmp(pNode->Value(), "TransformComponent")) pActor->SetTransformComponent(static_cast<TransformComponent*>(pComponent));

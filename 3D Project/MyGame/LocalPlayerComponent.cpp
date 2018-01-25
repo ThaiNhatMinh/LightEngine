@@ -126,7 +126,6 @@ void LocalPlayerComponent::VUpdate(float dt)
 	vec3 pos = m_pTC->GetPosition();
 	m_pTC->GetTransform() = rotate;
 	m_pTC->SetPosition(pos);
-	
 
 	m_pBAC->SetBoneEdit(m_Yaw, m_Pitch);
 }

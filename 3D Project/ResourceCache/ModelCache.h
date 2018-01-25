@@ -12,7 +12,7 @@ struct LTBProp;
 class ModelCache
 {
 public:
-	char								szName[128];
+	string								szName;
 	LTBProp								Prop;
 	vector<std::unique_ptr<SkeMesh>>	pMeshs;
 	vector<std::unique_ptr<SkeNode>>	pSkeNodes;

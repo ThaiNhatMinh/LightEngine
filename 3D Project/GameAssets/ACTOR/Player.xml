@@ -1,12 +1,16 @@
 <Actor type="Player" name="707" >
 	
 	<Creature HP="100" AC="100" />
-	<Info Team="1" />
+	<Info Team="1" WP="0"/>
 	<Character Name="SAS" />
 	
   <Component>
 	  
-	
+	<LocalPlayerComponent>
+		<Speed max="2000" />
+		<Jump force="5000"/>
+		<Move force="5000" brakeforce="20"/>
+	</LocalPlayerComponent>
 	  <AnimationComponent>
 		  <Model File="MODELS\CHARACTER\M-MOTION.LTB" />
 		  <DefaultAnim Anim="M-idle-M700" />

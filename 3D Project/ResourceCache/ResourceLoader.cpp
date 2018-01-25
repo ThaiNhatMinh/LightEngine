@@ -17,31 +17,31 @@ namespace LightEngine
 
 
 
-Texture * Resources::HasTexture(const char * filename)
+Texture * Resources::HasTexture(const string& filename)
 {
 	for (size_t i = 0; i < m_Textures.size(); i++)
-		if (!strcmp(m_Textures[i]->szName, filename))
+		if (m_Textures[i]->szName==filename)
 			return m_Textures[i].get();
 	
 	return nullptr;
 }
 
-ModelCache * Resources::HasModel(const char * filename)
+ModelCache * Resources::HasModel(const string& filename)
 {
 	for (size_t i = 0; i < m_ModelCaches.size(); i++)
-		if (!strcmp(m_ModelCaches[i]->szName, filename))
+		if (m_ModelCaches[i]->szName == filename)
 			return m_ModelCaches[i].get();
 
 	return NULL;
 }
 
-HeightMap* Resources::HasHeighMap(const char * filename)
+HeightMap* Resources::HasHeighMap(const string& filename)
 {
 	for (size_t i = 0; i < m_HeightMaps.size(); i++)
-		if (!strcmp(filename, m_HeightMaps[i]->filename)) return m_HeightMaps[i].get();
+		if (filename == m_HeightMaps[i]->filename) return m_HeightMaps[i].get();
 	return nullptr;
 }
-SpriteAnim * Resources::HasSprite(const char * filename)
+SpriteAnim * Resources::HasSprite(const string& filename)
 {
 	for (auto& el : m_SpriteLists)
 	{
@@ -81,13 +81,13 @@ void Resources::Init(Context* c)
 		
 }
 
-SpriteAnim * Resources::LoadSpriteAnimation(const char * filename)
+SpriteAnim * Resources::LoadSpriteAnimation(const string& filename)
 {
 	SpriteAnim* s = nullptr;
 	s = HasSprite(filename);
 	if (s) return s;
 
-	if (!filename) return nullptr;
+	if (filename.size()==0) return nullptr;
 
 	string fullpath = m_Path + filename;
 
@@ -146,13 +146,13 @@ SpriteAnim * Resources::LoadSpriteAnimation(const char * filename)
 	return s;
 }
 
-HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, int h, float hscale, int sub)
+HeightMap* Resources::LoadHeightMap(const string& filename, int stepsize, int w, int h, float hscale, int sub)
 {
 	HeightMap* hm=nullptr;
 	hm = HasHeighMap(filename);
 	if (hm != nullptr) return hm;
 
-	if (filename == nullptr) return nullptr;
+	if (filename.size() == 0) return nullptr;
 
 	GLint width, height, iType, iBpp;
 
@@ -274,7 +274,7 @@ HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, 
 	hm->maxH = max;
 	hm->minH = min;
 	hm->hscale = hscale;
-	strcpy(hm->filename, filename);
+	hm->filename = filename;
 	// [TODO]- Devide large mesh into small mesh
 
 	// Generate Buffer Objet
@@ -287,12 +287,12 @@ HeightMap* Resources::LoadHeightMap(const char * filename, int stepsize, int w, 
 	return hm;
 }
 
-Texture * Resources::LoadTexture(const char * filename)
+Texture * Resources::LoadTexture(const string& filename)
 {
 	Texture* tex=nullptr;
 	if ((tex = HasTexture(filename)) != nullptr) return tex;
 
-	if (strstr(filename, ".DTX") != 0) return LoadDTX(filename);
+	if (filename.find(".DTX") != string::npos) return LoadDTX(filename);
 	GLint width, height, iType, iBpp;
 
 	string fullpath = m_Path + filename;
@@ -395,7 +395,7 @@ Texture * Resources::LoadCubeTex(const vector<string>& filelist)
 
 }
 
-Texture * Resources::LoadTexMemory(const char* filename,unsigned char * data, int w, int h)
+Texture * Resources::LoadTexMemory(const string& filename,unsigned char * data, int w, int h)
 {
 	Texture* tex = NULL;
 	if ((tex = HasTexture(filename)) != NULL) return tex;
@@ -425,7 +425,7 @@ Texture * Resources::LoadTexMemory(const char* filename,unsigned char * data, in
 
 }
 
-Texture * Resources::LoadDTX(const char * filename)
+Texture * Resources::LoadDTX(const string& filename)
 {
 
 	Texture* tex = NULL;
@@ -438,7 +438,7 @@ Texture * Resources::LoadDTX(const char * filename)
 	{
 		Log::Message(Log::LOG_ERROR, "Can't open file: " + string(filename));
 		
-		return tex;
+		return m_pDefaultTex;
 	}
 	DtxHeader Header;
 	memset(&Header, 0, sizeof(DtxHeader));
@@ -542,17 +542,17 @@ Texture * Resources::LoadDTX(const char * filename)
 
 }
 
-byte * Resources::LoadHeightMap(const char * filename, int& w, int& h)
+byte * Resources::LoadHeightMap(const string& filename, int& w, int& h)
 {
 	
-	ilLoadImage(filename);
+	ilLoadImage(filename.c_str());
 	ILenum Error;
 	Error = ilGetError();
 
 	if (Error != IL_NO_ERROR)
 	{
 		//string error = iluErrorString(Error);
-		Log::Message(Log::LOG_ERROR, "Can't load texture " + string(filename));
+		Log::Message(Log::LOG_ERROR, "Can't load texture " + filename);
 		//Log::Message(Log::LOG_ERROR, "Devil: " + error);
 		return NULL;
 	}
@@ -566,7 +566,7 @@ byte * Resources::LoadHeightMap(const char * filename, int& w, int& h)
 
 }
 
-ModelCache * Resources::LoadModel(const char * filename)
+ModelCache * Resources::LoadModel(const string& filename)
 {
 	ModelCache* pModel = nullptr;
 	if ((pModel = HasModel(filename)) != nullptr) return pModel;
@@ -588,11 +588,11 @@ ModelCache * Resources::LoadModel(const char * filename)
 	}
 	else
 	{
-		E_ERROR("Can't open file: " + string(filename));
+		E_ERROR("Can't open file: " + filename);
 		return NULL;
 	}
 
-	strcpy(pModel->szName, filename);
+	pModel->szName = filename;
 	vector<AABB> abb(pModel->pSkeNodes.size());
 	for (size_t i = 0; i < pModel->pMeshs.size(); i++)
 	{
@@ -638,7 +638,7 @@ ModelCache * Resources::LoadModel(const char * filename)
 	return pModel;
 }
 
-ModelCache * Resources::LoadModelXML(const char * XMLFile)
+ModelCache * Resources::LoadModelXML(const string& XMLFile)
 {
 	string fullpath = m_Path + XMLFile;
 	tinyxml2::XMLDocument doc;
@@ -665,8 +665,12 @@ ModelCache * Resources::LoadModelXML(const char * XMLFile)
 			for (size_t i = 0; i < ve.size(); i++)
 			{
 				tinyxml2::XMLElement* pTexture = pTextureNode->FirstChildElement(ve[i]->Name.c_str());
-				const char* pTextureFile = pTexture->Attribute("File");
-				ve[i]->Tex = LoadDTX(pTextureFile);
+				if (pTexture)
+				{
+					const char* pTextureFile = pTexture->Attribute("File");
+					ve[i]->Tex = LoadDTX(pTextureFile);
+				}
+				else ve[i]->Tex = m_pDefaultTex;
 			}
 		}
 
@@ -695,7 +699,7 @@ ModelCache * Resources::LoadModelXML(const char * XMLFile)
 	}
 	else if (strcmp(pData->Value(), "PVModel") == 0)
 	{
-
+		return nullptr;
 	}
 }
 
@@ -722,7 +726,7 @@ Shader * Resources::GetShader(string key)
 	return m_ShaderList[key].get();
 }
 
-Texture * Resources::GetTexture(const char * filename)
+Texture * Resources::GetTexture(const string& filename)
 {
 	Texture* tex = nullptr;
 	tex = HasTexture(filename);
@@ -735,15 +739,15 @@ Texture * Resources::GetTexture(const char * filename)
 	
 }
 
-ModelCache * Resources::GetModel(const char * filename)
+ModelCache * Resources::GetModel(const string& filename)
 {
 	ModelCache* pModel = nullptr;
-	if (strstr(filename, ".xml") != nullptr) pModel = LoadModelXML(filename);
+	if (filename.find(".xml") !=string::npos) pModel = LoadModelXML(filename);
 	else pModel = HasModel(filename);
 	return pModel;
 }
 
-HeightMap * Resources::GetHeightMap(const char * filename)
+HeightMap * Resources::GetHeightMap(const string& filename)
 {
 	HeightMap* hm = nullptr;
 	hm = HasHeighMap(filename);
@@ -765,7 +769,7 @@ IMesh * Resources::CreateShape(ShapeType type,float* size)
 	
 }
 
-SpriteAnim * Resources::GetSpriteAnimation(const char * filename)
+SpriteAnim * Resources::GetSpriteAnimation(const string& filename)
 {
 	SpriteAnim* s = nullptr;
 	s = HasSprite(filename);

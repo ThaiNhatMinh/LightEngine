@@ -29,6 +29,7 @@ bool CameraComponent::VInit(const tinyxml2::XMLElement* pData)
 		as = size[0]/size[1];
 	}
 
+	WorldUp = vec3(0, 1, 0);
 	m_Frustum  = Frustum(fov, as, np, fp);
 
 	return true;
@@ -38,17 +39,7 @@ void CameraComponent::VPostInit(void)
 {
 	m_pTransform = m_pOwner->GetTransform();
 }
-/*
-void CameraComponent::VUpdate(float dt)
-{
-	vec3 pos = m_pTransform->GetPosition();
-	vec3 front = m_pTransform->GetFront();
-	vec3 up = m_pTransform->GetUp();
-	ViewMatrix = glm::lookAt(pos, pos + front, up);
-	//ViewMatrix = glm::inverse(m_pTransform->GetTransform());
 
-}
-*/
 
 const char * CameraComponent::VGetName() const
 {
@@ -59,6 +50,24 @@ tinyxml2::XMLElement * CameraComponent::VGenerateXml(tinyxml2::XMLDocument * p)
 {
 	return nullptr;
 }
+
+void CameraComponent::UpdateAngle(float yaw, float pitch)
+{
+	vec3 front;
+	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front.y = sin(glm::radians(pitch));
+	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+
+
+
+	m_Front = glm::normalize(front);
+	m_Right = glm::normalize(glm::cross(m_Front, WorldUp));
+	m_Up = glm::normalize(glm::cross(m_Right, m_Front));
+	ViewMatrix = glm::lookAt(m_Pos, m_Pos + m_Front, m_Up);
+	m_Frustum.Update(m_Pos, m_Front, m_Right);
+
+}
+
 
 const mat4& CameraComponent::GetViewMatrix()
 {
@@ -74,13 +83,7 @@ void CameraComponent::VUpdate(float dt)
 {
 	mat4 tt = m_pOwner->VGetGlobalTransform();
 	m_Pos = tt[3];
-	m_Front = tt[2];
-	m_Up = tt[1];
-	m_Right = tt[0];
-	ViewMatrix = glm::lookAt(m_Pos, m_Pos + m_Front, m_Up);
-	m_Frustum.Update(m_Pos, m_Front, m_Right);
-
-	//ImGui::Text("Pos: %f %f %f", pos.x, pos.y, pos.z);
+	
 }
 const mat4& CameraComponent::GetProjMatrix()
 {
@@ -89,7 +92,8 @@ const mat4& CameraComponent::GetProjMatrix()
 
 const mat4& CameraComponent::GetVPMatrix()
 {
-	return m_Frustum.GetProjMatrix()*ViewMatrix;
+	mat4 result = m_Frustum.GetProjMatrix()*ViewMatrix;
+	return result;
 }
 
 const vec3 & CameraComponent::GetUp() { return m_Up; }

@@ -14,26 +14,26 @@ Scene::Scene(Context* c) :m_CurrentCamera(nullptr), m_Context(c)
 	m_DirectionLight.Ls = vec3(1.0f, 1.0f, 1.0f);
 	m_DirectionLight.direction = glm::normalize(vec3(-1, -1,- 1));
 
-	m_DefaultCamera = Camera(c,vec3(0, 0, 100), vec3(0), vec3(0, 1, 0), 45.0f, 4.0f / 3.0, 1.0f, 10000.0f);
+	m_DefaultCamera = Camera(c,vec3(0, 0, 100.0f), vec3(.0f), vec3(0, 1.0f, 0), 45.0f, 4.0f / 3.0f, 1.0f, 10000.0f);
 }
 
 Scene::~Scene()
 {
 }
 
-bool Scene::LoadScene(const char * filename)
+bool Scene::LoadScene(const string& filename)
 {
 	tinyxml2::XMLDocument doc;
-	if (doc.LoadFile(filename)!= tinyxml2::XML_SUCCESS)
+	if (doc.LoadFile(filename.c_str())!= tinyxml2::XML_SUCCESS)
 	{
-		E_ERROR("Can't load Scene file: " + string(filename));
+		E_ERROR("Can't load Scene file: " + filename);
 		return 0;
 	}
 
 	tinyxml2::XMLElement* pScene = doc.FirstChildElement("Scene");
 	if (!pScene)
 	{
-		E_ERROR("Can't load Scene file: " + string(filename));
+		E_ERROR("Can't load Scene file: " + filename);
 		return 0;
 	}
 

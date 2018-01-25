@@ -19,6 +19,7 @@ bool Player::Init(const tinyxml2::XMLElement * pData)
 	const tinyxml2::XMLElement * pInfo = pData->FirstChildElement("Info");
 
 	int t = pInfo->DoubleAttribute("Team", 0);
+	m_iCurrentWP = pInfo->Int64Attribute("WP", -1);
 	if (t == TEAM_BL) m_Team = TEAM_BL;
 	else if (t == TEAM_GR) m_Team = TEAM_GR;
 
@@ -26,6 +27,7 @@ bool Player::Init(const tinyxml2::XMLElement * pData)
 
 	m_Character = pCharacter->Attribute("Name");
 
+	Mode = 0;
 	return Creature::Init(pData);
 }
 
@@ -35,7 +37,7 @@ void Player::PostInit(void)
 
 	if (GetComponent<LocalPlayerComponent>(LocalPlayerComponent::Name))
 	{
-		
+		SetPVModel();
 	}
 }
 
@@ -49,8 +51,23 @@ bool Player::VIsVisible(Scene * pScene) const
 
 HRESULT Player::VRender(Scene * pScene)
 {
-	GetComponent<MeshRenderComponent>(MeshRenderComponent::Name)->Render(pScene);
+	if (!Mode)
+	{
+		static MeshRenderComponent* MeshRender = GetComponent<MeshRenderComponent>(MeshRenderComponent::Name);
+		MeshRender->Render(pScene);
+	}
 	return S_OK;
+}
+bool Player::VAddChild(std::unique_ptr<Actor> kid)
+{
+	if (kid->VGetTag() == "Weapon")
+	{
+		Weapon* wp = static_cast<Weapon*>(kid.get());
+		int slot = wp->GetWeaponSlot();
+		m_WPList[slot] = m_Children.size();
+	}
+
+	return Actor::VAddChild(std::move(kid));
 }
 vector<LTBSocket>& Player::GetSockets()
 {
@@ -59,6 +76,26 @@ vector<LTBSocket>& Player::GetSockets()
 void Player::AddWeapon(Weapon * wp)
 {
 	assert(0);
+}
+void Player::SetPVModel()
+{
+	if (m_iCurrentWP != -1)
+	{
+		Actor* PlayerView = m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\PV.xml",nullptr,0);
+
+		Weapon* wp = static_cast<Weapon*>(m_Children[m_WPList[m_iCurrentWP]].get());
+		const string& pvmodel = wp->GetPVFileName();
+
+		ModelCache* pModel = m_Context->m_pResources->GetModel(pvmodel);
+		auto PVRender = PlayerView->GetComponent<MeshRenderComponent>(MeshRenderComponent::Name);
+		PVRender->SetData(pModel);
+		auto PVAnimation = PlayerView->GetComponent<BaseAnimComponent>(PVAnimationComponent::Name);
+		PVAnimation->SetData(pModel);
+
+		VAddChild(std::unique_ptr<Actor>(PlayerView));
+
+		Mode = 1;
+	}
 }
 /*
 void Player::EventWeaponData(std::shared_ptr<const IEvent> pEvents)

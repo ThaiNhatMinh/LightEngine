@@ -3,5 +3,5 @@
 
 void Octree::Build(const vector<vec3>& vertex)
 {
-	if (vertex.size() > m_MaxVertex) m_IsSubDevided = 1;
+	//if (vertex.size() > m_MaxVertex) m_IsSubDevided = 1;
 }

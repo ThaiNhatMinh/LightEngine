@@ -24,7 +24,7 @@ public:
 	//virtual void VUpdate(float dt);
 	virtual const char *VGetName() const;
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p);
-
+	void UpdateAngle(float yaw, float pitch);
 	const mat4& GetViewMatrix();
 	const mat4& GetProjMatrix();
 	const mat4& GetVPMatrix();

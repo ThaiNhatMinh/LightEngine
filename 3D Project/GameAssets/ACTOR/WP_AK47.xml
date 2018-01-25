@@ -1,6 +1,6 @@
 <Actor type="Weapon" name="AK-47">
 	
-	<Info GViewAnimName="M4A1" PVModel="MODELS\PV_AK47.xml"/>
+	<Info GViewAnimName="M4A1" PVModel="MODELS\PLAYERVIEW\PV-AK47.LTB" WeaponSlot="0"/>
 	<Component>
 		<TransformComponent>
 		  <Position x="0" y="0" z="0"/>

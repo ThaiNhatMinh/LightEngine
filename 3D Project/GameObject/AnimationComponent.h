@@ -97,6 +97,8 @@ public:
 	bool			m_loop;
 	float			m_speed;
 };
+
+
 class BaseAnimComponent : public ActorComponent
 {
 protected:
@@ -124,6 +126,7 @@ public:
 	virtual void		AnimEvent(const string&) = 0;
 	virtual void		PlayAnimation(int anim,bool fromBaseAnim = true) = 0;
 	virtual void		PlayDefaultAnimation() = 0;
+	void				SetData(ModelCache* pModel);
 
 };
 

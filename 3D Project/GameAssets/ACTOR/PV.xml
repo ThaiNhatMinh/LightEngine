@@ -1,26 +1,28 @@
-<Actor type="PlayerView" name="AK47Weapon" >
+<Actor type="PlayerView" name="PVWeapon" >
 	<PVTransform>
 		<Position x="1.860001" y="0" z="7.8"/>
 		<YawPitchRoll x="-0.067000" y="-0.110000" z="0"/>
 		<FOV fov ="45.0"/>
 	</PVTransform>
+	<Component>
 	<CameraComponent>
 		<Frustum fov="45.0" aspect ="-1.0" nplane ="1.0" fplane="4000.0" />
 	</CameraComponent>
   
 	<TransformComponent>
-		<Position x="0" y="200" z="0"/>
-		<YawPitchRoll x="0" y="0" z="0"/>
+		<Position x="0" y="70" z="0"/>
+		<YawPitchRoll x="0" y="180" z="0"/>
 	</TransformComponent>
 	
 	<MeshRenderComponent>
-		<Model File="MODELS\PV_AK47.xml" />
+		<Model File="" />	
 		<Scale x="1.0" y="1.0" z="1.0"/>
 		<Shader name="SkeShader" />
 	</MeshRenderComponent>
   
 	<PVAnimationComponent>
-		<Model File="MODELS\PLAYERVIEW\PV-AK47.LTB" />
+		<Model File="" />
 		<DefaultAnim Anim="idle_0" />
 	</PVAnimationComponent>
+	</Component>
 </Actor>

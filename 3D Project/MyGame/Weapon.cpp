@@ -11,6 +11,7 @@ bool Weapon::Init(const tinyxml2::XMLElement * pData)
 	{
 		GViewAnimName = pInfo->Attribute("GViewAnimName");
 		PVFileName = pInfo->Attribute("PVModel");
+		WeaponSlot = pInfo->Int64Attribute("WeaponSlot",-1);
 	}
 	return Actor::Init(pData);
 }

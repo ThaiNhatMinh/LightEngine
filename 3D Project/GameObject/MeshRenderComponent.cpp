@@ -17,13 +17,10 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	{
 		if (pFileName[0] != '\0')
 		{
-			m_Model = m_Context->m_pResources->GetModel(pFileName);
-			if (!m_Model)return false;
+			ModelCache* pModel = m_Context->m_pResources->GetModel(pFileName);
+			if (!pModel) return false;
 			
-			for (size_t i = 0; i < m_Model->pMeshs.size(); i++)
-			{
-				m_MeshList.push_back(m_Model->pMeshs[i].get());
-			}
+			SetData(pModel);
 		}
 	}
 	else
@@ -107,4 +104,14 @@ vector<LTBSocket>& MeshRenderComponent::GetSockets()
 vector<std::unique_ptr<SkeNode>>& MeshRenderComponent::GetNodeList()
 {
 	return m_Model->pSkeNodes;
+}
+
+void MeshRenderComponent::SetData(ModelCache * pModel)
+{
+	m_Model = pModel;
+	for (size_t i = 0; i < m_Model->pMeshs.size(); i++)
+	{
+		m_MeshList.push_back(m_Model->pMeshs[i].get());
+	}
+
 }

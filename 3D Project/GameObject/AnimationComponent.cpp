@@ -65,6 +65,10 @@ const vector<mat4>& BaseAnimComponent::GetBoneTransform()
 	return m_DbTransform;
 }
 
+void BaseAnimComponent::SetData(ModelCache * pModel)
+{
+}
+
 
 const vector<mat4>& BaseAnimComponent::GetVertexTransform()
 {
@@ -85,28 +89,30 @@ bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 	const tinyxml2::XMLElement* pAnimNode = pData->FirstChildElement("DefaultAnim");
 	const char* pNameAnim = pAnimNode->Attribute("Anim");
 
-
-	ModelCache* pModel = m_Context->m_pResources->GetModel(pFileName);
-
-	if (!pModel)
+	if (strlen(pFileName) > 1)
 	{
-		E_ERROR("AnimationComponent can't load data.");
-		return 0;
+		ModelCache* pModel = m_Context->m_pResources->GetModel(pFileName);
+
+		if (!pModel)
+		{
+			E_ERROR("AnimationComponent can't load data.");
+			return 0;
+		}
+
+		// We cannot assign so just coppy pointer
+		for (size_t i = 0; i < pModel->pSkeNodes.size(); i++)
+			m_pSkeNodes.push_back(pModel->pSkeNodes[i].get());
+		for (size_t i = 0; i < pModel->pAnims.size(); i++)
+			m_pAnimList.push_back(pModel->pAnims[i].get());
+
+		m_WB = pModel->wb;
+		m_SkeTransform.resize(m_pSkeNodes.size());
+		m_CurrentFrames.resize(m_pSkeNodes.size());
+		m_DbTransform.resize(m_pSkeNodes.size());
+
+		m_iDefaultAnimation = FindAnimation(pNameAnim);
+
 	}
-	
-	// We cannot assign so just coppy pointer
-	for (size_t i = 0; i<pModel->pSkeNodes.size(); i++)
-		m_pSkeNodes.push_back(pModel->pSkeNodes[i].get());
-	for (size_t i = 0; i<pModel->pAnims.size(); i++)
-		m_pAnimList.push_back(pModel->pAnims[i].get());
-
-	m_WB = pModel->wb;
-	m_SkeTransform.resize(m_pSkeNodes.size());
-	m_CurrentFrames.resize(m_pSkeNodes.size());
-	m_DbTransform.resize(m_pSkeNodes.size());
-
-	m_iDefaultAnimation = FindAnimation(pNameAnim);
-
 
 	return true;
 }
@@ -461,7 +467,7 @@ PVAnimationComponent::PVAnimationComponent(void)
 	m_Control.m_iCurrentFrame = 0;
 	m_Control.KeyFrameID = 0;
 	m_Control.m_State = ANIM_PLAYING;
-	m_fBlendTime = 0.3;
+	m_fBlendTime = 0.3f;
 }
 
 

@@ -107,7 +107,7 @@ void Console::Draw()
 
 bool Console::RegisterVar(const char * command, void * address, int num, int size, ConVarType type)
 {
-	for (int i = 0; i < m_VarList.size(); i++)
+	for (size_t i = 0; i < m_VarList.size(); i++)
 	{
 		if (m_VarList[i].command == command) return false;
 	}
@@ -142,7 +142,7 @@ void Console::ExecCommand(char * command_line)
 	i++;
 
 	// check command exist
-	int j = 0;
+	size_t j = 0;
 	for (j = 0; j < m_VarList.size(); j++)
 	{
 		if (m_VarList[j].command == cmd) break;

@@ -66,7 +66,7 @@ TerrainRenderComponent::~TerrainRenderComponent()
 }
 
 /*
-Mesh * TerrainRenderComponent::ReadFile(const char * filename)
+Mesh * TerrainRenderComponent::ReadFile(const string& filename)
 {
 	if (filename == nullptr) return nullptr;
 	HeightMap* hm = m_Context->m_pResources->GetHeightMap(filename);

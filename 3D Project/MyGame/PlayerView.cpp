@@ -55,19 +55,18 @@ void PlayerView::PostInit(void)
 {
 	Actor::PostInit();
 
-	m_pAmnimComponent = GetComponent<PVAnimationComponent>("PVAnimationComponent");
-	MRC = GetComponent<MeshRenderComponent>("MeshRenderComponent");
 }
 
 HRESULT PlayerView::VRender(Scene * pScene)
 {
 	
-	if (MRC) MRC->Render(pScene);
+	GetComponent<MeshRenderComponent>("MeshRenderComponent")->Render(pScene);
 	return S_OK;
 }
 
 HRESULT PlayerView::VOnUpdate(Scene *pScene, float elapsedMs)
 {
+	
 	HRESULT r = Actor::VOnUpdate(pScene, elapsedMs);
 	//mat4 t = m_pAmnimComponent->GetRootTransform();
 	//m_PVTransform = glm::inverse(t);
@@ -76,6 +75,6 @@ HRESULT PlayerView::VOnUpdate(Scene *pScene, float elapsedMs)
 
 mat4 PlayerView::VGetGlobalTransform()
 {
-	mat4 g = Actor::VGetGlobalTransform()*m_PVTransform;
+	mat4 g = Actor::VGetGlobalTransform();
 	return g;
 }

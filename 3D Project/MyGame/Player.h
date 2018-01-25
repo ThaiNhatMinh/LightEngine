@@ -12,18 +12,20 @@ public:
 	virtual void	PostInit(void);
 	virtual bool	VIsVisible(Scene * pScene) const;
 	virtual HRESULT VRender(Scene* pScene) override;
-
+	virtual bool	VAddChild(std::unique_ptr<Actor> kid);
 public:
 	
 	vector<LTBSocket>& GetSockets();
 	void AddWeapon(Weapon* wp);
+protected:
+	void SetPVModel();
 private:
 
 	TeamClass	m_Team;
 	string		m_Character;
 	int			m_iCurrentWP;
 	int			m_WPList[5];	// store index of weapon in children list
-	
+	int			Mode;
 	
 
 };

@@ -30,4 +30,6 @@ public:
 	vector<IMesh*>& GetMeshList();
 	vector<LTBSocket>& GetSockets();
 	vector<std::unique_ptr<SkeNode>>& GetNodeList();
+
+	void SetData(ModelCache* pModel);
 };

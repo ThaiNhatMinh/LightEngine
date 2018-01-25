@@ -20,7 +20,7 @@ struct DtxHeader
 class HeightMap
 {
 public:
-	char filename[MAX_FILE_NAME];
+	string filename;
 	GLuint Width;
 	GLuint Height;
 	float stepsize;
@@ -52,20 +52,20 @@ private:
 	// Path to resource
 	std::string		m_Path;
 private:
-	Texture*		HasTexture(const char* filename);
-	ModelCache*		HasModel(const char* filename);
-	HeightMap*		HasHeighMap(const char* filename);
-	SpriteAnim*		HasSprite(const char* filename);
+	Texture*		HasTexture(const string& filename);
+	ModelCache*		HasModel(const string& filename);
+	HeightMap*		HasHeighMap(const string& filename);
+	SpriteAnim*		HasSprite(const string& filename);
 
-	SpriteAnim*		LoadSpriteAnimation(const char* filename);
-	HeightMap*		LoadHeightMap(const char* filename, int size, int w, int h,float hscale, int sub);
-	Texture*		LoadTexture(const char* filename);
+	SpriteAnim*		LoadSpriteAnimation(const string& filename);
+	HeightMap*		LoadHeightMap(const string& filename, int size, int w, int h,float hscale, int sub);
+	Texture*		LoadTexture(const string& filename);
 	Texture*		LoadCubeTex(const vector<string>& filelist);
-	Texture*		LoadTexMemory(const char* filename, unsigned char* data, int w, int h);
-	Texture*		LoadDTX(const char* filename);
-	unsigned char*	LoadHeightMap(const char* filename, int& w, int& h);
-	ModelCache*		LoadModel(const char* filename);
-	ModelCache*		LoadModelXML(const char* XMLFile);
+	Texture*		LoadTexMemory(const string& filename, unsigned char* data, int w, int h);
+	Texture*		LoadDTX(const string& filename);
+	unsigned char*	LoadHeightMap(const string& filename, int& w, int& h);
+	ModelCache*		LoadModel(const string& filename);
+	ModelCache*		LoadModelXML(const string& filename);
 	
 	Shader* LoadShader(string key,const char* type, const char* vs, const char* fs, bool linkshader = true);
 
@@ -78,11 +78,12 @@ public:
 	virtual void  ShutDown();
 
 	IMesh*		CreateShape(ShapeType type,float* size);
-	SpriteAnim*	GetSpriteAnimation(const char* filename);
+	SpriteAnim*	GetSpriteAnimation(const string& filename);
 	Shader*		GetShader(string key);
-	Texture*	GetTexture(const char* filename);
-	ModelCache*	GetModel(const char* filename);
-	HeightMap*	GetHeightMap(const char* filename);
+	Texture*	GetTexture(const string& filename);
+	ModelCache*	GetModel(const string& filename);
+	HeightMap*	GetHeightMap(const string& filename);
+
 	const char* GetPath(Shader* p) { return nullptr; };
 	const char* GetPath(Texture* p) { return nullptr; };
 	const char* GetPath(ModelCache* p) { return nullptr; };

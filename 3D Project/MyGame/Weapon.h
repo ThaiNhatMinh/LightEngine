@@ -2,7 +2,7 @@
 
 class Weapon :public Actor
 {
-	friend class Player;
+	//friend class Player;
 public:
 	Weapon(ActorId id);
 	virtual bool	Init(const tinyxml2::XMLElement* pData);
@@ -13,6 +13,13 @@ public:
 	
 	int GetWeaponIndex();
 	mat4& GetSocketTransform();
+	const string& GetPVFileName() {
+		return PVFileName;
+	};
+	int GetWeaponSlot()
+	{
+		return WeaponSlot;
+	}
 private:
 	void LoadData(const WeaponResource & wr, LTBSocket* socket);
 	int m_Index;
@@ -24,4 +31,6 @@ private:
 	int m_BoneID;
 	string GViewAnimName;
 	string PVFileName;
+	int WeaponSlot;
+	int WeaponClass;
 };

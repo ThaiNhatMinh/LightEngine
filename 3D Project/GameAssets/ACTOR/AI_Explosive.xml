@@ -1,7 +1,7 @@
 <Actor type="Player" name="NPC" >
 
-	<Info Team="1" HP="100" AC="100" />
-	<Weapon Name1="MP5" Default="0"/>
+	<Creature HP="100" AC="100" />
+	<Info Team="1" WP="0"/>
 	<Character Name="SAS" />
 	
   <Component>	
@@ -29,7 +29,7 @@
 	
 	  <MeshRenderComponent>
 		  <Model File="MODELS\EXPLOSIVE.xml" />
-		  <Scale x="1.0" y="1.0" z="1.0"/>
+		 
 		  <Shader name="SkeShader" />
 	  </MeshRenderComponent>
   
