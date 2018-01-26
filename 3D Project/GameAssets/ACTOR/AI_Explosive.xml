@@ -15,7 +15,7 @@
 	  </ColliderComponent>
 
 	  <RigidBodyComponent>
-		  <Mass value="50.0" />
+		  <Mass value="100.0" />
 		  <PhysicsMaterial>player</PhysicsMaterial>
 		  <RigidBodyTransform>
 			  <Position x="0.0" y="0.0" z="0.0"/>

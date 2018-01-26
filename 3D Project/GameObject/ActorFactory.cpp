@@ -27,6 +27,7 @@ ActorFactory::ActorFactory()
 	m_ComponentFactoryMap.insert(std::make_pair(HitBox::Name, []() { return  new HitBox(); }));
 	
 	m_ActorFactoryMap.insert(std::make_pair("Player", [](int id) {return new Player(id); }));
+	m_ActorFactoryMap.insert(std::make_pair("Actor", [](int id) {return new Actor(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("World", [](int id) {return new TerrainWorld(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("PlayerView", [](int id) {return new PlayerView(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("Weapon", [](int id) {return new Weapon(id); }));
@@ -126,7 +127,7 @@ Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initial
 		}
 		else
 		{
-			E_ERROR("Failed to create Component for actor: " + string(actorResource));
+			E_ERROR(pActor->VGetName() + ": Failed to create Component for actor: " + string(actorResource));
 		}
 	}
 

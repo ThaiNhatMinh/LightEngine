@@ -94,22 +94,22 @@ void LocalPlayerComponent::VUpdate(float dt)
 
 	if (m_Context->m_pInput->KeyDown(DIK_W))
 	{
-		m_MoveDirection -= m_pTC->GetFront();
+		m_MoveDirection += m_pTC->GetFront();
 		if (m_bOnGround) m_pBAC->Play(lower,run);
 	}
 	if (m_Context->m_pInput->KeyDown(DIK_S))
 	{
-		m_MoveDirection += m_pTC->GetFront();
+		m_MoveDirection -= m_pTC->GetFront();
 		if (m_bOnGround) m_pBAC->Play(lower, runBside);
 	}
 	if (m_Context->m_pInput->KeyDown(DIK_D))
 	{
-		m_MoveDirection += m_pTC->GetRight();
+		m_MoveDirection -= m_pTC->GetRight();
 		if (m_bOnGround) m_pBAC->Play(lower, runRside);
 	}
 	if (m_Context->m_pInput->KeyDown(DIK_A))
 	{
-		m_MoveDirection -= m_pTC->GetRight();
+		m_MoveDirection += m_pTC->GetRight();
 		if (m_bOnGround) m_pBAC->Play(lower, runLside);
 	}
 	
@@ -118,8 +118,8 @@ void LocalPlayerComponent::VUpdate(float dt)
 	if (m_Pitch > 60.0) m_Pitch = 60.0f;
 	if (m_Pitch < -60.0f) m_Pitch = -60.0f;
 
-	glm::quat qYaw = glm::angleAxis(glm::radians(m_Yaw), glm::vec3(0, 1, 0));
-	qYaw = glm::normalize(qYaw);
+	//glm::quat qYaw = glm::angleAxis(glm::radians(m_Yaw), glm::vec3(0, 1, 0));
+	//qYaw = glm::normalize(qYaw);
 	glm::mat4 rotate = glm::rotate(mat4(), glm::radians(m_Yaw), glm::vec3(0, 1, 0));
 	//rotate = glm::rotate(rotate, glm::radians(m_Pitch), glm::vec3(1, 0, 0));
 

@@ -80,8 +80,10 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 	{
 		AnimationComponent* pAnim = m_pOwner->GetComponent<AnimationComponent>(AnimationComponent::Name);
 		AABB aabb = pAnim->GetUserDimesion();
-		m_pCollisionShape = new btBoxShape(ToBtVector3(aabb.Max));
-
+		//m_pCollisionShape = new btBoxShape(ToBtVector3(aabb.Max));
+		// r = aabb.Max.x
+		m_pCollisionShape = new btCapsuleShape(aabb.Max.x, aabb.Max.y*2 - aabb.Max.x*2);
+		//m_pCollisionShape->setMargin(0);
 		m_Type = SHAPE_CHARACTER;
 	}
 	else if (name == "HeightMap")

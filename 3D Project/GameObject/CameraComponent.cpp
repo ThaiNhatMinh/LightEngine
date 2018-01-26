@@ -82,7 +82,15 @@ const mat4& CameraComponent::GetViewMatrix()
 void CameraComponent::VUpdate(float dt)
 {
 	mat4 tt = m_pOwner->VGetGlobalTransform();
+
 	m_Pos = tt[3];
+	m_Right = tt[0];
+	m_Up = tt[1];
+	m_Front = tt[2];
+
+	ViewMatrix = glm::lookAt(m_Pos, m_Pos + m_Front, m_Up);
+	m_Frustum.Update(m_Pos, m_Front, m_Right);
+
 	
 }
 const mat4& CameraComponent::GetProjMatrix()

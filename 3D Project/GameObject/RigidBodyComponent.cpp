@@ -77,6 +77,7 @@ void RigidBodyComponent::VPostInit(void)
 	if (pCollider->GetType() == SHAPE_CHARACTER)
 	{
 		this->SetAngularFactor(vec3(0));
+		
 		//m_pRigidBody->setSleepingThresholds(0, 0);
 		//m_pRigidBody->setContactProcessingThreshold(0.0);
 		

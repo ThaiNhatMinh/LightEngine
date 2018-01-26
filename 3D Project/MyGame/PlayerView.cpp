@@ -9,7 +9,7 @@ bool PlayerView::Init(const tinyxml2::XMLElement * pData)
 {
 	bool r = Actor::Init(pData);
 
-	const tinyxml2::XMLElement * pNode = pData->FirstChildElement("PVTransform");
+	/*const tinyxml2::XMLElement * pNode = pData->FirstChildElement("PVTransform");
 	
 	const tinyxml2::XMLElement* pPositionElement = pNode->FirstChildElement("Position");
 	vec3 position, yawPitchRoll;
@@ -46,7 +46,7 @@ bool PlayerView::Init(const tinyxml2::XMLElement * pData)
 
 	pNode = pNode->FirstChildElement("FOV");
 
-	m_fFOV = pNode->DoubleAttribute("fov", 45.0);
+	m_fFOV = pNode->DoubleAttribute("fov", 45.0);*/
 
 	return 1;
 }
@@ -59,22 +59,8 @@ void PlayerView::PostInit(void)
 
 HRESULT PlayerView::VRender(Scene * pScene)
 {
-	
+	vec3 pos = VGetGlobalTransform()[3];
+	ImGui::Text("Pos: %f %f %f", pos.x, pos.y, pos.z);
 	GetComponent<MeshRenderComponent>("MeshRenderComponent")->Render(pScene);
 	return S_OK;
-}
-
-HRESULT PlayerView::VOnUpdate(Scene *pScene, float elapsedMs)
-{
-	
-	HRESULT r = Actor::VOnUpdate(pScene, elapsedMs);
-	//mat4 t = m_pAmnimComponent->GetRootTransform();
-	//m_PVTransform = glm::inverse(t);
-	return r;
-}
-
-mat4 PlayerView::VGetGlobalTransform()
-{
-	mat4 g = Actor::VGetGlobalTransform();
-	return g;
 }

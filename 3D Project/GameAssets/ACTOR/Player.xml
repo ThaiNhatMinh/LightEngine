@@ -9,7 +9,7 @@
 	<LocalPlayerComponent>
 		<Speed max="2000" />
 		<Jump force="5000"/>
-		<Move force="5000" brakeforce="20"/>
+		<Move force="5000" brakeforce="50"/>
 	</LocalPlayerComponent>
 	  <AnimationComponent>
 		  <Model File="MODELS\CHARACTER\M-MOTION.LTB" />

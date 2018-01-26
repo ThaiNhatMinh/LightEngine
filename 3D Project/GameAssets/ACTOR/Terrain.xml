@@ -9,7 +9,7 @@
 
   <RigidBodyComponent>
     <Mass value="0.0" />
-    <PhysicsMaterial>player</PhysicsMaterial>
+    <PhysicsMaterial>Static</PhysicsMaterial>
     <RigidBodyTransform>
       <Position x="0.0" y="0.0" z="0.0"/>
     </RigidBodyTransform>

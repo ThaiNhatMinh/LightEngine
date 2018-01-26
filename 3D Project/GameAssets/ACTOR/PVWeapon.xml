@@ -1,0 +1,19 @@
+<Actor type="PlayerView" name="PVWeapon" >
+	<Component>
+	<TransformComponent>
+		<Position x="1.5" y="0" z="8"/>
+		<YawPitchRoll x="0" y="0" z="0"/>
+	</TransformComponent>
+	
+	<MeshRenderComponent>
+		<Model File="MODELS\PLAYERVIEW\PV-AK47.LTB" />	
+		<Scale x="1.0" y="1.0" z="1.0"/>
+		<Shader name="SkeShader" />
+	</MeshRenderComponent>
+  
+	<PVAnimationComponent>
+		<Model File="MODELS\PLAYERVIEW\PV-AK47.LTB" />
+		<DefaultAnim Anim="idle_0" />
+	</PVAnimationComponent>
+	</Component>
+</Actor>

@@ -2,7 +2,7 @@
 #include "Player.h"
 #include <string.h>
 
-Player::Player(ActorId id) :Creature(id)
+Player::Player(ActorId id) :Creature(id), PlayerView(nullptr)
 {
 
 }
@@ -56,6 +56,10 @@ HRESULT Player::VRender(Scene * pScene)
 		static MeshRenderComponent* MeshRender = GetComponent<MeshRenderComponent>(MeshRenderComponent::Name);
 		MeshRender->Render(pScene);
 	}
+	else
+	{
+		if(PlayerView) PlayerView->VRenderChildren(pScene);
+	}
 	return S_OK;
 }
 bool Player::VAddChild(std::unique_ptr<Actor> kid)
@@ -69,6 +73,12 @@ bool Player::VAddChild(std::unique_ptr<Actor> kid)
 
 	return Actor::VAddChild(std::move(kid));
 }
+HRESULT Player::VRenderChildren(Scene * pScene)
+{
+	if (!Mode) 
+		Actor::VRenderChildren(pScene);
+	return S_OK;
+}
 vector<LTBSocket>& Player::GetSockets()
 {
 	return GetComponent<MeshRenderComponent>(MeshRenderComponent::Name)->GetSockets();
@@ -81,16 +91,16 @@ void Player::SetPVModel()
 {
 	if (m_iCurrentWP != -1)
 	{
-		Actor* PlayerView = m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\PV.xml",nullptr,0);
+		PlayerView = m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\PVGroup.xml",nullptr,0);
 
 		Weapon* wp = static_cast<Weapon*>(m_Children[m_WPList[m_iCurrentWP]].get());
 		const string& pvmodel = wp->GetPVFileName();
 
-		ModelCache* pModel = m_Context->m_pResources->GetModel(pvmodel);
-		auto PVRender = PlayerView->GetComponent<MeshRenderComponent>(MeshRenderComponent::Name);
-		PVRender->SetData(pModel);
-		auto PVAnimation = PlayerView->GetComponent<BaseAnimComponent>(PVAnimationComponent::Name);
-		PVAnimation->SetData(pModel);
+		//ModelCache* pModel = m_Context->m_pResources->GetModel(pvmodel);
+		//auto PVRender = PlayerView->GetComponent<MeshRenderComponent>(MeshRenderComponent::Name);
+		//PVRender->SetData(pModel);
+		//auto PVAnimation = PlayerView->GetComponent<BaseAnimComponent>(PVAnimationComponent::Name);
+		//PVAnimation->SetData(pModel);
 
 		VAddChild(std::unique_ptr<Actor>(PlayerView));
 

@@ -13,6 +13,7 @@ public:
 	virtual bool	VIsVisible(Scene * pScene) const;
 	virtual HRESULT VRender(Scene* pScene) override;
 	virtual bool	VAddChild(std::unique_ptr<Actor> kid);
+	virtual HRESULT VRenderChildren(Scene * pScene);
 public:
 	
 	vector<LTBSocket>& GetSockets();
@@ -27,5 +28,5 @@ private:
 	int			m_WPList[5];	// store index of weapon in children list
 	int			Mode;
 	
-
+	Actor* PlayerView;
 };
