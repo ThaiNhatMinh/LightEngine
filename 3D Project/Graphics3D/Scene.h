@@ -10,10 +10,10 @@ private:
 	// This store every thing in scene
 	std::unique_ptr<Actor>				m_pRoot;
 
-	Camera				m_DefaultCamera;
+	//Camera				m_DefaultCamera;
 	
 	Light				m_DirectionLight; // only one direction light
-	CameraComponent		*m_CurrentCamera;
+	//CameraComponent		*m_CurrentCamera;
 
 	
 	
@@ -30,8 +30,8 @@ public:
 	
 	Actor* GetRoot() { return m_pRoot.get(); };
 	Light GetDirLight() { return m_DirectionLight; };
-	void SetCamera(CameraComponent* pActor);
-	mat4 GetViewProj();
-	CameraComponent* GetCamera() { return m_CurrentCamera; }
+	//void SetCamera(CameraComponent* pActor);
+	//mat4 GetViewProj();
+	//CameraComponent* GetCamera() { return m_CurrentCamera; }
 	//Camera* GetDefaultCamera() { return &m_DefaultCamera; }
 };

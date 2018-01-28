@@ -3,6 +3,7 @@
 
 // Default camera
 
+/*
 class Camera
 {
 	friend class Frustum;
@@ -45,3 +46,4 @@ public:
 
 };
 
+*/

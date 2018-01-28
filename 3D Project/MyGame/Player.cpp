@@ -43,10 +43,10 @@ void Player::PostInit(void)
 
 bool Player::VIsVisible(Scene * pScene) const
 {
-	CameraComponent* cam = pScene->GetCamera();
+	ICamera* pCam = Camera::GetCurrentCamera();
 	auto box =  GetComponent<AnimationComponent>(AnimationComponent::Name)->GetUserDimesion();
 	box.Translate(m_TransformComponent->GetPosition());
-	return cam->GetFrustum().Inside(box.Min, box.Max);
+	return pCam->GetFrustum()->Inside(box.Min, box.Max);
 }
 
 HRESULT Player::VRender(Scene * pScene)

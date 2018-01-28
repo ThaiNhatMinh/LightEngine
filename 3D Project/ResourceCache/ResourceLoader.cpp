@@ -20,7 +20,7 @@ namespace LightEngine
 Texture * Resources::HasTexture(const string& filename)
 {
 	for (size_t i = 0; i < m_Textures.size(); i++)
-		if (m_Textures[i]->szName==filename)
+		if (m_Textures[i]->Name==filename)
 			return m_Textures[i].get();
 	
 	return nullptr;
@@ -330,7 +330,7 @@ Texture * Resources::LoadTexture(const string& filename)
 	ilResetMemory();
 	
 	
-	sprintf(tex->szName, "%s", filename);
+	tex->Name = filename;
 	tex->iWidth = width;
 	tex->iHeight = height;
 
@@ -383,7 +383,7 @@ Texture * Resources::LoadCubeTex(const vector<string>& filelist)
 	
 
 	tex = new Texture;
-	sprintf(tex->szName, "%s", filelist[0].c_str());
+	tex->Name = filelist[0];
 	tex->iIndex = id;
 	tex->iWidth = width;
 	tex->iHeight = height;
@@ -413,7 +413,7 @@ Texture * Resources::LoadTexMemory(const string& filename,unsigned char * data, 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	tex = new Texture;
-	sprintf(tex->szName, "%s", filename);
+	tex->Name = filename;
 	tex->iIndex = id;
 	tex->iWidth = w;
 	tex->iHeight = h;
@@ -529,7 +529,7 @@ Texture * Resources::LoadDTX(const string& filename)
 
 
 	tex = new Texture;
-	sprintf(tex->szName, "%s", filename);
+	tex->Name = filename;
 	tex->iIndex = id;
 	tex->iWidth = W;
 	tex->iHeight = H;

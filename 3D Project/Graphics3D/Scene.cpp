@@ -2,7 +2,7 @@
 #include "OpenGLRenderer.h"
 
 
-Scene::Scene(Context* c) :m_CurrentCamera(nullptr), m_Context(c)
+Scene::Scene(Context* c) :m_Context(c)
 {
 	m_pRoot = std::unique_ptr<Actor>(m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,0));
 	if (!m_pRoot)
@@ -14,7 +14,7 @@ Scene::Scene(Context* c) :m_CurrentCamera(nullptr), m_Context(c)
 	m_DirectionLight.Ls = vec3(1.0f, 1.0f, 1.0f);
 	m_DirectionLight.direction = glm::normalize(vec3(-1, -1,- 1));
 
-	m_DefaultCamera = Camera(c,vec3(0, 0, 100.0f), vec3(.0f), vec3(0, 1.0f, 0), 45.0f, 4.0f / 3.0f, 1.0f, 10000.0f);
+	//m_DefaultCamera = Camera(c,vec3(0, 0, 100.0f), vec3(.0f), vec3(0, 1.0f, 0), 45.0f, 4.0f / 3.0f, 1.0f, 10000.0f);
 }
 
 Scene::~Scene()
@@ -76,10 +76,10 @@ bool Scene::OnRender()
 
 bool Scene::OnUpdate(float dt)
 {
-	m_CurrentCamera = CameraComponent::m_CameraList.back();
+	//m_CurrentCamera = CameraComponent::m_CameraList.back();
 	//m_DefaultCamera.Update(dt);
 	m_pRoot->VOnUpdate(this, dt);
-	m_Context->m_pDebuger->SetView(m_CurrentCamera);
+	m_Context->m_pDebuger->Update();
 	return true;
 }
 bool Scene::PostUpdate()
@@ -87,6 +87,7 @@ bool Scene::PostUpdate()
 	m_pRoot->VPostUpdate(this);
 	return true;
 }
+/*
 void Scene::SetCamera(CameraComponent * pCam)
 {
 	m_CurrentCamera = pCam;
@@ -98,7 +99,7 @@ mat4 Scene::GetViewProj()
 	else 
 		return m_DefaultCamera.GetVPMatrix();
 }
-/*
+
 void Scene::SetCameraNode(Actor * pActor)
 {
 	m_pCameraNode = pActor->GetComponent<CameraComponent>(CameraComponent::Name);

@@ -1,7 +1,7 @@
 #include "pch.h"
 
 
-
+/*
 void Camera::UpdateVector()
 {
 

@@ -3,11 +3,12 @@
 void PrimShader::SetupRender(Scene * pScene, Actor * pActor)
 {
 	this->Use();
+	ICamera* pCam = Camera::GetCurrentCamera();
 	// ----- Transform Matricies ------
 	
 	mat4 globalTransform = pActor->VGetGlobalTransform();
 	SetUniformMatrix("Model", glm::value_ptr(globalTransform));
-	mat4 MVP = pScene->GetViewProj()*globalTransform;
+	mat4 MVP = pCam->GetVPMatrix()*globalTransform;
 	SetUniformMatrix("MVP", glm::value_ptr(MVP));
 
 	// ----- Lighting ------
@@ -16,13 +17,8 @@ void PrimShader::SetupRender(Scene * pScene, Actor * pActor)
 	SetUniform("gLight.Ld", dirLight.Ld);
 	SetUniform("gLight.Ls", dirLight.Ls);
 	SetUniform("gLight.direction", dirLight.direction);
-	CameraComponent* pCam = pScene->GetCamera();
-	if(pCam) SetUniform("EyePos", pCam->GetPos());
-	else
-	{
-		//SetUniform("EyePos", pScene->GetDefaultCamera()->GetPosition());
-		E_ERROR("can't find camera");
-	}
+	SetUniform("EyePos", pCam->GetPosition());
+	
 }
 
 void PrimShader::LinkShader()

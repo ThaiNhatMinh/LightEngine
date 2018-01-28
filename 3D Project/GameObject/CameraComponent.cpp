@@ -35,12 +35,6 @@ bool CameraComponent::VInit(const tinyxml2::XMLElement* pData)
 	return true;
 }
 
-void CameraComponent::VPostInit(void)
-{
-	m_pTransform = m_pOwner->GetTransform();
-}
-
-
 const char * CameraComponent::VGetName() const
 {
 	return Name;
@@ -90,7 +84,7 @@ void CameraComponent::VUpdate(float dt)
 
 	ViewMatrix = glm::lookAt(m_Pos, m_Pos + m_Front, m_Up);
 	m_Frustum.Update(m_Pos, m_Front, m_Right);
-
+	VPMatrix = m_Frustum.GetProjMatrix()*ViewMatrix;
 	
 }
 const mat4& CameraComponent::GetProjMatrix()
@@ -100,8 +94,7 @@ const mat4& CameraComponent::GetProjMatrix()
 
 const mat4& CameraComponent::GetVPMatrix()
 {
-	mat4 result = m_Frustum.GetProjMatrix()*ViewMatrix;
-	return result;
+	return VPMatrix;
 }
 
 const vec3 & CameraComponent::GetUp() { return m_Up; }
@@ -110,16 +103,11 @@ const vec3 & CameraComponent::GetRight() { return m_Right; }
 
 const vec3 & CameraComponent::GetFront() { return m_Front; }
 
-const vec3 & CameraComponent::GetPos() {
+const vec3 & CameraComponent::GetPosition() {
 	return m_Pos;
 }
 
-const Frustum& CameraComponent::GetFrustum()const
+Frustum* CameraComponent::GetFrustum()
 {
-	return m_Frustum;
-}
-
-Frustum& CameraComponent::GetFrustum()
-{
-	return m_Frustum;
+	return &m_Frustum;
 }

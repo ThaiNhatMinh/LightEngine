@@ -3,11 +3,13 @@
 void TexShader::SetupRender(Scene * pScene, Actor * pActor)
 {
 	this->Use();
+	ICamera* pCam = Camera::GetCurrentCamera();
+
 	// ----- Transform Matricies ------
 	
 	mat4 globalTransform = pActor->VGetGlobalTransform();
 	SetUniformMatrix("Model", glm::value_ptr(globalTransform));
-	mat4 MVP = globalTransform* pScene->GetViewProj();
+	mat4 MVP = pCam->GetVPMatrix()*globalTransform;
 	SetUniformMatrix("MVP", glm::value_ptr(MVP));
 
 	// ----- Lighting ------

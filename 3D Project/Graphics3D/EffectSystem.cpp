@@ -27,18 +27,18 @@ void EffectSystem::ShutDown() {
 
 void EffectSystem::Update(Scene* pScene,float dt)
 {
-	CameraComponent* pCam = pScene->GetCamera();
+	ICamera* pCam = Camera::GetCurrentCamera();
 
 	for (auto& el : m_List2)
 	{
 		el->Update(dt);
-		el->CameraDistance = glm::length2(el->Pos - pCam->GetPos());
+		el->CameraDistance = glm::length2(el->Pos - pCam->GetPosition());
 	}
 }
 
 void EffectSystem::Render(Scene* pScene)
 {
-	CameraComponent* pCam = pScene->GetCamera();
+	ICamera* pCam = Camera::GetCurrentCamera();
 
 
 	std::sort(m_List2.begin(), m_List2.end(), [](SpriteAnim*a, SpriteAnim*b) {return *a < *b; });
@@ -50,7 +50,7 @@ void EffectSystem::Render(Scene* pScene)
 	m_Context->m_pRenderer->SetDrawMode(GL_TRIANGLE_STRIP);
 	m_Context->m_pRenderer->SetVertexArrayBuffer(VAO);
 	
-	m_pShader->SetUniformMatrix("MVP", glm::value_ptr(pScene->GetViewProj()));
+	m_pShader->SetUniformMatrix("MVP", glm::value_ptr(pCam->GetVPMatrix()));
 	mat4 ViewMatrix = pCam->GetViewMatrix();
 	m_pShader->SetUniform("CameraUp",pCam->GetUp());
 	m_pShader->SetUniform("CameraRight", -pCam->GetRight());

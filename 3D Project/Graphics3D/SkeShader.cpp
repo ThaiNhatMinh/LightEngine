@@ -2,15 +2,17 @@
 
 void SkeShader::SetupRender(Scene * pScene, Actor * pActor)
 {
+	this->Use();
+
 	mat4 globalTransform = pActor->VGetGlobalTransform();
 	BaseAnimComponent* ac = pActor->GetComponent<AnimationComponent>("AnimationComponent");
 	if (!ac) ac = pActor->GetComponent<PVAnimationComponent>("PVAnimationComponent");
+	ICamera* pCam = Camera::GetCurrentCamera();
 	
-	this->Use();
 	// ----- Transform Matricies ------
 	
 	SetUniformMatrix("Model", glm::value_ptr(globalTransform));
-	mat4 MVP = pScene->GetViewProj()*globalTransform;
+	mat4 MVP = pCam->GetVPMatrix()*globalTransform;
 	SetUniformMatrix("MVP", glm::value_ptr(MVP));
 
 	// ----- Animation Matrix ------

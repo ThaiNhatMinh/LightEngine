@@ -5,7 +5,7 @@ class Texture: public GLBO
 public:
 	virtual void Init();
 	virtual void Shutdown();
-	char szName[64];
+	string Name;
 	GLuint iIndex;
 	GLuint iWidth;
 	GLuint iHeight;
