@@ -126,6 +126,7 @@ using glm::quat;
 #include "ResourceCache\ResourceLoader.h"
 
 
+#include "Graphics3D\ICamera.h"
 
 #include "Graphics3D\Material.h"
 #include "Graphics3D\Mesh.h"
@@ -138,6 +139,7 @@ using glm::quat;
 #include "Graphics3D\SkeShader.h"
 #include "Graphics3D\ImGuiShader.h"
 #include "Graphics3D\DebugShader.h"
+
 #include "Graphics3D\SpriteShader.h"
 #include "Graphics3D\Particles.h"
 #include "Graphics3D\Sprite.h"

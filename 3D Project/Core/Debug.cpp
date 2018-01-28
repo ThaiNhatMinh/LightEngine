@@ -27,11 +27,9 @@ void Debug::ShutDown()
 {
 }
 
-void Debug::SetView(CameraComponent * cam)
+void Debug::Update()
 {
-	m_View = cam->GetViewMatrix();
-	m_Proj = cam->GetProjMatrix();
-	VP = cam->GetVPMatrix();
+	VP = Camera::GetCurrentCamera()->GetVPMatrix();
 }
 
 Debug::~Debug()

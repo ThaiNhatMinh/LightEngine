@@ -24,7 +24,7 @@ public:
 	Debug();
 	virtual void Init(Context* c)override;
 	virtual void ShutDown()override;
-	void SetView(CameraComponent* cam);
+	void Update();
 	~Debug();
 
 	void DrawLine(const vec3& from, const vec3& to, const vec3& color, const mat4& m = mat4());

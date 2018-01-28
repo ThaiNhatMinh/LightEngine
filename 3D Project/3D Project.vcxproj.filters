@@ -258,6 +258,9 @@
     <ClInclude Include="MyGame\HitBox.h">
       <Filter>MyGame\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\ICamera.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -455,6 +458,7 @@
     <ClCompile Include="MyGame\HitBox.cpp">
       <Filter>MyGame\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics3D\ICamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
