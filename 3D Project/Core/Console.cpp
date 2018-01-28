@@ -246,13 +246,11 @@ bool Console::CheckStatus()
 		Show = !Show;
 		if(Show) m_Context->m_pWindows->SetMouse(GLFW_CURSOR_NORMAL);
 		else m_Context->m_pWindows->SetMouse(GLFW_CURSOR_DISABLED);
-		strcpy(InputBuf, "");
-		oldstatus = io.KeysDown[GLFW_KEY_GRAVE_ACCENT];
-		return Show;
-		
+		strcpy(InputBuf, "");		
 	}
-	return false;
 	oldstatus = io.KeysDown[GLFW_KEY_GRAVE_ACCENT];
+	return Show;
+	
 }
 
 void Console::AddLog(const char * fmt, ...) IM_FMTARGS(2)
