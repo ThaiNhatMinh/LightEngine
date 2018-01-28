@@ -11,11 +11,18 @@ class Actor: public ISceneNode
 public:
 	typedef std::vector<std::unique_ptr<Actor>> ActorList;
 	typedef std::map<ComponentId, std::unique_ptr<ActorComponent>> ActorComponents;
+
+	enum ActorState
+	{
+		AS_NORMAL,
+		AS_BLOCK,
+	};
 protected:
 	ActorList				m_Children;
 	Actor*					m_pParent;
 	string					m_Name;
 	string					m_Tag;
+	ActorState				m_State;
 	std::unique_ptr<TransformComponent>		m_TransformComponent;
 protected:
 	ActorId m_id;					// unique id for the actor
@@ -25,28 +32,29 @@ public:
 	Actor(ActorId id);
 	~Actor();
 
-	virtual bool Init(const tinyxml2::XMLElement* pData);
-	virtual void PostInit(void);
-	virtual void Destroy(void);
+	virtual bool		Init(const tinyxml2::XMLElement* pData);
+	virtual void		PostInit(void);
+	virtual void		Destroy(void);
 
-	virtual void VSetName(string name) { m_Name = name; }
-	virtual string VGetName() {	return m_Name;	};
-	virtual void VSetTag(string tag) { m_Tag=tag; };
-	virtual string VGetTag() { return m_Tag; };
-	virtual void VSetTransform(const mat4 *toWorld);
-	virtual mat4 VGetTransform();
-	virtual mat4 VGetGlobalTransform();
-	virtual HRESULT VOnUpdate(Scene *, float elapsedMs);
-	virtual HRESULT VPostUpdate(Scene *);
-	virtual HRESULT VPreRender(Scene *pScene);
-	virtual bool VIsVisible(Scene *pScene) const ;
-	virtual HRESULT VRenderChildren(Scene *pScene);
-	virtual HRESULT VPostRender(Scene *pScene);
-	virtual HRESULT VRender(Scene *pScene);
-
-	virtual bool VAddChild(std::unique_ptr<Actor> kid);
-	virtual bool VRemoveChild(ActorId id);
-	virtual Actor* VGetParent();
+	virtual void		VSetName(string name) { m_Name = name; }
+	virtual string		VGetName() {	return m_Name;	};
+	virtual void		VSetTag(string tag) { m_Tag=tag; };
+	virtual string		VGetTag() { return m_Tag; };
+	virtual void		VSetTransform(const mat4 *toWorld);
+	virtual mat4		VGetTransform();
+	virtual mat4		VGetGlobalTransform();
+	virtual HRESULT		VOnUpdate(Scene *, float elapsedMs);
+	virtual HRESULT		VPostUpdate(Scene *);
+	virtual HRESULT		VPreRender(Scene *pScene);
+	virtual bool		VIsVisible(Scene *pScene) const ;
+	virtual HRESULT		VRenderChildren(Scene *pScene);
+	virtual HRESULT		VPostRender(Scene *pScene);
+	virtual HRESULT		VRender(Scene *pScene);
+	virtual void		VSetState(ActorState state);
+	virtual ActorState	VGetState();
+	virtual bool		VAddChild(std::unique_ptr<Actor> kid);
+	virtual bool		VRemoveChild(ActorId id);
+	virtual Actor*		VGetParent();
 	// accessors
 	ActorId GetId(void) const { return m_id; }
 	template<class ComponentType>ComponentType* GetComponent(ComponentId id);

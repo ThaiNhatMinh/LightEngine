@@ -198,12 +198,12 @@ void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEve
 	if (m_bOnGround)
 	{
 		vec3 brakeForce = -planeVelocity * m_fBrakeForce;
-		m_pRBC->ApplyImpulse(brakeForce);
+		//m_pRBC->ApplyImpulse(brakeForce);
 		
 		if (m_Context->m_pInput->KeyDown(DIK_SPACE))
 		{
 			m_JumpDirection = vec3(0, 1, 0);
-			m_pRBC->ApplyImpulse(vec3(0, 1, 0)*m_fJumpForce);
+			//m_pRBC->ApplyImpulse(vec3(0, 1, 0)*m_fJumpForce);
 			m_pBAC->PlayAnimation(jump, false);
 
 		}
@@ -211,14 +211,16 @@ void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEve
 		if (m_MoveDirection == vec3(0) && m_JumpDirection == vec3(0))
 		{
 			m_pBAC->Play(lower,idle);
+			m_pRBC->SetLinearVelocity(vec3(0));
 		}
 
 
-		if (m_MoveDirection != vec3(0))
+		if (m_MoveDirection != vec3(0)|| m_JumpDirection != vec3(0))
 		{
 
-			m_MoveDirection = glm::normalize(m_MoveDirection);
-			m_pRBC->ApplyImpulse(m_MoveDirection *m_fMoveForce);
+			m_MoveDirection = (m_MoveDirection*300.0f + m_JumpDirection*200.0f);
+			//m_pRBC->ApplyImpulse(m_MoveDirection *m_fMoveForce);
+			m_pRBC->SetLinearVelocity(m_MoveDirection);
 		}
 	}
 

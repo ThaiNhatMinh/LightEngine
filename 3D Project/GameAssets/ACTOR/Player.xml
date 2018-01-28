@@ -1,4 +1,4 @@
-<Actor type="Player" name="707" >
+<Actor type="Player" name="707" State="0" >
 	
 	<Creature HP="100" AC="100" />
 	<Info Team="1" WP="0"/>
@@ -33,8 +33,7 @@
 		  <Model File="MODELS\NAVY_BL.xml" />
 		  <Shader name="SkeShader" />
 	  </MeshRenderComponent>
-	  <HitBox>
-	  </HitBox>
+	  
 	 <TransformComponent>
 		  <Position x="0" y="200" z="0"/>
 		  <YawPitchRoll x="0" y="0" z="0"/>

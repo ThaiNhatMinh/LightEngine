@@ -14,15 +14,16 @@ static vec3 btVector3_to_Vec3(btVector3 const & btvec)
 
 extern ContactAddedCallback      gContactAddedCallback;
 
-static bool CustomMaterialCombinerCallback(btManifoldPoint& cp, const btCollisionObject* colObj0Wrap, int partId0,
-	int index0, const btCollisionObject* colObj1Wrap, int partId1, int index1)
+static bool CustomMaterialCombinerCallback(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap, int partId0,
+	int index0, const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1)
 {
 	btAdjustInternalEdgeContacts(cp, colObj1Wrap, colObj0Wrap, partId1, index1);
 
-	cp.m_combinedFriction = colObj0Wrap->getFriction() * colObj1Wrap->getFriction();
-	cp.m_combinedRestitution = colObj0Wrap->getRestitution() * colObj1Wrap->getRestitution();
+	cp.m_combinedFriction = colObj0Wrap->getCollisionObject()->getFriction() * colObj1Wrap->getCollisionObject()->getFriction();
+	cp.m_combinedRestitution =
+		colObj0Wrap->getCollisionObject()->getRestitution() * colObj1Wrap->getCollisionObject()->getRestitution();
 
-	return false;
+	return true;
 }
 
 BulletPhysics::BulletPhysics()
@@ -91,6 +92,9 @@ void BulletPhysics::Init(Context* c)
 	m_dynamicsWorld->setInternalTickCallback(BulletInternalTickCallback, static_cast<void*>(this), false);
 	m_dynamicsWorld->setInternalTickCallback(BulletInternalPreTickCallback, static_cast<void*>(this), true);
 	m_dynamicsWorld->setWorldUserInfo(this);
+	m_dynamicsWorld->getDispatchInfo().m_useContinuous = true;
+	m_dynamicsWorld->getSolverInfo().m_splitImpulse = false; // Disable by default for performance
+	m_dynamicsWorld->setSynchronizeAllMotionStates(true);
 	//m_dynamicsWorld->debugDrawWorld();
 	
 	c->m_pPhysic = std::unique_ptr<BulletPhysics>(this);
@@ -161,7 +165,7 @@ void BulletPhysics::VOnUpdate(float const deltaSeconds)
 	//   We pass in 4 as a max number of sub steps.  Bullet will run the simulation
 	//   in increments of the fixed timestep until "deltaSeconds" amount of time has
 	//   passed, but will only run a maximum of 4 steps this way.
-	m_dynamicsWorld->stepSimulation(deltaSeconds,4);
+	m_dynamicsWorld->stepSimulation(deltaSeconds);
 	//E_DEBUG("Physuic Update()");
 	
 

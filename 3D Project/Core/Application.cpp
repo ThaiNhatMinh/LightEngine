@@ -107,24 +107,30 @@ void Application::MainLoop()
 	while (m_bRunMainLoop)
 	{
 		glfwPollEvents();
+		// Update input
 		D->Update();
 		if (D->KeyDown(DIK_ESCAPE)|| m_Context->m_pWindows->ShouldClose())	m_bRunMainLoop = false;
-		
-		C->CheckStatus();
+		// Timer
 		G->Tick();
 		S->NewFrame();
 
-		// Update Event
-		E->VUpdate(20);
-		// Update Game
-		m_Game->Update(G->GetDeltaTime());
-		// Update Physic
-		B->VOnUpdate(G->GetDeltaTime());
-		// Update Effect
-		ES->Update(pScene,G->GetDeltaTime());
-		// Update Object
-		B->VSyncVisibleScene();
-		
+		// check if in console then don't update game
+		if (!C->CheckStatus())
+		{
+
+
+			// Update Event
+			E->VUpdate(20);
+			// Update Game
+			m_Game->Update(G->GetDeltaTime());
+			// Update Physic
+			B->VOnUpdate(G->GetDeltaTime());
+			// Update Effect
+			ES->Update(pScene, G->GetDeltaTime());
+			// Update Object
+			B->VSyncVisibleScene();
+		}
+
 		if (m_DebugPhysic) B->VRenderDiagnostics();
 		
 

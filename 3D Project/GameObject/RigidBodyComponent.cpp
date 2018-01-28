@@ -77,7 +77,8 @@ void RigidBodyComponent::VPostInit(void)
 	if (pCollider->GetType() == SHAPE_CHARACTER)
 	{
 		this->SetAngularFactor(vec3(0));
-		
+		m_pRigidBody->setCollisionFlags(m_pRigidBody->getCollisionFlags() | btCollisionObject::CF_CHARACTER_OBJECT);
+		//m_pRigidBody->setHitFraction(1);
 		//m_pRigidBody->setSleepingThresholds(0, 0);
 		//m_pRigidBody->setContactProcessingThreshold(0.0);
 		

@@ -234,7 +234,7 @@ void Console::ExecCommand(char * command_line)
 
 }
 
-void Console::CheckStatus()
+bool Console::CheckStatus()
 {
 	ImGuiIO& io = ImGui::GetIO();
 	
@@ -247,7 +247,11 @@ void Console::CheckStatus()
 		if(Show) m_Context->m_pWindows->SetMouse(GLFW_CURSOR_NORMAL);
 		else m_Context->m_pWindows->SetMouse(GLFW_CURSOR_DISABLED);
 		strcpy(InputBuf, "");
+		oldstatus = io.KeysDown[GLFW_KEY_GRAVE_ACCENT];
+		return Show;
+		
 	}
+	return false;
 	oldstatus = io.KeysDown[GLFW_KEY_GRAVE_ACCENT];
 }
 

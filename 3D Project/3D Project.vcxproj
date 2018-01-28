@@ -71,16 +71,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>E:\Code Collection\3D Project\3D Project\include;E:\Code Collection\bullet-2.79\src;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet-2.79\lib\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Code Collection\3D Project\3D Project\include;$(IncludePath);E:\Code Collection\bullet3-master\src</IncludePath>
+    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet3-master\lib\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Code Collection\3D Project\3D Project\include;E:\Code Collection\Game Coding Complete\Source\GCC4\3rdParty\bullet-2.79\src;E:\Code Collection\3D Project\3D Project;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet-2.79\lib\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Code Collection\3D Project\3D Project\include;E:\Code Collection\3D Project\3D Project;$(IncludePath);E:\Code Collection\bullet3-master\src</IncludePath>
+    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet3-master\lib\Release;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -126,7 +126,7 @@
       <PreprocessorDefinitions>WIN32;BUILDING_MYDLL;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>E:\Code Collection\3D Project\3D Project\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

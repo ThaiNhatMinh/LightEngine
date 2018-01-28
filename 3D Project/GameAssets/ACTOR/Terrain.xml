@@ -1,4 +1,4 @@
-<Actor type="World" name="Terrain">
+<Actor type="World" name="Terrain" State="0">
 
   
    <Component>

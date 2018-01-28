@@ -1,4 +1,4 @@
-<Actor type="Actor" name="PVGroup" >
+<Actor type="Actor" name="PVGroup" State="0" >
 	
 	<Component>
 	<CameraComponent>

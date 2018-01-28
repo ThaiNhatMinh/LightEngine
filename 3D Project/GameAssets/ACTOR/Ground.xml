@@ -1,4 +1,6 @@
-<Actor type="Cube" name="Ground">
+<Actor type="StaticObject" name="Ground" State="0">
+
+	<Component>
 	<ColliderComponent>
 		<Shape>Box</Shape>
 		<HalfSize x="2000" y="1" z="2000" />
@@ -13,9 +15,9 @@
 	</RigidBodyComponent>
 
   <MeshRenderComponent>
-    <Model Shape="Cube" />
-    <Scale x="2000.0" y="1.0" z="2000.0"/>
-    <Shader name="Texture" />
+    <Model Shape="1" sx="2000.0" sy="1.0" sz="2000.0"/>
+	<Texture File="TEXTURES\grass_autumn_orn_d.jpg" />
+    <Shader name="PrimShader" />
     <Color r ="1.0" g="1.0" b="1.0" />
   </MeshRenderComponent>
   
@@ -23,6 +25,6 @@
 		<Position x="0" y="0" z="0"/>
 		<YawPitchRoll x="0" y="0" z="0"/>
 	</TransformComponent>
-	
+	</Component>
 	
 </Actor>

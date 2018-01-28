@@ -29,7 +29,7 @@ struct ActorMotionState : public btMotionState
 	}
 };
 
-const float WORLD_GRAVITY = 200.0f;
+const float WORLD_GRAVITY = 525;
 
 struct MaterialData
 {
@@ -86,7 +86,7 @@ class BulletPhysics : public IGamePhysics, public ISubSystem
 
 	// these are all of the objects that Bullet uses to do its work.
 	//   see BulletPhysics::VInitialize() for some more info.
-	std::unique_ptr<btDynamicsWorld>                 m_dynamicsWorld;
+	std::unique_ptr<btDiscreteDynamicsWorld>         m_dynamicsWorld;
 	std::unique_ptr<btBroadphaseInterface>           m_broadphase;
 	std::unique_ptr<btCollisionDispatcher>           m_dispatcher;
 	std::unique_ptr<btConstraintSolver>              m_solver;

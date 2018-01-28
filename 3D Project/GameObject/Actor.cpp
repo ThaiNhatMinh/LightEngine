@@ -2,7 +2,7 @@
 
 
 Context* Actor::m_Context = nullptr;
-Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr)
+Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr),m_State(AS_NORMAL)
 {
 
 }
@@ -16,11 +16,11 @@ bool Actor::Init(const tinyxml2::XMLElement* pData)
 {
 	const char* tag = pData->Attribute("type");
 	const char* name = pData->Attribute("name");
-
+	int state = pData->Int64Attribute("State",AS_NORMAL);
 
 	m_Tag = tag;
 	m_Name = name;
-
+	m_State = (ActorState)state;
 	return 1;
 }
 
@@ -39,6 +39,8 @@ void Actor::Destroy(void)
 
 HRESULT Actor::VOnUpdate(Scene *pScene, float deltaMs)
 {
+	if (m_State == AS_BLOCK) return S_OK;
+
 	for (ActorComponents::iterator it = m_components.begin(); it != m_components.end(); ++it)
 	{
 		it->second->VUpdate(deltaMs);
@@ -127,8 +129,19 @@ HRESULT Actor::VRender(Scene * pScene)
 	return S_OK;	
 }
 
+void Actor::VSetState(ActorState state)
+{
+	m_State = state;
+}
+
+Actor::ActorState Actor::VGetState()
+{
+	return m_State;
+}
+
 HRESULT Actor::VRenderChildren(Scene * pScene)
 {
+	
 	// Iterate through the children....
 	ActorList::iterator i = m_Children.begin();
 	ActorList::iterator end = m_Children.end();

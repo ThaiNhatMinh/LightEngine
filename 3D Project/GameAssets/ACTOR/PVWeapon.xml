@@ -1,4 +1,4 @@
-<Actor type="PlayerView" name="PVWeapon" >
+<Actor type="PlayerView" name="PVWeapon" State="0" >
 	<Component>
 	<TransformComponent>
 		<Position x="1.5" y="0" z="8"/>

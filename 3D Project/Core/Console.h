@@ -45,7 +45,7 @@ public:
 	void    AddLog(const char* fmt, ...)IM_FMTARGS(2);
 	void	SetStatus(bool s) { Show = s; }
 	bool	GetStatus() { return Show; }
-	void	CheckStatus();
+	bool	CheckStatus();
 	
 
 	int(*CallBack)(ImGuiTextEditCallbackData* testData) = [](ImGuiTextEditCallbackData* testData)
