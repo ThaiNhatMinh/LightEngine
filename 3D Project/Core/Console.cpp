@@ -122,6 +122,20 @@ bool Console::RegisterVar(const char * command, void * address, int num, int siz
 	return 1;
 }
 
+bool Console::RegisterFunc(string cmd, std::function<void()> func)
+{
+	for (auto& el : m_FuncList)
+	{
+		if (el.command == cmd) return 0;
+	}
+
+	ConsoleFunc f;
+	f.command = cmd;
+	f.Function = func;
+	m_FuncList.push_back(f);
+	return true;
+}
+
 void Console::ExecCommand(char * command_line)
 {
 	int len = strlen(command_line);
@@ -142,6 +156,15 @@ void Console::ExecCommand(char * command_line)
 	i++;
 
 	// check command exist
+	for (auto& el : m_FuncList)
+	{
+		if (el.command == cmd)
+		{
+			el.Function();
+			return;
+		}
+	}
+
 	size_t j = 0;
 	for (j = 0; j < m_VarList.size(); j++)
 	{

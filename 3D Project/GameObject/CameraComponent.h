@@ -14,12 +14,12 @@ private:
 	vec3			m_Front;
 	vec3			m_Pos;
 public:
-	static vector<CameraComponent*> m_CameraList;
 	static const char* Name;
 	CameraComponent();
 	~CameraComponent();
 	virtual bool VInit(const tinyxml2::XMLElement* pData) ;
 	virtual void VUpdate(float dt);
+	virtual void VPostInit(void);
 	virtual const char *VGetName() const;
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p);
 	void UpdateAngle(float yaw, float pitch);

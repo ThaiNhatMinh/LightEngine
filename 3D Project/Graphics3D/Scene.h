@@ -8,12 +8,10 @@ class Scene
 private:
 	// Simple Object with only transform component
 	// This store every thing in scene
-	std::unique_ptr<Actor>				m_pRoot;
+	std::unique_ptr<Actor>	m_pRoot;
+	std::list<Actor*>		m_ActorLast;
+	Light					m_DirectionLight; // only one direction light
 
-	//Camera				m_DefaultCamera;
-	
-	Light				m_DirectionLight; // only one direction light
-	//CameraComponent		*m_CurrentCamera;
 
 	
 	
@@ -28,10 +26,7 @@ public:
 	bool OnUpdate(float dt);
 	bool PostUpdate();
 	
+	void PushLastActor(Actor*);
 	Actor* GetRoot() { return m_pRoot.get(); };
 	Light GetDirLight() { return m_DirectionLight; };
-	//void SetCamera(CameraComponent* pActor);
-	//mat4 GetViewProj();
-	//CameraComponent* GetCamera() { return m_CurrentCamera; }
-	//Camera* GetDefaultCamera() { return &m_DefaultCamera; }
 };

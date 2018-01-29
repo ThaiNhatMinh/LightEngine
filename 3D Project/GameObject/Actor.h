@@ -5,7 +5,7 @@ class ActorComponent;
 
 //class TiXmlElement;
 
-class Actor: public ISceneNode
+class Actor//: public ISceneNode
 {
 	friend class ActorFactory;
 public:
@@ -30,7 +30,7 @@ protected:
 
 public:
 	Actor(ActorId id);
-	~Actor();
+	virtual ~Actor();
 
 	virtual bool		Init(const tinyxml2::XMLElement* pData);
 	virtual void		PostInit(void);
@@ -40,7 +40,7 @@ public:
 	virtual string		VGetName() {	return m_Name;	};
 	virtual void		VSetTag(string tag) { m_Tag=tag; };
 	virtual string		VGetTag() { return m_Tag; };
-	virtual void		VSetTransform(const mat4 *toWorld);
+	virtual void		VSetTransform(const mat4& toWorld);
 	virtual mat4		VGetTransform();
 	virtual mat4		VGetGlobalTransform();
 	virtual HRESULT		VOnUpdate(Scene *, float elapsedMs);
@@ -54,6 +54,8 @@ public:
 	virtual ActorState	VGetState();
 	virtual bool		VAddChild(std::unique_ptr<Actor> kid);
 	virtual bool		VRemoveChild(ActorId id);
+	virtual Actor*		VGetChild(int index);
+	virtual Actor*		VGetChild(const string& name);
 	virtual Actor*		VGetParent();
 	// accessors
 	ActorId GetId(void) const { return m_id; }

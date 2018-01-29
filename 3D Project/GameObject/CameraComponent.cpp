@@ -1,10 +1,8 @@
 #include "pch.h"
 
 const char* CameraComponent::Name = "CameraComponent";
-vector<CameraComponent*> CameraComponent::m_CameraList;
 CameraComponent::CameraComponent()
 {
-	m_CameraList.push_back(this);
 }
 
 CameraComponent::~CameraComponent()
@@ -83,9 +81,15 @@ void CameraComponent::VUpdate(float dt)
 	m_Front = tt[2];
 
 	ViewMatrix = glm::lookAt(m_Pos, m_Pos + m_Front, m_Up);
+
 	m_Frustum.Update(m_Pos, m_Front, m_Right);
+
 	VPMatrix = m_Frustum.GetProjMatrix()*ViewMatrix;
 	
+}
+void CameraComponent::VPostInit(void)
+{
+	Camera::SetCurrentCamera(this);
 }
 const mat4& CameraComponent::GetProjMatrix()
 {

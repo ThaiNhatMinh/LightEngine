@@ -9,7 +9,7 @@ public:
 	virtual void	PostInit(void);
 	virtual HRESULT VRender(Scene* pScene) override;
 	//virtual HRESULT VOnUpdate(Scene *, float elapsedMs)override;
-	//virtual mat4	VGetGlobalTransform()override;
+	virtual mat4	VGetGlobalTransform()override;
 private:
 	
 

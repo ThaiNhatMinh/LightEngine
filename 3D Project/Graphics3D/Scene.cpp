@@ -62,22 +62,22 @@ bool Scene::OnRender()
 	
 	// Root doesn't have anything to render, so just render children	
 	m_pRoot->VRenderChildren(this);
-
-	//gPhysic()->VRenderDiagnostics();
-	//m_Debug.DrawLine(vec3(0,0,0), vec3(0, 1000, 0), vec3(1, 1, 1));
-	//m_Debug.DrawLine(vec3(0), vec3(2,0,0), vec3(1.0f, 1.0f, 1.0f));
-	//m_Debug.DrawLine(vec3(0), vec3(0, 2, 0), vec3(1.0f, 1.0f, 1.0f));
-	//m_Debug.DrawLine(vec3(0), vec3(0, 0, 2), vec3(1.0f, 1.0f, 1.0f));
-	//m_Debug.Render();
 	
+	// render last
+	//m_Context->m_pRenderer->ClearBuffer();
+	ImGui::Text("Size: %d", m_ActorLast.size());
+	while (m_ActorLast.size()>0)
+	{
+		Actor* pActor = m_ActorLast.back();
+		m_ActorLast.pop_back();
+		pActor->GetComponent<MeshRenderComponent>("MeshRenderComponent")->Render(this);
+	}
 	
 	return true;
 }
 
 bool Scene::OnUpdate(float dt)
 {
-	//m_CurrentCamera = CameraComponent::m_CameraList.back();
-	//m_DefaultCamera.Update(dt);
 	m_pRoot->VOnUpdate(this, dt);
 	m_Context->m_pDebuger->Update();
 	return true;
@@ -87,29 +87,8 @@ bool Scene::PostUpdate()
 	m_pRoot->VPostUpdate(this);
 	return true;
 }
-/*
-void Scene::SetCamera(CameraComponent * pCam)
-{
-	m_CurrentCamera = pCam;
-}
-mat4 Scene::GetViewProj()
-{
-	if(m_CurrentCamera)
-	return m_CurrentCamera->GetVPMatrix();
-	else 
-		return m_DefaultCamera.GetVPMatrix();
-}
 
-void Scene::SetCameraNode(Actor * pActor)
+void Scene::PushLastActor(Actor * pActor)
 {
-	m_pCameraNode = pActor->GetComponent<CameraComponent>(CameraComponent::Name);
+	m_ActorLast.push_back(pActor);
 }
-
-mat4 Scene::GetViewProj()
-{
-	mat4 view = m_Camera->GetViewMatrix();
-	mat4 proj = m_Frustum->GetProjMatrix();
-	mat4 viewproj = proj*view;
-	return viewproj;
-}
-*/

@@ -1,4 +1,4 @@
-<Actor type="None" name="Camera" State="0">
+<Actor type="None" name="Camera" State="1">
  <Component>
   <TransformComponent>
     <Position x="200" y="50" z="400"/>

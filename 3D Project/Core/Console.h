@@ -19,12 +19,18 @@ public:
 	ConVarType type;
 };
 
+class ConsoleFunc
+{
+public:
+	string command;
+	std::function<void()> Function;
+};
 class Console: public ISubSystem
 {
 
 private:
 	vector<ConsoleVar>		m_VarList;
-
+	vector<ConsoleFunc>		m_FuncList;
 	vector<string>			m_Items;
 	bool					ScrollToBottom;
 	char					InputBuf[256];
@@ -41,6 +47,7 @@ public:
 
 	
 	bool	RegisterVar(const char* command, void* address, int num, int size, ConVarType type);
+	bool	RegisterFunc(string cmd, std::function<void()>);
 	void    ExecCommand(char* command_line);
 	void    AddLog(const char* fmt, ...)IM_FMTARGS(2);
 	void	SetStatus(bool s) { Show = s; }

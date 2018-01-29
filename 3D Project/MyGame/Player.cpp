@@ -33,12 +33,15 @@ bool Player::Init(const tinyxml2::XMLElement * pData)
 
 void Player::PostInit(void)
 {
-	Actor::PostInit();
 
 	if (GetComponent<LocalPlayerComponent>(LocalPlayerComponent::Name))
 	{
 		SetPVModel();
+
 	}
+	Actor::PostInit();
+
+	
 }
 
 bool Player::VIsVisible(Scene * pScene) const
