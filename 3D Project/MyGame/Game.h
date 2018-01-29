@@ -8,10 +8,13 @@ public:
 	virtual void Update(float dt);
 	virtual void Render();
 	virtual Scene*	GetScene();
+
+public:
+	static CharacterResource LoadCharacter(const string& file);
 protected:
 
-	void LoadWeapon();
-	void LoadCharacter();
+	//void LoadWeapon();
+	//void LoadCharacter();
 private:
 	std::unique_ptr<Scene> m_Scene;
 	std::vector<WeaponResource> m_WeaponResources;

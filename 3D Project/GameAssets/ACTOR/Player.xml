@@ -2,7 +2,7 @@
 	
 	<Creature HP="100" AC="100" />
 	<Info Team="1" WP="0"/>
-	<Character Name="SAS" />
+	<Character Data="GameAssets\XML\SAS.xml" />
 	
   <Component>
 	  

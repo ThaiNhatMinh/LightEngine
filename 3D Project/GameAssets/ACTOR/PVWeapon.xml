@@ -6,12 +6,12 @@
 	</TransformComponent>
 	
 	<MeshRenderComponent>
-		<Model File="MODELS\PLAYERVIEW\PV-AK47.LTB" />	
+		<Model File="" />	
 		<Shader name="SkeShader" />
 	</MeshRenderComponent>
   
 	<PVAnimationComponent>
-		<Model File="MODELS\PLAYERVIEW\PV-AK47.LTB" />
+		<Model File="" />
 		<DefaultAnim Anim="idle_0" />
 	</PVAnimationComponent>
 	</Component>

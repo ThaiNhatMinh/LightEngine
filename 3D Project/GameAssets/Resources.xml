@@ -8,25 +8,28 @@
   <Shader Name="SpriteShader" Tag="SpriteShader" FileVS="SHADER\Sprite.vs" FileFS="SHADER\Sprite.fs" />
   <HeightMap File="WORLD\heightmap.png" Size="80" Width="-1" Height="-1" HeightScale="0.0" SubDevided="1"/>
   
-  <SpriteAnim File="TEXTURES\FX\BLOOD3\BLOOD3.SPR" />
-  <SpriteAnim File="TEXTURES\FX\EX\EX.SPR" />
-  <SpriteAnim File="TEXTURES\FX2\AI\AI_BLOOD\AI_Blood.SPR" />
-  <SpriteAnim File="TEXTURES\FX\SPRITES\fire_beam_01\SGFX_se_fire_beam_01.SPR" />
-  <SpriteAnim File="TEXTURES\FX\SPRITES\fire_explode\SGFX_se_fire_explode_01.SPR" />
-  <Texture File="TEXTURES\ESCAPE.DTX"/>
-  <Texture File="TEXTURES\SGFX_se_decal_04.DTX"/>
-  <Texture File="TEXTURES\Default.png" />
-  <Texture File="TEXTURES\grass_autumn_orn_d.jpg" />
-  <Texture File="WORLD\heightmap.png" />
-  
-   <ModelXML File="MODELS\707_BL.xml" />
-   <ModelXML File="MODELS\707_GR.xml" />
-   <ModelXML File="MODELS\SAS_BL.xml" />
+	<SpriteAnim File="TEXTURES\FX\BLOOD3\BLOOD3.SPR" />
+	<SpriteAnim File="TEXTURES\FX\EX\EX.SPR" />
+	<SpriteAnim File="TEXTURES\FX2\AI\AI_BLOOD\AI_Blood.SPR" />
+	<SpriteAnim File="TEXTURES\FX\SPRITES\fire_beam_01\SGFX_se_fire_beam_01.SPR" />
+	<SpriteAnim File="TEXTURES\FX\SPRITES\fire_explode\SGFX_se_fire_explode_01.SPR" />
+	<Texture File="TEXTURES\ESCAPE.DTX"/>
+	<Texture File="TEXTURES\SGFX_se_decal_04.DTX"/>
+	<Texture File="TEXTURES\Default.png" />
+	<Texture File="TEXTURES\grass_autumn_orn_d.jpg" />
+	<Texture File="WORLD\heightmap.png" />
+	<Texture File="TEXTURES\PLAYERVIEW\FVIEW_ARM_BL.DTX" />
+	<Texture File="TEXTURES\PLAYERVIEW\FVIEW_HAND_BL.DTX" />
+	<Texture File="TEXTURES\PLAYERVIEW\FVIEW_ARM_SAS_GR.DTX" />
+	<Texture File="TEXTURES\PLAYERVIEW\FVIEW_HAND_GR.DTX" />
+	<ModelXML File="MODELS\707_BL.xml" />
+	<ModelXML File="MODELS\707_GR.xml" />
+	<ModelXML File="MODELS\SAS_BL.xml" />
 	<ModelXML File="MODELS\SAS_GR.xml" />
 	<ModelXML File="MODELS\NAVY_BL.xml" />
-   <ModelXML File="MODELS\NAVY_GR.xml" />
+	<ModelXML File="MODELS\NAVY_GR.xml" />
     <ModelXML File="MODELS\AK47.xml" />
-	 <ModelXML File="MODELS\PV_AK47.xml" />
+	<ModelXML File="MODELS\PV_AK47.xml" />
 	<ModelXML File="MODELS\EXPLOSIVE.xml" />
 	
 	<Model File="MODELS\CHARACTER\M-MOTION.LTB" />

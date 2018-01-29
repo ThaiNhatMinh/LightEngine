@@ -25,7 +25,7 @@ bool Player::Init(const tinyxml2::XMLElement * pData)
 
 	const tinyxml2::XMLElement * pCharacter = pData->FirstChildElement("Character");
 
-	m_Character = pCharacter->Attribute("Name");
+	m_Character = pCharacter->Attribute("Data");
 
 	Mode = 0;
 	return Creature::Init(pData);
@@ -95,16 +95,30 @@ void Player::SetPVModel()
 	if (m_iCurrentWP != -1)
 	{
 		PlayerView = m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\PVGroup.xml",nullptr,0);
+		Actor* PVWeapon = PlayerView->VGetChild("PVWeapon");
 
 		Weapon* wp = static_cast<Weapon*>(m_Children[m_WPList[m_iCurrentWP]].get());
 		const string& pvmodel = wp->GetPVFileName();
 
-		//ModelCache* pModel = m_Context->m_pResources->GetModel(pvmodel);
-		//auto PVRender = PlayerView->GetComponent<MeshRenderComponent>(MeshRenderComponent::Name);
-		//PVRender->SetData(pModel);
-		//auto PVAnimation = PlayerView->GetComponent<BaseAnimComponent>(PVAnimationComponent::Name);
-		//PVAnimation->SetData(pModel);
+		ModelCache* pModel = m_Context->m_pResources->GetModel(pvmodel);
 
+		// fix model data
+		CharacterResource cr = Game::LoadCharacter(m_Character);
+		for (auto& el : pModel->pMeshs)
+		{
+			if (el->Tex->Name == "GameAssets/TEXTURES/Default.png")
+			{
+				string texPath = cr.PVTexFile[m_Team][el->Name];
+				el->Tex = m_Context->m_pResources->GetTexture(texPath);
+			}
+		}
+		// Set component data
+		auto PVRender = PVWeapon->GetComponent<MeshRenderComponent>(MeshRenderComponent::Name);
+		PVRender->SetData(pModel);
+		auto PVAnimation = PVWeapon->GetComponent<BaseAnimComponent>(PVAnimationComponent::Name);
+		PVAnimation->SetData(pModel);
+
+		
 		VAddChild(std::unique_ptr<Actor>(PlayerView));
 
 		Mode = 1;

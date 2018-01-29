@@ -67,6 +67,18 @@ const vector<mat4>& BaseAnimComponent::GetBoneTransform()
 
 void BaseAnimComponent::SetData(ModelCache * pModel)
 {
+	// We cannot assign so just coppy pointer
+	for (size_t i = 0; i < pModel->pSkeNodes.size(); i++)
+		m_pSkeNodes.push_back(pModel->pSkeNodes[i].get());
+	for (size_t i = 0; i < pModel->pAnims.size(); i++)
+		m_pAnimList.push_back(pModel->pAnims[i].get());
+
+	m_WB = pModel->wb;
+	m_SkeTransform.resize(m_pSkeNodes.size());
+	m_CurrentFrames.resize(m_pSkeNodes.size());
+	m_DbTransform.resize(m_pSkeNodes.size());
+
+	//m_iDefaultAnimation = FindAnimation(pNameAnim);
 }
 
 
