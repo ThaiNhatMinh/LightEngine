@@ -26,11 +26,9 @@ ActorFactory::ActorFactory()
 	m_ComponentFactoryMap.insert(std::make_pair(CameraComponent::Name, [](){ return  new CameraComponent(); }));
 	m_ComponentFactoryMap.insert(std::make_pair(HitBox::Name, []() { return  new HitBox(); }));
 	
-	m_ActorFactoryMap.insert(std::make_pair("Player", [](int id) {return new Player(id); }));
+	
 	m_ActorFactoryMap.insert(std::make_pair("Actor", [](int id) {return new Actor(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("World", [](int id) {return new TerrainWorld(id); }));
-	m_ActorFactoryMap.insert(std::make_pair("PlayerView", [](int id) {return new PlayerView(id); }));
-	m_ActorFactoryMap.insert(std::make_pair("Weapon", [](int id) {return new Weapon(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("StaticObject", [](int id) {return new StaticObject(id); }));
 	
 
@@ -81,6 +79,15 @@ bool ActorFactory::RegisterComponentFactory(string name, std::function<ActorComp
 
 	m_ComponentFactoryMap.insert(std::make_pair(name, func));
 	return 1;
+}
+
+bool ActorFactory::RegisterActorFactory(const string & name, std::function<Actor*(int id)> func)
+{
+	auto it = m_ActorFactoryMap.find(name);
+	if (it != m_ActorFactoryMap.end()) return false;
+
+	m_ActorFactoryMap.insert(std::make_pair(name, func));
+	return true;
 }
 
 Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initialTransform, bool isCreateChild)

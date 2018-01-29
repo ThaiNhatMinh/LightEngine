@@ -6,6 +6,10 @@ void Game::Init(Context *c)
 {
 	m_Context = c;
 	c->m_pActorFactory->RegisterComponentFactory(LocalPlayerComponent::Name, []() {return new LocalPlayerComponent(); });
+	c->m_pActorFactory->RegisterActorFactory("Player", [](int id) {return new Player(id); });
+	c->m_pActorFactory->RegisterActorFactory("PlayerView", [](int id) {return new PlayerView(id); });
+	c->m_pActorFactory->RegisterActorFactory("Weapon", [](int id) {return new Weapon(id); });
+	c->m_pActorFactory->RegisterActorFactory("GunPlayerView", [](int id) {return new GunPlayerView(id); });
 
 	//LoadWeapon();
 	//LoadCharacter();

@@ -16,6 +16,7 @@ public:
 	~ActorFactory();
 	// Create Actor from file
 	bool RegisterComponentFactory(string name, std::function<ActorComponent*()>);
+	bool RegisterActorFactory(const string& name, std::function<Actor*(int id)>);
 
 	Actor* CreateActor(const char* actorResource, const mat4* initialTransform,bool isCreateChild);
 
