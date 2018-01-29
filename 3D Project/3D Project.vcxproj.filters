@@ -261,6 +261,9 @@
     <ClInclude Include="Graphics3D\ICamera.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
+    <ClInclude Include="MyGame\GunPlayerView.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -459,6 +462,7 @@
       <Filter>MyGame\Component</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\ICamera.cpp" />
+    <ClCompile Include="MyGame\GunPlayerView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

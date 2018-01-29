@@ -95,7 +95,7 @@ void Player::SetPVModel()
 	if (m_iCurrentWP != -1)
 	{
 		PlayerView = m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\PVGroup.xml",nullptr,0);
-		Actor* PVWeapon = PlayerView->VGetChild("PVWeapon");
+		GunPlayerView* PVWeapon = static_cast<GunPlayerView*>(PlayerView->VGetChild("PVWeapon"));
 
 		Weapon* wp = static_cast<Weapon*>(m_Children[m_WPList[m_iCurrentWP]].get());
 		const string& pvmodel = wp->GetPVFileName();
@@ -113,10 +113,7 @@ void Player::SetPVModel()
 			}
 		}
 		// Set component data
-		auto PVRender = PVWeapon->GetComponent<MeshRenderComponent>(MeshRenderComponent::Name);
-		PVRender->SetData(pModel);
-		auto PVAnimation = PVWeapon->GetComponent<BaseAnimComponent>(PVAnimationComponent::Name);
-		PVAnimation->SetData(pModel);
+		PVWeapon->SetData(pModel);
 
 		
 		VAddChild(std::unique_ptr<Actor>(PlayerView));

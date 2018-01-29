@@ -38,6 +38,8 @@ void Weapon::PostInit(void)
 	Actor::PostInit();
 
 	m_MeshRender = std::unique_ptr<MeshRenderComponent>(RemoveComponent<MeshRenderComponent>(MeshRenderComponent::Name));
+
+	
 	
 }
 
@@ -63,21 +65,26 @@ mat4 Weapon::VGetGlobalTransform()
 	
 	return finalT;
 }
-
-int Weapon::GetWeaponIndex()
-{
-	assert(0);
-	return m_Index;
-}
-
 mat4 & Weapon::GetSocketTransform()
 {
 	return m_SocketTransform;
 }
 
-void Weapon::LoadData(const WeaponResource & wr,LTBSocket* socket)
+const string & Weapon::GetPVFileName() {
+	return PVFileName;
+}
+
+
+int Weapon::GetWeaponIndex()
 {
-	
+	assert(0);
+	return Index;
+}
 
 
+
+
+int Weapon::GetWeaponSlot()
+{
+	return WeaponSlot;
 }

@@ -220,6 +220,7 @@
     <ClInclude Include="MyGame\Creature.h" />
     <ClInclude Include="MyGame\EvtData.h" />
     <ClInclude Include="MyGame\Game.h" />
+    <ClInclude Include="MyGame\GunPlayerView.h" />
     <ClInclude Include="MyGame\HitBox.h" />
     <ClInclude Include="MyGame\LocalPlayerComponent.h" />
     <ClInclude Include="MyGame\Player.h" />
@@ -294,6 +295,7 @@
     <ClCompile Include="MyGame\Creature.cpp" />
     <ClCompile Include="MyGame\EvtDdata.cpp" />
     <ClCompile Include="MyGame\Game.cpp" />
+    <ClCompile Include="MyGame\GunPlayerView.cpp" />
     <ClCompile Include="MyGame\HitBox.cpp" />
     <ClCompile Include="MyGame\Player.cpp" />
     <ClCompile Include="MyGame\PlayerView.cpp" />

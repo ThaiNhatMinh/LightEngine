@@ -485,11 +485,13 @@ PVAnimationComponent::PVAnimationComponent(void)
 
 void PVAnimationComponent::VPostInit(void)
 {
+	m_Control.m_loop = 1;
 }
 
 void PVAnimationComponent::VUpdate(float deltaMs)
 {
 	if (!m_pAnimList.size()) return;
+	if (m_Control.m_bFinished && !m_Control.m_loop) return;
 
 	if (m_Control.m_State != ANIM_STOP)
 	{
@@ -538,8 +540,21 @@ void PVAnimationComponent::VUpdate(float deltaMs)
 	}
 
 
-	if (m_Control.m_bFinished) ResetControl(m_iDefaultAnimation, ANIM_PLAYING);
+	
 
+}
+
+void PVAnimationComponent::VPostUpdate()
+{
+	if (m_Control.m_bFinished)
+	{
+		if (m_Control.m_loop) ResetControl(m_Control.m_iCurrentAnim, ANIM_PLAYING);
+		else
+		{
+			ResetControl(m_iDefaultAnimation, ANIM_PLAYING);
+			m_Control.m_loop = true;
+		}
+	}
 }
 
 void PVAnimationComponent::SetAnimationEvent(std::shared_ptr<const IEvent> pEvent)
@@ -560,6 +575,14 @@ void PVAnimationComponent::SetAnimationEvent(std::shared_ptr<const IEvent> pEven
 	if (p->isDefault()) m_iDefaultAnimation = animID;
 }
 
+void PVAnimationComponent::PlayAnimation(int anim, bool loop)
+{
+	if (anim == m_Control.m_iCurrentAnim) return;
+
+	ResetControl(anim, ANIM_PLAYING);
+	m_Control.m_loop = loop;
+}
+
 AABB PVAnimationComponent::GetUserDimesion()
 {
 	if (m_Control.m_iCurrentAnim<0 || m_Control.m_iCurrentAnim >= m_pAnimList.size()) return AABB();
@@ -573,6 +596,10 @@ void PVAnimationComponent::AnimEvent(const string&)
 mat4 PVAnimationComponent::GetRootTransform()
 {
 	return m_DbTransform[0];
+}
+bool PVAnimationComponent::IsFinish()
+{
+	return m_Control.m_bFinished;
 }
 #pragma endregion
 

@@ -1,6 +1,6 @@
 #pragma once
 
-
+class GunPlayerView;
 class LocalPlayerComponent : public ActorComponent
 {
 private:
@@ -18,6 +18,7 @@ private:
 	TransformComponent	*m_pTC;
 	AnimationComponent	*m_pBAC;
 	Actor*			m_PVGroup;
+	GunPlayerView*	m_Weapon;
 	bool			m_bOnGround;
 
 public:

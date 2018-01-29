@@ -191,14 +191,16 @@ public:
 	virtual void		VPostInit(void);
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) { return nullptr; };
 	virtual void		VUpdate(float deltaMs);
-
+	virtual void		VPostUpdate();
 
 	// Event 
 	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
-	virtual void		PlayAnimation(int anim, bool fromBaseAnim = true) {};
+	virtual void		PlayAnimation(int anim, bool loop = false);
+	
 	virtual void		PlayDefaultAnimation() {};
 	AABB				GetUserDimesion();
 	virtual void		AnimEvent(const string&);
 	mat4				GetRootTransform();
+	bool				IsFinish();
 
 };

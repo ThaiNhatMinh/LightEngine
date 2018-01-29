@@ -8,5 +8,6 @@
 #include "MyGame\HitBox.h"
 
 #include "MyGame\PlayerView.h"
+#include "MyGame\GunPlayerView.h"
 #include "MyGame\Player.h"
 #include "MyGame\Game.h"
