@@ -37,12 +37,23 @@ bool TransformComponent::VInit(const tinyxml2::XMLElement* pData)
 	}
 
 
-	mat4 translation;
-	translation= glm::translate(translation,position);
-
-	mat4 rotation = glm::eulerAngleXYZ(yawPitchRoll.x, yawPitchRoll.y, yawPitchRoll.z);
 	
-	m_Transform = translation*rotation;
+	glm::mat4 matRoll = glm::mat4(1.0f);//identity matrix; 
+	glm::mat4 matPitch = glm::mat4(1.0f);//identity matrix
+	glm::mat4 matYaw = glm::mat4(1.0f);//identity matrix
+
+									   //roll, pitch and yaw are used to store our angles in our class
+	matRoll = glm::rotate(matRoll, yawPitchRoll.z, glm::vec3(0.0f, 0.0f, 1.0f));
+	matPitch = glm::rotate(matPitch, yawPitchRoll.x, glm::vec3(1.0f, 0.0f, 0.0f));
+	matYaw = glm::rotate(matYaw, yawPitchRoll.y, glm::vec3(0.0f, 1.0f, 0.0f));
+
+	//order matters
+	glm::mat4 rotate = matRoll * matPitch * matYaw;
+
+	glm::mat4 translate = glm::mat4(1.0f);
+	translate = glm::translate(translate, position);
+	
+	m_Transform = translate*rotate;
 
 	return true;
 }

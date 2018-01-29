@@ -77,9 +77,9 @@ HRESULT Actor::VPostUpdate(Scene *pScene)
 	return S_OK;
 }
 
-void Actor::VSetTransform(const mat4 * toWorld)
+void Actor::VSetTransform(const mat4& toWorld)
 {
-	m_TransformComponent->SetTransform(*toWorld);
+	m_TransformComponent->SetTransform(toWorld);
 }
 
 mat4 Actor::VGetTransform()
@@ -186,6 +186,20 @@ bool Actor::VRemoveChild(ActorId id)
 		}
 	}
 	return false;
+}
+
+Actor * Actor::VGetChild(int index)
+{
+	assert(index >= 0 && index < m_Children.size());
+	return m_Children[index].get();
+}
+
+Actor * Actor::VGetChild(const string & name)
+{
+	for (auto el = m_Children.begin(); el != m_Children.end(); el++)
+		if ((*el)->VGetName() == name) return (*el).get();
+
+	return nullptr;
 }
 
 Actor * Actor::VGetParent()

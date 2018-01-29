@@ -5,7 +5,7 @@ const char* LocalPlayerComponent::Name = "LocalPlayerComponent";
 
 
 LocalPlayerComponent::LocalPlayerComponent() :m_fJumpForce(0), m_fMaxSpeed(0), m_MoveDirection(0, 0, 0), m_JumpDirection(0, 1, 0), m_bOnGround(false), m_fInAirTime(0)
-, m_Shooting(0)
+, m_Shooting(0), m_PVGroup(nullptr)
 {
 }
 
@@ -29,6 +29,8 @@ bool LocalPlayerComponent::VInit(const tinyxml2::XMLElement* pData)
 	const tinyxml2::XMLElement* pMoveElement = pData->FirstChildElement("Move");
 	m_fMoveForce = pMoveElement->DoubleAttribute("force", 100.0f);
 	m_fBrakeForce = pMoveElement->DoubleAttribute("brakeforce", 30.0f);
+
+	
 	return true;
 
 }
@@ -71,13 +73,14 @@ void LocalPlayerComponent::VPostInit(void)
 	// Get Rigidbody
 	m_pRBC = m_pOwner->GetComponent<RigidBodyComponent>(RigidBodyComponent::Name);
 	m_pBAC = m_pOwner->GetComponent<AnimationComponent>(AnimationComponent::Name);
-	//m_pRB->Activate(DISABLE_DEACTIVATION);
+	
+	m_PVGroup = m_pOwner->VGetChild("PVGroup");
 
 }
 
 void LocalPlayerComponent::VUpdate(float dt)
 {
-	m_Context->m_pDebuger->DrawCoord(m_pOwner->VGetGlobalTransform());
+	//m_Context->m_pDebuger->DrawCoord(m_pOwner->VGetGlobalTransform());
 	m_MoveDirection = vec3(0);
 	m_JumpDirection = vec3(0);
 
@@ -115,19 +118,29 @@ void LocalPlayerComponent::VUpdate(float dt)
 	
 	m_Yaw -= m_Context->m_pInput->mouseDX()*0.25f;
 	m_Pitch += m_Context->m_pInput->mouseDY()*0.25f;
-	if (m_Pitch > 60.0) m_Pitch = 60.0f;
-	if (m_Pitch < -60.0f) m_Pitch = -60.0f;
+	if (m_Pitch > 89.0) m_Pitch = 89.0f;
+	if (m_Pitch < -98.0f) m_Pitch = -89.0f;
 
 	//glm::quat qYaw = glm::angleAxis(glm::radians(m_Yaw), glm::vec3(0, 1, 0));
 	//qYaw = glm::normalize(qYaw);
 	glm::mat4 rotate = glm::rotate(mat4(), glm::radians(m_Yaw), glm::vec3(0, 1, 0));
-	//rotate = glm::rotate(rotate, glm::radians(m_Pitch), glm::vec3(1, 0, 0));
+	
 
 	vec3 pos = m_pTC->GetPosition();
 	m_pTC->GetTransform() = rotate;
 	m_pTC->SetPosition(pos);
 
 	m_pBAC->SetBoneEdit(m_Yaw, m_Pitch);
+
+	rotate = glm::rotate(mat4(), glm::radians(-m_Pitch), glm::vec3(1, 0, 0));
+	
+	
+	mat4 tran = glm::translate(mat4(), vec3(0, 70, 0));
+	//rotate = glm::translate(rotate, vec3(0,70,0));
+	
+	m_PVGroup->VSetTransform(tran*rotate);
+	//vec3 pos2 = m_PVGroup->VGetTransform()[3];
+	//ImGui::Text("Pos: %f %f %f", pos2.x, pos2.y, pos2.z);
 }
 
 void LocalPlayerComponent::VPostUpdate()

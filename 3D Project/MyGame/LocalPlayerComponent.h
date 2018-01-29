@@ -17,6 +17,7 @@ private:
 	RigidBodyComponent	*m_pRBC;
 	TransformComponent	*m_pTC;
 	AnimationComponent	*m_pBAC;
+	Actor*			m_PVGroup;
 	bool			m_bOnGround;
 
 public:
