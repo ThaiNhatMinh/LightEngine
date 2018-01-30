@@ -56,7 +56,6 @@
     <ClInclude Include="GameObject\ActorFactory.h">
       <Filter>GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="interface.h" />
     <ClInclude Include="Utilities\Template.h">
       <Filter>Utilities</Filter>
     </ClInclude>
@@ -264,6 +263,9 @@
     <ClInclude Include="MyGame\GunPlayerView.h">
       <Filter>MyGame</Filter>
     </ClInclude>
+    <ClInclude Include="interface.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -442,7 +444,6 @@
     <ClCompile Include="MyGame\LocalPlayerComponent.cpp">
       <Filter>MyGame\Component</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\StaticObject.cpp" />
     <ClCompile Include="Graphics3D\EffectSystem.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
@@ -461,8 +462,13 @@
     <ClCompile Include="MyGame\HitBox.cpp">
       <Filter>MyGame\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\ICamera.cpp" />
     <ClCompile Include="MyGame\GunPlayerView.cpp" />
+    <ClCompile Include="Graphics3D\ICamera.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\StaticObject.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

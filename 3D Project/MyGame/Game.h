@@ -11,10 +11,8 @@ public:
 
 public:
 	static CharacterResource LoadCharacter(const string& file);
-protected:
+	static WeaponResource LoadWeaponInfo(const string& wpName);
 
-	//void LoadWeapon();
-	//void LoadCharacter();
 private:
 	std::unique_ptr<Scene> m_Scene;
 	std::vector<WeaponResource> m_WeaponResources;

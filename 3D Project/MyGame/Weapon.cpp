@@ -9,10 +9,13 @@ bool Weapon::Init(const tinyxml2::XMLElement * pData)
 	const tinyxml2::XMLElement* pInfo = pData->FirstChildElement("Info");
 	if (pInfo)
 	{
-		GViewAnimName = pInfo->Attribute("GViewAnimName");
-		PVFileName = pInfo->Attribute("PVModel");
-		WeaponSlot = pInfo->Int64Attribute("WeaponSlot",-1);
+		//GViewAnimName = pInfo->Attribute("GViewAnimName");
+		//PVFileName = pInfo->Attribute("PVModel");
+		//WeaponSlot = pInfo->Int64Attribute("WeaponSlot",-1);
+		const char* pName = pInfo->Attribute("Name");
+		WeaponInfo = Game::LoadWeaponInfo(pName);
 	}
+
 	return Actor::Init(pData);
 }
 
@@ -20,7 +23,7 @@ void Weapon::PostInit(void)
 {
 	m_ParentAnim = m_pParent->GetComponent<AnimationComponent>(AnimationComponent::Name);
 
-	m_ParentAnim->SetBaseAnim(GViewAnimName);
+	m_ParentAnim->SetBaseAnim(WeaponInfo.GViewAnimName);
 
 	if (m_pParent->VGetTag() == "Player")
 	{
@@ -71,14 +74,18 @@ mat4 & Weapon::GetSocketTransform()
 }
 
 const string & Weapon::GetPVFileName() {
-	return PVFileName;
+	return WeaponInfo.PVModelFile;
 }
 
 
 int Weapon::GetWeaponIndex()
 {
 	assert(0);
-	return Index;
+	return WeaponInfo.index;
+}
+
+const WeaponResource & Weapon::GetWeaponInfo() const {
+	return WeaponInfo;
 }
 
 
@@ -86,5 +93,5 @@ int Weapon::GetWeaponIndex()
 
 int Weapon::GetWeaponSlot()
 {
-	return WeaponSlot;
+	return WeaponInfo.TargetSlot;
 }

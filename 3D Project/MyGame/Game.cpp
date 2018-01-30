@@ -86,6 +86,45 @@ CharacterResource Game::LoadCharacter(const string & file)
 
 	return cr;
 }
+WeaponResource Game::LoadWeaponInfo(const string & wpName)
+{
+	WeaponResource wr;
+
+	string file = "GameAssets\\XML\\Weapon.xml";
+
+	static tinyxml2::XMLDocument doc;
+	doc.LoadFile(file.c_str());
+	tinyxml2::XMLElement* pWeapon = doc.FirstChildElement("Weapon");
+
+	// Loop through each child element and load the component
+	int i = 0;
+	for (tinyxml2::XMLElement* pNode = pWeapon->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+	{
+		if (wpName != pNode->Value())
+		{
+			i++;
+			continue;
+		}
+
+		wr.index = i++;
+		wr.Name = pNode->Value();
+		wr.Class = pNode->FirstChildElement("Class")->DoubleAttribute("Class");
+		wr.ModelFile = pNode->FirstChildElement("ModelFileName")->Attribute("File");
+		wr.ModelTex = pNode->FirstChildElement("SkinFileName")->Attribute("File");
+		wr.PVModelFile = pNode->FirstChildElement("PViewModelFileName")->Attribute("File");
+		wr.PVTexFile = pNode->FirstChildElement("PViewSkinFileName")->Attribute("File");
+		wr.GViewAnimName = pNode->FirstChildElement("GViewAnimName")->Attribute("File");
+
+		wr.Range = pNode->FirstChildElement("Info")->DoubleAttribute("Range");
+		wr.MaxAmmo = pNode->FirstChildElement("Info")->DoubleAttribute("MaxAmmo");
+		wr.AmmoPerMagazine = pNode->FirstChildElement("Info")->DoubleAttribute("AmmoPerMagazine");
+		wr.AmmoDamage = pNode->FirstChildElement("Info")->DoubleAttribute("AmmoDamage");
+		wr.TargetSlot = pNode->FirstChildElement("Info")->DoubleAttribute("TargetSlot");
+		return wr;
+		
+	}
+
+}
 /*
 void Game::LoadWeapon()
 {
