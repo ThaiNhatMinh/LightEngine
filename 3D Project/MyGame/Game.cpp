@@ -113,7 +113,7 @@ WeaponResource Game::LoadWeaponInfo(const string & wpName)
 		wr.ModelTex = pNode->FirstChildElement("SkinFileName")->Attribute("File");
 		wr.PVModelFile = pNode->FirstChildElement("PViewModelFileName")->Attribute("File");
 		wr.PVTexFile = pNode->FirstChildElement("PViewSkinFileName")->Attribute("File");
-		wr.GViewAnimName = pNode->FirstChildElement("GViewAnimName")->Attribute("File");
+		wr.GViewAnimName = pNode->FirstChildElement("GViewAnimName")->Int64Attribute("Index");
 
 		wr.Range = pNode->FirstChildElement("Info")->DoubleAttribute("Range");
 		wr.MaxAmmo = pNode->FirstChildElement("Info")->DoubleAttribute("MaxAmmo");

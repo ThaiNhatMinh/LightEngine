@@ -23,7 +23,7 @@ void Weapon::PostInit(void)
 {
 	m_ParentAnim = m_pParent->GetComponent<AnimationComponent>(AnimationComponent::Name);
 
-	m_ParentAnim->SetBaseAnim(WeaponInfo.GViewAnimName);
+	m_ParentAnim->Play(blendset::null,WeaponInfo.GViewAnimName,1);
 
 	if (m_pParent->VGetTag() == "Player")
 	{

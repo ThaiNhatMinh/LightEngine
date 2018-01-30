@@ -4,34 +4,35 @@
 	<Info Team="1" WP="0"/>
 	<Character Data="SAS" />
 	
-  <Component>	
-	  <AnimationComponent>
-		  <Model File="MODELS\CHARACTER\AI\AI_M-MOTION_EXPLOSIVE.LTB" />
-		  <DefaultAnim Anim="M-idle-M700" />
-	  </AnimationComponent>
+	<Component>	
+		<AnimationComponent>
+			<Model File="MODELS\CHARACTER\AI\AI_M-MOTION_EXPLOSIVE.LTB" />
+			<DefaultAnim Anim="M-idle-M700" />
+		</AnimationComponent>
 	
-	  <ColliderComponent>
-		  <Shape>Character</Shape>
-	  </ColliderComponent>
+		<ColliderComponent>
+			<Shape>Character</Shape>
+		</ColliderComponent>
 
-	  <RigidBodyComponent>
-		  <Mass value="100.0" />
-		  <PhysicsMaterial>player</PhysicsMaterial>
-		  <RigidBodyTransform>
-			  <Position x="0.0" y="0.0" z="0.0"/>
-		  </RigidBodyTransform>
-	  </RigidBodyComponent>
-  
-	  <TransformComponent>
-		  <Position x="0" y="200" z="200"/>
-		  <YawPitchRoll x="0" y="0" z="0"/>
-	  </TransformComponent>
+		<RigidBodyComponent>
+			<Mass value="100.0" />
+			<PhysicsMaterial>player</PhysicsMaterial>
+			<RigidBodyTransform>
+				<Position x="0.0" y="0.0" z="0.0"/>
+			</RigidBodyTransform>
+		</RigidBodyComponent>
+		<HitBox>
+		</HitBox>
+		<TransformComponent>
+			<Position x="0" y="200" z="200"/>
+			<YawPitchRoll x="0" y="0" z="0"/>
+		</TransformComponent>
 	
-	  <MeshRenderComponent>
-		  <Model File="MODELS\EXPLOSIVE.xml" />
+		<MeshRenderComponent>
+			<Model File="MODELS\EXPLOSIVE.xml" />
 		 
-		  <Shader name="SkeShader" />
-	  </MeshRenderComponent>
+			<Shader name="SkeShader" />
+		</MeshRenderComponent>
   
   </Component>
   <Children>

@@ -1,7 +1,7 @@
 <Actor type="GunPlayerView" name="PVWeapon" State="0" >
 	<Component>
 	<TransformComponent>
-		<Position x="-2.0" y="0" z="-8.0"/>
+		<Position x="0.0" y="0" z="-9.0"/>
 		<YawPitchRoll x="0" y="180" z="0"/>
 	</TransformComponent>
 	

@@ -7,7 +7,7 @@
     <SkinFileName File="TEXTURES\WEAPONS\AK47.DTX"/>
     <PViewModelFileName File="MODELS\PLAYERVIEW\PV-AK47.LTB"/>
     <PViewSkinFileName File="TEXTURES\PLAYERVIEW\PV-AK47.DTX"/>
-    <GViewAnimName File="M4A1"/>
+    <GViewAnimName Index="96"/>
     <Info Range="300.0" MaxAmmo="60" AmmoPerMagazine="30" AmmoDamage="116" TargetSlot="0" />
   </AK47>
   <M4A1>
@@ -18,7 +18,7 @@
      <SkinFileName File="TEXTURES\WEAPONS\L-M4A1.DTX"/>
      <PViewModelFileName File="MODELS\PLAYERVIEW\PV-M4A1.LTB"/>
     <PViewSkinFileName File="TEXTURES\PLAYERVIEW\PV-M4A1.DTX"/>
-   <GViewAnimName File="M4A1"/>
+   <GViewAnimName Index="96"/>
     <Info Range="300.0" MaxAmmo="60" AmmoPerMagazine="30" AmmoDamage="116" TargetSlot="0" />
   </M4A1>
   <Ultimax100>
@@ -29,7 +29,7 @@
      <SkinFileName File="TEXTURES\WEAPONS\QV-SU_ULTIMAX100.DTX"/>
      <PViewModelFileName File="MODELS\PLAYERVIEW\PV-SU_ULTIMAX100.LTB"/>
     <PViewSkinFileName File="TEXTURES\PLAYERVIEW\PV-SU_ULTIMAX100.DTX"/>
-   <GViewAnimName File="M4A1-A"/>
+   <GViewAnimName Index="355"/>
     <Info Range="400.0" MaxAmmo="100" AmmoPerMagazine="100" AmmoDamage="90" TargetSlot="0" />
   </Ultimax100>
   <MP5>
@@ -40,7 +40,7 @@
      <SkinFileName File="TEXTURES\WEAPONS\L-MP5.DTX"/>
      <PViewModelFileName File="MODELS\PLAYERVIEW\PV-MP5.LTB"/>
     <PViewSkinFileName File="TEXTURES\PLAYERVIEW\PV-MP5.DTX"/>
-   <GViewAnimName File="MP5"/>
+   <GViewAnimName Index="111"/>
     <Info Range="400.0" MaxAmmo="100" AmmoPerMagazine="100" AmmoDamage="90" TargetSlot="0" />
   </MP5>
 </Weapon>
