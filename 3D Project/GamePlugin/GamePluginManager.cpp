@@ -24,4 +24,6 @@ bool GamePluginManager::LoadPlugin(const std::string & filename)
 		m_GamePlugins.push_back(pGamePlugin);
 	}
 
+	return 1;
+
 }

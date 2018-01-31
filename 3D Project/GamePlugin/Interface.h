@@ -4,3 +4,4 @@
 
 #define CREATEINTERFACE_PROCNAME	"CreateInterface"
 typedef IGamePlugin* (*CreateInterfaceFn)();
+
