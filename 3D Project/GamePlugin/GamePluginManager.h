@@ -3,6 +3,7 @@
 #include <list>
 
 #include "IGamePlugin.h"
+#include "ContextDLL.h"
 
 class GamePluginManager
 {
@@ -13,7 +14,9 @@ public:
 
 	bool LoadPlugin(const std::string& filename);
 
+	void UpdateGame(float dt);
+	void RenderGame();
 private:
 	std::list<IGamePlugin*> m_GamePlugins;
-	Context* m_Context;
+	ContextDLL m_ContextDLL;
 };

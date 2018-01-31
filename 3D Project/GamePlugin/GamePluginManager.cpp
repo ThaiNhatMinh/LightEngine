@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "GamePluginManager.h"
-#include "Interface.h"
+#include "DLLInterface.h"
 #include <Windows.h>
 
 
-GamePluginManager::GamePluginManager(Context * pContext):m_Context(pContext)
+GamePluginManager::GamePluginManager(Context * pContext):m_ContextDLL(pContext)
 {
 }
 
@@ -19,11 +19,21 @@ bool GamePluginManager::LoadPlugin(const std::string & filename)
 
 	if (pGamePlugin)
 	{
-		pGamePlugin->Init(nullptr);
+		pGamePlugin->Init(&m_ContextDLL);
 
 		m_GamePlugins.push_back(pGamePlugin);
 	}
 
 	return 1;
 
+}
+
+void GamePluginManager::UpdateGame(float dt)
+{
+	for (auto& el : m_GamePlugins) el->Update(dt);
+}
+
+void GamePluginManager::RenderGame()
+{
+	for (auto& el : m_GamePlugins) el->Render();
 }
