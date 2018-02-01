@@ -180,18 +180,20 @@ void BulletPhysics::VRenderDiagnostics()
 void BulletPhysics::RayCast(PhysicsRaycastResult & result, const Ray & r, float maxdistance, unsigned mask)
 {
 	btCollisionWorld::ClosestRayResultCallback raycallback(ToBtVector3(r.pos), ToBtVector3(r.pos + r.direction*maxdistance));
+	raycallback.m_collisionFilterGroup = 0xffff;
 	raycallback.m_collisionFilterMask = (short)mask;
-	raycallback.m_collisionFilterGroup = 0xfffff;
 
 	m_dynamicsWorld->rayTest(raycallback.m_rayFromWorld, raycallback.m_rayToWorld, raycallback);
-
+	
 	if (raycallback.hasHit())
 	{
 		result.position = ToVector3(raycallback.m_hitPointWorld);
 		result.normal = ToVector3(raycallback.m_hitNormalWorld);
 		result.distance = (result.position - r.pos).length();
 		result.hitFraction = raycallback.m_closestHitFraction;
-		result.body = static_cast<RigidBodyComponent*>(raycallback.m_collisionObject->getUserPointer());
+		result.body = static_cast<HitBox*>(raycallback.m_collisionObject->getUserPointer());
+		cout << "Hit name: " << raycallback.m_collisionObject->getCollisionShape()->getName() << endl;
+		
 	}
 	else
 	{
@@ -212,10 +214,11 @@ void BulletPhysics::RayCast(std::vector<PhysicsRaycastResult>& result, const Ray
 
 	m_dynamicsWorld->rayTest(rayCallback.m_rayFromWorld, rayCallback.m_rayToWorld, rayCallback);
 
+	
 	for (int i = 0; i < rayCallback.m_collisionObjects.size(); ++i)
 	{
 		PhysicsRaycastResult newResult;
-		newResult.body = static_cast<RigidBodyComponent*>(rayCallback.m_collisionObjects[i]->getUserPointer());
+		newResult.body = static_cast<HitBox*>(rayCallback.m_collisionObjects[i]->getUserPointer());
 		newResult.position = ToVector3(rayCallback.m_hitPointWorld[i]);
 		newResult.normal = ToVector3(rayCallback.m_hitNormalWorld[i]);
 		newResult.distance = (newResult.position - r.pos).length();

@@ -13,7 +13,7 @@ class Mesh;
 class Windows;
 class ScriptEvent;
 class Debug;
-struct Texture;
+class Texture;
 
 
 class Material

@@ -77,3 +77,28 @@ public:
 	const char* WPName;
 	Actor* Parent;
 };
+/*
+class EvtData_RequestCreateSprite :public IEvent
+{
+public:
+	EvtData_RequestCreateSprite(Actor* p,const string& file) :Parent(p), WPName(n)
+	{
+	};
+	static const EventType sk_EventType;
+	virtual const EventType& VGetEventType(void) const
+	{
+		return sk_EventType;
+	};
+	virtual void VSerialize(std::ostrstream& out) const {};
+	virtual void VDeserialize(std::istrstream& in) {};
+	virtual IEvent* VCopy(void) const
+	{
+		return new EvtData_RequestCreateWeapon(Parent, WPName);
+	};
+	virtual const char* GetName(void) const
+	{
+		return "EvtData_RequestCreateActor";
+	};
+	string File;
+	Actor* Parent;
+};*/

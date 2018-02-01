@@ -79,7 +79,7 @@ void CharacterControllerComponent::VUpdate(float dt)
 	m_MoveDirection = vec3(0);
 	m_JumpDirection = vec3(0);
 
-	if (m_Context->m_pInput->KeyDown(DIK_Y))
+	/*if (m_Context->m_pInput->KeyDown(DIK_Y))
 	{
 		m_MoveDirection -= m_pTC->GetFront();
 		m_pBAC->PlayAnimation(run);
@@ -104,7 +104,7 @@ void CharacterControllerComponent::VUpdate(float dt)
 	if (m_MoveDirection == vec3(0))
 	{
 		m_pBAC->PlayDefaultAnimation();
-	}
+	}*/
 	//m_MoveDirection = vec3(0);
 	
 }

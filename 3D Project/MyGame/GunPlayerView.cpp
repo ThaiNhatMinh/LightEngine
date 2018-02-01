@@ -18,6 +18,18 @@ HRESULT GunPlayerView::VOnUpdate(Scene * pScene, float elapsedMs)
 		if (GetComponent<PVAnimationComponent>(PVAnimationComponent::Name)->IsFinish()) 
 			m_State = WS_IDLE;
 	}
+	else if (m_State == WS_SHOOTING)
+	{
+		if (GetComponent<PVAnimationComponent>(PVAnimationComponent::Name)->IsFinish())
+		{
+			m_State = WS_IDLE;
+			this->ShootRayCast();
+		}
+	}
+	else if (m_State == WS_SELECT)
+	{
+		if (GetComponent<PVAnimationComponent>(PVAnimationComponent::Name)->IsFinish()) m_State = WS_IDLE;
+	}
 
 	return S_OK;
 }
@@ -65,4 +77,26 @@ void GunPlayerView::SetData(ModelCache * pModel)
 		else if (pModel->pAnims[i]->Name == "run")m_AnimationMap.insert({ RUN,i });
 		else m_AnimationMap.insert({ IDLE,i });
 	}
+}
+
+void GunPlayerView::ShootRayCast()
+{
+	PhysicsRaycastResult raycast;
+	ICamera* pCam = Camera::GetCurrentCamera();
+	Ray r(pCam->GetPosition(), pCam->GetFront());
+
+	m_Context->m_pPhysic->RayCast(raycast, r, 1000000.f, TYPE_HITBOX);
+
+
+	if (raycast.position != vec3(0))
+	{
+		printf("Hit enemy: %s\n", raycast.body->GetOwner()->VGetName().c_str());
+		//printf("Index: %d\n", raycast.body->Inside(raycast.position));
+		
+	}
+	else
+	{
+		printf("Doesn't hit anything.\n");
+	}
+	
 }

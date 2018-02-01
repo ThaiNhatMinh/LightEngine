@@ -40,7 +40,6 @@ void Player::PostInit(void)
 
 	}
 	Actor::PostInit();
-
 	
 }
 
@@ -82,13 +81,26 @@ HRESULT Player::VRenderChildren(Scene * pScene)
 		Actor::VRenderChildren(pScene);
 	return S_OK;
 }
+HRESULT Player::VOnUpdate(Scene *pScene, float elapsedMs)
+{
+	Creature::VOnUpdate(pScene, elapsedMs);
+
+	return E_NOTIMPL;
+}
+const WeaponResource & Player::GetCurrentWeaponInfo()const 
+{
+	// TODO: insert return statement here
+	assert(m_iCurrentWP >= 0 && m_iCurrentWP <= 5);
+	Weapon* wp = static_cast<Weapon*>(m_Children[m_WPList[m_iCurrentWP]].get());
+	return wp->GetWeaponInfo();
+}
 vector<LTBSocket>& Player::GetSockets()
 {
 	return GetComponent<MeshRenderComponent>(MeshRenderComponent::Name)->GetSockets();
 }
-void Player::AddWeapon(Weapon * wp)
+void Player::Death()
 {
-	assert(0);
+	//GetComponent<AnimationComponent>(AnimationComponent::Name)->PlayAnimation("Stdown-A", 0);
 }
 void Player::SetPVModel()
 {
@@ -115,7 +127,8 @@ void Player::SetPVModel()
 		// Set component data
 		PVWeapon->SetData(pModel);
 
-		
+		PVWeapon->Select();
+
 		VAddChild(std::unique_ptr<Actor>(PlayerView));
 
 		Mode = 1;

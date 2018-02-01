@@ -37,6 +37,7 @@ struct FrameData
 	vec3 m_Pos;
 	quat m_Ort;
 };
+
 typedef vector<FrameData> AnimData;
 
 struct AnimNode
@@ -66,7 +67,6 @@ struct AnimControl
 	int				KeyFrameID;
 	float			m_fTime;
 	GLuint			m_iCurrentAnim;
-	GLuint			m_iNextAnim;
 	GLuint			m_iCurrentFrame;
 	AnimState		m_State;
 	bool			m_bFinished;
@@ -75,6 +75,7 @@ struct AnimControl
 	bool			m_loop;
 	float			m_speed;
 };
+
 
 class AnimationState
 {
@@ -111,11 +112,13 @@ protected:
 	vector<mat4>		m_SkeTransform;
 	vector<mat4>		m_DbTransform;
 	float				m_fBlendTime;
-	GLuint				m_iDefaultAnimation;
+	
 protected:
 	FrameData			InterpolateFrame(AnimControl& control, const AnimNode& Anim, const vector<AnimKeyFrame>&);
 	GLint				FindAnimation(string name);
 public:
+	
+
 	BaseAnimComponent() {};
 	~BaseAnimComponent() {};
 	virtual bool		VInit(const tinyxml2::XMLElement* pData);
@@ -124,50 +127,71 @@ public:
 	const vector<mat4>&	GetBoneTransform();
 	virtual AABB		GetUserDimesion()=0;
 	virtual void		AnimEvent(const string&) = 0;
-	virtual void		PlayAnimation(int anim,bool fromBaseAnim = true) = 0;
-	virtual void		PlayDefaultAnimation() = 0;
+	//virtual void		PlayAnimation(int anim,bool fromBaseAnim = true) = 0;
+	//virtual void		PlayAnimation(const string& anim, bool v = true) = 0;
+	//virtual void		PlayDefaultAnimation() = 0;
 	void				SetData(ModelCache* pModel);
+	vector<Animation*>& GetAnimation() {
+		return m_pAnimList;
+	};
 
 };
 
 class AnimationComponent : public BaseAnimComponent
 {
-private:
-	
-	AnimControl			m_Control[2];
-	
 
-	blendset			GetBlendSet(GLuint id);
-	void				ResetControl(blendset bs, GLuint anim, AnimState state);
-
-	float				m_Yaw, m_Pitch;
-	
-protected:
-	
 public:
+
+	enum blendset
+	{
+		upper,
+		fullbody
+	};
+
+	struct CharAnimControl :public AnimControl
+	{
+		blendset m_layer; // none, upper or lower
+		bool operator==(const CharAnimControl& other)const
+		{
+			return m_layer == other.m_layer;
+		}
+
+	};
 	AnimationComponent(void);
 	~AnimationComponent(void);
 
 	static const char*	Name;
 	virtual const char* VGetName() const { return Name; }
 	
-	//virtual bool		VInit(const tinyxml2::XMLElement* pData);
+	virtual bool		VInit(const tinyxml2::XMLElement* pData);
 	virtual void		VPostInit(void);
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) { return nullptr; };
 	virtual void		VUpdate(float deltaMs);
-
+	virtual void		VPostUpdate();
 	
 	// Event 
 	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
-	virtual void		PlayAnimation(int anim,bool fromBaseAnim=true);
-	virtual void		PlayDefaultAnimation();
+	//virtual void		PlayAnimation(int anim,bool fromBaseAnim=true);
+	//virtual void		PlayAnimation(const string& anim, bool v = true);
+	//virtual void		PlayDefaultAnimation();
 	AABB				GetUserDimesion();
 	virtual void		AnimEvent(const string&);
-	void				SetBaseAnim(const string& name);
-	void				Play(blendset part,int anim, bool fromBaseAnim = true);
+	//void				SetBaseAnim(const string& name);
+	void				Play(blendset layer,int anim, bool loop = false);
 
 	void				SetBoneEdit(float yaw,float pitch);
+private:
 
+	std::list<CharAnimControl>			m_Controls;
+
+
+	blendset			GetBlendSet(GLuint id);
+	void				ResetControl(CharAnimControl& control, GLuint anim, AnimState state);
+
+	float				m_Yaw, m_Pitch;
+	
+protected:
+	void				ComputerFrame(CharAnimControl & control, int i);
 };
 
 // Player view animation
@@ -176,7 +200,7 @@ class PVAnimationComponent : public BaseAnimComponent
 private:
 
 	AnimControl			m_Control;
-
+	GLuint				m_iDefaultAnimation;
 
 
 	void				ResetControl(GLuint anim, AnimState state);
@@ -196,8 +220,7 @@ public:
 	// Event 
 	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
 	virtual void		PlayAnimation(int anim, bool loop = false);
-	
-	virtual void		PlayDefaultAnimation() {};
+
 	AABB				GetUserDimesion();
 	virtual void		AnimEvent(const string&);
 	mat4				GetRootTransform();

@@ -27,3 +27,15 @@ bool Creature::ChangeAC(int newAC)
 	m_AC += newAC;
 	return 1;
 }
+
+void Creature::Death()
+{
+
+}
+
+void Creature::TakeDamage(int damage)
+{
+	m_HP -= damage;
+
+	if (m_HP <= 0) Death();
+}

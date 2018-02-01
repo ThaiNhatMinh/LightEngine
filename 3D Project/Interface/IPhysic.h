@@ -1,6 +1,7 @@
 #pragma once
 
-
+struct PhysicsRaycastResult;
+class RigidBodyComponent;
 class IPhysic
 {
 public:

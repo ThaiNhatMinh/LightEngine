@@ -76,6 +76,32 @@ void LocalPlayerComponent::VPostInit(void)
 	
 	m_PVGroup = m_pOwner->VGetChild("PVGroup");
 	m_Weapon = static_cast<GunPlayerView*>(m_PVGroup->VGetChild("PVWeapon"));
+	int GViewAnimName = static_cast<Player*>(m_pOwner)->GetCurrentWeaponInfo().GViewAnimName;
+	for (int i = 0; i < Player::count; i++)
+	{
+		Animation* pAnim = m_pBAC->GetAnimation()[GViewAnimName + i];
+		if (pAnim->Name.find("idle") != string::npos				|| pAnim->Name.find("Idle") != string::npos) m_AnimationMap.insert({ Player::idle,GViewAnimName + i });
+		else if (pAnim->Name.find("M-shoot") != string::npos		|| pAnim->Name.find("M-Shoot") != string::npos) m_AnimationMap.insert({ Player::shoot,GViewAnimName + i });
+		else if (pAnim->Name.find("M-reload") != string::npos		|| pAnim->Name.find("M-Reload") != string::npos) m_AnimationMap.insert({ Player::reload,GViewAnimName + i });
+		else if (pAnim->Name.find("M-walk") != string::npos			|| pAnim->Name.find("M-Walk") != string::npos) m_AnimationMap.insert({ Player::walk,GViewAnimName + i });
+		else if (pAnim->Name.find("M-walk-Bside") != string::npos	|| pAnim->Name.find("M-Walk-Bside") != string::npos) m_AnimationMap.insert({ Player::walkBside,GViewAnimName + i });
+		else if (pAnim->Name.find("M-walk-Lside") != string::npos	|| pAnim->Name.find("M-Walk-Lside") != string::npos) m_AnimationMap.insert({ Player::walkLside,GViewAnimName + i });
+		else if (pAnim->Name.find("M-walk-Rside") != string::npos	|| pAnim->Name.find("M-Walk-Rside") != string::npos) m_AnimationMap.insert({ Player::walkRside,GViewAnimName + i });
+		else if (pAnim->Name.find("M-c-walk") != string::npos) m_AnimationMap.insert({ Player::c_walk,GViewAnimName + i });
+		else if (pAnim->Name.find("M-c-walk-Bside") != string::npos) m_AnimationMap.insert({ Player::c_walkBside,GViewAnimName + i });
+		else if (pAnim->Name.find("M-c-walk-Lside") != string::npos) m_AnimationMap.insert({ Player::c_walkLside,GViewAnimName + i });
+		else if (pAnim->Name.find("M-c-walk-Rside") != string::npos) m_AnimationMap.insert({ Player::c_walkRside,GViewAnimName + i });
+		else if (pAnim->Name.find("M-run") != string::npos) m_AnimationMap.insert({ Player::run,GViewAnimName + i });
+		else if (pAnim->Name.find("M-run-Bside") != string::npos) m_AnimationMap.insert({ Player::runBside,GViewAnimName + i });
+		else if (pAnim->Name.find("M-run-Lside") != string::npos) m_AnimationMap.insert({ Player::runLside,GViewAnimName + i });
+		else if (pAnim->Name.find("M-run-Rside") != string::npos) m_AnimationMap.insert({ Player::runRside,GViewAnimName + i });
+		else
+		{
+			E_WARNING("Unknow animation.");
+		}
+
+
+	}
 
 }
 
@@ -90,12 +116,11 @@ void LocalPlayerComponent::VUpdate(float dt)
 	if (m_Context->m_pInput->MouseButtonDown(0))
 	{
 		m_Weapon->Shoot();
-		m_pBAC->Play(upper, shoot);
+		m_pBAC->Play(AnimationComponent::upper, m_AnimationMap[Player::shoot]);
 	}
-	else
-	{
-		m_pBAC->Play(upper, idle);
-	}
+	
+	m_pBAC->Play(AnimationComponent::fullbody, m_AnimationMap[Player::idle]);
+	
 
 	if (m_Context->m_pInput->KeyDown(DIK_R))
 		m_Weapon->Reload();
@@ -103,22 +128,22 @@ void LocalPlayerComponent::VUpdate(float dt)
 	if (m_Context->m_pInput->KeyDown(DIK_W))
 	{
 		m_MoveDirection += m_pTC->GetFront();
-		if (m_bOnGround) m_pBAC->Play(lower,run);
+		if (m_bOnGround) m_pBAC->Play(AnimationComponent::fullbody, m_AnimationMap[Player::run]);
 	}
 	if (m_Context->m_pInput->KeyDown(DIK_S))
 	{
 		m_MoveDirection -= m_pTC->GetFront();
-		if (m_bOnGround) m_pBAC->Play(lower, runBside);
+		if (m_bOnGround) m_pBAC->Play(AnimationComponent::fullbody, m_AnimationMap[Player::runBside]);
 	}
 	if (m_Context->m_pInput->KeyDown(DIK_D))
 	{
 		m_MoveDirection -= m_pTC->GetRight();
-		if (m_bOnGround) m_pBAC->Play(lower, runRside);
+		if (m_bOnGround) m_pBAC->Play(AnimationComponent::fullbody, m_AnimationMap[Player::runRside]);
 	}
 	if (m_Context->m_pInput->KeyDown(DIK_A))
 	{
 		m_MoveDirection += m_pTC->GetRight();
-		if (m_bOnGround) m_pBAC->Play(lower, runLside);
+		if (m_bOnGround) m_pBAC->Play(AnimationComponent::fullbody, m_AnimationMap[Player::runLside]);
 	}
 	
 	if (m_MoveDirection != vec3(0))
@@ -226,13 +251,13 @@ void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEve
 		{
 			m_JumpDirection = vec3(0, 1, 0);
 			//m_pRBC->ApplyImpulse(vec3(0, 1, 0)*m_fJumpForce);
-			m_pBAC->PlayAnimation(jump, false);
+			m_pBAC->Play(AnimationComponent::fullbody,Player::jump);
 
 		}
 
 		if (m_MoveDirection == vec3(0) && m_JumpDirection == vec3(0))
 		{
-			m_pBAC->Play(lower,idle);
+			m_pBAC->Play(AnimationComponent::fullbody,m_AnimationMap[Player::idle]);
 			m_pRBC->SetLinearVelocity(vec3(0));
 		}
 

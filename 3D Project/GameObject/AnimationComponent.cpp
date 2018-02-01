@@ -122,8 +122,7 @@ bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 		m_CurrentFrames.resize(m_pSkeNodes.size());
 		m_DbTransform.resize(m_pSkeNodes.size());
 
-		m_iDefaultAnimation = FindAnimation(pNameAnim);
-
+		
 	}
 
 	return true;
@@ -188,26 +187,26 @@ GLint BaseAnimComponent::FindAnimation(string name)
 #pragma endregion
 
 #pragma region AnimationComponent
-blendset AnimationComponent::GetBlendSet(GLuint id)
+AnimationComponent::blendset AnimationComponent::GetBlendSet(GLuint id)
 {
 	Animation* pAnim = m_pAnimList.at(id);
 	
-	if (pAnim->Name.find("walk") != string::npos || pAnim->Name.find("run") != string::npos || pAnim->Name.find("jump") != string::npos) return lower;
+	if (pAnim->Name.find("walk") != string::npos || pAnim->Name.find("run") != string::npos || pAnim->Name.find("jump") != string::npos) return fullbody;
 
 	if (pAnim->Name.find("hit") != string::npos || pAnim->Name.find("shoot") != string::npos || pAnim->Name.find("combo") != string::npos || pAnim->Name.find("bigshot") != string::npos || pAnim->Name.find("reload") != string::npos) return upper;
 
-	return lower;
+	return fullbody;
 
 }
 
-void AnimationComponent::ResetControl(blendset bs, GLuint anim, AnimState state)
+void AnimationComponent::ResetControl(CharAnimControl& control, GLuint anim, AnimState state)
 {
-	m_Control[bs].m_fTime = 0;
-	m_Control[bs].m_iCurrentAnim = anim;
-	m_Control[bs].m_iCurrentFrame = 0;
-	m_Control[bs].KeyFrameID = 0;
-	m_Control[bs].m_State = state;
-	m_Control[bs].m_bFinished = 0;
+	control.m_fTime = 0;
+	control.m_iCurrentAnim = anim;
+	control.m_iCurrentFrame = 0;
+	control.KeyFrameID = 0;
+	control.m_State = state;
+	control.m_bFinished = 0;
 }
 
 void AnimationComponent::AnimEvent(const string& data)
@@ -216,17 +215,30 @@ void AnimationComponent::AnimEvent(const string& data)
 	m_Context->m_pEventManager->VQueueEvent(pEvent);
 }
 
-void AnimationComponent::SetBaseAnim(const string& name )
+void AnimationComponent::Play(blendset layer, int anim, bool loop)
 {
-	for(size_t i=0; i<m_pAnimList.size(); i++)
-		if (m_pAnimList[i]->Name.find(name) != string::npos)
-		{
-			m_iDefaultAnimation = i;
-			break;
-		}
+	CharAnimControl cac;
+	cac.m_layer = layer;
+	
+	if (layer == blendset::fullbody)
+	{
+		if(m_Controls.size()==0) m_Controls.push_back(cac);
+
+		CharAnimControl& fullbody = m_Controls.front();
+		ResetControl(fullbody, anim, ANIM_TRANSITION);
+	}
+	else
+	{
+		ResetControl(cac, anim, ANIM_PLAYING);
+		m_Controls.push_back(cac);
+	}
+	//if (m_Control.size() > 0) ResetControl(cac, anim, ANIM_TRANSITION);
+	//else ResetControl(cac, anim, ANIM_PLAYING);
+
+	
 }
 
-void AnimationComponent::Play(blendset part, int anim, bool fromBaseAnim)
+/*void AnimationComponent::Play(blendset part, int anim, bool fromBaseAnim)
 {
 	GLint animID = 0;
 
@@ -236,7 +248,7 @@ void AnimationComponent::Play(blendset part, int anim, bool fromBaseAnim)
 	if (m_Control[part].m_iCurrentAnim == animID) return;
 
 	ResetControl(part, animID, ANIM_TRANSITION);
-}
+}*/
 
 void AnimationComponent::SetBoneEdit(float yaw, float pitch)
 {
@@ -247,10 +259,26 @@ void AnimationComponent::SetBoneEdit(float yaw, float pitch)
 
 
 
+void AnimationComponent::ComputerFrame(CharAnimControl & control,int i)
+{
+	Animation* anim = m_pAnimList[control.m_iCurrentAnim];
+
+	if (control.m_State == ANIM_TRANSITION)
+	{
+		float t = control.m_fTime / m_fBlendTime;
+
+		m_CurrentFrames[i].m_Pos = glm::lerp(m_CurrentFrames[i].m_Pos, anim->AnimNodeLists[i].Data[0].m_Pos, t);
+		m_CurrentFrames[i].m_Ort = glm::slerp(m_CurrentFrames[i].m_Ort, anim->AnimNodeLists[i].Data[0].m_Ort, t);
+	}
+	else if (control.m_State == ANIM_PLAYING)
+	{
+		m_CurrentFrames[i] = InterpolateFrame(control, anim->AnimNodeLists[i], anim->KeyFrames);
+	}
+}
+
 AnimationComponent::AnimationComponent(void)
 {
-	m_iDefaultAnimation = 0;
-	m_Control[upper].m_fTime = 0;
+	/*m_Control[upper].m_fTime = 0;
 	m_Control[upper].m_iCurrentAnim = 0;
 	m_Control[upper].m_iCurrentFrame = 0;
 	m_Control[upper].KeyFrameID = 0;
@@ -260,7 +288,7 @@ AnimationComponent::AnimationComponent(void)
 	m_Control[lower].m_iCurrentAnim = 0;
 	m_Control[lower].m_iCurrentFrame = 0;
 	m_Control[lower].KeyFrameID = 0;
-	m_Control[lower].m_State = ANIM_PLAYING;
+	m_Control[lower].m_State = ANIM_PLAYING;*/
 
 	m_fBlendTime = 0.2f;
 	m_Yaw = 0;
@@ -273,12 +301,28 @@ AnimationComponent::~AnimationComponent(void)
 }
 
 
+bool AnimationComponent::VInit(const tinyxml2::XMLElement * pData)
+{
+	bool result = BaseAnimComponent::VInit(pData);
+
+	const tinyxml2::XMLElement* pAnimNode = pData->FirstChildElement("DefaultAnim");
+	const char* pNameAnim = pAnimNode->Attribute("Anim");
+
+	if (m_pSkeNodes.size())
+	{
+		int anim = FindAnimation(pNameAnim);
+		// Play idle animation
+		Play(blendset::fullbody, anim, true);
+	}
+	return result;
+}
+
 void AnimationComponent::VPostInit(void)
 {
 	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
 	
-	ResetControl(upper, m_iDefaultAnimation, ANIM_PLAYING);
-	ResetControl(lower, m_iDefaultAnimation, ANIM_PLAYING);
+	//ResetControl(upper, m_iDefaultAnimation, ANIM_PLAYING);
+	//ResetControl(lower, m_iDefaultAnimation, ANIM_PLAYING);
 }
 
 void AnimationComponent::VUpdate(float deltaMs)
@@ -286,7 +330,26 @@ void AnimationComponent::VUpdate(float deltaMs)
 	if (m_Context->DrawSkeleton) DrawSkeleton(m_pOwner->VGetGlobalTransform());
 
 	if (!m_pAnimList.size()) return;
-	m_Control[lower].m_fTime += deltaMs;
+	if (!m_Controls.size()) return;
+
+	CharAnimControl& fullbody = m_Controls.front();
+
+	for (auto& el : m_Controls)
+	{
+		el.m_fTime += deltaMs;
+
+		if (el.m_State == ANIM_PLAYING) el.m_iCurrentFrame = (GLuint)(el.m_fTime * 1000);
+		else if (el.m_State == ANIM_TRANSITION)
+		{
+			if (el.m_fTime > m_fBlendTime)
+			{
+				el.m_State = ANIM_PLAYING;
+				el.m_fTime = 0.0f;
+				el.m_iCurrentFrame = 0;
+			}
+		}
+	}
+	/*m_Control[lower].m_fTime += deltaMs;
 	m_Control[upper].m_fTime += deltaMs;
 
 	if (m_Control[upper].m_State == ANIM_PLAYING)
@@ -322,12 +385,12 @@ void AnimationComponent::VUpdate(float deltaMs)
 	
 	Animation* animUpper = m_pAnimList[m_Control[upper].m_iCurrentAnim];
 	Animation* animLower = m_pAnimList[m_Control[lower].m_iCurrentAnim];
+	*/
 	
-	
-	for (GLuint i = 0; i < animLower->AnimNodeLists.size(); i++)
+	for (GLuint i = 0; i < m_pSkeNodes.size(); i++)
 	{
 		// process upper 
-		if (m_Control[upper].m_State == ANIM_TRANSITION && m_WB[upper].Blend[i])
+		/*if (m_Control[upper].m_State == ANIM_TRANSITION && m_WB[upper].Blend[i])
 		{
 			float t = m_Control[upper].m_fTime / m_fBlendTime;
 			m_CurrentFrames[i].m_Pos = glm::lerp(m_CurrentFrames[i].m_Pos, animUpper->AnimNodeLists[i].Data[0].m_Pos, t);
@@ -350,8 +413,12 @@ void AnimationComponent::VUpdate(float deltaMs)
 			
 			m_CurrentFrames[i] = InterpolateFrame(m_Control[lower], animLower->AnimNodeLists[i], animLower->KeyFrames);
 		}
-		
+		*/
 
+		CharAnimControl& fullbody = m_Controls.front();
+		
+		if (m_Controls.size() > 1 && m_WB[upper].Blend[i]) ComputerFrame(m_Controls.back(), i);
+		else ComputerFrame(fullbody, i);
 
 
 		mat4 m_TransformLocal;
@@ -383,7 +450,7 @@ void AnimationComponent::VUpdate(float deltaMs)
 			}
 		}
 
-		if (animLower->AnimNodeLists[i].Parent != -1) m_TransformLocal = m_DbTransform[animLower->AnimNodeLists[i].Parent] * transform;
+		if (m_pSkeNodes[i]->m_ParentIndex != -1) m_TransformLocal = m_DbTransform[m_pSkeNodes[i]->m_ParentIndex] * transform;
 		else m_TransformLocal = transform;
 		
 		m_SkeTransform[i] = m_TransformLocal;
@@ -394,14 +461,40 @@ void AnimationComponent::VUpdate(float deltaMs)
 	}
 
 	
-	if (m_Control[upper].m_bFinished) ResetControl(upper, m_Control[upper].m_iCurrentAnim, ANIM_PLAYING);
-	if (m_Control[lower].m_bFinished) ResetControl(lower, m_Control[lower].m_iCurrentAnim, ANIM_PLAYING);
+	
+}
+
+void AnimationComponent::VPostUpdate()
+{
+	/*for (auto it = m_Controls.begin(); it!=m_Controls.end(); it++)
+	{
+		if (it->m_bFinished)
+		{
+			if (it->m_loop) ResetControl(*it, it->m_iCurrentAnim, ANIM_PLAYING);
+			else m_Control.erase(it);
+		}
+	}*/
+	CharAnimControl& fullbody = m_Controls.front();
+	if (fullbody.m_bFinished)
+	{
+		ResetControl(fullbody, fullbody.m_iCurrentAnim, ANIM_PLAYING);
+	}
+
+	if (m_Controls.size() > 1)
+	{
+		CharAnimControl& upper = m_Controls.back();
+		if (upper.m_bFinished)
+		{
+			if (upper.m_loop) ResetControl(upper, upper.m_iCurrentAnim, ANIM_PLAYING);
+			else m_Controls.pop_back();
+		}
+	}
 }
 
 
 void AnimationComponent::SetAnimationEvent(std::shared_ptr<const IEvent> pEvent)
 {
-	const EvtData_SetAnimation* p = dynamic_cast<const EvtData_SetAnimation*>(pEvent.get());
+	/*const EvtData_SetAnimation* p = dynamic_cast<const EvtData_SetAnimation*>(pEvent.get());
 
 	if (p->GetId() != m_pOwner->GetId()) return;
 
@@ -416,10 +509,10 @@ void AnimationComponent::SetAnimationEvent(std::shared_ptr<const IEvent> pEvent)
 	m_Control[bs].m_fTime = 0.0f;				// restart time to zero
 	if(bs==lower) m_Control[bs].m_State = ANIM_TRANSITION;    // Set state to transition to blend current frame of character to frame 0 of m_iCurrentAnim
 	else m_Control[bs].m_State = ANIM_PLAYING;
-	if (p->isDefault()) m_iDefaultAnimation = animID;
+	if (p->isDefault()) m_iDefaultAnimation = animID;*/
 
 }
-
+/*
 void AnimationComponent::PlayAnimation(int anim, bool fromBaseAnim)
 {
 	GLint animID = 0;
@@ -436,6 +529,12 @@ void AnimationComponent::PlayAnimation(int anim, bool fromBaseAnim)
 	ResetControl(bs, animID, ANIM_TRANSITION);
 }
 
+void AnimationComponent::PlayAnimation(const string & anim, bool v)
+{
+	int id = FindAnimation(anim);
+	PlayAnimation(id, v);
+}
+
 void AnimationComponent::PlayDefaultAnimation()
 {
 	//blendset bs = GetBlendSet(m_iDefaultAnimation);
@@ -446,11 +545,12 @@ void AnimationComponent::PlayDefaultAnimation()
 	//if (m_Control[upper].m_iCurrentAnim == m_iDefaultAnimation) return;
 	//ResetControl(upper, m_iDefaultAnimation, ANIM_TRANSITION);
 }
-
+*/
 AABB AnimationComponent::GetUserDimesion()
 {
-	if (m_Control[lower].m_iCurrentAnim<0 || m_Control[lower].m_iCurrentAnim>=m_pAnimList.size()) return AABB();
-	return m_pAnimList[m_Control[lower].m_iCurrentAnim]->m_BV;
+	assert(m_Controls.size() > 0);
+
+	return m_pAnimList[m_Controls.front().m_iCurrentAnim]->m_BV;
 }
 
 

@@ -13,7 +13,8 @@ public:
 	bool ChangeHP(int newHP);
 	bool ChangeAC(int newAC);
 
-	void Death();
+	virtual void TakeDamage(int damage);
+	virtual void Death() = 0;
 protected:
 	// heath and armor value
 	int	m_HP;

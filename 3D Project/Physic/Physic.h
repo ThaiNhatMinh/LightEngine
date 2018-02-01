@@ -49,6 +49,7 @@ struct MaterialData
 	}
 };
 
+class HitBox;
 /// Physics raycast hit.
 struct PhysicsRaycastResult
 {
@@ -73,7 +74,7 @@ struct PhysicsRaycastResult
 	/// Hit fraction.
 	float hitFraction;
 	/// Rigid body that was hit.
-	RigidBodyComponent* body;
+	HitBox* body;
 };
 
 

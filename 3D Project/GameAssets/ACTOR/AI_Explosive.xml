@@ -1,8 +1,6 @@
-<Actor type="Player" name="NPC" State="0" >
+<Actor type="Zombie" name="NPC" State="0" >
 
 	<Creature HP="100" AC="100" />
-	<Info Team="1" WP="0"/>
-	<Character Data="SAS" />
 	
 	<Component>	
 		<AnimationComponent>

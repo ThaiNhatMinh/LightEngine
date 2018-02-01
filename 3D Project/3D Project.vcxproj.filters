@@ -44,9 +44,6 @@
     <ClInclude Include="Graphics3D\SkeMesh.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\AnimationDef.h">
-      <Filter>Graphics3D</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Actor.h">
       <Filter>GameObject</Filter>
     </ClInclude>
@@ -263,8 +260,30 @@
     <ClInclude Include="MyGame\GunPlayerView.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="interface.h">
+    <ClInclude Include="MyGame\Zombie.h">
       <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlugin\IGamePlugin.h">
+      <Filter>GamePlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlugin\IContextDLL.h">
+      <Filter>GamePlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="interface.h" />
+    <ClInclude Include="GamePlugin\GamePluginManager.h">
+      <Filter>GamePlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlugin\ContextDLL.h">
+      <Filter>GamePlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlugin\DLLInterface.h">
+      <Filter>GamePlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IPhysic.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IRenderer.h">
+      <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -462,12 +481,23 @@
     <ClCompile Include="MyGame\HitBox.cpp">
       <Filter>MyGame\Component</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame\GunPlayerView.cpp" />
     <ClCompile Include="Graphics3D\ICamera.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\StaticObject.cpp">
       <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\GunPlayerView.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlugin\GamePluginManager.cpp">
+      <Filter>GamePlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlugin\ContextDLL.cpp">
+      <Filter>GamePlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Zombie.cpp">
+      <Filter>MyGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -536,6 +566,12 @@
     </Filter>
     <Filter Include="MyGame\Component">
       <UniqueIdentifier>{b5ee274c-05cc-4339-870d-3b1aea57751c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GamePlugin">
+      <UniqueIdentifier>{71709d11-4ce1-46cb-b786-e4d5f3f1dc46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{280df749-e0a1-42f3-b8f6-4cc15a6c6d1a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

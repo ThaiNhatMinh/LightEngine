@@ -59,7 +59,8 @@ void PlayerView::PostInit(void)
 
 HRESULT PlayerView::VRender(Scene * pScene)
 {
-	
+	ICamera* pCam = Camera::GetCurrentCamera();
+	m_Context->m_pDebuger->DrawLine(pCam->GetPosition(), pCam->GetFront()*1000.0f,vec3(1.0f));
 	pScene->PushLastActor(this);
 
 	return S_OK;

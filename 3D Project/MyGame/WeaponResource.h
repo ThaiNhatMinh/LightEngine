@@ -11,7 +11,7 @@ public:
 	string ModelTex;
 	string PVModelFile;
 	string PVTexFile;
-	string GViewAnimName;
+	int GViewAnimName;
 	int Range;
 	int MaxAmmo;
 	int AmmoPerMagazine;

@@ -9,9 +9,6 @@ bool Weapon::Init(const tinyxml2::XMLElement * pData)
 	const tinyxml2::XMLElement* pInfo = pData->FirstChildElement("Info");
 	if (pInfo)
 	{
-		//GViewAnimName = pInfo->Attribute("GViewAnimName");
-		//PVFileName = pInfo->Attribute("PVModel");
-		//WeaponSlot = pInfo->Int64Attribute("WeaponSlot",-1);
 		const char* pName = pInfo->Attribute("Name");
 		WeaponInfo = Game::LoadWeaponInfo(pName);
 	}
@@ -23,7 +20,7 @@ void Weapon::PostInit(void)
 {
 	m_ParentAnim = m_pParent->GetComponent<AnimationComponent>(AnimationComponent::Name);
 
-	m_ParentAnim->Play(blendset::null,WeaponInfo.GViewAnimName,1);
+	m_ParentAnim->Play(AnimationComponent::fullbody,WeaponInfo.GViewAnimName,1);
 
 	if (m_pParent->VGetTag() == "Player")
 	{

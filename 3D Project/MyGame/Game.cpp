@@ -10,6 +10,7 @@ void Game::Init(Context *c)
 	c->m_pActorFactory->RegisterActorFactory("PlayerView", [](int id) {return new PlayerView(id); });
 	c->m_pActorFactory->RegisterActorFactory("Weapon", [](int id) {return new Weapon(id); });
 	c->m_pActorFactory->RegisterActorFactory("GunPlayerView", [](int id) {return new GunPlayerView(id); });
+	c->m_pActorFactory->RegisterActorFactory("Zombie", [](int id) {return new Zombie(id); });
 
 	//LoadWeapon();
 	//LoadCharacter();
@@ -17,21 +18,6 @@ void Game::Init(Context *c)
 	m_Scene = std::unique_ptr<Scene>(new Scene(c));
 	m_Scene->LoadScene("GameAssets\\ACTOR\\Scene.xml");
 	
-	/*Actor* root = m_Scene->GetRoot();
-	for(int i=-5; i<=5; i++)
-		for (int j = -5; j <= 5; j++)
-		{
-			mat4 pos = glm::translate(mat4(), vec3(i * 200+0, 150, j * 200+0));
-			Actor* p = c->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\NPC.xml", nullptr,&pos );
-			root->VAddChild(std::unique_ptr<Actor>(p));
-		}*/
-	// send wp data;
-	//std::shared_ptr<const IEvent> p2(new EvtData_PlayerCharData(m_CharacterResources));
-	//c->m_pEventManager->VTriggerEvent(p2);
-	//std::shared_ptr<const IEvent> p(new EvtData_PlayerWpData(m_WeaponResources));
-	//c->m_pEventManager->VTriggerEvent(p);
-	
-	//c->m_pConsole->RegisterVar("test_cmd", test, 4, sizeof(int), TYPE_INT);
 
 }
 

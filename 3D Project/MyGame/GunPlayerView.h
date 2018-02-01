@@ -37,7 +37,8 @@ public:
 	void Run();
 
 	void SetData(ModelCache* pModel);
-
+protected:
+	void ShootRayCast();
 
 private:
 	

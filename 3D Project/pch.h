@@ -109,6 +109,9 @@ using glm::quat;
 // Interface
 #include "interface.h"
 
+#include "Interface\IPhysic.h"
+#include "Interface\IRenderer.h"
+
 #include "Utilities\Module.h"
 #include "Core\Log.h"
 #include "Utilities\Input.h"
@@ -131,7 +134,7 @@ using glm::quat;
 #include "Graphics3D\Material.h"
 #include "Graphics3D\Mesh.h"
 #include "Graphics3D\SkeMesh.h"
-#include "Graphics3D\AnimationDef.h"
+//#include "Graphics3D\AnimationDef.h"
 //#include "Graphics3D\SkeAnimation.h"
 #include "Graphics3D\Light.h"
 #include "Graphics3D\TexShader.h"
