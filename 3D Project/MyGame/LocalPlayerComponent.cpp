@@ -208,7 +208,7 @@ const char * LocalPlayerComponent::VGetName() const
 	return Name;
 }
 
-void LocalPlayerComponent::PhysicCollisionEvent(std::shared_ptr<const IEvent> pEvent)
+void LocalPlayerComponent::PhysicCollisionEvent(std::shared_ptr<IEvent> pEvent)
 {
 	const EvtData_PhysOnCollision* p = static_cast<const EvtData_PhysOnCollision*>(pEvent.get());
 	if (p->GetActorA()->GetId() != m_pOwner->GetId() && p->GetActorB()->GetId() != m_pOwner->GetId()) return;
@@ -222,7 +222,7 @@ void LocalPlayerComponent::PhysicCollisionEvent(std::shared_ptr<const IEvent> pE
 
 }
 
-void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEvent)
+void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<IEvent> pEvent)
 {
 
 	const EvtData_PhysPreStep *p = static_cast<const EvtData_PhysPreStep*>(pEvent.get());
@@ -275,7 +275,7 @@ void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEve
 	m_bOnGround = false;
 }
 
-void LocalPlayerComponent::PhysicPostStepEvent(std::shared_ptr<const IEvent> pEvent)
+void LocalPlayerComponent::PhysicPostStepEvent(std::shared_ptr<IEvent> pEvent)
 {
 
 }

@@ -1,6 +1,6 @@
 <Actor type="Zombie" name="NPC" State="0" >
 
-	<Creature HP="100" AC="100" />
+	<Creature HP="600" AC="100" />
 	
 	<Component>	
 		<AnimationComponent>

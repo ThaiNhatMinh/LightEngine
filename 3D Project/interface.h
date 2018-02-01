@@ -137,7 +137,7 @@ public:
 
 class IEvent;
 typedef unsigned long EventType;
-typedef fastdelegate::FastDelegate1<std::shared_ptr<const IEvent>> EventListenerDelegate;
+typedef fastdelegate::FastDelegate1<std::shared_ptr<IEvent>> EventListenerDelegate;
 //typedef concurrent_queue<IEvent*> ThreadSafeEventQueue;
 
 
@@ -147,15 +147,18 @@ class IEvent
 public:
 	virtual ~IEvent(void) {}
 	virtual const EventType& VGetEventType(void) const = 0;
-	virtual float GetTimeStamp(void) const {
-		return 0;
-	};
 	virtual void VSerialize(std::ostrstream& out) const = 0;
 	virtual void VDeserialize(std::istrstream& in) = 0;
-	virtual IEvent* VCopy(void) const = 0;
 	virtual const char* GetName(void) const = 0;
 
 };
+
+#define EVENT_DEFINE(typeName) \
+	virtual const EventType& VGetEventType(void) const {return sk_EventType;};\
+	virtual void VSerialize(std::ostrstream& out) const{};\
+	virtual void VDeserialize(std::istrstream& in){};\
+	virtual const char* GetName(void) const{return #typeName;};\
+	static const EventType sk_EventType;\
 
 class BaseEventData : public IEvent
 {
@@ -189,12 +192,12 @@ public:
 
 	// Fire off event NOW.  This bypasses the queue entirely and immediately calls all delegate functions registered 
 	// for the event.
-	virtual bool VTriggerEvent(std::shared_ptr<const IEvent> pEvent) const = 0;
+	virtual bool VTriggerEvent(std::shared_ptr<IEvent> pEvent) const = 0;
 
 	// Fire off event.  This uses the queue and will call the delegate function on the next call to VTick(), assuming
 	// there's enough time.
-	virtual bool VQueueEvent(std::shared_ptr<const IEvent> pEvent) = 0;
-	virtual bool VThreadSafeQueueEvent(std::shared_ptr<const IEvent> pEvent) = 0;
+	virtual bool VQueueEvent(std::shared_ptr<IEvent> pEvent) = 0;
+	virtual bool VThreadSafeQueueEvent(std::shared_ptr<IEvent> pEvent) = 0;
 
 	// Find the next-available instance of the named event type and remove it from the processing queue.  This 
 	// may be done up to the point that it is actively being processed ...  e.g.: is safe to happen during event

@@ -499,6 +499,7 @@
     <ClCompile Include="MyGame\Zombie.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="MyGame\EvtData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

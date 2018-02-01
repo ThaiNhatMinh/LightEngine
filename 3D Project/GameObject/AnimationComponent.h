@@ -170,7 +170,7 @@ public:
 	virtual void		VPostUpdate();
 	
 	// Event 
-	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
+	void				SetAnimationEvent(std::shared_ptr<IEvent> pEvent);
 	//virtual void		PlayAnimation(int anim,bool fromBaseAnim=true);
 	//virtual void		PlayAnimation(const string& anim, bool v = true);
 	//virtual void		PlayDefaultAnimation();
@@ -218,7 +218,7 @@ public:
 	virtual void		VPostUpdate();
 
 	// Event 
-	void				SetAnimationEvent(std::shared_ptr<const IEvent> pEvent);
+	void				SetAnimationEvent(std::shared_ptr<IEvent> pEvent);
 	virtual void		PlayAnimation(int anim, bool loop = false);
 
 	AABB				GetUserDimesion();

@@ -102,3 +102,18 @@ public:
 	string File;
 	Actor* Parent;
 };*/
+
+class EvtTakeDamage : public IEvent
+{
+public:
+	EvtTakeDamage(Creature* attacker, Creature* victim, int damage);
+	Creature* GetAttacker();
+	Creature* GetVictim();
+	int GetDamage();
+public:
+	EVENT_DEFINE(EvtTakeDamage)
+private:
+	Creature* Attacker;
+	Creature* Victim;
+	int Damage;
+};

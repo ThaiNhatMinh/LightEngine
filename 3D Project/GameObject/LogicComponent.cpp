@@ -85,14 +85,14 @@ void LogicComponent::FixedPostUpdate(float timeStep)
 {
 }
 
-void LogicComponent::PhysicPreStepEvent(std::shared_ptr<const IEvent> pEvent)
+void LogicComponent::PhysicPreStepEvent(std::shared_ptr<IEvent> pEvent)
 {
 	const EvtData_PhysPreStep *p = static_cast<const EvtData_PhysPreStep*>(pEvent.get());
 	FixedUpdate(p->GetTimeStep());
 
 }
 
-void LogicComponent::PhysicPostStepEvent(std::shared_ptr<const IEvent> pEvent)
+void LogicComponent::PhysicPostStepEvent(std::shared_ptr<IEvent> pEvent)
 {
 	const EvtData_PhysPostStep *p = static_cast<const EvtData_PhysPostStep*>(pEvent.get());
 	FixedPostUpdate(p->GetTimeStep());

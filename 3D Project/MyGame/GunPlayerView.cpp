@@ -90,13 +90,15 @@ void GunPlayerView::ShootRayCast()
 
 	if (raycast.position != vec3(0))
 	{
-		printf("Hit enemy: %s\n", raycast.body->GetOwner()->VGetName().c_str());
-		//printf("Index: %d\n", raycast.body->Inside(raycast.position));
+		Creature* attacker = static_cast<Creature*>(m_pParent->VGetParent());
+		Creature* victim = static_cast<Creature*>(raycast.body->GetOwner());
+		std::shared_ptr<IEvent> TakeDamageEvent = std::shared_ptr<IEvent>(new EvtTakeDamage(attacker, victim, 100));
+		m_Context->m_pEventManager->VQueueEvent(TakeDamageEvent);
 		
 	}
 	else
 	{
-		printf("Doesn't hit anything.\n");
+		//printf("Doesn't hit anything.\n");
 	}
 	
 }

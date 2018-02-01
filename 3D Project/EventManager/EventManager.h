@@ -15,7 +15,7 @@ class EventManager : public IEventManager, public ISubSystem
 {
 	typedef std::list<EventListenerDelegate> EventListenerList;
 	typedef std::map<EventType, EventListenerList> EventListenerMap;
-	typedef std::list<std::shared_ptr<const IEvent>> EventQueue;
+	typedef std::list<std::shared_ptr<IEvent>> EventQueue;
 
 	EventListenerMap m_eventListeners;
 	EventQueue m_queues[EVENTMANAGER_NUM_QUEUES];
@@ -37,9 +37,9 @@ public:
 	virtual bool VAddListener(const EventListenerDelegate& eventDelegate, const EventType& type);
 	virtual bool VRemoveListener(const EventListenerDelegate& eventDelegate, const EventType& type);
 
-	virtual bool VTriggerEvent(std::shared_ptr<const IEvent> pEvent) const;
-	virtual bool VQueueEvent(std::shared_ptr<const IEvent> pEvent);
-	virtual bool VThreadSafeQueueEvent(std::shared_ptr<const IEvent> pEvent);
+	virtual bool VTriggerEvent(std::shared_ptr<IEvent> pEvent) const;
+	virtual bool VQueueEvent(std::shared_ptr<IEvent> pEvent);
+	virtual bool VThreadSafeQueueEvent(std::shared_ptr<IEvent> pEvent);
 	virtual bool VAbortEvent(const EventType& type, bool allOfType = false);
 
 	virtual bool VUpdate(unsigned long maxMillis = kINFINITE);

@@ -135,7 +135,7 @@ void Player::SetPVModel()
 	}
 }
 /*
-void Player::EventWeaponData(std::shared_ptr<const IEvent> pEvents)
+void Player::EventWeaponData(std::shared_ptr<IEvent> pEvents)
 {
 	const EvtData_PlayerWpData *p = static_cast<const EvtData_PlayerWpData*>(pEvents.get());
 	AnimationComponent* pAC = GetComponent<AnimationComponent>(AnimationComponent::Name);
@@ -169,7 +169,7 @@ void Player::EventWeaponData(std::shared_ptr<const IEvent> pEvents)
 	
 }
 
-void Player::EventCharacterData(std::shared_ptr<const IEvent> pEvents)
+void Player::EventCharacterData(std::shared_ptr<IEvent> pEvents)
 {
 	const EvtData_PlayerCharData *p = static_cast<const EvtData_PlayerCharData*>(pEvents.get());
 

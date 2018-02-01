@@ -211,7 +211,7 @@ void AnimationComponent::ResetControl(CharAnimControl& control, GLuint anim, Ani
 
 void AnimationComponent::AnimEvent(const string& data)
 {
-	std::shared_ptr<const IEvent> pEvent(new EvtData_AnimationString(m_pOwner->GetId(), data));
+	std::shared_ptr<IEvent> pEvent(new EvtData_AnimationString(m_pOwner->GetId(), data));
 	m_Context->m_pEventManager->VQueueEvent(pEvent);
 }
 
@@ -492,7 +492,7 @@ void AnimationComponent::VPostUpdate()
 }
 
 
-void AnimationComponent::SetAnimationEvent(std::shared_ptr<const IEvent> pEvent)
+void AnimationComponent::SetAnimationEvent(std::shared_ptr<IEvent> pEvent)
 {
 	/*const EvtData_SetAnimation* p = dynamic_cast<const EvtData_SetAnimation*>(pEvent.get());
 
@@ -657,7 +657,7 @@ void PVAnimationComponent::VPostUpdate()
 	}
 }
 
-void PVAnimationComponent::SetAnimationEvent(std::shared_ptr<const IEvent> pEvent)
+void PVAnimationComponent::SetAnimationEvent(std::shared_ptr<IEvent> pEvent)
 {
 	const EvtData_SetAnimation* p = dynamic_cast<const EvtData_SetAnimation*>(pEvent.get());
 

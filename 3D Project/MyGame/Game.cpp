@@ -18,6 +18,7 @@ void Game::Init(Context *c)
 	m_Scene = std::unique_ptr<Scene>(new Scene(c));
 	m_Scene->LoadScene("GameAssets\\ACTOR\\Scene.xml");
 	
+	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &Game::EventTakeDamage), EvtTakeDamage::sk_EventType);
 
 }
 
@@ -110,6 +111,14 @@ WeaponResource Game::LoadWeaponInfo(const string & wpName)
 		
 	}
 
+}
+void Game::EventTakeDamage(std::shared_ptr<IEvent> pEvent)
+{
+	EvtTakeDamage* p = static_cast<EvtTakeDamage*>(pEvent.get());
+
+	cout << p->GetAttacker()->VGetName() << " Attack " << p->GetVictim()->VGetName() << endl;
+	p->GetVictim()->TakeDamage(p->GetDamage());
+	//printf("Index: %d\n", raycast.body->Inside(raycast.position));
 }
 /*
 void Game::LoadWeapon()

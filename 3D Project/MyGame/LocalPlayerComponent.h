@@ -36,7 +36,7 @@ public:
 	virtual const char *VGetName() const;
 
 	// Event
-	void PhysicCollisionEvent(std::shared_ptr<const IEvent> pEvent);
-	void PhysicPreStepEvent(std::shared_ptr<const IEvent> pEvent);
-	void PhysicPostStepEvent(std::shared_ptr<const IEvent> pEvent);
+	void PhysicCollisionEvent(std::shared_ptr<IEvent> pEvent);
+	void PhysicPreStepEvent(std::shared_ptr<IEvent> pEvent);
+	void PhysicPostStepEvent(std::shared_ptr<IEvent> pEvent);
 };

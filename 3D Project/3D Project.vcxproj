@@ -94,8 +94,9 @@
       <PreprocessorDefinitions>WIN32;BUILDING_MYDLL;_DEBUG;_CONSOLE; _CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>E:\Code Collection\3D Project\3D Project;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/Zm112 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -302,6 +303,7 @@
     <ClCompile Include="Math\Frustum.cpp" />
     <ClCompile Include="Math\Plane.cpp" />
     <ClCompile Include="MyGame\Creature.cpp" />
+    <ClCompile Include="MyGame\EvtData.cpp" />
     <ClCompile Include="MyGame\EvtDdata.cpp" />
     <ClCompile Include="MyGame\Game.cpp" />
     <ClCompile Include="MyGame\GunPlayerView.cpp" />

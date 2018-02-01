@@ -12,7 +12,8 @@ public:
 public:
 	static CharacterResource LoadCharacter(const string& file);
 	static WeaponResource LoadWeaponInfo(const string& wpName);
-
+protected:
+	void EventTakeDamage(std::shared_ptr<IEvent> pEvent);
 private:
 	std::unique_ptr<Scene> m_Scene;
 	std::vector<WeaponResource> m_WeaponResources;
