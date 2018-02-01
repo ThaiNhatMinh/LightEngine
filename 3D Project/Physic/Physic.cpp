@@ -245,13 +245,13 @@ void BulletPhysics::VPostStep(float timeStep)
 	SendCollisionEvents();
 
 
-	std::shared_ptr<const IEvent> pEvent(new EvtData_PhysPostStep(timeStep));
+	std::shared_ptr<IEvent> pEvent(new EvtData_PhysPostStep(timeStep));
 	m_Context->m_pEventManager->VTriggerEvent(pEvent);
 }
 
 void BulletPhysics::VPreStep(float timeStep)
 {
-	std::shared_ptr<const IEvent>pEvent(new EvtData_PhysPreStep(timeStep));
+	std::shared_ptr<IEvent>pEvent(new EvtData_PhysPreStep(timeStep));
 	m_Context->m_pEventManager->VTriggerEvent(pEvent);
 }
 
@@ -283,7 +283,7 @@ void BulletPhysics::VSyncVisibleScene()
 			{
 				// Bullet has moved the actor's physics object.  Sync the transform and inform the game an actor has moved
 				pTransformComponent->SetTransform(actorMotionState->m_worldToPositionTransform);
-				std::shared_ptr<const IEvent> pEvent(new EvtData_Move_Actor(id, actorMotionState->m_worldToPositionTransform));
+				std::shared_ptr<IEvent> pEvent(new EvtData_Move_Actor(id, actorMotionState->m_worldToPositionTransform));
 				m_Context->m_pEventManager->VQueueEvent(pEvent);
 			}
 		}
@@ -468,12 +468,12 @@ void BulletPhysics::SendCollisionEvents()
 		{
 			// this is new collision
 			// send the event for the game
-			std::shared_ptr<const IEvent>  pEvent(new EvtData_PhysCollisionStart(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
+			std::shared_ptr<IEvent>  pEvent(new EvtData_PhysCollisionStart(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
 			m_Context->m_pEventManager->VQueueEvent(pEvent);
 		}
 		
 		// send the event for the game
-		std::shared_ptr<const IEvent>  pEvent( new EvtData_PhysOnCollision(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
+		std::shared_ptr<IEvent>  pEvent( new EvtData_PhysOnCollision(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
 		m_Context->m_pEventManager->VQueueEvent(pEvent);
 		
 	}
@@ -503,7 +503,7 @@ void BulletPhysics::SendCollisionEvents()
 			return;
 		}
 
-		std::shared_ptr<const IEvent>  pEvent(new EvtData_PhysCollisionEnd(id0, id1));
+		std::shared_ptr<IEvent>  pEvent(new EvtData_PhysCollisionEnd(id0, id1));
 		m_Context->m_pEventManager->VQueueEvent(pEvent);
 	}
 

@@ -7,6 +7,8 @@ HitBox::HitBox()
 
 HitBox::~HitBox()
 {
+	m_Context->m_pPhysic->GetCollisionWorld()->removeCollisionObject(m_Body);
+	
 }
 
 bool HitBox::VInit(const tinyxml2::XMLElement * pData)

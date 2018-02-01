@@ -8,6 +8,7 @@ RigidBodyComponent::RigidBodyComponent(void):m_pRigidBody(nullptr),m_RigidBodyLo
 
 RigidBodyComponent::~RigidBodyComponent(void)
 {
+	m_Context->m_pPhysic->VRemoveActor(m_pOwner->GetId());
 }
 
 tinyxml2::XMLElement * RigidBodyComponent::VGenerateXml(tinyxml2::XMLDocument * doc)
