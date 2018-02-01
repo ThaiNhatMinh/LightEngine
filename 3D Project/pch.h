@@ -157,6 +157,8 @@ using glm::quat;
 //#include "LuaScripting\ScriptExports.h"
 //#include "EventManager\TestScriptEvent.h"
 
+#include "Sound\SoundEngine.h"
+
 #include "EventManager\EventManager.h"
 #include "EventManager\AnimationEvent.h"
 #include "EventManager\PhysicsEvents.h"

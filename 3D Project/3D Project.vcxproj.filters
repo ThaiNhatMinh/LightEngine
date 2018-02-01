@@ -285,6 +285,9 @@
     <ClInclude Include="Interface\IRenderer.h">
       <Filter>Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Sound\SoundEngine.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -500,6 +503,9 @@
       <Filter>MyGame</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\EvtData.cpp" />
+    <ClCompile Include="Sound\SoundEngine.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -573,6 +579,9 @@
     </Filter>
     <Filter Include="Interface">
       <UniqueIdentifier>{280df749-e0a1-42f3-b8f6-4cc15a6c6d1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{112c080b-5b0e-489d-9d0f-0df7db6d537a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
