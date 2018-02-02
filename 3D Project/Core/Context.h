@@ -12,6 +12,7 @@ class BulletPhysics;
 class SystemUI;
 class ActorFactory;
 class EffectSystem;
+class SoundEngine;
 class Context
 {
 public:
@@ -31,7 +32,7 @@ public:
 	std::unique_ptr<BulletPhysics>		m_pPhysic;
 	std::unique_ptr<ActorFactory>		m_pActorFactory;
 	std::unique_ptr<EffectSystem>		m_pEffectSystem;
-
+	std::unique_ptr<SoundEngine>		m_pSoundEngine;
 
 	Context();
 	~Context();

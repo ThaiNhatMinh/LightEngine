@@ -17,6 +17,7 @@ void Application::SetupSubmodule()
 	SystemUI		*S = new SystemUI();
 	ActorFactory	*A = new ActorFactory();
 	EffectSystem	*ES = new EffectSystem();
+	SoundEngine		*SE = new SoundEngine();
 	Actor::m_Context = C;
 	ActorComponent::m_Context = C;
 	ISubSystem::m_Context = C;
@@ -41,6 +42,9 @@ void Application::SetupSubmodule()
 	G->Init(C);
 
 	ES->Init(C);
+
+	SE->Init(C);
+
 	m_Context = std::unique_ptr<Context>(C);
 
 	Con->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
@@ -77,6 +81,7 @@ void Application::MainLoop()
 	SystemUI		*S = m_Context->m_pSystemUI.get();
 	Debug			*Db = m_Context->m_pDebuger.get();
 	EffectSystem	*ES = m_Context->m_pEffectSystem.get();
+	SoundEngine		*SE = m_Context->m_pSoundEngine.get();
 	Scene			*pScene = m_Game->GetScene();
 
 	auto b = Sprite(m_Context->m_pResources->GetTexture("TEXTURES\\ESCAPE.DTX"));
@@ -131,6 +136,8 @@ void Application::MainLoop()
 			B->VSyncVisibleScene();
 		}
 
+		// Update sound
+		SE->Update();
 		if (m_DebugPhysic) B->VRenderDiagnostics();
 		
 

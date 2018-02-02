@@ -1,6 +1,6 @@
 #pragma once
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
+
+#include <fmod.hpp>
 
 class SoundEngine :public ISubSystem
 {
@@ -10,7 +10,9 @@ public:
 	virtual void Init(Context* c);
 	virtual void ShutDown();
 
+	void Update();
+
 private:
-	ALCdevice* m_pSoundDevice;
-	ALCcontext* m_pSoundContext;
+	FMOD::System* m_pSystem;
 };
+
