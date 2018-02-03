@@ -1,5 +1,11 @@
 #include "pch.h"
 #include <fmod_errors.h>
+
+
+SoundEngine::SoundEngine() :m_pListener(nullptr)
+{
+}
+
 void SoundEngine::Init(Context * c)
 {
 	FMOD_RESULT result; 
@@ -21,6 +27,7 @@ void SoundEngine::Init(Context * c)
 		printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
 	}
 
+	m_pSystem->set3DSettings(1.0f, 1.0f, 1.0f);
 	c->m_pSoundEngine = std::unique_ptr<SoundEngine>(this);
 	
 	/*FMOD::Sound *pSound;
@@ -38,7 +45,21 @@ void SoundEngine::ShutDown()
 	m_pSystem->release();
 }
 
+void SoundEngine::SetListener(SoundListener * listener)
+{
+	m_pListener = listener;
+}
+
 void SoundEngine::Update()
 {
+	assert(m_pListener != nullptr);
+	SoundListener::ListenerAttribute attribute = m_pListener->GetListenAttribute();
+	m_pSystem->set3DListenerAttributes(attribute.id, &attribute.pos, nullptr, &attribute.forward, &attribute.up);
 	m_pSystem->update();
 }
+
+FMOD::System * SoundEngine::GetFMODSystem()
+{
+	return m_pSystem;
+}
+
