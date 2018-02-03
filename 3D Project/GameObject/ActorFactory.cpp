@@ -25,6 +25,8 @@ ActorFactory::ActorFactory()
 	m_ComponentFactoryMap.insert(std::make_pair(TerrainRenderComponent::Name, []() { return new TerrainRenderComponent(); }));
 	m_ComponentFactoryMap.insert(std::make_pair(CameraComponent::Name, [](){ return  new CameraComponent(); }));
 	m_ComponentFactoryMap.insert(std::make_pair(HitBox::Name, []() { return  new HitBox(); }));
+	m_ComponentFactoryMap.insert(std::make_pair(SoundListener::Name, []() { return  new SoundListener(); }));
+	m_ComponentFactoryMap.insert(std::make_pair(SoundSource3D::Name, []() { return  new SoundSource3D(); }));
 	
 	
 	m_ActorFactoryMap.insert(std::make_pair("Actor", [](int id) {return new Actor(id); }));

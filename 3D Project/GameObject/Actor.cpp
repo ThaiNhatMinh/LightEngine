@@ -82,10 +82,9 @@ void Actor::VSetTransform(const mat4& toWorld)
 	m_TransformComponent->SetTransform(toWorld);
 }
 
-mat4 Actor::VGetTransform()
+const mat4& Actor::VGetTransform()const 
 {
-	mat4 transform = m_TransformComponent->GetTransform();
-	return transform;
+	return m_TransformComponent->GetTransform();
 }
 
 mat4 Actor::VGetGlobalTransform()

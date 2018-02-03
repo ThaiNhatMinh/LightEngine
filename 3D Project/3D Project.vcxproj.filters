@@ -288,6 +288,12 @@
     <ClInclude Include="Sound\SoundEngine.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="Sound\SoundListener.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\SoundSource3D.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -502,9 +508,17 @@
     <ClCompile Include="MyGame\Zombie.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame\EvtData.cpp" />
     <ClCompile Include="Sound\SoundEngine.cpp">
       <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\SoundListener.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\SoundSource3D.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\EvtData.cpp">
+      <Filter>MyGame\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

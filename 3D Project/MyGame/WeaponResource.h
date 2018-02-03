@@ -11,6 +11,10 @@ public:
 	string ModelTex;
 	string PVModelFile;
 	string PVTexFile;
+	string ShotSoundName;
+	string MagazineClipOutSoundName;
+	string MagazineClipInSoundName;
+	string ReloadSoundName;
 	int GViewAnimName;
 	int Range;
 	int MaxAmmo;

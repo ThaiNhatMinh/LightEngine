@@ -18,7 +18,7 @@ public:
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p);
 
 	// transform functions
-	mat4 GetTransform(void) const { return m_Transform; }
+	const mat4& GetTransform(void) const { return m_Transform; }
 	mat4& GetTransform(void) { return m_Transform; }
 	void SetTransform(const mat4& newTransform);
 	vec3 GetPosition(void) const { return vec3(m_Transform[3]); }

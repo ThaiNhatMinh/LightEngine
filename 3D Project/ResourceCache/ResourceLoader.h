@@ -1,6 +1,7 @@
 #pragma once
 #include <pch.h>
 #include "GameObject\ColliderComponent.h"
+#include <fmod.hpp>
 
 struct DtxHeader
 {
@@ -39,23 +40,36 @@ class SpriteAnim;
 class Resources : public ISubSystem
 {
 private:
+	class SoundRAAI
+	{
+	public:
+		string FilePath;
+		SoundRAAI(FMOD::Sound *p) :m_pSound(p) {};
+		~SoundRAAI() { m_pSound->release(); };
+		FMOD::Sound* GetSound() { return m_pSound; }
+	private:
+		FMOD::Sound* m_pSound;
+	};
 	vector<std::unique_ptr<Texture>> m_Textures;
 	vector<std::unique_ptr<ModelCache>> m_ModelCaches;
 	vector<std::unique_ptr<HeightMap>> m_HeightMaps;
 	vector<std::unique_ptr<SpriteAnim>> m_SpriteLists;
 	map<string, std::unique_ptr<Shader>> m_ShaderList;
+	map<string, std::unique_ptr<SoundRAAI>> m_SoundList;
 	
-	// this list store primitive shape 
 	vector<std::unique_ptr<IMesh>>	m_PrimList;
 	// Default texture when can't found tex
 	Texture* m_pDefaultTex;
 	// Path to resource
 	std::string		m_Path;
+
+	FMOD::System* m_FMOD;
 private:
 	Texture*		HasTexture(const string& filename);
 	ModelCache*		HasModel(const string& filename);
 	HeightMap*		HasHeighMap(const string& filename);
 	SpriteAnim*		HasSprite(const string& filename);
+	SoundRAAI*		HasSound(const string& tag);
 
 	SpriteAnim*		LoadSpriteAnimation(const string& filename);
 	HeightMap*		LoadHeightMap(const string& filename, int size, int w, int h,float hscale, int sub);
@@ -66,8 +80,8 @@ private:
 	unsigned char*	LoadHeightMap(const string& filename, int& w, int& h);
 	ModelCache*		LoadModel(const string& filename);
 	ModelCache*		LoadModelXML(const string& filename);
-	
-	Shader* LoadShader(string key,const char* type, const char* vs, const char* fs, bool linkshader = true);
+	SoundRAAI*		LoadSound(const string& filename, const string& tag, int mode);
+	Shader*			LoadShader(string key,const char* type, const char* vs, const char* fs, bool linkshader = true);
 
 	void LoadResources(string path);
 
@@ -83,6 +97,7 @@ public:
 	Texture*	GetTexture(const string& filename);
 	ModelCache*	GetModel(const string& filename);
 	HeightMap*	GetHeightMap(const string& filename);
+	FMOD::Sound*GetSound(const string& tag);
 
 	const char* GetPath(Shader* p) { return nullptr; };
 	const char* GetPath(Texture* p) { return nullptr; };

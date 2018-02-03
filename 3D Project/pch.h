@@ -158,6 +158,8 @@ using glm::quat;
 //#include "EventManager\TestScriptEvent.h"
 
 #include "Sound\SoundEngine.h"
+#include "Sound\SoundListener.h"
+#include "Sound\SoundSource3D.h"
 
 #include "EventManager\EventManager.h"
 #include "EventManager\AnimationEvent.h"

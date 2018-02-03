@@ -244,6 +244,8 @@
     <ClInclude Include="ResourceCache\ResourceLoader.h" />
     <ClInclude Include="ResourceCache\Texture.h" />
     <ClInclude Include="Sound\SoundEngine.h" />
+    <ClInclude Include="Sound\SoundListener.h" />
+    <ClInclude Include="Sound\SoundSource3D.h" />
     <ClInclude Include="Utilities\PhysicsUtilities.h" />
     <ClInclude Include="Utilities\PrimitiveShape\Cube.h" />
     <ClInclude Include="Utilities\PrimitiveShape\Line.h" />
@@ -325,6 +327,8 @@
     <ClCompile Include="ResourceCache\ResourceLoader.cpp" />
     <ClCompile Include="ResourceCache\Texture.cpp" />
     <ClCompile Include="Sound\SoundEngine.cpp" />
+    <ClCompile Include="Sound\SoundListener.cpp" />
+    <ClCompile Include="Sound\SoundSource3D.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Utilities\Input.cpp" />
     <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp" />

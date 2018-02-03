@@ -22,28 +22,32 @@ void Application::SetupSubmodule()
 	ActorComponent::m_Context = C;
 	ISubSystem::m_Context = C;
 
-	
+	// Init Windows
 	W->Init(C);
+	// Init Renderer
 	O->Init(C);
-	
-	
+	// Init Event system
 	E->Init(C);
+	// Init factory
 	A->Init(C);
-	R->Init(C);
-	S->Init(C);
-	Con->Init(C);
-
-	
-	D->Init(C);
-	Db->Init(C);
-	B->Init(C);
-	
-
-	G->Init(C);
-
-	ES->Init(C);
-
+	// init sound engine
 	SE->Init(C);
+	// init resource
+	R->Init(C);
+	// init system UI
+	S->Init(C);
+	// init console
+	Con->Init(C);
+	// init input
+	D->Init(C);
+	// init debug renderer
+	Db->Init(C);
+	// init bullets physic
+	B->Init(C);
+	// init timer
+	G->Init(C);
+	//init effect system
+	ES->Init(C);
 
 	m_Context = std::unique_ptr<Context>(C);
 

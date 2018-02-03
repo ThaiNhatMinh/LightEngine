@@ -43,5 +43,7 @@ protected:
 private:
 	
 	WeaponState				m_State;
+	// map state to animation index
 	map<GunAnimation, int>	m_AnimationMap;
+	map<GunAnimation, int>	m_SoundMap;
 };

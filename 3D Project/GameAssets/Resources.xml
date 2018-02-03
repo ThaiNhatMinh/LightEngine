@@ -34,4 +34,10 @@
 	
 	<Model File="MODELS\CHARACTER\M-MOTION.LTB" />
 	<Model File="MODELS\CHARACTER\AI\AI_M-MOTION_EXPLOSIVE.LTB" />
+	
+	<Sound Tag="ShootAK47" File="SOUND\WEAPON\AK47\G_SHOOT_AK47_1.WAV" Mode="16" />
+	<Sound Tag="ClipOutAK47" File="SOUND\WEAPON\AK47\G_MZC_AK47_CLIPOUT.WAV" Mode="16" />
+	<Sound Tag="ClipInAK47" File="SOUND\WEAPON\AK47\G_MZC_AK47_CLIPIN.WAV" Mode="16" />
+	<Sound Tag="ReloadAK47" File="SOUND\WEAPON\AK47\G_RELOAD_AK47.WAV" Mode="16" />
+	
 </Resources>

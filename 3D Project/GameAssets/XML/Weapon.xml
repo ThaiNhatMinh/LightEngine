@@ -9,6 +9,7 @@
     <PViewSkinFileName File="TEXTURES\PLAYERVIEW\PV-AK47.DTX"/>
     <GViewAnimName Index="96"/>
     <Info Range="300.0" MaxAmmo="60" AmmoPerMagazine="30" AmmoDamage="116" TargetSlot="0" />
+	<Sound ShotSoundName="ShootAK47" MagazineClipOutSoundName="ClipOutAK47" MagazineClipInSoundName="ClipInAK47" ReloadSoundName="ReloadAK47" />
   </AK47>
   <M4A1>
     <Class Class="3"/>

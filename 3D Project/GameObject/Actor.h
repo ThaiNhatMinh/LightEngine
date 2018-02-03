@@ -41,7 +41,7 @@ public:
 	virtual void		VSetTag(string tag) { m_Tag=tag; };
 	virtual string		VGetTag() { return m_Tag; };
 	virtual void		VSetTransform(const mat4& toWorld);
-	virtual mat4		VGetTransform();
+	virtual const mat4&	VGetTransform()const;
 	virtual mat4		VGetGlobalTransform();
 	virtual HRESULT		VOnUpdate(Scene *, float elapsedMs);
 	virtual HRESULT		VPostUpdate(Scene *);

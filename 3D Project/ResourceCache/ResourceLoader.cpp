@@ -4,6 +4,7 @@
 #include "LTBFileLoader.h"
 
 #include "..\Graphics3D\SpriteAnim.h"
+#include <fmod_errors.h>
 
 namespace LightEngine
 {
@@ -50,6 +51,12 @@ SpriteAnim * Resources::HasSprite(const string& filename)
 
 	return nullptr;
 }
+Resources::SoundRAAI * Resources::HasSound(const string & tag)
+{
+	auto result = m_SoundList.find(tag);
+	if(result== m_SoundList.end()) return nullptr;
+	else return result->second.get();
+}
 #pragma endregion
 
 Resources::Resources()
@@ -78,7 +85,8 @@ void Resources::Init(Context* c)
 	LoadResources("GameAssets/" + string(LightEngine::RESOURCES_FILE));
 
 	c->m_pResources = std::unique_ptr<Resources>(this);
-		
+
+	m_FMOD = c->m_pSoundEngine->GetFMODSystem();
 }
 
 SpriteAnim * Resources::LoadSpriteAnimation(const string& filename)
@@ -703,6 +711,33 @@ ModelCache * Resources::LoadModelXML(const string& XMLFile)
 	}
 }
 
+Resources::SoundRAAI * Resources::LoadSound(const string & filename, const string& tag, int mode)
+{
+	SoundRAAI* pSound = nullptr;
+	if ((pSound = HasSound(tag)))
+	{
+		E_ERROR("Sound: " + tag + "has been exits.");
+		return nullptr;
+	}
+
+	FMOD::Sound* pFMODSound=nullptr;
+	FMOD::System* pSystem = m_Context->m_pSoundEngine->GetFMODSystem();
+	FMOD_RESULT result;
+
+	string fullpath = m_Path + filename;
+	if ((result = pSystem->createSound(fullpath.c_str(), mode, 0, &pFMODSound)) != FMOD_OK)
+	{
+		E_ERROR("Can't create sound: " + fullpath);
+		printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+		return nullptr;
+	}
+	pFMODSound->set3DMinMaxDistance(0.5f, 10000.0f);
+	pSound = new SoundRAAI(pFMODSound);
+	pSound->FilePath = filename;
+
+	return pSound;
+}
+
 Shader * Resources::LoadShader(string key, const char* type, const char * vs, const char* fs, bool linkshader)
 {
 	auto pos = m_ShaderList.find(key);
@@ -752,6 +787,13 @@ HeightMap * Resources::GetHeightMap(const string& filename)
 	HeightMap* hm = nullptr;
 	hm = HasHeighMap(filename);
 	return hm;
+}
+
+FMOD::Sound * Resources::GetSound(const string & tag)
+{
+	SoundRAAI* pSound = HasSound(tag);
+	if (pSound) return pSound->GetSound();
+	return nullptr;
 }
 
 IMesh * Resources::CreateShape(ShapeType type,float* size)
@@ -827,6 +869,18 @@ void Resources::LoadResources(string path)
 		{
 			const char* pFile = pNode->Attribute("File");
 			if (pFile) LoadSpriteAnimation(pFile);
+		}
+		else if (!strcmp(name, "Sound"))
+		{
+			
+			const char* pFile = pNode->Attribute("File");
+			const char* pTag = pNode->Attribute("Tag");
+			unsigned int mode = pNode->Int64Attribute("Mode", FMOD_DEFAULT);
+			SoundRAAI* pSound = LoadSound(pFile, pTag, mode);
+			if (pSound)
+			{
+				m_SoundList.insert({ pTag,std::unique_ptr<SoundRAAI>(pSound) });
+			}
 		}
 	}
 }

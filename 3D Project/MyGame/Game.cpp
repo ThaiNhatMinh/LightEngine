@@ -107,6 +107,15 @@ WeaponResource Game::LoadWeaponInfo(const string & wpName)
 		wr.AmmoPerMagazine = pNode->FirstChildElement("Info")->DoubleAttribute("AmmoPerMagazine");
 		wr.AmmoDamage = pNode->FirstChildElement("Info")->DoubleAttribute("AmmoDamage");
 		wr.TargetSlot = pNode->FirstChildElement("Info")->DoubleAttribute("TargetSlot");
+		tinyxml2::XMLElement* pSound = pNode->FirstChildElement("Sound");
+		if (pSound)
+		{
+			wr.ShotSoundName = pSound->Attribute("ShotSoundName");
+			wr.MagazineClipInSoundName = pSound->Attribute("MagazineClipInSoundName");
+			wr.MagazineClipOutSoundName = pSound->Attribute("MagazineClipOutSoundName");
+			wr.ReloadSoundName = pSound->Attribute("ReloadSoundName");
+		}
+
 		return wr;
 		
 	}
