@@ -21,5 +21,7 @@
 			<Sound Tag="ClipInAK47"/>
 			<Sound Tag="ReloadAK47"/>
 		</SoundSource3D>
+		<SoundListener>
+		</SoundListener>
 	</Component>
 </Actor>

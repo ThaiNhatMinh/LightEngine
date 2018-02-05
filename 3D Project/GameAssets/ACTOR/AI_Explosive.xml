@@ -31,7 +31,9 @@
 		 
 			<Shader name="SkeShader" />
 		</MeshRenderComponent>
-  
+		<SoundSource3D>
+			<Sound Tag="BGMusic"/>
+		</SoundSource3D>
   </Component>
   <Children>
 

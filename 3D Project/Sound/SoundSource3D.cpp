@@ -13,6 +13,7 @@ bool SoundSource3D::VInit(const tinyxml2::XMLElement * pData)
 		{
 			const char* pTag = pNode->Attribute("Tag");
 			FMOD::Sound* pSound = m_Context->m_pResources->GetSound(pTag);
+			pSound->setMode(FMOD_3D_LINEARROLLOFF);
 			if (pSound) m_SoundMap.insert({ pTag,pSound });
 		}
 	}

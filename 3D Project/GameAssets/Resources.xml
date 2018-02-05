@@ -39,5 +39,6 @@
 	<Sound Tag="ClipOutAK47" File="SOUND\WEAPON\AK47\G_MZC_AK47_CLIPOUT.WAV" Mode="16" />
 	<Sound Tag="ClipInAK47" File="SOUND\WEAPON\AK47\G_MZC_AK47_CLIPIN.WAV" Mode="16" />
 	<Sound Tag="ReloadAK47" File="SOUND\WEAPON\AK47\G_RELOAD_AK47.WAV" Mode="16" />
+	<Sound Tag="BGMusic" File="SOUND\AI_BOOSTINGFULL.WAV" Mode="16" />
 	
 </Resources>
