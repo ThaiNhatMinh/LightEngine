@@ -1,8 +1,7 @@
 #pragma once
 
 #include <BulletCollision\CollisionDispatch\btGhostObject.h>
-// player character
-
+// Actor who has weapon and can free to move
 class Player : public Creature
 {
 public:

@@ -89,7 +89,7 @@ void Application::MainLoop()
 	Scene			*pScene = m_Game->GetScene();
 
 	
-	auto b = Sprite(m_Context->m_pResources->GetTexture("TEXTURES\\ESCAPE.DTX"));
+	/*auto b = Sprite(m_Context->m_pResources->GetTexture("TEXTURES\\ESCAPE.DTX"));
 	b.GetPos() = vec3(100, 150, 100);
 	ES->AddSprite(b);
 
@@ -108,7 +108,7 @@ void Application::MainLoop()
 	
 	c = m_Context->m_pResources->GetSpriteAnimation("SGFX_se_fire_explode_01.SPR");
 	c->GetPos() = vec3(350, 250, 100);
-	ES->AddSprite(c);
+	ES->AddSprite(c);*/
 	
 	m_Context->m_pWindows->ShowWindows();
 

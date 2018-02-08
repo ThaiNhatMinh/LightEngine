@@ -8,7 +8,7 @@ public:
 	~Zombie();
 
 	//virtual bool				Init(const tinyxml2::XMLElement* pData);
-	//virtual void				PostInit(void);
+	virtual void				PostInit(void);
 	virtual bool				VIsVisible(Scene * pScene) const;
 	virtual HRESULT				VRender(Scene* pScene) override;
 	//virtual bool				VAddChild(std::unique_ptr<Actor> kid);

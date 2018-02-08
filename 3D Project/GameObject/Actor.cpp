@@ -46,13 +46,12 @@ HRESULT Actor::VOnUpdate(Scene *pScene, float deltaMs)
 		it->second->VUpdate(deltaMs);
 	}
 
-	ActorList::iterator i = m_Children.begin();
-	ActorList::iterator end = m_Children.end();
-
-	while (i != end)
+	
+	for(ActorList::iterator i = m_Children.begin();i!= m_Children.end();i++)
 	{
+		
+		if(m_Name =="Root Scene") cout << (*i)->VGetName() << endl;;
 		(*i)->VOnUpdate(pScene, deltaMs);
-		++i;
 	}
 	return S_OK;
 
@@ -181,9 +180,11 @@ bool Actor::VRemoveChild(ActorId id)
 		if ((*it)->GetId() == id)
 		{
 			m_Children.erase(it);
+			cout <<m_Name << " " << m_Children.size() << endl;
 			return true;
 		}
 	}
+
 	return false;
 }
 

@@ -45,7 +45,7 @@ void GunPlayerView::Shoot()
 void GunPlayerView::Reload()
 {
 	GetComponent<PVAnimationComponent>(PVAnimationComponent::Name)->PlayAnimation(m_AnimationMap[RELOAD]);
-	GetComponent<SoundSource3D>(SoundSource3D::Name)->Play("ReloadAK47");
+	if (m_State == WS_IDLE)GetComponent<SoundSource3D>(SoundSource3D::Name)->Play("ReloadAK47");
 	m_State = WS_RELOADING;
 }
 
@@ -98,6 +98,8 @@ void GunPlayerView::ShootRayCast()
 		Creature* victim = static_cast<Creature*>(raycast.body->GetOwner());
 		std::shared_ptr<IEvent> TakeDamageEvent = std::shared_ptr<IEvent>(new EvtTakeDamage(attacker, victim, 100));
 		m_Context->m_pEventManager->VQueueEvent(TakeDamageEvent);
+		std::shared_ptr<IEvent> CreateBlood = std::shared_ptr<IEvent>(new EvtRequestCreateSprite("BLOOD3.SPR", raycast.position - pCam->GetFront()*10.0f));
+		m_Context->m_pEventManager->VQueueEvent(CreateBlood);
 		
 	}
 	else

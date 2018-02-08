@@ -256,6 +256,11 @@ void AnimationComponent::SetBoneEdit(float yaw, float pitch)
 	m_Pitch = pitch;
 }
 
+bool AnimationComponent::IsFinish()
+{
+	return m_Controls.front().m_bFinished;
+}
+
 
 
 

@@ -192,7 +192,7 @@ void BulletPhysics::RayCast(PhysicsRaycastResult & result, const Ray & r, float 
 		result.distance = (result.position - r.pos).length();
 		result.hitFraction = raycallback.m_closestHitFraction;
 		result.body = static_cast<HitBox*>(raycallback.m_collisionObject->getUserPointer());
-		cout << "Hit name: " << raycallback.m_collisionObject->getCollisionShape()->getName() << endl;
+		//cout << "Hit name: " << raycallback.m_collisionObject->getCollisionShape()->getName() << endl;
 		
 	}
 	else

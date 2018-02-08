@@ -260,9 +260,6 @@
     <ClInclude Include="MyGame\GunPlayerView.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame\Zombie.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
     <ClInclude Include="GamePlugin\IGamePlugin.h">
       <Filter>GamePlugin</Filter>
     </ClInclude>
@@ -293,6 +290,12 @@
     </ClInclude>
     <ClInclude Include="Sound\SoundSource3D.h">
       <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Zombie.h">
+      <Filter>MyGame\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\AI_Explosive.h">
+      <Filter>MyGame\Zombie</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -505,9 +508,6 @@
     <ClCompile Include="GamePlugin\ContextDLL.cpp">
       <Filter>GamePlugin</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame\Zombie.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
     <ClCompile Include="Sound\SoundEngine.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
@@ -519,6 +519,12 @@
     </ClCompile>
     <ClCompile Include="MyGame\EvtData.cpp">
       <Filter>MyGame\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Zombie.cpp">
+      <Filter>MyGame\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\AI_Explosive.cpp">
+      <Filter>MyGame\Zombie</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -596,6 +602,9 @@
     </Filter>
     <Filter Include="Sound">
       <UniqueIdentifier>{112c080b-5b0e-489d-9d0f-0df7db6d537a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyGame\Zombie">
+      <UniqueIdentifier>{4bf575f7-052a-45e0-a9b8-7b0a830492d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

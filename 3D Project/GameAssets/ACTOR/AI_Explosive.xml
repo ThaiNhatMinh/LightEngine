@@ -1,11 +1,11 @@
-<Actor type="Zombie" name="NPC" State="0" >
+<Actor type="AIExplosive" name="NPC" State="0" >
 
 	<Creature HP="600" AC="100" />
 	
 	<Component>	
 		<AnimationComponent>
 			<Model File="MODELS\CHARACTER\AI\AI_M-MOTION_EXPLOSIVE.LTB" />
-			<DefaultAnim Anim="M-idle-M700" />
+			<DefaultAnim Anim="M-Idle" />
 		</AnimationComponent>
 	
 		<ColliderComponent>

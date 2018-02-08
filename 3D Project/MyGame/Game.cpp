@@ -11,6 +11,7 @@ void Game::Init(Context *c)
 	c->m_pActorFactory->RegisterActorFactory("Weapon", [](int id) {return new Weapon(id); });
 	c->m_pActorFactory->RegisterActorFactory("GunPlayerView", [](int id) {return new GunPlayerView(id); });
 	c->m_pActorFactory->RegisterActorFactory("Zombie", [](int id) {return new Zombie(id); });
+	c->m_pActorFactory->RegisterActorFactory("AIExplosive", [](int id) {return new AIExplosive(id); });
 
 	//LoadWeapon();
 	//LoadCharacter();
@@ -125,7 +126,7 @@ void Game::EventTakeDamage(std::shared_ptr<IEvent> pEvent)
 {
 	EvtTakeDamage* p = static_cast<EvtTakeDamage*>(pEvent.get());
 
-	cout << p->GetAttacker()->VGetName() << " Attack " << p->GetVictim()->VGetName() << endl;
+	//cout << p->GetAttacker()->VGetName() << " Attack " << p->GetVictim()->VGetName() << endl;
 	p->GetVictim()->TakeDamage(p->GetDamage());
 	//printf("Index: %d\n", raycast.body->Inside(raycast.position));
 }

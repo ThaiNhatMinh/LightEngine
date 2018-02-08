@@ -35,10 +35,10 @@
 	<Model File="MODELS\CHARACTER\M-MOTION.LTB" />
 	<Model File="MODELS\CHARACTER\AI\AI_M-MOTION_EXPLOSIVE.LTB" />
 	
-	<Sound Tag="ShootAK47" File="SOUND\WEAPON\AK47\G_SHOOT_AK47_1.WAV" Mode="16" />
-	<Sound Tag="ClipOutAK47" File="SOUND\WEAPON\AK47\G_MZC_AK47_CLIPOUT.WAV" Mode="16" />
-	<Sound Tag="ClipInAK47" File="SOUND\WEAPON\AK47\G_MZC_AK47_CLIPIN.WAV" Mode="16" />
-	<Sound Tag="ReloadAK47" File="SOUND\WEAPON\AK47\G_RELOAD_AK47.WAV" Mode="16" />
-	<Sound Tag="BGMusic" File="SOUND\AI_BOOSTINGFULL.WAV" Mode="16" />
+	<Sound Tag="ShootAK47" File="SOUND\WEAPON\AK47\G_SHOOT_AK47_1.WAV" Sound3D="1" InnerRadius="1.0" OuterRadius="400" />
+	<Sound Tag="ClipOutAK47" File="SOUND\WEAPON\AK47\G_MZC_AK47_CLIPOUT.WAV" Sound3D="1" InnerRadius="1.0" OuterRadius="100" />
+	<Sound Tag="ClipInAK47" File="SOUND\WEAPON\AK47\G_MZC_AK47_CLIPIN.WAV" Sound3D="1" InnerRadius="1.0" OuterRadius="100" />
+	<Sound Tag="ReloadAK47" File="SOUND\WEAPON\AK47\G_RELOAD_AK47.WAV" Sound3D="1" InnerRadius="1.0" OuterRadius="200" />
+	<Sound Tag="BGMusic" File="SOUND\AI_BOOSTINGFULL.WAV" Sound3D="0" />
 	
 </Resources>

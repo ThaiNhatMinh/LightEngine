@@ -180,6 +180,7 @@ public:
 	void				Play(blendset layer,int anim, bool loop = false);
 
 	void				SetBoneEdit(float yaw,float pitch);
+	bool				IsFinish();
 private:
 
 	std::list<CharAnimControl>			m_Controls;

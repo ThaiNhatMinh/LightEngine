@@ -13,6 +13,7 @@
 #include "MyGame\EvtData.h"
 #include "MyGame\HitBox.h"
 #include "MyGame\Zombie.h"
+#include "MyGame\AI_Explosive.h"
 #include "MyGame\PlayerView.h"
 #include "MyGame\GunPlayerView.h"
 #include "MyGame\Game.h"

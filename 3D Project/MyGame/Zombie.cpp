@@ -8,6 +8,12 @@ Zombie::~Zombie()
 {
 }
 
+void Zombie::PostInit(void)
+{
+	Creature::PostInit();
+	GetComponent<SoundSource3D>(SoundSource3D::Name)->Play("BGMusic");
+}
+
 bool Zombie::VIsVisible(Scene * pScene) const
 {
 	ICamera* pCam = Camera::GetCurrentCamera();

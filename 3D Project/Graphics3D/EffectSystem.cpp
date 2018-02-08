@@ -48,7 +48,7 @@ void EffectSystem::Update(Scene* pScene,float dt)
 		if (!(*itr)->Update(dt))
 		{
 			m_List2.erase(itr);
-			cout << "Remove: " << (*itr)->GetFilePath() << endl;
+			//cout << "Remove: " << (*itr)->GetFilePath() << endl;
 		}
 		else (*itr)->CameraDistance = glm::length2((*itr)->Pos - pCam->GetPosition());
 	}
