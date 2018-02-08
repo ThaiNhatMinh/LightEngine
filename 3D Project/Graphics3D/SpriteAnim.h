@@ -6,6 +6,11 @@ class SpriteAnim: public Particle
 	friend class Resources;
 
 public:
+	enum SpriteFlag
+	{
+		SF_LOOP = 1,
+		SF_FOLLOWACTOR = 1 << 1
+	};
 	struct SpriteFrame
 	{
 		SpriteFrame(Texture* Tex) :Tex(Tex), Size(Tex->iWidth, Tex->iHeight) {}
@@ -18,13 +23,18 @@ public:
 							~SpriteAnim();
 
 	const std::string&		GetFilePath();
-
-	void					Update(float dt);
+							
+							// return true if finish
+	bool					Update(float dt);
 	
 	const SpriteFrame&		GetCurrentFrame();
 	const glm::vec3&		GetPos()const;
 	glm::vec3&				GetPos();
 
+	uint32					GetFlag();
+	void					SetFlag(uint32);
+
+	void					ResetState();
 private:
 	
 	std::vector<SpriteFrame>m_FrameLists;

@@ -9,8 +9,11 @@ private:
 	Mesh m_QuadMesh;
 	std::vector<Sprite> m_SpriteLists;
 
-	std::vector<SpriteAnim*> m_List2;
+	std::list<SpriteAnim*> m_List2;
 	Shader* m_pShader;
+
+private:
+	void CreateSpriteEvent(std::shared_ptr<IEvent> pEvent);
 public:
 	EffectSystem() = default;
 	~EffectSystem() = default;
@@ -22,4 +25,8 @@ public:
 
 	void			AddSprite(Sprite a);
 	void			AddSprite(SpriteAnim* a);
+
+	// Temp sprite is sprite has short life in game loop
+	// It don't need to sort in z-order
+	void			AddTempSprite(SpriteAnim* a);
 };

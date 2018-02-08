@@ -1,5 +1,16 @@
 #include "pch.h"
 
+void EffectSystem::CreateSpriteEvent(std::shared_ptr<IEvent> pEvent)
+{
+	EvtRequestCreateSprite* p = static_cast<EvtRequestCreateSprite*>(pEvent.get());
+
+	SpriteAnim* c = m_Context->m_pResources->GetSpriteAnimation(p->GetFile());
+	c->ResetState();
+	c->GetPos() = p->GetPos();
+	if (p->isLoop()) c->SetFlag(SpriteAnim::SF_LOOP);
+	this->AddSprite(c);
+}
+
 void EffectSystem::Init(Context * c)
 {
 	const GLfloat g_vertex_buffer_data[] = { -0.5f,  0.5f, 0.0f, 
@@ -18,21 +29,28 @@ void EffectSystem::Init(Context * c)
 
 	m_pShader = c->m_pResources->GetShader("SpriteShader");
 	c->m_pEffectSystem = std::unique_ptr<EffectSystem>(this);
+
+	c->m_pEventManager->VAddListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
 }
 
 void EffectSystem::ShutDown() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
+	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
 }
 
 void EffectSystem::Update(Scene* pScene,float dt)
 {
 	ICamera* pCam = Camera::GetCurrentCamera();
 
-	for (auto& el : m_List2)
+	for (auto itr = m_List2.begin();itr!=m_List2.end(); itr++)
 	{
-		el->Update(dt);
-		el->CameraDistance = glm::length2(el->Pos - pCam->GetPosition());
+		if (!(*itr)->Update(dt))
+		{
+			m_List2.erase(itr);
+			cout << "Remove: " << (*itr)->GetFilePath() << endl;
+		}
+		else (*itr)->CameraDistance = glm::length2((*itr)->Pos - pCam->GetPosition());
 	}
 }
 
@@ -41,7 +59,7 @@ void EffectSystem::Render(Scene* pScene)
 	ICamera* pCam = Camera::GetCurrentCamera();
 
 
-	std::sort(m_List2.begin(), m_List2.end(), [](SpriteAnim*a, SpriteAnim*b) {return *a < *b; });
+	//std::sort(m_List2.begin(), m_List2.end(), [](SpriteAnim*a, SpriteAnim*b) {return *a < *b; });
 
 	m_pShader->Use();
 
@@ -82,4 +100,9 @@ void EffectSystem::AddSprite(Sprite a) {
 void EffectSystem::AddSprite(SpriteAnim * a)
 {
 	m_List2.push_back(a);
+}
+
+void EffectSystem::AddTempSprite(SpriteAnim * a)
+{
+
 }

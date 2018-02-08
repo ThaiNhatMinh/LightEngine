@@ -12,7 +12,7 @@ struct Particle
 
 	float life;
 
-	virtual void Update(float dt) {}
+	bool Update(float dt) { return 0; }
 
 	bool operator<(const Particle& other)
 	{
