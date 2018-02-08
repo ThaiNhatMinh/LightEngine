@@ -875,10 +875,20 @@ void Resources::LoadResources(string path)
 			
 			const char* pFile = pNode->Attribute("File");
 			const char* pTag = pNode->Attribute("Tag");
-			unsigned int mode = pNode->Int64Attribute("Mode", FMOD_DEFAULT);
-			SoundRAAI* pSound = LoadSound(pFile, pTag, mode);
+			unsigned int mode = pNode->Int64Attribute("Sound3D", 0);
+			SoundRAAI* pSound = LoadSound(pFile, pTag, mode?FMOD_3D:FMOD_2D);
+
+
 			if (pSound)
 			{
+				if (mode)
+				{
+					float InnerRadius = pNode->FloatAttribute("InnerRadius", 1.0f);
+					float OuterRadius = pNode->FloatAttribute("OuterRadius", 512.0f);
+					pSound->GetSound()->set3DMinMaxDistance(InnerRadius, OuterRadius);
+					pSound->GetSound()->setMode(FMOD_3D_LINEARROLLOFF);
+				}
+
 				m_SoundList.insert({ pTag,std::unique_ptr<SoundRAAI>(pSound) });
 			}
 		}
