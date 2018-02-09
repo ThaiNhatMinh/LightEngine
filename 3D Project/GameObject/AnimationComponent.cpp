@@ -230,6 +230,7 @@ void AnimationComponent::Play(blendset layer, int anim, bool loop)
 	else
 	{
 		ResetControl(cac, anim, ANIM_PLAYING);
+		cac.m_loop = loop;
 		m_Controls.push_back(cac);
 	}
 	//if (m_Control.size() > 0) ResetControl(cac, anim, ANIM_TRANSITION);

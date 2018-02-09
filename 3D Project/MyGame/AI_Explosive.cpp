@@ -13,7 +13,7 @@ void AIExplosive::TakeDamage(int damage)
 	if (m_State == DEATH) return;
 
 	m_State = BEING_ATTACKED;
-	GetComponent<AnimationComponent>(AnimationComponent::Name)->Play(AnimationComponent::fullbody, M_BHit02);
+	GetComponent<AnimationComponent>(AnimationComponent::Name)->Play(AnimationComponent::upper, M_BHit02);
 
 	Zombie::TakeDamage(damage);
 }
@@ -22,6 +22,8 @@ void AIExplosive::Death()
 {
 	m_State = DEATH;
 	GetComponent<AnimationComponent>(AnimationComponent::Name)->Play(AnimationComponent::fullbody, M_Skill01);
+	GetComponent<SoundSource3D>(SoundSource3D::Name)->Play("EXPLOSIONALARM");
+	
 }
 
 HRESULT AIExplosive::VOnUpdate(Scene * pScene, float elapsedMs)
@@ -32,8 +34,8 @@ HRESULT AIExplosive::VOnUpdate(Scene * pScene, float elapsedMs)
 	{
 		if (GetComponent<AnimationComponent>(AnimationComponent::Name)->IsFinish())
 		{
+			GetComponent<SoundSource3D>(SoundSource3D::Name)->Play("EXPLOSIONBOOM");
 			ExplosiveSkill();
-			cout << "\nDDDDDD\n";
 			Zombie::Death();
 		}
 	}

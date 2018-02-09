@@ -11,7 +11,7 @@ Zombie::~Zombie()
 void Zombie::PostInit(void)
 {
 	Creature::PostInit();
-	GetComponent<SoundSource3D>(SoundSource3D::Name)->Play("BGMusic");
+	
 }
 
 bool Zombie::VIsVisible(Scene * pScene) const
@@ -30,10 +30,10 @@ HRESULT Zombie::VRender(Scene * pScene)
 
 void Zombie::Death()
 {
-	cout << m_Name << " death.\n";
+	//cout << m_Name << " death.\n";
 	if (m_pParent->VRemoveChild(m_id))
 	{
-		cout << "Delete : " << " success.\n";
+		//cout << "Delete : " << " success.\n";
 		//delete this;
 	}
 	else
