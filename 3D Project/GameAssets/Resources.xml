@@ -39,6 +39,7 @@
 	<Sound Tag="ClipOutAK47" File="SOUND\WEAPON\AK47\G_MZC_AK47_CLIPOUT.WAV" Sound3D="1" InnerRadius="1.0" OuterRadius="100" />
 	<Sound Tag="ClipInAK47" File="SOUND\WEAPON\AK47\G_MZC_AK47_CLIPIN.WAV" Sound3D="1" InnerRadius="1.0" OuterRadius="100" />
 	<Sound Tag="ReloadAK47" File="SOUND\WEAPON\AK47\G_RELOAD_AK47.WAV" Sound3D="1" InnerRadius="1.0" OuterRadius="200" />
-	<Sound Tag="BGMusic" File="SOUND\AI_BOOSTINGFULL.WAV" Sound3D="0" />
+	<Sound Tag="EXPLOSIONALARM" File="SOUND\AI\SUICIDAL EXPLOSION NANO_ALARM.WAV" Sound3D="1" InnerRadius="1.0" OuterRadius="400" />
+	<Sound Tag="EXPLOSIONBOOM" File="SOUND\AI\SUICIDAL EXPLOSION NANO_BOOM.WAV" Sound3D="1" InnerRadius="1.0" OuterRadius="500" />
 	
 </Resources>

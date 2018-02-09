@@ -58,6 +58,8 @@ using fastdelegate::MakeDelegate;
 // ImGui
 #include <imgui\imgui.h>
 
+
+
 // libary
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "lib/glfw3.lib")
@@ -128,9 +130,10 @@ using glm::quat;
 #include "ResourceCache\Texture.h"
 #include "ResourceCache\ResourceLoader.h"
 
+#include "VGUI\UIControl.h"
+#include "VGUI\VGUI.h"
 
 #include "Graphics3D\ICamera.h"
-
 #include "Graphics3D\Material.h"
 #include "Graphics3D\Mesh.h"
 #include "Graphics3D\SkeMesh.h"

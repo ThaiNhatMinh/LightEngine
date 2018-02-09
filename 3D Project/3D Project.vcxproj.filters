@@ -297,6 +297,15 @@
     <ClInclude Include="MyGame\AI_Explosive.h">
       <Filter>MyGame\Zombie</Filter>
     </ClInclude>
+    <ClInclude Include="VGUI\FreeTypeFont.h">
+      <Filter>VGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="VGUI\VGUI.h">
+      <Filter>VGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="VGUI\UIControl.h">
+      <Filter>VGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -526,6 +535,12 @@
     <ClCompile Include="MyGame\AI_Explosive.cpp">
       <Filter>MyGame\Zombie</Filter>
     </ClCompile>
+    <ClCompile Include="VGUI\UIControl.cpp">
+      <Filter>VGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VGUI\FreeTypeFont.cpp">
+      <Filter>VGUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -605,6 +620,9 @@
     </Filter>
     <Filter Include="MyGame\Zombie">
       <UniqueIdentifier>{4bf575f7-052a-45e0-a9b8-7b0a830492d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VGUI">
+      <UniqueIdentifier>{2ed385a3-fb81-48e9-93f5-0bc15f4cbee2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
