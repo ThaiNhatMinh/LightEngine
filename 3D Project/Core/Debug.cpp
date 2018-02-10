@@ -25,6 +25,8 @@ void Debug::Init(Context * c)
 
 void Debug::ShutDown()
 {
+	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, &VAO);
 }
 
 void Debug::Update()

@@ -1,5 +1,9 @@
 #pragma once
 
+#include "UIMesh.h"
+#include "UIElement.h"
+#include "UIImage.h"
+#include "UIText.h"
 
 class VGUI
 {
@@ -9,9 +13,9 @@ public:
 
 	void		Render();
 	void		Update(float dt);
-	UIControl*	GetRoot();
+	UIElement*	GetRoot();
 	bool		AddFont(const string& fontfile);
 
 private:
-	std::unique_ptr<UIControl> m_Root;
+	std::unique_ptr<UIElement> m_Root;
 };

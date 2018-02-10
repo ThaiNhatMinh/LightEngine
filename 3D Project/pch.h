@@ -130,7 +130,7 @@ using glm::quat;
 #include "ResourceCache\Texture.h"
 #include "ResourceCache\ResourceLoader.h"
 
-#include "VGUI\UIControl.h"
+
 #include "VGUI\VGUI.h"
 
 #include "Graphics3D\ICamera.h"

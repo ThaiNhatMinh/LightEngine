@@ -303,7 +303,16 @@
     <ClInclude Include="VGUI\VGUI.h">
       <Filter>VGUI</Filter>
     </ClInclude>
-    <ClInclude Include="VGUI\UIControl.h">
+    <ClInclude Include="VGUI\UIElement.h">
+      <Filter>VGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="VGUI\UIMesh.h">
+      <Filter>VGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="VGUI\UIImage.h">
+      <Filter>VGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="VGUI\UIText.h">
       <Filter>VGUI</Filter>
     </ClInclude>
   </ItemGroup>
@@ -535,10 +544,19 @@
     <ClCompile Include="MyGame\AI_Explosive.cpp">
       <Filter>MyGame\Zombie</Filter>
     </ClCompile>
-    <ClCompile Include="VGUI\UIControl.cpp">
+    <ClCompile Include="VGUI\FreeTypeFont.cpp">
       <Filter>VGUI</Filter>
     </ClCompile>
-    <ClCompile Include="VGUI\FreeTypeFont.cpp">
+    <ClCompile Include="VGUI\UIElement.cpp">
+      <Filter>VGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VGUI\UIMesh.cpp">
+      <Filter>VGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VGUI\UIImage.cpp">
+      <Filter>VGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VGUI\VGUI.cpp">
       <Filter>VGUI</Filter>
     </ClCompile>
   </ItemGroup>

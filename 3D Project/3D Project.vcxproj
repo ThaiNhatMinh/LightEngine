@@ -256,7 +256,10 @@
     <ClInclude Include="Utilities\String.h" />
     <ClInclude Include="Utilities\Timer.h" />
     <ClInclude Include="VGUI\FreeTypeFont.h" />
-    <ClInclude Include="VGUI\UIControl.h" />
+    <ClInclude Include="VGUI\UIElement.h" />
+    <ClInclude Include="VGUI\UIImage.h" />
+    <ClInclude Include="VGUI\UIMesh.h" />
+    <ClInclude Include="VGUI\UIText.h" />
     <ClInclude Include="VGUI\VGUI.h" />
     <ClInclude Include="World\TerrainWorld.h" />
   </ItemGroup>
@@ -342,7 +345,10 @@
     <ClCompile Include="Utilities\String.cpp" />
     <ClCompile Include="Utilities\Timer.cpp" />
     <ClCompile Include="VGUI\FreeTypeFont.cpp" />
-    <ClCompile Include="VGUI\UIControl.cpp" />
+    <ClCompile Include="VGUI\UIElement.cpp" />
+    <ClCompile Include="VGUI\UIImage.cpp" />
+    <ClCompile Include="VGUI\UIMesh.cpp" />
+    <ClCompile Include="VGUI\VGUI.cpp" />
     <ClCompile Include="World\TerrainWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
