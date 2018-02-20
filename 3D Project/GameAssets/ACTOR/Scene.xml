@@ -3,7 +3,7 @@
 	
 	<Actor File="GameAssets\ACTOR\Player.xml" />
 	<Actor File="GameAssets\ACTOR\AI_Explosive.xml" />
-	<Actor File="GameAssets\ACTOR\Ground.xml" />
+	<Actor File="GameAssets\ACTOR\Terrain.xml" />
 	
 	
 	

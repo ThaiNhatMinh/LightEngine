@@ -2,22 +2,23 @@
 
 class Weapon :public Actor
 {
-	//friend class Player;
 public:
 	
 	Weapon(ActorId id);
-	virtual bool	Init(const tinyxml2::XMLElement* pData);
-	virtual void	PostInit(void);
-	virtual HRESULT VRender(Scene* pScene) override;
-	virtual HRESULT VOnUpdate(Scene *, float elapsedMs);
-	virtual mat4	VGetGlobalTransform();
+	virtual bool			Init(const tinyxml2::XMLElement* pData);
+	virtual void			PostInit(void);
+	virtual HRESULT			VRender(Scene* pScene) override;
+	virtual HRESULT			VOnUpdate(Scene *, float elapsedMs);
+	virtual mat4			VGetGlobalTransform();
 	
 	
-	mat4& GetSocketTransform();
-	const string& GetPVFileName();;
-	int GetWeaponSlot();
-	int GetWeaponIndex();
-	const WeaponResource& GetWeaponInfo()const;;
+	mat4&					GetSocketTransform();
+	const string&			GetPVFileName();;
+	int						GetWeaponSlot();
+	int						GetWeaponIndex();
+	const WeaponResource&	GetWeaponInfo()const;
+
+	void					Shoot();
 	
 private:
 

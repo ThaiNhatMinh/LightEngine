@@ -57,18 +57,11 @@ ActorComponent * ActorFactory::VCreateComponent(const tinyxml2::XMLElement* pDat
 	ActorComponent* pComponent;
 	auto factory = m_ComponentFactoryMap.find(name);
 	if(factory!= m_ComponentFactoryMap.end()) pComponent = factory->second();
-	else return nullptr;
-	// initialize the component if we found one
-	if (pComponent)
-	{
-		
-	}
 	else
 	{
-		E_ERROR("Couldn't find ActorComponent named " + std::string(name));
-		return nullptr;  // fail
+		E_ERROR("ActorFactory::VCreateComponent() can't find: " + string(name));
+		return nullptr;
 	}
-
 	
 	return pComponent;
 }
@@ -127,16 +120,12 @@ Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initial
 			pComponent->SetOwner(pActor);
 			if (!pComponent->VInit(pNode))
 			{
-				E_ERROR(pActor->VGetName() + ": Component failed to initialize: " + std::string(pNode->Value()));
+				E_WARNING(pActor->VGetName() + ": Component failed to initialize: " + std::string(pNode->Value()));
 				continue;
 			}
 			if (!strcmp(pNode->Value(), "TransformComponent")) pActor->SetTransformComponent(static_cast<TransformComponent*>(pComponent));
 			else pActor->AddComponent(pComponent);
 
-		}
-		else
-		{
-			E_ERROR(pActor->VGetName() + ": Failed to create Component for actor: " + string(actorResource));
 		}
 	}
 

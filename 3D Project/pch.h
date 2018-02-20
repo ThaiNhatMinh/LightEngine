@@ -68,11 +68,6 @@ using fastdelegate::MakeDelegate;
 #pragma comment(lib, "lib/dinput8.lib")
 #pragma comment(lib, "lib/dxguid.lib")
 #pragma comment(lib, "opengl32.lib")
-//#pragma comment(lib, "BulletCollision_Debug.lib")
-//#pragma comment(lib, "BulletDynamics_Debug.lib")
-//#pragma comment(lib, "LinearMath_Debug.lib")
-//#pragma comment(lib, "lib/luaplus51-1201.lib")
-//#pragma comment(lib, "Mono/lib/mono-2.0-sgen.lib")
 
 #ifdef BUILDING_MYDLL
 #define MYDLL_API __declspec(dllexport)
@@ -131,7 +126,7 @@ using glm::quat;
 #include "ResourceCache\ResourceLoader.h"
 
 
-#include "VGUI\VGUI.h"
+#include "VGUI\UI.h"
 
 #include "Graphics3D\ICamera.h"
 #include "Graphics3D\Material.h"

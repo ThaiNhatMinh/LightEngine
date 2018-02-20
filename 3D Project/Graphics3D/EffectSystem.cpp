@@ -86,7 +86,7 @@ void EffectSystem::Render(Scene* pScene)
 		m_pShader->SetUniform("SpritePos", el->GetPos());
 		auto data = el->GetCurrentFrame();
 		m_pShader->SetUniform("SpriteSize", data.Size);
-		m_Context->m_pRenderer->SetTexture(data.Tex);
+		data.Tex->Bind();
 		m_Context->m_pRenderer->Draw(0, 4);
 	}
 

@@ -18,7 +18,7 @@ private:
 	TransformComponent	*m_pTC;
 	AnimationComponent	*m_pBAC;
 	Actor*			m_PVGroup;
-	GunPlayerView*	m_Weapon;
+	GunPlayerView*	m_PVWeapon;
 	bool			m_bOnGround;
 	std::map<Player::weaponanim, int> m_AnimationMap;
 public:

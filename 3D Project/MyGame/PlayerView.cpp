@@ -70,5 +70,6 @@ mat4 PlayerView::VGetGlobalTransform()
 {
 	mat4 trans = Camera::GetCurrentCamera()->GetViewMatrix();
 	trans = glm::inverse(trans)* m_TransformComponent->GetTransform();
+	//return Actor::VGetGlobalTransform();
 	return trans;
 }

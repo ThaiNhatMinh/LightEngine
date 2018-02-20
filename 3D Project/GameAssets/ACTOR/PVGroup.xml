@@ -2,7 +2,7 @@
 	
 	<Component>
 	<CameraComponent>
-		<Frustum fov="45.0" aspect ="-1.0" nplane ="1.0" fplane="4000.0" />
+		<Frustum fov="45.0" aspect ="-1.0" nplane ="1.0" fplane="10000.0" />
 	</CameraComponent>
   
 	<TransformComponent>

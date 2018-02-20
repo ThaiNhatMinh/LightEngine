@@ -75,7 +75,7 @@ void LocalPlayerComponent::VPostInit(void)
 	m_pBAC = m_pOwner->GetComponent<AnimationComponent>(AnimationComponent::Name);
 	
 	m_PVGroup = m_pOwner->VGetChild("PVGroup");
-	m_Weapon = static_cast<GunPlayerView*>(m_PVGroup->VGetChild("PVWeapon"));
+	m_PVWeapon = static_cast<GunPlayerView*>(m_PVGroup->VGetChild("PVWeapon"));
 	int GViewAnimName = static_cast<Player*>(m_pOwner)->GetCurrentWeaponInfo().GViewAnimName;
 	for (int i = 0; i < Player::count; i++)
 	{
@@ -115,7 +115,7 @@ void LocalPlayerComponent::VUpdate(float dt)
 
 	if (m_Context->m_pInput->MouseButtonDown(0))
 	{
-		m_Weapon->Shoot();
+		m_PVWeapon->Shoot();
 		m_pBAC->Play(AnimationComponent::upper, m_AnimationMap[Player::shoot]);
 	}
 	
@@ -123,7 +123,7 @@ void LocalPlayerComponent::VUpdate(float dt)
 	
 
 	if (m_Context->m_pInput->KeyDown(DIK_R))
-		m_Weapon->Reload();
+		m_PVWeapon->Reload();
 
 	if (m_Context->m_pInput->KeyDown(DIK_W))
 	{
@@ -148,7 +148,7 @@ void LocalPlayerComponent::VUpdate(float dt)
 	
 	if (m_MoveDirection != vec3(0))
 	{
-		m_Weapon->Run();
+		m_PVWeapon->Run();
 	}
 	m_Yaw -= m_Context->m_pInput->mouseDX()*0.25f;
 	m_Pitch += m_Context->m_pInput->mouseDY()*0.25f;

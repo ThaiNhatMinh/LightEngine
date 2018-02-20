@@ -315,6 +315,9 @@
     <ClInclude Include="VGUI\UIText.h">
       <Filter>VGUI</Filter>
     </ClInclude>
+    <ClInclude Include="VGUI\UI.h">
+      <Filter>VGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -557,6 +560,9 @@
       <Filter>VGUI</Filter>
     </ClCompile>
     <ClCompile Include="VGUI\VGUI.cpp">
+      <Filter>VGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VGUI\UIText.cpp">
       <Filter>VGUI</Filter>
     </ClCompile>
   </ItemGroup>

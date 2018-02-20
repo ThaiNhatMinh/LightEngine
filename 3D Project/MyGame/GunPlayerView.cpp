@@ -38,14 +38,14 @@ HRESULT GunPlayerView::VOnUpdate(Scene * pScene, float elapsedMs)
 void GunPlayerView::Shoot()
 {
 	GetComponent<PVAnimationComponent>(PVAnimationComponent::Name)->PlayAnimation(m_AnimationMap[FIRE]);
-	if(m_State == WS_IDLE)GetComponent<SoundSource3D>(SoundSource3D::Name)->Play("ShootAK47");
+	if(m_State == WS_IDLE) GetComponent<SoundSource3D>(SoundSource3D::Name)->Play("ShootAK47",m_pParent->VGetTransform()[3]);
 	m_State = WS_SHOOTING;
 }
 
 void GunPlayerView::Reload()
 {
 	GetComponent<PVAnimationComponent>(PVAnimationComponent::Name)->PlayAnimation(m_AnimationMap[RELOAD]);
-	if (m_State == WS_IDLE)GetComponent<SoundSource3D>(SoundSource3D::Name)->Play("ReloadAK47");
+	if (m_State == WS_IDLE) GetComponent<SoundSource3D>(SoundSource3D::Name)->Play("ReloadAK47", m_pParent->VGetTransform()[3]);
 	m_State = WS_RELOADING;
 }
 

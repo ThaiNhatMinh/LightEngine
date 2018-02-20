@@ -78,7 +78,7 @@ void MeshRenderComponent::Render(Scene* pScene)
 
 	for (size_t i = 0; i < m_MeshList.size(); i++)
 	{
-		pRender->SetTexture(m_MeshList[i]->Tex);
+		m_MeshList[i]->Tex->Bind();
 
 		// ------- Render mesh ----------
 		pRender->SetVertexArrayBuffer(m_MeshList[i]->VAO);

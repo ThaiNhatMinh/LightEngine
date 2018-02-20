@@ -8,6 +8,10 @@ UIImage::~UIImage()
 {
 }
 
+void UIImage::Render()
+{
+}
+
 Texture * UIImage::GetImage() {
 	return m_Texture;
 }

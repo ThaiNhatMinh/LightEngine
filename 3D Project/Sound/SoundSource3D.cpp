@@ -50,6 +50,25 @@ bool SoundSource3D::Play(const string & name)
 	return 1;
 }
 
+bool SoundSource3D::Play(const string & name, const vec3 & pos)
+{
+	auto result = m_SoundMap.find(name);
+	if (result == m_SoundMap.end())
+	{
+		E_ERROR("Can't find sound name " + name);
+		return false;
+	}
+	if (!result->second)
+	{
+		E_ERROR("Invaild Sound " + name);
+		return 0;
+	}
+	FMOD::Channel* pChannel;
+	m_pSystem->playSound(result->second, nullptr, 0, &pChannel);
+	pChannel->set3DAttributes(&ToFMODVector(pos), nullptr);
+	return 1;
+}
+
 bool SoundSource3D::AddSound(const string & tag)
 {
 	auto result = m_SoundMap.find(tag);

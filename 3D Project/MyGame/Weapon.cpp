@@ -45,7 +45,6 @@ void Weapon::PostInit(void)
 
 HRESULT Weapon::VRender(Scene * pScene)
 {
-	//m_Context->m_pDebuger->DrawCoord(VGetGlobalTransform());
 	m_MeshRender->Render(pScene);
 	return E_NOTIMPL;
 }
@@ -83,6 +82,11 @@ int Weapon::GetWeaponIndex()
 
 const WeaponResource & Weapon::GetWeaponInfo() const {
 	return WeaponInfo;
+}
+
+void Weapon::Shoot()
+{
+
 }
 
 

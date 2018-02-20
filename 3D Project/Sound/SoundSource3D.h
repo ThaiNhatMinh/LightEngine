@@ -14,6 +14,7 @@ public:
 	virtual const char *VGetName() const;
 
 	bool Play(const string& name);
+	bool Play(const string& name,const vec3& pos);
 	bool AddSound(const string& name);
 private:
 	std::map<string, FMOD::Sound*> m_SoundMap;

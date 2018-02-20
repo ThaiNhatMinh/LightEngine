@@ -3,6 +3,7 @@
 
 FTFont::FTFont(const string& fontfile)
 {
+	
 	FT_Error error = FT_Init_FreeType(&m_library);
 	if (error)
 	{
@@ -51,13 +52,13 @@ FTFont::FTFont(const string& fontfile)
 		character.Bearing[1] = m_face->glyph->bitmap_top;
 		character.advance = m_face->glyph->advance.x;
 
-		m_CharMaps.insert(std::pair<GLchar, FontChar>(charcode, character));
+		m_CharMaps.insert(std::pair<FT_ULong, FontChar>(charcode, character));
 		//cout << face->glyph->bitmap_left << " " << face->glyph->bitmap_top << endl;
 
 		charcode = FT_Get_Next_Char(m_face, charcode, &gindex);
 
 	}
-
+	
 }
 
 FTFont::~FTFont()
@@ -72,4 +73,12 @@ void FTFont::SetFontSize(int size)
 	{
 		E_ERROR("Can't change font size.");
 	}
+}
+
+FTFont::FontChar * FTFont::GetChar(char c)
+{
+	auto result = m_CharMaps.find(c);
+	if (result == m_CharMaps.end()) return nullptr;
+	
+	return &result->second;
 }

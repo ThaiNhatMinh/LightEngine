@@ -113,15 +113,6 @@ void OpenGLRenderer::SetClearFlag(unsigned int flag)
 	m_iClearFlag = flag;
 }
 
-void OpenGLRenderer::SetTexture(Texture * p, GLuint tex_unit)
-{
-	assert(p != nullptr);
-
-	glActiveTexture(GL_TEXTURE0 + tex_unit);
-	glBindTexture(GL_TEXTURE_2D, p->iIndex);
-
-}
-
 void OpenGLRenderer::SetViewport(int x, int y, int weight, int height)
 {
 	m_Viewport = vec4(x, y, weight, height);

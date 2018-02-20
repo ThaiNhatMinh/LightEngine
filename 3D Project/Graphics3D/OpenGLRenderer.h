@@ -32,7 +32,6 @@ public:
 	virtual void DrawElement(GLsizei count, GLenum type, const GLvoid * indices, GLsizei primcount = 0);
 	
 	virtual void SetClearFlag(unsigned int flag);
-	virtual void SetTexture(Texture* p, GLuint tex_unit = 0);
 	virtual void SetViewport(int x, int y, int weight, int height);
 	virtual void SetViewport(vec4 v);
 	virtual void SetDrawMode(GLenum mode);

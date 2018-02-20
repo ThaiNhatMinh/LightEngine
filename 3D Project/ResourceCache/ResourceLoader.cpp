@@ -21,7 +21,7 @@ namespace LightEngine
 Texture * Resources::HasTexture(const string& filename)
 {
 	for (size_t i = 0; i < m_Textures.size(); i++)
-		if (m_Textures[i]->Name==filename)
+		if (m_Textures[i]->GetName()==filename)
 			return m_Textures[i].get();
 	
 	return nullptr;
@@ -125,7 +125,7 @@ SpriteAnim * Resources::LoadSpriteAnimation(const string& filename)
 	s->m_bTranslucent = (uint8)bTranslucent;
 	s->m_ColourKey = colourKey;
 
-	for (int i = 0; i < nFrames; i++)
+	for (size_t i = 0; i < nFrames; i++)
 	{
 		// Read in frame file name
 		fread(&strLen, sizeof(strLen), 1, pFile);
@@ -322,7 +322,8 @@ Texture * Resources::LoadTexture(const string& filename)
 	ILubyte *Data = ilGetData();
 	iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
-	tex = new Texture;
+	
+	tex = new Texture(filename, width, height);
 	tex->Init();
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -338,10 +339,7 @@ Texture * Resources::LoadTexture(const string& filename)
 	ilResetMemory();
 	
 	
-	tex->Name = filename;
-	tex->iWidth = width;
-	tex->iHeight = height;
-
+	
 	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
 
@@ -390,11 +388,7 @@ Texture * Resources::LoadCubeTex(const vector<string>& filelist)
 
 	
 
-	tex = new Texture;
-	tex->Name = filelist[0];
-	tex->iIndex = id;
-	tex->iWidth = width;
-	tex->iHeight = height;
+	tex = new Texture(id,filelist[0],width,height);
 
 	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
@@ -420,11 +414,7 @@ Texture * Resources::LoadTexMemory(const string& filename,unsigned char * data, 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	tex = new Texture;
-	tex->Name = filename;
-	tex->iIndex = id;
-	tex->iWidth = w;
-	tex->iHeight = h;
+	tex = new Texture(id,filename,w,h);
 
 	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
@@ -536,11 +526,7 @@ Texture * Resources::LoadDTX(const string& filename)
 
 
 
-	tex = new Texture;
-	tex->Name = filename;
-	tex->iIndex = id;
-	tex->iWidth = W;
-	tex->iHeight = H;
+	tex = new Texture(id,filename,W,H);
 	
 	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 

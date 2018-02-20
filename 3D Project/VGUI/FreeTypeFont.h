@@ -4,6 +4,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+
 class FTFont
 {
 public:
@@ -18,8 +19,10 @@ public:
 	~FTFont();
 
 	void SetFontSize(int size);
+
+	FontChar* GetChar(char c);
 private:
 	FT_Library  m_library;
 	FT_Face		m_face;
-	std::map<GLchar, FontChar> m_CharMaps;
+	std::map<FT_ULong, FontChar> m_CharMaps;
 };

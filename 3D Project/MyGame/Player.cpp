@@ -75,6 +75,7 @@ bool Player::VAddChild(std::unique_ptr<Actor> kid)
 
 	return Actor::VAddChild(std::move(kid));
 }
+
 HRESULT Player::VRenderChildren(Scene * pScene)
 {
 	if (!Mode) 
@@ -118,7 +119,7 @@ void Player::SetPVModel()
 		CharacterResource cr = Game::LoadCharacter(m_Character);
 		for (auto& el : pModel->pMeshs)
 		{
-			if (el->Tex->Name == "GameAssets/TEXTURES/Default.png")
+			if (el->Tex->GetName() == "GameAssets/TEXTURES/Default.png")
 			{
 				string texPath = cr.PVTexFile[m_Team][el->Name];
 				el->Tex = m_Context->m_pResources->GetTexture(texPath);

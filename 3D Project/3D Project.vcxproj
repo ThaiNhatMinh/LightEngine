@@ -79,8 +79,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Code Collection\3D Project\3D Project\include;E:\Code Collection\3D Project\3D Project;$(IncludePath);E:\Code Collection\bullet3-master\src;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;E:\Code Collection\freetype-2.9\include</IncludePath>
-    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet3-master\lib\Release;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;E:\Code Collection\freetype-2.9\LIB\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Code Collection\3D Project\3D Project\include;E:\Code Collection\3D Project\3D Project;$(IncludePath);E:\Code Collection\bullet3-master\src;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;E:\Code Collection\freetype-2.7.1\include</IncludePath>
+    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet3-master\lib\Release;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;E:\Code Collection\freetype-2.7.1\LIB\Release;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -256,6 +256,7 @@
     <ClInclude Include="Utilities\String.h" />
     <ClInclude Include="Utilities\Timer.h" />
     <ClInclude Include="VGUI\FreeTypeFont.h" />
+    <ClInclude Include="VGUI\UI.h" />
     <ClInclude Include="VGUI\UIElement.h" />
     <ClInclude Include="VGUI\UIImage.h" />
     <ClInclude Include="VGUI\UIMesh.h" />
@@ -348,6 +349,7 @@
     <ClCompile Include="VGUI\UIElement.cpp" />
     <ClCompile Include="VGUI\UIImage.cpp" />
     <ClCompile Include="VGUI\UIMesh.cpp" />
+    <ClCompile Include="VGUI\UIText.cpp" />
     <ClCompile Include="VGUI\VGUI.cpp" />
     <ClCompile Include="World\TerrainWorld.cpp" />
   </ItemGroup>

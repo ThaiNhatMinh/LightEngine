@@ -153,3 +153,13 @@ void Windows::SetMouse(int t)
 	
 	glfwSetInputMode(m_pWindow, GLFW_CURSOR, t);
 }
+
+vec2 Windows::GetMousePos()
+{
+	vec2 pos;
+	double posx,posy;
+	glfwGetCursorPos(m_pWindow, &posx, &posy);
+	pos.x = posx;
+	pos.y = posy;
+	return pos;
+}

@@ -39,5 +39,7 @@ public:
 	vec2 GetWindowSize(){ return vec2(m_iWidth, m_iHeight); };
 	GLFWwindow* Window() {		return m_pWindow;	};
 	HWND GetHandle() { return glfwGetWin32Window(m_pWindow); }
+
+	vec2 GetMousePos();
 };
 
