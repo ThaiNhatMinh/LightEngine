@@ -45,8 +45,8 @@ void OpenGLRenderer::Init(Context* c)
 		return;
 	}
 
-	vec2 size = c->m_pWindows->GetWindowSize();
-	m_glfwWindow = c->m_pWindows->Window();
+	vec2 size = c->GetSystem<Windows>()->GetWindowSize();
+	m_glfwWindow = c->GetSystem<Windows>()->Window();
 
 
 	m_Viewport = vec4(0, 0, size.x, size.y);
@@ -63,7 +63,7 @@ void OpenGLRenderer::Init(Context* c)
 	
 	glfwSwapInterval(0);
 
-	c->m_pRenderer = std::unique_ptr<OpenGLRenderer>(this);
+	c->AddSystem(this);
 	
 
 }

@@ -2,11 +2,11 @@
 
 VGUI::VGUI(Context* pContext):m_Root(new UIGroup(this))
 {
-	m_pWindows = pContext->m_pWindows.get();
+	m_pWindows = pContext->GetSystem<Windows>();
 	vec2 size = m_pWindows->GetWindowSize();
 	m_Proj = glm::ortho(0.0f, size.x, size.y, 0.0f);
 
-	m_UIShader = pContext->m_pResources->GetShader("UI");
+	m_UIShader = pContext->GetSystem<Resources>()->GetShader("UI");
 }
 
 VGUI::~VGUI()

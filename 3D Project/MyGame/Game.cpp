@@ -5,13 +5,13 @@
 void Game::Init(Context *c)
 {
 	m_Context = c;
-	c->m_pActorFactory->RegisterComponentFactory(LocalPlayerComponent::Name, []() {return new LocalPlayerComponent(); });
-	c->m_pActorFactory->RegisterActorFactory("Player", [](int id) {return new Player(id); });
-	c->m_pActorFactory->RegisterActorFactory("PlayerView", [](int id) {return new PlayerView(id); });
-	c->m_pActorFactory->RegisterActorFactory("Weapon", [](int id) {return new Weapon(id); });
-	c->m_pActorFactory->RegisterActorFactory("GunPlayerView", [](int id) {return new GunPlayerView(id); });
-	c->m_pActorFactory->RegisterActorFactory("Zombie", [](int id) {return new Zombie(id); });
-	c->m_pActorFactory->RegisterActorFactory("AIExplosive", [](int id) {return new AIExplosive(id); });
+	c->GetSystem<ActorFactory>()->RegisterComponentFactory(LocalPlayerComponent::Name, []() {return new LocalPlayerComponent(); });
+	c->GetSystem<ActorFactory>()->RegisterActorFactory("Player", [](int id) {return new Player(id); });
+	c->GetSystem<ActorFactory>()->RegisterActorFactory("PlayerView", [](int id) {return new PlayerView(id); });
+	c->GetSystem<ActorFactory>()->RegisterActorFactory("Weapon", [](int id) {return new Weapon(id); });
+	c->GetSystem<ActorFactory>()->RegisterActorFactory("GunPlayerView", [](int id) {return new GunPlayerView(id); });
+	c->GetSystem<ActorFactory>()->RegisterActorFactory("Zombie", [](int id) {return new Zombie(id); });
+	c->GetSystem<ActorFactory>()->RegisterActorFactory("AIExplosive", [](int id) {return new AIExplosive(id); });
 
 	//LoadWeapon();
 	//LoadCharacter();
@@ -19,7 +19,7 @@ void Game::Init(Context *c)
 	m_Scene = std::unique_ptr<Scene>(new Scene(c));
 	m_Scene->LoadScene("GameAssets\\ACTOR\\Scene.xml");
 	
-	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &Game::EventTakeDamage), EvtTakeDamage::sk_EventType);
+	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &Game::EventTakeDamage), EvtTakeDamage::sk_EventType);
 
 }
 
@@ -29,7 +29,7 @@ void Game::Update(float dt)
 
 	m_Scene->PostUpdate();
 
-	ImGui::Text("FPS: %d", m_Context->m_pTimer->GetFPS());
+	
 	
 }
 

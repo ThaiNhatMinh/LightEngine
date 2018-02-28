@@ -2,7 +2,7 @@
 
 void ActorFactory::Init(Context * c)
 {
-	c->m_pActorFactory = std::unique_ptr<ActorFactory>(this);
+	c->AddSystem(this);
 	
 }
 

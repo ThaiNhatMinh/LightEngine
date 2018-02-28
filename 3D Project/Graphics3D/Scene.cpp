@@ -4,7 +4,7 @@
 
 Scene::Scene(Context* c) :m_Context(c)
 {
-	m_pRoot = std::unique_ptr<Actor>(m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,0));
+	m_pRoot = std::unique_ptr<Actor>(m_Context->GetSystem<ActorFactory>()->CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,0));
 	if (!m_pRoot)
 	{
 		E_ERROR("Can't create Root Node.");
@@ -43,7 +43,7 @@ bool Scene::LoadScene(const string& filename)
 		{
 			const char* pFile = pNode->Attribute("File");
 			if (!pFile) continue;
-			Actor* p4 = m_Context->m_pActorFactory->CreateActor(pFile, nullptr, 0);
+			Actor* p4 = m_Context->GetSystem<ActorFactory>()->CreateActor(pFile, nullptr, 0);
 			m_pRoot->VAddChild(std::unique_ptr<Actor>(p4));
 		}
 	}
@@ -79,7 +79,7 @@ bool Scene::OnRender()
 bool Scene::OnUpdate(float dt)
 {
 	m_pRoot->VOnUpdate(this, dt);
-	m_Context->m_pDebuger->Update();
+	//m_Context->m_pDebuger->Update();
 	return true;
 }
 bool Scene::PostUpdate()

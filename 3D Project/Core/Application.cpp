@@ -4,54 +4,56 @@
 void Application::SetupSubmodule()
 {
 	//E_DEBUG("Application StartUp...");
-	Context			*C = new Context();
-	Windows			*W = new Windows();
-	OpenGLRenderer	*O = new OpenGLRenderer();
-	EventManager	*E = new EventManager();
-	GameTimer		*G = new GameTimer();
-	Resources		*R = new Resources();
-	DirectInput		*D = new DirectInput();
-	BulletPhysics	*B = new BulletPhysics();
-	Console			*Con = new Console();
-	Debug			*Db = new Debug();
-	SystemUI		*S = new SystemUI();
-	ActorFactory	*A = new ActorFactory();
-	EffectSystem	*ES = new EffectSystem();
-	SoundEngine		*SE = new SoundEngine();
-	Actor::m_Context = C;
-	ActorComponent::m_Context = C;
-	ISubSystem::m_Context = C;
+	m_Context = std::unique_ptr<Context>(new Context());
+	Actor::m_Context = m_Context.get();
+	ActorComponent::m_Context = m_Context.get();
+	ISubSystem::m_Context = m_Context.get();
+
+	m_pWindows = std::unique_ptr<Windows>(new Windows());
+	m_pRenderer = std::unique_ptr<OpenGLRenderer>(new OpenGLRenderer());
+	m_pEventManager = std::unique_ptr<EventManager>(new EventManager());
+	m_pTimer = std::unique_ptr<GameTimer>(new GameTimer());
+	m_pResources = std::unique_ptr<Resources>(new Resources());
+	m_pInput = std::unique_ptr<DirectInput>(new DirectInput());
+	m_pPhysic = std::unique_ptr<BulletPhysics>(new BulletPhysics());
+	m_pConsole = std::unique_ptr<Console>(new Console());
+	m_pDebuger = std::unique_ptr<Debug>(new Debug());
+	m_pSystemUI = std::unique_ptr<SystemUI>(new SystemUI());
+	m_pActorFactory = std::unique_ptr<ActorFactory>(new ActorFactory());
+	m_pEffectSystem = std::unique_ptr<EffectSystem>(new EffectSystem());
+	m_pSoundEngine = std::unique_ptr<SoundEngine>(new SoundEngine());
+	
 
 	// Init Windows
-	W->Init(C);
+	m_pWindows->Init(m_Context.get());
 	// Init Renderer
-	O->Init(C);
+	m_pRenderer->Init(m_Context.get());
 	// Init Event system
-	E->Init(C);
+	m_pEventManager->Init(m_Context.get());
 	// Init factory
-	A->Init(C);
+	m_pActorFactory->Init(m_Context.get());
 	// init sound engine
-	SE->Init(C);
+	m_pSoundEngine->Init(m_Context.get());
 	// init resource
-	R->Init(C);
+	m_pResources->Init(m_Context.get());
 	// init system UI
-	S->Init(C);
+	m_pSystemUI->Init(m_Context.get());
 	// init console
-	Con->Init(C);
+	m_pConsole->Init(m_Context.get());
 	// init input
-	D->Init(C);
+	m_pInput->Init(m_Context.get());
 	// init debug renderer
-	Db->Init(C);
+	m_pDebuger->Init(m_Context.get());
 	// init bullets physic
-	B->Init(C);
+	m_pPhysic->Init(m_Context.get());
 	// init timer
-	G->Init(C);
+	m_pTimer->Init(m_Context.get());
 	//init effect system
-	ES->Init(C);
+	m_pEffectSystem->Init(m_Context.get());
 
-	m_Context = std::unique_ptr<Context>(C);
+	
 
-	Con->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
+	m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 
 }
 
@@ -75,90 +77,61 @@ void Application::MainLoop()
 	// 3. Input 
 	// 4. Physic
 	// 5. 
-	
-	EventManager	*E = m_Context->m_pEventManager.get();
-	GameTimer		*G = m_Context->m_pTimer.get();
-	DirectInput		*D = m_Context->m_pInput.get();
-	BulletPhysics	*B = m_Context->m_pPhysic.get();
-	OpenGLRenderer	*O = m_Context->m_pRenderer.get();
-	Console			*C = m_Context->m_pConsole.get();
-	SystemUI		*S = m_Context->m_pSystemUI.get();
-	Debug			*Db = m_Context->m_pDebuger.get();
-	EffectSystem	*ES = m_Context->m_pEffectSystem.get();
-	SoundEngine		*SE = m_Context->m_pSoundEngine.get();
+
 	Scene			*pScene = m_Game->GetScene();
 
 	
-	/*auto b = Sprite(m_Context->m_pResources->GetTexture("TEXTURES\\ESCAPE.DTX"));
-	b.GetPos() = vec3(100, 150, 100);
-	ES->AddSprite(b);
+	m_Context->GetSystem<Windows>()->ShowWindows();
 
-	auto d = Sprite(m_Context->m_pResources->GetTexture("TEXTURES\\SGFX_se_decal_04.DTX"));
-	d.GetPos() = vec3(100, 150, 300);
-	ES->AddSprite(d);
-
-	auto a = m_Context->m_pResources->GetSpriteAnimation("BLOOD3.SPR");
-	a->GetPos() = vec3(200, 150, 0);
-	ES->AddSprite(a);
-
-	auto c = m_Context->m_pResources->GetSpriteAnimation("EX.SPR");
-	c->GetPos() = vec3(250, 350, 50);
-	ES->AddSprite(c);
-
-	
-	c = m_Context->m_pResources->GetSpriteAnimation("SGFX_se_fire_explode_01.SPR");
-	c->GetPos() = vec3(350, 250, 100);
-	ES->AddSprite(c);*/
-	
-	m_Context->m_pWindows->ShowWindows();
-
-	G->Reset();
+	m_pTimer->Reset();
 
 	while (m_bRunMainLoop)
 	{
 		glfwPollEvents();
 		// Update input
-		D->Update();
-		if (D->KeyDown(DIK_ESCAPE)|| m_Context->m_pWindows->ShouldClose())	m_bRunMainLoop = false;
+		m_pInput->Update();
+		if (m_pInput->KeyDown(DIK_ESCAPE)|| m_Context->GetSystem<Windows>()->ShouldClose())	m_bRunMainLoop = false;
 		// Timer
-		G->Tick();
-		S->NewFrame();
+		m_pTimer->Tick();
+		m_pSystemUI->NewFrame();
 
+		ImGui::Text("FPS: %d", m_pTimer->GetFPS());
 		// check if in console then don't update game
-		if (!C->CheckStatus())
+		if (!m_pConsole->CheckStatus())
 		{
 
-
+			float dt = m_pTimer->GetDeltaTime();
 			// Update Event
-			E->VUpdate(20);
+			m_pEventManager->VUpdate(20);
 			// Update Game
-			m_Game->Update(G->GetDeltaTime());
+			m_Game->Update(dt);
 			// Update Physic
-			B->VOnUpdate(G->GetDeltaTime());
+			m_pPhysic->VOnUpdate(dt);
 			// Update Effect
-			ES->Update(pScene, G->GetDeltaTime());
+			m_pEffectSystem->Update(pScene, dt);
 			// Update Object
-			B->VSyncVisibleScene();
+			m_pPhysic->VSyncVisibleScene();
+			// Update sound
+			m_pSoundEngine->Update();
 		}
 
-		// Update sound
-		SE->Update();
-		if (m_DebugPhysic) B->VRenderDiagnostics();
+		
+		if (m_DebugPhysic) m_pPhysic->VRenderDiagnostics();
 		
 
-		O->Clear();
+		m_pRenderer->Clear();
 
 		// Draw Game
 		m_Game->Render();
 		// Draw Effect
-		ES->Render(pScene);
+		m_pEffectSystem->Render(pScene);
 		// Draw Console
-		C->Draw();
+		m_pConsole->Draw();
 		// Daw Debug
-		Db->Render();
+		m_pDebuger->Render();
 		// Draw SystemUI
-		S->Render();
-		O->SwapBuffer();
+		m_pSystemUI->Render();
+		m_pRenderer->SwapBuffer();
 
 
 	}

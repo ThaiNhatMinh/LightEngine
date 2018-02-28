@@ -10,10 +10,11 @@ protected:
 	Shader					*m_pShader;
 	Material				m_Material;
 	ModelCache*				m_Model;
+	OpenGLRenderer			*m_pRenderer;
 public:
 	static const char* Name;
 	
-	MeshRenderComponent(void) {}
+	MeshRenderComponent(void);
 	MeshRenderComponent(const vector<IMesh*>& v) { m_MeshList = v; }
 	virtual ~MeshRenderComponent() {};
 	

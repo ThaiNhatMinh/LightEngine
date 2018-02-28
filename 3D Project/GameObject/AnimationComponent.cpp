@@ -11,7 +11,7 @@ void BaseAnimComponent::DrawSkeleton(const mat4& m)
 {
 
 
-	for (size_t i = 0; i < m_pSkeNodes.size(); i++)
+	/*for (size_t i = 0; i < m_pSkeNodes.size(); i++)
 	{
 		int parentID = m_pSkeNodes[i]->m_ParentIndex;
 		if (parentID != -1)
@@ -56,7 +56,7 @@ void BaseAnimComponent::DrawSkeleton(const mat4& m)
 		//front = 4.0f*vec3(m_DbTransform[i][2]) + pos1;
 		//m_Context->m_pDebuger->DrawLine(pos1, front, vec3(0, 0, 1), m);
 		
-	}
+	}*/
 
 }
 
@@ -103,7 +103,7 @@ bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 
 	if (strlen(pFileName) > 1)
 	{
-		ModelCache* pModel = m_Context->m_pResources->GetModel(pFileName);
+		ModelCache* pModel = m_Context->GetSystem<Resources>()->GetModel(pFileName);
 
 		if (!pModel)
 		{
@@ -212,7 +212,7 @@ void AnimationComponent::ResetControl(CharAnimControl& control, GLuint anim, Ani
 void AnimationComponent::AnimEvent(const string& data)
 {
 	std::shared_ptr<IEvent> pEvent(new EvtData_AnimationString(m_pOwner->GetId(), data));
-	m_Context->m_pEventManager->VQueueEvent(pEvent);
+	m_Context->GetSystem<EventManager>()->VQueueEvent(pEvent);
 }
 
 void AnimationComponent::Play(blendset layer, int anim, bool loop)
@@ -303,7 +303,7 @@ AnimationComponent::AnimationComponent(void)
 
 AnimationComponent::~AnimationComponent(void)
 {
-	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
+	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
 }
 
 
@@ -325,7 +325,7 @@ bool AnimationComponent::VInit(const tinyxml2::XMLElement * pData)
 
 void AnimationComponent::VPostInit(void)
 {
-	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
+	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
 	
 	//ResetControl(upper, m_iDefaultAnimation, ANIM_PLAYING);
 	//ResetControl(lower, m_iDefaultAnimation, ANIM_PLAYING);

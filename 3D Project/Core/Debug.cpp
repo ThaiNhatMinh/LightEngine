@@ -7,7 +7,7 @@ Debug::Debug()
 
 void Debug::Init(Context * c)
 {
-	pShader = c->m_pResources->GetShader("Debug");
+	pShader = c->GetSystem<Resources>()->GetShader("Debug");
 
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -19,7 +19,7 @@ void Debug::Init(Context * c)
 	glVertexAttribPointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, sizeof(DebugData), (GLvoid*)0);
 	glEnableVertexAttribArray(SHADER_COLOR_ATTRIBUTE);
 	glVertexAttribPointer(SHADER_COLOR_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, sizeof(DebugData), (GLvoid*)(sizeof(vec3)));
-	c->m_pDebuger = std::unique_ptr<Debug>(this);
+	c->AddSystem(this);
 	glBindVertexArray(0);
 }
 

@@ -84,9 +84,9 @@ void Resources::Init(Context* c)
 
 	LoadResources("GameAssets/" + string(LightEngine::RESOURCES_FILE));
 
-	c->m_pResources = std::unique_ptr<Resources>(this);
+	c->AddSystem(this);
 
-	m_FMOD = c->m_pSoundEngine->GetFMODSystem();
+	m_FMOD = c->GetSystem<SoundEngine>()->GetFMODSystem();
 }
 
 SpriteAnim * Resources::LoadSpriteAnimation(const string& filename)
@@ -707,7 +707,7 @@ Resources::SoundRAAI * Resources::LoadSound(const string & filename, const strin
 	}
 
 	FMOD::Sound* pFMODSound=nullptr;
-	FMOD::System* pSystem = m_Context->m_pSoundEngine->GetFMODSystem();
+	FMOD::System* pSystem = m_Context->GetSystem<SoundEngine>()->GetFMODSystem();
 	FMOD_RESULT result;
 
 	string fullpath = m_Path + filename;
@@ -732,7 +732,7 @@ Shader * Resources::LoadShader(string key, const char* type, const char * vs, co
 	
 	string fullPathvs = m_Path + vs;
 	string fullPathfs = m_Path + fs;
-	std::unique_ptr<Shader> p(m_Context->m_pActorFactory->CreateShader(type,fullPathvs.c_str(),fullPathfs.c_str()));
+	std::unique_ptr<Shader> p(m_Context->GetSystem<ActorFactory>()->CreateShader(type,fullPathvs.c_str(),fullPathfs.c_str()));
 	Shader* result = p.get();
 
 	if (linkshader) p->LinkShader();

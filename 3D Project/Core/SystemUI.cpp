@@ -29,16 +29,15 @@ void ImGui_ImplGlfwGL3_CharCallback(GLFWwindow*, unsigned int c)
 void ImGui_ImplGlfwGL3_MouseButtonCallback(GLFWwindow* w, int button, int action, int /*mods*/)
 {
 	Context* pw = (Context*)glfwGetWindowUserPointer(w);
-	pw->m_pConsole;
 	if (action == GLFW_PRESS && button >= 0 && button < 3)
-		pw->m_pSystemUI->m_MousePress[button] = true;
+		pw->GetSystem<SystemUI>()->m_MousePress[button] = true;
 }
 
 void ImGui_ImplGlfwGL3_ScrollCallback(GLFWwindow* w, double /*xoffset*/, double yoffset)
 {
 	Context* pw = (Context*)glfwGetWindowUserPointer(w);
 
-	pw->m_pSystemUI->m_MouseWhell += (float)yoffset; // Use fractional mouse wheel.
+	pw->GetSystem<SystemUI>()->m_MouseWhell += (float)yoffset; // Use fractional mouse wheel.
 }
 
 void SystemUI::CreateFontsTexture()
@@ -117,7 +116,7 @@ SystemUI::~SystemUI()
 
 void SystemUI::Init(Context * c)
 {
-	w = c->m_pWindows->Window();
+	w = c->GetSystem<Windows>()->Window();
 	ImGuiIO& io = ImGui::GetIO();
 	io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;                         // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
 	io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
@@ -161,7 +160,7 @@ void SystemUI::Init(Context * c)
 	glfwSetKeyCallback(w, ImGui_ImplGlfwGL3_KeyCallback);
 	glfwSetCharCallback(w, ImGui_ImplGlfwGL3_CharCallback);
 
-	m_pShader = c->m_pResources->GetShader("ImGuiShader");
+	m_pShader = c->GetSystem<Resources>()->GetShader("ImGuiShader");
 
 	m_Mesh = std::make_unique<imguiMesh>();
 	m_Mesh->Init();
@@ -176,7 +175,7 @@ void SystemUI::Init(Context * c)
 	io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
 
 	CreateFontsTexture();
-	c->m_pSystemUI = std::unique_ptr<SystemUI>(this);
+	c->AddSystem(this);
 
 }
 

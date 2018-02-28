@@ -12,6 +12,8 @@ private:
 	std::list<SpriteAnim*> m_List2;
 	Shader* m_pShader;
 
+	OpenGLRenderer *m_pRenderer;
+
 private:
 	void CreateSpriteEvent(std::shared_ptr<IEvent> pEvent);
 public:

@@ -25,3 +25,20 @@ tinyxml2::XMLElement * Context::GetElement(const char * p)
 
 	return pData;
 }
+
+bool Context::AddSystem(ISubSystem * system)
+{
+	for(auto& el:m_Systems)
+		if(typeid(*el)==typeid(*system)) return false;
+
+	m_Systems.push_back(system);
+	return true;
+}
+
+ISubSystem * Context::GetSystem(const std::type_info & rtti)
+{
+	for (auto& el : m_Systems)
+		if (typeid(*el) == rtti) return el;
+
+	return nullptr;
+}

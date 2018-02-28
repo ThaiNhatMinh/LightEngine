@@ -23,7 +23,7 @@ bool CameraComponent::VInit(const tinyxml2::XMLElement* pData)
 	
 	if (as < 0.0f)
 	{
-		vec2 size = m_Context->m_pWindows->GetWindowSize();
+		vec2 size = m_Context->GetSystem<Windows>()->GetWindowSize();
 		as = size[0]/size[1];
 	}
 

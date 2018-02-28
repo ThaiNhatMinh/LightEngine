@@ -23,7 +23,7 @@ EventManager::~EventManager()
 void EventManager::Init(Context* c)
 {
 	//E_DEBUG("Event Manager Initialize...");
-	c->m_pEventManager = std::unique_ptr<EventManager>(this);
+	c->AddSystem(this);
 }
 
 void EventManager::ShutDown()

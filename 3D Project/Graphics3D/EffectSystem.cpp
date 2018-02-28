@@ -4,7 +4,7 @@ void EffectSystem::CreateSpriteEvent(std::shared_ptr<IEvent> pEvent)
 {
 	EvtRequestCreateSprite* p = static_cast<EvtRequestCreateSprite*>(pEvent.get());
 
-	SpriteAnim* c = m_Context->m_pResources->GetSpriteAnimation(p->GetFile());
+	SpriteAnim* c = m_Context->GetSystem<Resources>()->GetSpriteAnimation(p->GetFile());
 	c->ResetState();
 	c->GetPos() = p->GetPos();
 	if (p->isLoop()) c->SetFlag(SpriteAnim::SF_LOOP);
@@ -26,17 +26,17 @@ void EffectSystem::Init(Context * c)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(SHADER_POSITION_ATTRIBUTE);
 	glVertexAttribPointer(SHADER_POSITION_ATTRIBUTE,3,  GL_FLOAT,  GL_FALSE,   		0,  (void*)0    );
+	m_pRenderer = c->GetSystem<OpenGLRenderer>();
+	m_pShader = c->GetSystem<Resources>()->GetShader("SpriteShader");
+	c->AddSystem(this);
 
-	m_pShader = c->m_pResources->GetShader("SpriteShader");
-	c->m_pEffectSystem = std::unique_ptr<EffectSystem>(this);
-
-	c->m_pEventManager->VAddListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
+	c->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
 }
 
 void EffectSystem::ShutDown() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
-	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
+	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
 }
 
 void EffectSystem::Update(Scene* pScene,float dt)
@@ -65,8 +65,8 @@ void EffectSystem::Render(Scene* pScene)
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	m_Context->m_pRenderer->SetDrawMode(GL_TRIANGLE_STRIP);
-	m_Context->m_pRenderer->SetVertexArrayBuffer(VAO);
+	m_pRenderer->SetDrawMode(GL_TRIANGLE_STRIP);
+	m_pRenderer->SetVertexArrayBuffer(VAO);
 	
 	m_pShader->SetUniformMatrix("MVP", glm::value_ptr(pCam->GetVPMatrix()));
 	mat4 ViewMatrix = pCam->GetViewMatrix();
@@ -87,7 +87,7 @@ void EffectSystem::Render(Scene* pScene)
 		auto data = el->GetCurrentFrame();
 		m_pShader->SetUniform("SpriteSize", data.Size);
 		data.Tex->Bind();
-		m_Context->m_pRenderer->Draw(0, 4);
+		m_pRenderer->Draw(0, 4);
 	}
 
 	glDisable(GL_BLEND);

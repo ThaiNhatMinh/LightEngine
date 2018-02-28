@@ -18,7 +18,7 @@ DirectInput::~DirectInput()
 
 void DirectInput::Init(Context * c)
 {
-	GLFWwindow* w = c->m_pWindows->Window();
+	GLFWwindow* w = c->GetSystem<Windows>()->Window();
 	ZeroMemory(m_KeyState, sizeof(m_KeyState));
 	ZeroMemory(&m_MouseState, sizeof(m_MouseState));
 
@@ -38,7 +38,7 @@ void DirectInput::Init(Context * c)
 	m_pMouse->SetDataFormat(&c_dfDIMouse2);
 	m_pMouse->SetCooperativeLevel(glfwGetWin32Window(w), DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 	m_pMouse->Acquire();
-	c->m_pInput = std::unique_ptr<DirectInput>(this);
+	c->AddSystem(this);
 	m_Lock = 0;
 
 }

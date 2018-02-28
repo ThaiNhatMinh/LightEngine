@@ -13,6 +13,7 @@ private:
 	float m_Yaw;	// y axis
 	float MouseSensitivity;
 	TransformComponent* m_TF;
+	DirectInput* m_pInput;
 public:
 	static const char*	Name;
 	LogicComponent();

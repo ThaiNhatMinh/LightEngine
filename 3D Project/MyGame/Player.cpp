@@ -107,13 +107,13 @@ void Player::SetPVModel()
 {
 	if (m_iCurrentWP != -1)
 	{
-		PlayerView = m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\PVGroup.xml",nullptr,0);
+		PlayerView = m_Context->GetSystem<ActorFactory>()->CreateActor("GameAssets\\ACTOR\\PVGroup.xml",nullptr,0);
 		GunPlayerView* PVWeapon = static_cast<GunPlayerView*>(PlayerView->VGetChild("PVWeapon"));
 
 		Weapon* wp = static_cast<Weapon*>(m_Children[m_WPList[m_iCurrentWP]].get());
 		const string& pvmodel = wp->GetPVFileName();
 
-		ModelCache* pModel = m_Context->m_pResources->GetModel(pvmodel);
+		ModelCache* pModel = m_Context->GetSystem<Resources>()->GetModel(pvmodel);
 
 		// fix model data
 		CharacterResource cr = Game::LoadCharacter(m_Character);
@@ -122,7 +122,7 @@ void Player::SetPVModel()
 			if (el->Tex->GetName() == "GameAssets/TEXTURES/Default.png")
 			{
 				string texPath = cr.PVTexFile[m_Team][el->Name];
-				el->Tex = m_Context->m_pResources->GetTexture(texPath);
+				el->Tex = m_Context->GetSystem<Resources>()->GetTexture(texPath);
 			}
 		}
 		// Set component data
@@ -184,7 +184,7 @@ void Player::EventCharacterData(std::shared_ptr<IEvent> pEvents)
 	
 	if (m_MeshRender == nullptr) return;
 
-	m_RModel= m_Context->m_pResources->GetModel(wr[i].ModelFile[m_Team].c_str());
+	m_RModel= m_Context->GetSystem<Resources>()->GetModel(wr[i].ModelFile[m_Team].c_str());
 	if (m_RModel)
 	{
 		// load texture
@@ -195,7 +195,7 @@ void Player::EventCharacterData(std::shared_ptr<IEvent> pEvents)
 			map<string, string> ss = wr[i].TexFile[m_Team];
 			const char* pTextureFile = ss[ve[j]->Name].c_str();
 			
-			ve[j]->Tex = m_Context->m_pResources->GetTexture(pTextureFile);
+			ve[j]->Tex = m_Context->GetSystem<Resources>()->GetTexture(pTextureFile);
 			m_MeshRender->GetMeshList().push_back(m_RModel->pMeshs[j].get());
 		}
 

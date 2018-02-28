@@ -19,7 +19,7 @@ public:
 
 	// debug
 	bool DrawSkeleton = 0;
-	std::unique_ptr<Windows>			m_pWindows;
+	/*std::unique_ptr<Windows>			m_pWindows;
 	std::unique_ptr<OpenGLRenderer>		m_pRenderer;
 	std::unique_ptr<SystemUI>			m_pSystemUI;
 	std::unique_ptr<Console>			m_pConsole;
@@ -32,13 +32,28 @@ public:
 	std::unique_ptr<BulletPhysics>		m_pPhysic;
 	std::unique_ptr<ActorFactory>		m_pActorFactory;
 	std::unique_ptr<EffectSystem>		m_pEffectSystem;
-	std::unique_ptr<SoundEngine>		m_pSoundEngine;
+	std::unique_ptr<SoundEngine>		m_pSoundEngine;*/
 
 	Context();
 	~Context();
 
 	tinyxml2::XMLElement* GetElement(const char* p);
+
+	bool AddSystem(ISubSystem* system);
+	template <class T> 
+		T* GetSystem();
 private:
+	ISubSystem * GetSystem(const std::type_info& rtti);
+
+private:
+
+	std::vector<ISubSystem*> m_Systems;
 	const char*				ConfigFile = "GameAssets//config.xml";
 	tinyxml2::XMLDocument	ConfigData;
 };
+
+template <class T>
+T* Context::GetSystem()
+{
+	return static_cast<T*>(GetSystem(typeid(T)));
+}

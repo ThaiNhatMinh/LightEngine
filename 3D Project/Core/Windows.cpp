@@ -72,7 +72,7 @@ void Windows::Init(Context* c)
 	SetPos(pos);
 
 	HideWindows();
-	c->m_pWindows = std::unique_ptr<Windows>(this);
+	c->AddSystem(this);
 	
 	return ;
 }

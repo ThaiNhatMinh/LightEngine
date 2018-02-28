@@ -28,7 +28,7 @@ void SoundEngine::Init(Context * c)
 	}
 
 	m_pSystem->set3DSettings(1.0f, 1.0f, 1.0f);
-	c->m_pSoundEngine = std::unique_ptr<SoundEngine>(this);
+	c->AddSystem(this);
 	
 	/*FMOD::Sound *pSound;
 	if (m_pSystem->createSound("GameAssets\\SOUND\\AI_BOOSTINGFULL.WAV", FMOD_DEFAULT, 0, &pSound) != FMOD_OK)

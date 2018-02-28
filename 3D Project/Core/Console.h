@@ -36,6 +36,7 @@ private:
 	char					InputBuf[256];
 	bool					p_Open;
 	bool					Show;
+	DirectInput*	m_pInput;
 protected:
 	
 public:

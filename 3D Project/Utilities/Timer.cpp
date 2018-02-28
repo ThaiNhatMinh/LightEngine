@@ -26,7 +26,7 @@ void GameTimer::Init(Context* c)
 	m_SecondPerCount = 1.0 / (double)tickperSecond;
 	QueryPerformanceCounter((LARGE_INTEGER*)&m_StartTime);
 
-	c->m_pTimer = std::unique_ptr<GameTimer>(this);
+	c->AddSystem(this);
 
 	return;
 }

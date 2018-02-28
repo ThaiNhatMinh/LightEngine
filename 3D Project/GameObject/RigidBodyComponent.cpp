@@ -8,7 +8,7 @@ RigidBodyComponent::RigidBodyComponent(void):m_pRigidBody(nullptr),m_RigidBodyLo
 
 RigidBodyComponent::~RigidBodyComponent(void)
 {
-	m_Context->m_pPhysic->VRemoveActor(m_pOwner->GetId());
+	m_Context->GetSystem<BulletPhysics>()->VRemoveActor(m_pOwner->GetId());
 }
 
 tinyxml2::XMLElement * RigidBodyComponent::VGenerateXml(tinyxml2::XMLDocument * doc)
@@ -40,7 +40,7 @@ bool RigidBodyComponent::VInit(const tinyxml2::XMLElement* pData)
 
 void RigidBodyComponent::VPostInit(void)
 {
-	BulletPhysics* B = m_Context->m_pPhysic.get();
+	BulletPhysics* B = m_Context->GetSystem<BulletPhysics>();
 	ColliderComponent* pCollider = m_pOwner->GetComponent<ColliderComponent>(ColliderComponent::Name);
 	TransformComponent* pTransformComponent = m_pOwner->GetTransform();
 	btCollisionShape* pShape = pCollider->GetCollisionShape();
@@ -282,7 +282,7 @@ void RigidBodyComponent::Activate()
 
 void RigidBodyComponent::UpdateGravity()
 {
-	BulletPhysics* B = m_Context->m_pPhysic.get();
+	BulletPhysics* B = m_Context->GetSystem<BulletPhysics>();
 
 	int flag = m_pRigidBody->getFlags();
 

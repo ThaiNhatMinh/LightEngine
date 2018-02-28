@@ -4,7 +4,7 @@ const char* SoundSource3D::Name = "SoundSource3D";
 
 bool SoundSource3D::VInit(const tinyxml2::XMLElement * pData)
 {
-	m_pSystem = m_Context->m_pSoundEngine->GetFMODSystem();
+	m_pSystem = m_Context->GetSystem<SoundEngine>()->GetFMODSystem();
 
 	for (const tinyxml2::XMLElement *pNode = pData->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
 	{
@@ -12,7 +12,7 @@ bool SoundSource3D::VInit(const tinyxml2::XMLElement * pData)
 		if (!strcmp(pName, "Sound"))
 		{
 			const char* pTag = pNode->Attribute("Tag");
-			FMOD::Sound* pSound = m_Context->m_pResources->GetSound(pTag);
+			FMOD::Sound* pSound = m_Context->GetSystem<Resources>()->GetSound(pTag);
 			
 			if (pSound) m_SoundMap.insert({ pTag,pSound });
 		}
@@ -74,7 +74,7 @@ bool SoundSource3D::AddSound(const string & tag)
 	auto result = m_SoundMap.find(tag);
 	if (result == m_SoundMap.end())
 	{
-		FMOD::Sound* pSound = m_Context->m_pResources->GetSound(tag);
+		FMOD::Sound* pSound = m_Context->GetSystem<Resources>()->GetSound(tag);
 		if (pSound) m_SoundMap.insert({ tag,pSound });
 		return true;
 	}
