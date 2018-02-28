@@ -1,11 +1,14 @@
 #pragma once
 
 
-class VGUI
+class VGUI : public ISubSystem
 {
 public:
-	VGUI(Context* pContext);
+	VGUI();
 	~VGUI();
+
+	virtual void Init(Context* c);
+	//virtual void ShutDown() {};
 
 	void		Render();
 	void		Update(float dt);
@@ -18,7 +21,7 @@ public:
 private:
 	mat4						m_Proj;
 	Shader*						m_UIShader;
-	std::map<string, FTFont>	m_FontLists;
+	std::vector<FTFont>	m_FontLists;
 	Windows*					m_pWindows;
 	std::unique_ptr<UIGroup>	m_Root;
 };

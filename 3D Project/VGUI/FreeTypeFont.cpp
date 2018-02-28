@@ -1,15 +1,11 @@
 #include "pch.h"
 #include "FreeTypeFont.h"
 
-FTFont::FTFont(const string& fontfile)
+FT_Library  FTFont::m_library;
+FTFont::FTFont(const string& name, const string& fontfile) :m_face(0)
 {
+	m_Name = name;
 	
-	FT_Error error = FT_Init_FreeType(&m_library);
-	if (error)
-	{
-		E_ERROR("Can't init freetype.");
-		return;
-	}
 
 	
 	if (FT_New_Face(m_library, fontfile.c_str(), 0, &m_face))
@@ -64,7 +60,7 @@ FTFont::FTFont(const string& fontfile)
 FTFont::~FTFont()
 {
 	FT_Done_Face(m_face);
-	FT_Done_FreeType(m_library);
+	
 }
 
 void FTFont::SetFontSize(int size)
@@ -81,4 +77,41 @@ FTFont::FontChar * FTFont::GetChar(char c)
 	if (result == m_CharMaps.end()) return nullptr;
 	
 	return &result->second;
+}
+
+const string & FTFont::GetName()
+{
+	return m_Name;
+}
+
+FTFont & FTFont::operator=(FTFont && other)
+{
+	m_face = other.m_face;
+	m_CharMaps = other.m_CharMaps;
+	m_Name = other.m_Name;
+	other.m_face = nullptr;
+
+}
+
+FTFont::FTFont(FTFont && other)
+{
+	m_face = other.m_face;
+	m_CharMaps = other.m_CharMaps;
+	m_Name = other.m_Name;
+	other.m_face = nullptr;
+}
+
+void FTFont::InitFreeTypeFont()
+{
+	FT_Error error = FT_Init_FreeType(&m_library);
+	if (error)
+	{
+		E_ERROR("Can't init freetype.");
+		return;
+	}
+}
+
+void FTFont::ReleaseFreeTypeFont()
+{
+	FT_Done_FreeType(m_library);
 }

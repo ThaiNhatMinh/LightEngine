@@ -4,6 +4,7 @@ UIText::UIText(VGUI * pVGUI)
 {
 	m_Mesh.Init();
 	m_UIShader = pVGUI->GetShader();
+	m_Font = pVGUI->GetFont("Default");
 }
 
 void UIText::Render()

@@ -1,16 +1,25 @@
 #include "pch.h"
 
-VGUI::VGUI(Context* pContext):m_Root(new UIGroup(this))
+VGUI::VGUI():m_Root(new UIGroup(this))
 {
-	m_pWindows = pContext->GetSystem<Windows>();
-	vec2 size = m_pWindows->GetWindowSize();
-	m_Proj = glm::ortho(0.0f, size.x, size.y, 0.0f);
-
-	m_UIShader = pContext->GetSystem<Resources>()->GetShader("UI");
+	
 }
 
 VGUI::~VGUI()
 {
+}
+
+void VGUI::Init(Context * c)
+{
+	m_pWindows = c->GetSystem<Windows>();
+	vec2 size = m_pWindows->GetWindowSize();
+	m_Proj = glm::ortho(0.0f, size.x, size.y, 0.0f);
+
+	m_UIShader = c->GetSystem<Resources>()->GetShader("UI");
+
+
+	AddFont("Default", "GameAssets\\FONTS\\tahoma.tff");
+	c->AddSystem(this);
 }
 
 void VGUI::Render()
@@ -36,11 +45,10 @@ UIElement * VGUI::GetRoot()
 
 bool VGUI::AddFont(const string & fontname, const string & fontfile)
 {
-	// check if exits
-	auto result = m_FontLists.find(fontname);
-	if (result != m_FontLists.end()) return false;
+	for (auto& el : m_FontLists)
+		if (el.GetName() == fontname) return false;
 
-	m_FontLists.insert({ fontname,FTFont(fontfile) });
+	m_FontLists.push_back(FTFont(fontname, fontfile));
 
 	return true;
 }
@@ -57,8 +65,8 @@ const mat4 & VGUI::GetProj()
 
 FTFont * VGUI::GetFont(const string & fontname)
 {
-	auto result = m_FontLists.find(fontname);
-	if (result == m_FontLists.end()) return nullptr;
+	for (auto& el : m_FontLists)
+		if (el.GetName() == fontname) return &el;
 
-	return &result->second;
+	return nullptr;
 }
