@@ -92,7 +92,7 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		if (pFile == nullptr) return;
 		const char* path = pFile->Attribute("Path");
 		if (path == nullptr) return;
-		HeightMap* hm = m_Context->m_pResources->GetHeightMap(path);
+		HeightMap* hm = m_Context->GetSystem<Resources>()->GetHeightMap(path);
 		m_pCollisionShape = new btHeightfieldTerrainShape(hm->Width, hm->Height, hm->Data, 1, hm->minH, hm->maxH, 1, PHY_UCHAR, false);
 		btVector3 localScaling(hm->stepsize, hm->hscale, hm->stepsize);
 		m_pCollisionShape->setLocalScaling(localScaling);
@@ -106,7 +106,7 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		const char* path = pFile->Attribute("Path");
 		if (path == nullptr) return;
 
-		HeightMap* hm = m_Context->m_pResources->GetHeightMap(path);
+		HeightMap* hm = m_Context->GetSystem<Resources>()->GetHeightMap(path);
 		
 		Mesh* m = static_cast<Mesh*>(hm->m_Mesh[0].get());
 		int totaltriangle = m->m_Indices.size() / 3;

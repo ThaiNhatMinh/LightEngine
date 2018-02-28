@@ -80,6 +80,7 @@ struct PhysicsRaycastResult
 
 class BulletPhysics : public IGamePhysics, public ISubSystem
 {
+	EventManager* m_pEventManager;
 	friend class CharacterControllerComponent;
 	friend class RigidBodyComponent;;
 	// use auto pointers to automatically call delete on these objects
@@ -145,11 +146,11 @@ class BulletPhysics : public IGamePhysics, public ISubSystem
 protected:
 	
 public:
-	BulletPhysics();				// [mrmike] This was changed post-press to add event registration!
+	BulletPhysics(Context* c);				// [mrmike] This was changed post-press to add event registration!
 	virtual ~BulletPhysics();
 
-	virtual void Init(Context* c);
-	virtual void ShutDown();
+	//virtual void Init(Context* c);
+	//virtual void ShutDown();
 
 	// Initialiazation and Maintenance of the Physics World
 	virtual bool VInitialize() override { return 1; };
@@ -166,5 +167,7 @@ public:
 	virtual void RayCast(std::vector<PhysicsRaycastResult>& result, const Ray& r, float maxdistance, unsigned mask = 0xffffffff);
 
 	btCollisionWorld* GetCollisionWorld();
+
+	virtual char* GetName()override;
 };
 

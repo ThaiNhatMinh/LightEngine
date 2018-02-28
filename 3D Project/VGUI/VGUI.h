@@ -1,19 +1,21 @@
 #pragma once
 
 
-class VGUI
+class VGUI : public ISubSystem
 {
 public:
 	VGUI(Context* pContext);
 	~VGUI();
 
-	void		Render();
-	void		Update(float dt);
-	UIElement*	GetRoot();
-	bool		AddFont(const string& fontname,const string& fontfile);
-	Shader*		GetShader();
-	const mat4& GetProj();
-	FTFont*		GetFont(const string& fontname);
+	virtual char*	GetName()override;
+
+	void			Render();
+	void			Update(float dt);
+	UIElement*		GetRoot();
+	bool			AddFont(const string& fontname,const string& fontfile);
+	Shader*			GetShader();
+	const mat4&		GetProj();
+	FTFont*			GetFont(const string& fontname);
 
 private:
 	mat4						m_Proj;

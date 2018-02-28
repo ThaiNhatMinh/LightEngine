@@ -29,16 +29,16 @@ void ImGui_ImplGlfwGL3_CharCallback(GLFWwindow*, unsigned int c)
 void ImGui_ImplGlfwGL3_MouseButtonCallback(GLFWwindow* w, int button, int action, int /*mods*/)
 {
 	Context* pw = (Context*)glfwGetWindowUserPointer(w);
-	pw->m_pConsole;
-	if (action == GLFW_PRESS && button >= 0 && button < 3)
-		pw->m_pSystemUI->m_MousePress[button] = true;
+	
+	//if (action == GLFW_PRESS && button >= 0 && button < 3)
+	//	static_cast<SystemUI*>(pw->GetSystem(typeid(SystemUI)))->m_MousePress[button] = true;
 }
 
 void ImGui_ImplGlfwGL3_ScrollCallback(GLFWwindow* w, double /*xoffset*/, double yoffset)
 {
 	Context* pw = (Context*)glfwGetWindowUserPointer(w);
 
-	pw->m_pSystemUI->m_MouseWhell += (float)yoffset; // Use fractional mouse wheel.
+	//static_cast<SystemUI*>(pw->GetSystem(typeid(SystemUI)))->m_MouseWhell += (float)yoffset; // Use fractional mouse wheel.
 }
 
 void SystemUI::CreateFontsTexture()
@@ -60,6 +60,12 @@ void SystemUI::CreateFontsTexture()
 	// Store our identifier
 	io.Fonts->TexID = (void *)(intptr_t)m_FontTexture;
 
+}
+
+char * SystemUI::GetName()
+{
+	static char* name = "SystemUI";
+	return name;
 }
 
 void SystemUI::NewFrame()
@@ -109,13 +115,77 @@ void SystemUI::NewFrame()
 
 }
 
+SystemUI::SystemUI(Context * c):ISubSystem(c)
+{
+	w = c->GetSystem<Windows>()->Window();
+	ImGuiIO& io = ImGui::GetIO();
+	io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;                         // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
+	io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
+	io.KeyMap[ImGuiKey_RightArrow] = GLFW_KEY_RIGHT;
+	io.KeyMap[ImGuiKey_UpArrow] = GLFW_KEY_UP;
+	io.KeyMap[ImGuiKey_DownArrow] = GLFW_KEY_DOWN;
+	io.KeyMap[ImGuiKey_PageUp] = GLFW_KEY_PAGE_UP;
+	io.KeyMap[ImGuiKey_PageDown] = GLFW_KEY_PAGE_DOWN;
+	io.KeyMap[ImGuiKey_Home] = GLFW_KEY_HOME;
+	io.KeyMap[ImGuiKey_End] = GLFW_KEY_END;
+	io.KeyMap[ImGuiKey_Delete] = GLFW_KEY_DELETE;
+	io.KeyMap[ImGuiKey_Backspace] = GLFW_KEY_BACKSPACE;
+	io.KeyMap[ImGuiKey_Enter] = GLFW_KEY_ENTER;
+	io.KeyMap[ImGuiKey_Escape] = GLFW_KEY_ESCAPE;
+	io.KeyMap[ImGuiKey_A] = GLFW_KEY_A;
+	io.KeyMap[ImGuiKey_C] = GLFW_KEY_C;
+	io.KeyMap[ImGuiKey_V] = GLFW_KEY_V;
+	io.KeyMap[ImGuiKey_X] = GLFW_KEY_X;
+	io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
+	io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
+
+	io.RenderDrawListsFn = [](ImDrawData* data)
+	{
+		static_cast<SystemUI*>(ImGui::GetIO().UserData)->OnRenderDrawLists(data);
+	};
+
+	io.SetClipboardTextFn = [](void* user_data, const char* text)
+	{ glfwSetClipboardString((GLFWwindow*)user_data, text); };
+	io.GetClipboardTextFn = [](void* user_data) -> const char*
+	{ return glfwGetClipboardString((GLFWwindow*)user_data); };
+	io.ClipboardUserData = w;
+	io.ImeWindowHandle = glfwGetWin32Window(w);
+
+	io.UserData = this;
+
+	io.Fonts->AddFontDefault();
+
+
+	glfwSetMouseButtonCallback(w, ImGui_ImplGlfwGL3_MouseButtonCallback);
+	glfwSetScrollCallback(w, ImGui_ImplGlfwGL3_ScrollCallback);
+	glfwSetKeyCallback(w, ImGui_ImplGlfwGL3_KeyCallback);
+	glfwSetCharCallback(w, ImGui_ImplGlfwGL3_CharCallback);
+
+	m_pShader = c->GetSystem<Resources>()->GetShader("ImGuiShader");
+
+	m_Mesh = std::make_unique<imguiMesh>();
+	m_Mesh->Init();
+
+
+	// Setup display size (every frame to accommodate for window resizing)
+	int w, h;
+	int display_w, display_h;
+	glfwGetWindowSize(this->w, &w, &h);
+	glfwGetFramebufferSize(this->w, &display_w, &display_h);
+	io.DisplaySize = ImVec2((float)w, (float)h);
+	io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
+
+	CreateFontsTexture();
+	c->AddSystem(this);
+}
+
 SystemUI::~SystemUI()
 {
 	m_Mesh->Shutdown();
 	ImGui::Shutdown();
 }
 
-void SystemUI::Init(Context * c)
+/*void SystemUI::Init(Context * c)
 {
 	w = c->m_pWindows->Window();
 	ImGuiIO& io = ImGui::GetIO();
@@ -183,7 +253,7 @@ void SystemUI::Init(Context * c)
 void SystemUI::ShutDown()
 {
 	
-}
+}*/
 
 void SystemUI::Text(const char * fmt, ...)
 {

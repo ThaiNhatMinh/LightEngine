@@ -64,6 +64,7 @@ private:
 	std::string		m_Path;
 
 	FMOD::System* m_FMOD;
+	ActorFactory* m_pActorFactory;
 private:
 	Texture*		HasTexture(const string& filename);
 	ModelCache*		HasModel(const string& filename);
@@ -86,10 +87,11 @@ private:
 	void LoadResources(string path);
 
 public:
-	Resources();
+	Resources(Context* c);
 	~Resources();
-	virtual void  Init(Context* c);
-	virtual void  ShutDown();
+	virtual char* GetName()override;
+	//virtual void  Init(Context* c);
+	//virtual void  ShutDown();
 
 	IMesh*		CreateShape(ShapeType type,float* size);
 	SpriteAnim*	GetSpriteAnimation(const string& filename);

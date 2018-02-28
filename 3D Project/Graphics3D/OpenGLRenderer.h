@@ -17,11 +17,11 @@ private:
 	GLenum			m_DrawMode;
 	GLFWwindow*		m_glfwWindow;
 public:
-	OpenGLRenderer();
+	OpenGLRenderer(Context* c);
 	~OpenGLRenderer();
 
-	virtual void Init(Context* c);
-	virtual void ShutDown();
+	//virtual void Init(Context* c);
+	//virtual void ShutDown();
 
 	virtual bool HasInit();
 	virtual void ClearBuffer();
@@ -40,6 +40,7 @@ public:
 
 	virtual void SwapBuffer();
 
+	virtual char* GetName()override;
 private:
 	
 

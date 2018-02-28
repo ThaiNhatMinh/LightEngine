@@ -263,14 +263,8 @@
     <ClInclude Include="GamePlugin\IGamePlugin.h">
       <Filter>GamePlugin</Filter>
     </ClInclude>
-    <ClInclude Include="GamePlugin\IContextDLL.h">
-      <Filter>GamePlugin</Filter>
-    </ClInclude>
     <ClInclude Include="interface.h" />
     <ClInclude Include="GamePlugin\GamePluginManager.h">
-      <Filter>GamePlugin</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlugin\ContextDLL.h">
       <Filter>GamePlugin</Filter>
     </ClInclude>
     <ClInclude Include="GamePlugin\DLLInterface.h">
@@ -317,6 +311,12 @@
     </ClInclude>
     <ClInclude Include="VGUI\UI.h">
       <Filter>VGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Module.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IContext.h">
+      <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -524,9 +524,6 @@
       <Filter>MyGame</Filter>
     </ClCompile>
     <ClCompile Include="GamePlugin\GamePluginManager.cpp">
-      <Filter>GamePlugin</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePlugin\ContextDLL.cpp">
       <Filter>GamePlugin</Filter>
     </ClCompile>
     <ClCompile Include="Sound\SoundEngine.cpp">

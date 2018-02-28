@@ -2,18 +2,14 @@
 #include <fmod_errors.h>
 
 
-SoundEngine::SoundEngine() :m_pListener(nullptr)
+SoundEngine::SoundEngine(Context * c):ISubSystem(c), m_pListener(nullptr)
 {
-}
-
-void SoundEngine::Init(Context * c)
-{
-	FMOD_RESULT result; 
+	FMOD_RESULT result;
 
 	// Create the Studio System object.
 	result = FMOD::System_Create(&m_pSystem);
 
-	if (result!=FMOD_OK)
+	if (result != FMOD_OK)
 	{
 		printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
 		exit(-1);
@@ -28,21 +24,27 @@ void SoundEngine::Init(Context * c)
 	}
 
 	m_pSystem->set3DSettings(1.0f, 1.0f, 1.0f);
-	c->m_pSoundEngine = std::unique_ptr<SoundEngine>(this);
-	
+
+	c->AddSystem(this);
+
 	/*FMOD::Sound *pSound;
 	if (m_pSystem->createSound("GameAssets\\SOUND\\AI_BOOSTINGFULL.WAV", FMOD_DEFAULT, 0, &pSound) != FMOD_OK)
 	{
-		printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+	printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
 
 	}
 
 	m_pSystem->playSound(pSound, 0, 0, 0);*/
 }
 
-void SoundEngine::ShutDown()
+SoundEngine::~SoundEngine()
 {
 	m_pSystem->release();
+}
+
+char * SoundEngine::GetName()
+{
+	return "FModSound";
 }
 
 void SoundEngine::SetListener(SoundListener * listener)
@@ -53,6 +55,7 @@ void SoundEngine::SetListener(SoundListener * listener)
 void SoundEngine::Update()
 {
 	assert(m_pListener != nullptr);
+	if (m_pListener == nullptr) return;
 	SoundListener::ListenerAttribute attribute = m_pListener->GetListenAttribute();
 	m_pSystem->set3DListenerAttributes(attribute.id, &attribute.pos, nullptr, &attribute.forward, &attribute.up);
 	m_pSystem->update();

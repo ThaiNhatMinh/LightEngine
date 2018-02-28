@@ -244,16 +244,14 @@ class ISubSystem
 	friend class ActorFactory;
 	friend class Application;
 public:
-	virtual void Init(Context* c) = 0;
-	virtual void ShutDown() {};
-	virtual ~ISubSystem() {};
 
+	virtual char* GetName() = 0;
 
 protected:
-	static Context* m_Context;
-	ISubSystem() {};
-	ISubSystem& operator=(const ISubSystem& other) { return *this; }
-	ISubSystem(const ISubSystem& other) {}
+	ISubSystem(Context* c) {}
+	virtual ~ISubSystem() {}
+	ISubSystem(const ISubSystem&) {}	
+	ISubSystem& operator=(const ISubSystem&) { return *this; }
 };
 
 

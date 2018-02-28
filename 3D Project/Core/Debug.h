@@ -21,11 +21,14 @@ private:
 	unsigned int			VBO;
 	std::vector<DebugData> m_Lists;
 public:
-	Debug();
-	virtual void Init(Context* c)override;
-	virtual void ShutDown()override;
-	void Update();
+	Debug(Context* c);
 	~Debug();
+
+	//virtual void Init(Context* c)override;
+	//virtual void ShutDown()override;
+	void Update();
+	
+	virtual char* GetName()override;
 
 	void DrawLine(const vec3& from, const vec3& to, const vec3& color, const mat4& m = mat4());
 	void DrawLineBox(vec3 min, vec3 max, vec3 color = vec3(0.5f), const mat4& m = mat4());

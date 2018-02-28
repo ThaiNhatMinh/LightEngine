@@ -5,10 +5,11 @@
 {
 	return Input::InstancePtr();
 }*/
-Input::Input()
+Input::Input(Context* c):ISubSystem(c)
 {
 	memset(keys, 0, 1024);
 	memset(checkKeys, 0, 1024);
+	c->AddSystem(this);
 }
 
 Input::~Input()

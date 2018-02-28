@@ -4,11 +4,12 @@
 const char* RigidBodyComponent::Name = "RigidBodyComponent";
 RigidBodyComponent::RigidBodyComponent(void):m_pRigidBody(nullptr),m_RigidBodyLocation(0),m_RigidBodyOrientation(0),m_CustomGravity(0),m_bUseGravity(true)
 {
+	m_pPhysic = m_Context->GetSystem<BulletPhysics>();
 }
 
 RigidBodyComponent::~RigidBodyComponent(void)
 {
-	m_Context->m_pPhysic->VRemoveActor(m_pOwner->GetId());
+	m_pPhysic->VRemoveActor(m_pOwner->GetId());
 }
 
 tinyxml2::XMLElement * RigidBodyComponent::VGenerateXml(tinyxml2::XMLDocument * doc)
@@ -40,7 +41,7 @@ bool RigidBodyComponent::VInit(const tinyxml2::XMLElement* pData)
 
 void RigidBodyComponent::VPostInit(void)
 {
-	BulletPhysics* B = m_Context->m_pPhysic.get();
+	BulletPhysics* B = m_Context->GetSystem<BulletPhysics>();
 	ColliderComponent* pCollider = m_pOwner->GetComponent<ColliderComponent>(ColliderComponent::Name);
 	TransformComponent* pTransformComponent = m_pOwner->GetTransform();
 	btCollisionShape* pShape = pCollider->GetCollisionShape();
@@ -282,7 +283,6 @@ void RigidBodyComponent::Activate()
 
 void RigidBodyComponent::UpdateGravity()
 {
-	BulletPhysics* B = m_Context->m_pPhysic.get();
 
 	int flag = m_pRigidBody->getFlags();
 
@@ -296,7 +296,7 @@ void RigidBodyComponent::UpdateGravity()
 	if (m_bUseGravity)
 	{
 		if (m_CustomGravity == vec3(0))
-			m_pRigidBody->setGravity(B->m_dynamicsWorld->getGravity());
+			m_pRigidBody->setGravity(m_pPhysic->m_dynamicsWorld->getGravity());
 		else m_pRigidBody->setGravity(ToBtVector3(m_CustomGravity));
 	}
 	else m_pRigidBody->setGravity(btVector3(0, 0, 0));

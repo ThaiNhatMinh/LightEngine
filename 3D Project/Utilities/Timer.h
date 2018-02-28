@@ -16,10 +16,11 @@ private:
 	double m_DeltaTime;
 	int m_FPS;
 public:
-	GameTimer();
+	GameTimer(Context* c);
 	~GameTimer();
-	virtual void  Init(Context* c);
-	virtual void ShutDown();
+	virtual char* GetName()override;
+	//virtual void  Init(Context* c);
+	//virtual void ShutDown();
 	float GetGameTime() const; // in second
 	float GetDeltaTime() const; // in second
 

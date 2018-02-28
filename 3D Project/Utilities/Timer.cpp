@@ -4,9 +4,20 @@
 
 
 
-GameTimer::GameTimer():m_bStoped(0),m_CurrentTime(0),m_DeltaTime(0),m_PauseTime(0),m_PrevTime(0), m_SecondPerCount(0),m_StartTime(0),
+GameTimer::GameTimer(Context* c):ISubSystem(c),m_bStoped(0),m_CurrentTime(0),m_DeltaTime(0),m_PauseTime(0),m_PrevTime(0), m_SecondPerCount(0),m_StartTime(0),
 m_StopTime(0)
 {
+	__int64 tickperSecond;
+	if (!QueryPerformanceFrequency((LARGE_INTEGER*)&tickperSecond))
+	{
+		// system doesn't support hi-res timer
+		return;
+	}
+
+	m_SecondPerCount = 1.0 / (double)tickperSecond;
+	QueryPerformanceCounter((LARGE_INTEGER*)&m_StartTime);
+
+	c->AddSystem(this);
 }
 
 
@@ -14,7 +25,12 @@ GameTimer::~GameTimer()
 {
 }
 
-void GameTimer::Init(Context* c)
+char * GameTimer::GetName()
+{
+	return "GameTimer";
+}
+
+/*void GameTimer::Init(Context* c)
 {
 	__int64 tickperSecond;
 	if (!QueryPerformanceFrequency((LARGE_INTEGER*)&tickperSecond))
@@ -34,7 +50,7 @@ void GameTimer::Init(Context* c)
 void GameTimer::ShutDown()
 {
 }
-
+*/
 float GameTimer::GetGameTime() const
 {
 	// If we are stopped, do not count the time that has passed since

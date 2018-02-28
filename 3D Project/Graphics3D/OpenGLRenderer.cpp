@@ -1,13 +1,48 @@
 #include "pch.h"
 #include "OpenGLRenderer.h"
 
-OpenGLRenderer::OpenGLRenderer():m_RenderName("OpenGL"),m_ClearColor(1.0f,1.0f,1.0f,1.0f),m_HasInit(0),m_iClearFlag(0),m_DrawMode(GL_TRIANGLES)
+OpenGLRenderer::OpenGLRenderer(Context* c):ISubSystem(c),m_RenderName("OpenGL"),m_ClearColor(1.0f,1.0f,1.0f,1.0f),m_HasInit(0),m_iClearFlag(0),m_DrawMode(GL_TRIANGLES)
 {
+	if (!ReadConfig(c->GetElement("Graphic")))
+	{
+		E_ERROR("Failed to init OpenGL Renderer");
+	}
+
+	// Initialize GLEW to setup the OpenGL Function pointers
+	glewExperimental = GL_TRUE;
+	GLenum err = glewInit();
+	if (err != GLEW_OK)
+	{
+		string Error = string("glewInit failed! ");
+		E_ERROR(Error);
+		return;
+	}
+
+	vec2 size = c->GetSystem<Windows>()->GetWindowSize();
+	m_glfwWindow = c->GetSystem<Windows>()->Window();
+
+
+	m_Viewport = vec4(0, 0, size.x, size.y);
+	// Define the viewport dimensions
+	glViewport(m_Viewport.x, m_Viewport.y, m_Viewport.z, m_Viewport.w);
+	glEnable(GL_DEPTH_TEST);
+	//glDepthFunc(GL_LESS);
+
+	//glFrontFace(GL_CW);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
+	SetClearFlag(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glfwSwapInterval(0);
+
+	//c->m_pRenderer = std::unique_ptr<OpenGLRenderer>(this);
+	c->AddSystem(this);
 }
 
 OpenGLRenderer::~OpenGLRenderer()
 {
-	ShutDown();
+	
 }
 
 bool OpenGLRenderer::ReadConfig(tinyxml2::XMLElement *pRenderer)
@@ -27,7 +62,7 @@ bool OpenGLRenderer::ReadConfig(tinyxml2::XMLElement *pRenderer)
 
 	return true;
 }
-
+/*
 void OpenGLRenderer::Init(Context* c)
 {
 	if (!ReadConfig(c->GetElement("Graphic")))
@@ -71,7 +106,7 @@ void OpenGLRenderer::Init(Context* c)
 void OpenGLRenderer::ShutDown()
 {
 
-}
+}*/
 
 bool OpenGLRenderer::HasInit()
 {
@@ -144,4 +179,10 @@ void OpenGLRenderer::SwapBuffer()
 {
 	glfwSwapBuffers(m_glfwWindow);
 	
+}
+
+char * OpenGLRenderer::GetName()
+{
+	static char* name = "Renderer";
+	return name;
 }

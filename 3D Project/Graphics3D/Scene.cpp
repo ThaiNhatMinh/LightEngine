@@ -4,7 +4,8 @@
 
 Scene::Scene(Context* c) :m_Context(c)
 {
-	m_pRoot = std::unique_ptr<Actor>(m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,0));
+	auto factory = m_Context->GetSystem<ActorFactory>();
+	m_pRoot = std::unique_ptr<Actor>(factory->CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,0));
 	if (!m_pRoot)
 	{
 		E_ERROR("Can't create Root Node.");
@@ -23,6 +24,7 @@ Scene::~Scene()
 
 bool Scene::LoadScene(const string& filename)
 {
+	auto factory = m_Context->GetSystem<ActorFactory>();
 	tinyxml2::XMLDocument doc;
 	if (doc.LoadFile(filename.c_str())!= tinyxml2::XML_SUCCESS)
 	{
@@ -43,7 +45,7 @@ bool Scene::LoadScene(const string& filename)
 		{
 			const char* pFile = pNode->Attribute("File");
 			if (!pFile) continue;
-			Actor* p4 = m_Context->m_pActorFactory->CreateActor(pFile, nullptr, 0);
+			Actor* p4 = factory->CreateActor(pFile, nullptr, 0);
 			m_pRoot->VAddChild(std::unique_ptr<Actor>(p4));
 		}
 	}
@@ -65,7 +67,7 @@ bool Scene::OnRender()
 	
 	// render last
 	//m_Context->m_pRenderer->ClearBuffer();
-	ImGui::Text("Size: %d", m_ActorLast.size());
+
 	while (m_ActorLast.size()>0)
 	{
 		Actor* pActor = m_ActorLast.back();
@@ -79,7 +81,6 @@ bool Scene::OnRender()
 bool Scene::OnUpdate(float dt)
 {
 	m_pRoot->VOnUpdate(this, dt);
-	m_Context->m_pDebuger->Update();
 	return true;
 }
 bool Scene::PostUpdate()

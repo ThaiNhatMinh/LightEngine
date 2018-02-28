@@ -97,8 +97,10 @@ public:
 
 	bool			m_loop;
 	float			m_speed;
+	
 };
 
+class Debug;
 
 class BaseAnimComponent : public ActorComponent
 {
@@ -112,7 +114,8 @@ protected:
 	vector<mat4>		m_SkeTransform;
 	vector<mat4>		m_DbTransform;
 	float				m_fBlendTime;
-	
+	Debug				*m_pDebuger;
+
 protected:
 	FrameData			InterpolateFrame(AnimControl& control, const AnimNode& Anim, const vector<AnimKeyFrame>&);
 	GLint				FindAnimation(string name);
@@ -131,9 +134,7 @@ public:
 	//virtual void		PlayAnimation(const string& anim, bool v = true) = 0;
 	//virtual void		PlayDefaultAnimation() = 0;
 	void				SetData(ModelCache* pModel);
-	vector<Animation*>& GetAnimation() {
-		return m_pAnimList;
-	};
+	vector<Animation*>& GetAnimation();;
 
 };
 

@@ -1,7 +1,5 @@
 #include "pch.h"
 
-Context* ISubSystem::m_Context = nullptr;
-
 Context::Context()
 {
 	
@@ -15,6 +13,23 @@ Context::Context()
 Context::~Context()
 {
 	E_WARNING("Context Release...");
+}
+
+ISubSystem * Context::GetSystem(const type_info& rtti)
+{
+	for (auto& el : m_Systems)
+		if (el.first == rtti.name()) return el.second;
+
+	return nullptr;
+}
+
+void Context::AddSystem(ISubSystem * system)
+{
+	//cout << typeid(*system).raw_name() << endl;
+	for (auto& el : m_Systems)
+		if (el.first == typeid(*system).name()) return;
+
+	m_Systems.insert({ typeid(*system).name(),system });
 }
 
 tinyxml2::XMLElement * Context::GetElement(const char * p)

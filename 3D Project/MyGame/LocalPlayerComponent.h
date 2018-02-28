@@ -21,6 +21,8 @@ private:
 	GunPlayerView*	m_PVWeapon;
 	bool			m_bOnGround;
 	std::map<Player::weaponanim, int> m_AnimationMap;
+	EventManager* m_pEventManager;
+	DirectInput* m_pInput;
 public:
 	LocalPlayerComponent();
 	~LocalPlayerComponent();

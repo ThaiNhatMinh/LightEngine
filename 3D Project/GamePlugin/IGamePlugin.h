@@ -1,12 +1,11 @@
 #pragma once
 
-#include "IContextDLL.h"
-
+class IContext;
 class IGamePlugin
 {
 public:
 	// Call after engine init
-	virtual void	Init(IContextDLL*) =0;
+	virtual void	Init(IContext*) =0;
 	// Call every frame
 	virtual void	Update(float dt) = 0;
 	// Call every frame

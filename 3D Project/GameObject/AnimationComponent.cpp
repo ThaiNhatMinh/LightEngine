@@ -18,7 +18,7 @@ void BaseAnimComponent::DrawSkeleton(const mat4& m)
 		{
 			vec3 pos1 = m_DbTransform[i][3];
 			vec3 pos2 = m_DbTransform[parentID][3];
-			m_Context->m_pDebuger->DrawLine(pos1, pos2, vec3(1.0f, 1.0, 1.0f), m);
+			m_pDebuger->DrawLine(pos1, pos2, vec3(1.0f, 1.0, 1.0f), m);
 		}
 		
 		//if (m_pSkeNodes[i]->m_Name.find("Spine") == string::npos|| m_pSkeNodes[i]->m_Name.find("Finger") != string::npos) continue;
@@ -30,31 +30,31 @@ void BaseAnimComponent::DrawSkeleton(const mat4& m)
 		mat4 temp = m*m_DbTransform[i];
 		vec3 color = vec3(1,1,1);
 		
-		m_Context->m_pDebuger->DrawLine(m_pSkeNodes[i]->m_BoundBox.Min, m_pSkeNodes[i]->m_BoundBox.Max, vec3(0, 1, 0), temp);
+		m_pDebuger->DrawLine(m_pSkeNodes[i]->m_BoundBox.Min, m_pSkeNodes[i]->m_BoundBox.Max, vec3(0, 1, 0), temp);
 
-		m_Context->m_pDebuger->DrawLine(v[0], v[1], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[1], v[2], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[2], v[3], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[3], v[0], color, temp);
+		m_pDebuger->DrawLine(v[0], v[1], color, temp);
+		m_pDebuger->DrawLine(v[1], v[2], color, temp);
+		m_pDebuger->DrawLine(v[2], v[3], color, temp);
+		m_pDebuger->DrawLine(v[3], v[0], color, temp);
 
-		m_Context->m_pDebuger->DrawLine(v[4], v[5], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[5], v[6], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[6], v[7], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[7], v[4], color, temp);
+		m_pDebuger->DrawLine(v[4], v[5], color, temp);
+		m_pDebuger->DrawLine(v[5], v[6], color, temp);
+		m_pDebuger->DrawLine(v[6], v[7], color, temp);
+		m_pDebuger->DrawLine(v[7], v[4], color, temp);
 
-		m_Context->m_pDebuger->DrawLine(v[0], v[4], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[1], v[5], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[2], v[6], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[3], v[7], color, temp);
+		m_pDebuger->DrawLine(v[0], v[4], color, temp);
+		m_pDebuger->DrawLine(v[1], v[5], color, temp);
+		m_pDebuger->DrawLine(v[2], v[6], color, temp);
+		m_pDebuger->DrawLine(v[3], v[7], color, temp);
 
 		//vec3 pos1 = m_DbTransform[i][3];
 
 		//vec3 front = vec3(m_DbTransform[i][0]) + pos1;
-		//m_Context->m_pDebuger->DrawLine(pos1, front, vec3(1, 0, 0), m);
+		//m_pDebuger->DrawLine(pos1, front, vec3(1, 0, 0), m);
 		//front = 2.0f*vec3(m_DbTransform[i][1]) + pos1;
-		//m_Context->m_pDebuger->DrawLine(pos1, front, vec3(0, 1, 0), m);
+		//m_pDebuger->DrawLine(pos1, front, vec3(0, 1, 0), m);
 		//front = 4.0f*vec3(m_DbTransform[i][2]) + pos1;
-		//m_Context->m_pDebuger->DrawLine(pos1, front, vec3(0, 0, 1), m);
+		//m_pDebuger->DrawLine(pos1, front, vec3(0, 0, 1), m);
 		
 	}
 
@@ -81,6 +81,10 @@ void BaseAnimComponent::SetData(ModelCache * pModel)
 	//m_iDefaultAnimation = FindAnimation(pNameAnim);
 }
 
+vector<Animation*>& BaseAnimComponent::GetAnimation() {
+	return m_pAnimList;
+}
+
 
 const vector<mat4>& BaseAnimComponent::GetVertexTransform()
 {
@@ -91,7 +95,7 @@ const vector<mat4>& BaseAnimComponent::GetVertexTransform()
 
 bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 {
-	
+	m_pDebuger = m_Context->GetSystem<Debug>();
 	//m_Context->m_pConsole->RegisterVar("draw_skeleton", &m_bDrawSkeleton, 1, sizeof(int), TYPE_INT);
 	if (!pData) return false;
 	// load model
@@ -103,7 +107,7 @@ bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 
 	if (strlen(pFileName) > 1)
 	{
-		ModelCache* pModel = m_Context->m_pResources->GetModel(pFileName);
+		ModelCache* pModel =m_Context->GetSystem<Resources>()->GetModel(pFileName);
 
 		if (!pModel)
 		{
@@ -212,7 +216,7 @@ void AnimationComponent::ResetControl(CharAnimControl& control, GLuint anim, Ani
 void AnimationComponent::AnimEvent(const string& data)
 {
 	std::shared_ptr<IEvent> pEvent(new EvtData_AnimationString(m_pOwner->GetId(), data));
-	m_Context->m_pEventManager->VQueueEvent(pEvent);
+	//m_Context->m_pEventManager->VQueueEvent(pEvent);
 }
 
 void AnimationComponent::Play(blendset layer, int anim, bool loop)
@@ -303,7 +307,7 @@ AnimationComponent::AnimationComponent(void)
 
 AnimationComponent::~AnimationComponent(void)
 {
-	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
+	//m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
 }
 
 
@@ -325,7 +329,7 @@ bool AnimationComponent::VInit(const tinyxml2::XMLElement * pData)
 
 void AnimationComponent::VPostInit(void)
 {
-	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
+	//m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
 	
 	//ResetControl(upper, m_iDefaultAnimation, ANIM_PLAYING);
 	//ResetControl(lower, m_iDefaultAnimation, ANIM_PLAYING);
@@ -333,7 +337,7 @@ void AnimationComponent::VPostInit(void)
 
 void AnimationComponent::VUpdate(float deltaMs)
 {
-	if (m_Context->DrawSkeleton) DrawSkeleton(m_pOwner->VGetGlobalTransform());
+	//if (m_Context->DrawSkeleton) DrawSkeleton(m_pOwner->VGetGlobalTransform());
 
 	if (!m_pAnimList.size()) return;
 	if (!m_Controls.size()) return;

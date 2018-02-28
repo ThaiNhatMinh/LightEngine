@@ -11,14 +11,16 @@ private:
 
 	std::list<SpriteAnim*> m_List2;
 	Shader* m_pShader;
-
+	Resources *m_pResources;
+	EventManager* m_pEventManager;
+	OpenGLRenderer* m_pRenderer;
 private:
 	void CreateSpriteEvent(std::shared_ptr<IEvent> pEvent);
 public:
-	EffectSystem() = default;
-	~EffectSystem() = default;
-	virtual void	Init(Context* c);
-	virtual void	ShutDown();
+	EffectSystem(Context* c) ;
+	~EffectSystem();
+	
+	virtual char* GetName()override;
 
 	void			Update(Scene* pScene,float dt);
 	void			Render(Scene* pScene);

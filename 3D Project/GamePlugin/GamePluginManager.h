@@ -3,12 +3,10 @@
 #include <list>
 
 #include "IGamePlugin.h"
-#include "ContextDLL.h"
 
 class GamePluginManager
 {
 public:
-	GamePluginManager()=default;
 	GamePluginManager(Context* pContext);
 	~GamePluginManager() = default;
 
@@ -18,5 +16,5 @@ public:
 	void RenderGame();
 private:
 	std::list<IGamePlugin*> m_GamePlugins;
-	ContextDLL m_ContextDLL;
+	Context* m_Context;
 };

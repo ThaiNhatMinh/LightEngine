@@ -59,18 +59,62 @@ Resources::SoundRAAI * Resources::HasSound(const string & tag)
 }
 #pragma endregion
 
-Resources::Resources()
+Resources::Resources(Context* c):ISubSystem(c)
 {
-	
+	ilInit();
+	ILenum Error;
+	Error = ilGetError();
+
+	if (Error != IL_NO_ERROR)
+		Log::Message(Log::LOG_ERROR, "Can't init Devil Lib.");
+
+	// Load default tex
+	m_pDefaultTex = LoadTexture("GameAssets/TEXTURES/Default.png");
+	m_FMOD = c->GetSystem<SoundEngine>()->GetFMODSystem();
+	m_pActorFactory = c->GetSystem<ActorFactory>();
+
+	c->AddSystem(this);
+	LoadResources("GameAssets/" + string(LightEngine::RESOURCES_FILE));
 }
 
 
 Resources::~Resources()
 {
-	
+	for (size_t i = 0; i < m_Textures.size(); i++)
+	{
+		m_Textures[i]->Shutdown();
+	}
+
+	for (size_t i = 0; i < m_ModelCaches.size(); i++)
+	{
+
+		for (size_t j = 0; j < m_ModelCaches[i]->pMeshs.size(); j++)
+		{
+			m_ModelCaches[i]->pMeshs[j]->Shutdown();
+		}
+	}
+
+	for (map<string, std::unique_ptr<Shader>>::iterator it = m_ShaderList.begin(); it != m_ShaderList.end(); it++)
+	{
+		(it)->second->Shutdown();
+	}
+
+	for (size_t i = 0; i < m_HeightMaps.size(); i++)
+	{
+		for (size_t j = 0; j < m_HeightMaps[i]->m_Mesh.size(); j++)
+		{
+			m_HeightMaps[i]->m_Mesh[i]->Shutdown();
+		}
+	}
 }
 
-void Resources::Init(Context* c)
+char * Resources::GetName()
+{
+	static char* name = "Resources";
+	return name;
+}
+
+/*void Resources::Init(Context* c)
 {
 	ilInit();
 	ILenum Error;
@@ -88,6 +132,36 @@ void Resources::Init(Context* c)
 
 	m_FMOD = c->m_pSoundEngine->GetFMODSystem();
 }
+
+void Resources::ShutDown()
+{
+for (size_t i = 0; i < m_Textures.size(); i++)
+{
+m_Textures[i]->Shutdown();
+}
+
+for (size_t i = 0; i < m_ModelCaches.size(); i++)
+{
+
+for (size_t j = 0; j < m_ModelCaches[i]->pMeshs.size(); j++)
+{
+m_ModelCaches[i]->pMeshs[j]->Shutdown();
+}
+}
+
+for (map<string, std::unique_ptr<Shader>>::iterator it = m_ShaderList.begin(); it!= m_ShaderList.end(); it++)
+{
+(it)->second->Shutdown();
+}
+
+for (size_t i = 0; i < m_HeightMaps.size(); i++)
+{
+for (size_t j = 0; j < m_HeightMaps[i]->m_Mesh.size(); j++)
+{
+m_HeightMaps[i]->m_Mesh[i]->Shutdown();
+}
+}
+}*/
 
 SpriteAnim * Resources::LoadSpriteAnimation(const string& filename)
 {
@@ -707,11 +781,11 @@ Resources::SoundRAAI * Resources::LoadSound(const string & filename, const strin
 	}
 
 	FMOD::Sound* pFMODSound=nullptr;
-	FMOD::System* pSystem = m_Context->m_pSoundEngine->GetFMODSystem();
+	//FMOD::System* pSystem = m_Context->m_pSoundEngine->GetFMODSystem();
 	FMOD_RESULT result;
 
 	string fullpath = m_Path + filename;
-	if ((result = pSystem->createSound(fullpath.c_str(), mode, 0, &pFMODSound)) != FMOD_OK)
+	if ((result = m_FMOD->createSound(fullpath.c_str(), mode, 0, &pFMODSound)) != FMOD_OK)
 	{
 		E_ERROR("Can't create sound: " + fullpath);
 		printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
@@ -730,9 +804,10 @@ Shader * Resources::LoadShader(string key, const char* type, const char * vs, co
 	if (pos != m_ShaderList.end()) return pos->second.get();
 
 	
+
 	string fullPathvs = m_Path + vs;
 	string fullPathfs = m_Path + fs;
-	std::unique_ptr<Shader> p(m_Context->m_pActorFactory->CreateShader(type,fullPathvs.c_str(),fullPathfs.c_str()));
+	std::unique_ptr<Shader> p(m_pActorFactory->CreateShader(type,fullPathvs.c_str(),fullPathfs.c_str()));
 	Shader* result = p.get();
 
 	if (linkshader) p->LinkShader();
@@ -881,34 +956,5 @@ void Resources::LoadResources(string path)
 	}
 }
 
-void Resources::ShutDown()
-{
-	for (size_t i = 0; i < m_Textures.size(); i++)
-	{
-		m_Textures[i]->Shutdown();
-	}
-
-	for (size_t i = 0; i < m_ModelCaches.size(); i++)
-	{
-		
-		for (size_t j = 0; j < m_ModelCaches[i]->pMeshs.size(); j++)
-		{
-			m_ModelCaches[i]->pMeshs[j]->Shutdown();
-		}
-	}
-
-	for (map<string, std::unique_ptr<Shader>>::iterator it = m_ShaderList.begin(); it!= m_ShaderList.end(); it++)
-	{
-		(it)->second->Shutdown();
-	}
-
-	for (size_t i = 0; i < m_HeightMaps.size(); i++)
-	{
-		for (size_t j = 0; j < m_HeightMaps[i]->m_Mesh.size(); j++)
-		{
-			m_HeightMaps[i]->m_Mesh[i]->Shutdown();
-		}
-	}
-}
 
 

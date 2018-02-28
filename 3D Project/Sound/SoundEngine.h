@@ -9,11 +9,9 @@ class SoundEngine :public ISubSystem
 {
 public:
 	
-	SoundEngine();
-	~SoundEngine() = default;
-	virtual void Init(Context* c);
-	virtual void ShutDown();
-
+	SoundEngine(Context* c);
+	~SoundEngine() ;
+	virtual char* GetName()override;
 	void SetListener(SoundListener* listener);
 	void Update();
 	FMOD::System* GetFMODSystem();

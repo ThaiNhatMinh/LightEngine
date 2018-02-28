@@ -1,11 +1,31 @@
 #include "pch.h"
 
 
-Debug::Debug()
+Debug::Debug(Context* c):ISubSystem(c)
 {
+	pShader = c->GetSystem<Resources>()->GetShader("Debug");
+
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * 2, NULL, GL_STREAM_DRAW);
+	glEnableVertexAttribArray(SHADER_POSITION_ATTRIBUTE);
+	glVertexAttribPointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, sizeof(DebugData), (GLvoid*)0);
+	glEnableVertexAttribArray(SHADER_COLOR_ATTRIBUTE);
+	glVertexAttribPointer(SHADER_COLOR_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, sizeof(DebugData), (GLvoid*)(sizeof(vec3)));
+	c->AddSystem(this);
+	glBindVertexArray(0);
 }
 
-void Debug::Init(Context * c)
+Debug::~Debug()
+{
+	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, &VAO);
+}
+
+/*void Debug::Init(Context * c)
 {
 	pShader = c->m_pResources->GetShader("Debug");
 
@@ -25,18 +45,20 @@ void Debug::Init(Context * c)
 
 void Debug::ShutDown()
 {
-	glDeleteBuffers(1, &VBO);
-	glDeleteVertexArrays(1, &VAO);
-}
+	
+}*/
 
 void Debug::Update()
 {
 	VP = Camera::GetCurrentCamera()->GetVPMatrix();
 }
 
-Debug::~Debug()
+char * Debug::GetName()
 {
+	static char* name = "DebugRender";
+	return name;
 }
+
 
 
 

@@ -7,13 +7,15 @@ const char* LocalPlayerComponent::Name = "LocalPlayerComponent";
 LocalPlayerComponent::LocalPlayerComponent() :m_fJumpForce(0), m_fMaxSpeed(0), m_MoveDirection(0, 0, 0), m_JumpDirection(0, 1, 0), m_bOnGround(false), m_fInAirTime(0)
 , m_Shooting(0), m_PVGroup(nullptr)
 {
+	m_pEventManager = m_Context->GetSystem<EventManager>();
+	m_pInput = m_Context->GetSystem<DirectInput>();
 }
 
 LocalPlayerComponent::~LocalPlayerComponent()
 {
-	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &LocalPlayerComponent::PhysicCollisionEvent), EvtData_PhysCollisionStart::sk_EventType);
-	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &LocalPlayerComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
-	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &LocalPlayerComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
+	m_pEventManager->VRemoveListener(MakeDelegate(this, &LocalPlayerComponent::PhysicCollisionEvent), EvtData_PhysCollisionStart::sk_EventType);
+	m_pEventManager->VRemoveListener(MakeDelegate(this, &LocalPlayerComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
+	m_pEventManager->VRemoveListener(MakeDelegate(this, &LocalPlayerComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
 }
 
 bool LocalPlayerComponent::VInit(const tinyxml2::XMLElement* pData)
@@ -65,9 +67,9 @@ void LocalPlayerComponent::VPostInit(void)
 	m_pTC = m_pOwner->GetTransform();
 
 	// register event
-	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &LocalPlayerComponent::PhysicCollisionEvent), EvtData_PhysOnCollision::sk_EventType);
-	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &LocalPlayerComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
-	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &LocalPlayerComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
+	m_pEventManager->VAddListener(MakeDelegate(this, &LocalPlayerComponent::PhysicCollisionEvent), EvtData_PhysOnCollision::sk_EventType);
+	m_pEventManager->VAddListener(MakeDelegate(this, &LocalPlayerComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
+	m_pEventManager->VAddListener(MakeDelegate(this, &LocalPlayerComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
 
 
 	// Get Rigidbody
@@ -113,7 +115,7 @@ void LocalPlayerComponent::VUpdate(float dt)
 
 	
 
-	if (m_Context->m_pInput->MouseButtonDown(0))
+	if (m_pInput->MouseButtonDown(0))
 	{
 		m_PVWeapon->Shoot();
 		m_pBAC->Play(AnimationComponent::upper, m_AnimationMap[Player::shoot]);
@@ -122,25 +124,25 @@ void LocalPlayerComponent::VUpdate(float dt)
 	m_pBAC->Play(AnimationComponent::fullbody, m_AnimationMap[Player::idle]);
 	
 
-	if (m_Context->m_pInput->KeyDown(DIK_R))
+	if (m_pInput->KeyDown(DIK_R))
 		m_PVWeapon->Reload();
 
-	if (m_Context->m_pInput->KeyDown(DIK_W))
+	if (m_pInput->KeyDown(DIK_W))
 	{
 		m_MoveDirection += m_pTC->GetFront();
 		if (m_bOnGround) m_pBAC->Play(AnimationComponent::fullbody, m_AnimationMap[Player::run]);
 	}
-	if (m_Context->m_pInput->KeyDown(DIK_S))
+	if (m_pInput->KeyDown(DIK_S))
 	{
 		m_MoveDirection -= m_pTC->GetFront();
 		if (m_bOnGround) m_pBAC->Play(AnimationComponent::fullbody, m_AnimationMap[Player::runBside]);
 	}
-	if (m_Context->m_pInput->KeyDown(DIK_D))
+	if (m_pInput->KeyDown(DIK_D))
 	{
 		m_MoveDirection -= m_pTC->GetRight();
 		if (m_bOnGround) m_pBAC->Play(AnimationComponent::fullbody, m_AnimationMap[Player::runRside]);
 	}
-	if (m_Context->m_pInput->KeyDown(DIK_A))
+	if (m_pInput->KeyDown(DIK_A))
 	{
 		m_MoveDirection += m_pTC->GetRight();
 		if (m_bOnGround) m_pBAC->Play(AnimationComponent::fullbody, m_AnimationMap[Player::runLside]);
@@ -150,8 +152,8 @@ void LocalPlayerComponent::VUpdate(float dt)
 	{
 		m_PVWeapon->Run();
 	}
-	m_Yaw -= m_Context->m_pInput->mouseDX()*0.25f;
-	m_Pitch += m_Context->m_pInput->mouseDY()*0.25f;
+	m_Yaw -= m_pInput->mouseDX()*0.25f;
+	m_Pitch += m_pInput->mouseDY()*0.25f;
 	if (m_Pitch > 89.0) m_Pitch = 89.0f;
 	if (m_Pitch < -98.0f) m_Pitch = -89.0f;
 
@@ -247,7 +249,7 @@ void LocalPlayerComponent::PhysicPreStepEvent(std::shared_ptr<IEvent> pEvent)
 		vec3 brakeForce = -planeVelocity * m_fBrakeForce;
 		//m_pRBC->ApplyImpulse(brakeForce);
 		
-		if (m_Context->m_pInput->KeyDown(DIK_SPACE))
+		if (m_pInput->KeyDown(DIK_SPACE))
 		{
 			m_JumpDirection = vec3(0, 1, 0);
 			//m_pRBC->ApplyImpulse(vec3(0, 1, 0)*m_fJumpForce);

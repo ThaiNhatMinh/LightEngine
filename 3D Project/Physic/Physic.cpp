@@ -26,13 +26,68 @@ static bool CustomMaterialCombinerCallback(btManifoldPoint& cp, const btCollisio
 	return true;
 }
 
-BulletPhysics::BulletPhysics()
+BulletPhysics::BulletPhysics(Context* c):ISubSystem(c)
 {
 	REGISTER_EVENT(EvtData_PhysTrigger_Enter);
 	REGISTER_EVENT(EvtData_PhysTrigger_Leave);
 	REGISTER_EVENT(EvtData_PhysCollisionStart);
 	REGISTER_EVENT(EvtData_PhysOnCollision);
 	REGISTER_EVENT(EvtData_PhysCollisionEnd);
+
+	//E_DEBUG("Physic Engine Initialize...");
+	LoadXml();
+
+	gContactAddedCallback = CustomMaterialCombinerCallback;
+
+	// this controls how Bullet does internal memory management during the collision pass
+	m_collisionConfiguration = std::unique_ptr<btDefaultCollisionConfiguration>(new btDefaultCollisionConfiguration());
+
+	// this manages how Bullet detects precise collisions between pairs of objects
+	m_dispatcher = std::unique_ptr<btCollisionDispatcher>(new btCollisionDispatcher(m_collisionConfiguration.get()));
+
+	// Bullet uses this to quickly (imprecisely) detect collisions between objects.
+	//   Once a possible collision passes the broad phase, it will be passed to the
+	//   slower but more precise narrow-phase collision detection (btCollisionDispatcher).
+	m_broadphase = std::unique_ptr<btDbvtBroadphase>(new btDbvtBroadphase());
+
+	// Manages constraints which apply forces to the physics simulation.  Used
+	//  for e.g. springs, motors.  We don't use any constraints right now.
+	m_solver = std::unique_ptr<btSequentialImpulseConstraintSolver>(new btSequentialImpulseConstraintSolver);
+
+	// This is the main Bullet interface point.  Pass in all these components to customize its behavior.
+	m_dynamicsWorld = std::unique_ptr<btDiscreteDynamicsWorld>(new btDiscreteDynamicsWorld(m_dispatcher.get(),
+		m_broadphase.get(),
+		m_solver.get(),
+		m_collisionConfiguration.get()));
+
+	m_dynamicsWorld->setGravity(btVector3(0, -WORLD_GRAVITY, 0));
+
+	m_debugDrawer = std::unique_ptr<BulletDebugDrawer>(new BulletDebugDrawer(c));
+	m_debugDrawer->m_DebugModes = btIDebugDraw::DBG_DrawWireframe;
+	//m_debugDrawer->ReadOptions();
+
+	if (!m_collisionConfiguration || !m_dispatcher || !m_broadphase ||
+		!m_solver || !m_dynamicsWorld || !m_debugDrawer)
+	{
+		E_ERROR("BulletPhysics::VInitialize failed!");
+		return;
+	}
+
+	m_dynamicsWorld->setDebugDrawer(m_debugDrawer.get());
+
+
+	// and set the internal tick callback to our own method "BulletInternalTickCallback"
+	m_dynamicsWorld->setInternalTickCallback(BulletInternalTickCallback, static_cast<void*>(this), false);
+	m_dynamicsWorld->setInternalTickCallback(BulletInternalPreTickCallback, static_cast<void*>(this), true);
+	m_dynamicsWorld->setWorldUserInfo(this);
+	m_dynamicsWorld->getDispatchInfo().m_useContinuous = true;
+	m_dynamicsWorld->getSolverInfo().m_splitImpulse = false; // Disable by default for performance
+	m_dynamicsWorld->setSynchronizeAllMotionStates(true);
+	//m_dynamicsWorld->debugDrawWorld();
+
+	c->AddSystem(this);
+	m_pEventManager = c->GetSystem<EventManager>();
+
 }
 
 
@@ -41,10 +96,22 @@ BulletPhysics::BulletPhysics()
 //
 BulletPhysics::~BulletPhysics()
 {
-	ShutDown();
+	//E_DEBUG("Physic Engine Shutdown...");
+	// delete any physics objects which are still in the world
+
+	// iterate backwards because removing the last object doesn't affect the
+	//  other objects stored in a vector-type array
+	for (int ii = m_dynamicsWorld->getNumCollisionObjects() - 1; ii >= 0; --ii)
+	{
+		btCollisionObject * const obj = m_dynamicsWorld->getCollisionObjectArray()[ii];
+
+		RemoveCollisionObject(obj);
+	}
+
+	m_rigidBodyToActorId.clear();
 }
 
-void BulletPhysics::Init(Context* c)
+/*void BulletPhysics::Init(Context* c)
 {
 	//E_DEBUG("Physic Engine Initialize...");
 	LoadXml();
@@ -118,7 +185,7 @@ void BulletPhysics::ShutDown()
 
 	
 }
-
+*/
 /////////////////////////////////////////////////////////////////////////////
 // BulletPhysics::LoadXml						
 //
@@ -238,6 +305,12 @@ btCollisionWorld * BulletPhysics::GetCollisionWorld()
 	return m_dynamicsWorld.get();
 }
 
+char * BulletPhysics::GetName()
+{
+	static char* name = "Physic";
+	return name;
+}
+
 void BulletPhysics::VPostStep(float timeStep)
 {
 
@@ -246,13 +319,13 @@ void BulletPhysics::VPostStep(float timeStep)
 
 
 	std::shared_ptr<IEvent> pEvent(new EvtData_PhysPostStep(timeStep));
-	m_Context->m_pEventManager->VTriggerEvent(pEvent);
+	m_pEventManager->VTriggerEvent(pEvent);
 }
 
 void BulletPhysics::VPreStep(float timeStep)
 {
 	std::shared_ptr<IEvent>pEvent(new EvtData_PhysPreStep(timeStep));
-	m_Context->m_pEventManager->VTriggerEvent(pEvent);
+	m_pEventManager->VTriggerEvent(pEvent);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -284,7 +357,7 @@ void BulletPhysics::VSyncVisibleScene()
 				// Bullet has moved the actor's physics object.  Sync the transform and inform the game an actor has moved
 				pTransformComponent->SetTransform(actorMotionState->m_worldToPositionTransform);
 				std::shared_ptr<IEvent> pEvent(new EvtData_Move_Actor(id, actorMotionState->m_worldToPositionTransform));
-				m_Context->m_pEventManager->VQueueEvent(pEvent);
+				m_pEventManager->VQueueEvent(pEvent);
 			}
 		}
 	}
@@ -469,12 +542,12 @@ void BulletPhysics::SendCollisionEvents()
 			// this is new collision
 			// send the event for the game
 			std::shared_ptr<IEvent>  pEvent(new EvtData_PhysCollisionStart(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
-			m_Context->m_pEventManager->VQueueEvent(pEvent);
+			m_pEventManager->VQueueEvent(pEvent);
 		}
 		
 		// send the event for the game
 		std::shared_ptr<IEvent>  pEvent( new EvtData_PhysOnCollision(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
-		m_Context->m_pEventManager->VQueueEvent(pEvent);
+		m_pEventManager->VQueueEvent(pEvent);
 		
 	}
 
@@ -504,7 +577,7 @@ void BulletPhysics::SendCollisionEvents()
 		}
 
 		std::shared_ptr<IEvent>  pEvent(new EvtData_PhysCollisionEnd(id0, id1));
-		m_Context->m_pEventManager->VQueueEvent(pEvent);
+		m_pEventManager->VQueueEvent(pEvent);
 	}
 
 	// the current tick becomes the previous tick.  this is the way of all things.

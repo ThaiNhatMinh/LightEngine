@@ -7,7 +7,7 @@ HitBox::HitBox()
 
 HitBox::~HitBox()
 {
-	m_Context->m_pPhysic->GetCollisionWorld()->removeCollisionObject(m_Body);
+	m_Context->GetSystem<BulletPhysics>()->GetCollisionWorld()->removeCollisionObject(m_Body);
 	
 }
 
@@ -56,7 +56,7 @@ void HitBox::VPostInit(void)
 		m_Body = new btCollisionObject();
 		m_Body->setCollisionShape(m_Shape);
 		m_Body->setUserPointer(this);
-		m_Context->m_pPhysic->GetCollisionWorld()->addCollisionObject(m_Body, 0xffff,TYPE_HITBOX);
+		m_Context->GetSystem<BulletPhysics>()->GetCollisionWorld()->addCollisionObject(m_Body, 0xffff,TYPE_HITBOX);
 	}
 }
 

@@ -3,9 +3,10 @@
 GenericObjectFactory<IEvent, EventType> g_eventFactory;
 
 
-EventManager::EventManager()
+EventManager::EventManager(Context* c):ISubSystem(c)
 {
 	m_activeQueue = 0;
+	c->AddSystem(this);
 }
 
 
@@ -20,6 +21,13 @@ EventManager::~EventManager()
 	//while (!m_queues[0].empty() && (pEvent = m_queues[1].front()) != nullptr) deletepEvent;
 }
 
+char * EventManager::GetName()
+{
+	static char* name = "EventManager";
+	return name;
+}
+
+/*
 void EventManager::Init(Context* c)
 {
 	//E_DEBUG("Event Manager Initialize...");
@@ -29,7 +37,7 @@ void EventManager::Init(Context* c)
 void EventManager::ShutDown()
 {
 	E_DEBUG("Event Manager Shutdown...");
-}
+}*/
 
 
 //---------------------------------------------------------------------------------------------------------------------

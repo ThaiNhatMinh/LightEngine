@@ -5,13 +5,14 @@
 void Game::Init(Context *c)
 {
 	m_Context = c;
-	c->m_pActorFactory->RegisterComponentFactory(LocalPlayerComponent::Name, []() {return new LocalPlayerComponent(); });
-	c->m_pActorFactory->RegisterActorFactory("Player", [](int id) {return new Player(id); });
-	c->m_pActorFactory->RegisterActorFactory("PlayerView", [](int id) {return new PlayerView(id); });
-	c->m_pActorFactory->RegisterActorFactory("Weapon", [](int id) {return new Weapon(id); });
-	c->m_pActorFactory->RegisterActorFactory("GunPlayerView", [](int id) {return new GunPlayerView(id); });
-	c->m_pActorFactory->RegisterActorFactory("Zombie", [](int id) {return new Zombie(id); });
-	c->m_pActorFactory->RegisterActorFactory("AIExplosive", [](int id) {return new AIExplosive(id); });
+	auto factory = m_Context->GetSystem<ActorFactory>();
+	factory->RegisterComponentFactory(LocalPlayerComponent::Name, []() {return new LocalPlayerComponent(); });
+	factory->RegisterActorFactory("Player", [](int id) {return new Player(id); });
+	factory->RegisterActorFactory("PlayerView", [](int id) {return new PlayerView(id); });
+	factory->RegisterActorFactory("Weapon", [](int id) {return new Weapon(id); });
+	factory->RegisterActorFactory("GunPlayerView", [](int id) {return new GunPlayerView(id); });
+	factory->RegisterActorFactory("Zombie", [](int id) {return new Zombie(id); });
+	factory->RegisterActorFactory("AIExplosive", [](int id) {return new AIExplosive(id); });
 
 	//LoadWeapon();
 	//LoadCharacter();
@@ -19,7 +20,7 @@ void Game::Init(Context *c)
 	m_Scene = std::unique_ptr<Scene>(new Scene(c));
 	m_Scene->LoadScene("GameAssets\\ACTOR\\Scene.xml");
 	
-	m_Context->m_pEventManager->VAddListener(MakeDelegate(this, &Game::EventTakeDamage), EvtTakeDamage::sk_EventType);
+	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &Game::EventTakeDamage), EvtTakeDamage::sk_EventType);
 
 }
 
@@ -29,7 +30,7 @@ void Game::Update(float dt)
 
 	m_Scene->PostUpdate();
 
-	ImGui::Text("FPS: %d", m_Context->m_pTimer->GetFPS());
+	
 	
 }
 

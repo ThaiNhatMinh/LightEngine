@@ -13,7 +13,7 @@ private:
 	bool checkMouse[3];
 	float MouseD[2];
 public:
-	Input();
+	Input(Context* c);
 	~Input();
 
 	bool OnKey(int Key) {return keys[Key];	};

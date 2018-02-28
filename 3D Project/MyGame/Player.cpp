@@ -105,15 +105,17 @@ void Player::Death()
 }
 void Player::SetPVModel()
 {
+	auto factory = m_Context->GetSystem<ActorFactory>();
+	auto resource =  m_Context->GetSystem<Resources>();
 	if (m_iCurrentWP != -1)
 	{
-		PlayerView = m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\PVGroup.xml",nullptr,0);
+		PlayerView = factory->CreateActor("GameAssets\\ACTOR\\PVGroup.xml",nullptr,0);
 		GunPlayerView* PVWeapon = static_cast<GunPlayerView*>(PlayerView->VGetChild("PVWeapon"));
 
 		Weapon* wp = static_cast<Weapon*>(m_Children[m_WPList[m_iCurrentWP]].get());
 		const string& pvmodel = wp->GetPVFileName();
 
-		ModelCache* pModel = m_Context->m_pResources->GetModel(pvmodel);
+		ModelCache* pModel = resource->GetModel(pvmodel);
 
 		// fix model data
 		CharacterResource cr = Game::LoadCharacter(m_Character);
@@ -122,7 +124,7 @@ void Player::SetPVModel()
 			if (el->Tex->GetName() == "GameAssets/TEXTURES/Default.png")
 			{
 				string texPath = cr.PVTexFile[m_Team][el->Name];
-				el->Tex = m_Context->m_pResources->GetTexture(texPath);
+				el->Tex = resource->GetTexture(texPath);
 			}
 		}
 		// Set component data

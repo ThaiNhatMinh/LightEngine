@@ -3,6 +3,8 @@
 GunPlayerView::GunPlayerView(ActorId id):PlayerView(id)
 {
 	m_State = WS_IDLE;
+	m_pPhysic = m_Context->GetSystem<BulletPhysics>();
+	m_pEventManager = m_Context->GetSystem<EventManager>();
 }
 
 GunPlayerView::~GunPlayerView()
@@ -89,7 +91,7 @@ void GunPlayerView::ShootRayCast()
 	ICamera* pCam = Camera::GetCurrentCamera();
 	Ray r(pCam->GetPosition(), pCam->GetFront());
 
-	m_Context->m_pPhysic->RayCast(raycast, r, 1000000.f, TYPE_HITBOX);
+	m_pPhysic->RayCast(raycast, r, 1000000.f, TYPE_HITBOX);
 
 
 	if (raycast.position != vec3(0))
@@ -97,9 +99,9 @@ void GunPlayerView::ShootRayCast()
 		Creature* attacker = static_cast<Creature*>(m_pParent->VGetParent());
 		Creature* victim = static_cast<Creature*>(raycast.body->GetOwner());
 		std::shared_ptr<IEvent> TakeDamageEvent = std::shared_ptr<IEvent>(new EvtTakeDamage(attacker, victim, 100));
-		m_Context->m_pEventManager->VQueueEvent(TakeDamageEvent);
+		m_pEventManager->VQueueEvent(TakeDamageEvent);
 		std::shared_ptr<IEvent> CreateBlood = std::shared_ptr<IEvent>(new EvtRequestCreateSprite("BLOOD3.SPR", raycast.position - pCam->GetFront()*10.0f));
-		m_Context->m_pEventManager->VQueueEvent(CreateBlood);
+		m_pEventManager->VQueueEvent(CreateBlood);
 		
 	}
 	else

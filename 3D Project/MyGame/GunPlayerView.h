@@ -46,4 +46,7 @@ private:
 	// map state to animation index
 	map<GunAnimation, int>	m_AnimationMap;
 	map<GunAnimation, int>	m_SoundMap;
+
+	BulletPhysics* m_pPhysic;
+	EventManager* m_pEventManager;
 };

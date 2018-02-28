@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "..\Graphics3D\OpenGLRenderer.h"
 #include <type_traits>
-void Application::SetupSubmodule()
+
+/*void Application::SetupSubmodule()
 {
 	//E_DEBUG("Application StartUp...");
 	Context			*C = new Context();
@@ -20,7 +21,6 @@ void Application::SetupSubmodule()
 	SoundEngine		*SE = new SoundEngine();
 	Actor::m_Context = C;
 	ActorComponent::m_Context = C;
-	ISubSystem::m_Context = C;
 
 	// Init Windows
 	W->Init(C);
@@ -53,6 +53,19 @@ void Application::SetupSubmodule()
 
 	Con->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 
+	m_VGUI = std::unique_ptr<VGUI>(new VGUI(m_Context.get()));
+	m_GamePlugins = std::unique_ptr<GamePluginManager>(new GamePluginManager(m_Context.get()));
+}*/
+
+Application::Application() :m_Context(), m_Windows(new Windows(&m_Context)), m_Input(new DirectInput(&m_Context)),
+m_Renderer(new  OpenGLRenderer(&m_Context)), m_EventManager(new  EventManager(&m_Context)), m_Factory(new ActorFactory(&m_Context)),
+m_SoundEngine(new  SoundEngine(&m_Context)), m_Resources(new  Resources(&m_Context)), m_SystemUI(new SystemUI (&m_Context)),
+m_Console(new  Console(&m_Context)), m_DebugRender(new  Debug(&m_Context)), m_Physic(new  BulletPhysics(&m_Context)),
+m_Timer(new  GameTimer(&m_Context)), m_EffectSystem(new EffectSystem (&m_Context)), m_VGUI(new  VGUI(&m_Context)),m_GamePlugins(&m_Context)
+{
+	Actor::m_Context = &m_Context;
+	ActorComponent::m_Context = &m_Context;
+	m_Console->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 }
 
 Application::~Application()
@@ -64,8 +77,7 @@ Application::~Application()
 
 void Application::MainLoop()
 {
-	Setup();
-	SetupSubmodule();
+	//SetupSubmodule();
 	Start();
 
 	m_bRunMainLoop = true;
@@ -76,7 +88,7 @@ void Application::MainLoop()
 	// 4. Physic
 	// 5. 
 	
-	EventManager	*E = m_Context->m_pEventManager.get();
+	/*EventManager	*E = m_Context->m_pEventManager.get();
 	GameTimer		*G = m_Context->m_pTimer.get();
 	DirectInput		*D = m_Context->m_pInput.get();
 	BulletPhysics	*B = m_Context->m_pPhysic.get();
@@ -85,7 +97,7 @@ void Application::MainLoop()
 	SystemUI		*S = m_Context->m_pSystemUI.get();
 	Debug			*Db = m_Context->m_pDebuger.get();
 	EffectSystem	*ES = m_Context->m_pEffectSystem.get();
-	SoundEngine		*SE = m_Context->m_pSoundEngine.get();
+	SoundEngine		*SE = m_Context->m_pSoundEngine.get();*/
 	Scene			*pScene = m_Game->GetScene();
 
 	
@@ -110,55 +122,61 @@ void Application::MainLoop()
 	c->GetPos() = vec3(350, 250, 100);
 	ES->AddSprite(c);*/
 	
-	m_Context->m_pWindows->ShowWindows();
+	m_Windows->ShowWindows();
 
-	G->Reset();
+	m_Timer->Reset();
 
 	while (m_bRunMainLoop)
 	{
 		glfwPollEvents();
 		// Update input
-		D->Update();
-		if (D->KeyDown(DIK_ESCAPE)|| m_Context->m_pWindows->ShouldClose())	m_bRunMainLoop = false;
+		m_Input->Update();
+		if (m_Input->KeyDown(DIK_ESCAPE)|| m_Windows->ShouldClose())	m_bRunMainLoop = false;
 		// Timer
-		G->Tick();
-		S->NewFrame();
-
+		m_Timer->Tick();
+		m_SystemUI->NewFrame();
+		//ImGui::Text("FPS: %d",m_Timer->GetFPS());
+		cout << m_Timer->GetFPS() << endl;
+		float dt = m_Timer->GetDeltaTime();
 		// check if in console then don't update game
-		if (!C->CheckStatus())
+		if (!m_Console->CheckStatus())
 		{
 
 
 			// Update Event
-			E->VUpdate(20);
+			m_EventManager->VUpdate(20);
 			// Update Game
-			m_Game->Update(G->GetDeltaTime());
+			m_Game->Update(dt);
 			// Update Physic
-			B->VOnUpdate(G->GetDeltaTime());
+			m_Physic->VOnUpdate(dt);
 			// Update Effect
-			ES->Update(pScene, G->GetDeltaTime());
+			m_EffectSystem->Update(pScene, dt);
 			// Update Object
-			B->VSyncVisibleScene();
+			m_Physic->VSyncVisibleScene();
+			// Update sound
+			m_SoundEngine->Update();
 		}
 
-		// Update sound
-		SE->Update();
-		if (m_DebugPhysic) B->VRenderDiagnostics();
+		
+		if (m_DebugPhysic) m_Physic->VRenderDiagnostics();
 		
 
-		O->Clear();
+		m_Renderer->Clear();
 
 		// Draw Game
 		m_Game->Render();
 		// Draw Effect
-		ES->Render(pScene);
+		m_EffectSystem->Render(pScene);
 		// Draw Console
-		C->Draw();
+		m_Console->Draw();
 		// Daw Debug
-		Db->Render();
+		m_DebugRender->Render();
 		// Draw SystemUI
-		S->Render();
-		O->SwapBuffer();
+		m_SystemUI->Render();
+		// Draw UI
+		m_VGUI->Render();
+
+		m_Renderer->SwapBuffer();
 
 
 	}

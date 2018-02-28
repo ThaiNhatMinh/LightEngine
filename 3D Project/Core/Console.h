@@ -36,15 +36,18 @@ private:
 	char					InputBuf[256];
 	bool					p_Open;
 	bool					Show;
+	DirectInput				*m_pInput;
+	Windows					*m_pWindows;
 protected:
 	
 public:
-	Console();
+	Console(Context* c);
 	~Console();
-	virtual void Init(Context* c);
-	virtual void ShutDown();
+	//virtual void Init(Context* c);
+	//virtual void ShutDown();
 	void Draw();
 
+	virtual char* GetName()override;
 	
 	bool	RegisterVar(const char* command, void* address, int num, int size, ConVarType type);
 	bool	RegisterFunc(string cmd, std::function<void()>);

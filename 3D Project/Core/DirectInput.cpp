@@ -1,9 +1,31 @@
 #include "pch.h"
 #include "Context.h"
 
-DirectInput::DirectInput():m_pDInput(0), m_pKeyboard(0), m_pMouse(0)
+DirectInput::DirectInput(Context* c):ISubSystem(c),m_pDInput(0), m_pKeyboard(0), m_pMouse(0)
 {
 	memset(m_KeyLock, 0, sizeof(m_KeyLock));
+	GLFWwindow* w = c->GetSystem<Windows>()->Window();
+	ZeroMemory(m_KeyState, sizeof(m_KeyState));
+	ZeroMemory(&m_MouseState, sizeof(m_MouseState));
+
+	HRESULT hr = DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_pDInput, 0);
+	if (FAILED(hr))
+	{
+
+	}
+
+	HWND handle = GetActiveWindow();
+	m_pDInput->CreateDevice(GUID_SysKeyboard, &m_pKeyboard, 0);
+	m_pKeyboard->SetDataFormat(&c_dfDIKeyboard);
+	m_pKeyboard->SetCooperativeLevel(glfwGetWin32Window(w), DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
+	m_pKeyboard->Acquire();
+
+	m_pDInput->CreateDevice(GUID_SysMouse, &m_pMouse, 0);
+	m_pMouse->SetDataFormat(&c_dfDIMouse2);
+	m_pMouse->SetCooperativeLevel(glfwGetWin32Window(w), DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
+	m_pMouse->Acquire();
+	c->AddSystem(this);
+	m_Lock = 0;
 }
 
 DirectInput::~DirectInput()
@@ -15,7 +37,11 @@ DirectInput::~DirectInput()
 	m_pMouse->Release();
 
 }
-
+char * DirectInput::GetName()
+{
+	return "DirectInput";
+}
+/*
 void DirectInput::Init(Context * c)
 {
 	GLFWwindow* w = c->m_pWindows->Window();
@@ -46,6 +72,7 @@ void DirectInput::Init(Context * c)
 void DirectInput::ShutDown()
 {
 }
+*/
 
 void DirectInput::Update()
 {

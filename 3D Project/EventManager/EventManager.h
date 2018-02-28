@@ -28,11 +28,12 @@ class EventManager : public IEventManager, public ISubSystem
 
 public:
 	
-	EventManager();
+	EventManager(Context* c);
 	virtual ~EventManager(void);
 
-	virtual void Init(Context* c);
-	virtual void ShutDown();
+	virtual char* GetName()override;
+	//virtual void Init(Context* c);
+	//virtual void ShutDown();
 
 	virtual bool VAddListener(const EventListenerDelegate& eventDelegate, const EventType& type);
 	virtual bool VRemoveListener(const EventListenerDelegate& eventDelegate, const EventType& type);

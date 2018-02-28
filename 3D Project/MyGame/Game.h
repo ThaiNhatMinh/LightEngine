@@ -27,7 +27,7 @@ public:
 	virtual void Start()
 	{
 		m_Game = std::unique_ptr<Game>(new Game);
-		m_Game->Init(m_Context.get());
+		m_Game->Init(&m_Context);
 	}
 
 };

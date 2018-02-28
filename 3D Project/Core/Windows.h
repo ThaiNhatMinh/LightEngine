@@ -24,10 +24,12 @@ private:
 	// return init pos window
 	vec2 ReadConfig(tinyxml2::XMLElement* pData);
 public:
-	Windows();
+	Windows(Context* c);
 	~Windows();
-	virtual void Init(Context* c);
-	virtual void ShutDown();
+	//virtual void Init(Context* c);
+	//virtual void ShutDown();
+	virtual char* GetName()override;
+
 	void SetSize(int W, int H);
 	void SetPos(vec2 pos);
 	void ShowWindows();

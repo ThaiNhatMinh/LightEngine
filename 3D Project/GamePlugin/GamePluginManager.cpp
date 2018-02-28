@@ -4,7 +4,7 @@
 #include <Windows.h>
 
 
-GamePluginManager::GamePluginManager(Context * pContext):m_ContextDLL(pContext)
+GamePluginManager::GamePluginManager(Context * pContext):m_Context(pContext)
 {
 }
 
@@ -19,7 +19,7 @@ bool GamePluginManager::LoadPlugin(const std::string & filename)
 
 	if (pGamePlugin)
 	{
-		pGamePlugin->Init(&m_ContextDLL);
+		pGamePlugin->Init(m_Context);
 
 		m_GamePlugins.push_back(pGamePlugin);
 	}
