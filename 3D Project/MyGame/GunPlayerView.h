@@ -41,7 +41,7 @@ protected:
 	void ShootRayCast();
 
 private:
-	
+	EventManager * m_pEventManager;
 	WeaponState				m_State;
 	// map state to animation index
 	map<GunAnimation, int>	m_AnimationMap;

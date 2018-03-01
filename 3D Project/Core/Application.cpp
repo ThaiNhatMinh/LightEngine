@@ -22,7 +22,7 @@ void Application::SetupSubmodule()
 	m_pActorFactory = std::unique_ptr<ActorFactory>(new ActorFactory());
 	m_pEffectSystem = std::unique_ptr<EffectSystem>(new EffectSystem());
 	m_pSoundEngine = std::unique_ptr<SoundEngine>(new SoundEngine());
-	
+	m_pVGUI = std::unique_ptr<VGUI>(new VGUI());
 
 	// Init Windows
 	m_pWindows->Init(m_Context.get());
@@ -50,7 +50,8 @@ void Application::SetupSubmodule()
 	m_pTimer->Init(m_Context.get());
 	//init effect system
 	m_pEffectSystem->Init(m_Context.get());
-
+	// init VGUI
+	m_pVGUI->Init(m_Context.get());
 	
 
 	m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
@@ -113,6 +114,10 @@ void Application::MainLoop()
 			m_pPhysic->VSyncVisibleScene();
 			// Update sound
 			m_pSoundEngine->Update();
+			// Update Debuger
+			m_pDebuger->Update();
+			// Update VGUI
+			m_pVGUI->Update(dt);
 		}
 
 		
@@ -131,6 +136,9 @@ void Application::MainLoop()
 		m_pDebuger->Render();
 		// Draw SystemUI
 		m_pSystemUI->Render();
+		// Draw VGUI
+		m_pVGUI->Render();
+
 		m_pRenderer->SwapBuffer();
 
 

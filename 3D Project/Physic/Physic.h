@@ -80,6 +80,9 @@ struct PhysicsRaycastResult
 
 class BulletPhysics : public IGamePhysics, public ISubSystem
 {
+private:
+	EventManager * m_pEventManager;
+
 	friend class CharacterControllerComponent;
 	friend class RigidBodyComponent;;
 	// use auto pointers to automatically call delete on these objects

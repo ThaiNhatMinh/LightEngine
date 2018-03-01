@@ -46,6 +46,7 @@ BulletPhysics::~BulletPhysics()
 
 void BulletPhysics::Init(Context* c)
 {
+	m_pEventManager = m_Context->GetSystem<EventManager>();
 	//E_DEBUG("Physic Engine Initialize...");
 	LoadXml();
 
@@ -246,13 +247,13 @@ void BulletPhysics::VPostStep(float timeStep)
 
 
 	std::shared_ptr<IEvent> pEvent(new EvtData_PhysPostStep(timeStep));
-	m_Context->GetSystem<EventManager>()->VTriggerEvent(pEvent);
+	m_pEventManager->VTriggerEvent(pEvent);
 }
 
 void BulletPhysics::VPreStep(float timeStep)
 {
 	std::shared_ptr<IEvent>pEvent(new EvtData_PhysPreStep(timeStep));
-	m_Context->GetSystem<EventManager>()->VTriggerEvent(pEvent);
+	m_pEventManager->VTriggerEvent(pEvent);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -284,7 +285,7 @@ void BulletPhysics::VSyncVisibleScene()
 				// Bullet has moved the actor's physics object.  Sync the transform and inform the game an actor has moved
 				pTransformComponent->SetTransform(actorMotionState->m_worldToPositionTransform);
 				std::shared_ptr<IEvent> pEvent(new EvtData_Move_Actor(id, actorMotionState->m_worldToPositionTransform));
-				m_Context->GetSystem<EventManager>()->VQueueEvent(pEvent);
+				m_pEventManager->VQueueEvent(pEvent);
 			}
 		}
 	}
@@ -469,12 +470,12 @@ void BulletPhysics::SendCollisionEvents()
 			// this is new collision
 			// send the event for the game
 			std::shared_ptr<IEvent>  pEvent(new EvtData_PhysCollisionStart(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
-			m_Context->GetSystem<EventManager>()->VQueueEvent(pEvent);
+			m_pEventManager->VQueueEvent(pEvent);
 		}
 		
 		// send the event for the game
 		std::shared_ptr<IEvent>  pEvent( new EvtData_PhysOnCollision(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
-		m_Context->GetSystem<EventManager>()->VQueueEvent(pEvent);
+		m_pEventManager->VQueueEvent(pEvent);
 		
 	}
 
@@ -504,7 +505,7 @@ void BulletPhysics::SendCollisionEvents()
 		}
 
 		std::shared_ptr<IEvent>  pEvent(new EvtData_PhysCollisionEnd(id0, id1));
-		m_Context->GetSystem<EventManager>()->VQueueEvent(pEvent);
+		m_pEventManager->VQueueEvent(pEvent);
 	}
 
 	// the current tick becomes the previous tick.  this is the way of all things.

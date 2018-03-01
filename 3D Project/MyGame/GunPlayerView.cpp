@@ -1,8 +1,9 @@
 #include "pch.h"
 
-GunPlayerView::GunPlayerView(ActorId id):PlayerView(id)
+GunPlayerView::GunPlayerView(ActorId id):PlayerView(id),m_pEventManager(m_Context->GetSystem<EventManager>())
 {
 	m_State = WS_IDLE;
+	
 }
 
 GunPlayerView::~GunPlayerView()
@@ -97,9 +98,9 @@ void GunPlayerView::ShootRayCast()
 		Creature* attacker = static_cast<Creature*>(m_pParent->VGetParent());
 		Creature* victim = static_cast<Creature*>(raycast.body->GetOwner());
 		std::shared_ptr<IEvent> TakeDamageEvent = std::shared_ptr<IEvent>(new EvtTakeDamage(attacker, victim, 100));
-		m_Context->GetSystem<EventManager>()->VQueueEvent(TakeDamageEvent);
+		m_pEventManager->VQueueEvent(TakeDamageEvent);
 		std::shared_ptr<IEvent> CreateBlood = std::shared_ptr<IEvent>(new EvtRequestCreateSprite("BLOOD3.SPR", raycast.position - pCam->GetFront()*10.0f));
-		m_Context->GetSystem<EventManager>()->VQueueEvent(CreateBlood);
+		m_pEventManager->VQueueEvent(CreateBlood);
 		
 	}
 	else

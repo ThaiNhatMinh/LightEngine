@@ -32,6 +32,7 @@ protected:
 	std::unique_ptr<ActorFactory>		m_pActorFactory;
 	std::unique_ptr<EffectSystem>		m_pEffectSystem;
 	std::unique_ptr<SoundEngine>		m_pSoundEngine;
+	std::unique_ptr<VGUI>				m_pVGUI;
 
 	std::unique_ptr<Context> m_Context;
 	std::unique_ptr<IGame> m_Game;

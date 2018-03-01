@@ -21,6 +21,10 @@ void Game::Init(Context *c)
 	
 	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &Game::EventTakeDamage), EvtTakeDamage::sk_EventType);
 
+	auto root = m_Context->GetSystem<VGUI>()->GetRoot();
+
+	
+
 }
 
 void Game::Update(float dt)

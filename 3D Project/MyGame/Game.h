@@ -18,6 +18,7 @@ private:
 	std::unique_ptr<Scene> m_Scene;
 	std::vector<WeaponResource> m_WeaponResources;
 	std::vector<CharacterResource> m_CharacterResources;
+
 	Context* m_Context;
 };
 
