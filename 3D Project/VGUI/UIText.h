@@ -4,9 +4,16 @@ class FTFont;
 
 class UIText : public UIElement
 {
+private:
+	struct TextRenderInfo
+	{
+		UIMesh Mesh;
+		GLuint texID;
+	};
 public:
-	UIText(VGUI * pVGUI);
+	UIText(VGUI * pVGUI,const vec2& pos,const string& text);
 	~UIText()=default;
+
 
 	virtual void Render()override;
 
@@ -18,5 +25,6 @@ private:
 	string m_Text;
 	Shader* m_UIShader;
 	FTFont* m_Font;
-	UIMesh m_Mesh;
+	std::vector<TextRenderInfo> m_Meshs; // each mesh for a character in text
+
 };

@@ -12,7 +12,7 @@ public:
 
 	void		Render();
 	void		Update(float dt);
-	UIElement*	GetRoot();
+	UIGroup*	GetRoot();
 	bool		AddFont(const string& fontname,const string& fontfile);
 	Shader*		GetShader();
 	const mat4& GetProj();
@@ -21,7 +21,7 @@ public:
 private:
 	mat4						m_Proj;
 	Shader*						m_UIShader;
-	std::vector<FTFont>	m_FontLists;
+	std::vector<std::unique_ptr<FTFont>>	m_FontLists;
 	Windows*					m_pWindows;
 	std::unique_ptr<UIGroup>	m_Root;
 };

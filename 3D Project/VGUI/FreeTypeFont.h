@@ -18,11 +18,13 @@ public:
 	FTFont(const string& name,const string& fontfile);
 	~FTFont();
 	void			SetFontSize(int size);
-	FontChar*		GetChar(char c);
+	FontChar*		GetChar(FT_ULong c);
 	const string&	GetName();
 
-	FTFont& operator=(FTFont&& other);
-	FTFont(FTFont &&other);
+	FTFont& operator=(FTFont&& other) = delete;
+	FTFont(FTFont &&other) = delete;
+	FTFont& operator=(const FTFont& other) = delete;
+	FTFont(const FTFont &other) = delete;
 
 	static void InitFreeTypeFont();
 	static void ReleaseFreeTypeFont();

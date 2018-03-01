@@ -10,7 +10,7 @@ FTFont::FTFont(const string& name, const string& fontfile) :m_face(0)
 	
 	if (FT_New_Face(m_library, fontfile.c_str(), 0, &m_face))
 	{
-		E_ERROR("Can't load fontface.");
+		E_ERROR("Can't load fontface: " + fontfile);
 		return;
 	}
 	
@@ -21,7 +21,7 @@ FTFont::FTFont(const string& name, const string& fontfile) :m_face(0)
 
 	charcode = FT_Get_First_Char(m_face, &gindex);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	while (gindex != 0)
+	while(gindex!=0)
 	{
 
 		if (FT_Load_Char(m_face, charcode, FT_LOAD_RENDER))
@@ -54,12 +54,12 @@ FTFont::FTFont(const string& name, const string& fontfile) :m_face(0)
 		charcode = FT_Get_Next_Char(m_face, charcode, &gindex);
 
 	}
-	
+	FT_Done_Face(m_face);
 }
 
 FTFont::~FTFont()
 {
-	FT_Done_Face(m_face);
+	
 	
 }
 
@@ -71,7 +71,7 @@ void FTFont::SetFontSize(int size)
 	}
 }
 
-FTFont::FontChar * FTFont::GetChar(char c)
+FTFont::FontChar * FTFont::GetChar(FT_ULong c)
 {
 	auto result = m_CharMaps.find(c);
 	if (result == m_CharMaps.end()) return nullptr;
@@ -82,23 +82,6 @@ FTFont::FontChar * FTFont::GetChar(char c)
 const string & FTFont::GetName()
 {
 	return m_Name;
-}
-
-FTFont & FTFont::operator=(FTFont && other)
-{
-	m_face = other.m_face;
-	m_CharMaps = other.m_CharMaps;
-	m_Name = other.m_Name;
-	other.m_face = nullptr;
-
-}
-
-FTFont::FTFont(FTFont && other)
-{
-	m_face = other.m_face;
-	m_CharMaps = other.m_CharMaps;
-	m_Name = other.m_Name;
-	other.m_face = nullptr;
 }
 
 void FTFont::InitFreeTypeFont()
