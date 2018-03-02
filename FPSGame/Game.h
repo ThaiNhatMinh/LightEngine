@@ -15,6 +15,7 @@ public:
 	static WeaponResource LoadWeaponInfo(const string& wpName);
 protected:
 	void EventTakeDamage(std::shared_ptr<IEvent> pEvent);
+	void EventExplosion(std::shared_ptr<IEvent> pEvent);
 	void EventCreateActor(std::shared_ptr<IEvent> pEvent);
 private:
 	std::unique_ptr<Scene> m_Scene;

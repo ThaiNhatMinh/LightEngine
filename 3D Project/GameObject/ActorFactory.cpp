@@ -161,7 +161,10 @@ Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initial
 	
 	if(!isCreateChild) pActor->PostInit();
 
-	m_Context->GetSystem<EventManager>()->VQueueEvent(std::shared_ptr<IEvent>(new EvtData_New_Actor(pActor)));
+	if (!m_Context->GetSystem<EventManager>()->VQueueEvent(std::shared_ptr<IEvent>(new EvtData_New_Actor(pActor))))
+	{
+		E_ERROR("Failer to send event");
+	}
 	return pActor;
 }
 

@@ -52,4 +52,6 @@ HRESULT AIExplosive::VOnUpdate(Scene * pScene, float elapsedMs)
 
 void AIExplosive::ExplosiveSkill()
 {
+	auto bomd = std::make_shared<EvtExplosion>(m_TransformComponent->GetPosition(),EX_DAMAGE,EX_RANGE1,EX_RANGE2);
+	m_Context->GetSystem<EventManager>()->VQueueEvent(bomd);
 }

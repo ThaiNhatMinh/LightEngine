@@ -24,9 +24,8 @@ protected:
 	string					m_Tag;
 	ActorState				m_State;
 	std::unique_ptr<TransformComponent>		m_TransformComponent;
-protected:
-	ActorId m_id;					// unique id for the actor
-	ActorComponents m_components;	// all components this actor has
+	ActorId					m_id;					// unique id for the actor
+	ActorComponents			m_components;	// all components this actor has
 
 public:
 	Actor(ActorId id);
@@ -59,12 +58,18 @@ public:
 	virtual Actor*		VGetParent();
 	// accessors
 	ActorId GetId(void) const { return m_id; }
+	glm::vec3 GetPosition()
+	{
+		return m_TransformComponent->GetPosition();
+	}
 	template<class ComponentType>ComponentType* GetComponent(ComponentId id);
 	template<class ComponentType>ComponentType* GetComponent(const char*  name)const ;
 
 	template<class ComponentType>ComponentType* RemoveComponent(const char*  name);
-	const ActorComponents* GetComponents() { return &m_components; }
-	TransformComponent* GetTransform();
+	const ActorComponents*						GetComponents() { return &m_components; }
+	TransformComponent*							GetTransform();
+
+	
 
 	static Context* m_Context;
 protected:

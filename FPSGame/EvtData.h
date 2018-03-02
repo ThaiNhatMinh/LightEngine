@@ -40,3 +40,22 @@ private:
 	Creature* Victim;
 	int Damage;
 };
+
+// Attack to all player 
+class EvtExplosion : public IEvent
+{
+public:
+	EvtExplosion(const vec3& pos,int damage,float range1, float range2);
+	
+	int		GetDamage();
+	float	GetRange1();
+	float	GetRange2();
+	const	vec3& GetPos();
+public:
+	EVENT_DEFINE(EvtTakeDamage)
+private:
+	vec3	Pos;
+	float	Range1;
+	float	Range2;
+	int		Damage;
+};

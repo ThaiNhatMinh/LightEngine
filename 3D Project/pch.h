@@ -92,8 +92,15 @@ using fastdelegate::MakeDelegate;
 #include "glm\geometric.hpp"
 #include "glm\detail\func_matrix.hpp"
 
+using glm::vec2;
+using glm::vec3;
+using glm::vec4;
+using glm::mat4;
+using glm::quat;
+
 
 // Interface
 #include "interface.h"
+
 
 #include "EngineHeader.h"

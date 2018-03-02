@@ -1,3 +1,6 @@
+#include "Actor.h"
+#include "Actor.h"
+#include "Actor.h"
 #include "pch.h"
 
 
@@ -105,6 +108,9 @@ TransformComponent * Actor::GetTransform()
 	return m_TransformComponent.get();
 }
 
+
+
+
 void Actor::AddComponent(ActorComponent * pComponent)
 {
 	std::pair<ActorComponents::iterator, bool> success = m_components.insert(std::make_pair(pComponent->VGetId(), pComponent));
@@ -199,3 +205,5 @@ Actor * Actor::VGetParent()
 {
 	return m_pParent;
 }
+
+

@@ -121,24 +121,24 @@ bool EventManager::VQueueEvent(std::shared_ptr<IEvent> pEvent)
 	// make sure the event is valid
 	if (!pEvent)
 	{
-		//E_ERROR("Invalid event in VQueueEvent()");
+		E_ERROR("Invalid event in VQueueEvent()");
 		
 		return false;
 	}
 
 	//E_DEBUG("Events Attempting to queue event: " + std::string(pEvent->GetName()));
 
+
 	auto findIt = m_eventListeners.find(pEvent->VGetEventType());
 	if (findIt != m_eventListeners.end())
 	{
 		m_queues[m_activeQueue].push_back(pEvent);
-		//E_DEBUG("Events Successfully queued event: " + std::string(pEvent->GetName()));
+		
 		return true;
 	}
 	else
 	{
 		//E_DEBUG("Events Skipping event since there are no delegates registered to receive it: " + std::string(pEvent->GetName()));
-		
 		return false;
 	}
 }
@@ -229,7 +229,6 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 		//E_DEBUG("EventLoop \t\tProcessing Event " + std::string(pEvent->GetName()));
 
 		const EventType& eventType = pEvent->VGetEventType();
-
 		// find all the delegate functions registered for this event
 		auto findIt = m_eventListeners.find(eventType);
 		if (findIt != m_eventListeners.end())
@@ -238,12 +237,17 @@ bool EventManager::VUpdate(unsigned long maxMillis)
 			//E_DEBUG("EventLoop \t\tFound " + ToStr((unsigned long)eventListeners.size()) + " delegates");
 
 			// call each listener
+			
 			for (auto it = eventListeners.begin(); it != eventListeners.end(); ++it)
 			{
 				EventListenerDelegate listener = (*it);
-				//E_DEBUG("EventLoop \t\tSending event " + std::string(pEvent->GetName()) + " to delegate");
 				listener(pEvent);
+				
 			}
+		}
+		else
+		{
+			E_ERROR("No listen found.");
 		}
 
 		

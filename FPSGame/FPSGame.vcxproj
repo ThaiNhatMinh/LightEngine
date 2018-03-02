@@ -104,7 +104,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;3D Project.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>E:\Code Collection\3D Project\3D Project\$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(SolutionDir)$(SolutionName)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -118,7 +118,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <OutputFile>E:\Code Collection\3D Project\3D Project\$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -159,7 +159,6 @@
     <ClInclude Include="EvtData.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GunPlayerView.h" />
-    <ClInclude Include="HitBox.h" />
     <ClInclude Include="LocalPlayerComponent.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerView.h" />

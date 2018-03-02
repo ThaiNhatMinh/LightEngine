@@ -13,6 +13,13 @@ void Game::Init(Context *c)
 	Actor::m_Context = c;
 	ActorComponent::m_Context = c;
 	ISubSystem::m_Context = c;
+
+
+	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &Game::EventTakeDamage), EvtTakeDamage::sk_EventType);
+	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &Game::EventCreateActor), EvtData_New_Actor::sk_EventType);
+	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &Game::EventExplosion), EvtExplosion::sk_EventType);
+
+
 	m_Scene = std::unique_ptr<Scene>(new Scene(c));
 
 	auto cameraFunc = [a = m_Scene.get()]() 
@@ -37,7 +44,7 @@ void Game::Init(Context *c)
 	
 	m_Scene->LoadScene("GameAssets\\ACTOR\\Scene.xml");
 	
-	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &Game::EventTakeDamage), EvtTakeDamage::sk_EventType);
+	
 
 	auto root = m_Context->GetSystem<VGUI>()->GetRoot();
 
@@ -62,6 +69,9 @@ void Game::Render()
 
 void Game::ShutDown()
 {
+	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &Game::EventTakeDamage), EvtTakeDamage::sk_EventType);
+	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &Game::EventCreateActor), EvtData_New_Actor::sk_EventType);
+	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &Game::EventExplosion), EvtExplosion::sk_EventType);
 }
 
 Scene * Game::GetScene() {
@@ -159,11 +169,31 @@ void Game::EventTakeDamage(std::shared_ptr<IEvent> pEvent)
 	//printf("Index: %d\n", raycast.body->Inside(raycast.position));
 }
 
+void Game::EventExplosion(std::shared_ptr<IEvent> pEvent)
+{
+	EvtExplosion* p = static_cast<EvtExplosion*>(pEvent.get());
+
+	for (auto& el : m_PlayerLists)
+	{
+		float range = glm::distance(el->GetPosition(), p->GetPos());
+		if (range < p->GetRange1()) el->TakeDamage(p->GetDamage());
+		else if (range < p->GetRange2())
+		{
+			float percent = (p->GetRange2() - p->GetRange1()) / range;
+			el->TakeDamage(p->GetDamage()*percent);
+		}
+		
+		//cout << el->GetHP() << endl;
+	}
+}
+
 void Game::EventCreateActor(std::shared_ptr<IEvent> pEvent)
 {
 	Actor* pActor = static_cast<EvtData_New_Actor*>(pEvent.get())->GetActorId();
 
 	if (typeid(*pActor) == typeid(Player)) m_PlayerLists.push_back(static_cast<Player*>(pActor));
+	cout << pActor->VGetName() << endl;
+	cout << m_PlayerLists.size() << endl;
 }
 /*
 void Game::LoadWeapon()

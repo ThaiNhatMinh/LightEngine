@@ -26,6 +26,12 @@ private:
 		BEING_ATTACKED,
 		DEATH
 	};
+	enum Info
+	{
+		EX_RANGE1 = 200,
+		EX_RANGE2 = 400,
+		EX_DAMAGE = 20
+	};
 public:
 	
 	AIExplosive(ActorId id);
