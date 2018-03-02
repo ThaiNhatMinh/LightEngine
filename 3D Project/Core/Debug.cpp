@@ -31,7 +31,7 @@ void Debug::ShutDown()
 
 void Debug::Update()
 {
-	VP = Camera::GetCurrentCamera()->GetVPMatrix();
+	//VP = Camera::GetCurrentCamera()->GetVPMatrix();
 }
 
 Debug::~Debug()

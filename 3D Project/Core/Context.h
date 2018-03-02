@@ -19,20 +19,6 @@ public:
 
 	// debug
 	bool DrawSkeleton = 0;
-	/*std::unique_ptr<Windows>			m_pWindows;
-	std::unique_ptr<OpenGLRenderer>		m_pRenderer;
-	std::unique_ptr<SystemUI>			m_pSystemUI;
-	std::unique_ptr<Console>			m_pConsole;
-
-	std::unique_ptr<Debug>				m_pDebuger;
-	std::unique_ptr<EventManager>		m_pEventManager;
-	std::unique_ptr<GameTimer>			m_pTimer;
-	std::unique_ptr<Resources>			m_pResources;
-	std::unique_ptr<DirectInput>		m_pInput;
-	std::unique_ptr<BulletPhysics>		m_pPhysic;
-	std::unique_ptr<ActorFactory>		m_pActorFactory;
-	std::unique_ptr<EffectSystem>		m_pEffectSystem;
-	std::unique_ptr<SoundEngine>		m_pSoundEngine;*/
 
 	Context();
 	~Context();
@@ -40,8 +26,7 @@ public:
 	tinyxml2::XMLElement* GetElement(const char* p);
 
 	bool AddSystem(ISubSystem* system);
-	template <class T> 
-		T* GetSystem();
+	template <class T> T* GetSystem();
 private:
 	ISubSystem * GetSystem(const std::type_info& rtti);
 

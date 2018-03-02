@@ -70,7 +70,10 @@ ActorComponent * ActorFactory::VCreateComponent(const tinyxml2::XMLElement* pDat
 bool ActorFactory::RegisterComponentFactory(string name, std::function<ActorComponent*()>func)
 {
 	auto it = m_ComponentFactoryMap.find(name);
-	if (it != m_ComponentFactoryMap.end()) return false;
+	if (it != m_ComponentFactoryMap.end())
+	{
+		m_ComponentFactoryMap.erase(name);
+	}
 
 	m_ComponentFactoryMap.insert(std::make_pair(name, func));
 	return 1;
@@ -158,6 +161,7 @@ Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initial
 	
 	if(!isCreateChild) pActor->PostInit();
 
+	m_Context->GetSystem<EventManager>()->VQueueEvent(std::shared_ptr<IEvent>(new EvtData_New_Actor(pActor)));
 	return pActor;
 }
 

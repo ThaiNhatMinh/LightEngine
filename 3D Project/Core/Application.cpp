@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "..\Graphics3D\OpenGLRenderer.h"
+
 #include <type_traits>
 void Application::SetupSubmodule()
 {
@@ -53,7 +54,10 @@ void Application::SetupSubmodule()
 	// init VGUI
 	m_pVGUI->Init(m_Context.get());
 	
+	// Create game plugin
+	m_GamePlugins = std::unique_ptr<GamePluginManager>(new GamePluginManager(m_Context.get()));
 
+	m_GamePlugins->LoadPlugin("FPSGame.dll");
 	m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 
 }
@@ -79,7 +83,7 @@ void Application::MainLoop()
 	// 4. Physic
 	// 5. 
 
-	Scene			*pScene = m_Game->GetScene();
+	Scene			*pScene = m_GamePlugins->GetScene();
 
 	
 	m_Context->GetSystem<Windows>()->ShowWindows();
@@ -105,11 +109,11 @@ void Application::MainLoop()
 			// Update Event
 			m_pEventManager->VUpdate(20);
 			// Update Game
-			m_Game->Update(dt);
+			m_GamePlugins->UpdateGame(dt);
 			// Update Physic
 			m_pPhysic->VOnUpdate(dt);
 			// Update Effect
-			m_pEffectSystem->Update(pScene, dt);
+			m_pEffectSystem->Update(pScene,dt);
 			// Update Object
 			m_pPhysic->VSyncVisibleScene();
 			// Update sound
@@ -127,7 +131,7 @@ void Application::MainLoop()
 		m_pRenderer->Clear();
 
 		// Draw Game
-		m_Game->Render();
+		m_GamePlugins->RenderGame();
 		// Draw Effect
 		m_pEffectSystem->Render(pScene);
 		// Draw Console

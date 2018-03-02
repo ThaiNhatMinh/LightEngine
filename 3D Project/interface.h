@@ -16,19 +16,7 @@ class Debug;
 class Texture;
 
 
-class Material
-{
-public:
-	
-	vec3 Ka;
-	vec3 Kd;
-	vec3 Ks;
-	vec3 exp;
-	Material() :Ka(1.0f), Kd(1.0f), Ks(1.0f), exp(128)
-	{
 
-	}
-};
 
 // OpenGL Buffer Object
 // All other buffer must deliver form this class
@@ -60,7 +48,7 @@ public:
 	GLuint					Topology;	
 };
 
-class ISceneNode
+/*class ISceneNode
 {
 public:
 
@@ -109,7 +97,7 @@ public:
 	//virtual void VUpdate(float dt) = 0;
 	//virtual void VRender() = 0;
 	virtual ~IGameWorld() {};
-};
+};*/
 /////////////////////////////////////////////////////////////////////////////
 // class IGamePhysics							
 //
@@ -227,17 +215,6 @@ public:
 	virtual void VExecuteFile(const char* resource) = 0;
 	virtual void VExecuteString(const char* str) = 0;
 };
-
-class IApplication
-{
-
-public:
-	virtual void Setup() {};
-	virtual void Start() {};
-	virtual void MainLoop() = 0;
-	virtual ~IApplication() {};
-};
-
 class Context;
 class ISubSystem
 {
@@ -248,9 +225,9 @@ public:
 	virtual void ShutDown() {};
 	virtual ~ISubSystem() {};
 
-
-protected:
 	static Context* m_Context;
+protected:
+	
 	ISubSystem() {};
 	ISubSystem& operator=(const ISubSystem& other) { return *this; }
 	ISubSystem(const ISubSystem& other) {}

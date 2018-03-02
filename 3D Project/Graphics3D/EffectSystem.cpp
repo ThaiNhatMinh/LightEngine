@@ -39,9 +39,9 @@ void EffectSystem::ShutDown() {
 	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
 }
 
-void EffectSystem::Update(Scene* pScene,float dt)
+void EffectSystem::Update(Scene * pScene, float dt)
 {
-	ICamera* pCam = Camera::GetCurrentCamera();
+	ICamera* pCam = pScene->GetCurrentCamera();
 
 	for (auto itr = m_List2.begin();itr!=m_List2.end(); itr++)
 	{
@@ -54,9 +54,9 @@ void EffectSystem::Update(Scene* pScene,float dt)
 	}
 }
 
-void EffectSystem::Render(Scene* pScene)
+void EffectSystem::Render(Scene * pScene)
 {
-	ICamera* pCam = Camera::GetCurrentCamera();
+	ICamera* pCam = pScene->GetCurrentCamera();
 
 
 	//std::sort(m_List2.begin(), m_List2.end(), [](SpriteAnim*a, SpriteAnim*b) {return *a < *b; });

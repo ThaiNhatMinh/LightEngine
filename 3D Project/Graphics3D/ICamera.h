@@ -20,12 +20,12 @@ public:
 class Camera : public ICamera
 {
 private:
-	static vector<ICamera*> CameraList;
-	static vector<ICamera*>::iterator	CurrentCamera;
+	//static vector<ICamera*> CameraList;
+	//static vector<ICamera*>::iterator	CurrentCamera;
 public:
 	Camera();
 	~Camera() {};
 
-	static ICamera* GetCurrentCamera();
-	static void		SetCurrentCamera(Camera* cam);
+	//static ICamera* GetCurrentCamera();
+	//static void		SetCurrentCamera(Camera* cam);
 };

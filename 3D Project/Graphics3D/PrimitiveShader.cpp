@@ -3,7 +3,7 @@
 void PrimShader::SetupRender(Scene * pScene, Actor * pActor)
 {
 	this->Use();
-	ICamera* pCam = Camera::GetCurrentCamera();
+	ICamera* pCam = pScene->GetCurrentCamera();
 	// ----- Transform Matricies ------
 	
 	mat4 globalTransform = pActor->VGetGlobalTransform();

@@ -89,7 +89,7 @@ void CameraComponent::VUpdate(float dt)
 }
 void CameraComponent::VPostInit(void)
 {
-	Camera::SetCurrentCamera(this);
+	//Camera::SetCurrentCamera(this);
 }
 const mat4& CameraComponent::GetProjMatrix()
 {

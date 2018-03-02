@@ -1,7 +1,9 @@
 #pragma once
 #include "pch.h"
 #include "Graphics3D\OpenGLRenderer.h"
-class Application : public IApplication
+#include "..\GamePlugin\GamePluginManager.h"
+
+class Application 
 {
 public:
 	Application():m_DebugPhysic(0){};
@@ -34,8 +36,7 @@ protected:
 	std::unique_ptr<SoundEngine>		m_pSoundEngine;
 	std::unique_ptr<VGUI>				m_pVGUI;
 
-	std::unique_ptr<Context> m_Context;
-	std::unique_ptr<IGame> m_Game;
-	
+	std::unique_ptr<Context>			m_Context;
+	std::unique_ptr<GamePluginManager>	m_GamePlugins;
 	int m_DebugPhysic;
 };

@@ -19,7 +19,7 @@ void main()
 
 
 
-	MyGame app;
+	Application app;
 	app.MainLoop();
 
 }

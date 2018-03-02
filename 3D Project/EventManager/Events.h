@@ -4,27 +4,26 @@
 //---------------------------------------------------------------------------------------------------------------------
 // EvtData_New_Actor - This event is sent out when an actor is *actually* created.
 //---------------------------------------------------------------------------------------------------------------------
+class Actor;
 class EvtData_New_Actor : public BaseEventData
 {
-	ActorId m_actorId;
+	Actor* m_pActor;
 
 public:
 	static const EventType sk_EventType;
 
-	EvtData_New_Actor(void)
-	{
-		m_actorId = 0;
-	}
+	EvtData_New_Actor(void):m_pActor(nullptr)
+	{	}
 
-	explicit EvtData_New_Actor(ActorId actorId)
-		: m_actorId(actorId)
-		
+	explicit EvtData_New_Actor(Actor* pActor):m_pActor(pActor)
 	{
 	}
 
 	virtual void VDeserialize(std::istrstream& in)
 	{
-		in >> m_actorId;
+		string name;
+		in >> name;
+		//m_pActor->VSetName(name);
 	}
 
 	virtual const EventType& VGetEventType(void) const
@@ -34,12 +33,12 @@ public:
 
 	virtual IEvent* VCopy(void) const
 	{
-		return new EvtData_New_Actor(m_actorId);
+		return new EvtData_New_Actor(m_pActor);
 	}
 
 	virtual void VSerialize(std::ostrstream& out) const
 	{
-		out << m_actorId << " ";
+		//out << m_pActor->VGetName() << " ";
 	}
 
 
@@ -48,9 +47,9 @@ public:
 		return "EvtData_New_Actor";
 	}
 
-	const ActorId GetActorId(void) const
+	Actor* GetActorId(void) const
 	{
-		return m_actorId;
+		return m_pActor;
 	}
 
 	

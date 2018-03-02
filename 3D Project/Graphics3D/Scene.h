@@ -11,8 +11,8 @@ private:
 	std::unique_ptr<Actor>	m_pRoot;
 	std::list<Actor*>		m_ActorLast;
 	Light					m_DirectionLight; // only one direction light
-
-
+	vector<ICamera*>		m_CameraList;
+	ICamera*				m_CurrentCamera;
 	
 	
 	Context*			m_Context;
@@ -26,7 +26,9 @@ public:
 	bool OnUpdate(float dt);
 	bool PostUpdate();
 	
-	void PushLastActor(Actor*);
-	Actor* GetRoot() { return m_pRoot.get(); };
-	Light GetDirLight() { return m_DirectionLight; };
+	ICamera*	GetCurrentCamera();
+	void		SetCurrentCamera(Camera * cam);
+	void		PushLastActor(Actor*);
+	Actor*		GetRoot() { return m_pRoot.get(); };
+	Light		GetDirLight() { return m_DirectionLight; };
 };

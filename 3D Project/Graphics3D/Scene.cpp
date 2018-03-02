@@ -1,8 +1,10 @@
+#include "Scene.h"
+#include "Scene.h"
 #include "pch.h"
 #include "OpenGLRenderer.h"
 
 
-Scene::Scene(Context* c) :m_Context(c)
+Scene::Scene(Context* c) :m_Context(c),m_CurrentCamera(nullptr)
 {
 	m_pRoot = std::unique_ptr<Actor>(m_Context->GetSystem<ActorFactory>()->CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,0));
 	if (!m_pRoot)
@@ -65,7 +67,7 @@ bool Scene::OnRender()
 	
 	// render last
 	//m_Context->m_pRenderer->ClearBuffer();
-	ImGui::Text("Size: %d", m_ActorLast.size());
+	//ImGui::Text("Size: %d", m_ActorLast.size());
 	while (m_ActorLast.size()>0)
 	{
 		Actor* pActor = m_ActorLast.back();
@@ -86,6 +88,16 @@ bool Scene::PostUpdate()
 {
 	m_pRoot->VPostUpdate(this);
 	return true;
+}
+
+ICamera * Scene::GetCurrentCamera()
+{
+	return m_CurrentCamera;
+}
+
+void Scene::SetCurrentCamera(Camera * cam)
+{
+	m_CurrentCamera = cam;
 }
 
 void Scene::PushLastActor(Actor * pActor)

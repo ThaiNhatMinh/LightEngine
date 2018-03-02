@@ -1,5 +1,5 @@
 #include "pch.h"
-
+/*
 vector<ICamera*> Camera::CameraList;
 vector<ICamera*>::iterator Camera::CurrentCamera;
 Camera::Camera()
@@ -24,4 +24,9 @@ void Camera::SetCurrentCamera(Camera * cam)
 	{
 		CurrentCamera = result;
 	}
+}
+*/
+
+Camera::Camera()
+{
 }

@@ -23,6 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My3DProject</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <ProjectName>Light</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -134,9 +135,14 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;fmod_vc.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>@ECHO ON
+@ECHO "$(VC_ExecutablePath_x86)\lib.exe" /out:"$(OutDir)$(ProjectName).lib" "$(IntermediateOutputPath)*.obj"
+"$(VC_ExecutablePath_x86)\lib.exe" /out:"$(OutDir)$(ProjectName).lib" "$(IntermediateOutputPath)*.obj"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -164,13 +170,14 @@
     <ClInclude Include="Core\Log.h" />
     <ClInclude Include="Core\SystemUI.h" />
     <ClInclude Include="Core\Windows.h" />
+    <ClInclude Include="EngineHeader.h" />
     <ClInclude Include="EventManager\AnimationEvent.h" />
+    <ClInclude Include="EventManager\EffectEvent.h" />
     <ClInclude Include="EventManager\EventManager.h" />
     <ClInclude Include="EventManager\Events.h" />
     <ClInclude Include="EventManager\PhysicsEvents.h" />
     <ClInclude Include="EventManager\SpriteEvent.h" />
     <ClInclude Include="EventManager\TestScriptEvent.h" />
-    <ClInclude Include="GameHeader.h" />
     <ClInclude Include="GameObject\Actor.h" />
     <ClInclude Include="GameObject\ActorComponent.h" />
     <ClInclude Include="GameObject\ActorFactory.h" />
@@ -184,9 +191,7 @@
     <ClInclude Include="GameObject\StaticObject.h" />
     <ClInclude Include="GameObject\TerrainRenderComponent.h" />
     <ClInclude Include="GameObject\TransformComponent.h" />
-    <ClInclude Include="GamePlugin\ContextDLL.h" />
     <ClInclude Include="GamePlugin\GamePluginManager.h" />
-    <ClInclude Include="GamePlugin\IContextDLL.h" />
     <ClInclude Include="GamePlugin\IGamePlugin.h" />
     <ClInclude Include="GamePlugin\DLLInterface.h" />
     <ClInclude Include="Graphics3D\Camera.h" />
@@ -216,27 +221,13 @@
     <ClInclude Include="include\imgui\stb_textedit.h" />
     <ClInclude Include="include\imgui\stb_truetype.h" />
     <ClInclude Include="interface.h" />
-    <ClInclude Include="Interface\IPhysic.h" />
-    <ClInclude Include="Interface\IRenderer.h" />
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="Math\Frustum.h" />
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Math\Plane.h" />
     <ClInclude Include="Math\Ray.h" />
-    <ClInclude Include="MyGame\AI_Explosive.h" />
-    <ClInclude Include="MyGame\CharacterResource.h" />
-    <ClInclude Include="MyGame\Creature.h" />
-    <ClInclude Include="MyGame\EvtData.h" />
-    <ClInclude Include="MyGame\Game.h" />
-    <ClInclude Include="MyGame\GunPlayerView.h" />
-    <ClInclude Include="MyGame\HitBox.h" />
-    <ClInclude Include="MyGame\LocalPlayerComponent.h" />
-    <ClInclude Include="MyGame\Player.h" />
-    <ClInclude Include="MyGame\PlayerView.h" />
-    <ClInclude Include="MyGame\Weapon.h" />
-    <ClInclude Include="MyGame\WeaponResource.h" />
-    <ClInclude Include="MyGame\Zombie.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Physic\HitBox.h" />
     <ClInclude Include="Physic\Physic.h" />
     <ClInclude Include="Physic\PhysicDebugDrawer.h" />
     <ClInclude Include="ResourceCache\LTBDef.h" />
@@ -273,6 +264,7 @@
     <ClCompile Include="Core\Log.cpp" />
     <ClCompile Include="Core\SystemUI.cpp" />
     <ClCompile Include="Core\Windows.cpp" />
+    <ClCompile Include="EventManager\EffectEvent.cpp" />
     <ClCompile Include="EventManager\EventManager.cpp" />
     <ClCompile Include="EventManager\Events.cpp" />
     <ClCompile Include="EventManager\PhysicsEvents.cpp" />
@@ -290,7 +282,6 @@
     <ClCompile Include="GameObject\StaticObject.cpp" />
     <ClCompile Include="GameObject\TerrainRenderComponent.cpp" />
     <ClCompile Include="GameObject\TransformComponent.cpp" />
-    <ClCompile Include="GamePlugin\ContextDLL.cpp" />
     <ClCompile Include="GamePlugin\GamePluginManager.cpp" />
     <ClCompile Include="Graphics3D\Camera.cpp" />
     <ClCompile Include="Graphics3D\DebugShader.cpp" />
@@ -313,23 +304,12 @@
     <ClCompile Include="Math\AABB.cpp" />
     <ClCompile Include="Math\Frustum.cpp" />
     <ClCompile Include="Math\Plane.cpp" />
-    <ClCompile Include="MyGame\AI_Explosive.cpp" />
-    <ClCompile Include="MyGame\Creature.cpp" />
-    <ClCompile Include="MyGame\EvtData.cpp" />
-    <ClCompile Include="MyGame\EvtDdata.cpp" />
-    <ClCompile Include="MyGame\Game.cpp" />
-    <ClCompile Include="MyGame\GunPlayerView.cpp" />
-    <ClCompile Include="MyGame\HitBox.cpp" />
-    <ClCompile Include="MyGame\Player.cpp" />
-    <ClCompile Include="MyGame\PlayerView.cpp" />
-    <ClCompile Include="MyGame\LocalPlayerComponent.cpp" />
-    <ClCompile Include="MyGame\Weapon.cpp" />
-    <ClCompile Include="MyGame\Zombie.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Physic\HitBox.cpp" />
     <ClCompile Include="Physic\Physic.cpp" />
     <ClCompile Include="Physic\PhysicDebugDrawer.cpp" />
     <ClCompile Include="ResourceCache\LTBFileLoader.cpp" />

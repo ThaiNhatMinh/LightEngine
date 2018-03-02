@@ -22,8 +22,8 @@ public:
 	virtual void	Init(Context* c);
 	virtual void	ShutDown();
 
-	void			Update(Scene* pScene,float dt);
-	void			Render(Scene* pScene);
+	void			Update(Scene * pScene, float dt);
+	void			Render(Scene * pScene);
 
 	void			AddSprite(Sprite a);
 	void			AddSprite(SpriteAnim* a);
