@@ -11,9 +11,8 @@ public:
 	virtual HRESULT VOnUpdate(Scene *, float elapsedMs)override;
 	virtual mat4	VGetGlobalTransform()override;
 
-private:
-	PVAnimationComponent* m_pAmnimComponent;
-	MeshRenderComponent* MRC;
-	mat4	m_PVTransform;
-	float	m_fFOV;
+protected:
+	
+	mat4 InvView;
+
 };

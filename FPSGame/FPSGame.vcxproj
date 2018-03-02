@@ -33,11 +33,11 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -72,8 +72,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>E:\Code Collection\3D Project\3D Project;E:\Code Collection\3D Project\3D Project\include;E:\Code Collection\bullet-2.79\src;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Code Collection\3D Project\3D Project;E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\3D Project\Release;E:\Code Collection\bullet-2.79\lib\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Code Collection\3D Project\3D Project\include;E:\Code Collection\3D Project\3D Project;$(IncludePath);E:\Code Collection\bullet3-master\src;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;E:\Code Collection\freetype-2.7.1\include</IncludePath>
+    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet3-master\lib\Release;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;E:\Code Collection\freetype-2.7.1\LIB\Release;E:\Code Collection\3D Project\Release;$(LibraryPath)</LibraryPath>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -95,13 +96,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;3D Project.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>E:\Code Collection\3D Project\3D Project\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -115,6 +118,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>E:\Code Collection\3D Project\3D Project\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -148,18 +152,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\3D Project\EngineHeader.h" />
+    <ClInclude Include="AI_Explosive.h" />
+    <ClInclude Include="CharacterResource.h" />
+    <ClInclude Include="Creature.h" />
+    <ClInclude Include="EvtData.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GunPlayerView.h" />
+    <ClInclude Include="HitBox.h" />
+    <ClInclude Include="LocalPlayerComponent.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerView.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponResource.h" />
+    <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FPSGame.cpp" />
+    <ClCompile Include="AI_Explosive.cpp" />
+    <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="EvtData.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GunPlayerView.cpp" />
+    <ClCompile Include="LocalPlayerComponent.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerView.cpp" />
     <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,15 +1,16 @@
-#include "..\stdafx.h"
+#include "stdafx.h"
 #include "PlayerView.h"
 
 PlayerView::PlayerView(ActorId id) :Actor(id)
 {
+	
 }
 
 bool PlayerView::Init(const tinyxml2::XMLElement * pData)
 {
 	bool r = Actor::Init(pData);
 
-	const tinyxml2::XMLElement * pNode = pData->FirstChildElement("PVTransform");
+	/*const tinyxml2::XMLElement * pNode = pData->FirstChildElement("PVTransform");
 	
 	const tinyxml2::XMLElement* pPositionElement = pNode->FirstChildElement("Position");
 	vec3 position, yawPitchRoll;
@@ -46,7 +47,7 @@ bool PlayerView::Init(const tinyxml2::XMLElement * pData)
 
 	pNode = pNode->FirstChildElement("FOV");
 
-	m_fFOV = pNode->DoubleAttribute("fov", 45.0);
+	m_fFOV = pNode->DoubleAttribute("fov", 45.0);*/
 
 	return 1;
 }
@@ -55,27 +56,31 @@ void PlayerView::PostInit(void)
 {
 	Actor::PostInit();
 
-	m_pAmnimComponent = GetComponent<PVAnimationComponent>("PVAnimationComponent");
-	MRC = GetComponent<MeshRenderComponent>("MeshRenderComponent");
 }
 
 HRESULT PlayerView::VRender(Scene * pScene)
 {
-	
-	if (MRC) MRC->Render(pScene);
+	ICamera* pCam = pScene->GetCurrentCamera();
+	pScene->PushLastActor(this);
+
 	return S_OK;
 }
 
 HRESULT PlayerView::VOnUpdate(Scene *pScene, float elapsedMs)
 {
-	HRESULT r = Actor::VOnUpdate(pScene, elapsedMs);
-	//mat4 t = m_pAmnimComponent->GetRootTransform();
-	//m_PVTransform = glm::inverse(t);
-	return r;
+	Actor::VOnUpdate(pScene, elapsedMs);
+
+	InvView = pScene->GetCurrentCamera()->GetViewMatrix();
+	InvView = glm::inverse(InvView);
+	
+
+	return S_OK;
 }
 
 mat4 PlayerView::VGetGlobalTransform()
 {
-	mat4 g = Actor::VGetGlobalTransform()*m_PVTransform;
-	return g;
+	//mat4 trans = Camera::GetCurrentCamera()->GetViewMatrix();
+	mat4 trans = InvView* m_TransformComponent->GetTransform();
+	//return Actor::VGetGlobalTransform();
+	return trans;
 }
