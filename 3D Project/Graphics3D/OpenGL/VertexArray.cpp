@@ -26,3 +26,17 @@ void VertexArray::SetAttibutePointer(GLuint loc, GLuint num, GLenum type, GLuint
 	glEnableVertexAttribArray(loc);
 	glVertexAttribPointer(loc, num, type, normalize, stride, (GLvoid*)offset);
 }
+
+VertexArray::VertexArray(VertexArray && other)
+{
+	m_uiIndentity = other.m_uiIndentity;
+	other.m_uiIndentity = 0;
+	printf("VertexArray\n");
+}
+
+VertexArray & VertexArray::operator=(VertexArray && other)
+{
+	m_uiIndentity = other.m_uiIndentity;
+	other.m_uiIndentity = 0;
+	return *this;
+}

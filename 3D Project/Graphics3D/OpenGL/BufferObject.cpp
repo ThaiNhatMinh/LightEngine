@@ -30,3 +30,20 @@ void BufferObject::SetSubData(GLuint offset, GLuint size, const GLvoid * data)
 {
 	glBufferSubData(m_eTarget, offset, size, data);
 }
+
+BufferObject::BufferObject(BufferObject && other)
+{
+	m_eTarget = other.m_eTarget;
+	m_uiIndentity = m_uiIndentity;
+	other.m_uiIndentity = 0;
+	printf("BufferObject\n");
+}
+
+BufferObject & BufferObject::operator=(BufferObject && other)
+{
+	m_eTarget = other.m_eTarget;
+	m_uiIndentity = m_uiIndentity;
+	other.m_uiIndentity = 0;
+
+	return *this;
+}

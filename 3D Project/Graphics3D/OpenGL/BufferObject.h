@@ -12,11 +12,14 @@ public:
 
 	void SetData(GLuint size, const GLvoid* data,GLenum usage);
 	void SetSubData(GLuint offset, GLuint size, const GLvoid* data);
+
+	BufferObject(BufferObject&& other);
+	BufferObject& operator=(BufferObject&& other) ;
 private:
 	BufferObject(const BufferObject& other) = delete;
-	BufferObject(BufferObject&& other) = delete;
+	//BufferObject(BufferObject&& other) = delete;
 	BufferObject& operator=(const BufferObject& other) = delete;
-	BufferObject& operator=(BufferObject&& other) = delete;
+	//BufferObject& operator=(BufferObject&& other) = delete;
 
 private:
 	GLenum m_eTarget;
