@@ -18,6 +18,7 @@ struct DtxHeader
 };
 #define MAX_FILE_NAME 128
 
+class IMesh;
 class HeightMap
 {
 public:
@@ -86,10 +87,9 @@ private:
 	void LoadResources(string path);
 
 public:
-	Resources();
+	Resources(Context* c);
 	~Resources();
-	virtual void  Init(Context* c);
-	virtual void  ShutDown();
+
 
 	IMesh*		CreateShape(ShapeType type,float* size);
 	SpriteAnim*	GetSpriteAnimation(const string& filename);

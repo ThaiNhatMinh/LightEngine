@@ -18,9 +18,8 @@ public:
 	float m_Far;						// Far distance
 	float tanFovOver2;
 
-	GLuint VAO;
-	GLuint VBO;
-	GLuint EBO;
+	//VertexArray				VAO;
+	//BufferObject			VBO, EBO;
 protected:
 	
 public:

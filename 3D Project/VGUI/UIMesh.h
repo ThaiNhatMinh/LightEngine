@@ -1,7 +1,7 @@
 #pragma once
 
 
-class UIMesh: public GLBO
+class UIMesh
 {
 public:
 	virtual void Init();

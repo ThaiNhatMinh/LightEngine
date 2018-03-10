@@ -157,7 +157,7 @@ SystemUI::SystemUI(Context * c)
 	m_pShader = c->GetSystem<Resources>()->GetShader("ImGuiShader");
 
 	m_Mesh = std::make_unique<imguiMesh>();
-	m_Mesh->Init();
+	//m_Mesh->Init();
 
 
 	// Setup display size (every frame to accommodate for window resizing)
@@ -174,7 +174,7 @@ SystemUI::SystemUI(Context * c)
 
 SystemUI::~SystemUI()
 {
-	m_Mesh->Shutdown();
+	//m_Mesh->Shutdown();
 	ImGui::Shutdown();
 }
 
@@ -210,7 +210,7 @@ void SystemUI::OnRenderDrawLists(ImDrawData * draw_data)
 	glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
 
 	m_pShader->Use();
-	glBindVertexArray(m_Mesh->VAO);
+	m_Mesh->VAO.Bind();
 	glBindSampler(0, 0);
 	mat4 ortho = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
 	m_pShader->SetUniformMatrix("ProjMtx", glm::value_ptr(ortho));
@@ -220,11 +220,11 @@ void SystemUI::OnRenderDrawLists(ImDrawData * draw_data)
 		const ImDrawList* cmd_list = draw_data->CmdLists[n];
 		const ImDrawIdx* idx_buffer_offset = 0;
 
-		glBindBuffer(GL_ARRAY_BUFFER, m_Mesh->VBO);
-		glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
+		m_Mesh->VBO.Bind();
+		m_Mesh->VBO.SetData((GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Mesh->EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
+		m_Mesh->EBO.Bind();
+		m_Mesh->EBO.SetData((GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
 		for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
 		{
 			const ImDrawCmd* pcmd = &cmd_list->CmdBuffer[cmd_i];

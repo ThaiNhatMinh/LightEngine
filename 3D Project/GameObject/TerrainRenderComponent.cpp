@@ -54,7 +54,8 @@ void TerrainRenderComponent::Render(Scene *pScene)
 		m_MeshList[i]->Tex->Bind();
 
 		// ------- Render mesh ----------
-		m_pRenderer->SetVertexArrayBuffer(m_MeshList[i]->VAO);
+		//m_pRenderer->SetVertexArrayBuffer(m_MeshList[i]->VAO);
+		m_MeshList[i]->VAO.Bind();
 		m_pRenderer->SetDrawMode(m_MeshList[i]->Topology);
 		m_pRenderer->DrawElement(m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
 	}

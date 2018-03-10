@@ -26,9 +26,6 @@
     <ClInclude Include="ResourceCache\ResourceLoader.h">
       <Filter>ResourceCache</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceCache\Texture.h">
-      <Filter>ResourceCache</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceCache\LTBDef.h">
       <Filter>ResourceCache</Filter>
     </ClInclude>
@@ -59,9 +56,6 @@
     <ClInclude Include="Graphics3D\Scene.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\PrimitiveShape\Cube.h">
-      <Filter>Utilities\Primitive Shape</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\Light.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
@@ -76,9 +70,6 @@
     </ClInclude>
     <ClInclude Include="Physic\PhysicDebugDrawer.h">
       <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\PrimitiveShape\Line.h">
-      <Filter>Utilities\Primitive Shape</Filter>
     </ClInclude>
     <ClInclude Include="Math\AABB.h">
       <Filter>Math</Filter>
@@ -106,9 +97,6 @@
     </ClInclude>
     <ClInclude Include="Utilities\PhysicsUtilities.h">
       <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGLRenderer.h">
-      <Filter>Graphics3D</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application.h">
       <Filter>Core</Filter>
@@ -151,24 +139,6 @@
     </ClInclude>
     <ClInclude Include="Core\Context.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imgui\imconfig.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imgui\imgui.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imgui\imgui_internal.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imgui\stb_rect_pack.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imgui\stb_textedit.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imgui\stb_truetype.h">
-      <Filter>Utilities\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\Camera.h">
       <Filter>Graphics3D</Filter>
@@ -271,6 +241,51 @@
       <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="EngineHeader.h" />
+    <ClInclude Include="Utilities\Observer.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceCache\IResource.h">
+      <Filter>ResourceCache</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Texture.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\VertexArray.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\BufferObject.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\CompressTexture.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGLRenderer.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imconfig.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imgui.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imgui_internal.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\stb_rect_pack.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\stb_textedit.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\stb_truetype.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\IMesh.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Cube.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -314,9 +329,6 @@
     <ClCompile Include="Graphics3D\Scene.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp">
-      <Filter>Utilities\Primitive Shape</Filter>
-    </ClCompile>
     <ClCompile Include="Physic\Physic.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
@@ -328,9 +340,6 @@
     </ClCompile>
     <ClCompile Include="Physic\PhysicDebugDrawer.cpp">
       <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities\PrimitiveShape\Line.cpp">
-      <Filter>Utilities\Primitive Shape</Filter>
     </ClCompile>
     <ClCompile Include="Math\AABB.cpp">
       <Filter>Math</Filter>
@@ -349,9 +358,6 @@
     </ClCompile>
     <ClCompile Include="EventManager\PhysicsEvents.cpp">
       <Filter>EventManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGLRenderer.cpp">
-      <Filter>Graphics3D</Filter>
     </ClCompile>
     <ClCompile Include="Core\Application.cpp">
       <Filter>Core</Filter>
@@ -392,12 +398,6 @@
     <ClCompile Include="GameObject\TransformComponent.cpp">
       <Filter>GameObject\Component</Filter>
     </ClCompile>
-    <ClCompile Include="include\imgui\imgui.cpp">
-      <Filter>Utilities\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="include\imgui\imgui_draw.cpp">
-      <Filter>Utilities\imgui</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics3D\Camera.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
@@ -418,9 +418,6 @@
     </ClCompile>
     <ClCompile Include="Core\Debug.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceCache\Texture.cpp">
-      <Filter>ResourceCache</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\ImGuiShader.cpp">
       <Filter>Graphics3D\Shader</Filter>
@@ -485,6 +482,36 @@
     <ClCompile Include="EventManager\EffectEvent.cpp">
       <Filter>EventManager</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\Observer.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Texture.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceCache\IResource.cpp">
+      <Filter>ResourceCache</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\BufferObject.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\VertexArray.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGLRenderer.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\CompressTexture.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\imgui\imgui.cpp">
+      <Filter>Utilities\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\imgui\imgui_draw.cpp">
+      <Filter>Utilities\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Cube.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -504,9 +531,6 @@
     </Filter>
     <Filter Include="GameObject">
       <UniqueIdentifier>{4c146923-d6f9-4a48-aab7-dfa9bf8a2a13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utilities\Primitive Shape">
-      <UniqueIdentifier>{03267231-4d95-47c3-be6f-97dcd55099e7}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameAssets">
       <UniqueIdentifier>{e065ac98-9017-4c21-ab1a-c062573d470a}</UniqueIdentifier>
@@ -552,6 +576,9 @@
     </Filter>
     <Filter Include="VGUI">
       <UniqueIdentifier>{2ed385a3-fb81-48e9-93f5-0bc15f4cbee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL">
+      <UniqueIdentifier>{f3e355db-8a15-4633-87b0-4af65f1c66c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

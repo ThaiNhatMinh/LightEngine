@@ -44,17 +44,12 @@ void Shader::LinkShader()
 }
 
 
-void Shader::Shutdown()
+Shader::~Shader()
 {
 	glDeleteProgram(m_iProgramID);
 
 	glDeleteShader(m_iFragmentShader);
 	glDeleteShader(m_iVertexShader);
-}
-
-Shader::~Shader()
-{
-	
 
 }
 

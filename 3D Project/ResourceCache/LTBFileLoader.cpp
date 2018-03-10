@@ -219,9 +219,9 @@ vector<std::unique_ptr<SkeMesh>> LTBFile::LoadMesh()
 	unsigned short str_len;
 	for (uint32 iPieceCnt = 0; iPieceCnt < numPieces; iPieceCnt++)
 	{
-		SkeMesh* pmesh = new SkeMesh;
-		vector<SkeVertex>& vertex = pmesh->m_Vertexs;
-		vector<unsigned int>& Index = pmesh->m_Indices;
+		vector<SkeVertex> vertex;
+		vector<unsigned int> Index;
+		std::string meshname;
 
 		fread((void*)&str_len, sizeof(unsigned short), 1, pFile);
 		char str[MAX_NAME];
@@ -230,7 +230,7 @@ vector<std::unique_ptr<SkeMesh>> LTBFile::LoadMesh()
 		//printf("%d %s\n",len,str);
 
 		// name of mesh
-		pmesh->Name = str;
+		meshname = str;
 		uint32 numLOD;
 		float LODDists;
 		fread(&numLOD, sizeof(uint32), 1, pFile);
@@ -530,7 +530,9 @@ vector<std::unique_ptr<SkeMesh>> LTBFile::LoadMesh()
 			}
 		}
 
-	
+		SkeMesh* pmesh = new SkeMesh(vertex, Index);
+		pmesh->Name = meshname;
+
 		meshlist[iPieceCnt] = std::unique_ptr<SkeMesh>(pmesh);
 	}
 

@@ -1,26 +1,50 @@
 #include "pch.h"
+#include "VGUI.h"
 
-VGUI::VGUI():m_Root(new UIGroup(this))
+
+class VGUI::UIFactoryInterface
 {
-	
+public:
+	~UIFactoryInterface() {};
+	virtual UIElement* Create() = 0;
+};
+
+template<class T>
+class VGUI::UIFactory : public VGUI::UIFactoryInterface
+{
+public:
+	UIFactory() = default;
+	~UIFactory() = default;
+	virtual UIElement* Create();
+
+};
+
+template<class T>
+UIElement * VGUI::UIFactory<T>::Create()
+{
+	return new T();
 }
 
-VGUI::~VGUI()
+VGUI::VGUI(Context* c):m_Root(new UIGroup())
 {
-	FTFont::ReleaseFreeTypeFont();
-}
+	m_ControlFactory.resize(CTRL_COUNT);
+	m_ControlFactory[CTRL_TEXT] = std::unique_ptr<UIFactory<UIText>>(new UIFactory<UIText>());
 
-void VGUI::Init(Context * c)
-{
 	m_pWindows = c->GetSystem<Windows>();
 	vec2 size = m_pWindows->GetWindowSize();
-	m_Proj = glm::ortho(0.0f, size.x,0.0f,size.y);
+	m_Proj = glm::ortho(0.0f, size.x, 0.0f, size.y);
 
 	m_UIShader = c->GetSystem<Resources>()->GetShader("UI");
 
 	FTFont::InitFreeTypeFont();
 	AddFont("Default", "GameAssets\\FONTS\\segoeui.ttf");
 	c->AddSystem(this);
+
+}
+
+VGUI::~VGUI()
+{
+	FTFont::ReleaseFreeTypeFont();
 }
 
 void VGUI::Render()
@@ -73,3 +97,15 @@ FTFont * VGUI::GetFont(const string & fontname)
 
 	return nullptr;
 }
+
+UIElement * VGUI::CreateElement(Control ctrl)
+{
+	if (ctrl >= CTRL_COUNT || ctrl<0) return nullptr;
+	
+	auto ptr = m_ControlFactory[ctrl]->Create();
+
+	ptr->OnInit(this);
+
+	return ptr;
+}
+

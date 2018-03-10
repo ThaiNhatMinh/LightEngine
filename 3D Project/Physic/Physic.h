@@ -148,11 +148,10 @@ private:
 protected:
 	
 public:
-	BulletPhysics();				// [mrmike] This was changed post-press to add event registration!
+	BulletPhysics(Context* c);				// [mrmike] This was changed post-press to add event registration!
 	virtual ~BulletPhysics();
 
-	virtual void Init(Context* c);
-	virtual void ShutDown();
+	
 
 	// Initialiazation and Maintenance of the Physics World
 	virtual bool VInitialize() override { return 1; };

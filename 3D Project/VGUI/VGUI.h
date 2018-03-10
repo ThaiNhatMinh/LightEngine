@@ -1,14 +1,18 @@
 #pragma once
 
-
 class VGUI : public ISubSystem
 {
 public:
-	VGUI();
+	enum Control
+	{
+		CTRL_TEXT,
+		CTRL_COUNT,
+	};
+public:
+	VGUI(Context* c);
 	~VGUI();
 
-	virtual void Init(Context* c);
-	//virtual void ShutDown() {};
+	
 
 	void		Render();
 	void		Update(float dt);
@@ -18,10 +22,17 @@ public:
 	const mat4& GetProj();
 	FTFont*		GetFont(const string& fontname);
 
+	UIElement*	CreateElement(Control ctrl);
+
 private:
+	class UIFactoryInterface;
+	template<class T>class UIFactory;
+	std::vector<std::unique_ptr<UIFactoryInterface>>			m_ControlFactory;
+	std::vector<std::unique_ptr<FTFont>>		m_FontLists;
 	mat4						m_Proj;
 	Shader*						m_UIShader;
-	std::vector<std::unique_ptr<FTFont>>	m_FontLists;
 	Windows*					m_pWindows;
 	std::unique_ptr<UIGroup>	m_Root;
 };
+
+

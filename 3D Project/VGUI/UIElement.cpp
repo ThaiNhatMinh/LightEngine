@@ -28,6 +28,7 @@ vec2 UIElement::GetPos()
 void UIElement::SetPos(const vec3 & pos)
 {
 	m_Pos = pos;
+	UpdateInternalData();
 }
 
 uint32 UIElement::GetID()
@@ -35,7 +36,7 @@ uint32 UIElement::GetID()
 	return m_ID;
 }
 
-UIGroup::UIGroup(VGUI * pVGUI)
+UIGroup::UIGroup()
 {
 }
 

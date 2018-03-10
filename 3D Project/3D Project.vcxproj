@@ -72,16 +72,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>E:\Code Collection\3D Project\3D Project\include;$(IncludePath);E:\Code Collection\bullet3-master\src;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;E:\Code Collection\freetype-2.9\include</IncludePath>
-    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet3-master\lib\Release;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\FMod\inc;..\3D Project\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Code Collection\3D Project\3D Project\include;E:\Code Collection\3D Project\3D Project;$(IncludePath);E:\Code Collection\bullet3-master\src;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;E:\Code Collection\freetype-2.7.1\include</IncludePath>
-    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet3-master\lib\Release;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;E:\Code Collection\freetype-2.7.1\LIB\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\FMod\inc;..\3D Project\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -102,8 +102,13 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>@ECHO ON
+@ECHO "$(VC_ExecutablePath_x86)\lib.exe" /out:"$(OutDir)$(ProjectName).lib" "$(IntermediateOutputPath)*.obj"
+"$(VC_ExecutablePath_x86)\lib.exe" /out:"$(OutDir)$(ProjectName).lib" "$(IntermediateOutputPath)*.obj"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -162,6 +167,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\ThirdParty\imgui\imconfig.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="..\ThirdParty\imgui\stb_rect_pack.h" />
+    <ClInclude Include="..\ThirdParty\imgui\stb_textedit.h" />
+    <ClInclude Include="..\ThirdParty\imgui\stb_truetype.h" />
     <ClInclude Include="Core\Application.h" />
     <ClInclude Include="Core\Console.h" />
     <ClInclude Include="Core\Context.h" />
@@ -195,12 +206,18 @@
     <ClInclude Include="GamePlugin\IGamePlugin.h" />
     <ClInclude Include="GamePlugin\DLLInterface.h" />
     <ClInclude Include="Graphics3D\Camera.h" />
+    <ClInclude Include="Graphics3D\Cube.h" />
     <ClInclude Include="Graphics3D\DebugShader.h" />
     <ClInclude Include="Graphics3D\EffectSystem.h" />
     <ClInclude Include="Graphics3D\ICamera.h" />
     <ClInclude Include="Graphics3D\ImGuiShader.h" />
     <ClInclude Include="Graphics3D\Octree.h" />
     <ClInclude Include="Graphics3D\OpenGLRenderer.h" />
+    <ClInclude Include="Graphics3D\OpenGL\CompressTexture.h" />
+    <ClInclude Include="Graphics3D\OpenGL\IMesh.h" />
+    <ClInclude Include="Graphics3D\OpenGL\Texture.h" />
+    <ClInclude Include="Graphics3D\OpenGL\VertexArray.h" />
+    <ClInclude Include="Graphics3D\OpenGL\BufferObject.h" />
     <ClInclude Include="Graphics3D\Particles.h" />
     <ClInclude Include="Graphics3D\RenderAPI.h" />
     <ClInclude Include="Graphics3D\SkeShader.h" />
@@ -214,12 +231,6 @@
     <ClInclude Include="Graphics3D\SpriteAnim.h" />
     <ClInclude Include="Graphics3D\SpriteShader.h" />
     <ClInclude Include="Graphics3D\TexShader.h" />
-    <ClInclude Include="include\imgui\imconfig.h" />
-    <ClInclude Include="include\imgui\imgui.h" />
-    <ClInclude Include="include\imgui\imgui_internal.h" />
-    <ClInclude Include="include\imgui\stb_rect_pack.h" />
-    <ClInclude Include="include\imgui\stb_textedit.h" />
-    <ClInclude Include="include\imgui\stb_truetype.h" />
     <ClInclude Include="interface.h" />
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="Math\Frustum.h" />
@@ -230,17 +241,16 @@
     <ClInclude Include="Physic\HitBox.h" />
     <ClInclude Include="Physic\Physic.h" />
     <ClInclude Include="Physic\PhysicDebugDrawer.h" />
+    <ClInclude Include="ResourceCache\IResource.h" />
     <ClInclude Include="ResourceCache\LTBDef.h" />
     <ClInclude Include="ResourceCache\LTBFileLoader.h" />
     <ClInclude Include="ResourceCache\ModelCache.h" />
     <ClInclude Include="ResourceCache\ResourceLoader.h" />
-    <ClInclude Include="ResourceCache\Texture.h" />
     <ClInclude Include="Sound\SoundEngine.h" />
     <ClInclude Include="Sound\SoundListener.h" />
     <ClInclude Include="Sound\SoundSource3D.h" />
+    <ClInclude Include="Utilities\Observer.h" />
     <ClInclude Include="Utilities\PhysicsUtilities.h" />
-    <ClInclude Include="Utilities\PrimitiveShape\Cube.h" />
-    <ClInclude Include="Utilities\PrimitiveShape\Line.h" />
     <ClInclude Include="Utilities\Template.h" />
     <ClInclude Include="Utilities\Input.h" />
     <ClInclude Include="Utilities\Shader.h" />
@@ -256,6 +266,8 @@
     <ClInclude Include="World\TerrainWorld.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\ThirdParty\imgui\imgui.cpp" />
+    <ClCompile Include="..\ThirdParty\imgui\imgui_draw.cpp" />
     <ClCompile Include="Core\Application.cpp" />
     <ClCompile Include="Core\Console.cpp" />
     <ClCompile Include="Core\Context.cpp" />
@@ -284,6 +296,7 @@
     <ClCompile Include="GameObject\TransformComponent.cpp" />
     <ClCompile Include="GamePlugin\GamePluginManager.cpp" />
     <ClCompile Include="Graphics3D\Camera.cpp" />
+    <ClCompile Include="Graphics3D\Cube.cpp" />
     <ClCompile Include="Graphics3D\DebugShader.cpp" />
     <ClCompile Include="Graphics3D\EffectSystem.cpp" />
     <ClCompile Include="Graphics3D\ICamera.cpp" />
@@ -291,6 +304,10 @@
     <ClCompile Include="Graphics3D\Mesh.cpp" />
     <ClCompile Include="Graphics3D\Octree.cpp" />
     <ClCompile Include="Graphics3D\OpenGLRenderer.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\CompressTexture.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\Texture.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\VertexArray.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\BufferObject.cpp" />
     <ClCompile Include="Graphics3D\PrimitiveShader.cpp" />
     <ClCompile Include="Graphics3D\Scene.cpp" />
     <ClCompile Include="Graphics3D\SkeMesh.cpp" />
@@ -299,8 +316,6 @@
     <ClCompile Include="Graphics3D\SpriteAnim.cpp" />
     <ClCompile Include="Graphics3D\SpriteShader.cpp" />
     <ClCompile Include="Graphics3D\TexShader.cpp" />
-    <ClCompile Include="include\imgui\imgui.cpp" />
-    <ClCompile Include="include\imgui\imgui_draw.cpp" />
     <ClCompile Include="Math\AABB.cpp" />
     <ClCompile Include="Math\Frustum.cpp" />
     <ClCompile Include="Math\Plane.cpp" />
@@ -312,16 +327,15 @@
     <ClCompile Include="Physic\HitBox.cpp" />
     <ClCompile Include="Physic\Physic.cpp" />
     <ClCompile Include="Physic\PhysicDebugDrawer.cpp" />
+    <ClCompile Include="ResourceCache\IResource.cpp" />
     <ClCompile Include="ResourceCache\LTBFileLoader.cpp" />
     <ClCompile Include="ResourceCache\ResourceLoader.cpp" />
-    <ClCompile Include="ResourceCache\Texture.cpp" />
     <ClCompile Include="Sound\SoundEngine.cpp" />
     <ClCompile Include="Sound\SoundListener.cpp" />
     <ClCompile Include="Sound\SoundSource3D.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Utilities\Input.cpp" />
-    <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp" />
-    <ClCompile Include="Utilities\PrimitiveShape\Line.cpp" />
+    <ClCompile Include="Utilities\Observer.cpp" />
     <ClCompile Include="Utilities\Shader.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
     <ClCompile Include="Utilities\Timer.cpp" />

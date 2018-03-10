@@ -12,7 +12,7 @@ public:
 
 	bool			ChangeHP(int newHP);
 	bool			ChangeAC(int newAC);
-	int				GetHP();
+	const int		GetHP()const;
 	int				GetAC();
 	virtual void	TakeDamage(int damage);
 	virtual void	Death() = 0;

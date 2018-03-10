@@ -164,9 +164,6 @@ void Game::EventTakeDamage(std::shared_ptr<IEvent> pEvent)
 {
 	EvtTakeDamage* p = static_cast<EvtTakeDamage*>(pEvent.get());
 
-	//cout << p->GetAttacker()->VGetName() << " Attack " << p->GetVictim()->VGetName() << endl;
-	p->GetVictim()->TakeDamage(p->GetDamage());
-	//printf("Index: %d\n", raycast.body->Inside(raycast.position));
 }
 
 void Game::EventExplosion(std::shared_ptr<IEvent> pEvent)
@@ -192,8 +189,8 @@ void Game::EventCreateActor(std::shared_ptr<IEvent> pEvent)
 	Actor* pActor = static_cast<EvtData_New_Actor*>(pEvent.get())->GetActorId();
 
 	if (typeid(*pActor) == typeid(Player)) m_PlayerLists.push_back(static_cast<Player*>(pActor));
-	cout << pActor->VGetName() << endl;
-	cout << m_PlayerLists.size() << endl;
+	//cout << pActor->VGetName() << endl;
+	//cout << m_PlayerLists.size() << endl;
 }
 /*
 void Game::LoadWeapon()

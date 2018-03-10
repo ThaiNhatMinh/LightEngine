@@ -15,6 +15,7 @@ LocalPlayerComponent::~LocalPlayerComponent()
 	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &LocalPlayerComponent::PhysicCollisionEvent), EvtData_PhysCollisionStart::sk_EventType);
 	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &LocalPlayerComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
 	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &LocalPlayerComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
+	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &LocalPlayerComponent::EventHPChange), EvtHPChange::sk_EventType);
 }
 
 bool LocalPlayerComponent::VInit(const tinyxml2::XMLElement* pData)
@@ -35,7 +36,12 @@ bool LocalPlayerComponent::VInit(const tinyxml2::XMLElement* pData)
 	
 	std::stringstream ss;
 	ss << "HP : " << static_cast<Player*>(m_pOwner)->GetHP();
-	//root->AddChild(new UIText(m_Context->GetSystem<VGUI>(), vec2(20, 30), ss.str()));
+	
+	auto pVGUI = m_Context->GetSystem<VGUI>();
+	m_HPText = static_cast<UIText*>(pVGUI->CreateElement(VGUI::CTRL_TEXT));
+	m_HPText->SetText(ss.str());
+	m_HPText->SetPos(vec3(20, 30, 0));
+	root->AddChild(m_HPText);
 	return true;
 
 }
@@ -73,7 +79,7 @@ void LocalPlayerComponent::VPostInit(void)
 	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &LocalPlayerComponent::PhysicCollisionEvent), EvtData_PhysOnCollision::sk_EventType);
 	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &LocalPlayerComponent::PhysicPreStepEvent), EvtData_PhysPreStep::sk_EventType);
 	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &LocalPlayerComponent::PhysicPostStepEvent), EvtData_PhysPostStep::sk_EventType);
-
+	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &LocalPlayerComponent::EventHPChange), EvtHPChange::sk_EventType);
 
 	// Get Rigidbody
 	m_pRBC = m_pOwner->GetComponent<RigidBodyComponent>(RigidBodyComponent::Name);
@@ -284,3 +290,18 @@ void LocalPlayerComponent::PhysicPostStepEvent(std::shared_ptr<IEvent> pEvent)
 {
 
 }
+
+void LocalPlayerComponent::EventHPChange(std::shared_ptr<IEvent> pEvent)
+{
+	EvtHPChange* p = static_cast<EvtHPChange*>(pEvent.get());
+	
+	auto victim = p->GetCreature();
+	if (victim->GetId() != m_pOwner->GetId()) return;
+
+	std::stringstream ss;
+	ss << "HP : " << victim->GetHP();
+	m_HPText->SetText(ss.str());
+	//cout << p->GetCreature()->GetHP() << endl;
+}
+
+

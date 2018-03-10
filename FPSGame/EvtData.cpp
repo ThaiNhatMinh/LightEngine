@@ -2,17 +2,17 @@
 
 const EventType EvtTakeDamage::sk_EventType(0x24f8d4b3);
 const EventType EvtExplosion::sk_EventType(0x380fb3d6);
-
+const EventType EvtHPChange::sk_EventType(0x617e60ba);
 EvtTakeDamage::EvtTakeDamage(Creature * attacker, Creature * victim, int damage):Attacker(attacker),Victim(victim),Damage(damage)
 {
 }
 
-Creature * EvtTakeDamage::GetAttacker()
+const Creature * EvtTakeDamage::GetAttacker()
 {
 	return Attacker;
 }
 
-Creature * EvtTakeDamage::GetVictim()
+const Creature * EvtTakeDamage::GetVictim()
 {
 	return Victim;
 }
@@ -44,4 +44,18 @@ float EvtExplosion::GetRange2()
 const vec3 & EvtExplosion::GetPos()
 {
 	return Pos;
+}
+
+EvtHPChange::EvtHPChange(Creature * target, int oldHP):Obj(target),OldHP(oldHP)
+{
+}
+
+const Creature * EvtHPChange::GetCreature()
+{
+	return Obj;
+}
+
+int EvtHPChange::GetOldHP()
+{
+	return OldHP;
 }

@@ -5,6 +5,12 @@
 // Game 3D Project
 // Day begin 31/5/2017
 
+#ifdef _DEBUG
+#define  _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
+#endif
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -34,9 +40,9 @@ using std::map;
 #include <gl\glew.h>
 
 // GLFW
-#include <GLFW\glfw3.h>
+#include <glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32
-#include <GLFW\glfw3native.h>
+#include <glfw3native.h>
 // TinyXML 2
 #include <tinyxml2.h>
 
@@ -48,7 +54,7 @@ using std::map;
 #include <btBulletDynamicsCommon.h>
 
 
-#include <FastDelegate\FastDelegate.h>
+#include <FastDelegate.h>
 using fastdelegate::MakeDelegate;
 
 // Lua Plus 5.1
@@ -56,7 +62,7 @@ using fastdelegate::MakeDelegate;
 
 
 // ImGui
-#include <imgui\imgui.h>
+#include <imgui.h>
 
 
 
@@ -76,21 +82,21 @@ using fastdelegate::MakeDelegate;
 #endif
 
 
-#include "glm\mat4x4.hpp"
-#include "glm\vec3.hpp"
-#include "glm\vec4.hpp"
-#include "glm\vec2.hpp"
+#include "mat4x4.hpp"
+#include "vec3.hpp"
+#include "vec4.hpp"
+#include "vec2.hpp"
 
-#include "glm\gtc\quaternion.hpp"
-#include "glm\gtc\matrix_transform.hpp"
-#include "glm\gtc\type_ptr.hpp"
-#include "glm\gtc\constants.hpp"
+#include "gtc\quaternion.hpp"
+#include "gtc\matrix_transform.hpp"
+#include "gtc\type_ptr.hpp"
+#include "gtc\constants.hpp"
 
-#include "glm\gtx\quaternion.hpp"
-#include "glm\gtx\compatibility.hpp"
-#include "glm\gtx\euler_angles.hpp"
-#include "glm\geometric.hpp"
-#include "glm\detail\func_matrix.hpp"
+#include "gtx\quaternion.hpp"
+#include "gtx\compatibility.hpp"
+#include "gtx\euler_angles.hpp"
+#include "geometric.hpp"
+#include "detail\func_matrix.hpp"
 
 using glm::vec2;
 using glm::vec3;

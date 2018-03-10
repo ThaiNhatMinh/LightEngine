@@ -28,7 +28,7 @@ bool Creature::ChangeAC(int newAC)
 	return 1;
 }
 
-int Creature::GetHP()
+const int Creature::GetHP()const
 {
 	return m_HP;
 }
@@ -45,6 +45,8 @@ void Creature::Death()
 
 void Creature::TakeDamage(int damage)
 {
+	std::shared_ptr<IEvent> HPChangeEvent = std::shared_ptr<IEvent>(new EvtHPChange(this, m_HP));
+	m_Context->GetSystem<EventManager>()->VQueueEvent(HPChangeEvent);
 	m_HP -= damage;
 
 	if (m_HP <= 0) Death();

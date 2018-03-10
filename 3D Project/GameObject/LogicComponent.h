@@ -1,5 +1,7 @@
 #pragma once
 //#include "e:\Code Collection\3D Project\3D Project\GameObject\ActorComponent.h"
+class DirectInput;
+
 class LogicComponent :public ActorComponent
 {
 private:

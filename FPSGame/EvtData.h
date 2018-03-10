@@ -30,8 +30,8 @@ class EvtTakeDamage : public IEvent
 {
 public:
 	EvtTakeDamage(Creature* attacker, Creature* victim, int damage);
-	Creature* GetAttacker();
-	Creature* GetVictim();
+	const Creature* GetAttacker();
+	const Creature* GetVictim();
 	int GetDamage();
 public:
 	EVENT_DEFINE(EvtTakeDamage)
@@ -39,6 +39,19 @@ private:
 	Creature* Attacker;
 	Creature* Victim;
 	int Damage;
+};
+
+class EvtHPChange : public IEvent
+{
+public:
+	EvtHPChange(Creature* target, int oldHP);
+	const Creature* GetCreature();
+	int GetOldHP();
+public:
+	EVENT_DEFINE(EvtHPChange)
+private:
+	Creature* Obj;
+	int OldHP;
 };
 
 // Attack to all player 

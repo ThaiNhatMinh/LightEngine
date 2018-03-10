@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "..\include\IL\il.h"
-#include "..\include\IL\ilu.h"
+#include "IL\il.h"
+#include "IL\ilu.h"
 #include "LTBFileLoader.h"
 
 #include "..\Graphics3D\SpriteAnim.h"
@@ -59,18 +59,7 @@ Resources::SoundRAAI * Resources::HasSound(const string & tag)
 }
 #pragma endregion
 
-Resources::Resources()
-{
-	
-}
-
-
-Resources::~Resources()
-{
-	
-}
-
-void Resources::Init(Context* c)
+Resources::Resources(Context* c)
 {
 	ilInit();
 	ILenum Error;
@@ -80,7 +69,7 @@ void Resources::Init(Context* c)
 		Log::Message(Log::LOG_ERROR, "Can't init Devil Lib.");
 
 	// Load default tex
-	m_pDefaultTex =  LoadTexture("GameAssets/TEXTURES/Default.png");
+	m_pDefaultTex = LoadTexture("GameAssets/TEXTURES/Default.png");
 
 	LoadResources("GameAssets/" + string(LightEngine::RESOURCES_FILE));
 
@@ -88,6 +77,34 @@ void Resources::Init(Context* c)
 
 	m_FMOD = c->GetSystem<SoundEngine>()->GetFMODSystem();
 }
+
+
+Resources::~Resources()
+{
+	/*for (size_t i = 0; i < m_ModelCaches.size(); i++)
+	{
+
+		for (size_t j = 0; j < m_ModelCaches[i]->pMeshs.size(); j++)
+		{
+			m_ModelCaches[i]->pMeshs[j]->Shutdown();
+		}
+	}*/
+
+	/*for (map<string, std::unique_ptr<Shader>>::iterator it = m_ShaderList.begin(); it != m_ShaderList.end(); it++)
+	{
+		(it)->second->Shutdown();
+	}*/
+
+	/*for (size_t i = 0; i < m_HeightMaps.size(); i++)
+	{
+		for (size_t j = 0; j < m_HeightMaps[i]->m_Mesh.size(); j++)
+		{
+			m_HeightMaps[i]->m_Mesh[i]->Shutdown();
+		}
+	}*/
+}
+
+
 
 SpriteAnim * Resources::LoadSpriteAnimation(const string& filename)
 {
@@ -210,7 +227,10 @@ HeightMap* Resources::LoadHeightMap(const string& filename, int stepsize, int w,
 
 	vec2 size = vec2((width - 1)*stepsize, (height - 1)*stepsize);
 	vec2 size2 = vec2((width - 0)*stepsize, (height - 0)*stepsize);
-	Mesh* p = new Mesh;
+	//Mesh* p = new Mesh;
+
+	std::vector<DefaultVertex> vertex;
+	std::vector<unsigned int> Index;
 
 	int x = -size[0] / 2, y = 0, z = -size[1] / 2;
 	float t = (min + max) / 2.0f;
@@ -250,8 +270,8 @@ HeightMap* Resources::LoadHeightMap(const string& filename, int stepsize, int w,
 			
 
 			
-			DefaultVertex vertex{ pos,N,uv };
-			p->m_Vertexs.push_back(vertex);
+			DefaultVertex v{ pos,N,uv };
+			vertex.push_back(v);
 			x += stepsize;
 		}
 		x = -size[0] / 2;
@@ -262,13 +282,13 @@ HeightMap* Resources::LoadHeightMap(const string& filename, int stepsize, int w,
 	for (int i = 0; i < height - 1; i++)
 		for (int j = 0; j <width - 1; j++)
 		{
-			p->m_Indices.push_back(j + (i + 1)*width + 1);
-			p->m_Indices.push_back(j + i*width + 1);
-			p->m_Indices.push_back(j + i*width);
+			Index.push_back(j + (i + 1)*width + 1);
+			Index.push_back(j + i*width + 1);
+			Index.push_back(j + i*width);
 
-			p->m_Indices.push_back(j + (i + 1)*width);
-			p->m_Indices.push_back(j + (i + 1)*width + 1);
-			p->m_Indices.push_back(j + i*width);
+			Index.push_back(j + (i + 1)*width);
+			Index.push_back(j + (i + 1)*width + 1);
+			Index.push_back(j + i*width);
 		}
 
 	// comput
@@ -286,9 +306,9 @@ HeightMap* Resources::LoadHeightMap(const string& filename, int stepsize, int w,
 	// [TODO]- Devide large mesh into small mesh
 
 	// Generate Buffer Objet
-	p->Init();
+	//p->Init();
 
-	hm->m_Mesh.push_back(std::unique_ptr<IMesh>(p));
+	hm->m_Mesh.push_back(std::unique_ptr<IMesh>(new Mesh(vertex,Index)));
 
 	m_HeightMaps.push_back(std::unique_ptr<HeightMap>(hm));
 
@@ -323,18 +343,19 @@ Texture * Resources::LoadTexture(const string& filename)
 	iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
 	
-	tex = new Texture(filename, width, height);
-	tex->Init();
+	tex = new Texture(width, height, iBpp,Data);
+	tex->SetName(filename);
+	//tex->Init();
 
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, iBpp, width, height, 0, iType, GL_UNSIGNED_BYTE, Data);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glGenerateMipmap(GL_TEXTURE_2D);
+	//glTexImage2D(GL_TEXTURE_2D, 0, iBpp, width, height, 0, iType, GL_UNSIGNED_BYTE, Data);
+	//glBindTexture(GL_TEXTURE_2D, 0);
+	//glGenerateMipmap(GL_TEXTURE_2D);
 
 	ilResetMemory();
 	
@@ -348,10 +369,12 @@ Texture * Resources::LoadTexture(const string& filename)
 
 Texture * Resources::LoadCubeTex(const vector<string>& filelist)
 {
-	Texture* tex = NULL;
-	GLuint id;
-	glGenTextures(1, &id);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, id);
+	E_ERROR("This method doesn't emplment yet.");
+	return nullptr;
+	Texture* tex = nullptr;
+	//GLuint id;
+	//glGenTextures(1, &id);
+	//glBindTexture(GL_TEXTURE_CUBE_MAP, id);
 	GLint width, height, iType, iBpp;
 	for (size_t i = 0; i < filelist.size(); i++)
 	{
@@ -374,25 +397,25 @@ Texture * Resources::LoadCubeTex(const vector<string>& filelist)
 		ILubyte *Data = ilGetData();
 		iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X +i, 0, iBpp, width, height, 0, iType, GL_UNSIGNED_BYTE, Data);
+		//glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X +i, 0, iBpp, width, height, 0, iType, GL_UNSIGNED_BYTE, Data);
 		
 	}
-	ilResetMemory();
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+	
+	//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	//glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	//glGenerateMipmap(GL_TEXTURE_2D);
 
 	
 
-	tex = new Texture(id,filelist[0],width,height);
+	//tex = new Texture(id,filelist[0],width,height);
 
 	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
-
+	ilResetMemory();
 	return tex;
 
 }
@@ -402,19 +425,19 @@ Texture * Resources::LoadTexMemory(const string& filename,unsigned char * data, 
 	Texture* tex = NULL;
 	if ((tex = HasTexture(filename)) != NULL) return tex;
 
-	GLuint id;
-	glGenTextures(1, &id);
-	glBindTexture(GL_TEXTURE_2D, id);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//GLuint id;
+	//glGenTextures(1, &id);
+	//glBindTexture(GL_TEXTURE_2D, id);
+	//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 
-	tex = new Texture(id,filename,w,h);
+	tex = new Texture(w,h,24,data);
 
 	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
@@ -502,31 +525,33 @@ Texture * Resources::LoadDTX(const string& filename)
 		}
 	}
 
-	GLuint id;
-	glGenTextures(1, &id);
-	glBindTexture(GL_TEXTURE_2D, id);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//GLuint id;
+	//glGenTextures(1, &id);
+	//glBindTexture(GL_TEXTURE_2D, id);
+	//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
 
 	if (InternalFormat == GL_RGBA)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, W, H, 0, GL_RGBA, GL_UNSIGNED_BYTE, ubBuffer);
+		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, W, H, 0, GL_RGBA, GL_UNSIGNED_BYTE, ubBuffer);
+		tex = new Texture(W, H,32,ubBuffer);
 	}
 	else if (InternalFormat == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || InternalFormat == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT || InternalFormat == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)
 	{
-		glCompressedTexImage2D(GL_TEXTURE_2D, 0, InternalFormat, W, H, 0, iSize, ubBuffer);
+		//glCompressedTexImage2D(GL_TEXTURE_2D, 0, InternalFormat, W, H, 0, iSize, ubBuffer);
+		tex = new CompressTexture(InternalFormat,W, H,iSize,ubBuffer);
 	}
 
+	tex->SetName(filename);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
 
 
-
-	tex = new Texture(id,filename,W,H);
+	//tex = new Texture(id,filename,W,H);
 	
 	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
@@ -592,11 +617,11 @@ ModelCache * Resources::LoadModel(const string& filename)
 	{
 		SkeMesh* pMesh = pModel->pMeshs[i].get();
 		// Generate Buffer Object
-		pMesh->Init();
+		//pMesh->Init();
 
-		for (size_t j = 0; j < pMesh->m_Vertexs.size(); j++)
+		for (size_t j = 0; j < pMesh->GetVertexs().size(); j++)
 		{
-			SkeVertex& vertex = pMesh->m_Vertexs[j];
+			const SkeVertex& vertex = pMesh->GetVertexs()[j];
 			for (int k = 0; k < 4; k++)
 			{
 				if (vertex.weights[k].Bone <100.0f && vertex.weights[k].weight>=0.0f)
@@ -786,11 +811,13 @@ IMesh * Resources::CreateShape(ShapeType type,float* size)
 {
 	if (type == SHAPE_BOX)
 	{
-		IMesh* pBox = new CubeMesh(size[0],size[1],size[2]);
-		pBox->Name = ShapeName[type];
-		pBox->Init();
-		m_PrimList.push_back(std::unique_ptr<IMesh>(pBox));
-		return pBox;
+		//IMesh* pBox = new CubeMesh(size[0],size[1],size[2]);
+		//pBox->Name = ShapeName[type];
+		//pBox->Init();
+		//m_PrimList.push_back(std::unique_ptr<IMesh>(pBox));
+		//return pBox;
+		E_ERROR("Error Resources::CreateShape doesn't empl yet");
+		return nullptr;
 	}
 
 	return nullptr;
@@ -881,34 +908,5 @@ void Resources::LoadResources(string path)
 	}
 }
 
-void Resources::ShutDown()
-{
-	for (size_t i = 0; i < m_Textures.size(); i++)
-	{
-		m_Textures[i]->Shutdown();
-	}
-
-	for (size_t i = 0; i < m_ModelCaches.size(); i++)
-	{
-		
-		for (size_t j = 0; j < m_ModelCaches[i]->pMeshs.size(); j++)
-		{
-			m_ModelCaches[i]->pMeshs[j]->Shutdown();
-		}
-	}
-
-	for (map<string, std::unique_ptr<Shader>>::iterator it = m_ShaderList.begin(); it!= m_ShaderList.end(); it++)
-	{
-		(it)->second->Shutdown();
-	}
-
-	for (size_t i = 0; i < m_HeightMaps.size(); i++)
-	{
-		for (size_t j = 0; j < m_HeightMaps[i]->m_Mesh.size(); j++)
-		{
-			m_HeightMaps[i]->m_Mesh[i]->Shutdown();
-		}
-	}
-}
 
 

@@ -1,9 +1,4 @@
 
-#ifdef _DEBUG
-#define  _CRTDBG_MAP_ALLOC
-#include <cstdlib>
-#include <crtdbg.h>
-#endif
 
 #include "pch.h"
 

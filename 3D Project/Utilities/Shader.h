@@ -13,7 +13,7 @@ enum ShaderAttribute
 	SHADER_BLEND4_ATTRIBUTE
 };
 // base shader class
-class Shader: public GLBO
+class Shader
 {
 public:
 	GLuint m_iProgramID;
@@ -21,13 +21,15 @@ public:
 	GLuint m_iFragmentShader;
 	map<string, GLuint> m_UniformLists;
 	
-public:
-
+private:
+	Shader(const Shader& other) = delete;
+	Shader(Shader&& other) = delete;
+	Shader& operator=(const Shader& other) = delete;
+	Shader& operator=(Shader&& other) = delete;
 public:
 	Shader() {};
 	Shader(const char* vertexShaderFile, const char* fragmentShaderFile);
-	virtual void Init() {};
-	virtual void Shutdown();
+
 	virtual ~Shader();
 	virtual void LinkShader();
 	virtual void SetupRender(Scene*, Actor*) {};

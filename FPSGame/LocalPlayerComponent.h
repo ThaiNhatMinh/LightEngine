@@ -1,6 +1,7 @@
 #pragma once
 
 class GunPlayerView;
+
 class LocalPlayerComponent : public ActorComponent
 {
 private:
@@ -22,6 +23,9 @@ private:
 	bool			m_bOnGround;
 	DirectInput*	m_pInput;
 	std::map<Player::weaponanim, int> m_AnimationMap;
+
+	// UI
+	UIText			*m_HPText;
 public:
 	LocalPlayerComponent();
 	~LocalPlayerComponent();
@@ -35,9 +39,11 @@ public:
 	virtual void VOnChanged(void);
 
 	virtual const char *VGetName() const;
+protected:
 
 	// Event
 	void PhysicCollisionEvent(std::shared_ptr<IEvent> pEvent);
 	void PhysicPreStepEvent(std::shared_ptr<IEvent> pEvent);
 	void PhysicPostStepEvent(std::shared_ptr<IEvent> pEvent);
+	void EventHPChange(std::shared_ptr<IEvent> pEvent);
 };

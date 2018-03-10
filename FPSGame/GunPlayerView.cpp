@@ -96,6 +96,7 @@ void GunPlayerView::ShootRayCast()
 	{
 		Creature* attacker = static_cast<Creature*>(m_pParent->VGetParent());
 		Creature* victim = static_cast<Creature*>(raycast.body->GetOwner());
+		victim->TakeDamage(100);
 		std::shared_ptr<IEvent> TakeDamageEvent = std::shared_ptr<IEvent>(new EvtTakeDamage(attacker, victim, 100));
 		m_pEventManager->VQueueEvent(TakeDamageEvent);
 		std::shared_ptr<IEvent> CreateBlood = std::shared_ptr<IEvent>(new EvtRequestCreateSprite("BLOOD3.SPR", raycast.position - vec3(-InvView[2])*10.0f));

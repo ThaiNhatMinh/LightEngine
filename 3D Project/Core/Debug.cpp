@@ -1,22 +1,18 @@
 #include "pch.h"
 
 
-Debug::Debug(Context* c)
+Debug::Debug(Context* c):VAO(),VBO(GL_ARRAY_BUFFER)
 {
 	pShader = c->GetSystem<Resources>()->GetShader("Debug");
 
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * 2, NULL, GL_STREAM_DRAW);
-	glEnableVertexAttribArray(SHADER_POSITION_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, sizeof(DebugData), (GLvoid*)0);
-	glEnableVertexAttribArray(SHADER_COLOR_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_COLOR_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, sizeof(DebugData), (GLvoid*)(sizeof(vec3)));
+	VAO.Bind();
+	VBO.Bind();
+	VAO.SetAttibutePointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, sizeof(DebugData), 0);
+	VAO.SetAttibutePointer(SHADER_COLOR_ATTRIBUTE, 3, GL_FLOAT, sizeof(DebugData), sizeof(vec3));
 	c->AddSystem(this);
-	glBindVertexArray(0);
+	//glBindVertexArray(0);
 }
 
 void Debug::Update()
@@ -26,8 +22,7 @@ void Debug::Update()
 
 Debug::~Debug()
 {
-	glDeleteBuffers(1, &VBO);
-	glDeleteVertexArrays(1, &VAO);
+
 }
 
 
@@ -82,9 +77,10 @@ void Debug::Render()
 	glDisable(GL_DEPTH_TEST);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	pShader->Use();
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(DebugData) * m_Lists.size(), &m_Lists[0], GL_STREAM_DRAW);
+	
+	VAO.Bind();
+	VBO.Bind();
+	VBO.SetData(sizeof(DebugData)*m_Lists.size(), &m_Lists[0], GL_STREAM_DRAW);
 	pShader->SetUniformMatrix("MVP", glm::value_ptr(VP));
 	glDrawArrays(GL_LINES, 0, m_Lists.size());
 		

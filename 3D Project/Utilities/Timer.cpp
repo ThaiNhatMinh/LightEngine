@@ -4,17 +4,8 @@
 
 
 
-GameTimer::GameTimer():m_bStoped(0),m_CurrentTime(0),m_DeltaTime(0),m_PauseTime(0),m_PrevTime(0), m_SecondPerCount(0),m_StartTime(0),
+GameTimer::GameTimer(Context* c):m_bStoped(0),m_CurrentTime(0),m_DeltaTime(0),m_PauseTime(0),m_PrevTime(0), m_SecondPerCount(0),m_StartTime(0),
 m_StopTime(0)
-{
-}
-
-
-GameTimer::~GameTimer()
-{
-}
-
-void GameTimer::Init(Context* c)
 {
 	__int64 tickperSecond;
 	if (!QueryPerformanceFrequency((LARGE_INTEGER*)&tickperSecond))
@@ -27,13 +18,13 @@ void GameTimer::Init(Context* c)
 	QueryPerformanceCounter((LARGE_INTEGER*)&m_StartTime);
 
 	c->AddSystem(this);
-
-	return;
 }
 
-void GameTimer::ShutDown()
+
+GameTimer::~GameTimer()
 {
 }
+
 
 float GameTimer::GetGameTime() const
 {

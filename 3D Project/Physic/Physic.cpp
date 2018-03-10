@@ -26,26 +26,14 @@ static bool CustomMaterialCombinerCallback(btManifoldPoint& cp, const btCollisio
 	return true;
 }
 
-BulletPhysics::BulletPhysics()
+BulletPhysics::BulletPhysics(Context * c)
 {
 	REGISTER_EVENT(EvtData_PhysTrigger_Enter);
 	REGISTER_EVENT(EvtData_PhysTrigger_Leave);
 	REGISTER_EVENT(EvtData_PhysCollisionStart);
 	REGISTER_EVENT(EvtData_PhysOnCollision);
 	REGISTER_EVENT(EvtData_PhysCollisionEnd);
-}
 
-
-/////////////////////////////////////////////////////////////////////////////
-// BulletPhysics::~BulletPhysics				
-//
-BulletPhysics::~BulletPhysics()
-{
-	ShutDown();
-}
-
-void BulletPhysics::Init(Context* c)
-{
 	m_pEventManager = m_Context->GetSystem<EventManager>();
 	//E_DEBUG("Physic Engine Initialize...");
 	LoadXml();
@@ -97,11 +85,14 @@ void BulletPhysics::Init(Context* c)
 	m_dynamicsWorld->getSolverInfo().m_splitImpulse = false; // Disable by default for performance
 	m_dynamicsWorld->setSynchronizeAllMotionStates(true);
 	//m_dynamicsWorld->debugDrawWorld();
-	
+
 	c->AddSystem(this);
 }
 
-void BulletPhysics::ShutDown()
+/////////////////////////////////////////////////////////////////////////////
+// BulletPhysics::~BulletPhysics				
+//
+BulletPhysics::~BulletPhysics()
 {
 	//E_DEBUG("Physic Engine Shutdown...");
 	// delete any physics objects which are still in the world
@@ -116,8 +107,6 @@ void BulletPhysics::ShutDown()
 	}
 
 	m_rigidBodyToActorId.clear();
-
-	
 }
 
 /////////////////////////////////////////////////////////////////////////////
