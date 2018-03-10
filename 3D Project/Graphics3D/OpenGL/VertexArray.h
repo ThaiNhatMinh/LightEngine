@@ -11,7 +11,7 @@ public:
 	void Bind();
 	void UnBind();
 
-	void SetAttibutePointer(GLuint loc, GLuint num, GLenum type, GLuint stride, GLuint offset);
+	void SetAttibutePointer(GLuint loc, GLuint num, GLenum type, GLuint stride, GLuint offset,bool normalize = false);
 	
 private:
 	VertexArray(const VertexArray& other) = delete;

@@ -13,6 +13,7 @@ Texture::Texture(GLuint w, GLuint h, GLuint bpp, unsigned char* data):iWidth(w),
 	
 	GLenum type = GL_RGBA;
 	if (bpp == 24) type = GL_RGB;
+	else if (bpp == 3) type = GL_RGB;
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, type, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 }

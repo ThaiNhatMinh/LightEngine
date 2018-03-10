@@ -11,21 +11,19 @@ void EffectSystem::CreateSpriteEvent(std::shared_ptr<IEvent> pEvent)
 	this->AddSprite(c);
 }
 
-void EffectSystem::Init(Context * c)
+EffectSystem::EffectSystem(Context * c):VAO(),VBO(GL_ARRAY_BUFFER)
 {
-	const GLfloat g_vertex_buffer_data[] = { -0.5f,  0.5f, 0.0f, 
-	 -0.5f, -0.5f, 0.0f, 
-	 0.5f,  0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f, };
+	const GLfloat g_vertex_buffer_data[] = { -0.5f,  0.5f, 0.0f,
+		-0.5f, -0.5f, 0.0f,
+		0.5f,  0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f, };
 
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(SHADER_POSITION_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_POSITION_ATTRIBUTE,3,  GL_FLOAT,  GL_FALSE,   		0,  (void*)0    );
+	VAO.Bind();
+	VBO.Bind();
+
+	VBO.SetData(sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+	VAO.SetAttibutePointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, 0, 0);
 	m_pRenderer = c->GetSystem<OpenGLRenderer>();
 	m_pShader = c->GetSystem<Resources>()->GetShader("SpriteShader");
 	c->AddSystem(this);
@@ -33,9 +31,10 @@ void EffectSystem::Init(Context * c)
 	c->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
 }
 
-void EffectSystem::ShutDown() {
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
+EffectSystem::~EffectSystem()
+{
+	//glDeleteVertexArrays(1, &VAO);
+	//glDeleteBuffers(1, &VBO);
 	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
 }
 
@@ -66,8 +65,8 @@ void EffectSystem::Render(Scene * pScene)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_pRenderer->SetDrawMode(GL_TRIANGLE_STRIP);
-	m_pRenderer->SetVertexArrayBuffer(VAO);
-	
+	//m_pRenderer->SetVertexArrayBuffer(VAO);
+	VAO.Bind();
 	m_pShader->SetUniformMatrix("MVP", glm::value_ptr(pCam->GetVPMatrix()));
 	mat4 ViewMatrix = pCam->GetViewMatrix();
 	m_pShader->SetUniform("CameraUp",pCam->GetUp());

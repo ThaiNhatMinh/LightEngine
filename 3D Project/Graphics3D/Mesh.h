@@ -1,6 +1,6 @@
 #pragma once
-#include "pch.h"
 
+#include "OpenGL\IMesh.h"
 struct DefaultVertex
 {
 	vec3 pos;
@@ -10,15 +10,20 @@ struct DefaultVertex
 
 class Mesh: public IMesh 
 {
-public:
+protected:
 	vector<DefaultVertex>	m_Vertexs;
 	vector<unsigned int>	m_Indices;
 public:
-	Mesh();
+	Mesh(const std::vector<DefaultVertex>& vertex,const std::vector<unsigned int> indices);
 	~Mesh();
+	GLuint GetNumVertex();
+	GLuint GetNumIndices();
 
-	virtual void Init();
-	virtual void Shutdown();
+	GLvoid* GetVertexData();
+	GLvoid* GetIndicesData();
+
+protected:
+	Mesh()=default;
 };
 
 struct imguiVertex
@@ -30,14 +35,12 @@ struct imguiVertex
 
 class imguiMesh : public IMesh
 {
-public:
+private:
 	vector<DefaultVertex>	m_Vertexs;
 	vector<unsigned int>	m_Indices;
 public:
 	imguiMesh();
 	~imguiMesh();
 
-	virtual void Init();
-	virtual void Shutdown();
 };
 

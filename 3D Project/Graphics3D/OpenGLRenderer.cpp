@@ -1,34 +1,7 @@
 #include "pch.h"
 #include "OpenGLRenderer.h"
 
-OpenGLRenderer::OpenGLRenderer():m_RenderName("OpenGL"),m_ClearColor(1.0f,1.0f,1.0f,1.0f),m_HasInit(0),m_iClearFlag(0),m_DrawMode(GL_TRIANGLES)
-{
-}
-
-OpenGLRenderer::~OpenGLRenderer()
-{
-	ShutDown();
-}
-
-bool OpenGLRenderer::ReadConfig(tinyxml2::XMLElement *pRenderer)
-{
-	/*
-	
-	*/
-
-	tinyxml2::XMLElement* pClearColor = pRenderer->FirstChildElement("ClearColor");
-
-	m_ClearColor.x = pClearColor->DoubleAttribute("r", 0.3);
-	m_ClearColor.y = pClearColor->DoubleAttribute("g", 0.3);
-	m_ClearColor.z = pClearColor->DoubleAttribute("b", 0.3);
-	m_ClearColor.w = pClearColor->DoubleAttribute("a", 1.0);
-
-	
-
-	return true;
-}
-
-void OpenGLRenderer::Init(Context* c)
+OpenGLRenderer::OpenGLRenderer(Context* c):m_RenderName("OpenGL"),m_ClearColor(1.0f,1.0f,1.0f,1.0f),m_HasInit(0),m_iClearFlag(0),m_DrawMode(GL_TRIANGLES)
 {
 	if (!ReadConfig(c->GetElement("Graphic")))
 	{
@@ -38,7 +11,7 @@ void OpenGLRenderer::Init(Context* c)
 	// Initialize GLEW to setup the OpenGL Function pointers
 	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();
-	if (err != GLEW_OK) 
+	if (err != GLEW_OK)
 	{
 		string Error = string("glewInit failed! ");
 		E_ERROR(Error);
@@ -58,19 +31,35 @@ void OpenGLRenderer::Init(Context* c)
 	//glFrontFace(GL_CW);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
-	
+
 	SetClearFlag(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+
 	glfwSwapInterval(0);
 
 	c->AddSystem(this);
-	
+}
+
+OpenGLRenderer::~OpenGLRenderer()
+{
 
 }
 
-void OpenGLRenderer::ShutDown()
+bool OpenGLRenderer::ReadConfig(tinyxml2::XMLElement *pRenderer)
 {
+	/*
+	
+	*/
 
+	tinyxml2::XMLElement* pClearColor = pRenderer->FirstChildElement("ClearColor");
+
+	m_ClearColor.x = pClearColor->DoubleAttribute("r", 0.3);
+	m_ClearColor.y = pClearColor->DoubleAttribute("g", 0.3);
+	m_ClearColor.z = pClearColor->DoubleAttribute("b", 0.3);
+	m_ClearColor.w = pClearColor->DoubleAttribute("a", 1.0);
+
+	
+
+	return true;
 }
 
 bool OpenGLRenderer::HasInit()

@@ -21,8 +21,8 @@ void VertexArray::UnBind()
 	glBindVertexArray(0);
 }
 
-void VertexArray::SetAttibutePointer(GLuint loc, GLuint num, GLenum type, GLuint stride, GLuint offset)
+void VertexArray::SetAttibutePointer(GLuint loc, GLuint num, GLenum type, GLuint stride, GLuint offset,bool normalize)
 {
 	glEnableVertexAttribArray(loc);
-	glVertexAttribPointer(loc, num, type, GL_FALSE, stride, (GLvoid*)offset);
+	glVertexAttribPointer(loc, num, type, normalize, stride, (GLvoid*)offset);
 }

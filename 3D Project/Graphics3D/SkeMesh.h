@@ -18,18 +18,22 @@ struct SkeVertex
 	Weight		weights[4];
 	
 };
-typedef std::vector<SkeVertex> SkeVertexList;
+
 
 class SkeMesh :public IMesh
 {
 public:
+	typedef std::vector<SkeVertex> SkeVertexList;
+	typedef std::vector<unsigned int> IndicesList;
+private:
+	
 	SkeVertexList			m_Vertexs;
-	vector<unsigned int>	m_Indices;
+	IndicesList	m_Indices;
 	
 	
 public:
-	SkeMesh() { Tex = 0; };
+	SkeMesh(const SkeVertexList& vertex, const IndicesList indices);
 	~SkeMesh() {};
-	virtual void Init();
-	virtual void Shutdown();
+	const SkeVertexList& GetVertexs();
+	const IndicesList& GetIndices();
 };

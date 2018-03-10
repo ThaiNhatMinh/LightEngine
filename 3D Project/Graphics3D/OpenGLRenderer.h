@@ -1,6 +1,11 @@
 #pragma once
 #include "RenderAPI.h"
-#include <GLFW\glfw3.h>
+#include "OpenGL\BufferObject.h"
+#include "OpenGL\VertexArray.h"
+#include "OpenGL\Texture.h"
+#include "OpenGL\CompressTexture.h"
+#include "OpenGL\IMesh.h"
+#include <glfw3.h>
 
 
 
@@ -17,11 +22,9 @@ private:
 	GLenum			m_DrawMode;
 	GLFWwindow*		m_glfwWindow;
 public:
-	OpenGLRenderer();
+	OpenGLRenderer(Context* c);
 	~OpenGLRenderer();
 
-	virtual void Init(Context* c);
-	virtual void ShutDown();
 
 	virtual bool HasInit();
 	virtual void ClearBuffer();
