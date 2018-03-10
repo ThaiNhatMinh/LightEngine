@@ -9,8 +9,10 @@ class UIText : public UIElement
 private:
 	struct TextRenderInfo
 	{
+		TextRenderInfo()=default;
 		UIMesh Mesh;
 		GLuint texID;
+		TextRenderInfo(TextRenderInfo&& other);
 	};
 
 public:

@@ -23,10 +23,10 @@ void UIText::Render()
 	
 	for (size_t i = 0; i<m_Text.size(); i++)
 	{
-		glBindVertexArray(m_Meshs[i].Mesh.VAO);
+		m_Meshs[i].Mesh.VAO.Bind();
 		// Render glyph texture over quad
 
-		glActiveTexture(GL_TEXTURE0);
+		//glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_Meshs[i].texID);
 		m_UIShader->SetUniform("tex", 0);
 		m_UIShader->SetUniform("objColor", vec3(1.0f));
@@ -53,11 +53,12 @@ void UIText::UpdateInternalData()
 	 float x = m_Pos.x;
 	 float y = m_Pos.y;
 
-	 m_Meshs.resize(m_Text.size());
+	 m_Meshs.clear();
+	 //m_Meshs.resize(m_Text.size());
 
 	 for (size_t i = 0; i<m_Text.size(); i++)
 	 {
-		 m_Meshs[i].Mesh.Init();
+		 TextRenderInfo tr;
 		 FTFont::FontChar* ch = m_Font->GetChar(m_Text[i]);
 		 float xpos = x + ch->Bearing[0];
 		 float ypos = y - (ch->size[1] - ch->Bearing[1]);
@@ -77,12 +78,22 @@ void UIText::UpdateInternalData()
 		 // Render glyph texture over quad
 
 
-		 m_Meshs[i].texID = ch->iTextureID;
+		 tr.texID = ch->iTextureID;
 		 // Update content of VBO memory
-		 glBindBuffer(GL_ARRAY_BUFFER, m_Meshs[i].Mesh.VBO);
-		 glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-		 glBindBuffer(GL_ARRAY_BUFFER, 0);
+		 //glBindBuffer(GL_ARRAY_BUFFER, m_Meshs[i].Mesh.VBO);
+		 tr.Mesh.VBO.Bind();
+		 //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		 tr.Mesh.VBO.SetData(sizeof(vertices), vertices, GL_STATIC_DRAW);
+		 //glBindBuffer(GL_ARRAY_BUFFER, 0);
+		 tr.Mesh.VBO.UnBind();
 
 		 x += (ch->advance >> 6); // Bitshift by 6 to get value in pixels (2^6 = 64)
+
+		 m_Meshs.push_back(std::move(tr));
 	 }
  }
+
+UIText::TextRenderInfo::TextRenderInfo(TextRenderInfo && other):Mesh(std::move(other.Mesh)),texID(other.texID)
+{
+	
+}
