@@ -811,13 +811,12 @@ IMesh * Resources::CreateShape(ShapeType type,float* size)
 {
 	if (type == SHAPE_BOX)
 	{
-		//IMesh* pBox = new CubeMesh(size[0],size[1],size[2]);
-		//pBox->Name = ShapeName[type];
-		//pBox->Init();
-		//m_PrimList.push_back(std::unique_ptr<IMesh>(pBox));
-		//return pBox;
-		E_ERROR("Error Resources::CreateShape doesn't empl yet");
-		return nullptr;
+		IMesh* pBox = new CubeMesh(size[0],size[1],size[2]);
+		pBox->Name = ShapeName[type];
+		m_PrimList.push_back(std::unique_ptr<IMesh>(pBox));
+		return pBox;
+		//E_ERROR("Error Resources::CreateShape doesn't empl yet");
+		//return nullptr;
 	}
 
 	return nullptr;

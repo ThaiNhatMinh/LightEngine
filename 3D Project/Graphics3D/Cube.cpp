@@ -106,4 +106,31 @@ CubeMesh::CubeMesh(float sizex , float sizey, float sizez)
 		m_Vertexs[i].pos.y *= sizey;
 		m_Vertexs[i].pos.z *= sizez;
 	}
+
+
+	VAO.Bind();
+	VBO.Bind();
+	EBO.Bind();
+
+	VBO.SetData(m_Vertexs.size() * sizeof(DefaultVertex), &m_Vertexs[0], GL_STATIC_DRAW);
+	EBO.SetData(m_Indices.size() * sizeof(unsigned int), &m_Indices[0], GL_STATIC_DRAW);
+
+
+	size_t stride = sizeof(DefaultVertex);
+
+
+	size_t offset = 0;
+
+
+	VAO.SetAttibutePointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, stride, offset);
+	offset += 3 * sizeof(float);
+
+	VAO.SetAttibutePointer(SHADER_NORMAL_ATTRIBUTE, 3, GL_FLOAT, stride, offset);
+	offset += 3 * sizeof(float);
+
+	VAO.SetAttibutePointer(SHADER_TEXCOORD_ATTRIBUTE, 2, GL_FLOAT, stride, offset);
+	offset += 2 * sizeof(float);
+
+	NumIndices = m_Indices.size();
+	Topology = GL_TRIANGLES;
 }

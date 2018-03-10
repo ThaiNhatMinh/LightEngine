@@ -8,7 +8,7 @@
 	<Shader Name="SpriteShader" Tag="SpriteShader" FileVS="SHADER\Sprite.vs" FileFS="SHADER\Sprite.fs" />
 	<Shader Name="Shader" Tag="UI" FileVS="SHADER\UI.vs" FileFS="SHADER\UI.fs" />
   
-	<HeightMap File="WORLD\heightmap.png" Size="80" Width="-1" Height="-1" HeightScale="5.0" SubDevided="1"/>
+	<HeightMap File="WORLD\heightmap.png" Size="10" Width="-1" Height="-1" HeightScale="5.0" SubDevided="1"/>
   
 	<SpriteAnim File="TEXTURES\FX\BLOOD3\BLOOD3.SPR" />
 	<SpriteAnim File="TEXTURES\FX\EX\EX.SPR" />
