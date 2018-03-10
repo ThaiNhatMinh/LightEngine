@@ -18,11 +18,10 @@ protected:
 	//bool SysKeyDown(char key);
 	//bool MouseButtonDown(int button);
 public:
-	DirectInput();
+	DirectInput(Context* c);
 	~DirectInput();
 
-	void Init(Context* c);
-	void ShutDown();
+
 	void Update();
 	bool KeyDown(char key);
 	// Support look key from user

@@ -1,17 +1,7 @@
 #include "pch.h"
 
-void ActorFactory::Init(Context * c)
-{
-	c->AddSystem(this);
-	
-}
 
-void ActorFactory::ShutDown()
-{
-	
-}
-
-ActorFactory::ActorFactory()
+ActorFactory::ActorFactory(Context* c)
 {
 	m_lastActorId = 1;
 	m_ComponentFactoryMap.insert(std::make_pair(TransformComponent::Name, []() { return new TransformComponent(); }));
@@ -41,7 +31,8 @@ ActorFactory::ActorFactory()
 	m_ShaderFactory.insert(std::make_pair("ImGuiShader", [](const char*vs, const char* fs) {return new ImGuiShader(vs, fs); }));
 	m_ShaderFactory.insert(std::make_pair("SpriteShader", [](const char*vs, const char* fs) {return new SpriteShader(vs, fs); }));
 	
-	
+	c->AddSystem(this);
+
 }
 
 ActorFactory::~ActorFactory()

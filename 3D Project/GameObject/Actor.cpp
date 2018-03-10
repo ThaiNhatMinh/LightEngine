@@ -1,6 +1,4 @@
 #include "Actor.h"
-#include "Actor.h"
-#include "Actor.h"
 #include "pch.h"
 
 
@@ -195,7 +193,7 @@ Actor * Actor::VGetChild(int index)
 
 Actor * Actor::VGetChild(const string & name)
 {
-	for (auto el = m_Children.begin(); el != m_Children.end(); el++)
+	for (auto& el = m_Children.begin(); el != m_Children.end(); el++)
 		if ((*el)->VGetName() == name) return (*el).get();
 
 	return nullptr;
@@ -204,6 +202,16 @@ Actor * Actor::VGetChild(const string & name)
 Actor * Actor::VGetParent()
 {
 	return m_pParent;
+}
+
+
+// accessors
+
+ActorId Actor::GetId(void) const { return m_id; }
+
+glm::vec3 Actor::GetPosition()
+{
+	return m_TransformComponent->GetPosition();
 }
 
 

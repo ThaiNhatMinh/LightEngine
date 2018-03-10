@@ -5,31 +5,20 @@
 
 
 
-Console::Console():Show(0)
+Console::Console(Context* c):Show(0)
 {
+
 	memset(InputBuf, 0, sizeof(InputBuf));
-	m_pInput = m_Context->GetSystem<DirectInput>();
+	c->AddSystem(this);
+
+	m_pInput = c->GetSystem<DirectInput>();
 }
 
 Console::~Console()
 {
-	
-	
+		
 }
 
-void Console::Init(Context* c)
-{
-	
-
-	c->AddSystem(this);
-
-	
-
-}
-
-void Console::ShutDown()
-{
-}
 
 void Console::Draw()
 {

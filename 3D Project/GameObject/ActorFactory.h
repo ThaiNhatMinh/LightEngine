@@ -10,9 +10,8 @@ protected:
 	std::map<std::string, std::function<Actor*(int id)>> m_ActorFactoryMap;
 	std::map<string, std::function<Shader*(const char *, const char*)>> m_ShaderFactory;
 public:
-	void Init(Context* c);
-	void ShutDown();
-	ActorFactory();
+
+	ActorFactory(Context* c);
 	~ActorFactory();
 	// Create Actor from file
 	bool RegisterComponentFactory(string name, std::function<ActorComponent*()>);

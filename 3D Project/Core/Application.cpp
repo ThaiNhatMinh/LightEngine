@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 #include "..\Graphics3D\OpenGLRenderer.h"
 
 #include <type_traits>
@@ -10,23 +10,23 @@ void Application::SetupSubmodule()
 	ActorComponent::m_Context = m_Context.get();
 	ISubSystem::m_Context = m_Context.get();
 
-	m_pWindows = std::unique_ptr<Windows>(new Windows());
-	m_pRenderer = std::unique_ptr<OpenGLRenderer>(new OpenGLRenderer());
-	m_pEventManager = std::unique_ptr<EventManager>(new EventManager());
-	m_pTimer = std::unique_ptr<GameTimer>(new GameTimer());
-	m_pResources = std::unique_ptr<Resources>(new Resources());
-	m_pInput = std::unique_ptr<DirectInput>(new DirectInput());
-	m_pPhysic = std::unique_ptr<BulletPhysics>(new BulletPhysics());
-	m_pConsole = std::unique_ptr<Console>(new Console());
-	m_pDebuger = std::unique_ptr<Debug>(new Debug());
-	m_pSystemUI = std::unique_ptr<SystemUI>(new SystemUI());
-	m_pActorFactory = std::unique_ptr<ActorFactory>(new ActorFactory());
-	m_pEffectSystem = std::unique_ptr<EffectSystem>(new EffectSystem());
-	m_pSoundEngine = std::unique_ptr<SoundEngine>(new SoundEngine());
-	m_pVGUI = std::unique_ptr<VGUI>(new VGUI());
-
+	m_pWindows = std::unique_ptr<Windows>(new Windows(m_Context.get()));
+	m_pRenderer = std::unique_ptr<OpenGLRenderer>(new OpenGLRenderer(m_Context.get()));
+	m_pEventManager = std::unique_ptr<EventManager>(new EventManager(m_Context.get()));
+	m_pActorFactory = std::unique_ptr<ActorFactory>(new ActorFactory(m_Context.get()));
+	m_pSoundEngine = std::unique_ptr<SoundEngine>(new SoundEngine(m_Context.get()));
+	m_pResources = std::unique_ptr<Resources>(new Resources(m_Context.get()));
+	m_pSystemUI = std::unique_ptr<SystemUI>(new SystemUI(m_Context.get()));
+	m_pConsole = std::unique_ptr<Console>(new Console(m_Context.get()));
+	m_pInput = std::unique_ptr<DirectInput>(new DirectInput(m_Context.get()));
+	m_pDebuger = std::unique_ptr<Debug>(new Debug(m_Context.get()));
+	m_pPhysic = std::unique_ptr<BulletPhysics>(new BulletPhysics(m_Context.get()));
+	m_pTimer = std::unique_ptr<GameTimer>(new GameTimer(m_Context.get()));
+	m_pEffectSystem = std::unique_ptr<EffectSystem>(new EffectSystem(m_Context.get()));
+	m_pVGUI = std::unique_ptr<VGUI>(new VGUI(m_Context.get()));
+	/*
 	// Init Windows
-	m_pWindows->Init(m_Context.get());
+	m_pWindows->Init();
 	// Init Renderer
 	m_pRenderer->Init(m_Context.get());
 	// Init Event system
@@ -53,7 +53,7 @@ void Application::SetupSubmodule()
 	m_pEffectSystem->Init(m_Context.get());
 	// init VGUI
 	m_pVGUI->Init(m_Context.get());
-	
+	*/
 	// Create game plugin
 	m_GamePlugins = std::unique_ptr<GamePluginManager>(new GamePluginManager(m_Context.get()));
 

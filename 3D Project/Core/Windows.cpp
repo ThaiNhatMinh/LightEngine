@@ -20,31 +20,11 @@ vec2 Windows::ReadConfig(tinyxml2::XMLElement * pWindows)
 	//m_pWindows->SetPos(pos);
 }
 
-Windows::Windows()
+Windows::Windows(Context* c)
 {
 	
-	
-	/*int	 count;
-	const GLFWvidmode* mode = glfwGetVideoModes(m_pMonitor, &count);
-	for (int i = 0; i < count; i++)
-	{
-		cout << mode[i].width << ' ' << mode[i].height << endl;
-	}*/
-
-}
-
-
-Windows::~Windows()
-{
-	glfwDestroyWindow(m_pWindow);
-	glfwTerminate();
-}
-
-void Windows::Init(Context* c)
-{
-
 	vec2 pos = ReadConfig(c->GetElement("Window"));
-	
+
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -59,27 +39,35 @@ void Windows::Init(Context* c)
 	if (!m_pWindow)
 	{
 		E_ERROR("Can't create Window.");
-		return ;
+		return;
 	}
-	
+
 	glfwSetWindowUserPointer(m_pWindow, c);
 	glfwMakeContextCurrent(m_pWindow);
 	//glfwSwapInterval(1);
 	glfwSetCursorPos(m_pWindow, m_iWidth / 2, m_iHeight / 2);
 	glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	
-	
+
+
 	SetPos(pos);
 
-	HideWindows();
+	//HideWindows();
 	c->AddSystem(this);
-	
-	return ;
+
+	/*int	 count;
+	const GLFWvidmode* mode = glfwGetVideoModes(m_pMonitor, &count);
+	for (int i = 0; i < count; i++)
+	{
+		cout << mode[i].width << ' ' << mode[i].height << endl;
+	}*/
+
 }
 
-void Windows::ShutDown()
-{
 
+Windows::~Windows()
+{
+	glfwDestroyWindow(m_pWindow);
+	glfwTerminate();
 }
 
 void Windows::SetSize(int W, int H)

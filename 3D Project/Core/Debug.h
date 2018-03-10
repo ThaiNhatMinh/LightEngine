@@ -21,9 +21,7 @@ private:
 	unsigned int			VBO;
 	std::vector<DebugData> m_Lists;
 public:
-	Debug();
-	virtual void Init(Context* c)override;
-	virtual void ShutDown()override;
+	Debug(Context* c);
 	void Update();
 	~Debug();
 

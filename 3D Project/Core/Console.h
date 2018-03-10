@@ -40,10 +40,9 @@ private:
 protected:
 	
 public:
-	Console();
+	Console(Context* c);
 	~Console();
-	virtual void Init(Context* c);
-	virtual void ShutDown();
+	
 	void Draw();
 
 	

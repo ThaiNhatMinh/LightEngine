@@ -1,11 +1,7 @@
 #include "pch.h"
 
 
-Debug::Debug()
-{
-}
-
-void Debug::Init(Context * c)
+Debug::Debug(Context* c)
 {
 	pShader = c->GetSystem<Resources>()->GetShader("Debug");
 
@@ -23,12 +19,6 @@ void Debug::Init(Context * c)
 	glBindVertexArray(0);
 }
 
-void Debug::ShutDown()
-{
-	glDeleteBuffers(1, &VBO);
-	glDeleteVertexArrays(1, &VAO);
-}
-
 void Debug::Update()
 {
 	//VP = Camera::GetCurrentCamera()->GetVPMatrix();
@@ -36,6 +26,8 @@ void Debug::Update()
 
 Debug::~Debug()
 {
+	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, &VAO);
 }
 
 

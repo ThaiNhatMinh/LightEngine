@@ -108,13 +108,7 @@ void SystemUI::NewFrame()
 
 }
 
-SystemUI::~SystemUI()
-{
-	m_Mesh->Shutdown();
-	ImGui::Shutdown();
-}
-
-void SystemUI::Init(Context * c)
+SystemUI::SystemUI(Context * c)
 {
 	w = c->GetSystem<Windows>()->Window();
 	ImGuiIO& io = ImGui::GetIO();
@@ -176,12 +170,12 @@ void SystemUI::Init(Context * c)
 
 	CreateFontsTexture();
 	c->AddSystem(this);
-
 }
 
-void SystemUI::ShutDown()
+SystemUI::~SystemUI()
 {
-	
+	m_Mesh->Shutdown();
+	ImGui::Shutdown();
 }
 
 void SystemUI::Text(const char * fmt, ...)

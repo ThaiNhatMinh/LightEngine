@@ -57,11 +57,8 @@ public:
 	virtual Actor*		VGetChild(const string& name);
 	virtual Actor*		VGetParent();
 	// accessors
-	ActorId GetId(void) const { return m_id; }
-	glm::vec3 GetPosition()
-	{
-		return m_TransformComponent->GetPosition();
-	}
+	ActorId GetId(void) const;
+	glm::vec3 GetPosition();
 	template<class ComponentType>ComponentType* GetComponent(ComponentId id);
 	template<class ComponentType>ComponentType* GetComponent(const char*  name)const ;
 
