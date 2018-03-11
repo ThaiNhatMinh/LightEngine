@@ -31,7 +31,7 @@ VertexArray::VertexArray(VertexArray && other)
 {
 	m_uiIndentity = other.m_uiIndentity;
 	other.m_uiIndentity = 0;
-	printf("VertexArray\n");
+	//printf("VertexArray\n");
 }
 
 VertexArray & VertexArray::operator=(VertexArray && other)

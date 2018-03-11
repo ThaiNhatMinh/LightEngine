@@ -10,8 +10,9 @@ private:
 	struct TextRenderInfo
 	{
 		TextRenderInfo()=default;
-		UIMesh Mesh;
-		GLuint texID;
+		UIMesh	Mesh;
+		GLuint	texID;
+		vec2	Pos;
 		TextRenderInfo(TextRenderInfo&& other);
 	};
 

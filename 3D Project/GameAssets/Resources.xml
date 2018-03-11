@@ -17,6 +17,7 @@
 	<SpriteAnim File="TEXTURES\FX\SPRITES\fire_explode\SGFX_se_fire_explode_01.SPR" />
 	<Texture File="TEXTURES\ESCAPE.DTX"/>
 	<Texture File="TEXTURES\SGFX_se_decal_04.DTX"/>
+	<Texture File="TEXTURES\CLANMARKBL.DTX"/>
 	
 	<Texture File="TEXTURES\grass_autumn_orn_d.jpg" />
 	<Texture File="WORLD\heightmap.png" />

@@ -6,6 +6,7 @@ public:
 	enum Control
 	{
 		CTRL_TEXT,
+		CTRL_IMAGE,
 		CTRL_COUNT,
 	};
 public:

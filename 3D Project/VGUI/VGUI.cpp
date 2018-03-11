@@ -29,6 +29,7 @@ VGUI::VGUI(Context* c):m_Root(new UIGroup())
 {
 	m_ControlFactory.resize(CTRL_COUNT);
 	m_ControlFactory[CTRL_TEXT] = std::unique_ptr<UIFactory<UIText>>(new UIFactory<UIText>());
+	m_ControlFactory[CTRL_IMAGE] = std::unique_ptr<UIFactory<UIImage>>(new UIFactory<UIImage>());
 
 	m_pWindows = c->GetSystem<Windows>();
 	vec2 size = m_pWindows->GetWindowSize();

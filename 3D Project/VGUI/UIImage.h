@@ -3,14 +3,18 @@
 class UIImage :public UIElement
 {
 public:
-	UIImage(Texture*);
+	UIImage();
 	~UIImage();
 
+	virtual void OnInit(VGUI*);
 	virtual void Render()override;
 
-	Texture*	GetImage();;
-	void		SetImage(Texture* image);;
+	Texture*	GetImage();
+	void		SetImage(Texture* image);
+protected:
+	virtual void UpdateInternalData();
 private:
-	vec2	m_Pos;
-	Texture* m_Texture;
+	Shader *	m_UIShader;
+	Texture*	m_Texture;
+	UIMesh		m_Mesh;
 };

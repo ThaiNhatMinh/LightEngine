@@ -36,7 +36,7 @@ BufferObject::BufferObject(BufferObject && other)
 	m_eTarget = other.m_eTarget;
 	m_uiIndentity = m_uiIndentity;
 	other.m_uiIndentity = 0;
-	printf("BufferObject\n");
+	//printf("BufferObject\n");
 }
 
 BufferObject & BufferObject::operator=(BufferObject && other)

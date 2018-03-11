@@ -28,7 +28,6 @@ vec2 UIElement::GetPos()
 void UIElement::SetPos(const vec3 & pos)
 {
 	m_Pos = pos;
-	UpdateInternalData();
 }
 
 uint32 UIElement::GetID()
@@ -54,6 +53,7 @@ bool UIGroup::Update(float dt, const vec2& mousePos)
 
 void UIGroup::AddChild(UIElement * pChild)
 {
+	//cout << "VGUI add: " << typeid(*pChild).name() << endl;
 	m_Childrens.push_back(std::unique_ptr<UIElement>(pChild));
 }
 
