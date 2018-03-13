@@ -222,3 +222,6 @@ ModelManifest.xml
 /event_hpp.png
 /observer_pattern_1024.png
 /Temp
+
+!/ThirdParty/Bullet/lib/Release
+!/ThirdParty/freetype-2.7.1/LIB/Release

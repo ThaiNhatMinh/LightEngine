@@ -286,6 +286,9 @@
     <ClInclude Include="Graphics3D\Cube.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceCache\Vertex.h">
+      <Filter>ResourceCache</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
