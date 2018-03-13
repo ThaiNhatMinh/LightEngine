@@ -108,12 +108,12 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 
 		HeightMap* hm = m_Context->GetSystem<Resources>()->GetHeightMap(path);
 		
-		Mesh* m = static_cast<Mesh*>(hm->m_Mesh[0].get());
-		int totaltriangle = m->GetNumIndices() / 3;
-		int totalVerts = m->GetNumVertex();
+		//Mesh* m = static_cast<Mesh*>(hm->m_Mesh.get());
+		int totaltriangle = hm->m_Indices.size() / 3;
+		int totalVerts = hm->m_Vertexs.size();
 		int indexStride = sizeof(unsigned int) * 3;
 		int vertStride = sizeof(DefaultVertex);
-		btTriangleIndexVertexArray* pIntexVertexArray = new btTriangleIndexVertexArray(totaltriangle, (int*)m->GetIndicesData(), indexStride, totalVerts, (btScalar*)m->GetVertexData(), vertStride);
+		btTriangleIndexVertexArray* pIntexVertexArray = new btTriangleIndexVertexArray(totaltriangle, (int*)&hm->m_Indices[0], indexStride, totalVerts, (btScalar*)&hm->m_Vertexs[0], vertStride);
 		TriangleMesh* pShape = new TriangleMesh(pIntexVertexArray, true, true);
 		btTriangleInfoMap* triangleInfoMap = new btTriangleInfoMap();
 

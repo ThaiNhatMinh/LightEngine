@@ -19,17 +19,19 @@ struct DtxHeader
 #define MAX_FILE_NAME 128
 
 class IMesh;
-class HeightMap
+class HeightMap: public IResource
 {
 public:
-	string filename;
 	GLuint Width;
 	GLuint Height;
 	float stepsize;
 	float hscale;
 	float minH, maxH;
 	GLubyte* Data;
-	std::vector<std::unique_ptr<IMesh>> m_Mesh;
+	GLuint numSub;
+	//std::unique_ptr<IMesh> m_Mesh;
+	std::vector<DefaultVertex> m_Vertexs;
+	std::vector<unsigned int>  m_Indices;
 	~HeightMap()
 	{
 		delete[] Data;

@@ -39,7 +39,7 @@ ModelCache * Resources::HasModel(const string& filename)
 HeightMap* Resources::HasHeighMap(const string& filename)
 {
 	for (size_t i = 0; i < m_HeightMaps.size(); i++)
-		if (filename == m_HeightMaps[i]->filename) return m_HeightMaps[i].get();
+		if (filename == m_HeightMaps[i]->GetName()) return m_HeightMaps[i].get();
 	return nullptr;
 }
 SpriteAnim * Resources::HasSprite(const string& filename)
@@ -302,14 +302,12 @@ HeightMap* Resources::LoadHeightMap(const string& filename, int stepsize, int w,
 	hm->maxH = max;
 	hm->minH = min;
 	hm->hscale = hscale;
-	hm->filename = filename;
+	hm->SetName(filename);
+	hm->numSub = sub;
 	// [TODO]- Devide large mesh into small mesh
 
-	// Generate Buffer Objet
-	//p->Init();
-
-	hm->m_Mesh.push_back(std::unique_ptr<IMesh>(new Mesh(vertex,Index)));
-
+	hm->m_Vertexs = vertex;
+	hm->m_Indices = Index;
 	m_HeightMaps.push_back(std::unique_ptr<HeightMap>(hm));
 
 	return hm;

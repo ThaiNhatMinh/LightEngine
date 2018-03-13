@@ -1,12 +1,6 @@
 #pragma once
 
 #include "OpenGL\IMesh.h"
-struct DefaultVertex
-{
-	vec3 pos;
-	vec3 normal;
-	vec2 uv;
-};
 
 class Mesh: public IMesh 
 {
@@ -26,12 +20,6 @@ protected:
 	Mesh()=default;
 };
 
-struct imguiVertex
-{
-	vec2 pos;
-	vec2 uv;
-	vec4 color;
-};
 
 class imguiMesh : public IMesh
 {

@@ -38,10 +38,17 @@ bool LocalPlayerComponent::VInit(const tinyxml2::XMLElement* pData)
 	ss << "HP : " << static_cast<Player*>(m_pOwner)->GetHP();
 	
 	auto pVGUI = m_Context->GetSystem<VGUI>();
+	auto pResource = m_Context->GetSystem<Resources>();
+
 	m_HPText = static_cast<UIText*>(pVGUI->CreateElement(VGUI::CTRL_TEXT));
 	m_HPText->SetText(ss.str());
 	m_HPText->SetPos(vec3(20, 30, 0));
 	root->AddChild(m_HPText);
+
+	auto image = static_cast<UIImage*>(pVGUI->CreateElement(VGUI::CTRL_IMAGE));
+	image->SetImage(pResource->GetTexture("TEXTURES\\CLANMARKBL.DTX"));
+	image->SetPos(vec3(100, 100,0.0));
+	root->AddChild(image);
 	return true;
 
 }

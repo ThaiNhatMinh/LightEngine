@@ -14,7 +14,7 @@ Scene::Scene(Context* c) :m_Context(c),m_CurrentCamera(nullptr)
 	m_DirectionLight.La = vec3(0.2, 0.2, 0.2);
 	m_DirectionLight.Ld = vec3(0.5, 0.5, 0.5);
 	m_DirectionLight.Ls = vec3(1.0f, 1.0f, 1.0f);
-	m_DirectionLight.direction = glm::normalize(vec3(-1, -1,- 1));
+	m_DirectionLight.direction = glm::normalize(vec3(-1, -3,- 1));
 
 	//m_DefaultCamera = Camera(c,vec3(0, 0, 100.0f), vec3(.0f), vec3(0, 1.0f, 0), 45.0f, 4.0f / 3.0f, 1.0f, 10000.0f);
 }

@@ -52,6 +52,7 @@ void main()
 	v.prop = gMaterial;
 
 	color = ParallelLight(v, gLight, EyePos);
+	//color = texel;
 }
 
 vec4 ParallelLight(SurfaceInfo v, Light L, vec3 eyePos)

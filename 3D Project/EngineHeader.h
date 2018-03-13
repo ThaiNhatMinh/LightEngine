@@ -22,14 +22,14 @@
 
 #include "Utilities\PhysicsUtilities.h"
 
-
+#include "ResourceCache\Vertex.h"
 #include "ResourceCache\IResource.h"
 #include "ResourceCache\ModelCache.h"
 
 #include "ResourceCache\ResourceLoader.h"
 
 
-#include "VGUI\UI.h"
+
 
 #include "Graphics3D\OpenGLRenderer.h"
 #include "Graphics3D\ICamera.h"
@@ -46,10 +46,10 @@
 #include "Graphics3D\Particles.h"
 #include "Graphics3D\Sprite.h"
 #include "Graphics3D\SpriteAnim.h"
-
-
 #include "Graphics3D\EffectSystem.h"
 #include "Graphics3D\Cube.h"
+
+#include "VGUI\UI.h"
 //#include "Utilities\PrimitiveShape\Line.h"
 
 // Lua Scripting

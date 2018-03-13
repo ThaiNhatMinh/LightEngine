@@ -4,7 +4,7 @@
 class IResource
 {
 public:
-	~IResource() = default;
+	virtual ~IResource() = default;
 
 	virtual const std::string& GetName() final;
 	void SetName(const std::string& name);
