@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 
-class Light
+class DirectionLight
 {
 public:
 	vec3 La;

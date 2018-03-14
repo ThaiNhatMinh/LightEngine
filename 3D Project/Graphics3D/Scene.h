@@ -10,7 +10,7 @@ private:
 	// This store every thing in scene
 	std::unique_ptr<Actor>	m_pRoot;
 	std::list<Actor*>		m_ActorLast;
-	Light					m_DirectionLight; // only one direction light
+	DirectionLight					m_DirectionLight; // only one direction light
 	vector<ICamera*>		m_CameraList;
 	ICamera*				m_CurrentCamera;
 	
@@ -30,5 +30,5 @@ public:
 	void		SetCurrentCamera(Camera * cam);
 	void		PushLastActor(Actor*);
 	Actor*		GetRoot() { return m_pRoot.get(); };
-	Light		GetDirLight() { return m_DirectionLight; };
+	DirectionLight		GetDirLight() { return m_DirectionLight; };
 };

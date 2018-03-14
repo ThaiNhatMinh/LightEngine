@@ -13,7 +13,7 @@ void TexShader::SetupRender(Scene * pScene, Actor * pActor)
 	SetUniformMatrix("MVP", glm::value_ptr(MVP));
 
 	// ----- Lighting ------
-	const Light& dirLight = pScene->GetDirLight();
+	const DirectionLight& dirLight = pScene->GetDirLight();
 	SetUniform("gLight.La", dirLight.La);
 	SetUniform("gLight.Ld", dirLight.Ld);
 	SetUniform("gLight.Ls", dirLight.Ls);

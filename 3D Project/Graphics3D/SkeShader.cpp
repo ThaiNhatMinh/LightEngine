@@ -24,7 +24,7 @@ void SkeShader::SetupRender(Scene * pScene, Actor * pActor)
 	}
 
 	// ----- Lighting ------
-	const Light& dirLight = pScene->GetDirLight();
+	const DirectionLight& dirLight = pScene->GetDirLight();
 	SetUniform("gLight.La", dirLight.La);
 	SetUniform("gLight.Ld", dirLight.Ld);
 	SetUniform("gLight.Ls", dirLight.Ls);
