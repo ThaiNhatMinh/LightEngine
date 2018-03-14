@@ -57,6 +57,7 @@ private:
 	vector<std::unique_ptr<ModelCache>> m_ModelCaches;
 	vector<std::unique_ptr<HeightMap>> m_HeightMaps;
 	vector<std::unique_ptr<SpriteAnim>> m_SpriteLists;
+	vector<std::unique_ptr<ObjModel>> m_ObjLists;
 	map<string, std::unique_ptr<Shader>> m_ShaderList;
 	map<string, std::unique_ptr<SoundRAAI>> m_SoundList;
 	
@@ -85,6 +86,7 @@ private:
 	ModelCache*		LoadModelXML(const string& filename);
 	SoundRAAI*		LoadSound(const string& filename, const string& tag, int mode);
 	Shader*			LoadShader(string key,const char* type, const char* vs, const char* fs, bool linkshader = true);
+	ObjModel*		LoadObjModel(const std::string filename);
 
 	void LoadResources(string path);
 
@@ -93,16 +95,16 @@ public:
 	~Resources();
 
 
-	IMesh*		CreateShape(ShapeType type,float* size);
-	SpriteAnim*	GetSpriteAnimation(const string& filename);
-	Shader*		GetShader(string key);
-	Texture*	GetTexture(const string& filename);
-	ModelCache*	GetModel(const string& filename);
-	HeightMap*	GetHeightMap(const string& filename);
-	FMOD::Sound*GetSound(const string& tag);
+	IMesh*			CreateShape(ShapeType type,float* size);
+	SpriteAnim*		GetSpriteAnimation(const string& filename);
+	Shader*			GetShader(string key);
+	Texture*		GetTexture(const string& filename);
+	IModelResource*	GetModel(const string& filename);
+	HeightMap*		GetHeightMap(const string& filename);
+	FMOD::Sound*	GetSound(const string& tag);
 
-	const char* GetPath(Shader* p) { return nullptr; };
-	const char* GetPath(Texture* p) { return nullptr; };
-	const char* GetPath(ModelCache* p) { return nullptr; };
-	const char* GetPath(HeightMap* p) { return nullptr; };
+	const char*		GetPath(Shader* p) { return nullptr; };
+	const char*		GetPath(Texture* p) { return nullptr; };
+	const char*		GetPath(ModelCache* p) { return nullptr; };
+	const char*		GetPath(HeightMap* p) { return nullptr; };
 };

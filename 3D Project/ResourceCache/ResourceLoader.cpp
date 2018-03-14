@@ -5,8 +5,10 @@
 
 #include "..\Graphics3D\SpriteAnim.h"
 #include <fmod_errors.h>
-
-namespace LightEngine
+#include <assimp\Importer.hpp>
+#include <assimp\scene.h>
+#include <assimp\postprocess.h>
+namespace Light
 {
 	const char* RESOURCES_FILE = "Resources.xml";
 }
@@ -30,7 +32,7 @@ Texture * Resources::HasTexture(const string& filename)
 ModelCache * Resources::HasModel(const string& filename)
 {
 	for (size_t i = 0; i < m_ModelCaches.size(); i++)
-		if (m_ModelCaches[i]->szName == filename)
+		if (m_ModelCaches[i]->GetName() == filename)
 			return m_ModelCaches[i].get();
 
 	return NULL;
@@ -71,7 +73,7 @@ Resources::Resources(Context* c)
 	// Load default tex
 	m_pDefaultTex = LoadTexture("GameAssets/TEXTURES/Default.png");
 
-	LoadResources("GameAssets/" + string(LightEngine::RESOURCES_FILE));
+	LoadResources("GameAssets/" + string(Light::RESOURCES_FILE));
 
 	c->AddSystem(this);
 
@@ -331,7 +333,7 @@ Texture * Resources::LoadTexture(const string& filename)
 		//string error = iluErrorString(Error);
 		Log::Message(Log::LOG_ERROR, "Can't load texture " + string(filename));
 		//Log::Message(Log::LOG_ERROR, "Devil: " + error);
-		return HasTexture("GameAssets/TEXTURE/Default.png");
+		return m_pDefaultTex;//HasTexture("GameAssets/TEXTURE/Default.png");
 	}
 	
 	width = ilGetInteger(IL_IMAGE_WIDTH);
@@ -609,7 +611,7 @@ ModelCache * Resources::LoadModel(const string& filename)
 		return NULL;
 	}
 
-	pModel->szName = filename;
+	pModel->SetName(filename);
 	vector<AABB> abb(pModel->pSkeNodes.size());
 	for (size_t i = 0; i < pModel->pMeshs.size(); i++)
 	{
@@ -765,6 +767,82 @@ Shader * Resources::LoadShader(string key, const char* type, const char * vs, co
 	return result;
 }
 
+ObjModel * Resources::LoadObjModel(const std::string filename)
+{
+	string fullpath = m_Path + filename;
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(fullpath, 0/*aiProcess_JoinIdenticalVertices | aiProcess_SortByPType*/);
+	
+	if (!scene) {
+		fprintf(stderr, importer.GetErrorString());
+		getchar();
+		return false;
+	}
+	ObjModel* pModel = new ObjModel;
+	pModel->SetName(filename);
+
+	std::vector<DefaultVertex> vertexs;
+	std::vector<unsigned int> Indices;
+	for (size_t i = 0; i < scene->mNumMeshes; i++)
+	{
+		vertexs.clear();
+		Indices.clear();
+
+		const aiMesh* mesh = scene->mMeshes[i];
+		for (size_t j = 0; j < mesh->mNumVertices;j++)
+		{
+			aiVector3D pos = mesh->mVertices[j];
+			aiVector3D UVW = mesh->mTextureCoords[0][j];
+			aiVector3D n = mesh->mNormals[j];
+			DefaultVertex dv;
+			dv.pos = vec3(pos.x, pos.y, pos.z);
+			dv.normal = vec3(n.x, n.y, n.z);
+			dv.uv = vec2(UVW.x, UVW.y);
+			vertexs.push_back(dv);
+		}
+		for (size_t j = 0; j < mesh->mNumFaces; j++)
+		{
+			const aiFace& Face = mesh->mFaces[i];
+			if (Face.mNumIndices == 3) {
+				Indices.push_back(Face.mIndices[0]);
+				Indices.push_back(Face.mIndices[1]);
+				Indices.push_back(Face.mIndices[2]);
+
+			}
+		}
+		
+		uint32 a = mesh->mMaterialIndex;
+		aiMaterial* mat = scene->mMaterials[a];
+		Material m;
+		aiString name;
+		mat->Get<aiString>(AI_MATKEY_NAME, name);
+		m.Name = name.C_Str();
+		aiColor3D color(0.f, 0.f, 0.f);
+		mat->Get(AI_MATKEY_COLOR_AMBIENT,color);
+		m.Ka = vec3(color.r, color.g, color.b);
+		mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+		m.Kd = vec3(color.r, color.g, color.b);
+		mat->Get(AI_MATKEY_COLOR_SPECULAR, color);
+		m.Ks = vec3(color.r, color.g, color.b);
+		float exp;
+		mat->Get(AI_MATKEY_SHININESS, exp);
+		m.exp = vec3(exp);
+		aiString Path;
+		mat->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL);
+		Mesh* pMesh = new Mesh(vertexs, Indices);
+	
+		pMesh->Tex = LoadTexture(Path.C_Str());
+
+		pModel->Meshs.push_back(std::unique_ptr<Mesh>(pMesh));
+		pModel->Materials.push_back(m);
+		
+	}
+
+	m_ObjLists.push_back(std::unique_ptr<ObjModel>(pModel));
+
+	return pModel;
+}
+
 Shader * Resources::GetShader(string key)
 {
 	return m_ShaderList[key].get();
@@ -783,10 +861,15 @@ Texture * Resources::GetTexture(const string& filename)
 	
 }
 
-ModelCache * Resources::GetModel(const string& filename)
+IModelResource * Resources::GetModel(const string& filename)
 {
-	ModelCache* pModel = nullptr;
+	IModelResource* pModel = nullptr;
 	if (filename.find(".xml") !=string::npos) pModel = LoadModelXML(filename);
+	else if (filename.find(".obj") != string::npos)
+	{
+		for (size_t i = 0; i < m_ObjLists.size(); i++)
+			if (m_ObjLists[i]->GetName() == filename) pModel = m_ObjLists[i].get();
+	}
 	else pModel = HasModel(filename);
 	return pModel;
 }
@@ -863,7 +946,12 @@ void Resources::LoadResources(string path)
 		else if (!strcmp(name, "Model"))
 		{
 			const char* pFile = pNode->Attribute("File");
-			if (pFile) LoadModel(pFile);
+
+			if (pFile)
+			{
+				if (strstr(pFile, ".obj")) LoadObjModel(pFile);
+				else LoadModel(pFile);
+			}
 		}
 		else if (!strcmp(name, "HeightMap"))
 		{
