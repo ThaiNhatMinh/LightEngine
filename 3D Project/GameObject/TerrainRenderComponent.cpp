@@ -1,8 +1,5 @@
 #include "pch.h"
 
-#include <IL\il.h>
-#include <IL\ilu.h>
-
 const char* TerrainRenderComponent::Name = "TerrainRenderComponent";
 
 bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
@@ -15,14 +12,14 @@ bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	if (pFileName)
 	{
 		HeightMap* hm = m_Context->GetSystem<Resources>()->GetHeightMap(pFileName);
-		Mesh* p = static_cast<Mesh*>(hm->m_Mesh[0].get());
-		if (p)
-		{
-			const tinyxml2::XMLElement* pTexPath = pData->FirstChildElement("Texture");
-			const char* pFileName1 = pTexPath->Attribute("File0");
-			p->Tex = m_Context->GetSystem<Resources>()->GetTexture(pFileName1);
-			m_MeshList.push_back(p);
-		}
+
+		/*auto pMesh = new Mesh(hm->m_Vertexs, hm->m_Indices);
+		const tinyxml2::XMLElement* pTexPath = pData->FirstChildElement("Texture");
+		const char* pFileName1 = pTexPath->Attribute("File0");
+		pMesh->Tex = m_Context->GetSystem<Resources>()->GetTexture(pFileName1);
+		m_MeshList.push_back(pMesh);*/
+
+		GenerateMeshData(hm);
 	}
 
 	const tinyxml2::XMLElement* pShader = pData->FirstChildElement("Shader");
@@ -32,6 +29,10 @@ bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 		if (m_pShader == nullptr)
 			E_ERROR("Can not find shader name: " + string(pShader->Attribute("name")));
 	}
+
+	m_Material.Ks = vec3(0);
+	m_Material.Ka = vec3(1.0f);
+	m_Material.Kd = vec3(0.8f);
 	return true;
 }
 
@@ -65,6 +66,28 @@ TerrainRenderComponent::~TerrainRenderComponent()
 {
 	
 }
+
+void TerrainRenderComponent::GenerateMeshData(HeightMap * hm)
+{
+	GLuint numMesh = hm->numSub;			// Num SubMesh device by row and collum
+	GLuint numvert = hm->Width / numMesh;	// Num vertices per SubMesh in Row/Collum
+
+	GLint xpos = 0, zpos = 0;
+	int pos[2] = { xpos,zpos };
+
+	std::vector<std::vector<DefaultVertex>> vertexList;
+	for (int i = 0; i < numMesh; i++)
+	{
+		for (int j = 0; j < numMesh; j++)
+		{
+			std::vector<DefaultVertex> vertex;
+			vertex = Light::Math::CopySubMatrix(hm->m_Vertexs, pos, numvert);
+			vertexList.push_back(vertex);
+		}
+	}
+
+}
+
 
 /*
 Mesh * TerrainRenderComponent::ReadFile(const string& filename)

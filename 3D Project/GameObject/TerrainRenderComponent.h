@@ -12,5 +12,5 @@ public:
 	virtual void Render(Scene*);
 	~TerrainRenderComponent();
 private:
-	
+	void GenerateMeshData(HeightMap* hm);
 };
