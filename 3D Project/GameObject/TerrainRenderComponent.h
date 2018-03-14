@@ -3,6 +3,12 @@
 class TerrainRenderComponent : public MeshRenderComponent
 {
 private:
+	struct SubGrid : public Mesh
+	{
+		AABB box;
+		SubGrid(const std::vector<DefaultVertex>& vertex, const std::vector<unsigned int> indices);
+	};
+
 	float m_fScale;
 public:
 	static const char* Name;
@@ -12,5 +18,5 @@ public:
 	virtual void Render(Scene*);
 	~TerrainRenderComponent();
 private:
-	void GenerateMeshData(HeightMap* hm);
+	void GenerateMeshData(HeightMap * hm, Texture* pText);
 };

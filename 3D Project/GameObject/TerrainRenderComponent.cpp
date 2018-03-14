@@ -13,13 +13,12 @@ bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	{
 		HeightMap* hm = m_Context->GetSystem<Resources>()->GetHeightMap(pFileName);
 
-		/*auto pMesh = new Mesh(hm->m_Vertexs, hm->m_Indices);
 		const tinyxml2::XMLElement* pTexPath = pData->FirstChildElement("Texture");
 		const char* pFileName1 = pTexPath->Attribute("File0");
-		pMesh->Tex = m_Context->GetSystem<Resources>()->GetTexture(pFileName1);
-		m_MeshList.push_back(pMesh);*/
+		//pMesh->Tex = m_Context->GetSystem<Resources>()->GetTexture(pFileName1);
+		//m_MeshList.push_back(pMesh);
 
-		GenerateMeshData(hm);
+		GenerateMeshData(hm, m_Context->GetSystem<Resources>()->GetTexture(pFileName1));
 	}
 
 	const tinyxml2::XMLElement* pShader = pData->FirstChildElement("Shader");
@@ -50,8 +49,15 @@ void TerrainRenderComponent::Render(Scene *pScene)
 	m_pShader->SetUniform("gMaterial.Ks", m_Material.Ks);
 	m_pShader->SetUniform("gMaterial.exp", m_Material.exp);
 
+	ICamera* pCam = pScene->GetCurrentCamera();
+	Frustum* pFrustum = pCam->GetFrustum();
+	int numdraw = 0;
 	for (size_t i = 0; i < m_MeshList.size(); i++)
 	{
+		SubGrid* pGrid = static_cast<SubGrid*>(m_MeshList[i]);
+
+		if (!pFrustum->Inside(pGrid->box.Min, pGrid->box.Max)) continue;
+
 		m_MeshList[i]->Tex->Bind();
 
 		// ------- Render mesh ----------
@@ -59,7 +65,12 @@ void TerrainRenderComponent::Render(Scene *pScene)
 		m_MeshList[i]->VAO.Bind();
 		m_pRenderer->SetDrawMode(m_MeshList[i]->Topology);
 		m_pRenderer->DrawElement(m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
+		numdraw++;
 	}
+
+	ImGui::Text("Num SubGrid draw: %d in total %d", numdraw, m_MeshList.size());
+
+	glPolygonMode(GL_FRONT, GL_FILL);
 }
 
 TerrainRenderComponent::~TerrainRenderComponent()
@@ -67,7 +78,7 @@ TerrainRenderComponent::~TerrainRenderComponent()
 	
 }
 
-void TerrainRenderComponent::GenerateMeshData(HeightMap * hm)
+void TerrainRenderComponent::GenerateMeshData(HeightMap * hm, Texture* pText)
 {
 	GLuint numMesh = hm->numSub;			// Num SubMesh device by row and collum
 	GLuint numvert = hm->Width / numMesh;	// Num vertices per SubMesh in Row/Collum
@@ -83,9 +94,30 @@ void TerrainRenderComponent::GenerateMeshData(HeightMap * hm)
 			std::vector<DefaultVertex> vertex;
 			vertex = Light::Math::CopySubMatrix(hm->m_Vertexs, pos, numvert);
 			vertexList.push_back(vertex);
+			pos[0] += numvert - 1;
 		}
+		pos[0] = 0;
+		pos[1] += numvert - 1;
 	}
 
+	std::vector<unsigned int> Index;
+	GLuint cnt = 0;
+	for (int i = 0; i < numvert - 1; i++)
+		for (int j = 0; j <numvert - 1; j++)
+		{
+			Index.push_back(j + (i + 1)*numvert + 1);
+			Index.push_back(j + i * numvert + 1);
+			Index.push_back(j + i * numvert);
+
+			Index.push_back(j + (i + 1)*numvert);
+			Index.push_back(j + (i + 1)*numvert + 1);
+			Index.push_back(j + i * numvert);
+		}
+	for (int i = 0; i < vertexList.size(); i++)
+	{
+		m_MeshList.push_back(new SubGrid(vertexList[i], Index));
+		m_MeshList.back()->Tex = pText;
+	}
 }
 
 
@@ -185,3 +217,8 @@ Mesh * TerrainRenderComponent::ReadFile(const string& filename)
 
 	return p;
 }*/ 
+TerrainRenderComponent::SubGrid::SubGrid(const std::vector<DefaultVertex>& vertex, const std::vector<unsigned int> indices) :Mesh(vertex, indices), box()
+{
+	for (size_t i = 0; i < vertex.size(); i++) box.Test(vertex[i].pos);
+
+}
