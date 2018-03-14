@@ -1,6 +1,6 @@
 #include "pch.h"
 
-AABB::AABB():Min(FLT_MAX),Max(FLT_MIN)
+AABB::AABB():Min(FLT_MAX, FLT_MAX, FLT_MAX), Max(-FLT_MAX, -FLT_MAX, -FLT_MAX)
 {
 }
 
@@ -22,13 +22,13 @@ void AABB::Set(const vector<vec3>& v)
 void AABB::Test(const vec3 & v)
 {
 	if (Min.x > v.x) Min.x = v.x;
-	else if (Max.x < v.x) Max.x = v.x;
+	if (Max.x < v.x) Max.x = v.x;
 
 	if (Min.y > v.y) Min.y = v.y;
-	else if (Max.y < v.y) Max.y = v.y;
+	if (Max.y < v.y) Max.y = v.y;
 
 	if (Min.z > v.z) Min.z = v.z;
-	else if (Max.z < v.z) Max.z = v.z;
+	if (Max.z < v.z) Max.z = v.z;
 	//cout << Max.z << " " << v.z << endl;
 }
 
