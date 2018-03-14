@@ -22,8 +22,9 @@ bool MeshRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 	{
 		if (pFileName[0] != '\0')
 		{
-			ModelCache* pModel = m_Context->GetSystem<Resources>()->GetModel(pFileName);
-			if (!pModel) return false;
+			IModelResource* pModel = m_Context->GetSystem<Resources>()->GetModel(pFileName);
+			if (!pModel) 
+				return false;
 			
 			SetData(pModel);
 		}
@@ -86,7 +87,6 @@ void MeshRenderComponent::Render(Scene* pScene)
 		m_MeshList[i]->Tex->Bind();
 
 		// ------- Render mesh ----------
-		//m_pRenderer->SetVertexArrayBuffer(m_MeshList[i]->VAO);
 		m_MeshList[i]->VAO.Bind();
 		m_pRenderer->SetDrawMode(m_MeshList[i]->Topology);
 		m_pRenderer->DrawElement(m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
@@ -104,20 +104,20 @@ vector<LTBSocket>& MeshRenderComponent::GetSockets()
 {
 	assert(m_Model != nullptr);
 
-	return m_Model->Sockets;
+	return static_cast<ModelCache*>(m_Model)->Sockets;
 }
 
 vector<std::unique_ptr<SkeNode>>& MeshRenderComponent::GetNodeList()
 {
-	return m_Model->pSkeNodes;
+	return static_cast<ModelCache*>(m_Model)->pSkeNodes;
 }
 
-void MeshRenderComponent::SetData(ModelCache * pModel)
+void MeshRenderComponent::SetData(IModelResource * pModel)
 {
 	m_Model = pModel;
-	for (size_t i = 0; i < m_Model->pMeshs.size(); i++)
+	for (size_t i = 0; i < m_Model->GetNumMesh(); i++)
 	{
-		m_MeshList.push_back(m_Model->pMeshs[i].get());
+		m_MeshList.push_back(m_Model->GetMesh(i));
 	}
 
 }

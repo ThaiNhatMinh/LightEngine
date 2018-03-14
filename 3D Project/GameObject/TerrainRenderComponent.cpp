@@ -4,7 +4,7 @@ const char* TerrainRenderComponent::Name = "TerrainRenderComponent";
 
 bool TerrainRenderComponent::VInit(const tinyxml2::XMLElement* pData)
 {
-	m_fScale = 10.0f;
+	m_fScale = 20.0f;
 	if (!pData) return false;
 	const tinyxml2::XMLElement* pModelPath = pData->FirstChildElement("Model");
 
@@ -52,6 +52,7 @@ void TerrainRenderComponent::Render(Scene *pScene)
 	ICamera* pCam = pScene->GetCurrentCamera();
 	Frustum* pFrustum = pCam->GetFrustum();
 	int numdraw = 0;
+	//glPolygonMode(GL_FRONT, GL_LINE);
 	for (size_t i = 0; i < m_MeshList.size(); i++)
 	{
 		SubGrid* pGrid = static_cast<SubGrid*>(m_MeshList[i]);
@@ -70,7 +71,7 @@ void TerrainRenderComponent::Render(Scene *pScene)
 
 	ImGui::Text("Num SubGrid draw: %d in total %d", numdraw, m_MeshList.size());
 
-	glPolygonMode(GL_FRONT, GL_FILL);
+	//glPolygonMode(GL_FRONT, GL_FILL);
 }
 
 TerrainRenderComponent::~TerrainRenderComponent()
@@ -121,102 +122,7 @@ void TerrainRenderComponent::GenerateMeshData(HeightMap * hm, Texture* pText)
 }
 
 
-/*
-Mesh * TerrainRenderComponent::ReadFile(const string& filename)
-{
-	if (filename == nullptr) return nullptr;
-	HeightMap* hm = m_Context->GetSystem<Resources>()->GetHeightMap(filename);
-	/*GLint width, height, iType, iBpp;
 
-	ilLoadImage(filename);
-
-	ILenum Error;
-	Error = ilGetError();
-
-	if (Error != IL_NO_ERROR)
-	{
-		Log::Message(Log::LOG_ERROR, "Can't load terrain " + string(filename));
-		return nullptr;
-	}
-	width = ilGetInteger(IL_IMAGE_WIDTH);
-	height = ilGetInteger(IL_IMAGE_HEIGHT);
-	iType = ilGetInteger(IL_IMAGE_FORMAT);
-	ILubyte *Data = ilGetData();
-	iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
-
-	float stepsize = 50; 
-	GLint width = hm.Width, height = hm.Height;
-	float stepsize = hm.stepsize;
-	GLubyte* Data = hm.Data;
-	vec2 size = vec2((width-1)*stepsize, (height-1)*stepsize);
-	Mesh* p = new Mesh;
-
-	int x = -size[0] / 2, y = 0, z = -size[1] / 2;
-	float t = (hm.minH + hm.maxH) / 2.0f;
-	// computer vertex xyz
-	for (int i = 0; i < height; i++)
-	{
-		
-		for (int j = 0; j < width; j++)
-		{
-			int b = i*width + j;
-			
-			y = Data[b]-t;
-			vec3 pos(x, y, z);
-			vec2 uv((x + size[0] / 2) / size[0], (z + size[1] / 2) / size[1]);
-			vec3 normal(0, 1, 0);
-			DefaultVertex vertex{ pos,normal,uv };
-			p->m_Vertexs.push_back(vertex);
-			x += stepsize;
-		}
-		x = -size[0] / 2;
-		z += stepsize;
-	}
-	// computer indices
-	GLuint cnt = 0;
-	for (int i = 0; i < height - 1; i++)
-		for (int j = 0; j <width - 1; j++)
-		{
-			p->m_Indices.push_back(j + (i + 1)*width + 1);
-			p->m_Indices.push_back(j + i*width + 1);
-			p->m_Indices.push_back(j + i*width);
-
-			p->m_Indices.push_back(j + (i + 1)*width);
-			p->m_Indices.push_back(j + (i + 1)*width + 1);
-			p->m_Indices.push_back(j + i*width);
-		}
-
-	// computer normal
-	
-	auto heightF = [Data,width,height](int x,int z) {
-		if (x < 0) x = 0;
-		if (z < 0) z = 0;
-		if (x >= width) x = width;
-		if (z >= height) z = height;
-		int a = (int)(x*width + z);
-		return Data[a];
-	};
-	
-	int id = 0;
-	for (int i = 0; i < height ; i++)
-		for (int j = 0; j < width ; j++)
-		{
-			vec2 P(i, j);
-			float hL = heightF(j-1,i);
-			float hR = heightF(j+1,i);
-			float hD = heightF(j,i-1);
-			float hU = heightF(j,i+1);
-			vec3 N;
-			N.x = hL - hR;
-			N.y = hD - hU;
-			N.z = 2.0;
-			N = normalize(N);
-			p->m_Vertexs[id].normal = N;
-			id++;
-		}
-
-	return p;
-}*/ 
 TerrainRenderComponent::SubGrid::SubGrid(const std::vector<DefaultVertex>& vertex, const std::vector<unsigned int> indices) :Mesh(vertex, indices), box()
 {
 	for (size_t i = 0; i < vertex.size(); i++) box.Test(vertex[i].pos);

@@ -103,7 +103,7 @@ bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 
 	if (strlen(pFileName) > 1)
 	{
-		ModelCache* pModel = m_Context->GetSystem<Resources>()->GetModel(pFileName);
+		ModelCache* pModel = static_cast<ModelCache*>(m_Context->GetSystem<Resources>()->GetModel(pFileName));
 
 		if (!pModel)
 		{

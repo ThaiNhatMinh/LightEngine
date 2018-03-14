@@ -55,6 +55,19 @@ bool TransformComponent::VInit(const tinyxml2::XMLElement* pData)
 	
 	m_Transform = translate*rotate;
 
+	const tinyxml2::XMLElement* pScaleElement = pData->FirstChildElement("Scale");
+	if (pScaleElement)
+	{
+		float x = 0;
+		float y = 0;
+		float z = 0;
+		x = pOrientationElement->FloatAttribute("x");
+		y = pOrientationElement->FloatAttribute("y");
+		z = pOrientationElement->FloatAttribute("z");
+
+		m_Transform = glm::scale(m_Transform, vec3(x, y, z));
+	}
+
 	return true;
 }
 

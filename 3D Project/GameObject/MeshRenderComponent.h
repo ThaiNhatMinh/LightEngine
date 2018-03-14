@@ -9,7 +9,7 @@ protected:
 	vector<IMesh*>			m_MeshList;
 	Shader					*m_pShader;
 	Material				m_Material;
-	ModelCache*				m_Model;
+	IModelResource*			m_Model;
 	OpenGLRenderer			*m_pRenderer;
 public:
 	static const char* Name;
@@ -32,5 +32,5 @@ public:
 	vector<LTBSocket>& GetSockets();
 	vector<std::unique_ptr<SkeNode>>& GetNodeList();
 
-	void SetData(ModelCache* pModel);
+	void SetData(IModelResource* pModel);
 };
