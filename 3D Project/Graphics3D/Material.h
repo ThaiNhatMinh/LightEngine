@@ -5,7 +5,7 @@
 class Material
 {
 public:
-
+	std::string Name;
 	vec3 Ka;
 	vec3 Kd;
 	vec3 Ks;

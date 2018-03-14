@@ -113,20 +113,22 @@ void Player::SetPVModel()
 		Weapon* wp = static_cast<Weapon*>(m_Children[m_WPList[m_iCurrentWP]].get());
 		const string& pvmodel = wp->GetPVFileName();
 
-		ModelCache* pModel = m_Context->GetSystem<Resources>()->GetModel(pvmodel);
+
+		IModelResource* pModel = m_Context->GetSystem<Resources>()->GetModel(pvmodel);
 
 		// fix model data
 		CharacterResource cr = Game::LoadCharacter(m_Character);
-		for (auto& el : pModel->pMeshs)
+		for (int i=0; i<pModel->GetNumMesh(); i++)
 		{
-			if (el->Tex->GetName() == "GameAssets/TEXTURES/Default.png")
+			auto pMesh = pModel->GetMesh(i);
+			if (pMesh->Tex->GetName() == "GameAssets/TEXTURES/Default.png")
 			{
-				string texPath = cr.PVTexFile[m_Team][el->Name];
-				el->Tex = m_Context->GetSystem<Resources>()->GetTexture(texPath);
+				string texPath = cr.PVTexFile[m_Team][pMesh->Name];
+				pMesh->Tex = m_Context->GetSystem<Resources>()->GetTexture(texPath);
 			}
 		}
 		// Set component data
-		PVWeapon->SetData(pModel);
+		PVWeapon->SetData(static_cast<ModelCache*>(pModel));
 
 		PVWeapon->Select();
 
