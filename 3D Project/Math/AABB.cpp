@@ -15,8 +15,21 @@ void AABB::Set(const vector<vec3>& v)
 		if (Min.y > v[i].y) Min.y = v[i].y;
 		else if (Max.y < v[i].y) Max.y = v[i].y;
 		if (Min.z > v[i].z) Min.z = v[i].z;
-		else if (Max.z < v[i].z) Max.x = v[i].z;
+		else if (Max.z < v[i].z) Max.z = v[i].z;
 	}
+}
+
+void AABB::Test(const vec3 & v)
+{
+	if (Min.x > v.x) Min.x = v.x;
+	else if (Max.x < v.x) Max.x = v.x;
+
+	if (Min.y > v.y) Min.y = v.y;
+	else if (Max.y < v.y) Max.y = v.y;
+
+	if (Min.z > v.z) Min.z = v.z;
+	else if (Max.z < v.z) Max.z = v.z;
+	//cout << Max.z << " " << v.z << endl;
 }
 
 bool AABB::Intersect(const AABB & a)

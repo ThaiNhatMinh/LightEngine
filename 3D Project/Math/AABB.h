@@ -15,6 +15,7 @@ public:
 
 
 	void Set(const vector<vec3>&);
+	void Test(const vec3& v);
 	void SetMin(const vec3& min) {
 		Min = min;
 	};
