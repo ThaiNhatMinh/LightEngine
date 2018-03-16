@@ -8,7 +8,6 @@ class MeshRenderComponent : public ActorComponent
 protected:
 	vector<IMesh*>			m_MeshList;
 	Shader					*m_pShader;
-	Material				m_Material;
 	IModelResource*			m_Model;
 	OpenGLRenderer			*m_pRenderer;
 public:
@@ -31,6 +30,6 @@ public:
 	vector<IMesh*>& GetMeshList();
 	vector<LTBSocket>& GetSockets();
 	vector<std::unique_ptr<SkeNode>>& GetNodeList();
-
+	Shader* GetShader() { return m_pShader; }
 	void SetData(IModelResource* pModel);
 };

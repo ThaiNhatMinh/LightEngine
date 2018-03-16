@@ -74,16 +74,16 @@ void MeshRenderComponent::Render(Scene* pScene)
 	if (m_MeshList.empty()) return;
 	m_pShader->SetupRender(pScene, m_pOwner);
 
-	
 
-	
-	m_pShader->SetUniform("gMaterial.Ka", m_Material.Ka);
-	m_pShader->SetUniform("gMaterial.Kd", m_Material.Kd);
-	m_pShader->SetUniform("gMaterial.Ks", m_Material.Ks);
-	m_pShader->SetUniform("gMaterial.exp", m_Material.exp);
-
+	//glDisable(GL_CULL_FACE);
 	for (size_t i = 0; i < m_MeshList.size(); i++)
 	{
+		// Set material
+		m_pShader->SetUniform("gMaterial.Ka", m_MeshList[i]->mat.Ka);
+		m_pShader->SetUniform("gMaterial.Kd", m_MeshList[i]->mat.Kd);
+		m_pShader->SetUniform("gMaterial.Ks", m_MeshList[i]->mat.Ks);
+		m_pShader->SetUniform("gMaterial.exp", m_MeshList[i]->mat.exp);
+
 		m_MeshList[i]->Tex->Bind();
 
 		// ------- Render mesh ----------
@@ -91,7 +91,8 @@ void MeshRenderComponent::Render(Scene* pScene)
 		m_pRenderer->SetDrawMode(m_MeshList[i]->Topology);
 		m_pRenderer->DrawElement(m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
 	}
-
+	
+	//glEnable(GL_CULL_FACE);
 
 }
 
