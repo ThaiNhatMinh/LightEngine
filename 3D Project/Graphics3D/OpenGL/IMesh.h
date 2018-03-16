@@ -2,6 +2,7 @@
 // mesh interface
 #include "BufferObject.h"
 #include "VertexArray.h"
+#include "..\Material.h"
 class IMesh
 {
 public:
@@ -14,4 +15,5 @@ public:
 	GLuint					NumIndices;
 	Texture*				Tex;
 	GLuint					Topology;
+	Material				mat;
 };

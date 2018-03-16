@@ -42,7 +42,7 @@ class ObjModel : public IModelResource
 {
 public:
 	std::vector<std::unique_ptr<Mesh>> Meshs;
-	std::vector<Material> Materials;
+	//std::vector<Material> Materials;
 
 	virtual int GetNumMesh()
 	{

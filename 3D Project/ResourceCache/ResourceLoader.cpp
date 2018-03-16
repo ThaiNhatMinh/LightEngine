@@ -770,8 +770,11 @@ Shader * Resources::LoadShader(string key, const char* type, const char * vs, co
 ObjModel * Resources::LoadObjModel(const std::string filename)
 {
 	string fullpath = m_Path + filename;
+	string localPath;
+	int pos = filename.find_last_of("/\\");
+	localPath = filename.substr(0, pos) + '\\';
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(fullpath, 0/*aiProcess_JoinIdenticalVertices | aiProcess_SortByPType*/);
+	const aiScene* scene = importer.ReadFile(fullpath, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices);
 	
 	if (!scene) {
 		fprintf(stderr, importer.GetErrorString());
@@ -802,7 +805,7 @@ ObjModel * Resources::LoadObjModel(const std::string filename)
 		}
 		for (size_t j = 0; j < mesh->mNumFaces; j++)
 		{
-			const aiFace& Face = mesh->mFaces[i];
+			const aiFace& Face = mesh->mFaces[j];
 			if (Face.mNumIndices == 3) {
 				Indices.push_back(Face.mIndices[0]);
 				Indices.push_back(Face.mIndices[1]);
@@ -831,10 +834,10 @@ ObjModel * Resources::LoadObjModel(const std::string filename)
 		mat->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL);
 		Mesh* pMesh = new Mesh(vertexs, Indices);
 	
-		pMesh->Tex = LoadTexture(Path.C_Str());
-
+		pMesh->Tex = LoadTexture(localPath + Path.C_Str());
+		pMesh->mat = m;
 		pModel->Meshs.push_back(std::unique_ptr<Mesh>(pMesh));
-		pModel->Materials.push_back(m);
+		
 		
 	}
 
@@ -865,7 +868,7 @@ IModelResource * Resources::GetModel(const string& filename)
 {
 	IModelResource* pModel = nullptr;
 	if (filename.find(".xml") !=string::npos) pModel = LoadModelXML(filename);
-	else if (filename.find(".obj") != string::npos)
+	else if (filename.find(".obj") != string::npos|| filename.find(".3ds") != string::npos)
 	{
 		for (size_t i = 0; i < m_ObjLists.size(); i++)
 			if (m_ObjLists[i]->GetName() == filename) pModel = m_ObjLists[i].get();
@@ -949,7 +952,7 @@ void Resources::LoadResources(string path)
 
 			if (pFile)
 			{
-				if (strstr(pFile, ".obj")) LoadObjModel(pFile);
+				if (strstr(pFile, ".obj")|| strstr(pFile, ".3ds")) LoadObjModel(pFile);
 				else LoadModel(pFile);
 			}
 		}
