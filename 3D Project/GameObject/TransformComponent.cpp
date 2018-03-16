@@ -36,7 +36,19 @@ bool TransformComponent::VInit(const tinyxml2::XMLElement* pData)
 		yawPitchRoll = vec3(glm::radians(pitch), glm::radians(yaw), glm::radians(roll));
 	}
 
+	mat4 scale;
+	const tinyxml2::XMLElement* pScaleElement = pData->FirstChildElement("Scale");
+	if (pScaleElement)
+	{
+		float x = 0;
+		float y = 0;
+		float z = 0;
+		x = pScaleElement->FloatAttribute("x");
+		y = pScaleElement->FloatAttribute("y");
+		z = pScaleElement->FloatAttribute("z");
 
+		scale = glm::scale(mat4(), vec3(x, y, z));
+	}
 	
 	glm::mat4 matRoll = glm::mat4(1.0f);//identity matrix; 
 	glm::mat4 matPitch = glm::mat4(1.0f);//identity matrix
@@ -53,20 +65,9 @@ bool TransformComponent::VInit(const tinyxml2::XMLElement* pData)
 	glm::mat4 translate = glm::mat4(1.0f);
 	translate = glm::translate(translate, position);
 	
-	m_Transform = translate*rotate;
+	m_Transform = translate*rotate*scale;
 
-	const tinyxml2::XMLElement* pScaleElement = pData->FirstChildElement("Scale");
-	if (pScaleElement)
-	{
-		float x = 0;
-		float y = 0;
-		float z = 0;
-		x = pOrientationElement->FloatAttribute("x");
-		y = pOrientationElement->FloatAttribute("y");
-		z = pOrientationElement->FloatAttribute("z");
-
-		m_Transform = glm::scale(m_Transform, vec3(x, y, z));
-	}
+	
 
 	return true;
 }
