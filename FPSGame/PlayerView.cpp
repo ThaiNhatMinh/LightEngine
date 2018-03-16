@@ -60,9 +60,10 @@ void PlayerView::PostInit(void)
 
 HRESULT PlayerView::VRender(Scene * pScene)
 {
-	ICamera* pCam = pScene->GetCurrentCamera();
+	//ICamera* pCam = pScene->GetCurrentCamera();
 	pScene->PushLastActor(this);
-
+	static auto* pDebug = m_Context->GetSystem<Debug>();
+	pDebug->DrawLine(InvView[3], -InvView[2] * 2000.0f, vec3(1.0, 1.0, 1.0));
 	return S_OK;
 }
 
@@ -79,8 +80,6 @@ HRESULT PlayerView::VOnUpdate(Scene *pScene, float elapsedMs)
 
 mat4 PlayerView::VGetGlobalTransform()
 {
-	//mat4 trans = Camera::GetCurrentCamera()->GetViewMatrix();
 	mat4 trans = InvView* m_TransformComponent->GetTransform();
-	//return Actor::VGetGlobalTransform();
 	return trans;
 }

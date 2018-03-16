@@ -12,7 +12,7 @@ Debug::Debug(Context* c):VAO(),VBO(GL_ARRAY_BUFFER)
 	VAO.SetAttibutePointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, sizeof(DebugData), 0);
 	VAO.SetAttibutePointer(SHADER_COLOR_ATTRIBUTE, 3, GL_FLOAT, sizeof(DebugData), sizeof(vec3));
 	c->AddSystem(this);
-	//glBindVertexArray(0);
+	VAO.UnBind();
 }
 
 void Debug::Update()
@@ -69,9 +69,12 @@ void Debug::DrawCoord(const mat4 & m)
 	DrawLine(pos, pos+z*10.0f, vec3(0, 0,1));
 }
 
-void Debug::Render()
+void Debug::Render(Scene* pScene)
 {
 	if (m_Lists.empty()) return;
+
+	ICamera* pCam = pScene->GetCurrentCamera();
+	VP = pCam->GetVPMatrix();
 
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);

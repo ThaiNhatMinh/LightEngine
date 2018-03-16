@@ -289,6 +289,9 @@
     <ClInclude Include="ResourceCache\Vertex.h">
       <Filter>ResourceCache</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceCache\ObjFileLoader.h">
+      <Filter>ResourceCache</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -514,6 +517,12 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\Cube.cpp">
       <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceCache\ObjFileLoader.cpp">
+      <Filter>ResourceCache</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceCache\ModelCache.cpp">
+      <Filter>ResourceCache</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

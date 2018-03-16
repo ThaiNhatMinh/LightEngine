@@ -105,7 +105,7 @@ void GunPlayerView::ShootRayCast()
 	}
 	else
 	{
-		//printf("Doesn't hit anything.\n");
+		printf("Doesn't hit anything.\n");
 	}
 	
 }

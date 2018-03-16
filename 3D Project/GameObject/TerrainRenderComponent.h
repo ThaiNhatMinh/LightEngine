@@ -10,6 +10,7 @@ private:
 	};
 
 	float m_fScale;
+	Material m_Material;
 public:
 	static const char* Name;
 	virtual bool VInit(const tinyxml2::XMLElement* pData);

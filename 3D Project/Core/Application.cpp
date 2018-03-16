@@ -17,8 +17,8 @@ void Application::SetupSubmodule()
 	m_pSoundEngine = std::unique_ptr<SoundEngine>(new SoundEngine(m_Context.get()));
 	m_pResources = std::unique_ptr<Resources>(new Resources(m_Context.get()));
 	m_pSystemUI = std::unique_ptr<SystemUI>(new SystemUI(m_Context.get()));
-	m_pConsole = std::unique_ptr<Console>(new Console(m_Context.get()));
 	m_pInput = std::unique_ptr<DirectInput>(new DirectInput(m_Context.get()));
+	m_pConsole = std::unique_ptr<Console>(new Console(m_Context.get()));
 	m_pDebuger = std::unique_ptr<Debug>(new Debug(m_Context.get()));
 	m_pPhysic = std::unique_ptr<BulletPhysics>(new BulletPhysics(m_Context.get()));
 	m_pTimer = std::unique_ptr<GameTimer>(new GameTimer(m_Context.get()));
@@ -137,7 +137,7 @@ void Application::MainLoop()
 		// Draw Console
 		m_pConsole->Draw();
 		// Daw Debug
-		m_pDebuger->Render();
+		m_pDebuger->Render(pScene);
 		// Draw SystemUI
 		m_pSystemUI->Render();
 		// Draw VGUI

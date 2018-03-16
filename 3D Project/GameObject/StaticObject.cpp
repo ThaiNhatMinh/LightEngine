@@ -13,6 +13,8 @@ void StaticObject::PostInit(void)
 
 HRESULT StaticObject::VRender(Scene * pScene)
 {
+	//glEnable(GL_BLEND);
 	m_MeshRender->Render(pScene);
-	return E_NOTIMPL;
+	//glDisable(GL_BLEND);
+	return S_OK;
 }

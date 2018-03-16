@@ -10,7 +10,7 @@ public:
 	vec3 Kd;
 	vec3 Ks;
 	vec3 exp;
-	Material() :Ka(1.0f), Kd(1.0f), Ks(1.0f), exp(128)
+	Material() :Ka(0.6f, 0.6f, 0.6f), Kd(0.9f, 0.9f, 0.9f), Ks(0.0f, 0.0f, 0.0f), exp(1,1,1)
 	{
 
 	}

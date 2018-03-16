@@ -78,7 +78,7 @@ ObjModel * ObjFile::LoadObjFile(const std::string& filename)
 		{
 			char filemtl[128];
 			fscanf(pFile, "%s", filemtl);
-			pModel->Materials = LoadMaterial(filemtl);
+			//pModel->Materials = LoadMaterial(filemtl);
 		}
 		else if (strcmp(lineHeader, "usemtl") == 0)
 		{
