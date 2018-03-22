@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 
 UIText::UIText()
 {
@@ -51,8 +51,8 @@ const string & UIText::GetText() const {
 void UIText::UpdateInternalData()
  {
 	 if (m_Text.size() == 0) return;
-	 float x = m_Pos.x;
-	 float y = m_Pos.y;
+	 float x = 0;// m_Pos.x;
+	 float y = 0;// m_Pos.y;
 
 	 m_Meshs.clear();
 	 //m_Meshs.resize(m_Text.size());
