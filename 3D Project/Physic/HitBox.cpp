@@ -38,6 +38,7 @@ void HitBox::VPostInit(void)
 				ShapeBoxInfo boxInfo;
 
 				vec3 size = nodelist[i]->m_BoundBox.Max - nodelist[i]->m_BoundBox.Min;
+				size = vec3(fabs(size.x), fabs(size.y), fabs(size.z));
 				vec3 pos = size / 2.0f + nodelist[i]->m_BoundBox.Min;
 				btBoxShape* pBox = new btBoxShape(ToBtVector3(size / 2.0f));
 				mat4 transform = glm::translate(glm::mat4(), pos);
