@@ -6,12 +6,14 @@
 #include "OpenGL\VertexArray.h"
 #include "OpenGL\Texture.h"
 #include "OpenGL\CompressTexture.h"
+#include "OpenGL\CubeTexture.h"
 #include "OpenGL\IMesh.h"
 #include "OpenGL\FrameBuffer.h"
 #include "OpenGL\RenderBuffer.h"
 
 
-
+void _check_gl_error(const char *file, int line);
+#define check_gl_error() _check_gl_error(__FILE__,__LINE__)
 
 class OpenGLRenderer : public RenderAPICore,public ISubSystem
 {
