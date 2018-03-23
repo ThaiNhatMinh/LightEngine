@@ -343,7 +343,15 @@ Texture * Resources::LoadTexture(const string& filename)
 	iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
 	
-	tex = new Texture(width, height, iBpp,Data);
+	Texture::TextureCreateInfo texinfo;
+	texinfo.pData = Data;
+	texinfo.eType = GL_UNSIGNED_BYTE;
+	texinfo.uiWidth = width;
+	texinfo.uiHeight = height;
+	texinfo.iInternalFormat = iBpp;
+	texinfo.eFormat = iType;
+
+	tex = new Texture(texinfo);
 	tex->SetName(filename);
 	//tex->Init();
 
@@ -436,10 +444,10 @@ Texture * Resources::LoadTexMemory(const string& filename,unsigned char * data, 
 
 	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	//glBindTexture(GL_TEXTURE_2D, 0);
+	E_ERROR("Resources::LoadTexMemory");
+	//tex = new Texture(w,h,24,data);
 
-	tex = new Texture(w,h,24,data);
-
-	m_Textures.push_back(std::unique_ptr<Texture>(tex));
+	//m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
 
 	return tex;
@@ -538,7 +546,15 @@ Texture * Resources::LoadDTX(const string& filename)
 	if (InternalFormat == GL_RGBA)
 	{
 		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, W, H, 0, GL_RGBA, GL_UNSIGNED_BYTE, ubBuffer);
-		tex = new Texture(W, H,32,ubBuffer);
+		//tex = new Texture(W, H,32,ubBuffer);
+		Texture::TextureCreateInfo texinfo;
+		texinfo.pData = ubBuffer;
+		texinfo.eType = GL_UNSIGNED_BYTE;
+		texinfo.uiWidth = W;
+		texinfo.uiHeight = H;
+		texinfo.iInternalFormat = InternalFormat;
+		texinfo.eFormat = GL_RGBA;
+		tex = new Texture(texinfo);
 	}
 	else if (InternalFormat == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || InternalFormat == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT || InternalFormat == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)
 	{
