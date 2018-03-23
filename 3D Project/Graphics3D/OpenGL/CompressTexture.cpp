@@ -5,9 +5,9 @@ CompressTexture::CompressTexture(GLint internalformat, GLint w, GLint h, GLint s
 	glGenTextures(1, &iIndex);
 
 	Bind();
-	iWidth = w;
-	iHeight = h;
-	iBpp = 0;
+	m_TexInfo.uiWidth = w;
+	m_TexInfo.uiHeight = h;
+	m_TexInfo.iInternalFormat = internalformat;
 
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
