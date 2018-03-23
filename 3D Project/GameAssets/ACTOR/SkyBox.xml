@@ -1,0 +1,10 @@
+<Actor type="SkyBox" name="SkyBox">
+	<Texture File="TEXTURES\SKYBOX\hw_ruins\ruins_ft.tga"/>
+<Component>  
+	<TransformComponent>
+		<Position x="0" y="0" z="0"/>
+		<YawPitchRoll x="0" y="0" z="0"/>
+	</TransformComponent>
+  
+  </Component>
+</Actor>
