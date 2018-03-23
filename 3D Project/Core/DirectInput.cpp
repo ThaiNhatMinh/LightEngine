@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 #include "Context.h"
 
 DirectInput::DirectInput(Context * c):m_pDInput(0), m_pKeyboard(0), m_pMouse(0)

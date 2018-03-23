@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 #include "IL\il.h"
 #include "IL\ilu.h"
 #include "LTBFileLoader.h"
@@ -616,19 +616,19 @@ ModelCache * Resources::LoadModel(const string& filename)
 	for (size_t i = 0; i < pModel->pMeshs.size(); i++)
 	{
 		SkeMesh* pMesh = pModel->pMeshs[i].get();
-		// Generate Buffer Object
-		//pMesh->Init();
+		
 
 		for (size_t j = 0; j < pMesh->GetVertexs().size(); j++)
 		{
 			const SkeVertex& vertex = pMesh->GetVertexs()[j];
+			vec3 local;
 			for (int k = 0; k < 4; k++)
 			{
 				if (vertex.weights[k].Bone <100.0f && vertex.weights[k].weight>=0.0f)
 				{
-					vec3 local = pModel->pSkeNodes[vertex.weights[k].Bone]->m_InvBindPose*vec4(vertex.pos, 1.0f);
+					local = pModel->pSkeNodes[vertex.weights[k].Bone]->m_InvBindPose*vec4(vertex.pos, 1.0f);
 					local *= vertex.weights[k].weight;
-					abb[vertex.weights[k].Bone].Insert(local);
+					abb[vertex.weights[k].Bone].Test(local);
 					pModel->pSkeNodes[vertex.weights[k].Bone]->m_Flag = 1;
 				}
 				else
@@ -641,16 +641,16 @@ ModelCache * Resources::LoadModel(const string& filename)
 
 	for (size_t i = 0; i < pModel->pSkeNodes.size(); i++)
 	{
-		vec3 size = abb[i].Max - abb[i].Min;
-		vec3 pos = size / 2.0f + abb[i].Min;
+		//vec3 size = abb[i].Max - abb[i].Min;
+		//vec3 pos = size / 2.0f + abb[i].Min;
 		//pos.x = 0;
 		//pos.y = 0;
-		size = vec3(fabsf(size.x), fabsf(size.y), fabsf(size.z));
+		
 		
 		//if(size<vec3(20)) pModel->pSkeNodes[i]->m_Flag = 0;
 		//cout << size.x <<" " << size.y << " " << size.z << endl;
-		pModel->pSkeNodes[i]->m_BoundBox.Min =  -vec3(0,size.y*0.5,size.z*0.5);
-		pModel->pSkeNodes[i]->m_BoundBox.Max = vec3(size.x, size.y*0.5, size.z*0.5);
+		pModel->pSkeNodes[i]->m_BoundBox.Min = abb[i].Min;
+		pModel->pSkeNodes[i]->m_BoundBox.Max = abb[i].Max;
 	}
 
 	m_ModelCaches.push_back(std::unique_ptr<ModelCache>(pModel));

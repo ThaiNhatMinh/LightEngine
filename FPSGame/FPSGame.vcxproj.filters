@@ -54,6 +54,9 @@
     <ClInclude Include="EvtData.h">
       <Filter>Event</Filter>
     </ClInclude>
+    <ClInclude Include="ZombieController.h">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="EvtData.cpp">
       <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="ZombieController.cpp">
+      <Filter>Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

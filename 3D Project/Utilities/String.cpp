@@ -15,7 +15,7 @@
 // Used in ..\Win32\Fonts.cpp
 //========================================================================
 
-#include "pch.h"
+#include <pch.h>
 
 using std::string;
 

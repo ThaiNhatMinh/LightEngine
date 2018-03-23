@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 #include "LogicComponent.h"
 
 const char* LogicComponent::Name = "LogicComponent";

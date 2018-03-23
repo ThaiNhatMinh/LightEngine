@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 
 CompressTexture::CompressTexture(GLint internalformat, GLint w, GLint h, GLint size, GLubyte* data)
 {

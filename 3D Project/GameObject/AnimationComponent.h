@@ -1,5 +1,5 @@
 #pragma once
-#include "pch.h"
+#include <pch.h>
 
 // Animation system version 3.0
 
@@ -112,7 +112,7 @@ protected:
 	vector<mat4>		m_SkeTransform;
 	vector<mat4>		m_DbTransform;
 	float				m_fBlendTime;
-	
+	Debug*				m_pDebuger;
 protected:
 	FrameData			InterpolateFrame(AnimControl& control, const AnimNode& Anim, const vector<AnimKeyFrame>&);
 	GLint				FindAnimation(string name);

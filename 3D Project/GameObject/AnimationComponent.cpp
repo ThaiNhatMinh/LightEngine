@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 
 const char* AnimationComponent::Name = "AnimationComponent";
 const char* PVAnimationComponent::Name = "PVAnimationComponent";
@@ -11,15 +11,15 @@ void BaseAnimComponent::DrawSkeleton(const mat4& m)
 {
 
 
-	/*for (size_t i = 0; i < m_pSkeNodes.size(); i++)
+	for (size_t i = 0; i < m_pSkeNodes.size(); i++)
 	{
-		int parentID = m_pSkeNodes[i]->m_ParentIndex;
+		/*int parentID = m_pSkeNodes[i]->m_ParentIndex;
 		if (parentID != -1)
 		{
 			vec3 pos1 = m_DbTransform[i][3];
 			vec3 pos2 = m_DbTransform[parentID][3];
 			m_Context->m_pDebuger->DrawLine(pos1, pos2, vec3(1.0f, 1.0, 1.0f), m);
-		}
+		}*/
 		
 		//if (m_pSkeNodes[i]->m_Name.find("Spine") == string::npos|| m_pSkeNodes[i]->m_Name.find("Finger") != string::npos) continue;
 		
@@ -30,22 +30,22 @@ void BaseAnimComponent::DrawSkeleton(const mat4& m)
 		mat4 temp = m*m_DbTransform[i];
 		vec3 color = vec3(1,1,1);
 		
-		m_Context->m_pDebuger->DrawLine(m_pSkeNodes[i]->m_BoundBox.Min, m_pSkeNodes[i]->m_BoundBox.Max, vec3(0, 1, 0), temp);
+		//m_pDebuger->DrawLine(m_pSkeNodes[i]->m_BoundBox.Min, m_pSkeNodes[i]->m_BoundBox.Max, vec3(0, 1, 0), temp);
 
-		m_Context->m_pDebuger->DrawLine(v[0], v[1], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[1], v[2], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[2], v[3], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[3], v[0], color, temp);
+		m_pDebuger->DrawLine(v[0], v[1], color, temp);
+		m_pDebuger->DrawLine(v[1], v[2], color, temp);
+		m_pDebuger->DrawLine(v[2], v[3], color, temp);
+		m_pDebuger->DrawLine(v[3], v[0], color, temp);
 
-		m_Context->m_pDebuger->DrawLine(v[4], v[5], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[5], v[6], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[6], v[7], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[7], v[4], color, temp);
+		m_pDebuger->DrawLine(v[4], v[5], color, temp);
+		m_pDebuger->DrawLine(v[5], v[6], color, temp);
+		m_pDebuger->DrawLine(v[6], v[7], color, temp);
+		m_pDebuger->DrawLine(v[7], v[4], color, temp);
 
-		m_Context->m_pDebuger->DrawLine(v[0], v[4], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[1], v[5], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[2], v[6], color, temp);
-		m_Context->m_pDebuger->DrawLine(v[3], v[7], color, temp);
+		m_pDebuger->DrawLine(v[0], v[4], color, temp);
+		m_pDebuger->DrawLine(v[1], v[5], color, temp);
+		m_pDebuger->DrawLine(v[2], v[6], color, temp);
+		m_pDebuger->DrawLine(v[3], v[7], color, temp);
 
 		//vec3 pos1 = m_DbTransform[i][3];
 
@@ -56,7 +56,7 @@ void BaseAnimComponent::DrawSkeleton(const mat4& m)
 		//front = 4.0f*vec3(m_DbTransform[i][2]) + pos1;
 		//m_Context->m_pDebuger->DrawLine(pos1, front, vec3(0, 0, 1), m);
 		
-	}*/
+	}
 
 }
 
@@ -125,6 +125,7 @@ bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 		
 	}
 
+	m_pDebuger = m_Context->GetSystem<Debug>();
 	return true;
 }
 

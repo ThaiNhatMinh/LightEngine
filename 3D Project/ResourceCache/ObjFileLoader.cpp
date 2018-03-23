@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 #include "ObjFileLoader.h"
 
 Mesh * ObjFile::Calculate(const std::vector<vec3>& v, const std::vector<vec3>& n, const std::vector<vec2>& uv, const std::vector<vec3>& index)

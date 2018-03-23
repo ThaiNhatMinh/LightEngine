@@ -1,5 +1,5 @@
 #pragma once
-#include "pch.h"
+#include <pch.h>
 
 // Every object in Scene must have this component
 // TransformComponent only store transform with parent transform. Not global transform

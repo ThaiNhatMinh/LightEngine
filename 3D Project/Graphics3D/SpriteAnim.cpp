@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 
 SpriteAnim::SpriteAnim():m_Flags(0), m_MsCurTime(0), m_iCurrentFrame(0), m_MsFrameRate(0)
 {

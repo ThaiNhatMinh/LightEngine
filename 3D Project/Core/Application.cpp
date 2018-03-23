@@ -59,6 +59,7 @@ void Application::SetupSubmodule()
 
 	m_GamePlugins->LoadPlugin("FPSGame.dll");
 	m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
+	m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
 
 }
 

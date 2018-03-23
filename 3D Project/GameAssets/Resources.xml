@@ -9,7 +9,7 @@
 	<Shader Name="Shader" Tag="UI" FileVS="SHADER\UI.vs" FileFS="SHADER\UI.fs" />
 	
 	
-	<HeightMap File="WORLD\heightmap.png" Size="100" Width="-1" Height="-1" HeightScale="0.0" SubDevided="8"/>
+	<HeightMap File="WORLD\heightmap.png" Size="5" Width="-1" Height="-1" HeightScale="0.0" SubDevided="8"/>
 	<Texture File="TEXTURES\TERRAIN\mntn_green_d.jpg" />
 	<SpriteAnim File="TEXTURES\FX\BLOOD3\BLOOD3.SPR" />
 	<SpriteAnim File="TEXTURES\FX\EX\EX.SPR" />

@@ -170,6 +170,7 @@
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponResource.h" />
     <ClInclude Include="Zombie.h" />
+    <ClInclude Include="ZombieController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AI_Explosive.cpp" />
@@ -186,6 +187,7 @@
     </ClCompile>
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Zombie.cpp" />
+    <ClCompile Include="ZombieController.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

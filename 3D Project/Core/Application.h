@@ -1,5 +1,5 @@
 #pragma once
-#include "pch.h"
+#include <pch.h>
 #include "Graphics3D\OpenGLRenderer.h"
 #include "..\GamePlugin\GamePluginManager.h"
 
