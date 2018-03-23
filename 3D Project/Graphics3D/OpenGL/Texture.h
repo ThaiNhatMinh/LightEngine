@@ -17,7 +17,7 @@ public:
 	};
 public:
 	Texture(const TextureCreateInfo& TexCreateInfo);
-	~Texture();
+	virtual ~Texture();
 
 	void Bind(GLuint tex_unit = 0);
 	void UnBind();

@@ -6,16 +6,16 @@ Texture::Texture(const TextureCreateInfo& TexCreateInfo) :m_TexInfo(TexCreateInf
 
 	Bind();
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(m_TexInfo.eTarget, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(m_TexInfo.eTarget, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(m_TexInfo.eTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(m_TexInfo.eTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	//GLenum type = GL_RGBA;
 	//if (m_TexInfo.uiBpp == 24) type = GL_RGB;
 	//else if (m_TexInfo.uiBpp == 3) type = GL_RGB;
 	glTexImage2D(m_TexInfo.eTarget, m_TexInfo.iLevel, m_TexInfo.iInternalFormat, m_TexInfo.uiWidth, m_TexInfo.uiHeight, 0, m_TexInfo.eFormat, m_TexInfo.eType, m_TexInfo.pData);
-	glGenerateMipmap(GL_TEXTURE_2D);
+	glGenerateMipmap(m_TexInfo.eTarget);
 }
 
 Texture::~Texture()
@@ -26,10 +26,10 @@ Texture::~Texture()
 
 void Texture::Bind(GLuint tex_unit) {
 	glActiveTexture(GL_TEXTURE0 + tex_unit);
-	glBindTexture(GL_TEXTURE_2D, iIndex);
+	glBindTexture(m_TexInfo.eTarget, iIndex);
 }
 
-void Texture::UnBind() { glBindTexture(GL_TEXTURE_2D, 0); }
+void Texture::UnBind() { glBindTexture(m_TexInfo.eTarget, 0); }
 
 
 GLuint Texture::GetWidth()
