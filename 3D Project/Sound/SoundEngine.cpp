@@ -51,7 +51,7 @@ void SoundEngine::SetListener(SoundListener * listener)
 
 void SoundEngine::Update()
 {
-	assert(m_pListener != nullptr);
+	if (m_pListener == nullptr) return;
 	SoundListener::ListenerAttribute attribute = m_pListener->GetListenAttribute();
 	m_pSystem->set3DListenerAttributes(attribute.id, &attribute.pos, nullptr, &attribute.forward, &attribute.up);
 	m_pSystem->update();
