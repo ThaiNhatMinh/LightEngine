@@ -103,8 +103,8 @@ void TerrainRenderComponent::GenerateMeshData(HeightMap * hm, Texture* pText)
 
 	std::vector<unsigned int> Index;
 	GLuint cnt = 0;
-	for (int i = 0; i < numvert - 1; i++)
-		for (int j = 0; j <numvert - 1; j++)
+	for (GLuint i = 0; i < numvert - 1; i++)
+		for (GLuint j = 0; j <numvert - 1; j++)
 		{
 			Index.push_back(j + (i + 1)*numvert + 1);
 			Index.push_back(j + i * numvert + 1);
