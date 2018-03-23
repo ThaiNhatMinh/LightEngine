@@ -22,6 +22,7 @@ ActorFactory::ActorFactory(Context* c)
 	m_ActorFactoryMap.insert(std::make_pair("Actor", [](int id) {return new Actor(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("World", [](int id) {return new TerrainWorld(id); }));
 	m_ActorFactoryMap.insert(std::make_pair("StaticObject", [](int id) {return new StaticObject(id); }));
+	m_ActorFactoryMap.insert(std::make_pair("SkyBox", [](int id) {return new SkyBox(id); }));
 	
 
 	m_ShaderFactory.insert(std::make_pair("SkeShader", [](const char*vs, const char* fs) {return new SkeShader(vs, fs); }));
@@ -30,6 +31,7 @@ ActorFactory::ActorFactory(Context* c)
 	m_ShaderFactory.insert(std::make_pair("Shader", [](const char*vs, const char* fs) {return new Shader(vs, fs); }));
 	m_ShaderFactory.insert(std::make_pair("ImGuiShader", [](const char*vs, const char* fs) {return new ImGuiShader(vs, fs); }));
 	m_ShaderFactory.insert(std::make_pair("SpriteShader", [](const char*vs, const char* fs) {return new SpriteShader(vs, fs); }));
+
 	
 	c->AddSystem(this);
 
