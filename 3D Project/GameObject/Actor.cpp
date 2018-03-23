@@ -138,11 +138,8 @@ Actor::ActorState Actor::VGetState()
 HRESULT Actor::VRenderChildren(Scene * pScene)
 {
 	
-	// Iterate through the children....
-	ActorList::iterator i = m_Children.begin();
-	ActorList::iterator end = m_Children.end();
-	
-	while (i != end)
+	// Iterate through the children....	
+	for(ActorList::iterator i = m_Children.begin(); i!=m_Children.end();i++)
 	{
 		if ((*i)->VPreRender(pScene) == S_OK)
 		{
@@ -153,7 +150,6 @@ HRESULT Actor::VRenderChildren(Scene * pScene)
 			(*i)->VRenderChildren(pScene);
 		}
 		(*i)->VPostRender(pScene);
-		++i;
 	}	
 	return S_OK;
 }
