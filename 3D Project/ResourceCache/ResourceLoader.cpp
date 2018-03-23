@@ -353,17 +353,6 @@ Texture * Resources::LoadTexture(const string& filename)
 
 	tex = new Texture(texinfo);
 	tex->SetName(filename);
-	//tex->Init();
-
-	//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	//glTexImage2D(GL_TEXTURE_2D, 0, iBpp, width, height, 0, iType, GL_UNSIGNED_BYTE, Data);
-	//glBindTexture(GL_TEXTURE_2D, 0);
-	//glGenerateMipmap(GL_TEXTURE_2D);
 
 	ilResetMemory();
 	
@@ -377,12 +366,8 @@ Texture * Resources::LoadTexture(const string& filename)
 
 Texture * Resources::LoadCubeTex(const vector<string>& filelist)
 {
-	E_ERROR("This method doesn't emplment yet.");
-	return nullptr;
-	Texture* tex = nullptr;
-	//GLuint id;
-	//glGenTextures(1, &id);
-	//glBindTexture(GL_TEXTURE_CUBE_MAP, id);
+	CubeTexture* tex = nullptr;
+	unsigned char* pData[6];
 	GLint width, height, iType, iBpp;
 	for (size_t i = 0; i < filelist.size(); i++)
 	{
@@ -393,10 +378,8 @@ Texture * Resources::LoadCubeTex(const vector<string>& filelist)
 
 		if (Error != IL_NO_ERROR)
 		{
-			//string error = iluErrorString(Error);
-			Log::Message(Log::LOG_ERROR, "Can't load texture " + filelist[i]);
-			//Log::Message(Log::LOG_ERROR, "Devil: " + error);
-			return HasTexture("GameAssets/TEXTURE/Default.png");
+			Log::Message(Log::LOG_ERROR, "Can't load texture " + string(filelist[i]));			
+			return nullptr;
 		}
 
 		width = ilGetInteger(IL_IMAGE_WIDTH);
@@ -405,25 +388,31 @@ Texture * Resources::LoadCubeTex(const vector<string>& filelist)
 		ILubyte *Data = ilGetData();
 		iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
-		//glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X +i, 0, iBpp, width, height, 0, iType, GL_UNSIGNED_BYTE, Data);
+		pData[i] = new unsigned char[width*height*iBpp];
+		memcpy(pData[i], Data, width*height*iBpp);
 		
 	}
 	
-	//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	//glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-	//glGenerateMipmap(GL_TEXTURE_2D);
+	Texture::TextureCreateInfo texinfo;
+	texinfo.pData = pData;
+	texinfo.eType = GL_UNSIGNED_BYTE;
+	texinfo.uiWidth = width;
+	texinfo.uiHeight = height;
+	texinfo.iInternalFormat = iBpp;
+	texinfo.eFormat = iType;
+	texinfo.eTarget = GL_TEXTURE_CUBE_MAP;
+
 
 	
 
-	//tex = new Texture(id,filelist[0],width,height);
-
+	tex = new CubeTexture(texinfo);
+	tex->SetName(filelist[0]);
 	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
 	ilResetMemory();
+
+	for (int i = 0; i < 6; i++) delete[] pData[i];
+
 	return tex;
 
 }
@@ -1008,6 +997,18 @@ void Resources::LoadResources(string path)
 
 				m_SoundList.insert({ pTag,std::unique_ptr<SoundRAAI>(pSound) });
 			}
+		}
+		else if (!strcmp(name, "CubeTexture"))
+		{
+			std::vector<std::string> filelist;
+
+			for(tinyxml2::XMLElement* pNodeTex = pNode->FirstChildElement(); pNodeTex; pNodeTex = pNodeTex->NextSiblingElement())
+			{
+				const char* pFile = pNodeTex->Attribute("File");
+				filelist.push_back(pFile);
+			}
+
+			LoadCubeTex(filelist);
 		}
 	}
 }
