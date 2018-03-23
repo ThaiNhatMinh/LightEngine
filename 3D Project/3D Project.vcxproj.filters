@@ -292,6 +292,15 @@
     <ClInclude Include="ResourceCache\ObjFileLoader.h">
       <Filter>ResourceCache</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\FrameBuffer.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\RenderBuffer.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\RenderTarget.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -523,6 +532,15 @@
     </ClCompile>
     <ClCompile Include="ResourceCache\ModelCache.cpp">
       <Filter>ResourceCache</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\FrameBuffer.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\RenderBuffer.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\RenderTarget.cpp">
+      <Filter>Graphics3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
