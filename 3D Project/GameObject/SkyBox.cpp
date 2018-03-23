@@ -66,7 +66,7 @@ HRESULT SkyBox::VRender(Scene * pScene)
 	mat4 proj = pCam->GetProjMatrix();
 	mat4 VP = proj * view;
 	glDepthFunc(GL_LEQUAL);
-	glDepthMask(GL_FALSE);
+	//glDepthMask(GL_FALSE);
 	glDisable(GL_CULL_FACE);
 	m_pShader->Use();
 	m_pShader->SetUniformMatrix("MVP", glm::value_ptr(VP));
@@ -74,7 +74,7 @@ HRESULT SkyBox::VRender(Scene * pScene)
 	VAO.Bind();
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	
-	glDepthMask(GL_TRUE);
+	//glDepthMask(GL_TRUE);
 	glEnable(GL_CULL_FACE);
 	glDepthFunc(GL_LESS);
 	return S_OK;

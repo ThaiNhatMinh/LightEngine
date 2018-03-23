@@ -301,6 +301,12 @@
     <ClInclude Include="Graphics3D\RenderTarget.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\CubeTexture.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\SkyBox.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -542,6 +548,8 @@
     <ClCompile Include="Graphics3D\RenderTarget.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\CubeTexture.cpp" />
+    <ClCompile Include="GameObject\SkyBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

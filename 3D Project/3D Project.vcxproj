@@ -200,6 +200,7 @@
     <ClInclude Include="GameObject\LogicComponent.h" />
     <ClInclude Include="GameObject\MeshRenderComponent.h" />
     <ClInclude Include="GameObject\RigidBodyComponent.h" />
+    <ClInclude Include="GameObject\SkyBox.h" />
     <ClInclude Include="GameObject\StaticObject.h" />
     <ClInclude Include="GameObject\TerrainRenderComponent.h" />
     <ClInclude Include="GameObject\TransformComponent.h" />
@@ -215,6 +216,7 @@
     <ClInclude Include="Graphics3D\Octree.h" />
     <ClInclude Include="Graphics3D\OpenGLRenderer.h" />
     <ClInclude Include="Graphics3D\OpenGL\CompressTexture.h" />
+    <ClInclude Include="Graphics3D\OpenGL\CubeTexture.h" />
     <ClInclude Include="Graphics3D\OpenGL\FrameBuffer.h" />
     <ClInclude Include="Graphics3D\OpenGL\IMesh.h" />
     <ClInclude Include="Graphics3D\OpenGL\RenderBuffer.h" />
@@ -297,6 +299,7 @@
     <ClCompile Include="GameObject\LogicComponent.cpp" />
     <ClCompile Include="GameObject\MeshRenderComponent.cpp" />
     <ClCompile Include="GameObject\RigidBodyComponent.cpp" />
+    <ClCompile Include="GameObject\SkyBox.cpp" />
     <ClCompile Include="GameObject\StaticObject.cpp" />
     <ClCompile Include="GameObject\TerrainRenderComponent.cpp" />
     <ClCompile Include="GameObject\TransformComponent.cpp" />
@@ -311,6 +314,7 @@
     <ClCompile Include="Graphics3D\Octree.cpp" />
     <ClCompile Include="Graphics3D\OpenGLRenderer.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\CompressTexture.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\CubeTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\FrameBuffer.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\RenderBuffer.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Texture.cpp" />

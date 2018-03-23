@@ -82,6 +82,7 @@
 #include "GameObject\ActorFactory.h"
 #include "GameObject\Actor.h"
 #include "GameObject\StaticObject.h"
+#include "GameObject\SkyBox.h"
 #include "Physic\PhysicDebugDrawer.h"
 #include "Physic\Physic.h"
 #include "Physic\HitBox.h"

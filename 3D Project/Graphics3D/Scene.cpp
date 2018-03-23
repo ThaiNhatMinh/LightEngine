@@ -48,6 +48,7 @@ bool Scene::LoadScene(const string& filename)
 			Actor* p4 = m_Context->GetSystem<ActorFactory>()->CreateActor(pFile, nullptr, 0);
 			m_pRoot->VAddChild(std::unique_ptr<Actor>(p4));
 		}
+		
 	}
 
 	return 1;
@@ -62,6 +63,7 @@ bool Scene::OnRender()
 	// 3. The Sky
 	// 4. Anything with Alpha
 	
+
 	// Root doesn't have anything to render, so just render children	
 	m_pRoot->VRenderChildren(this);
 	
@@ -75,6 +77,8 @@ bool Scene::OnRender()
 		pActor->GetComponent<MeshRenderComponent>("MeshRenderComponent")->Render(this);
 	}
 	
+	
+	//m_pSkyBox->VRender(this);
 	return true;
 }
 

@@ -7,9 +7,10 @@
 	<Shader Name="ImGuiShader" Tag="ImGuiShader" FileVS="SHADER\imgui.vs" FileFS="SHADER\imgui.fs" />
 	<Shader Name="SpriteShader" Tag="SpriteShader" FileVS="SHADER\Sprite.vs" FileFS="SHADER\Sprite.fs" />
 	<Shader Name="Shader" Tag="UI" FileVS="SHADER\UI.vs" FileFS="SHADER\UI.fs" />
+	<Shader Name="Shader" Tag="SkyBox" FileVS="SHADER\SkyBox.vs" FileFS="SHADER\SkyBox.fs" />
 	
 	
-	<HeightMap File="WORLD\heightmap.png" Size="5" Width="-1" Height="-1" HeightScale="0.0" SubDevided="8"/>
+	<HeightMap File="WORLD\heightmap.png" Size="50" Width="-1" Height="-1" HeightScale="10.0" SubDevided="8"/>
 	<Texture File="TEXTURES\TERRAIN\mntn_green_d.jpg" />
 	<SpriteAnim File="TEXTURES\FX\BLOOD3\BLOOD3.SPR" />
 	<SpriteAnim File="TEXTURES\FX\EX\EX.SPR" />
@@ -26,6 +27,14 @@
 	<Texture File="TEXTURES\PLAYERVIEW\FVIEW_HAND_BL.DTX" />
 	<Texture File="TEXTURES\PLAYERVIEW\FVIEW_ARM_SAS_GR.DTX" />
 	<Texture File="TEXTURES\PLAYERVIEW\FVIEW_HAND_GR.DTX" />
+	<CubeTexture>
+		<POSITIVE_Z File="TEXTURES\SKYBOX\hw_ruins\ruins_ft.tga" />
+		<NEGATIVE_Z File="TEXTURES\SKYBOX\hw_ruins\ruins_bk.tga" />
+		<NEGATIVE_Y File="TEXTURES\SKYBOX\hw_ruins\ruins_dn.tga" />
+		<POSITIVE_Y File="TEXTURES\SKYBOX\hw_ruins\ruins_up.tga" />
+		<POSITIVE_X File="TEXTURES\SKYBOX\hw_ruins\ruins_rt.tga" />
+		<NEGATIVE_X File="TEXTURES\SKYBOX\hw_ruins\ruins_lf.tga" />
+	</CubeTexture>
 	<ModelXML File="MODELS\707_BL.xml" />
 	<ModelXML File="MODELS\707_GR.xml" />
 	<ModelXML File="MODELS\SAS_BL.xml" />

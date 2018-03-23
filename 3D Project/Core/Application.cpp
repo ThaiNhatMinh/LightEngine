@@ -24,36 +24,7 @@ void Application::SetupSubmodule()
 	m_pTimer = std::unique_ptr<GameTimer>(new GameTimer(m_Context.get()));
 	m_pEffectSystem = std::unique_ptr<EffectSystem>(new EffectSystem(m_Context.get()));
 	m_pVGUI = std::unique_ptr<VGUI>(new VGUI(m_Context.get()));
-	/*
-	// Init Windows
-	m_pWindows->Init();
-	// Init Renderer
-	m_pRenderer->Init(m_Context.get());
-	// Init Event system
-	m_pEventManager->Init(m_Context.get());
-	// Init factory
-	m_pActorFactory->Init(m_Context.get());
-	// init sound engine
-	m_pSoundEngine->Init(m_Context.get());
-	// init resource
-	m_pResources->Init(m_Context.get());
-	// init system UI
-	m_pSystemUI->Init(m_Context.get());
-	// init console
-	m_pConsole->Init(m_Context.get());
-	// init input
-	m_pInput->Init(m_Context.get());
-	// init debug renderer
-	m_pDebuger->Init(m_Context.get());
-	// init bullets physic
-	m_pPhysic->Init(m_Context.get());
-	// init timer
-	m_pTimer->Init(m_Context.get());
-	//init effect system
-	m_pEffectSystem->Init(m_Context.get());
-	// init VGUI
-	m_pVGUI->Init(m_Context.get());
-	*/
+	
 	// Create game plugin
 	m_GamePlugins = std::unique_ptr<GamePluginManager>(new GamePluginManager(m_Context.get()));
 
@@ -130,7 +101,7 @@ void Application::MainLoop()
 		
 
 		m_pRenderer->Clear();
-
+		
 		// Draw Game
 		m_GamePlugins->RenderGame();
 		// Draw Effect

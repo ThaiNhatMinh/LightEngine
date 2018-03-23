@@ -5,7 +5,7 @@ const char* LogicComponent::Name = "LogicComponent";
 LogicComponent::LogicComponent()
 {
 	MouseSensitivity = 0.25;
-	m_Speed = 400.0f;
+	m_Speed = 10.0f;
 	m_Pitch = 0;
 	m_Yaw = -90;
 	m_pInput = m_Context->GetSystem<DirectInput>();
