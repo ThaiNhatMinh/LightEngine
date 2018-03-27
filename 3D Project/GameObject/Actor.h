@@ -14,8 +14,9 @@ public:
 
 	enum ActorState
 	{
-		AS_NORMAL,
-		AS_BLOCK,
+		AS_NOUPDATE = 1<<1,
+		AS_NORENDER = 1<<2,
+		AS_NORMAL = 1<<3,
 	};
 protected:
 	ActorList				m_Children;

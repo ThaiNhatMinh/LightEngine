@@ -40,7 +40,7 @@ void Actor::Destroy(void)
 
 HRESULT Actor::VOnUpdate(Scene *pScene, float deltaMs)
 {
-	if (m_State == AS_BLOCK) return S_OK;
+	if (m_State &AS_NOUPDATE) return S_OK;
 
 	for (ActorComponents::iterator it = m_components.begin(); it != m_components.end(); ++it)
 	{
@@ -156,7 +156,7 @@ HRESULT Actor::VRenderChildren(Scene * pScene)
 
 HRESULT Actor::VPostRender(Scene * pScene)
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 bool Actor::VAddChild(std::unique_ptr<Actor> kid)
