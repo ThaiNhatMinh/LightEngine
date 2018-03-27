@@ -18,7 +18,6 @@ public:
 	int						GetWeaponIndex();
 	const WeaponResource&	GetWeaponInfo()const;
 
-	void					Shoot();
 	
 private:
 
