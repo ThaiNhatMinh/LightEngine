@@ -11,8 +11,8 @@ Scene::Scene(Context* c) :m_Context(c),m_CurrentCamera(nullptr)
 	{
 		E_ERROR("Can't create Root Node.");
 	}
-	m_DirectionLight.La = vec3(0.2, 0.2, 0.2);
-	m_DirectionLight.Ld = vec3(0.5, 0.5, 0.5);
+	m_DirectionLight.La = vec3(1.0f, 1.0f, 1.0f);
+	m_DirectionLight.Ld = vec3(1.0f, 1.0f, 1.0f);
 	m_DirectionLight.Ls = vec3(1.0f, 1.0f, 1.0f);
 	m_DirectionLight.direction = glm::normalize(vec3(-1, -3,- 1));
 
@@ -51,6 +51,33 @@ bool Scene::LoadScene(const string& filename)
 		
 	}
 
+	tinyxml2::XMLElement* pLightNode = doc.FirstChildElement("Light");
+	if (pLightNode)
+	{
+		tinyxml2::XMLElement* pDirLight = pLightNode->FirstChildElement("Direction");
+		if (pDirLight)
+		{
+			m_DirectionLight.direction.x = pDirLight->DoubleAttribute("x");
+			m_DirectionLight.direction.y = pDirLight->DoubleAttribute("y");
+			m_DirectionLight.direction.z = pDirLight->DoubleAttribute("z");
+			m_DirectionLight.direction = glm::normalize(m_DirectionLight.direction);
+
+			tinyxml2::XMLElement* pAmbient = pDirLight->FirstChildElement("Ambient");
+			m_DirectionLight.La.x = pAmbient->DoubleAttribute("r",1.0f);
+			m_DirectionLight.La.y = pAmbient->DoubleAttribute("g", 1.0f);
+			m_DirectionLight.La.z = pAmbient->DoubleAttribute("b", 1.0f);
+
+			tinyxml2::XMLElement* pDiffuse = pDirLight->FirstChildElement("Diffuse");
+			m_DirectionLight.Ld.x = pDiffuse->DoubleAttribute("r", 1.0f);
+			m_DirectionLight.Ld.y = pDiffuse->DoubleAttribute("g", 1.0f);
+			m_DirectionLight.Ld.z = pDiffuse->DoubleAttribute("b", 1.0f);
+
+			tinyxml2::XMLElement* pSpecular = pDirLight->FirstChildElement("Specular");
+			m_DirectionLight.Ls.x = pSpecular->DoubleAttribute("r", 1.0f);
+			m_DirectionLight.Ls.y = pSpecular->DoubleAttribute("g", 1.0f);
+			m_DirectionLight.Ls.z = pSpecular->DoubleAttribute("b", 1.0f);
+		}
+	}
 	return 1;
 }
 
