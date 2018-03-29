@@ -83,10 +83,6 @@ const WeaponResource & Weapon::GetWeaponInfo() const {
 	return WeaponInfo;
 }
 
-void Weapon::Shoot()
-{
-
-}
 
 
 
