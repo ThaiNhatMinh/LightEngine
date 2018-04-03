@@ -35,7 +35,6 @@ void Game::Init(Context *c)
 	c->GetSystem<ActorFactory>()->RegisterActorFactory("PlayerView", [](int id) {return new PlayerView(id); });
 	c->GetSystem<ActorFactory>()->RegisterActorFactory("Weapon", [](int id) {return new Weapon(id); });
 	c->GetSystem<ActorFactory>()->RegisterActorFactory("GunPlayerView", [](int id) {return new GunPlayerView(id); });
-	c->GetSystem<ActorFactory>()->RegisterActorFactory("Zombie", [](int id) {return new Zombie(id); });
 	c->GetSystem<ActorFactory>()->RegisterActorFactory("AIExplosive", [](int id) {return new AIExplosive(id); });
 
 	//LoadWeapon();
