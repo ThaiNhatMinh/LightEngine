@@ -27,17 +27,3 @@ HRESULT Zombie::VRender(Scene * pScene)
 	GetComponent<MeshRenderComponent>(MeshRenderComponent::Name)->Render(pScene);
 	return S_OK;
 }
-
-void Zombie::Death()
-{
-	//cout << m_Name << " death.\n";
-	if (m_pParent->VRemoveChild(m_id))
-	{
-		//cout << "Delete : " << " success.\n";
-		//delete this;
-	}
-	else
-	{
-		cout << "Can't delete : " << m_Name << "\n";
-	}
-}
