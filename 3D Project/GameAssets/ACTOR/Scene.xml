@@ -5,5 +5,11 @@
 	<Actor File="GameAssets\ACTOR\AI_Explosive.xml" />
 	<Actor File="GameAssets\ACTOR\Terrain.xml" />
 	<Actor File="GameAssets\ACTOR\SkyBox.xml" />
-	
+	<Light>
+		<Direction x="-1" y="-3" z="-1">
+			<Ambient r="0.4" g="0.4" b="0.4" />
+			<Diffuse r="0.7" g="0.7" b="0.7" />
+			<Specular r="1.0" g="1.0" b="1.0"/>
+		</Direction>
+	</Light>
 </Scene>
