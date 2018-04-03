@@ -307,6 +307,9 @@
     <ClInclude Include="GameObject\SkyBox.h">
       <Filter>GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="GameSDK\State.h">
+      <Filter>GameSDK</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -548,8 +551,12 @@
     <ClCompile Include="Graphics3D\RenderTarget.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\CubeTexture.cpp" />
-    <ClCompile Include="GameObject\SkyBox.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\CubeTexture.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\SkyBox.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -617,6 +624,9 @@
     </Filter>
     <Filter Include="Graphics3D\OpenGL">
       <UniqueIdentifier>{f3e355db-8a15-4633-87b0-4af65f1c66c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSDK">
+      <UniqueIdentifier>{43313112-1aaf-4d0e-a8f2-ad830e805a82}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -46,4 +46,6 @@ private:
 	// map state to animation index
 	map<GunAnimation, int>	m_AnimationMap;
 	map<GunAnimation, int>	m_SoundMap;
+
+	GLuint m_iCurrentAmmo;
 };

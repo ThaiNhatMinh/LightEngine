@@ -92,6 +92,8 @@
 
 #include "World\TerrainWorld.h"
 
+#include "GameSDK\State.h"
+
 #include "Core\Console.h"
 #include "Core\Log.h"
 #include "Core\DirectInput.h"

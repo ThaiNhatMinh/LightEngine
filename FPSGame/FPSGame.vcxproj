@@ -171,6 +171,7 @@
     <ClInclude Include="WeaponResource.h" />
     <ClInclude Include="Zombie.h" />
     <ClInclude Include="ZombieController.h" />
+    <ClInclude Include="ZombieState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AI_Explosive.cpp" />

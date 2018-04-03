@@ -207,6 +207,7 @@
     <ClInclude Include="GamePlugin\GamePluginManager.h" />
     <ClInclude Include="GamePlugin\IGamePlugin.h" />
     <ClInclude Include="GamePlugin\DLLInterface.h" />
+    <ClInclude Include="GameSDK\State.h" />
     <ClInclude Include="Graphics3D\Camera.h" />
     <ClInclude Include="Graphics3D\Cube.h" />
     <ClInclude Include="Graphics3D\DebugShader.h" />

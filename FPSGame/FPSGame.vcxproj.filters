@@ -57,6 +57,9 @@
     <ClInclude Include="ZombieController.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="ZombieState.h">
+      <Filter>Zombie</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
