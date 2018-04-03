@@ -55,8 +55,7 @@ OpenGLRenderer::OpenGLRenderer(Context* c):m_RenderName("OpenGL"),m_ClearColor(1
 
 	SetClearFlag(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glfwSwapInterval(0);
-
+	
 	c->AddSystem(this);
 }
 
