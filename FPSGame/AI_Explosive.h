@@ -1,8 +1,46 @@
 #pragma once
 
+class AIExplosive;
+
+class ExplosiveIdle :public State<AIExplosive>
+{
+public:
+	ExplosiveIdle() = default;
+
+	virtual void Enter(AIExplosive*) override;
+	virtual void Execute(AIExplosive *pZombie) override;
+	virtual void Exit(AIExplosive *pZombie) override {};
+};
+
+class ExplosiveDeath : public State<AIExplosive>
+{
+public: 
+	ExplosiveDeath() = default;
+	virtual void Enter(AIExplosive*) override;
+	virtual void Execute(AIExplosive *pZombie) override;
+	virtual void Exit(AIExplosive *pZombie) override {};
+
+private:
+	AnimationComponent * m_pAnimComponent;
+	SoundSource3D* m_pSoundComponent;
+};
+
+
+class ExplosiveRunning : public State<AIExplosive>
+{
+public:
+	ExplosiveRunning() = default; 
+	virtual void Enter(AIExplosive*) override {};
+	virtual void Execute(AIExplosive *pZombie) override;
+	virtual void Exit(AIExplosive *pZombie) override {};
+
+};
+
 class AIExplosive : public Zombie
 {
 private:
+	friend class ExplosiveIdle;
+	friend class ExplosiveDeath;
 	enum animlist
 	{
 		M_Wait,
@@ -17,7 +55,7 @@ private:
 		M_Walk,
 		M_Skill01
 	};
-	enum State
+	/*enum Statea
 	{
 		IDLE,
 		WALK,
@@ -25,7 +63,7 @@ private:
 		ATTACK,
 		BEING_ATTACKED,
 		DEATH
-	};
+	};*/
 	enum Info
 	{
 		EX_RANGE1 = 200,
@@ -45,5 +83,6 @@ private:
 
 	void ExplosiveSkill();
 private:
-	State			m_State;
+	//Statea			m_State;
+	StateMachine<AIExplosive>	m_pStateMachine;
 };
