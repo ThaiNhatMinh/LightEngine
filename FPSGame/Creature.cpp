@@ -2,6 +2,7 @@
 
 bool Creature::Init(const tinyxml2::XMLElement * pData)
 {
+	m_bCanTakeDamage = true;
 	const tinyxml2::XMLElement* pInfo = pData->FirstChildElement("Creature");
 	if (pInfo)
 	{
@@ -28,6 +29,11 @@ bool Creature::ChangeAC(int newAC)
 	return 1;
 }
 
+bool Creature::CanTakeDamage()
+{
+	return m_bCanTakeDamage;
+}
+
 const int Creature::GetHP()const
 {
 	return m_HP;
@@ -38,10 +44,6 @@ int Creature::GetAC()
 	return m_AC;
 }
 
-void Creature::Death()
-{
-
-}
 
 void Creature::TakeDamage(int damage)
 {

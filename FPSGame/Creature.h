@@ -12,6 +12,7 @@ public:
 
 	bool			ChangeHP(int newHP);
 	bool			ChangeAC(int newAC);
+	bool			CanTakeDamage();
 	const int		GetHP()const;
 	int				GetAC();
 	virtual void	TakeDamage(int damage);
@@ -20,5 +21,5 @@ protected:
 	// heath and armor value
 	int	m_HP;
 	int m_AC;
-
+	bool m_bCanTakeDamage;
 };
