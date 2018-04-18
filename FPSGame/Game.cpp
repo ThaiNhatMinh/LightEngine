@@ -13,7 +13,7 @@ void Game::Init(Context *c)
 	Actor::m_Context = c;
 	ActorComponent::m_Context = c;
 	ISubSystem::m_Context = c;
-
+	c->AddSystem(this);
 
 	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &Game::EventTakeDamage), EvtTakeDamage::sk_EventType);
 	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &Game::EventCreateActor), EvtData_New_Actor::sk_EventType);
@@ -31,6 +31,7 @@ void Game::Init(Context *c)
 
 	c->GetSystem<ActorFactory>()->RegisterComponentFactory(LocalPlayerComponent::Name, []() {return new LocalPlayerComponent(); });
 	c->GetSystem<ActorFactory>()->RegisterComponentFactory(CameraComponent::Name, cameraFunc);
+	c->GetSystem<ActorFactory>()->RegisterComponentFactory(ZombieController::Name, []() {return new ZombieController(); });
 	c->GetSystem<ActorFactory>()->RegisterActorFactory("Player", [](int id) {return new Player(id); });
 	c->GetSystem<ActorFactory>()->RegisterActorFactory("PlayerView", [](int id) {return new PlayerView(id); });
 	c->GetSystem<ActorFactory>()->RegisterActorFactory("Weapon", [](int id) {return new Weapon(id); });
@@ -75,6 +76,11 @@ void Game::ShutDown()
 
 Scene * Game::GetScene() {
 	return m_Scene.get();
+}
+
+const std::vector<Player*>& Game::GetPlayerList()
+{
+	return m_PlayerLists;
 }
 
 CharacterResource Game::LoadCharacter(const std::string & file)

@@ -15,4 +15,7 @@ public:
 	//virtual HRESULT				VRenderChildren(Scene * pScene);
 	//virtual HRESULT				VOnUpdate(Scene *, float elapsedMs);
 
+private:
+
+
 };

@@ -1,7 +1,6 @@
 #pragma once
-#include "stdafx.h"
 
-class Game : public IGamePlugin
+class Game : public IGamePlugin,public ISubSystem
 {
 public:
 	virtual void Init(Context* c) ;
@@ -10,6 +9,7 @@ public:
 	virtual void ShutDown();
 	virtual Scene*	GetScene();
 
+	const std::vector<Player*>& GetPlayerList();
 public:
 	static CharacterResource LoadCharacter(const string& file);
 	static WeaponResource LoadWeaponInfo(const string& wpName);
