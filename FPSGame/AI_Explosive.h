@@ -10,6 +10,9 @@ public:
 	virtual void Enter(AIExplosive*) override;
 	virtual void Execute(AIExplosive *pZombie) override;
 	virtual void Exit(AIExplosive *pZombie) override {};
+
+private:
+	ZombieController * m_pController;
 };
 
 class ExplosiveDeath : public State<AIExplosive>
@@ -30,13 +33,13 @@ class ExplosiveRunning : public State<AIExplosive>
 {
 public:
 	ExplosiveRunning() = default; 
-	virtual void Enter(AIExplosive*) override {};
+	virtual void Enter(AIExplosive*) override ;
 	virtual void Execute(AIExplosive *pZombie) override;
 	virtual void Exit(AIExplosive *pZombie) override {};
 
 };
 
-class AIExplosive : public Zombie
+class AIExplosive : public Zombie,public StateMachine<AIExplosive>
 {
 private:
 	friend class ExplosiveIdle;
@@ -83,6 +86,6 @@ private:
 
 	void ExplosiveSkill();
 private:
-	//Statea			m_State;
-	StateMachine<AIExplosive>	m_pStateMachine;
+	
+	
 };

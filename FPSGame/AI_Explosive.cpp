@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-AIExplosive::AIExplosive(ActorId id) :Zombie(id)/*, m_State(IDLE)*/, m_pStateMachine(this)
+AIExplosive::AIExplosive(ActorId id) :Zombie(id)/*, m_State(IDLE)*/, StateMachine(this)
 {
-	m_pStateMachine.SetCurrentState(new ExplosiveIdle());
+	StateMachine::SetCurrentState(new ExplosiveIdle());
 }
 
 AIExplosive::~AIExplosive()
@@ -13,7 +13,7 @@ void AIExplosive::TakeDamage(int damage)
 {
 	if (!CanTakeDamage()) return;
 
-	//m_State = BEING_ATTACKED;
+	
 	GetComponent<AnimationComponent>(AnimationComponent::Name)->Play(AnimationComponent::upper, M_BHit02);
 
 	Zombie::TakeDamage(damage);
@@ -21,35 +21,14 @@ void AIExplosive::TakeDamage(int damage)
 
 void AIExplosive::Death()
 {
-	//m_State = DEATH;
-	//GetComponent<AnimationComponent>(AnimationComponent::Name)->Play(AnimationComponent::fullbody, M_Skill01);
-	//GetComponent<SoundSource3D>(SoundSource3D::Name)->Play("EXPLOSIONALARM");
-	m_pStateMachine.ChangeState(new ExplosiveDeath());
+	StateMachine::ChangeState(new ExplosiveDeath());
 }
 
 HRESULT AIExplosive::VOnUpdate(Scene * pScene, float elapsedMs)
 {
 	Zombie::VOnUpdate(pScene, elapsedMs);
 
-	/*if (m_State == DEATH)
-	{
-		if (GetComponent<AnimationComponent>(AnimationComponent::Name)->IsFinish())
-		{
-			GetComponent<SoundSource3D>(SoundSource3D::Name)->Play("EXPLOSIONBOOM");
-			ExplosiveSkill();
-			Zombie::Death();
-		}
-	}
-	else if (m_State == BEING_ATTACKED)
-	{
-		if (GetComponent<AnimationComponent>(AnimationComponent::Name)->IsFinish())
-		{
-			m_State = IDLE;
-			GetComponent<AnimationComponent>(AnimationComponent::Name)->Play(AnimationComponent::fullbody, M_Idle);
-		}
-	}*/
-
-	m_pStateMachine.Update(elapsedMs);
+	StateMachine::Update(elapsedMs);
 
 	return S_OK;
 }
@@ -64,14 +43,18 @@ void AIExplosive::ExplosiveSkill()
 
 void ExplosiveIdle::Enter(AIExplosive *pZombie)
 {
+	m_pController = nullptr;
 	pZombie->GetComponent<AnimationComponent>(AnimationComponent::Name)->Play(AnimationComponent::fullbody, AIExplosive::M_Idle,true);
+	m_pController = pZombie->GetComponent<ZombieController>(ZombieController::Name);
 }
 
 void ExplosiveIdle::Execute(AIExplosive *pZombie)
 {
 	// [To Do] Check if player attack then follow and revenger. LOL of course
 	// Check if there is player near then attack. We stronger. =)) 
+	if (m_pController == nullptr) return;
 
+	if (m_pController->CanMove()) pZombie->SetCurrentState(new ExplosiveRunning());
 }
 
 void ExplosiveDeath::Enter(AIExplosive *pZombie)
@@ -96,6 +79,10 @@ void ExplosiveDeath::Execute(AIExplosive *pZombie)
 		pZombie->ExplosiveSkill();
 		pZombie->VGetParent()->VRemoveChild(pZombie->GetId());
 	}
+}
+
+void ExplosiveRunning::Enter(AIExplosive *)
+{
 }
 
 void ExplosiveRunning::Execute(AIExplosive * pZombie)
