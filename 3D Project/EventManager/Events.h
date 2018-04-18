@@ -61,13 +61,13 @@ public:
 //---------------------------------------------------------------------------------------------------------------------
 class EvtData_Destroy_Actor : public BaseEventData
 {
-	ActorId m_id;
+	Actor* m_pActor;
 
 public:
 	static const EventType sk_EventType;
 
-	explicit EvtData_Destroy_Actor(ActorId id = 0)
-		: m_id(id)
+	explicit EvtData_Destroy_Actor(Actor*pActor)
+		: m_pActor(pActor)
 	{
 		//
 	}
@@ -79,17 +79,19 @@ public:
 
 	virtual IEvent* VCopy(void) const
 	{
-		return new EvtData_Destroy_Actor(m_id);
+		return new EvtData_Destroy_Actor(m_pActor);
 	}
 
 	virtual void VSerialize(std::ostrstream &out) const
 	{
-		out << m_id;
+		out << m_pActor->GetId();
 	}
 
 	virtual void VDeserialize(std::istrstream& in)
 	{
+		ActorId m_id;
 		in >> m_id;
+		
 	}
 
 	virtual const char* GetName(void) const
@@ -97,7 +99,7 @@ public:
 		return "EvtData_Destroy_Actor";
 	}
 
-	ActorId GetId(void) const { return m_id; }
+	Actor* GetId(void) const { return m_pActor; }
 };
 
 //---------------------------------------------------------------------------------------------------------------------
