@@ -5,7 +5,7 @@ class Creature : public Actor
 {
 public:
 	Creature(ActorId id) :Actor(id) {};
-	~Creature()=default;
+	~Creature();
 	virtual bool	Init(const tinyxml2::XMLElement* pData);
 
 public:

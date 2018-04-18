@@ -1,5 +1,10 @@
 #include "stdafx.h"
 
+Creature::~Creature()
+{
+	m_Context->GetSystem<EventManager>()->VQueueEvent(std::make_shared<EvtData_Destroy_Actor>(this));
+}
+
 bool Creature::Init(const tinyxml2::XMLElement * pData)
 {
 	m_bCanTakeDamage = true;
