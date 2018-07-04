@@ -1,8 +1,6 @@
 #include "Actor.h"
 #include <pch.h>
 
-
-Context* Actor::m_Context = nullptr;
 Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr),m_State(AS_NORMAL)
 {
 
@@ -171,7 +169,7 @@ bool Actor::VRemoveChild(ActorId id)
 {
 	for (ActorList::iterator it = m_Children.begin(); it != m_Children.end(); it++)
 	{
-		if ((*it)->GetId() == id)
+		if ((*it)->VGetId() == id)
 		{
 			m_Children.erase(it);
 			return true;
@@ -181,13 +179,13 @@ bool Actor::VRemoveChild(ActorId id)
 	return false;
 }
 
-Actor * Actor::VGetChild(int index)
+IActor * Actor::VGetChild(int index)
 {
 	assert(index >= 0 && index < m_Children.size());
 	return m_Children[index].get();
 }
 
-Actor * Actor::VGetChild(const string & name)
+IActor * Actor::VGetChild(const string & name)
 {
 	for (auto& el = m_Children.begin(); el != m_Children.end(); el++)
 		if ((*el)->VGetName() == name) return (*el).get();
@@ -195,7 +193,7 @@ Actor * Actor::VGetChild(const string & name)
 	return nullptr;
 }
 
-Actor * Actor::VGetParent()
+IActor * Actor::VGetParent()
 {
 	return m_pParent;
 }
@@ -203,11 +201,7 @@ Actor * Actor::VGetParent()
 
 // accessors
 
-ActorId Actor::GetId(void) const { return m_id; }
+ActorId Actor::VGetId(void) const { return m_id; }
 
-glm::vec3 Actor::GetPosition()
-{
-	return m_TransformComponent->GetPosition();
-}
 
 

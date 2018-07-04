@@ -37,4 +37,5 @@ public:
 	virtual IActor*		VGetChild(int index) = 0;
 	virtual IActor*		VGetChild(const string& name) = 0;
 	virtual IActor*		VGetParent() = 0;
+	virtual ActorId		VGetId(void) = 0;
 };
