@@ -241,6 +241,7 @@
     <ClInclude Include="interface.h" />
     <ClInclude Include="Interface\IActor.h" />
     <ClInclude Include="Interface\IComponent.h" />
+    <ClInclude Include="Interface\IFactory.h" />
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="Math\Frustum.h" />
     <ClInclude Include="Math\Math.h" />

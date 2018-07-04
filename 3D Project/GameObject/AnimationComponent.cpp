@@ -1,7 +1,5 @@
 #include <pch.h>
 
-const char* AnimationComponent::Name = "AnimationComponent";
-const char* PVAnimationComponent::Name = "PVAnimationComponent";
 
 #pragma region BaseAnimComponent
 
@@ -89,7 +87,7 @@ const vector<mat4>& BaseAnimComponent::GetVertexTransform()
 
 
 
-bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
+bool BaseAnimComponent::VInit(Context* pContext,const tinyxml2::XMLElement* pData)
 {
 	
 	//m_Context->m_pConsole->RegisterVar("draw_skeleton", &m_bDrawSkeleton, 1, sizeof(int), TYPE_INT);
@@ -103,7 +101,7 @@ bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 
 	if (strlen(pFileName) > 1)
 	{
-		ModelCache* pModel = static_cast<ModelCache*>(m_Context->GetSystem<Resources>()->GetModel(pFileName));
+		ModelCache* pModel = static_cast<ModelCache*>(pContext->GetSystem<Resources>()->GetModel(pFileName));
 
 		if (!pModel)
 		{
@@ -125,7 +123,7 @@ bool BaseAnimComponent::VInit(const tinyxml2::XMLElement* pData)
 		
 	}
 
-	m_pDebuger = m_Context->GetSystem<Debug>();
+	m_pDebuger = pContext->GetSystem<Debug>();
 	return true;
 }
 
@@ -212,8 +210,8 @@ void AnimationComponent::ResetControl(CharAnimControl& control, GLuint anim, Ani
 
 void AnimationComponent::AnimEvent(const string& data)
 {
-	std::shared_ptr<IEvent> pEvent(new EvtData_AnimationString(m_pOwner->GetId(), data));
-	m_Context->GetSystem<EventManager>()->VQueueEvent(pEvent);
+	std::shared_ptr<IEvent> pEvent(new EvtData_AnimationString(m_pOwner->VGetId(), data));
+	m_pEventManager->VQueueEvent(pEvent);
 }
 
 void AnimationComponent::Play(blendset layer, int anim, bool loop)
@@ -304,13 +302,13 @@ AnimationComponent::AnimationComponent(void)
 
 AnimationComponent::~AnimationComponent(void)
 {
-	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
+	m_pEventManager->VRemoveListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
 }
 
 
-bool AnimationComponent::VInit(const tinyxml2::XMLElement * pData)
+bool AnimationComponent::VInit(Context* pContext,const tinyxml2::XMLElement * pData)
 {
-	bool result = BaseAnimComponent::VInit(pData);
+	bool result = BaseAnimComponent::VInit(pContext,pData);
 
 	const tinyxml2::XMLElement* pAnimNode = pData->FirstChildElement("DefaultAnim");
 	const char* pNameAnim = pAnimNode->Attribute("Anim");
@@ -321,12 +319,14 @@ bool AnimationComponent::VInit(const tinyxml2::XMLElement * pData)
 		// Play idle animation
 		Play(blendset::fullbody, anim, true);
 	}
+
+	m_pEventManager = pContext->GetSystem<EventManager>();
 	return result;
 }
 
 void AnimationComponent::VPostInit(void)
 {
-	m_Context->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
+	m_pEventManager->VAddListener(MakeDelegate(this, &AnimationComponent::SetAnimationEvent), EvtData_SetAnimation::sk_EventType);
 	
 	//ResetControl(upper, m_iDefaultAnimation, ANIM_PLAYING);
 	//ResetControl(lower, m_iDefaultAnimation, ANIM_PLAYING);
@@ -334,7 +334,7 @@ void AnimationComponent::VPostInit(void)
 
 void AnimationComponent::VUpdate(float deltaMs)
 {
-	if (m_Context->DrawSkeleton) DrawSkeleton(m_pOwner->VGetGlobalTransform());
+	//if (m_Context->DrawSkeleton) DrawSkeleton(m_pOwner->VGetGlobalTransform());
 
 	if (!m_pAnimList.size()) return;
 	if (!m_Controls.size()) return;
@@ -668,7 +668,7 @@ void PVAnimationComponent::SetAnimationEvent(std::shared_ptr<IEvent> pEvent)
 {
 	const EvtData_SetAnimation* p = dynamic_cast<const EvtData_SetAnimation*>(pEvent.get());
 
-	if (p->GetId() != m_pOwner->GetId()) return;
+	if (p->GetId() != m_pOwner->VGetId()) return;
 
 	GLuint animID = p->GetAnimation();
 

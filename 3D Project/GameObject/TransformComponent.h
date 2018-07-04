@@ -6,14 +6,12 @@
 class TransformComponent : public ActorComponent
 {
 private:
-	ShapeType m_Type;
 	mat4 m_Transform;
 public:
-	static const char* Name;
-	virtual const char* VGetName() const { return Name; }
+	virtual const char* VGetName() const { return "TransformComponent"; }
 	TransformComponent(void);
 	TransformComponent(const mat4& t) { m_Transform = t; }
-	virtual bool VInit(const tinyxml2::XMLElement* pData);
+	virtual bool VInit(Context* pContext, const tinyxml2::XMLElement* pData);
 	virtual void VPostInit()override;
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p);
 

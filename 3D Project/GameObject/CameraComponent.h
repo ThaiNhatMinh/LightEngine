@@ -14,10 +14,10 @@ private:
 	vec3			m_Front;
 	vec3			m_Pos;
 public:
-	static const char* Name;
+	
 	CameraComponent();
 	~CameraComponent();
-	virtual bool VInit(const tinyxml2::XMLElement* pData) ;
+	virtual bool VInit(Context* pContext,const tinyxml2::XMLElement* pData) ;
 	virtual void VUpdate(float dt);
 	virtual void VPostInit(void);
 	virtual const char *VGetName() const;

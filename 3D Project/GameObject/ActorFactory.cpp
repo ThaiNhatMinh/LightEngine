@@ -4,19 +4,19 @@
 ActorFactory::ActorFactory(Context* c)
 {
 	m_lastActorId = 1;
-	m_ComponentFactoryMap.insert(std::make_pair(TransformComponent::Name, []() { return new TransformComponent(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(ColliderComponent::Name, []() { return new ColliderComponent(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(RigidBodyComponent::Name, []() { return new RigidBodyComponent(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(AnimationComponent::Name, []() { return new AnimationComponent(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(PVAnimationComponent::Name, []() { return new PVAnimationComponent(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(CharacterControllerComponent::Name, []() { return new CharacterControllerComponent(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(LogicComponent::Name, []() { return new LogicComponent(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(MeshRenderComponent::Name, []() { return new MeshRenderComponent(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(TerrainRenderComponent::Name, []() { return new TerrainRenderComponent(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(CameraComponent::Name, [](){ return  new CameraComponent(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(HitBox::Name, []() { return  new HitBox(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(SoundListener::Name, []() { return  new SoundListener(); }));
-	m_ComponentFactoryMap.insert(std::make_pair(SoundSource3D::Name, []() { return  new SoundSource3D(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("TransformComponent", []() { return new TransformComponent(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("ColliderComponent", []() { return new ColliderComponent(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("RigidBodyComponent", []() { return new RigidBodyComponent(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("AnimationComponent", []() { return new AnimationComponent(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("PVAnimationComponen", []() { return new PVAnimationComponent(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("CharacterControllerComponent", []() { return new CharacterControllerComponent(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("LogicComponent", []() { return new LogicComponent(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("MeshRenderComponent", []() { return new MeshRenderComponent(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("TerrainRenderComponent", []() { return new TerrainRenderComponent(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("CameraComponent", [](){ return  new CameraComponent(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("HitBox", []() { return  new HitBox(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("SoundListener", []() { return  new SoundListener(); }));
+	m_ComponentFactoryMap.insert(std::make_pair("SoundSource3D", []() { return  new SoundSource3D(); }));
 	
 	
 	m_ActorFactoryMap.insert(std::make_pair("Actor", [](int id) {return new Actor(id); }));
@@ -34,7 +34,7 @@ ActorFactory::ActorFactory(Context* c)
 
 	
 	c->AddSystem(this);
-
+	m_pEventManager = c->GetSystem<EventManager>();
 }
 
 ActorFactory::~ActorFactory()
@@ -44,7 +44,7 @@ ActorFactory::~ActorFactory()
 
 
 
-ActorComponent * ActorFactory::VCreateComponent(const tinyxml2::XMLElement* pData)
+ActorComponent * ActorFactory::CreateComponent(const tinyxml2::XMLElement* pData)
 {
 	const char* name = pData->Value();
 	ActorComponent* pComponent;
@@ -60,7 +60,7 @@ ActorComponent * ActorFactory::VCreateComponent(const tinyxml2::XMLElement* pDat
 }
 
 
-bool ActorFactory::RegisterComponentFactory(string name, std::function<ActorComponent*()>func)
+bool ActorFactory::VRegisterComponentFactory(string name, std::function<ActorComponent*()>func)
 {
 	auto it = m_ComponentFactoryMap.find(name);
 	if (it != m_ComponentFactoryMap.end())
@@ -72,7 +72,7 @@ bool ActorFactory::RegisterComponentFactory(string name, std::function<ActorComp
 	return 1;
 }
 
-bool ActorFactory::RegisterActorFactory(const string & name, std::function<Actor*(int id)> func)
+bool ActorFactory::VRegisterActorFactory(const string & name, std::function<IActor*(int id)> func)
 {
 	auto it = m_ActorFactoryMap.find(name);
 	if (it != m_ActorFactoryMap.end()) return false;
@@ -81,7 +81,7 @@ bool ActorFactory::RegisterActorFactory(const string & name, std::function<Actor
 	return true;
 }
 
-Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initialTransform, bool isCreateChild)
+IActor * ActorFactory::VCreateActor(const char* actorResource, bool isCreateChild)
 {
 	tinyxml2::XMLDocument doc;
 	int errorID = doc.LoadFile(actorResource);
@@ -96,7 +96,7 @@ Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initial
 	const char* type = pActorData->Attribute("type");
 	auto factory = m_ActorFactoryMap.find(type);
 	Actor* pActor = nullptr;
-	if(factory != m_ActorFactoryMap.end()) pActor = factory->second(GetNextActorId());
+	if(factory != m_ActorFactoryMap.end()) pActor = static_cast<Actor*>(factory->second(GetNextActorId()));
 	else pActor = new Actor(GetNextActorId());
 
 	
@@ -110,7 +110,7 @@ Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initial
 	// Loop through each child element and load the component
 	for (tinyxml2::XMLElement* pNode = pComponentData->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
 	{
-		ActorComponent* pComponent(VCreateComponent(pNode));
+		ActorComponent* pComponent(CreateComponent(pNode));
 		if (pComponent)
 		{
 			pComponent->SetOwner(pActor);
@@ -124,14 +124,6 @@ Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initial
 
 		}
 	}
-
-
-	if (initialTransform)
-	{
-		TransformComponent* pTc = pActor->GetTransform();
-		pTc->SetTransform(*initialTransform);
-	}
-
 	
 
 	// load child
@@ -145,8 +137,8 @@ Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initial
 			const char* pFile = pNode->Attribute("File");
 			if (!pFile) continue;
 			if (strlen(pFile) < 1) continue;
-			Actor* child = CreateActor(pFile, nullptr, 1);
-			pActor->VAddChild(std::unique_ptr<Actor>(child));
+			IActor* child = VCreateActor(pFile, 1);
+			pActor->VAddChild(child);
 			child->PostInit();
 		}
 
@@ -154,14 +146,14 @@ Actor * ActorFactory::CreateActor(const char* actorResource, const mat4* initial
 	
 	if(!isCreateChild) pActor->PostInit();
 
-	if (!m_Context->GetSystem<EventManager>()->VQueueEvent(std::shared_ptr<IEvent>(new EvtData_New_Actor(pActor))))
+	if (m_pEventManager->VQueueEvent(std::shared_ptr<IEvent>(new EvtData_New_Actor(pActor))))
 	{
 		E_ERROR("Failer to send event");
 	}
 	return pActor;
 }
 
-Shader * ActorFactory::CreateShader(const char * type, const char * vs, const char * fs)
+Shader * ActorFactory::VCreateShader(const char * type, const char * vs, const char * fs)
 {
 	auto func = m_ShaderFactory.find(type);
 	if (func == m_ShaderFactory.end()) return nullptr;

@@ -1,6 +1,6 @@
 #include <pch.h>
 
-const char* CameraComponent::Name = "CameraComponent";
+
 CameraComponent::CameraComponent()
 {
 }
@@ -9,7 +9,7 @@ CameraComponent::~CameraComponent()
 {
 }
 
-bool CameraComponent::VInit(const tinyxml2::XMLElement* pData)
+bool CameraComponent::VInit(Context* pContext, const tinyxml2::XMLElement* pData)
 {
 	if (!pData) return false;
 	const tinyxml2::XMLElement* pIns = pData->FirstChildElement("Frustum");
@@ -23,7 +23,7 @@ bool CameraComponent::VInit(const tinyxml2::XMLElement* pData)
 	
 	if (as < 0.0f)
 	{
-		vec2 size = m_Context->GetSystem<Windows>()->GetWindowSize();
+		vec2 size = pContext->GetSystem<Windows>()->GetWindowSize();
 		as = size[0]/size[1];
 	}
 
@@ -35,7 +35,7 @@ bool CameraComponent::VInit(const tinyxml2::XMLElement* pData)
 
 const char * CameraComponent::VGetName() const
 {
-	return Name;
+	return "CameraComponent";
 }
 
 tinyxml2::XMLElement * CameraComponent::VGenerateXml(tinyxml2::XMLDocument * p)

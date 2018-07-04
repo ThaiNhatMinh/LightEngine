@@ -156,10 +156,10 @@ HRESULT Actor::VPostRender(Scene * pScene)
 	return S_OK;
 }
 
-bool Actor::VAddChild(std::unique_ptr<Actor> kid)
+bool Actor::VAddChild(IActor* kid)
 {
 	Actor* p = kid.get();
-	m_Children.push_back(std::move(kid));
+	m_Children.push_back(std::unique_ptr<kid));
 	p->m_pParent = this;
 	return true;
 }
@@ -196,9 +196,6 @@ IActor * Actor::VGetParent()
 {
 	return m_pParent;
 }
-
-
-// accessors
 
 ActorId Actor::VGetId(void) const { return m_id; }
 

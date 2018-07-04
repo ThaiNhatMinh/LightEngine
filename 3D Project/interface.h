@@ -20,6 +20,7 @@ class Texture;
 
 #include "Interface\IActor.h"
 #include "Interface\IComponent.h"
+#include "Interface\IFactory.h"
 
 
 /*class ISceneNode
@@ -195,9 +196,9 @@ class ISubSystem
 	friend class ActorFactory;
 	friend class Application;
 public:
+	ISubSystem(Context* pContext) {};
 	virtual ~ISubSystem() {};
 
-	static Context* m_Context;
 protected:
 	
 	ISubSystem() {};

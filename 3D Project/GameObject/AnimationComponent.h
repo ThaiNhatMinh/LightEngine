@@ -119,9 +119,9 @@ protected:
 public:
 	
 
-	BaseAnimComponent() {};
+	BaseAnimComponent(void);
 	~BaseAnimComponent() {};
-	virtual bool		VInit(const tinyxml2::XMLElement* pData);
+	virtual bool		VInit(Context* pContext,const tinyxml2::XMLElement* pData);
 	void				DrawSkeleton(const mat4& m);
 	const vector<mat4>&	GetVertexTransform();
 	const vector<mat4>&	GetBoneTransform();
@@ -139,7 +139,8 @@ public:
 
 class AnimationComponent : public BaseAnimComponent
 {
-
+private:
+	EventManager * m_pEventManager;
 public:
 
 	enum blendset
@@ -160,10 +161,10 @@ public:
 	AnimationComponent(void);
 	~AnimationComponent(void);
 
-	static const char*	Name;
-	virtual const char* VGetName() const { return Name; }
 	
-	virtual bool		VInit(const tinyxml2::XMLElement* pData);
+	virtual const char* VGetName() const { return "AnimationComponent"; }
+	
+	virtual bool		VInit(Context* pContext, const tinyxml2::XMLElement* pData);
 	virtual void		VPostInit(void);
 	virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) { return nullptr; };
 	virtual void		VUpdate(float deltaMs);
@@ -208,9 +209,7 @@ private:
 public:
 	PVAnimationComponent(void);
 	~PVAnimationComponent(void) {};
-
-	static const char*	Name;
-	virtual const char* VGetName() const { return Name; }
+	virtual const char* VGetName() const { return "PVAnimationComponent"; }
 
 	//virtual bool		VInit(const tinyxml2::XMLElement* pData);
 	virtual void		VPostInit(void);

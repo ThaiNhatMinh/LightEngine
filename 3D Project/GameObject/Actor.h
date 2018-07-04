@@ -9,7 +9,7 @@ class Actor: public IActor
 	friend class ActorFactory;
 public:
 	typedef std::vector<std::unique_ptr<IActor>> ActorList;
-	typedef std::map<ComponentId, std::unique_ptr<ActorComponent>> ActorComponents;
+	typedef std::map<ComponentId, std::unique_ptr<IComponent>> ActorComponents;
 
 
 protected:
@@ -46,7 +46,7 @@ public:
 	virtual HRESULT		VRender(Scene *pScene)override;
 	virtual void		VSetState(ActorState state)override;
 	virtual ActorState	VGetState();
-	virtual bool		VAddChild(std::unique_ptr<Actor> kid)override;
+	virtual bool		VAddChild(IActor* kid)override;
 	virtual bool		VRemoveChild(ActorId id)override;
 	virtual IActor*		VGetChild(int index)override;
 	virtual IActor*		VGetChild(const string& name)override;

@@ -32,10 +32,10 @@ public:
 	virtual HRESULT		VRender(Scene *pScene) = 0;
 	virtual void		VSetState(ActorState state) = 0;
 	virtual ActorState	VGetState() = 0;
-	virtual bool		VAddChild(std::unique_ptr<Actor> kid) = 0;
+	virtual bool		VAddChild(IActor* kid) = 0;
 	virtual bool		VRemoveChild(ActorId id) = 0;
 	virtual IActor*		VGetChild(int index) = 0;
 	virtual IActor*		VGetChild(const string& name) = 0;
 	virtual IActor*		VGetParent() = 0;
-	virtual ActorId		VGetId(void) = 0;
+	virtual ActorId		VGetId(void)const = 0;
 };

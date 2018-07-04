@@ -1,11 +1,10 @@
 #include <pch.h>
 
-const char* TransformComponent::Name = "TransformComponent";
 TransformComponent::TransformComponent(void)
 {
 	//m_Transform = glm::scale(mat4(), vec3(1, 1, -1));
 }
-bool TransformComponent::VInit(const tinyxml2::XMLElement* pData)
+bool TransformComponent::VInit(Context* pContext, const tinyxml2::XMLElement* pData)
 {
 	if (!pData) return false;
 
@@ -74,15 +73,6 @@ bool TransformComponent::VInit(const tinyxml2::XMLElement* pData)
 
 void TransformComponent::VPostInit()
 {
-	ColliderComponent* p = m_pOwner->GetComponent<ColliderComponent>(ColliderComponent::Name);
-	if (p == nullptr)
-	{
-		m_Type = SHAPE_NONE;
-		return;
-	}
-
-
-	m_Type = p->GetType();
 }
 
 tinyxml2::XMLElement * TransformComponent::VGenerateXml(tinyxml2::XMLDocument*p)
@@ -123,11 +113,8 @@ tinyxml2::XMLElement * TransformComponent::VGenerateXml(tinyxml2::XMLDocument*p)
 
 void TransformComponent::SetTransform(const mat4 & newTransform)
 {
-	if (m_Type != SHAPE_CHARACTER) m_Transform = newTransform;
-	else
-	{
-		m_Transform[3] =newTransform[3];
-	}
+	m_Transform = newTransform;
+	
 }
 
 vec3 TransformComponent::GetFront()
