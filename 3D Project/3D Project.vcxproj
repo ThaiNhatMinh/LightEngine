@@ -239,6 +239,7 @@
     <ClInclude Include="Graphics3D\SpriteShader.h" />
     <ClInclude Include="Graphics3D\TexShader.h" />
     <ClInclude Include="interface.h" />
+    <ClInclude Include="Interface\IActor.h" />
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="Math\Frustum.h" />
     <ClInclude Include="Math\Math.h" />

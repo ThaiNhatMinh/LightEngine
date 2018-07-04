@@ -5,19 +5,14 @@ class ActorComponent;
 
 //class TiXmlElement;
 
-class Actor//: public ISceneNode
+class Actor: public IActor
 {
 	friend class ActorFactory;
 public:
 	typedef std::vector<std::unique_ptr<Actor>> ActorList;
 	typedef std::map<ComponentId, std::unique_ptr<ActorComponent>> ActorComponents;
 
-	enum ActorState
-	{
-		AS_NOUPDATE = 1<<1,
-		AS_NORENDER = 1<<2,
-		AS_NORMAL = 1<<3,
-	};
+
 protected:
 	ActorList				m_Children;
 	Actor*					m_pParent;

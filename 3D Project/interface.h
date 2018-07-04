@@ -18,7 +18,7 @@ class Texture;
 
 
 
-
+#include "Interface\IActor.h"
 
 
 /*class ISceneNode

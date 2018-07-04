@@ -310,6 +310,9 @@
     <ClInclude Include="GameSDK\State.h">
       <Filter>GameSDK</Filter>
     </ClInclude>
+    <ClInclude Include="Interface\IActor.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -627,6 +630,9 @@
     </Filter>
     <Filter Include="GameSDK">
       <UniqueIdentifier>{43313112-1aaf-4d0e-a8f2-ad830e805a82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{d3db6774-c306-4bf6-a76e-20175664330e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
