@@ -1,2 +1,5 @@
 #include <pch.h>
-Context* ActorComponent::m_Context = nullptr;
+
+ActorComponent::ActorComponent(Context * pContext):m_pOwner(nullptr)
+{
+}

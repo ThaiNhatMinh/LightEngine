@@ -110,7 +110,6 @@ TransformComponent * Actor::GetTransform()
 void Actor::AddComponent(ActorComponent * pComponent)
 {
 	std::pair<ActorComponents::iterator, bool> success = m_components.insert(std::make_pair(pComponent->VGetId(), pComponent));
-	//GCC_ASSERT(success.second);
 }
 
 void Actor::SetTransformComponent(TransformComponent * pTC)
