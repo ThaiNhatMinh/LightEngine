@@ -1,6 +1,6 @@
 #include <pch.h>
 
-Texture::Texture(const TextureCreateInfo& TexCreateInfo) :m_TexInfo(TexCreateInfo)
+Texture::Texture(const std::string& path, const TextureCreateInfo& TexCreateInfo):IResource(path),m_TexInfo(TexCreateInfo)
 {
 	glGenTextures(1, &iIndex);
 

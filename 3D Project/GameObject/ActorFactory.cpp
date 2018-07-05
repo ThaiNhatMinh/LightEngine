@@ -35,6 +35,7 @@ ActorFactory::ActorFactory(Context* c)
 	
 	c->AddSystem(this);
 	m_pEventManager = c->GetSystem<EventManager>();
+	m_pContext = c;
 }
 
 ActorFactory::~ActorFactory()
@@ -114,7 +115,7 @@ IActor * ActorFactory::VCreateActor(const char* actorResource, bool isCreateChil
 		if (pComponent)
 		{
 			pComponent->SetOwner(pActor);
-			if (!pComponent->VInit(pNode))
+			if (!pComponent->VInit(m_pContext,pNode))
 			{
 				E_WARNING(pActor->VGetName() + ": Component failed to initialize: " + std::string(pNode->Value()));
 				continue;

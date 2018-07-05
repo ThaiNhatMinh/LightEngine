@@ -23,7 +23,7 @@ namespace Light
 Texture * Resources::HasTexture(const string& filename)
 {
 	for (size_t i = 0; i < m_Textures.size(); i++)
-		if (m_Textures[i]->GetName()==filename)
+		if (m_Textures[i]->GetPath()==filename)
 			return m_Textures[i].get();
 	
 	return nullptr;
@@ -32,7 +32,7 @@ Texture * Resources::HasTexture(const string& filename)
 ModelCache * Resources::HasModel(const string& filename)
 {
 	for (size_t i = 0; i < m_ModelCaches.size(); i++)
-		if (m_ModelCaches[i]->GetName() == filename)
+		if (m_ModelCaches[i]->GetPath() == filename)
 			return m_ModelCaches[i].get();
 
 	return NULL;
@@ -41,7 +41,7 @@ ModelCache * Resources::HasModel(const string& filename)
 HeightMap* Resources::HasHeighMap(const string& filename)
 {
 	for (size_t i = 0; i < m_HeightMaps.size(); i++)
-		if (filename == m_HeightMaps[i]->GetName()) return m_HeightMaps[i].get();
+		if (filename == m_HeightMaps[i]->GetPath()) return m_HeightMaps[i].get();
 	return nullptr;
 }
 SpriteAnim * Resources::HasSprite(const string& filename)
@@ -296,7 +296,7 @@ HeightMap* Resources::LoadHeightMap(const string& filename, int stepsize, int w,
 	// comput
 		
 	ilResetMemory();
-	hm = new HeightMap;
+	hm = new HeightMap(filename);
 	hm->Data = pRawData;
 	hm->Width = width;
 	hm->Height = height;
@@ -304,7 +304,6 @@ HeightMap* Resources::LoadHeightMap(const string& filename, int stepsize, int w,
 	hm->maxH = max;
 	hm->minH = min;
 	hm->hscale = hscale;
-	hm->SetName(filename);
 	hm->numSub = sub;
 	// [TODO]- Devide large mesh into small mesh
 
@@ -351,8 +350,8 @@ Texture * Resources::LoadTexture(const string& filename)
 	texinfo.iInternalFormat = iBpp;
 	texinfo.eFormat = iType;
 
-	tex = new Texture(texinfo);
-	tex->SetName(filename);
+	tex = new Texture(filename,texinfo);
+	
 
 	ilResetMemory();
 	
@@ -405,8 +404,7 @@ Texture * Resources::LoadCubeTex(const vector<string>& filelist)
 
 	
 
-	tex = new CubeTexture(texinfo);
-	tex->SetName(filelist[0]);
+	tex = new CubeTexture(filelist[0],texinfo);
 	m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
 	ilResetMemory();
@@ -543,15 +541,20 @@ Texture * Resources::LoadDTX(const string& filename)
 		texinfo.uiHeight = H;
 		texinfo.iInternalFormat = InternalFormat;
 		texinfo.eFormat = GL_RGBA;
-		tex = new Texture(texinfo);
+		tex = new Texture(filename,texinfo);
 	}
 	else if (InternalFormat == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || InternalFormat == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT || InternalFormat == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)
 	{
-		//glCompressedTexImage2D(GL_TEXTURE_2D, 0, InternalFormat, W, H, 0, iSize, ubBuffer);
-		tex = new CompressTexture(InternalFormat,W, H,iSize,ubBuffer);
+		Texture::TextureCreateInfo texinfo;
+		texinfo.pData = ubBuffer;
+		texinfo.uiWidth = W;
+		texinfo.uiHeight = H;
+		texinfo.iInternalFormat = InternalFormat;
+		texinfo.iLevel = iSize;
+		tex = new CompressTexture(filename,texinfo);
 	}
 
-	tex->SetName(filename);
+	
 	//glBindTexture(GL_TEXTURE_2D, 0);
 
 

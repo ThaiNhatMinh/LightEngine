@@ -244,9 +244,6 @@
     <ClInclude Include="Utilities\Observer.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceCache\IResource.h">
-      <Filter>ResourceCache</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\OpenGL\Texture.h">
       <Filter>Graphics3D\OpenGL</Filter>
     </ClInclude>
@@ -319,6 +316,14 @@
     <ClInclude Include="Interface\IFactory.h">
       <Filter>Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Interface\IEventManager.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IEvent.h" />
+    <ClInclude Include="Interface\IResource.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IResourceManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -520,9 +525,6 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\OpenGL\Texture.cpp">
       <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceCache\IResource.cpp">
-      <Filter>ResourceCache</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\OpenGL\BufferObject.cpp">
       <Filter>Graphics3D\OpenGL</Filter>

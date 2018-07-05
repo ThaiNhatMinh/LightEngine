@@ -1,6 +1,6 @@
 #include "pch.h"
 
-CubeTexture::CubeTexture(const TextureCreateInfo & TexCreateInfo)
+CubeTexture::CubeTexture(const std::string&path,const TextureCreateInfo & TexCreateInfo):Texture(path)
 {
 	m_TexInfo = TexCreateInfo;
 	glGenTextures(1, &iIndex);

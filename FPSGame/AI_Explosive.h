@@ -37,6 +37,9 @@ public:
 	virtual void Execute(AIExplosive *pZombie) override;
 	virtual void Exit(AIExplosive *pZombie) override {};
 
+private:
+	ZombieController * m_pController;
+
 };
 
 class AIExplosive : public Zombie,public StateMachine<AIExplosive>

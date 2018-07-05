@@ -5,5 +5,5 @@ class CubeTexture : public Texture
 {
 
 public:
-	CubeTexture(const TextureCreateInfo& TexCreateInfo);
+	CubeTexture(const std::string&path,const TextureCreateInfo& TexCreateInfo);
 };

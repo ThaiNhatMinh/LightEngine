@@ -16,6 +16,6 @@ public:
 	//virtual HRESULT				VOnUpdate(Scene *, float elapsedMs);
 
 private:
-
+	MeshRenderComponent* m_MeshRender;
 
 };

@@ -22,6 +22,7 @@ class IMesh;
 class HeightMap: public IResource
 {
 public:
+	HeightMap(const std::string& path) :IResource(path) {}
 	GLuint Width;
 	GLuint Height;
 	float stepsize;
@@ -40,7 +41,7 @@ public:
 
 class SpriteAnim;
 
-class Resources : public ISubSystem
+class Resources : public ISubSystem, public IResourceManager
 {
 private:
 	class SoundRAAI
@@ -88,23 +89,20 @@ private:
 	Shader*			LoadShader(string key,const char* type, const char* vs, const char* fs, bool linkshader = true);
 	ObjModel*		LoadObjModel(const std::string filename);
 
-	void LoadResources(string path);
-
+	void			LoadResources(string path);
+	IMesh*			CreateShape(ShapeType type, float* size);
 public:
 	Resources(Context* c);
 	~Resources();
 
 
-	IMesh*			CreateShape(ShapeType type,float* size);
-	SpriteAnim*		GetSpriteAnimation(const string& filename);
-	Shader*			GetShader(string key);
-	Texture*		GetTexture(const string& filename);
-	IModelResource*	GetModel(const string& filename);
-	HeightMap*		GetHeightMap(const string& filename);
-	FMOD::Sound*	GetSound(const string& tag);
+	
+	virtual SpriteAnim*		VGetSpriteAnimation(const string& filename)override;
+	virtual Shader*			VGetShader(string key)override;
+	virtual Texture*		VGetTexture(const string& filename)override;
+	virtual IModelResource*	VGetModel(const string& filename)override;
+	virtual HeightMap*		VGetHeightMap(const string& filename)override;
+	virtual FMOD::Sound*	VGetSound(const string& tag)override;
 
-	const char*		GetPath(Shader* p) { return nullptr; };
-	const char*		GetPath(Texture* p) { return nullptr; };
-	const char*		GetPath(ModelCache* p) { return nullptr; };
-	const char*		GetPath(HeightMap* p) { return nullptr; };
+	
 };

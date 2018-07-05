@@ -21,6 +21,10 @@ class Texture;
 #include "Interface\IActor.h"
 #include "Interface\IComponent.h"
 #include "Interface\IFactory.h"
+#include "Interface\IEvent.h"
+#include "Interface\IEventManager.h"
+#include "Interface\IResource.h"
+#include "Interface\IResourceManager.h"
 
 
 /*class ISceneNode
@@ -99,22 +103,7 @@ public:
 
 
 class IEvent;
-typedef unsigned long EventType;
-typedef fastdelegate::FastDelegate1<std::shared_ptr<IEvent>> EventListenerDelegate;
-//typedef concurrent_queue<IEvent*> ThreadSafeEventQueue;
 
-
-
-class IEvent
-{
-public:
-	virtual ~IEvent(void) {}
-	virtual const EventType& VGetEventType(void) const = 0;
-	virtual void VSerialize(std::ostrstream& out) const = 0;
-	virtual void VDeserialize(std::istrstream& in) = 0;
-	virtual const char* GetName(void) const = 0;
-
-};
 
 #define EVENT_DEFINE(typeName) \
 	virtual const EventType& VGetEventType(void) const {return sk_EventType;};\
@@ -140,47 +129,7 @@ public:
 	virtual void VDeserialize(std::istrstream& in) { }
 };
 
-class IEventManager
-{
-public:
 
-	enum eConstants { kINFINITE = 0xffffffff };
-
-	// Registers a delegate function that will get called when the event type is triggered.  Returns true if 
-	// successful, false if not.
-	virtual bool VAddListener(const EventListenerDelegate& eventDelegate, const EventType& type) = 0;
-
-	// Removes a delegate / event type pairing from the internal tables.  Returns false if the pairing was not found.
-	virtual bool VRemoveListener(const EventListenerDelegate& eventDelegate, const EventType& type) = 0;
-
-	// Fire off event NOW.  This bypasses the queue entirely and immediately calls all delegate functions registered 
-	// for the event.
-	virtual bool VTriggerEvent(std::shared_ptr<IEvent> pEvent) const = 0;
-
-	// Fire off event.  This uses the queue and will call the delegate function on the next call to VTick(), assuming
-	// there's enough time.
-	virtual bool VQueueEvent(std::shared_ptr<IEvent> pEvent) = 0;
-	virtual bool VThreadSafeQueueEvent(std::shared_ptr<IEvent> pEvent) = 0;
-
-	// Find the next-available instance of the named event type and remove it from the processing queue.  This 
-	// may be done up to the point that it is actively being processed ...  e.g.: is safe to happen during event
-	// processing itself.
-	//
-	// if allOfType is true, then all events of that type are cleared from the input queue.
-	//
-	// returns true if the event was found and removed, false otherwise
-	virtual bool VAbortEvent(const EventType& type, bool allOfType = false) = 0;
-
-	// Allow for processing of any queued messages, optionally specify a processing time limit so that the event 
-	// processing does not take too long. Note the danger of using this artificial limiter is that all messages 
-	// may not in fact get processed.
-	//
-	// returns true if all messages ready for processing were completed, false otherwise (e.g. timeout )
-	virtual bool VUpdate(unsigned long maxMillis = kINFINITE) = 0;
-
-	virtual ~IEventManager(void) {};
-
-};
 
 class IScriptManager
 {

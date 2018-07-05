@@ -5,5 +5,5 @@
 class CompressTexture: public Texture
 {
 public:
-	CompressTexture(GLint internalformat, GLint w, GLint h, GLint size, GLubyte* data);
+	CompressTexture(const std::string& name, const TextureCreateInfo& info);
 };

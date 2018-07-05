@@ -57,6 +57,17 @@ void ExplosiveIdle::Execute(AIExplosive *pZombie)
 	if (m_pController->CanMove()) pZombie->SetCurrentState(new ExplosiveRunning());
 }
 
+void ExplosiveRunning::Enter(AIExplosive *pZombie)
+{
+	m_pController = pZombie->GetComponent<ZombieController>(ZombieController::Name);
+}
+
+void ExplosiveRunning::Execute(AIExplosive * pZombie)
+{
+	// [To do] find path to enemy
+}
+
+
 void ExplosiveDeath::Enter(AIExplosive *pZombie)
 {
 	m_pAnimComponent = pZombie->GetComponent<AnimationComponent>(AnimationComponent::Name);
@@ -79,13 +90,4 @@ void ExplosiveDeath::Execute(AIExplosive *pZombie)
 		pZombie->ExplosiveSkill();
 		pZombie->VGetParent()->VRemoveChild(pZombie->GetId());
 	}
-}
-
-void ExplosiveRunning::Enter(AIExplosive *)
-{
-}
-
-void ExplosiveRunning::Execute(AIExplosive * pZombie)
-{
-	// [To do] find path to enemy
 }

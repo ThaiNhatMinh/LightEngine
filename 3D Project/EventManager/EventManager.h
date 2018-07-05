@@ -5,9 +5,6 @@
 //---------------------------------------------------------------------------------------------------------------------
 // Macro for event registration
 //---------------------------------------------------------------------------------------------------------------------
-extern GenericObjectFactory<IEvent, EventType> g_eventFactory;
-#define REGISTER_EVENT(eventClass) g_eventFactory.Register<eventClass>(eventClass::sk_EventType)
-#define CREATE_EVENT(eventType) g_eventFactory.Create(eventType)
 
 const unsigned int EVENTMANAGER_NUM_QUEUES = 2;
 

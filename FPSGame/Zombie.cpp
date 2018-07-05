@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-Zombie::Zombie(ActorId id):Creature(id)
+Zombie::Zombie(ActorId id):Creature(id), m_MeshRender(nullptr)
 {
 }
 
@@ -11,7 +11,7 @@ Zombie::~Zombie()
 void Zombie::PostInit(void)
 {
 	Creature::PostInit();
-	
+	m_MeshRender = RemoveComponent<MeshRenderComponent>(MeshRenderComponent::Name);
 }
 
 bool Zombie::VIsVisible(Scene * pScene) const
@@ -24,6 +24,6 @@ bool Zombie::VIsVisible(Scene * pScene) const
 
 HRESULT Zombie::VRender(Scene * pScene)
 {
-	GetComponent<MeshRenderComponent>(MeshRenderComponent::Name)->Render(pScene);
+	m_MeshRender->Render(pScene);
 	return S_OK;
 }

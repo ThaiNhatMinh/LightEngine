@@ -16,7 +16,7 @@ public:
 		TextureCreateInfo();
 	};
 public:
-	Texture(const TextureCreateInfo& TexCreateInfo);
+	Texture(const std::string& path, TextureCreateInfo& TexCreateInfo);
 	virtual ~Texture();
 
 	void Bind(GLuint tex_unit = 0);
@@ -27,7 +27,7 @@ public:
 
 	GLuint GetIndentity();
 protected:
-	Texture() = default;
+	Texture(const std::string& path) :IResource(path) {};
 private:
 	Texture(const Texture& other) = delete;
 	Texture(Texture&& other) = delete;
