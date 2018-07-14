@@ -16,7 +16,7 @@ render::OpenGLVertexShader::OpenGLVertexShader(const char * code)
 	if (check == GL_FALSE)
 	{
 		glGetShaderInfoLog(m_iHandle, 512, NULL, infoLog);
-		E_ERROR("Vertex shader compile error -> " + string(infoLog));
+		E_ERROR("Vertex shader compile error: %s",infoLog);
 
 	}
 }

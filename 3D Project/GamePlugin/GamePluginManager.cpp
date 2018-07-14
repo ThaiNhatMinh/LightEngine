@@ -18,11 +18,11 @@ IGamePlugin* GamePluginManager::LoadPlugin()
 	doc.LoadFile(PLUGIN_CONFIG_FILE);
 	tinyxml2::XMLElement* pXMLNode = doc.FirstChildElement("Plugin");
 	
-	E_DEBUG(std::string(pXMLNode->GetText()));
+	E_DEBUG(pXMLNode->GetText());
 	HMODULE hModule = LoadLibrary(pXMLNode->GetText());
 	if (!hModule)
 	{
-		E_ERROR("Can't load dll: " + std::string(pXMLNode->Value()));
+		E_ERROR("Can't load dll: %s" ,pXMLNode->Value());
 		return 0;
 	}
 	CreateInterfaceFn fnCreateInterface = (CreateInterfaceFn)GetProcAddress((HMODULE)hModule, CREATEINTERFACE_PROCNAME);

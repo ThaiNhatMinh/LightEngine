@@ -33,7 +33,7 @@ render::OpenGLPipeline::OpenGLPipeline(VertexShader * pVertexShader, PixelShader
 	if (check == GL_FALSE)
 	{
 		glGetProgramInfoLog(m_iProgram, 512, NULL, infoLog);
-		E_ERROR("Program Shader link error -> " + string(infoLog));
+		E_ERROR("Program Shader link error: %s" ,infoLog);
 		return;
 	}
 

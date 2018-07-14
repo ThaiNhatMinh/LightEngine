@@ -320,7 +320,7 @@ namespace Light
 			if (Error != IL_NO_ERROR)
 			{
 				//string error = iluErrorString(Error);
-				E_ERROR( "Can't load texture " + string(filename));
+				E_ERROR("Can't load texture: %s",filename);
 				//Log::Message(Log::LOG_ERROR, "Devil: " + error);
 				return m_pDefaultTex;//HasTexture("GameAssets/TEXTURE/Default.png");
 			}
@@ -858,7 +858,7 @@ namespace Light
 			tex = HasTexture(filename);
 			if (tex == nullptr)
 			{
-				E_ERROR("Cound not find texture: " + string(filename));
+				E_ERROR("Cound not find texture: %s" ,filename);
 				return m_pDefaultTex;
 			}
 			return tex;

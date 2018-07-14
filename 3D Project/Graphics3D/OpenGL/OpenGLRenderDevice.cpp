@@ -40,8 +40,8 @@ namespace Light
 			GLenum err = glewInit();
 			if (err != GLEW_OK)
 			{
-				string Error = string("glewInit failed! ");
-				E_ERROR(Error);
+				
+				E_ERROR("glewInit failed! ");
 				return;
 			}
 
