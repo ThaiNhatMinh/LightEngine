@@ -75,7 +75,7 @@ void MeshRenderComponent::Render(Scene* pScene)
 	m_pShader->SetupRender(pScene, m_pOwner);
 
 
-	//glDisable(GL_CULL_FACE);
+	
 	for (size_t i = 0; i < m_MeshList.size(); i++)
 	{
 		// Set material

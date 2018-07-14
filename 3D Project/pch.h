@@ -34,24 +34,9 @@ using std::string;
 using std::vector;
 using std::map;
 #pragma warning(disable: 4244) 
-// OpenGL Include
-// GLEW
-#define GLEW_STATIC
-#include <gl\glew.h>
 
-// GLFW
-#include <glfw3.h>
-#define GLFW_EXPOSE_NATIVE_WIN32
-#include <glfw3native.h>
 // TinyXML 2
 #include <tinyxml2.h>
-
-// Direct Input
-#include <dinput.h>
-
-// Bullet Physic 
-#include <btBulletCollisionCommon.h>
-#include <btBulletDynamicsCommon.h>
 
 
 #include <FastDelegate.h>
@@ -59,10 +44,13 @@ using fastdelegate::MakeDelegate;
 
 // Lua Plus 5.1
 //#include <LuaPlus.h>
-
+// OpenGL Include
+// GLEW
+#define GLEW_STATIC
+#include <gl\glew.h>
 
 // ImGui
-#include <imgui.h>
+//#include <imgui.h>
 
 
 
@@ -108,5 +96,5 @@ using glm::quat;
 // Interface
 #include "interface.h"
 
-
-#include "EngineHeader.h"
+#include "Core\Log.h"
+//#include "EngineHeader.h"

@@ -1,24 +1,28 @@
 #include <pch.h>
 #include "GamePluginManager.h"
-#include "DLLInterface.h"
+
 #include <Windows.h>
 
 
-GamePluginManager::GamePluginManager(Context * pContext):m_ContextDLL(pContext),m_GamePlugin(nullptr)
+GamePluginManager::GamePluginManager()
 {
 }
 
 GamePluginManager::~GamePluginManager()
 {
-	if (m_GamePlugin) m_GamePlugin->ShutDown();
 }
 
-bool GamePluginManager::LoadPlugin(const std::string & filename)
+IGamePlugin* GamePluginManager::LoadPlugin()
 {
-	HMODULE hModule = LoadLibrary(filename.c_str());
+	tinyxml2::XMLDocument doc;
+	doc.LoadFile(PLUGIN_CONFIG_FILE);
+	tinyxml2::XMLElement* pXMLNode = doc.FirstChildElement("Plugin");
+	
+	E_DEBUG(std::string(pXMLNode->GetText()));
+	HMODULE hModule = LoadLibrary(pXMLNode->GetText());
 	if (!hModule)
 	{
-		E_ERROR("Can't load dll: " + filename);
+		E_ERROR("Can't load dll: " + std::string(pXMLNode->Value()));
 		return 0;
 	}
 	CreateInterfaceFn fnCreateInterface = (CreateInterfaceFn)GetProcAddress((HMODULE)hModule, CREATEINTERFACE_PROCNAME);
@@ -32,28 +36,10 @@ bool GamePluginManager::LoadPlugin(const std::string & filename)
 
 	if (pGamePlugin)
 	{
-		pGamePlugin->Init(m_ContextDLL);
 
-		m_GamePlugin = pGamePlugin;
+		return pGamePlugin;
 	}
 
-	return 1;
+	return nullptr;
 
-}
-
-void GamePluginManager::UpdateGame(float dt)
-{
-	if (!m_GamePlugin) return;
-	m_GamePlugin->Update(dt);
-}
-
-void GamePluginManager::RenderGame()
-{
-	if (!m_GamePlugin) return;
-	m_GamePlugin->Render();
-}
-
-Scene * GamePluginManager::GetScene()
-{
-	return m_GamePlugin->GetScene();
 }

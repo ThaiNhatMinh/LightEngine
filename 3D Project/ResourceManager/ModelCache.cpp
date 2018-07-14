@@ -1,11 +1,11 @@
 #include <pch.h>
 
-IMesh * ObjModel::GetMesh(int i)
+IMesh * ObjModel::VGetMesh(int i)
 {
 	return Meshs[i].get();
 }
 
-IMesh * ModelCache::GetMesh(int i)
+IMesh * ModelCache::VGetMesh(int i)
 {
 	return pMeshs[i].get();
 }

@@ -13,7 +13,7 @@ enum ShaderAttribute
 	SHADER_BLEND4_ATTRIBUTE
 };
 // base shader class
-class Shader
+class Shader: public IShader
 {
 public:
 	GLuint m_iProgramID;
@@ -21,11 +21,6 @@ public:
 	GLuint m_iFragmentShader;
 	map<string, GLuint> m_UniformLists;
 	
-private:
-	Shader(const Shader& other) = delete;
-	Shader(Shader&& other) = delete;
-	Shader& operator=(const Shader& other) = delete;
-	Shader& operator=(Shader&& other) = delete;
 public:
 	Shader() {};
 	Shader(const char* vertexShaderFile, const char* fragmentShaderFile);
@@ -35,21 +30,19 @@ public:
 	virtual void SetupRender(Scene*, Actor*) {};
 
 	bool Load(const char* vertexShaderFile, const char* fragmentShaderFile);
-	inline void Use() { glUseProgram(m_iProgramID); };
-	inline void UnUse() { glUseProgram(0); };
 
-	inline GLuint GetAttribLocation(const char* name) { return glGetAttribLocation(m_iProgramID, name); };
-	inline GLuint GetUniformLocation(const char* name) { return glGetUniformLocation(m_iProgramID, name); };
-
-
-	inline void SetUniform(const char* name, float val) { glUniform1f(m_UniformLists[name], val); }
-	inline void SetUniform(const char* name, float x, float y) { glUniform2f(m_UniformLists[name], x, y); }
-	inline void SetUniform(const char* name, float x, float y, float z) { glUniform3f(m_UniformLists[name], x, y, z); }
-	inline void SetUniform(const char* name, const vec3& val) { glUniform3f(m_UniformLists[name], val.x, val.y, val.z); }
-	inline void SetUniform(const char* name, const vec2& val) { glUniform2f(m_UniformLists[name], val.x, val.y); }
-	inline void SetUniform(const char* name, int val) { glUniform1i(m_UniformLists[name], val); }
-	inline void SetUniformMatrix(GLuint location, const float* data) { glUniformMatrix4fv(location, 1, GL_FALSE, data); }
-	inline void SetUniformMatrix(const char* name, const float* data) { glUniformMatrix4fv(m_UniformLists[name], 1, GL_FALSE, data); }
+	virtual void	VUse() override;
+	virtual void	VUnUse() override;
+	virtual GLuint	VGetAttribLocation(const char* name) override;;
+	virtual GLuint	VGetUniformLocation(const char* name)override;;
+	virtual void	VSetUniform(const char* name, float val)override;
+	virtual void	VSetUniform(const char* name, float x, float y)override;
+	virtual void	VSetUniform(const char* name, float x, float y, float z)override;
+	virtual void	VSetUniform(const char* name, const vec3& val)override;
+	virtual void	VSetUniform(const char* name, const vec2& val)override;
+	virtual void	VSetUniform(const char* name, int val)override;
+	virtual void	VSetUniform(const char* name, const glm::mat4& data) override;
+	
 
 
 	

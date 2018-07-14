@@ -1,10 +1,5 @@
 #include <pch.h>
 
-
-/*Input* gInput()
-{
-	return Input::InstancePtr();
-}*/
 Input::Input()
 {
 	memset(keys, 0, 1024);

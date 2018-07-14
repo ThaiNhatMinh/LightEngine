@@ -11,13 +11,6 @@ struct LTBProp;
 class Material;
 class IMesh;
 
-class IModelResource :public IResource
-{
-public:
-	~IModelResource() {};
-	virtual int GetNumMesh() = 0;
-	virtual IMesh* GetMesh(int i)=0;
-};
 class ModelCache:public IModelResource
 {
 public:
@@ -29,12 +22,12 @@ public:
 	vector<std::unique_ptr<Animation>>	pAnims;
 	vector<LTBSocket>					Sockets;
 
-	virtual int GetNumMesh() {
+	virtual int VGetNumMesh()override {
 		return pMeshs.size();
 	};
-	virtual IMesh* GetMesh(int i);;
+	virtual IMesh* VGetMesh(int i)override;
 
-	ModelCache() {}
+	ModelCache(const std::string& path):IModelResource(path) {}
 	~ModelCache() {}
 };
 
@@ -44,9 +37,9 @@ public:
 	std::vector<std::unique_ptr<Mesh>> Meshs;
 	//std::vector<Material> Materials;
 
-	virtual int GetNumMesh()
+	virtual int VGetNumMesh()
 	{
 		return Meshs.size();
 	};
-	virtual IMesh* GetMesh(int i);;
+	virtual IMesh* VGetMesh(int i);
 };

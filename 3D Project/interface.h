@@ -5,26 +5,29 @@
 
 typedef unsigned int ActorId;
 typedef unsigned int ComponentId;
-
 class Scene;
-class Actor;
-class SceneNode;
-class Mesh;
-class Windows;
-class ScriptEvent;
-class Debug;
-class Texture;
 
 
+#include "Interface\ISubSystem.h"
+#include "Interface\IContext.h"
 
-
-#include "Interface\IActor.h"
-#include "Interface\IComponent.h"
-#include "Interface\IFactory.h"
-#include "Interface\IEvent.h"
-#include "Interface\IEventManager.h"
-#include "Interface\IResource.h"
+#include "Interface\IWindow.h"
+#include "Interface\IInput.h"
+#include "Interface\IDebugRender.h"
 #include "Interface\IResourceManager.h"
+
+//#include "Interface\ISysUI.h"
+//#include "Interface\ISoundEngine.h"
+
+//#include "Interface\IActor.h"
+//#include "Interface\IComponent.h"
+//#include "Interface\IFactory.h"
+//#include "Interface\IShader.h"
+//#include "Interface\IEvent.h"
+//#include "Interface\IEventManager.h"
+//#include "Interface\IResource.h"
+//#include "Interface\IModelResource.h"
+//#include "Interface\IResourceManager.h"
 
 
 /*class ISceneNode
@@ -83,51 +86,34 @@ public:
 //   The interface defintion for a generic physics API.
 /////////////////////////////////////////////////////////////////////////////
 
-class IGamePhysics
-{
-public:
 
-	// Initialiazation and Maintenance of the Physics World
-	virtual bool VInitialize() = 0;
-	virtual void VSyncVisibleScene() = 0;
-	virtual void VOnUpdate(float deltaSeconds) = 0;
-	virtual void VPreStep(float timeStep) = 0;
-	virtual void VPostStep(float timeStep) = 0;
-
-	virtual void VRemoveActor(ActorId id) = 0;
-	// Debugging
-	virtual void VRenderDiagnostics() = 0;
-
-	virtual ~IGamePhysics() { };
-};
-
-
-class IEvent;
-
-
-#define EVENT_DEFINE(typeName) \
-	virtual const EventType& VGetEventType(void) const {return sk_EventType;};\
-	virtual void VSerialize(std::ostrstream& out) const{};\
-	virtual void VDeserialize(std::istrstream& in){};\
-	virtual const char* GetName(void) const{return #typeName;};\
-	static const EventType sk_EventType;\
-
-class BaseEventData : public IEvent
-{
-	const float m_timeStamp;
-
-public:
-	explicit BaseEventData(const float timeStamp = 0.0f) : m_timeStamp(timeStamp) { }
-
-	// Returns the type of the event
-	virtual const EventType& VGetEventType(void) const = 0;
-
-	float GetTimeStamp(void) const { return m_timeStamp; }
-
-	// Serializing for network input / output
-	virtual void VSerialize(std::ostrstream &out) const { }
-	virtual void VDeserialize(std::istrstream& in) { }
-};
+//
+//class IEvent;
+//
+//
+//#define EVENT_DEFINE(typeName) \
+//	virtual const EventType& VGetEventType(void) const {return sk_EventType;};\
+//	virtual void VSerialize(std::ostrstream& out) const{};\
+//	virtual void VDeserialize(std::istrstream& in){};\
+//	virtual const char* GetName(void) const{return #typeName;};\
+//	static const EventType sk_EventType;\
+//
+//class BaseEventData : public IEvent
+//{
+//	const float m_timeStamp;
+//
+//public:
+//	explicit BaseEventData(const float timeStamp = 0.0f) : m_timeStamp(timeStamp) { }
+//
+//	// Returns the type of the event
+//	virtual const EventType& VGetEventType(void) const = 0;
+//
+//	float GetTimeStamp(void) const { return m_timeStamp; }
+//
+//	// Serializing for network input / output
+//	virtual void VSerialize(std::ostrstream &out) const { }
+//	virtual void VDeserialize(std::istrstream& in) { }
+//};
 
 
 
@@ -140,20 +126,6 @@ public:
 	virtual void VExecuteString(const char* str) = 0;
 };
 class Context;
-class ISubSystem
-{
-	friend class ActorFactory;
-	friend class Application;
-public:
-	ISubSystem(Context* pContext) {};
-	virtual ~ISubSystem() {};
-
-protected:
-	
-	ISubSystem() {};
-	ISubSystem& operator=(const ISubSystem& other) { return *this; }
-	ISubSystem(const ISubSystem& other) {}
-};
 
 
 // Our game

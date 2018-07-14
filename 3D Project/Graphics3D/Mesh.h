@@ -1,6 +1,5 @@
 #pragma once
 
-#include "OpenGL\IMesh.h"
 
 class Mesh: public IMesh 
 {
@@ -18,6 +17,13 @@ public:
 
 protected:
 	Mesh()=default;
+	string					Name;
+	VertexArray				VAO;
+	BufferObject			VBO, EBO;
+	GLuint					NumIndices;
+	Texture*				Tex;
+	GLuint					Topology;
+	Material				mat;
 };
 
 

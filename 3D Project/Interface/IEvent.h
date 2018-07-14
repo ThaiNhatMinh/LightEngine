@@ -1,8 +1,6 @@
 #pragma once
 
 typedef unsigned long EventType;
-typedef fastdelegate::FastDelegate1<std::shared_ptr<IEvent>> EventListenerDelegate;
-
 
 
 class IEvent
@@ -15,3 +13,8 @@ public:
 	virtual const char* GetName(void) const = 0;
 
 };
+
+
+typedef fastdelegate::FastDelegate1<std::shared_ptr<IEvent>> EventListenerDelegate;
+
+

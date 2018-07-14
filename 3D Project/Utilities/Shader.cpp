@@ -128,3 +128,25 @@ bool Shader::Load(const char * vertexShaderFile, const char * fragmentShaderFile
 
 	return true;
 }
+
+void Shader::VUse() { glUseProgram(m_iProgramID); }
+
+void Shader::VUnUse() { glUseProgram(0); }
+
+GLuint Shader::VGetAttribLocation(const char * name) { return glGetAttribLocation(m_iProgramID, name); }
+
+GLuint Shader::VGetUniformLocation(const char * name) { return glGetUniformLocation(m_iProgramID, name); }
+
+void Shader::VSetUniform(const char * name, float val) { glUniform1f(m_UniformLists[name], val); }
+
+void Shader::VSetUniform(const char * name, float x, float y) { glUniform2f(m_UniformLists[name], x, y); }
+
+void Shader::VSetUniform(const char * name, float x, float y, float z) { glUniform3f(m_UniformLists[name], x, y, z); }
+
+void Shader::VSetUniform(const char * name, const vec3 & val) { glUniform3f(m_UniformLists[name], val.x, val.y, val.z); }
+
+void Shader::VSetUniform(const char * name, const vec2 & val) { glUniform2f(m_UniformLists[name], val.x, val.y); }
+
+void Shader::VSetUniform(const char * name, int val) { glUniform1i(m_UniformLists[name], val); }
+
+void Shader::VSetUniform(const char* name, const glm::mat4 & data) { glUniformMatrix4fv(m_UniformLists[name], 1, GL_FALSE, glm::value_ptr(data)); }

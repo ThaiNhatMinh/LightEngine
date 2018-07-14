@@ -16,7 +16,7 @@
 //========================================================================
 
 #include <pch.h>
-
+#include "String.h"
 using std::string;
 
 // Remove all leading whitespace

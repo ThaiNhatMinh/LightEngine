@@ -1,6 +1,15 @@
 #pragma once
 #include <pch.h>
 
+
+// Direct Input
+#include <dinput.h>
+
+// Bullet Physic 
+#include <btBulletCollisionCommon.h>
+#include <btBulletDynamicsCommon.h>
+
+
 enum CollisionType
 {
 	TYPE_TEAMEMATE = 1 << 1,
