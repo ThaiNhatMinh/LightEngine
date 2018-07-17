@@ -60,6 +60,8 @@ namespace Light {
 		virtual void VGetWindowSize(int& width, int& height);
 		virtual HWND VGetHandle();
 		virtual void VSwapBuffer();
+
+		GLFWwindow*	GetGLFW();
 	};
 
 }

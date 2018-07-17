@@ -97,12 +97,12 @@ namespace Light
 		Texture * OpenGLRenderDevice::CreateTexture(const TextureCreateInfo & info, bool isCompress)
 		{
 			if (isCompress) return new OpenGLCompressTexture(info);
-			else
-			{
-				if(info.eTarget==GL_TEXTURE_2D) return new OpenGLTexture(info);
-				else if (info.eTarget == GL_TEXTURE_CUBE_MAP) return new OpenGLCubeTexture(info);
-				else E_WARNING("Invaild target texture: %d", info.eTarget);
-			}
+			
+			
+			if(info.eTarget==GL_TEXTURE_2D) return new OpenGLTexture(info);
+			else if (info.eTarget == GL_TEXTURE_CUBE_MAP) return new OpenGLCubeTexture(info);
+			else E_WARNING("Invaild target texture: %d", info.eTarget);
+			
 		}
 
 		IndexBuffer * OpenGLRenderDevice::CreateIndexBuffer(unsigned int size, const void* pData)

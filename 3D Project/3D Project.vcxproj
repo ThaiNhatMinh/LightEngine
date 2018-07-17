@@ -73,16 +73,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\3D Project\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -97,7 +97,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>E:\Code Collection\3D Project\3D Project;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Visual Leak Detector\include;E:\Code Collection\3D Project\3D Project;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zm112 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -133,7 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;BUILDING_MYDLL;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\3D Project\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Visual Leak Detector\include;..\3D Project\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -182,7 +182,11 @@
     <ClInclude Include="Core\OpenGLSysUI.h" />
     <ClInclude Include="Core\OpenGLWindows.h" />
     <ClInclude Include="GamePlugin\GamePluginManager.h" />
+    <ClInclude Include="Graphics3D\Material.h" />
+    <ClInclude Include="Graphics3D\Mesh.h" />
+    <ClInclude Include="Graphics3D\ModelRender.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLCompressTexture.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLCubeTexture.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLIndexBuffer.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLPipeline.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLPipelineParam.h" />
@@ -194,6 +198,7 @@
     <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexDescription.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexShader.h" />
     <ClInclude Include="Graphics3D\Renderer.h" />
+    <ClInclude Include="Graphics3D\SkeMesh.h" />
     <ClInclude Include="Graphics3D\Vertex.h" />
     <ClInclude Include="interface.h" />
     <ClInclude Include="Interface\IActor.h" />
@@ -215,8 +220,13 @@
     <ClInclude Include="Interface\ISysUI.h" />
     <ClInclude Include="Interface\ITimer.h" />
     <ClInclude Include="Interface\IWindow.h" />
+    <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ResourceManager\LTBFileLoader.h" />
+    <ClInclude Include="ResourceManager\LTModel.h" />
+    <ClInclude Include="ResourceManager\LTRawData.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
+    <ClInclude Include="typedef.h" />
     <ClInclude Include="Utilities\Observer.h" />
     <ClInclude Include="Utilities\PhysicsUtilities.h" />
     <ClInclude Include="Utilities\Template.h" />
@@ -232,7 +242,9 @@
     <ClCompile Include="Core\OpenGLInput.cpp" />
     <ClCompile Include="Core\OpenGLWindows.cpp" />
     <ClCompile Include="GamePlugin\GamePluginManager.cpp" />
+    <ClCompile Include="Graphics3D\ModelRender.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCompressTexture.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLCubeTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLIndexBuffer.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLPipeline.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLPipelineParam.cpp" />
@@ -243,11 +255,14 @@
     <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexBuffer.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexDescription.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexShader.cpp" />
+    <ClCompile Include="Graphics3D\SkeMesh.cpp" />
+    <ClCompile Include="Math\AABB.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ResourceManager\LTBFileLoader.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Utilities\Observer.cpp" />
@@ -289,6 +304,11 @@
     <Xml Include="GameAssets\WEAPON\Weapon.xml">
       <SubType>Designer</SubType>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hunting\Hunting.vcxproj">
+      <Project>{17af2918-a454-4280-b3a8-829011ea70dc}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

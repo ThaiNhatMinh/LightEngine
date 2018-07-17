@@ -62,7 +62,7 @@ void render::OpenGLPipeline::GetUniformList()
 	GLenum type;
 	GLint size;
 	GLint location;
-	char* name = new char[maxLen];
+	char name[126];
 	for (int i = 0; i < nUniform; i++)
 	{
 
@@ -71,5 +71,4 @@ void render::OpenGLPipeline::GetUniformList()
 		m_Uniforms.insert(std::make_pair( string(name),std::unique_ptr<PipelineParam>(new OpenGLPipelineParam(location,name))));
 
 	}
-	delete[] name;
 }

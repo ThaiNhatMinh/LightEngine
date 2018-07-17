@@ -11,7 +11,7 @@ namespace Light
 		~Context();
 
 		virtual bool VAddSystem(ISubSystem* system)override;
-
+		virtual void VMakeContext()override;
 	private:
 		virtual ISubSystem * VGetSystem(const std::type_info& rtti)override;
 

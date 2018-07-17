@@ -1,16 +1,16 @@
 #pragma once
-#include <pch.h>
-
-
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 class Material
 {
 public:
 	std::string Name;
-	vec3 Ka;
-	vec3 Kd;
-	vec3 Ks;
-	vec3 exp;
-	Material() :Ka(0.6f, 0.6f, 0.6f), Kd(0.9f, 0.9f, 0.9f), Ks(0.0f, 0.0f, 0.0f), exp(1,1,1)
+	glm::vec3 Ka;
+	glm::vec3 Kd;
+	glm::vec3 Ks;
+	glm::vec3 exp;
+	Material() :Ka(1.0f), Kd(1.0f), Ks(1.0f), exp(1,1,1)
 	{
 
 	}

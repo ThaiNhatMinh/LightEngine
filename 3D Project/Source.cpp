@@ -3,10 +3,9 @@
 #include <pch.h>
 #include "Core\Application.h"
 
+#include <thread>
 
-class Test { virtual void CAC() {} };
-class B {};
-class C : public B, public Test {};
+
 
 void main()
 {
@@ -16,9 +15,11 @@ void main()
 	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
 #endif
 
-
+	unsigned int n = std::thread::hardware_concurrency();
+	std::cout << n << " concurrent threads are supported.\n";
 	Application app;
 	app.MainLoop();
+	
 	
 	
 }

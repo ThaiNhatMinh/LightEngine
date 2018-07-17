@@ -55,10 +55,6 @@ void Application::MainLoop()
 	
 	SetupSubmodule();
 
-	Light::resources::ResourceManager a(m_Context.get());
-	using namespace Light;
-	cout << typeid(render::RenderDevice*).name() << endl;
-	cout << typeid(m_pRenderer.get()).name() << endl;
 
 						
 
@@ -144,4 +140,6 @@ void Application::MainLoop()
 
 
 	}
+
+	pGame->ShutDown();
 }

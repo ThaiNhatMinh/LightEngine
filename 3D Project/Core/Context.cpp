@@ -1,6 +1,7 @@
 #include <pch.h>
+#include "..\Interface\IWindow.h"
 #include "Context.h"
-
+#include "OpenGLWindows.h"
 namespace Light {
 	Context::Context()
 	{
@@ -19,6 +20,11 @@ namespace Light {
 
 		m_Systems.push_back(system);
 		return true;
+	}
+
+	void Context::VMakeContext()
+	{
+		
 	}
 
 	ISubSystem * Context::VGetSystem(const std::type_info & rtti)

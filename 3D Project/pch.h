@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include <crtdbg.h>
 #endif
-
+//#include <vld.h>
 #include <iostream>
 #include <string>
 #include <vector>

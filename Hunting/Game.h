@@ -13,12 +13,12 @@ public:
 	// Call every frame
 	virtual void	Render();
 	// Call before engine shutdown
-	virtual void	ShutDown() {};
+	virtual void	ShutDown();
 
 private:
 	
 	Light::render::RenderDevice* m_pRenderer;
 	Light::render::Pipeline *pipeline;
 	Light::render::VertexArray *vertexArray;
-
+	Light::render::VertexBuffer *vertexBuffer;
 };

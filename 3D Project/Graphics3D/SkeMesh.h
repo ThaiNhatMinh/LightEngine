@@ -1,39 +1,45 @@
 #pragma once
-#include <pch.h>
+#include <vector>
+#include <glm\vec3.hpp>
+#include <glm\vec2.hpp>
+#include "Mesh.h"
+#include "..\ResourceManager\LTRawData.h"
 
-struct Weight
+class LTRawData;
+namespace Light
 {
-	Weight(int b, float w) { Bone = (float)b; weight = w; };
-	Weight():Bone(0), weight(0){};
-	float Bone;
-	float weight;
-};
+	struct Weight
+	{
+		Weight(int b, float w) { Bone = (float)b; weight = w; };
+		Weight() :Bone(0), weight(0) {};
+		float Bone;
+		float weight;
+	};
 
-typedef vector<Weight> WeightList;
-struct SkeVertex
-{
-	vec3		pos;
-	vec3		normal;
-	vec2		uv;
-	Weight		weights[4];
-	
-};
+	typedef std::vector<Weight> WeightList;
+	struct SkeVertex
+	{
+		glm::vec3		pos;
+		glm::vec3		normal;
+		glm::vec2		uv;
+		Weight		weights[4];
+
+	};
 
 
-class SkeMesh :public IMesh
-{
-public:
-	typedef std::vector<SkeVertex> SkeVertexList;
-	typedef std::vector<unsigned int> IndicesList;
-private:
-	
-	SkeVertexList			m_Vertexs;
-	IndicesList	m_Indices;
-	
-	
-public:
-	SkeMesh(const SkeVertexList& vertex, const IndicesList indices);
-	~SkeMesh() {};
-	const SkeVertexList& GetVertexs();
-	const IndicesList& GetIndices();
-};
+	class SkeMesh :public Mesh
+	{
+	public:
+		typedef std::vector<SkeVertex> SkeVertexList;
+		typedef std::vector<unsigned int> IndicesList;
+	private:
+		std::string m_Name;
+		std::unique_ptr<render::VertexArray>		m_pVAO;
+		std::unique_ptr<render::VertexBuffer>		m_pVBO;
+		std::unique_ptr<render::IndexBuffer>		m_pIBO;
+
+	public:
+		SkeMesh(render::RenderDevice* pRenderDevice,LTRawData* pData);
+		~SkeMesh() {};
+	};
+}

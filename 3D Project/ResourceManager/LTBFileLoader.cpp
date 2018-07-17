@@ -1,27 +1,124 @@
 #include "LTBFileLoader.h"
-#include "LTBDef.h"
 #include <pch.h>
-FILE* LTBFile::pFile = NULL;
-bool LTBFile::LoadSkeleton(FILE * pFile, SkeNode* pParent, vector<std::unique_ptr<SkeNode>>& nodeLists)
+#include "LTModel.h"
+
+namespace LTBFileLoader
 {
-	SkeNode* p = new SkeNode;
-	if(pParent!=NULL)	p->m_ParentIndex = pParent->m_Index;
-	else p->m_ParentIndex = -1;
+
+	typedef unsigned int        uint; // This is at least 16 bits
+
+	typedef char			int8;
+	typedef short int		int16;
+	typedef int				int32;
+	typedef __int64         int64;
+
+	typedef unsigned char		uint8;
+	typedef unsigned short int	uint16;
+	typedef unsigned int		uint32;
+
+	typedef unsigned __int64    uint64;
+	// File types...
+	enum E_LTB_FILE_TYPES {
+		LTB_D3D_MODEL_FILE = 1,
+		LTB_PS2_MODEL_FILE = 2,
+		LTB_XBOX_MODEL_FILE = 3,
+		LTB_ABC_MODEL_FILE = 4,
+		LTB_D3D_RENDERSTYLE_FILE = 5,
+		LTB_PS2_RENDERSTYLE_FILE = 6,
+		LTB_D3D_RENDEROBJECT_FILE = 7
+	};
+
+
+
+
+	enum    D3DPIECE_TYPE { eRigidMesh = 4, eSkelMesh = 5, eVAMesh = 6, eNullMesh = 7 };
+	struct Vector
+	{
+		float x, y, z;
+	};
+	// The verts we'll use (for all the possible vertex structures)...
+	struct  VSTREAM_XYZ_B0 { float x; float y; float z; };
+	struct  VSTREAM_XYZ_B1 { float x; float y; float z; float blend1; };
+	struct  VSTREAM_XYZ_B2 { float x; float y; float z; float blend1; float blend2; };
+	struct  VSTREAM_XYZ_B3 { float x; float y; float z; float blend1; float blend2; float blend3; };
+	struct  VSTREAM_XYZ_B1_INDEX { float x; float y; float z; float blend1; uint8 Index[4]; };
+	struct  VSTREAM_XYZ_B2_INDEX { float x; float y; float z; float blend1; float blend2; uint8 Index[4]; };
+	struct  VSTREAM_XYZ_B3_INDEX { float x; float y; float z; float blend1; float blend2; float blend3; uint8 Index[4]; };
+	struct  VSTREAM_THE_REST { float nx; float ny; float nz; float u1; float v1; float u2, v2; float u3, v3; float u4, v4; uint32 ColorRGBA; Vector S, T, SxT; };
+
+
+	// VERTEX DATA TYPE FLAGS (Note: Should match those in the d3d structs header)...
+#define	VERTDATATYPE_POSITION					0x0001
+#define	VERTDATATYPE_NORMAL						0x0002
+#define	VERTDATATYPE_COLOR						0x0004
+#define	VERTDATATYPE_UVSETS_1					0x0010
+#define	VERTDATATYPE_UVSETS_2					0x0020
+#define	VERTDATATYPE_UVSETS_3					0x0040
+#define	VERTDATATYPE_UVSETS_4					0x0080
+#define	VERTDATATYPE_BASISVECTORS				0x0100
+
+
+	enum ANIMCOMPRESSIONTYPE { NONE = 0, RELEVANT, RELEVANT_16, RELEVANT_ROT16_ONLY };
+
+	struct LTBProp
+	{
+		uint32		m_iFileVersion;
+		uint32		m_nKeyFrames;		// Number of keyframes.
+		uint32		m_nParentAnims;		// Number of animations (that come from us).
+		uint32		m_nNodes;			// Number of nodes.
+		uint32		m_nPieces;			// Number of pieces.
+		uint32		m_nChildModels;		// Number of child models (including the self child model).
+		uint32		m_nTris;			// Number of triangles.
+		uint32		m_nVerts;			// Number of vertices.
+		uint32		m_nVertexWeights;	// Number of vertex weights.
+		uint32		m_nLODs;			// Number of LODs.
+		uint32		m_nSockets;			// Number of sockets.
+		uint32		m_nWeightSets;		// Number of weight sets.
+		uint32		m_nAnimData;		// Amount of animation data
+		uint32		m_nStrings;			// How many strings we're allocating.
+		uint32		m_StringLengths;	// Sum of all string lengths (not including null terminator).
+		uint32		m_VertAnimDataSize; // byte size of the vertex animation data.
+										//file positions for fields that need to be updated after a certain phase has passed
+		uint32		m_nAnimDataPos;		// the position of the animation data size in the file
+		float		m_GlobalRadius;		// Global radius.. MUST enclose the whole model.
+		uint32		m_iNumEnabledOBBs;	// Number of enable OBB
+	};
+
+
+	// LTB header 
+	struct LTB_Header {
+		LTB_Header() { m_iFileType = 0; m_iVersion = 0; }
+		unsigned char  m_iFileType;						// Should be one of E_LTB_FILE_TYPES
+		unsigned short m_iVersion;						// Version number...
+		unsigned char  m_iReserved1;					// Reserved for stuff we thing of later...
+		unsigned int m_iReserved2;
+		unsigned int m_iReserved3;
+		unsigned int m_iReserved4;
+	};
+}
+
+using namespace LTBFileLoader;
+
+bool LoadSkeleton(FILE * pFile, Light::SkeNode* pParent, vector<Light::SkeNode>& nodeLists)
+{
+	Light::SkeNode p;
+	if(pParent!=NULL)	p.m_ParentIndex = pParent->m_Index;
+	else p.m_ParentIndex = -1;
 	uint16 len;
 	fread((void*)&len, sizeof(unsigned short), 1, pFile);
 	char str[100];
 	fread(str, len, 1, pFile);
 	str[len] = '\0';
 
-	p->m_Name = str;
+	p.m_Name = str;
 
 	uint8 m_Flags;
 	uint16 index;
 	fread(&index, sizeof(uint16), 1, pFile);
 	fread(&m_Flags, sizeof(uint8), 1, pFile);
-	p->m_Index = index;
+	p.m_Index = index;
 	float m[16];
-	//float* m = glm::value_ptr(p->m_GlobalTransform);
+	//float* m = glm::value_ptr(p.m_GlobalTransform);
 
 
 	for (int i = 0; i<16; i++) fread(&m[i], sizeof(float), 1, pFile);
@@ -30,25 +127,25 @@ bool LTBFile::LoadSkeleton(FILE * pFile, SkeNode* pParent, vector<std::unique_pt
 	vec4 v2(m[1], m[5], m[9], m[13]);
 	vec4 v3(m[2], m[6], m[10], m[14]);
 	vec4 v4(m[3], m[7], m[11], m[15]);
-	p->m_GlobalTransform[0] = v1;
-	p->m_GlobalTransform[1] = v2;
-	p->m_GlobalTransform[2] = v3;
-	p->m_GlobalTransform[3] = v4;
+	p.m_GlobalTransform[0] = v1;
+	p.m_GlobalTransform[1] = v2;
+	p.m_GlobalTransform[2] = v3;
+	p.m_GlobalTransform[3] = v4;
 
 	
-	p->m_InvBindPose = glm::inverse(p->m_GlobalTransform);
+	p.m_InvBindPose = glm::inverse(p.m_GlobalTransform);
 	uint32 numChild;
 	fread(&numChild, sizeof(uint32), 1, pFile);
 
-	nodeLists.push_back(std::unique_ptr<SkeNode>(p));
-	for (size_t i = 0; i < numChild; i++) LoadSkeleton(pFile, p, nodeLists);
+	nodeLists.push_back(p);
+	for (size_t i = 0; i < numChild; i++) LoadSkeleton(pFile, &p, nodeLists);
 
 	return true;
 }
 
-void LTBFile::ReadData(FILE * pFile, AnimNode & node, const vector<AnimKeyFrame>& KeyFrames, unsigned int CompressionType)
+void ReadData(FILE * pFile, Light::AnimNode & node, const vector<Light::AnimKeyFrame>& KeyFrames, unsigned int CompressionType)
 {
-	FrameData frame;
+	Light::FrameData frame;
 	if (CompressionType == NONE)
 	{
 		uint8 bIsVertexAnim;
@@ -115,112 +212,23 @@ void LTBFile::ReadData(FILE * pFile, AnimNode & node, const vector<AnimKeyFrame>
 	}
 }
 
-bool LTBFile::BeginLoad(const char * pFileName)
+
+
+
+vector<LTRawData> LoadMesh(FILE* pFile)
 {
-
-	
-
-	pFile = fopen(pFileName, "rb");
-	if (!pFile)
-	{
-		Log::Message(Log::LOG_ERROR, "Can't load file: " + string(pFileName));
-		return false;
-	}
-	return true;
-}
-
-LTBProp LTBFile::LoadProp()
-{
-	LTBProp prop;
-	LTB_Header Header;
-
-	uint32		m_iFileVersion;
-	uint32		m_nKeyFrames;		// Number of keyframes.
-	uint32		m_nParentAnims;		// Number of animations (that come from us).
-	uint32		m_nNodes;			// Number of nodes.
-	uint32		m_nPieces;			// Number of pieces.
-	uint32		m_nChildModels;		// Number of child models (including the self child model).
-	uint32		m_nTris;			// Number of triangles.
-	uint32		m_nVerts;			// Number of vertices.
-	uint32		m_nVertexWeights;	// Number of vertex weights.
-	uint32		m_nLODs;			// Number of LODs.
-	uint32		m_nSockets;			// Number of sockets.
-	uint32		m_nWeightSets;		// Number of weight sets.
-	uint32		m_nAnimData;		// Amount of animation data
-	uint32		m_nStrings;			// How many strings we're allocating.
-	uint32		m_StringLengths;	// Sum of all string lengths (not including null terminator).
-	uint32		m_VertAnimDataSize; // byte size of the vertex animation data.
-									//file positions for fields that need to be updated after a certain phase has passed
-	
-	float		m_GlobalRadius;		// Global radius.. MUST enclose the whole model.
-	uint32		m_iNumEnabledOBBs;	// Number of enable OBB
-
-
-	fread((void*)&Header, sizeof(LTB_Header), 1, pFile);
-	fread((void*)&m_iFileVersion, sizeof(unsigned int), 1, pFile);
-
-	fread(&m_nKeyFrames, sizeof(uint32), 1, pFile);
-	fread(&m_nParentAnims, sizeof(uint32), 1, pFile);
-	fread(&m_nNodes, sizeof(uint32), 1, pFile);
-	fread(&m_nPieces, sizeof(uint32), 1, pFile);
-	fread(&m_nChildModels, sizeof(uint32), 1, pFile);
-	fread(&m_nTris, sizeof(uint32), 1, pFile);
-	fread(&m_nVerts, sizeof(uint32), 1, pFile);
-	fread(&m_nVertexWeights, sizeof(uint32), 1, pFile);
-	fread(&m_nLODs, sizeof(uint32), 1, pFile);
-	fread(&m_nSockets, sizeof(uint32), 1, pFile);
-	fread(&m_nWeightSets, sizeof(uint32), 1, pFile);
-	fread(&m_nStrings, sizeof(uint32), 1, pFile);
-	fread(&m_StringLengths, sizeof(uint32), 1, pFile);
-	fread(&m_VertAnimDataSize, sizeof(uint32), 1, pFile);
-	fread(&m_nAnimData, sizeof(uint32), 1, pFile);
-
-
-	// read command string
-	unsigned short str_len;
-	fread((void*)&str_len, sizeof(unsigned short), 1, pFile);
-	char str[100];
-	fread(str, str_len, 1, pFile);
-
-	fread(&m_GlobalRadius, sizeof(float), 1, pFile);
-	fread(&m_iNumEnabledOBBs, sizeof(uint32), 1, pFile);
-	
-	prop.m_iFileVersion= m_iFileVersion;
-	prop.m_nKeyFrames= m_nKeyFrames;	
-	prop.m_nParentAnims= m_nParentAnims;		
-	prop.m_nNodes= m_nNodes;			
-	prop.m_nPieces= m_nPieces;		
-	prop.m_nChildModels= m_nChildModels;	
-	prop.m_nTris= m_nTris;		
-	prop.m_nVerts= m_nVerts;		
-	prop.m_nVertexWeights= m_nVertexWeights;	
-	prop.m_nLODs= m_nLODs;			
-	prop.m_nSockets= m_nSockets;			
-	prop.m_nWeightSets= m_nWeightSets;		
-	prop.m_nAnimData= m_nAnimData;		
-	prop.m_nStrings= m_nStrings;			
-	prop.m_StringLengths= m_StringLengths;
-	prop.m_VertAnimDataSize= m_VertAnimDataSize; 
-									
-	//prop.m_nAnimDataPos= m_nAnimDataPos;	
-	prop.m_GlobalRadius = m_GlobalRadius;		
-	prop.m_iNumEnabledOBBs= m_iNumEnabledOBBs;
-	return prop;
-}
-
-
-vector<std::unique_ptr<SkeMesh>> LTBFile::LoadMesh()
-{
-	vector<std::unique_ptr<SkeMesh>> meshlist;
+	vector<LTRawData> meshlist;
 
 	uint32 numPieces;
 	fread(&numPieces, sizeof(uint32), 1, pFile);
 	meshlist.resize(numPieces);
+
+
 	unsigned short str_len;
 	for (uint32 iPieceCnt = 0; iPieceCnt < numPieces; iPieceCnt++)
 	{
-		vector<SkeVertex> vertex;
-		vector<unsigned int> Index;
+		vector<Light::SkeVertex>& vertex = meshlist[iPieceCnt].Vertexs;
+		vector<unsigned int>& Index = meshlist[iPieceCnt].Indices;
 		std::string meshname;
 
 		fread((void*)&str_len, sizeof(unsigned short), 1, pFile);
@@ -230,7 +238,7 @@ vector<std::unique_ptr<SkeMesh>> LTBFile::LoadMesh()
 		//printf("%d %s\n",len,str);
 
 		// name of mesh
-		meshname = str;
+		meshlist[iPieceCnt].Name = str;
 		uint32 numLOD;
 		float LODDists;
 		fread(&numLOD, sizeof(uint32), 1, pFile);
@@ -288,16 +296,16 @@ vector<std::unique_ptr<SkeMesh>> LTBFile::LoadMesh()
 					for (uint32 iStream = 0; iStream < 4; ++iStream)
 						for (uint32 i = 0; i < iVertCount; ++i)
 						{
-							SkeVertex ver;
+							Light::SkeVertex ver;
 							if (StreamData[iStream] & VERTDATATYPE_POSITION)
 							{
 								fread(&ver.pos.x, sizeof(float), 1, pFile);
 								fread(&ver.pos.y, sizeof(float), 1, pFile);
 								fread(&ver.pos.z, sizeof(float), 1, pFile);
-								ver.weights[0] = (Weight(Bone, 1.0f));
-								ver.weights[1] = (Weight(255, 0.0f));
-								ver.weights[2] = (Weight(255, 0.0f));
-								ver.weights[3] = (Weight(255, 0.0f));
+								ver.weights[0] = (Light::Weight(Bone, 1.0f));
+								ver.weights[1] = (Light::Weight(255, 0.0f));
+								ver.weights[2] = (Light::Weight(255, 0.0f));
+								ver.weights[3] = (Light::Weight(255, 0.0f));
 								vertex.push_back(ver);
 							}
 							if (StreamData[iStream] & VERTDATATYPE_NORMAL)
@@ -385,7 +393,7 @@ vector<std::unique_ptr<SkeMesh>> LTBFile::LoadMesh()
 					{
 						for (uint32 i = 0; i < iVertCount; ++i)
 						{
-							SkeVertex ver;
+							Light::SkeVertex ver;
 							if (StreamData[iStream] & VERTDATATYPE_POSITION)
 							{
 								switch (iMaxBonesPerTri) {
@@ -397,30 +405,30 @@ vector<std::unique_ptr<SkeMesh>> LTBFile::LoadMesh()
 									VSTREAM_XYZ_B1 tb1;
 									fread(&tb1, sizeof(VSTREAM_XYZ_B1), 1, pFile);
 									ver.pos = vec3(tb1.x, tb1.y, tb1.z);
-									ver.weights[0] = (Weight(255, tb1.blend1));
-									ver.weights[1] = (Weight(255, 1.0f - tb1.blend1));
-									ver.weights[2] = (Weight(255, 0.0f));
-									ver.weights[3] = (Weight(255, 0.0f));
+									ver.weights[0] = (Light::Weight(255, tb1.blend1));
+									ver.weights[1] = (Light::Weight(255, 1.0f - tb1.blend1));
+									ver.weights[2] = (Light::Weight(255, 0.0f));
+									ver.weights[3] = (Light::Weight(255, 0.0f));
 									vertex.push_back(ver);
 									break;
 								case 3:
 									VSTREAM_XYZ_B2 tx;
 									fread(&tx, sizeof(tx), 1, pFile);
 									ver.pos = vec3(tx.x, tx.y, tx.z);
-									ver.weights[0] = (Weight(255, tx.blend1));
-									ver.weights[1] = (Weight(255, tx.blend2));
-									ver.weights[2] = (Weight(255, 1.0f - tx.blend1 - tx.blend2));
-									ver.weights[3] = (Weight(255, 0.0f));
+									ver.weights[0] = (Light::Weight(255, tx.blend1));
+									ver.weights[1] = (Light::Weight(255, tx.blend2));
+									ver.weights[2] = (Light::Weight(255, 1.0f - tx.blend1 - tx.blend2));
+									ver.weights[3] = (Light::Weight(255, 0.0f));
 									vertex.push_back(ver);
 									break;
 								case 4:
 									VSTREAM_XYZ_B3 t;
 									fread(&t, sizeof(VSTREAM_XYZ_B3), 1, pFile);
 									ver.pos = vec3(t.x, t.y, t.z);
-									ver.weights[0] = (Weight(255, t.blend1));
-									ver.weights[1] = (Weight(255, t.blend2));
-									ver.weights[2] = (Weight(255, t.blend3));
-									ver.weights[3] = (Weight(255, 1.0f - t.blend3 - t.blend2 - t.blend1));
+									ver.weights[0] = (Light::Weight(255, t.blend1));
+									ver.weights[1] = (Light::Weight(255, t.blend2));
+									ver.weights[2] = (Light::Weight(255, t.blend3));
+									ver.weights[3] = (Light::Weight(255, 1.0f - t.blend3 - t.blend2 - t.blend1));
 
 									vertex.push_back(ver);
 									break;
@@ -529,19 +537,14 @@ vector<std::unique_ptr<SkeMesh>> LTBFile::LoadMesh()
 				m_UsedNodeList.push_back(t);
 			}
 		}
-
-		SkeMesh* pmesh = new SkeMesh(vertex, Index);
-		pmesh->Name = meshname;
-
-		meshlist[iPieceCnt] = std::unique_ptr<SkeMesh>(pmesh);
 	}
 
 	return meshlist;
 }
 
-vector<std::unique_ptr<SkeNode>> LTBFile::LoadSkeleton()
+vector<Light::SkeNode> LoadSkeleton(FILE *pFile)
 {
-	vector<std::unique_ptr<SkeNode>> nodelist;
+	vector<Light::SkeNode> nodelist;
 
 	//m_pSkeleton = new SkeletonNode;
 	//m_pSkeleton->m_pParent = NULL;
@@ -551,9 +554,9 @@ vector<std::unique_ptr<SkeNode>> LTBFile::LoadSkeleton()
 	return nodelist;
 }
 
-vector<WeightBlend> LTBFile::LoadWS()
+vector<Light::WeightBlend> LoadWS(FILE* pFile)
 {
-	vector<WeightBlend> ws;
+	vector<Light::WeightBlend> ws;
 
 	uint32 valid_ws_indexsize;
 	fread(&valid_ws_indexsize, sizeof(uint32), 1, pFile);
@@ -581,11 +584,8 @@ vector<WeightBlend> LTBFile::LoadWS()
 	return ws;
 }
 
-vector<string> LTBFile::LoadChildName()
+vector<string> LoadChildName(FILE* pFile)
  {
-
-	
-
 	vector<string> childs;
 	uint32 NumChildModels;
 	fread(&NumChildModels, sizeof(uint32), 1, pFile);
@@ -603,11 +603,11 @@ vector<string> LTBFile::LoadChildName()
 	return childs;
 }
 
-vector<std::unique_ptr<Animation>> LTBFile::LoadAnimation(const vector<std::unique_ptr<SkeNode>>& skenode)
+vector<Light::Animation> LoadAnimation(FILE* pFile,const vector<Light::SkeNode>& skenode)
  {
 	 uint32 m_CompressionType = 0;
 	 uint32 m_InterpolationMS = 0;
-	 vector<std::unique_ptr<Animation>>m_pAnimList;
+	 vector<Light::Animation>m_pAnimList;
 	
 	 // Save animations.
 	 uint32 nAnimDataSize = 0;
@@ -618,19 +618,19 @@ vector<std::unique_ptr<Animation>> LTBFile::LoadAnimation(const vector<std::uniq
 	 m_pAnimList.resize(CalcNumParentAnims);
 	 for (uint32 i = 0; i < CalcNumParentAnims; i++)
 	 {
-		 Animation* p = new Animation;
+		 Light::Animation p;
 		 vec3 D;
 		 fread(&D, sizeof(float) * 3, 1, pFile);
 		 //printf("Dimension: %.2f, %.2f, %.2f\n",D[0],D[1],D[2]);
-		 p->m_BV.SetMax(D);
-		 p->m_BV.SetMin(-D);
+		 p.BV.SetMax(D);
+		 p.BV.SetMin(-D);
 		 // Read name of animation
 		 fread((void*)&str_len, sizeof(unsigned short), 1, pFile);
 		 char str[100];
 		 fread(str, str_len, 1, pFile);
 		 str[str_len] = '\0';
 
-		 p->Name = str;
+		 p.Name = str;
 
 		 fread(&m_CompressionType, sizeof(uint32), 1, pFile);
 		 fread(&m_InterpolationMS, sizeof(uint32), 1, pFile);
@@ -642,7 +642,7 @@ vector<std::unique_ptr<Animation>> LTBFile::LoadAnimation(const vector<std::uniq
 		 //std::vector<AnimKeyFrame> KeyFrame;
 		 for (uint16 j = 0; j<m_KeyFramesGetSize; j++)
 		 {
-			 AnimKeyFrame key;
+			 Light::AnimKeyFrame key;
 			 fread(&key.m_Time, sizeof(uint32), 1, pFile);
 			 fread((void*)&str_len, sizeof(unsigned short), 1, pFile);
 			 char str1[100];
@@ -650,20 +650,20 @@ vector<std::unique_ptr<Animation>> LTBFile::LoadAnimation(const vector<std::uniq
 			 str1[str_len] = '\0';
 
 			 key.m_pString = str1;
-			 p->KeyFrames.push_back(key);
+			 p.KeyFrames.push_back(key);
 		 }
 		 //m_pSkeleton->LoadAnimation(pFile, str, KeyFrame, m_CompressionType);
 		 //printf("Finish animation: %s\n",str);
 
 		 for (GLuint j = 0; j < skenode.size(); j++)
 		 {
-			 //p->AnimNodeLists.resize(pNodeList.size());
-			 AnimNode node;
-			 node.Parent = skenode[j]->m_ParentIndex;
-			 ReadData(pFile, node, p->KeyFrames,m_CompressionType);
-			 p->AnimNodeLists.push_back(node);
+			 //p.AnimNodeLists.resize(pNodeList.size());
+			 Light::AnimNode node;
+			 node.Parent = skenode[j].m_ParentIndex;
+			 ReadData(pFile, node, p.KeyFrames,m_CompressionType);
+			 p.AnimNodeLists.push_back(node);
 		 }
-		 m_pAnimList[i] = std::unique_ptr<Animation>(p);
+		 m_pAnimList[i] = p;
 	 }
 
 
@@ -671,21 +671,21 @@ vector<std::unique_ptr<Animation>> LTBFile::LoadAnimation(const vector<std::uniq
 
  }
 
- vector<LTBSocket> LTBFile::LoadSocket()
+ vector<Light::LTBSocket> LoadSocket(FILE* pFile)
 {
-	vector<LTBSocket> socketlist;
+	vector<Light::LTBSocket> socketlist;
 	uint32 NumSockets;
 	uint16 str_len;
 	fread(&NumSockets, sizeof(uint32), 1, pFile);
 	for (uint32 i = 0; i < NumSockets; i++)
 	{
-		LTBSocket socket;
+		Light::LTBSocket socket;
 		fread(&socket.m_iNode, sizeof(uint32), 1, pFile);
 		fread((void*)&str_len, sizeof(unsigned short), 1, pFile);
 		char str1[100];
 		fread(str1, str_len, 1, pFile);
 		str1[str_len] = '\0';
-		strcpy(socket.m_Name, str1);
+		socket.name = str1;
 		float ort[4];
 		fread(&ort, sizeof(float) * 4, 1, pFile);
 		vec3 pos;
@@ -705,9 +705,110 @@ vector<std::unique_ptr<Animation>> LTBFile::LoadAnimation(const vector<std::uniq
 	
 }
 
- void LTBFile::EndLoad()
+LTBProp LoadProp(FILE* pFile)
  {
-	 fclose(pFile);
+	 LTBProp prop;
+	 LTB_Header Header;
+
+	 uint32		m_iFileVersion;
+	 uint32		m_nKeyFrames;		// Number of keyframes.
+	 uint32		m_nParentAnims;		// Number of animations (that come from us).
+	 uint32		m_nNodes;			// Number of nodes.
+	 uint32		m_nPieces;			// Number of pieces.
+	 uint32		m_nChildModels;		// Number of child models (including the self child model).
+	 uint32		m_nTris;			// Number of triangles.
+	 uint32		m_nVerts;			// Number of vertices.
+	 uint32		m_nVertexWeights;	// Number of vertex weights.
+	 uint32		m_nLODs;			// Number of LODs.
+	 uint32		m_nSockets;			// Number of sockets.
+	 uint32		m_nWeightSets;		// Number of weight sets.
+	 uint32		m_nAnimData;		// Amount of animation data
+	 uint32		m_nStrings;			// How many strings we're allocating.
+	 uint32		m_StringLengths;	// Sum of all string lengths (not including null terminator).
+	 uint32		m_VertAnimDataSize; // byte size of the vertex animation data.
+									//file positions for fields that need to be updated after a certain phase has passed
+
+	 float		m_GlobalRadius;		// Global radius.. MUST enclose the whole model.
+	 uint32		m_iNumEnabledOBBs;	// Number of enable OBB
+
+
+	 fread((void*)&Header, sizeof(LTB_Header), 1, pFile);
+	 fread((void*)&m_iFileVersion, sizeof(unsigned int), 1, pFile);
+
+	 fread(&m_nKeyFrames, sizeof(uint32), 1, pFile);
+	 fread(&m_nParentAnims, sizeof(uint32), 1, pFile);
+	 fread(&m_nNodes, sizeof(uint32), 1, pFile);
+	 fread(&m_nPieces, sizeof(uint32), 1, pFile);
+	 fread(&m_nChildModels, sizeof(uint32), 1, pFile);
+	 fread(&m_nTris, sizeof(uint32), 1, pFile);
+	 fread(&m_nVerts, sizeof(uint32), 1, pFile);
+	 fread(&m_nVertexWeights, sizeof(uint32), 1, pFile);
+	 fread(&m_nLODs, sizeof(uint32), 1, pFile);
+	 fread(&m_nSockets, sizeof(uint32), 1, pFile);
+	 fread(&m_nWeightSets, sizeof(uint32), 1, pFile);
+	 fread(&m_nStrings, sizeof(uint32), 1, pFile);
+	 fread(&m_StringLengths, sizeof(uint32), 1, pFile);
+	 fread(&m_VertAnimDataSize, sizeof(uint32), 1, pFile);
+	 fread(&m_nAnimData, sizeof(uint32), 1, pFile);
+
+
+	 // read command string
+	 unsigned short str_len;
+	 fread((void*)&str_len, sizeof(unsigned short), 1, pFile);
+	 char str[100];
+	 fread(str, str_len, 1, pFile);
+
+	 fread(&m_GlobalRadius, sizeof(float), 1, pFile);
+	 fread(&m_iNumEnabledOBBs, sizeof(uint32), 1, pFile);
+
+	 prop.m_iFileVersion = m_iFileVersion;
+	 prop.m_nKeyFrames = m_nKeyFrames;
+	 prop.m_nParentAnims = m_nParentAnims;
+	 prop.m_nNodes = m_nNodes;
+	 prop.m_nPieces = m_nPieces;
+	 prop.m_nChildModels = m_nChildModels;
+	 prop.m_nTris = m_nTris;
+	 prop.m_nVerts = m_nVerts;
+	 prop.m_nVertexWeights = m_nVertexWeights;
+	 prop.m_nLODs = m_nLODs;
+	 prop.m_nSockets = m_nSockets;
+	 prop.m_nWeightSets = m_nWeightSets;
+	 prop.m_nAnimData = m_nAnimData;
+	 prop.m_nStrings = m_nStrings;
+	 prop.m_StringLengths = m_StringLengths;
+	 prop.m_VertAnimDataSize = m_VertAnimDataSize;
+
+	 //prop.m_nAnimDataPos= m_nAnimDataPos;	
+	 prop.m_GlobalRadius = m_GlobalRadius;
+	 prop.m_iNumEnabledOBBs = m_iNumEnabledOBBs;
+	 return prop;
  }
+
+
+Light::LTModel * LTBFileLoader::LoadModel(const char * pFileName)
+{
+	FILE* pFile = fopen(pFileName, "rb");
+	if (!pFile)
+	{
+		E_ERROR("Can't load file: %s",pFileName);
+		return nullptr;
+	}
+
+	Light::LTModel* pModel = new Light::LTModel;
+	
+	LoadProp(pFile);
+	pModel->Meshs = LoadMesh(pFile);
+	pModel->SkeNodes = LoadSkeleton(pFile);
+	pModel->wb = LoadWS(pFile);
+	pModel->ChildName = LoadChildName(pFile);
+	pModel->Anims = LoadAnimation(pFile, pModel->SkeNodes);
+	pModel->Sockets = LoadSocket(pFile);
+	
+	
+	fclose(pFile);
+
+	return pModel;
+
+}
 
 

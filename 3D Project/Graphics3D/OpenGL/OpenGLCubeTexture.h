@@ -8,6 +8,8 @@ namespace Light
 	{
 		class OpenGLCubeTexture : public Texture
 		{
+		public:
+
 			OpenGLCubeTexture(const TextureCreateInfo& info);
 			~OpenGLCubeTexture();
 		public:

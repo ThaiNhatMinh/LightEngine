@@ -1,7 +1,7 @@
 #include <pch.h>
 #include <fstream>
 vector<string> Log::m_Log;
-
+std::mutex Log::m_Lock;
 string logString[] = {
 	"[ERROR] ",
 	"[WARNING] ",
@@ -18,7 +18,9 @@ Log::~Log()
 
 int ImFormatStringV(char* buf, size_t buf_size, const char* fmt, va_list args)
 {
+
 	int w = vsnprintf(buf, buf_size, fmt, args);
+	
 	if (buf == NULL)
 		return w;
 	if (w == -1 || w >= (int)buf_size)
@@ -29,12 +31,13 @@ int ImFormatStringV(char* buf, size_t buf_size, const char* fmt, va_list args)
 
 void Log::Message(LogType type, const char* file, int line, const char* format, ...)
 {
+	m_Lock.lock();
 	static HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	static char buffer[512];
+	char buffer[512];
 
 	va_list args;
 	va_start(args, format);
-	ImFormatStringV(buffer, 512, format, args);
+	ImFormatStringV(buffer,512,format, args);
 	va_end(args);
 
 	if (type == LOG_ERROR) SetConsoleTextAttribute(hConsole, 12);
@@ -42,10 +45,12 @@ void Log::Message(LogType type, const char* file, int line, const char* format, 
 	else SetConsoleTextAttribute(hConsole, 15);
 
 	std::stringstream ss;
-	ss << logString[type] << file <<" Line: " << line << " " <<buffer;
-	m_Log.push_back(ss.str());
+	ss << logString[type] << file <<" Line:" << line << "| " <<buffer;
+	//m_Log.push_back(ss.str());
 	cout << ss.str() << endl;
 	SetConsoleTextAttribute(hConsole, 8);
+
+	m_Lock.unlock();
 }
 
 void Log::OutputFile()

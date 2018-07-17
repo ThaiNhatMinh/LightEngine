@@ -4,55 +4,6 @@
 // Animation system version 3.0
 
 
-struct AnimKeyFrame
-{
-	unsigned int		m_Time;
-	// A string of information about this key..
-	std::string			m_pString;
-};
-
-
-struct SkeNode
-{
-	// Name of node
-	string m_Name;
-	// Index of Node 
-	GLint m_Index;
-	// Parent of node, -1 if root
-	GLint m_ParentIndex;
-	// transform to default vertex;
-	mat4 m_GlobalTransform;
-	// transform vertex to local coord;
-	mat4 m_InvBindPose;
-
-	GLuint m_Flag=0;
-	// BoundBox OBB;
-	AABB m_BoundBox;
-};
-
-// animation data in one node
-
-struct FrameData
-{
-	vec3 m_Pos;
-	quat m_Ort;
-};
-
-typedef vector<FrameData> AnimData;
-
-struct AnimNode
-{
-	GLint Parent;
-	AnimData Data;
-};
-
-struct Animation
-{
-	string Name;
-	AABB m_BV;
-	std::vector<AnimKeyFrame> KeyFrames;
-	std::vector<AnimNode> AnimNodeLists;
-};
 
 enum AnimState
 {

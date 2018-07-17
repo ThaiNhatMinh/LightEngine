@@ -174,6 +174,11 @@ namespace Light
 		glfwSwapBuffers(m_pWindow);
 	}
 
+	GLFWwindow * OpenGLWindows::GetGLFW()
+	{
+		return m_pWindow;
+	}
+
 
 	
 	// Is called whenever a key is pressed/released via GLFW

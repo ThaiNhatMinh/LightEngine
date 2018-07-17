@@ -1,30 +1,21 @@
 #pragma once
-#include "..\Graphics3D\Renderer.h"
 
+#include <functional>
+#include <mutex>
+
+#include <thread>
+#include "..\Graphics3D\Renderer.h"
+#include "..\Graphics3D\ModelRender.h"
 #include "..\Interface\IResourceManager.h"
 #include "..\Graphics3D\Vertex.h"
+#include "LTModel.h"
 namespace Light
 {
 	namespace resources
 	{
-				
-		class HeightMap 
-		{
-		public:
-			GLuint Width;
-			GLuint Height;
-			float stepsize;
-			float hscale;
-			float minH, maxH;
-			std::unique_ptr<GLubyte[]> Data;
-			GLuint numSub;
-			//std::unique_ptr<IMesh> m_Mesh;
-			std::vector<DefaultVertex> m_Vertexs;
-			std::vector<unsigned int>  m_Indices;
-			
-		};
+		static const char* SYSTEM_RESOURCES_CONFIG = "Configs\\Resources.xml";
 
-		class SpriteAnim;
+		
 
 		class ResourceManager : public IResourceManager
 		{
@@ -39,42 +30,62 @@ namespace Light
 			private:
 				FMOD::Sound* m_pSound;
 			};*/
-			vector<ResourceHandle<render::Texture>> m_Textures;
-			//vector<std::unique_ptr<ModelCache>> m_ModelCaches;
-			//vector<std::unique_ptr<HeightMap>> m_HeightMaps;
-			//vector<std::unique_ptr<SpriteAnim>> m_SpriteLists;
-			//map<string, std::unique_ptr<Shader>> m_ShaderList;
+
+			render::RenderDevice *m_pRenderDevice;
+			std::vector<ResourceHandle<render::Texture>> m_Textures;
+			std::vector<ResourceHandle<render::VertexShader>> m_VertexShaders;
+			std::vector<ResourceHandle<render::PixelShader>> m_PixelShaders;
+			std::vector<ResourceHandle<LTModel>> m_ModelCaches;
+			std::vector<ResourceHandle<HeightMap>> m_HeightMaps;
+			std::vector<ResourceHandle<SpriteData>> m_Sprites;
+			
 			//map<string, std::unique_ptr<SoundRAAI>> m_SoundList;
 
 			//vector<std::unique_ptr<IMesh>>	m_PrimList;
 			// Default texture when can't found tex
 			render::Texture* m_pDefaultTex=nullptr;
 			// Path to resource
-			std::string		m_Path;
 
 			//FMOD::System* m_FMOD;
 			IContext* m_pContext;
-		public:
-			render::Texture * HasTexture(const string& filename);
-			/*ModelCache*		HasModel(const string& filename);
-			HeightMap*		HasHeighMap(const string& filename);
-			SpriteAnim*		HasSprite(const string& filename);
-			SoundRAAI*		HasSound(const string& tag);*/
+		private:
 
-			//SpriteAnim*		LoadSpriteAnimation(const string& filename);
-			//HeightMap*		LoadHeightMap(const string& filename, int size, int w, int h, float hscale, int sub);
+			class OpenGLContext
+			{
+			private:
+
+				void * pthread;
+			public:
+				OpenGLContext(IContext* pContext);
+				void MakeContext();
+				~OpenGLContext();
+			};
+			typedef std::function<bool(const std::string&, const std::string&)> CheckResourceFunc;
+			
+			template<class T>T* HasResource(std::vector<ResourceHandle<T>>& list, const std::string& filepath, CheckResourceFunc func = [](const std::string&a, const std::string& b) {return a == b; });
+			
+
+			SpriteData*				LoadSpriteAnimation(const string& filename);
+			HeightMap*				LoadHeightMap(const string& filename, int size, int w, int h, float hscale, int sub);
 			render::Texture*		LoadTexture(const string& filename);
-			//Texture*		LoadCubeTex(const vector<string>& filelist);
-			//Texture*		LoadTexMemory(const string& filename, unsigned char* data, int w, int h);
-			//Texture*		LoadDTX(const string& filename);
-			//unsigned char*	LoadHeightMap(const string& filename, int& w, int& h);
-			//ModelCache*		LoadModel(const string& filename);
-			//ModelCache*		LoadModelXML(const string& filename);
+			render::Texture*		LoadCubeTex(const vector<string>& filelist);
+			render::Texture*		LoadDTX(const string& filename);
+			LTModel*				LoadModel(const string& filename);
 			//SoundRAAI*		LoadSound(const string& filename, const string& tag, int mode);
-			//Shader*			LoadShader(string key, const char* type, const char* vs, const char* fs, bool linkshader = true);
+			render::VertexShader*	LoadVertexShader(const std::string& filepath);
+			render::PixelShader*	LoadPixelShader(const std::string& filepath);
 
-			//void			LoadResources(string path);
-			//IMesh*			CreateShape(ShapeType type, float* size);
+			void				LoadResources(string path);
+			void				LoadThreadResource(OpenGLContext* ThreadContext,const std::string& path);
+			void				LoadSystemResources();
+
+			std::mutex			m_LoadLock;
+			LoadStatus			m_LoadStatus;
+			std::thread			m_LoadThread;
+			OpenGLContext		m_ThreadContext;
+		
+
+
 		public:
 			ResourceManager(IContext* c);
 			~ResourceManager();
@@ -84,11 +95,29 @@ namespace Light
 			//virtual SpriteAnim*		VGetSpriteAnimation(const string& filename)override;
 			//virtual Shader*			VGetShader(string key)override;
 			virtual render::Texture*		VGetTexture(const string& filename)override;
-			//virtual IModelResource*	VGetModel(const string& filename)override;
-			//virtual HeightMap*		VGetHeightMap(const string& filename)override;
+			virtual render::VertexShader*	VGetVertexShader(const std::string& filename)override;
+			virtual render::PixelShader*	VGetPixelShader(const std::string& filename)override;
+			virtual LTModel *				VGetModel(const string& filename)override;
+			virtual render::ModelRender*	VCreateModelRender(const string& filename)override;
+			virtual HeightMap*				VGetHeightMap(const string& filename)override;
 			//virtual FMOD::Sound*	VGetSound(const string& tag)override;
+
+			virtual LoadStatus*				VLoadResource(const std::string& resourcePath);
 
 
 		};
+
+		
+		
+
+		template<class T>
+		inline T * ResourceManager::HasResource(std::vector<ResourceHandle<T>>& list, const std::string& filepath,CheckResourceFunc func)
+		{
+			for (std::size_t i = 0; i < list.size(); i++)
+				if (func(list[i].GetPath(),filepath))
+					return list[i].Get();
+
+			return nullptr;
+		}
 	}
 }

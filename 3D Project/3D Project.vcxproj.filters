@@ -156,6 +156,34 @@
     <ClInclude Include="Interface\ISubSystem.h">
       <Filter>Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLCubeTexture.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\LTBFileLoader.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\LTModel.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\LTRawData.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\AABB.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Material.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\SkeMesh.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\ModelRender.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Mesh.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="typedef.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -229,6 +257,21 @@
     <ClCompile Include="ResourceManager\ResourceManager.cpp">
       <Filter>ResourceManager</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceManager\LTBFileLoader.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\AABB.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\SkeMesh.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLCubeTexture.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\ModelRender.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -272,6 +315,9 @@
     </Filter>
     <Filter Include="ResourceManager">
       <UniqueIdentifier>{d56bd2ce-bd71-4626-9df1-5fb93043b849}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{88a7836e-fd70-4c5d-abd7-29eb3783718c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
