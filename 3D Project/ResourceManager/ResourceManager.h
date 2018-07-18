@@ -102,7 +102,7 @@ namespace Light
 			virtual HeightMap*				VGetHeightMap(const string& filename)override;
 			//virtual FMOD::Sound*	VGetSound(const string& tag)override;
 
-			virtual LoadStatus*				VLoadResource(const std::string& resourcePath);
+			virtual LoadStatus*				VLoadResource(const std::string& resourcePath, bool async = false);
 
 
 		};

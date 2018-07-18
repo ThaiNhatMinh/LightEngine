@@ -103,6 +103,7 @@ namespace Light
 			else if (info.eTarget == GL_TEXTURE_CUBE_MAP) return new OpenGLCubeTexture(info);
 			else E_WARNING("Invaild target texture: %d", info.eTarget);
 			
+			return nullptr;
 		}
 
 		IndexBuffer * OpenGLRenderDevice::CreateIndexBuffer(unsigned int size, const void* pData)

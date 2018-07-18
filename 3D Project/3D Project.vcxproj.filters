@@ -184,6 +184,21 @@
       <Filter>Graphics3D</Filter>
     </ClInclude>
     <ClInclude Include="typedef.h" />
+    <ClInclude Include="Core\ActorFactory.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Actor.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\ICamera.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Light.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -270,6 +285,15 @@
       <Filter>Graphics3D\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\ModelRender.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ActorFactory.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Actor.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
   </ItemGroup>

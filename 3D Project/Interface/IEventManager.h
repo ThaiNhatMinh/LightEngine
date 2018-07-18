@@ -1,8 +1,9 @@
 #pragma once
-
+#include "IEvent.h"
+#include "ISubSystem.h"
 namespace Light 
 {
-	class IEventManager
+	class IEventManager: public ISubSystem
 	{
 	public:
 

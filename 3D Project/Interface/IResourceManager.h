@@ -85,7 +85,7 @@ namespace Light
 			virtual render::ModelRender*	VCreateModelRender(const std::string& filename) = 0;
 			virtual LTModel *				VGetModel(const std::string& filename) = 0;
 			virtual HeightMap*				VGetHeightMap(const std::string& filename) = 0;
-			virtual LoadStatus*				VLoadResource(const std::string& resourcePath) = 0;
+			virtual LoadStatus*				VLoadResource(const std::string& resourcePath, bool async = false) = 0;
 			//virtual FMOD::Sound*	VGetSound(const string& tag) = 0;
 		};
 	}

@@ -846,13 +846,17 @@ namespace Light
 			return hm;
 		}
 
-		LoadStatus * ResourceManager::VLoadResource(const std::string & resourcePath)
+		LoadStatus * ResourceManager::VLoadResource(const std::string & resourcePath, bool async)
 		{
-			if (resourcePath == m_LoadStatus.path) return &m_LoadStatus;
-			
-			m_LoadThread = std::thread(&ResourceManager::LoadThreadResource, this,&m_ThreadContext, resourcePath);
+			if (async)
+			{
+				if (resourcePath == m_LoadStatus.path) return &m_LoadStatus;
+				m_LoadThread = std::thread(&ResourceManager::LoadThreadResource, this, &m_ThreadContext, resourcePath);
 
-			return  &m_LoadStatus;
+				return  &m_LoadStatus;
+			}
+			else LoadResources(resourcePath);
+			return nullptr;
 		}
 
 		//FMOD::Sound * ResourceManager::VGetSound(const string & tag)

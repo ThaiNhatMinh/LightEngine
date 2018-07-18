@@ -17,6 +17,6 @@ render::OpenGLTexture::OpenGLTexture(const TextureCreateInfo & info) :Texture(in
 
 render::OpenGLTexture::~OpenGLTexture()
 {
-	E_DEBUG("OpenGLTexture::~OpenGLTexture()");
+	
 	glDeleteTextures(1, &m_iHandle);
 }
