@@ -25,11 +25,7 @@ namespace Light
 
 	void Actor::PostInit(void)
 	{
-		for (ActorComponents::iterator it = m_components.begin(); it != m_components.end(); ++it)
-		{
-			it->second->VPostInit();
-		}
-		m_TransformComponent->VPostInit();
+	
 	}
 
 	void Actor::Destroy(void)
@@ -38,12 +34,6 @@ namespace Light
 
 	HRESULT Actor::VOnUpdate(Scene *pScene, float deltaMs)
 	{
-
-		for (ActorComponents::iterator it = m_components.begin(); it != m_components.end(); ++it)
-		{
-			it->second->VUpdate(deltaMs);
-		}
-
 
 		for (ActorList::iterator i = m_Children.begin(); i != m_Children.end(); i++)
 		{
@@ -56,10 +46,7 @@ namespace Light
 
 	HRESULT Actor::VPostUpdate(Scene *pScene)
 	{
-		for (ActorComponents::iterator it = m_components.begin(); it != m_components.end(); ++it)
-		{
-			it->second->VPostUpdate();
-		}
+
 
 		for (ActorList::iterator i = m_Children.begin(); i != m_Children.end(); i++)
 		{
@@ -78,10 +65,6 @@ namespace Light
 		return transform;
 	}
 
-	HRESULT Actor::VPreRender(Scene * pScene)
-	{
-		return S_OK;
-	}
 
 	bool Actor::VIsVisible(Scene * pScene) const
 	{
@@ -101,11 +84,11 @@ namespace Light
 			return true;
 		}
 
-		std::pair<ActorComponents::iterator, bool> success = m_components.insert(std::make_pair(typeid(*pComponent).hash_code(), pComponent));
+		std::pair<ActorComponents::iterator, bool> success = m_components.insert(std::make_pair(pComponent->GetType(), pComponent));
 		return success.second;
 	}
 
-	IComponent * Actor::VGetComponent(ComponentId id)
+	IComponent * Actor::VGetComponent(ComponentType id)
 	{
 		ActorComponents::iterator findIt = m_components.find(id);
 		if (findIt != m_components.end())
@@ -120,7 +103,7 @@ namespace Light
 		}
 	}
 
-	bool Actor::VRemoveComponent(ComponentId id)
+	bool Actor::VRemoveComponent(ComponentType id)
 	{
 		ActorComponents::iterator findIt = m_components.find(id);
 		if (findIt != m_components.end())
@@ -134,34 +117,7 @@ namespace Light
 		
 	}
 
-	HRESULT Actor::VRender(Scene * pScene)
-	{
-		return S_OK;
-	}
-
-	HRESULT Actor::VRenderChildren(Scene * pScene)
-	{
-
-		// Iterate through the children....	
-		for (ActorList::iterator i = m_Children.begin(); i != m_Children.end(); i++)
-		{
-			if ((*i)->VPreRender(pScene) == S_OK)
-			{
-
-				// Don't render this node if you can't see it
-				if ((*i)->VIsVisible(pScene)) (*i)->VRender(pScene);
-
-				(*i)->VRenderChildren(pScene);
-			}
-			(*i)->VPostRender(pScene);
-		}
-		return S_OK;
-	}
-
-	HRESULT Actor::VPostRender(Scene * pScene)
-	{
-		return S_OK;
-	}
+	
 
 	bool Actor::VAddChild(IActor* kid)
 	{

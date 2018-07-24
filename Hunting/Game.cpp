@@ -1,7 +1,9 @@
 #include "stdafx.h"
 
 #include <IResourceManager.h>
-
+#include <IEventManager.h>
+#include <IFactory.h>
+#include <ITimer.h>
 #include <iostream>
 #include "Game.h"
 
@@ -60,12 +62,15 @@ void Game::Init(Light::IContext* pContext)
 
 	
 	Light::resources::IResourceManager* pResource = pContext->GetSystem<Light::resources::IResourceManager>();
-	loading = pResource->VLoadResource("GameAssets\\Resources.xml");
+	//loading = pResource->VLoadResource("GameAssets\\Resources.xml",true);
+	auto pEventManager = pContext->GetSystem<Light::IEventManager>();
+	auto pFactory = pContext->GetSystem<Light::IFactory>();
+	auto pTimer = pContext->GetSystem<Light::ITimer>();
 }
 
 void Game::Render()
 {
-	std::cout << "Percent: " << loading->percent*100 << "%" << std::endl;
+	//if(loading && loading->status==loading->LOADING) std::cout << "Percent: " << loading->percent*100 << "%" << std::endl;
 	m_pRenderer->SetPipeline(pipeline);
 	//param->SetAsInt(0);
 	//m_pRenderer->SetTexture(0, pTex);

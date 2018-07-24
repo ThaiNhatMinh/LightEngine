@@ -10,11 +10,10 @@ namespace Light
 		class ModelRender
 		{
 		public:
-			ModelRender();
+			ModelRender() {};
 		public:
 
 			std::vector<std::unique_ptr<Mesh>>  m_pMesh;
-			std::vector<Texture*>	m_Textures;
 			std::vector<Material>	m_Material;
 		};
 	}

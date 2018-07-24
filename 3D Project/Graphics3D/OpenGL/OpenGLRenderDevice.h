@@ -2,7 +2,7 @@
 
 #include "..\Renderer.h"
 #include "..\..\Interface\IContext.h"
-
+#include "Interface\IEvent.h"
 namespace Light
 {
 	namespace render
@@ -30,6 +30,19 @@ namespace Light
 			virtual void				Clear(float r = 0.0f, float g = 0.0f, float b = 0.0f, float alpha = 1.0f, float depth = 1.0f)override;
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES)override;
 			virtual void				DrawElement(int count, int type, const void * indices, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES)override;
+
+		private:
+
+			struct Renderable
+			{
+				IMeshRenderComponent* m_RenderComponent;
+				ITransformComponent* m_TransformComponent;
+
+			};
+
+			using RenderableList = std::list<Renderable>;
+
+			void OnObjectCreate(std::shared_ptr<IEvent> event);
 		};
 	}
 }

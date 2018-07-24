@@ -3,6 +3,9 @@
 #include <type_traits>
 
 #include "OpenGLWindows.h"
+#include "EventManager.h"
+#include "ActorFactory.h"
+#include "Timer.h"
 #include "Context.h"
 #include "..\Graphics3D\OpenGL\OpenGLRenderDevice.h"
 #include "..\Graphics3D\OpenGL\OpenGLPipeline.h"
@@ -21,8 +24,8 @@ void Application::SetupSubmodule()
 
 	m_pWindows = std::unique_ptr<Light::IWindow>(new Light::OpenGLWindows(m_Context.get()));
 	m_pRenderer = std::unique_ptr<Light::render::RenderDevice>(new Light::render::OpenGLRenderDevice(m_Context.get()));
-	//m_pEventManager = std::unique_ptr<EventManager>(new EventManager(m_Context.get()));
-	//m_pActorFactory = std::unique_ptr<ActorFactory>(new ActorFactory(m_Context.get()));
+	m_pEventManager = std::unique_ptr<Light::IEventManager>(new Light::EventManager(m_Context.get()));
+	m_pActorFactory = std::unique_ptr<Light::IFactory>(new Light::ActorFactory(m_Context.get()));
 	//m_pSoundEngine = std::unique_ptr<SoundEngine>(new SoundEngine(m_Context.get()));
 	m_pResources = std::unique_ptr<IResourceManager>(new Light::resources::ResourceManager(m_Context.get()));
 	//m_pSystemUI = std::unique_ptr<SystemUI>(new SystemUI(m_Context.get()));
@@ -30,14 +33,11 @@ void Application::SetupSubmodule()
 	//m_pConsole = std::unique_ptr<Console>(new Console(m_Context.get()));
 	//m_pDebuger = std::unique_ptr<Debug>(new Debug(m_Context.get()));
 	//m_pPhysic = std::unique_ptr<BulletPhysics>(new BulletPhysics(m_Context.get()));
-	//m_pTimer = std::unique_ptr<GameTimer>(new GameTimer(m_Context.get()));
+	m_pTimer = std::unique_ptr<Light::ITimer>(new Light::GameTimer(m_Context.get()));
 	//m_pEffectSystem = std::unique_ptr<EffectSystem>(new EffectSystem(m_Context.get()));
 	//m_pVGUI = std::unique_ptr<VGUI>(new VGUI(m_Context.get()));
 	
-	// Create game plugin
-	//m_GamePlugins = std::unique_ptr<GamePluginManager>(new GamePluginManager(m_Context.get()));
-
-	//m_GamePlugins->LoadPlugin("FPSGame.dll");
+	
 	//m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
 
@@ -72,7 +72,7 @@ void Application::MainLoop()
 	
 	//m_Context->GetSystem<Windows>()->ShowWindows();
 
-	//m_pTimer->Reset();
+	m_pTimer->VReset();
 
 	IGamePlugin* pGame = m_GamePlugins.LoadPlugin();
 
@@ -82,10 +82,10 @@ void Application::MainLoop()
 	{
 		glfwPollEvents();
 		// Update input
-		//m_pInput->Update();
+		//		m_pInput->VUpdate();
 		if (m_pInput->VOnKey(Light::Escape))	m_bRunMainLoop = false;
 		// Timer
-		//m_pTimer->Tick();
+		m_pTimer->VTick();
 		//m_pSystemUI->NewFrame();
 
 		//ImGui::Text("FPS: %d", m_pTimer->GetFPS());
@@ -95,7 +95,7 @@ void Application::MainLoop()
 
 		//	float dt = m_pTimer->GetDeltaTime();
 		//	// Update Event
-		//	m_pEventManager->VUpdate(20);
+		m_pEventManager->VUpdate(20);
 		//	// Update Game
 		//	m_GamePlugins->UpdateGame(dt);
 		//	// Update Physic

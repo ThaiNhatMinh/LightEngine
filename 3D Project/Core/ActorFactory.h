@@ -6,6 +6,7 @@
 #include "..\Interface\IActor.h"
 #include "..\Interface\IEventManager.h"
 
+
 namespace Light
 {
 	class ActorFactory : public IFactory
@@ -25,7 +26,7 @@ namespace Light
 		virtual bool		VRegisterActorFactory(const string& name, std::function<IActor*(int id)>)override;
 		virtual IActor*		VCreateActor(const char* actorResource, bool isCreateChild)override;
 
-
+		virtual const char*	VGetName();
 	private:
 		IComponent * CreateComponent(const tinyxml2::XMLElement* pData);
 		ActorId GetNextActorId(void) { ++m_lastActorId; return m_lastActorId; }
@@ -33,6 +34,7 @@ namespace Light
 	private:
 		IEventManager * m_pEventManager;
 		IContext* m_pContext;
+
 	};
 
 }

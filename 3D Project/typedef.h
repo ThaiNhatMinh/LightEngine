@@ -9,3 +9,10 @@ typedef unsigned char		uint8;
 typedef unsigned short int	uint16;
 typedef unsigned int		uint32;
 typedef unsigned __int64    uint64;
+
+
+typedef uint32 ActorId;
+typedef uint32 ComponentType;
+typedef unsigned long EventType;
+typedef unsigned long EventDelegateType;
+typedef uint32 MaterialType;

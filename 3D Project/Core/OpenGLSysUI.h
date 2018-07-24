@@ -1,5 +1,6 @@
 #pragma once
 
+#include "..\Interface\ISysUI.h"
 
 namespace Light
 {

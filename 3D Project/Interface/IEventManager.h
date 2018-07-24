@@ -1,4 +1,7 @@
 #pragma once
+
+#include <memory>
+
 #include "IEvent.h"
 #include "ISubSystem.h"
 namespace Light 
@@ -11,10 +14,10 @@ namespace Light
 
 		// Registers a delegate function that will get called when the event type is triggered.  Returns true if 
 		// successful, false if not.
-		virtual bool VAddListener(const EventListenerDelegate& eventDelegate, const EventType& type) = 0;
+		virtual bool VAddListener(IEventDelegate* eventDelegate, const EventType& type) = 0;
 
 		// Removes a delegate / event type pairing from the internal tables.  Returns false if the pairing was not found.
-		virtual bool VRemoveListener(const EventListenerDelegate& eventDelegate, const EventType& type) = 0;
+		virtual bool VRemoveListener(IEventDelegate* eventDelegate, const EventType& type) = 0;
 
 		// Fire off event NOW.  This bypasses the queue entirely and immediately calls all delegate functions registered 
 		// for the event.

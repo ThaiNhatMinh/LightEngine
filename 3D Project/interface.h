@@ -3,8 +3,6 @@
 
 #define MAX_NAME 128
 
-typedef unsigned int ActorId;
-typedef unsigned int ComponentId;
 class Scene;
 
 

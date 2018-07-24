@@ -4,9 +4,24 @@
 #include "Core\Application.h"
 
 #include <thread>
-
-
-
+#include "Interface\IEvent.h"
+#include "Utilities\Delegate.h"
+class A
+{
+public:
+	void foo(std::shared_ptr<Light::IEvent> )
+	{
+		std::cout << "A: "  <<std::endl;
+	}
+};
+class B
+{
+public:
+	void foo1(std::shared_ptr<Light::IEvent>)
+	{
+		std::cout << "B" << std::endl;
+	}
+};
 void main()
 {
 
@@ -20,6 +35,5 @@ void main()
 	Application app;
 	app.MainLoop();
 	
-	
-	
+	system("pause");
 }

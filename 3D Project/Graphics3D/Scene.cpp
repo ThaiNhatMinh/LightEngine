@@ -22,7 +22,7 @@ namespace Light
 	{
 	}
 
-	bool Scene::LoadScene(const string& filename)
+	bool Scene::VLoadScene(const string& filename)
 	{
 		tinyxml2::XMLDocument doc;
 		if (doc.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS)
@@ -80,7 +80,7 @@ namespace Light
 		return 1;
 	}
 
-	bool Scene::OnRender()
+	bool Scene::VOnRender()
 	{
 
 		// The render passes usually go like this 
@@ -108,24 +108,24 @@ namespace Light
 		return true;
 	}
 
-	bool Scene::OnUpdate(float dt)
+	bool Scene::VOnUpdate(float dt)
 	{
 		m_pRoot->VOnUpdate(this, dt);
 		//m_Context->m_pDebuger->Update();
 		return true;
 	}
-	bool Scene::PostUpdate()
+	bool Scene::VPostUpdate()
 	{
 		m_pRoot->VPostUpdate(this);
 		return true;
 	}
 
-	render::ICamera * Scene::GetCurrentCamera()
+	render::ICamera * Scene::VGetCurrentCamera()
 	{
 		return m_CurrentCamera;
 	}
 
-	void Scene::SetCurrentCamera(render::ICamera * cam)
+	void Scene::VSetCurrentCamera(render::ICamera * cam)
 	{
 		m_CurrentCamera = cam;
 	}

@@ -10,9 +10,11 @@
 #include "OpenGLCompressTexture.h"
 #include "OpenGLIndexBuffer.h"
 #include "OpenGLCubeTexture.h"
-
 #include "Core\OpenGLWindows.h"
-
+#include "Interface\IEventManager.h"
+#include "Core\Events.h"
+#include "GameComponents\TransformComponent.h"
+#include "GameComponents\MeshRenderComponent.h"
 
 namespace Light
 {
@@ -56,6 +58,7 @@ namespace Light
 			//glEnable(GL_CULL_FACE);
 			//glCullFace(GL_BACK);
 			pContext->VAddSystem(this);
+			pContext->GetSystem<IEventManager>()->VAddListener(new EventDelegate<OpenGLRenderDevice>(this, this->OnObjectCreate), events::EvtNewActor::Type);
 		}
 
 		const char * OpenGLRenderDevice::VGetName()
@@ -155,6 +158,14 @@ namespace Light
 		{
 			if (primcount) glDrawElementsInstanced(primitive, count, type, indices, primcount);
 			else glDrawElements(primitive, count, type, indices);
+		}
+
+		void OpenGLRenderDevice::OnObjectCreate(std::shared_ptr<IEvent> event)
+		{
+			IActor* pActor = static_cast<events::EvtNewActor*>(event.get())->GetActor();
+			IMeshRenderComponent* pMeshRender = pActor->GetComponent<IMeshRenderComponent>();
+			
+			if (pMeshRender == nullptr) return;
 		}
 
 	}

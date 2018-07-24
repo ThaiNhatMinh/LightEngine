@@ -2,20 +2,24 @@
 #include "ActorFactory.h"
 #include "..\Interface\IEvent.h"
 #include "..\Graphics3D\Actor.h"
+#include "..\GameComponents\TransformComponent.h"
+#include "..\GameComponents\MeshRenderComponent.h"
+#include "Events.h"
 namespace Light
 {
 
 	ActorFactory::ActorFactory(IContext* c)
 	{
 		m_lastActorId = 1;
-		/*m_ComponentFactoryMap.insert(std::make_pair("TransformComponent", []() { return new TransformComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("ColliderComponent", []() { return new ColliderComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("TransformComponent", []() { return new TransformComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("MeshRenderComponent", []() { return new MeshRenderComponent(); }));
+		/*m_ComponentFactoryMap.insert(std::make_pair("ColliderComponent", []() { return new ColliderComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("RigidBodyComponent", []() { return new RigidBodyComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("AnimationComponent", []() { return new AnimationComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("PVAnimationComponen", []() { return new PVAnimationComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("CharacterControllerComponent", []() { return new CharacterControllerComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("LogicComponent", []() { return new LogicComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("MeshRenderComponent", []() { return new MeshRenderComponent(); }));
+		
 		m_ComponentFactoryMap.insert(std::make_pair("TerrainRenderComponent", []() { return new TerrainRenderComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("CameraComponent", []() { return  new CameraComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("HitBox", []() { return  new HitBox(); }));
@@ -119,7 +123,7 @@ namespace Light
 			if (pComponent)
 			{
 				pComponent->SetOwner(pActor);
-				if (!pComponent->VInit(m_pContext, pNode))
+				if (!pComponent->VInit(pNode))
 				{
 					E_WARNING("Actor: %s, Component failed to initialize: %s", pActor->VGetName().c_str(),pNode->Value());
 					continue;
@@ -150,11 +154,16 @@ namespace Light
 
 		if (!isCreateChild) pActor->PostInit();
 
-		//if (m_pEventManager->VQueueEvent(std::shared_ptr<IEvent>(new EvtData_New_Actor(pActor))))
+		if (!m_pEventManager->VQueueEvent(std::shared_ptr<IEvent>(new events::EvtNewActor(pActor))))
 		{
 			E_ERROR("Failer to send event");
 		}
 		return pActor;
+	}
+
+	const char * ActorFactory::VGetName()
+	{
+		return typeid(IFactory).name();
 	}
 
 	/*Shader * ActorFactory::VCreateShader(const char * type, const char * vs, const char * fs)

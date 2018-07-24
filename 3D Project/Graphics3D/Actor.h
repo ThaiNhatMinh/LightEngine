@@ -2,6 +2,7 @@
 #include <pch.h>
 #include "..\Interface\IActor.h"
 #include "..\Interface\IComponent.h"
+#include "GameComponents\TransformComponent.h"
 namespace Light 
 {
 	class Actor : public IActor
@@ -9,7 +10,7 @@ namespace Light
 		friend class ActorFactory;
 	public:
 		typedef std::vector<std::unique_ptr<IActor>> ActorList;
-		typedef std::map<ComponentId, std::unique_ptr<IComponent>> ActorComponents;
+		typedef std::map<ComponentType, std::unique_ptr<IComponent>> ActorComponents;
 
 
 	protected:
@@ -36,11 +37,7 @@ namespace Light
 		virtual mat4		VGetGlobalTransform()override;
 		virtual HRESULT		VOnUpdate(Scene *, float elapsedMs)override;
 		virtual HRESULT		VPostUpdate(Scene *)override;
-		virtual HRESULT		VPreRender(Scene *pScene);
 		virtual bool		VIsVisible(Scene *pScene) const override;
-		virtual HRESULT		VRenderChildren(Scene *pScene)override;
-		virtual HRESULT		VPostRender(Scene *pScene)override;
-		virtual HRESULT		VRender(Scene *pScene)override;
 		virtual bool		VAddChild(IActor* kid)override;
 		virtual bool		VRemoveChild(ActorId id)override;
 		virtual IActor*		VGetChild(int index)override;
@@ -48,8 +45,8 @@ namespace Light
 		virtual IActor*		VGetParent()override; 
 		virtual ActorId		VGetId(void) const override;
 		virtual bool		VAddComponent(IComponent* pComponent)override;
-		virtual IComponent* VGetComponent(ComponentId id)override;
-		virtual bool		VRemoveComponent(ComponentId id)override;
+		virtual IComponent* VGetComponent(ComponentType id)override;
+		virtual bool		VRemoveComponent(ComponentType id)override;
 		//template<class ComponentType>ComponentType* GetComponent(ComponentId id);
 		//template<class ComponentType>ComponentType* GetComponent(const char*  name)const;
 

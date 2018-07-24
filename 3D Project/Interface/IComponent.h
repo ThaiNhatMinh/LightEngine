@@ -1,38 +1,43 @@
 #pragma once
 
 #include <glm\mat4x4.hpp>
+#include <Utilities\Utility.h>
 #include "..\Graphics3D\ModelRender.h"
 namespace Light 
 {
 	class IActor;
-	class IComponent
+	class IComponent: public util::Serialization
 	{
 	public:
 		virtual ~IComponent() = default;
-
-		virtual bool VInit(IContext* pContext, const tinyxml2::XMLElement* pData) = 0;
-		// Not use now, update later
-		virtual tinyxml2::XMLElement* VGenerateXml(tinyxml2::XMLDocument*p) {return nullptr;};
-		virtual void VPostInit(void) {};
-		virtual void VUpdate(float dt) {};
-		virtual void VPostUpdate() {};
+		virtual inline ComponentType	GetType() = 0;
 		IActor* GetOwner() {			return m_pOwner;		};
 		void SetOwner(IActor* pActor) {			m_pOwner = pActor;		};
 	private:
 		IActor* m_pOwner;
 	};
+	template<class T>
+	class Component: public IComponent
+	{
+	public:
+		static const ComponentType Type;
+		virtual inline ComponentType	GetType()
+		{
+			return Type;
+		}
+	};
 
-
+	template<class T> ComponentType Component<T>::Type = typeid(T).hash_code();
 	/// really simple component
 
-	class TransformComponent :public IComponent
+	class ITransformComponent :public Component<ITransformComponent>
 	{
 	public:
 		glm::mat4 transform;
 	};
 
 
-	class MeshRenderComponent : public IComponent
+	class IMeshRenderComponent : public Component<IMeshRenderComponent>
 	{
 	public:
 		render::ModelRender* m_pModel;

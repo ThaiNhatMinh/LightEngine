@@ -35,13 +35,6 @@ using std::vector;
 using std::map;
 #pragma warning(disable: 4244) 
 
-// TinyXML 2
-#include <tinyxml2.h>
-
-
-#include <FastDelegate.h>
-using fastdelegate::MakeDelegate;
-
 // Lua Plus 5.1
 //#include <LuaPlus.h>
 // OpenGL Include

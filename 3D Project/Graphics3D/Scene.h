@@ -1,14 +1,16 @@
 #pragma once
 #include <vector>
 #include "Camera.h"
-#include "..\Interface\IActor.h"
 #include "Light.h"
 #include "ICamera.h"
+
+#include "..\Interface\IActor.h"
+#include "..\Interface\IScene.h"
 
 namespace Light
 {
 	static const char* SYSTEM_ROOT_ACTOR = "GameAssets\\System\\Root.xml";
-	class Scene
+	class Scene: public IScene
 	{
 	private:
 		// Simple Object with only transform component
@@ -26,15 +28,15 @@ namespace Light
 		Scene(IContext* c);
 		~Scene();
 
-		bool LoadScene(const string& filename);
-		bool OnRender();
+		bool VLoadScene(const string& filename);
+		bool VOnRender();
 
-		bool OnUpdate(float dt);
-		bool PostUpdate();
+		bool VOnUpdate(float dt);
+		bool VPostUpdate();
 
-		render::ICamera*	GetCurrentCamera();
-		void		SetCurrentCamera(render::ICamera * cam);
-		IActor*		GetRoot() { return m_pRoot.get(); };
+		render::ICamera*	VGetCurrentCamera();
+		void		VSetCurrentCamera(render::ICamera * cam);
+		IActor*		VGetRoot() { return m_pRoot.get(); };
 		render::DirectionLight		GetDirLight() { return m_DirectionLight; };
 	};
 }

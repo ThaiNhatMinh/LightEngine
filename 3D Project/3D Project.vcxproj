@@ -177,11 +177,16 @@
     <ClInclude Include="Core\ActorFactory.h" />
     <ClInclude Include="Core\Application.h" />
     <ClInclude Include="Core\Context.h" />
+    <ClInclude Include="Core\EventManager.h" />
+    <ClInclude Include="Core\Events.h" />
     <ClInclude Include="Core\Log.h" />
     <ClInclude Include="Core\OpenGLDebugRender.h" />
     <ClInclude Include="Core\OpenGLInput.h" />
     <ClInclude Include="Core\OpenGLSysUI.h" />
     <ClInclude Include="Core\OpenGLWindows.h" />
+    <ClInclude Include="Core\Timer.h" />
+    <ClInclude Include="GameComponents\MeshRenderComponent.h" />
+    <ClInclude Include="GameComponents\TransformComponent.h" />
     <ClInclude Include="GamePlugin\GamePluginManager.h" />
     <ClInclude Include="Graphics3D\Actor.h" />
     <ClInclude Include="Graphics3D\ICamera.h" />
@@ -219,6 +224,7 @@
     <ClInclude Include="Interface\IInput.h" />
     <ClInclude Include="Interface\IModelResource.h" />
     <ClInclude Include="Interface\IResourceManager.h" />
+    <ClInclude Include="Interface\IScene.h" />
     <ClInclude Include="Interface\IShader.h" />
     <ClInclude Include="Interface\ISoundEngine.h" />
     <ClInclude Include="Interface\ISubSystem.h" />
@@ -232,10 +238,12 @@
     <ClInclude Include="ResourceManager\LTRawData.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="typedef.h" />
+    <ClInclude Include="Utilities\Delegate.h" />
     <ClInclude Include="Utilities\Observer.h" />
     <ClInclude Include="Utilities\PhysicsUtilities.h" />
     <ClInclude Include="Utilities\Template.h" />
     <ClInclude Include="Utilities\String.h" />
+    <ClInclude Include="Utilities\Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\ThirdParty\imgui\imgui.cpp" />
@@ -243,13 +251,16 @@
     <ClCompile Include="Core\ActorFactory.cpp" />
     <ClCompile Include="Core\Application.cpp" />
     <ClCompile Include="Core\Context.cpp" />
+    <ClCompile Include="Core\EventManager.cpp" />
     <ClCompile Include="Core\Log.cpp" />
     <ClCompile Include="Core\OpenGLDebugRender.cpp" />
     <ClCompile Include="Core\OpenGLInput.cpp" />
     <ClCompile Include="Core\OpenGLWindows.cpp" />
+    <ClCompile Include="Core\Timer.cpp" />
+    <ClCompile Include="GameComponents\MeshRenderComponent.cpp" />
+    <ClCompile Include="GameComponents\TransformComponent.cpp" />
     <ClCompile Include="GamePlugin\GamePluginManager.cpp" />
     <ClCompile Include="Graphics3D\Actor.cpp" />
-    <ClCompile Include="Graphics3D\ModelRender.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCompressTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCubeTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLIndexBuffer.cpp" />

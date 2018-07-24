@@ -199,6 +199,30 @@
     <ClInclude Include="Graphics3D\Light.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\Delegate.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IScene.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\EventManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Timer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\TransformComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\MeshRenderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Utility.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -284,9 +308,6 @@
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCubeTexture.cpp">
       <Filter>Graphics3D\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\ModelRender.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
     <ClCompile Include="Core\ActorFactory.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -295,6 +316,18 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\Scene.cpp">
       <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\EventManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Timer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\TransformComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\MeshRenderComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -342,6 +375,9 @@
     </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{88a7836e-fd70-4c5d-abd7-29eb3783718c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{5207efdf-e9f8-4b16-9070-645412eac913}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
