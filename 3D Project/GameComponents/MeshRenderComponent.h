@@ -8,7 +8,7 @@ namespace Light
 
 	public:
 
-		virtual bool VSerialize(const tinyxml2::XMLElement* pData);
+		virtual bool VSerialize(IContext*pContext,const tinyxml2::XMLElement * pData);
 		virtual tinyxml2::XMLElement* VDeserialize(tinyxml2::XMLDocument*p);
 	};
 

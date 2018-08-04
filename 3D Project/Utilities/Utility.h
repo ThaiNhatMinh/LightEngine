@@ -12,7 +12,7 @@ namespace Light
 		public:
 			virtual ~Serialization() = default;
 
-			virtual bool VSerialize(const tinyxml2::XMLElement* pData)=0;
+			virtual bool VSerialize(IContext*pContext,const tinyxml2::XMLElement * pData)=0;
 			virtual tinyxml2::XMLElement* VDeserialize(tinyxml2::XMLDocument*p)=0;
 		};
 	}

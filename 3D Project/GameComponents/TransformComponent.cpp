@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "TransformComponent.h"
 
-bool Light::TransformComponent::VSerialize(const tinyxml2::XMLElement * pData)
+bool Light::TransformComponent::VSerialize(IContext*pContext,const tinyxml2::XMLElement * pData)
 {
 	if (!pData) return false;
 

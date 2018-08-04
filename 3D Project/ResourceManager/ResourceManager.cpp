@@ -795,7 +795,11 @@ namespace Light
 		render::VertexShader * ResourceManager::VGetVertexShader(const std::string & filename)
 		{
 			render::VertexShader* Vshader = nullptr;
-			Vshader = HasResource(m_VertexShaders, filename);
+			CheckResourceFunc a = [](const std::string&a, const std::string& b)
+			{
+				return (a.find(b) != string::npos);
+			};
+			Vshader = HasResource(m_VertexShaders, filename,a);
 			if (Vshader == nullptr)
 			{
 				if((Vshader=LoadVertexShader(filename))==nullptr)

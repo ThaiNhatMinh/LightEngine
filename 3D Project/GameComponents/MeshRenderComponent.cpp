@@ -6,7 +6,7 @@ namespace Light
 	{
 	}
 
-	bool MeshRenderComponent::VSerialize(const tinyxml2::XMLElement* pData)
+	bool MeshRenderComponent::VSerialize(IContext*pContext,const tinyxml2::XMLElement * pData)
 	{
 		if (!pData) return false;
 

@@ -1,0 +1,9 @@
+<coefficients>
+			<Ka r="1.0" g="1.0" b="1.0" />
+			<Kd r="1.0" g="1.0" b="1.0" />
+			<Ks r="1.0" g="1.0" b="1.0"  exp="128"/>
+</coefficients>
+<Shader>
+	<VertexShader></VertexShader>
+	<PixelShader></PixelShader>
+</Shader>

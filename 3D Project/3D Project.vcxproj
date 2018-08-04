@@ -189,6 +189,7 @@
     <ClInclude Include="GameComponents\TransformComponent.h" />
     <ClInclude Include="GamePlugin\GamePluginManager.h" />
     <ClInclude Include="Graphics3D\Actor.h" />
+    <ClInclude Include="Graphics3D\DefaultMaterial.h" />
     <ClInclude Include="Graphics3D\ICamera.h" />
     <ClInclude Include="Graphics3D\Light.h" />
     <ClInclude Include="Graphics3D\Material.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexShader.h" />
     <ClInclude Include="Graphics3D\Renderer.h" />
     <ClInclude Include="Graphics3D\Scene.h" />
+    <ClInclude Include="Graphics3D\SkeletonMaterial.h" />
     <ClInclude Include="Graphics3D\SkeMesh.h" />
     <ClInclude Include="Graphics3D\Vertex.h" />
     <ClInclude Include="interface.h" />
@@ -261,6 +263,7 @@
     <ClCompile Include="GameComponents\TransformComponent.cpp" />
     <ClCompile Include="GamePlugin\GamePluginManager.cpp" />
     <ClCompile Include="Graphics3D\Actor.cpp" />
+    <ClCompile Include="Graphics3D\DefaultMaterial.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCompressTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCubeTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLIndexBuffer.cpp" />

@@ -14,7 +14,8 @@ namespace Light
 		public:
 
 			std::vector<std::unique_ptr<Mesh>>  m_pMesh;
-			std::vector<Material>	m_Material;
+			std::vector<Texture*> m_Texture;
+			std::vector<Material*>	m_Material;
 		};
 	}
 }

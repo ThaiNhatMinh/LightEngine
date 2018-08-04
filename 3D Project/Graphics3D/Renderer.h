@@ -155,6 +155,9 @@ namespace Light
 			SHADER_NUM
 		};
 
+		const char* uMODEL	= "uModel";
+		const char* uMVP	= "uMVP";
+		const char* aPOS	= "aPos";
 		enum Primitive
 		{
 			PRIMITIVE_POINT = 0,
@@ -287,6 +290,8 @@ namespace Light
 			virtual void				Clear(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 1.0f, float depth = 1.0f) = 0;
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;
 			virtual void				DrawElement(int count, int type, const void * indices, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;
+
+			virtual void				Render() =0;
 
 		};
 	}
