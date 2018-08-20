@@ -226,7 +226,12 @@
     <ClInclude Include="Graphics3D\SkeletonMaterial.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\DefaultMaterial.h" />
+    <ClInclude Include="Graphics3D\DefaultMaterial.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\OtherModel.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -333,7 +338,9 @@
     <ClCompile Include="GameComponents\MeshRenderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\DefaultMaterial.cpp" />
+    <ClCompile Include="Graphics3D\DefaultMaterial.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

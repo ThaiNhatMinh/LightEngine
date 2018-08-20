@@ -2,10 +2,9 @@
 #include "MeshRenderComponent.h"
 namespace Light
 {
-	MeshRenderComponent::MeshRenderComponent(void)
+	MeshRenderComponent::MeshRenderComponent()
 	{
 	}
-
 	bool MeshRenderComponent::VSerialize(IContext*pContext,const tinyxml2::XMLElement * pData)
 	{
 		if (!pData) return false;

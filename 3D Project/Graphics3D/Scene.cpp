@@ -91,7 +91,7 @@ namespace Light
 
 
 		// Root doesn't have anything to render, so just render children	
-		m_pRoot->VRenderChildren(this);
+		//m_pRoot->VRenderChildren(this);
 
 		// render last
 		//m_Context->m_pRenderer->ClearBuffer();

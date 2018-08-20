@@ -79,7 +79,7 @@ namespace Light
 	};
 
 
-	class LTModel
+	class LTModel :public render::Model
 	{
 	public:
 		std::vector<LTRawData>					Meshs;

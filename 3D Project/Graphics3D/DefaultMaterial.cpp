@@ -6,6 +6,9 @@ namespace Light
 {
 	namespace render
 	{
+		DefaultMaterial::DefaultMaterial()
+		{
+		}
 		bool DefaultMaterial::VSerialize(IContext*pContext,const tinyxml2::XMLElement * pData)
 		{
 			auto pRenderer = pContext->GetSystem<RenderDevice>();
@@ -31,7 +34,7 @@ namespace Light
 			auto pPixelNode = pShaderNode->FirstChildElement("PixelShader");
 			auto pVertexShader = pResources->VGetVertexShader(pVertexNode->GetText());
 			auto pPixelShader = pResources->VGetPixelShader(pPixelNode->GetText());
-			m_Pipeline = std::shared_ptr<Pipeline>(pRenderer->CreatePipeline(pVertexShader, pPixelShader));
+			m_Pipeline = std::unique_ptr<Pipeline>(pRenderer->CreatePipeline(pVertexShader, pPixelShader));
 			m_ShaderName = std::make_pair(pVertexNode->GetText(),pPixelNode->GetText());
 
 			this->GetUniform();
@@ -77,7 +80,8 @@ namespace Light
 		}
 		MaterialType DefaultMaterial::GetType()
 		{
-			return typeid(DefaultMaterial).hash_code();
+			static std::size_t type = typeid(DefaultMaterial).hash_code();
+			return type;
 		}
 		void DefaultMaterial::GetUniform()
 		{

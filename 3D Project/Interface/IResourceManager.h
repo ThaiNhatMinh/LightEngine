@@ -39,6 +39,7 @@ namespace Light
 			uint32					m_Flags;
 		};
 
+		
 		class IResource
 		{
 		public:
@@ -82,10 +83,9 @@ namespace Light
 			virtual render::Texture*		VGetTexture(const std::string& filename) = 0;
 			virtual render::VertexShader*	VGetVertexShader(const std::string& key) = 0;
 			virtual render::PixelShader*	VGetPixelShader(const std::string& key) = 0;
-			virtual render::ModelRender*	VCreateModelRender(const std::string& filename) = 0;
-			virtual LTModel *				VGetModel(const std::string& filename) = 0;
+			virtual render::Model *			VGetModel(const std::string& filename) = 0;
 			virtual HeightMap*				VGetHeightMap(const std::string& filename) = 0;
-			virtual LoadStatus*				VLoadResource(const std::string& resourcePath, bool async = false) = 0;
+			//virtual LoadStatus*				VLoadResource(const std::string& resourcePath, bool async = false) = 0;
 			//virtual FMOD::Sound*	VGetSound(const string& tag) = 0;
 		};
 	}

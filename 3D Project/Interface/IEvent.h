@@ -3,16 +3,14 @@
 #include <iostream>
 #include <strstream>
 #include "..\typedef.h"
-
+#include "..\Utilities\Utility.h"
 namespace Light
 {
-	class IEvent
+	class IEvent: //public util::Serialization
 	{
 	public:
 		virtual ~IEvent(void) {}
 		virtual const EventType& VGetEventType(void) const = 0;
-		virtual void VSerialize(std::ostrstream& out) const {};
-		virtual void VDeserialize(std::istrstream& in) {};
 		virtual const char* GetName(void) const = 0;
 
 	};
@@ -21,7 +19,7 @@ namespace Light
 	class Event: public IEvent
 	{
 	public:
-		static const EventType Type;
+		static const EventType StaticType;
 		virtual const EventType& VGetEventType(void) const final
 		{
 			return typeid(T).hash_code();
@@ -32,7 +30,7 @@ namespace Light
 		}
 	};
 
-	template<class T> EventType Event<T>::Type = typeid(T).hash_code();
+	template<class T> const EventType Event<T>::StaticType = typeid(T).hash_code();
 
 	class IEventDelegate
 	{

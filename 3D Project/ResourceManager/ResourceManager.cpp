@@ -1,6 +1,5 @@
 #include <pch.h>
-#include "IL\il.h"
-#include "IL\ilu.h"
+#include <IL/il.h>
 #include "LTBFileLoader.h"
 #include <fmod_errors.h>
 #include <assimp\Importer.hpp>
@@ -29,7 +28,7 @@ namespace Light
 			char szCommandString[128];
 		};
 
-		ResourceManager::ResourceManager(IContext* c) :m_pContext(c), m_ThreadContext(c)
+		ResourceManager::ResourceManager(IContext* c) :m_pContext(c)
 		{
 			ilInit();
 			ILenum Error;
@@ -525,59 +524,61 @@ namespace Light
 		}
 
 
-		LTModel * ResourceManager::LoadModel(const string& filename)
+		render::Model * ResourceManager::LoadModel(const string& filename)
 		{
-			LTModel* pModel = nullptr;
-			if ((pModel = HasResource(m_ModelCaches,filename)) != nullptr) return pModel;
-
-			pModel = LTBFileLoader::LoadModel(filename.c_str());
-
-			vector<math::AABB> abb(pModel->SkeNodes.size());
-			for (size_t i = 0; i < pModel->Meshs.size(); i++)
+			render::Model* pModel = nullptr;
+			if (filename.find(".LTB") != string::npos)
 			{
-				LTRawData* pMesh = &pModel->Meshs[i];
+				LTModel* pTemp = LTBFileLoader::LoadModel(filename.c_str());
 
-
-				for (size_t j = 0; j < pMesh->Vertexs.size(); j++)
+				vector<math::AABB> abb(pTemp->SkeNodes.size());
+				for (size_t i = 0; i < pTemp->Meshs.size(); i++)
 				{
-					const SkeVertex& vertex = pMesh->Vertexs[j];
-					vec3 local;
-					for (int k = 0; k < 4; k++)
+					LTRawData* pMesh = &pTemp->Meshs[i];
+
+
+					for (size_t j = 0; j < pMesh->Vertexs.size(); j++)
 					{
-						if (vertex.weights[k].Bone < 100.0f && vertex.weights[k].weight >= 0.0f)
+						const SkeVertex& vertex = pMesh->Vertexs[j];
+						vec3 local;
+						for (int k = 0; k < 4; k++)
 						{
-							local = pModel->SkeNodes[vertex.weights[k].Bone].m_InvBindPose*vec4(vertex.pos, 1.0f);
-							local *= vertex.weights[k].weight;
-							abb[vertex.weights[k].Bone].Test(local);
-							pModel->SkeNodes[vertex.weights[k].Bone].m_Flag = 1;
-						}
-						else
-						{
-							//assert(0);
+							if (vertex.weights[k].Bone < 100.0f && vertex.weights[k].weight >= 0.0f)
+							{
+								local = pTemp->SkeNodes[vertex.weights[k].Bone].m_InvBindPose*vec4(vertex.pos, 1.0f);
+								local *= vertex.weights[k].weight;
+								abb[vertex.weights[k].Bone].Test(local);
+								pTemp->SkeNodes[vertex.weights[k].Bone].m_Flag = 1;
+							}
+							else
+							{
+								//assert(0);
+							}
 						}
 					}
 				}
+
+				for (size_t i = 0; i < pTemp->SkeNodes.size(); i++)
+				{
+					//vec3 size = abb[i].Max - abb[i].Min;
+					//vec3 pos = size / 2.0f + abb[i].Min;
+					//pos.x = 0;
+					//pos.y = 0;
+
+
+					//if(size<vec3(20)) pTemp->pSkeNodes[i]->m_Flag = 0;
+					//cout << size.x <<" " << size.y << " " << size.z << endl;
+					pTemp->SkeNodes[i].m_BoundBox.Min = abb[i].Min;
+					pTemp->SkeNodes[i].m_BoundBox.Max = abb[i].Max;
+				}
+
+				
 			}
-
-			for (size_t i = 0; i < pModel->SkeNodes.size(); i++)
-			{
-				//vec3 size = abb[i].Max - abb[i].Min;
-				//vec3 pos = size / 2.0f + abb[i].Min;
-				//pos.x = 0;
-				//pos.y = 0;
-
-
-				//if(size<vec3(20)) pModel->pSkeNodes[i]->m_Flag = 0;
-				//cout << size.x <<" " << size.y << " " << size.z << endl;
-				pModel->SkeNodes[i].m_BoundBox.Min = abb[i].Min;
-				pModel->SkeNodes[i].m_BoundBox.Max = abb[i].Max;
-			}
-
-			m_ModelCaches.push_back(ResourceHandle<LTModel>(filename,pModel));
+			m_ModelCaches.push_back(ResourceHandle<render::Model>(filename, pModel));
 			return pModel;
 		}
 
-		render::ModelRender * ResourceManager::VCreateModelRender(const string& XMLFile)
+		render::Model * ResourceManager::LoadModelXML(const string& XMLFile)
 		{
 			tinyxml2::XMLDocument doc;
 			render::ModelRender* pModelRender = nullptr;
@@ -596,7 +597,7 @@ namespace Light
 				tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
 				const char* pFileName = pModelNode->Attribute("File");
 
-				LTModel* pModel = HasResource(m_ModelCaches,pFileName);
+				render::Model* pModel = HasResource(m_ModelCaches,pFileName);
 				if (pModel)
 				{
 
@@ -613,31 +614,35 @@ namespace Light
 						{
 							const char* pTextureFile = pTextureElement->Attribute("File");
 							pModelRender->m_Textures.push_back(HasResource(m_Textures, pTextureFile));
+							const char* pMaterialFile = pTextureElement->Attribute("Material");
+							
 						}
 						else pModelRender->m_Textures.push_back(m_pDefaultTex);
+
+						
 					}
 				}
 
 
 
-				// load material
-				tinyxml2::XMLElement* pMaterialData = pData->FirstChildElement("Material");
-				Material mat;
-				tinyxml2::XMLElement* pKa = pMaterialData->FirstChildElement("Ka");
-				mat.Ka.x = pKa->FloatAttribute("r", 1.0f);
-				mat.Ka.y = pKa->FloatAttribute("g", 1.0f);
-				mat.Ka.z = pKa->FloatAttribute("b", 1.0f);
-				tinyxml2::XMLElement* pKd = pMaterialData->FirstChildElement("Kd");
-				mat.Kd.x = pKd->FloatAttribute("r", 1.0f);
-				mat.Kd.y = pKd->FloatAttribute("g", 1.0f);
-				mat.Kd.z = pKd->FloatAttribute("b", 1.0f);
-				tinyxml2::XMLElement* pKs = pMaterialData->FirstChildElement("Ks");
-				mat.Ks.x = pKs->FloatAttribute("r", 1.0f);
-				mat.Ks.y = pKs->FloatAttribute("g", 1.0f);
-				mat.Ks.z = pKs->FloatAttribute("b", 1.0f);
-				mat.exp = vec3(pKs->FloatAttribute("exp", 32.0f));
+				//// load material
+				//tinyxml2::XMLElement* pMaterialData = pData->FirstChildElement("Material");
+				//render::Material* mat;
+				//tinyxml2::XMLElement* pKa = pMaterialData->FirstChildElement("Ka");
+				//mat.Ka.x = pKa->FloatAttribute("r", 1.0f);
+				//mat.Ka.y = pKa->FloatAttribute("g", 1.0f);
+				//mat.Ka.z = pKa->FloatAttribute("b", 1.0f);
+				//tinyxml2::XMLElement* pKd = pMaterialData->FirstChildElement("Kd");
+				//mat.Kd.x = pKd->FloatAttribute("r", 1.0f);
+				//mat.Kd.y = pKd->FloatAttribute("g", 1.0f);
+				//mat.Kd.z = pKd->FloatAttribute("b", 1.0f);
+				//tinyxml2::XMLElement* pKs = pMaterialData->FirstChildElement("Ks");
+				//mat.Ks.x = pKs->FloatAttribute("r", 1.0f);
+				//mat.Ks.y = pKs->FloatAttribute("g", 1.0f);
+				//mat.Ks.z = pKs->FloatAttribute("b", 1.0f);
+				//mat.exp = vec3(pKs->FloatAttribute("exp", 32.0f));
 
-				pModelRender->m_Material.resize(pModelRender->m_pMesh.size(), mat);
+				//pModelRender->m_Material.resize(pModelRender->m_pMesh.size(), mat);
 				// Done return LTModel
 				return pModelRender;
 			}
@@ -694,84 +699,84 @@ namespace Light
 		//	return result;
 		//}
 		//
-		//ObjModel * ResourceManager::LoadObjModel(const std::string filename)
-		//{
-		//	string fullpath = m_Path + filename;
-		//	string localPath;
-		//	int pos = filename.find_last_of("/\\");
-		//	localPath = filename.substr(0, pos) + '\\';
-		//	Assimp::Importer importer;
-		//	const aiScene* scene = importer.ReadFile(fullpath, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices);
-		//	
-		//	if (!scene) {
-		//		fprintf(stderr, importer.GetErrorString());
-		//		getchar();
-		//		return false;
-		//	}
-		//	ObjModel* pModel = new ObjModel;
-		//	pModel->SetName(filename);
-		//
-		//	std::vector<DefaultVertex> vertexs;
-		//	std::vector<unsigned int> Indices;
-		//	for (size_t i = 0; i < scene->mNumMeshes; i++)
-		//	{
-		//		vertexs.clear();
-		//		Indices.clear();
-		//
-		//		const aiMesh* mesh = scene->mMeshes[i];
-		//		for (size_t j = 0; j < mesh->mNumVertices;j++)
-		//		{
-		//			aiVector3D pos = mesh->mVertices[j];
-		//			aiVector3D UVW = mesh->mTextureCoords[0][j];
-		//			aiVector3D n = mesh->mNormals[j];
-		//			DefaultVertex dv;
-		//			dv.pos = vec3(pos.x, pos.y, pos.z);
-		//			dv.normal = vec3(n.x, n.y, n.z);
-		//			dv.uv = vec2(UVW.x, UVW.y);
-		//			vertexs.push_back(dv);
-		//		}
-		//		for (size_t j = 0; j < mesh->mNumFaces; j++)
-		//		{
-		//			const aiFace& Face = mesh->mFaces[j];
-		//			if (Face.mNumIndices == 3) {
-		//				Indices.push_back(Face.mIndices[0]);
-		//				Indices.push_back(Face.mIndices[1]);
-		//				Indices.push_back(Face.mIndices[2]);
-		//
-		//			}
-		//		}
-		//		
-		//		uint32 a = mesh->mMaterialIndex;
-		//		aiMaterial* mat = scene->mMaterials[a];
-		//		Material m;
-		//		aiString name;
-		//		mat->Get<aiString>(AI_MATKEY_NAME, name);
-		//		m.Name = name.C_Str();
-		//		aiColor3D color(0.f, 0.f, 0.f);
-		//		mat->Get(AI_MATKEY_COLOR_AMBIENT,color);
-		//		m.Ka = vec3(color.r, color.g, color.b);
-		//		mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
-		//		m.Kd = vec3(color.r, color.g, color.b);
-		//		mat->Get(AI_MATKEY_COLOR_SPECULAR, color);
-		//		m.Ks = vec3(color.r, color.g, color.b);
-		//		float exp;
-		//		mat->Get(AI_MATKEY_SHININESS, exp);
-		//		m.exp = vec3(exp);
-		//		aiString Path;
-		//		mat->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL);
-		//		Mesh* pMesh = new Mesh(vertexs, Indices);
-		//	
-		//		pMesh->Tex = LoadTexture(localPath + Path.C_Str());
-		//		pMesh->mat = m;
-		//		pModel->Meshs.push_back(std::unique_ptr<Mesh>(pMesh));
-		//		
-		//		
-		//	}
-		//
-		//	m_ObjLists.push_back(std::unique_ptr<ObjModel>(pModel));
-		//
-		//	return pModel;
-		//}
+		ObjModel * ResourceManager::LoadObjModel(const std::string filename)
+		{
+			
+			string localPath;
+			int pos = filename.find_last_of("/\\");
+			localPath = filename.substr(0, pos) + '\\';
+			Assimp::Importer importer;
+			const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices);
+			
+			if (!scene)
+			{
+				E_ERROR("Assimp: %s ",importer.GetErrorString());
+				getchar();
+				return false;
+			}
+			ObjModel* pModel = new ObjModel;
+		
+			std::vector<DefaultVertex> vertexs;
+			std::vector<unsigned int> Indices;
+			for (size_t i = 0; i < scene->mNumMeshes; i++)
+			{
+				vertexs.clear();
+				Indices.clear();
+		
+				const aiMesh* mesh = scene->mMeshes[i];
+				for (size_t j = 0; j < mesh->mNumVertices;j++)
+				{
+					aiVector3D pos = mesh->mVertices[j];
+					aiVector3D UVW = mesh->mTextureCoords[0][j];
+					aiVector3D n = mesh->mNormals[j];
+					DefaultVertex dv;
+					dv.pos = vec3(pos.x, pos.y, pos.z);
+					dv.normal = vec3(n.x, n.y, n.z);
+					dv.uv = vec2(UVW.x, UVW.y);
+					vertexs.push_back(dv);
+				}
+				for (size_t j = 0; j < mesh->mNumFaces; j++)
+				{
+					const aiFace& Face = mesh->mFaces[j];
+					if (Face.mNumIndices == 3) {
+						Indices.push_back(Face.mIndices[0]);
+						Indices.push_back(Face.mIndices[1]);
+						Indices.push_back(Face.mIndices[2]);
+		
+					}
+				}
+				
+				uint32 a = mesh->mMaterialIndex;
+				aiMaterial* mat = scene->mMaterials[a];
+				Material m;
+				aiString name;
+				mat->Get<aiString>(AI_MATKEY_NAME, name);
+				m.Name = name.C_Str();
+				aiColor3D color(0.f, 0.f, 0.f);
+				mat->Get(AI_MATKEY_COLOR_AMBIENT,color);
+				m.Ka = vec3(color.r, color.g, color.b);
+				mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+				m.Kd = vec3(color.r, color.g, color.b);
+				mat->Get(AI_MATKEY_COLOR_SPECULAR, color);
+				m.Ks = vec3(color.r, color.g, color.b);
+				float exp;
+				mat->Get(AI_MATKEY_SHININESS, exp);
+				m.exp = vec3(exp);
+				aiString Path;
+				mat->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL);
+				Mesh* pMesh = new Mesh(vertexs, Indices);
+			
+				pMesh->Tex = LoadTexture(localPath + Path.C_Str());
+				pMesh->mat = m;
+				pModel->Meshs.push_back(std::unique_ptr<Mesh>(pMesh));
+				
+				
+			}
+		
+			m_ObjLists.push_back(std::unique_ptr<ObjModel>(pModel));
+		
+			return pModel;
+		}
 
 		/*Shader * ResourceManager::VGetShader(string key)
 		{
@@ -822,16 +827,16 @@ namespace Light
 			return Pshader;
 		}
 
-		LTModel * ResourceManager::VGetModel(const string& filename)
+		render::Model * ResourceManager::VGetModel(const string& filename)
 		{
-			LTModel* pModel = HasResource(m_ModelCaches,filename);
-			//if (filename.find(".xml") != string::npos) pModel = LoadModelXML(filename);
+			render::Model* pModel = HasResource(m_ModelCaches,filename);
+			if (filename.find(".xml") != string::npos) pModel = LoadModelXML(filename);
 			/*else if (filename.find(".obj") != string::npos|| filename.find(".3ds") != string::npos)
 			{
 				for (size_t i = 0; i < m_ObjLists.size(); i++)
 					if (m_ObjLists[i]->GetName() == filename) pModel = m_ObjLists[i].get();
 			}*/
-			if (pModel != nullptr)
+			if (pModel == nullptr)
 			{
 				if((pModel=LoadModel(filename))==nullptr)
 					E_ERROR("Cound not find model: %s", filename.c_str());
@@ -850,7 +855,7 @@ namespace Light
 			return hm;
 		}
 
-		LoadStatus * ResourceManager::VLoadResource(const std::string & resourcePath, bool async)
+		/*LoadStatus * ResourceManager::VLoadResource(const std::string & resourcePath, bool async)
 		{
 			if (async)
 			{
@@ -861,7 +866,7 @@ namespace Light
 			}
 			else LoadResources(resourcePath);
 			return nullptr;
-		}
+		}*/
 
 		//FMOD::Sound * ResourceManager::VGetSound(const string & tag)
 		//{
@@ -965,9 +970,9 @@ namespace Light
 			tinyxml2::XMLElement* p = doc.FirstChildElement("Resources");
 
 
-			int totalResource = 0;
-			for (tinyxml2::XMLElement* pNode = p->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement()) totalResource++;
-			int sumResource = 0;
+			//int totalResource = 0;
+			//for (tinyxml2::XMLElement* pNode = p->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement()) totalResource++;
+			//int sumResource = 0;
 
 
 
@@ -1050,16 +1055,16 @@ namespace Light
 					}
 				}*/
 				
-				sumResource++;
+				//sumResource++;
 				
-				m_LoadStatus.percent = float(sumResource) / totalResource;
+				//m_LoadStatus.percent = float(sumResource) / totalResource;
 			}
 
 
 			
 		}
 
-		void ResourceManager::LoadThreadResource(OpenGLContext* ThreadContext, const std::string & path)
+		/*void ResourceManager::LoadThreadResource(OpenGLContext* ThreadContext, const std::string & path)
 		{
 			ThreadContext->MakeContext();
 
@@ -1076,7 +1081,7 @@ namespace Light
 			m_LoadLock.unlock();
 			m_LoadThread.detach();
 
-		}
+		}*/
 
 		void ResourceManager::LoadSystemResources()
 		{

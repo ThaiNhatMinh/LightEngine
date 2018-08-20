@@ -5,6 +5,7 @@
 #include "..\GameComponents\TransformComponent.h"
 #include "..\GameComponents\MeshRenderComponent.h"
 #include "Events.h"
+#include "..\Graphics3D\DefaultMaterial.h"
 namespace Light
 {
 
@@ -40,7 +41,7 @@ namespace Light
 		m_ShaderFactory.insert(std::make_pair("ImGuiShader", [](const char*vs, const char* fs) {return new ImGuiShader(vs, fs); }));
 		m_ShaderFactory.insert(std::make_pair("SpriteShader", [](const char*vs, const char* fs) {return new SpriteShader(vs, fs); }));*/
 
-
+		m_MaterialMap.insert(std::make_pair("DefaultMaterial", std::shared_ptr<render::Material>(new render::DefaultMaterial())));
 		c->VAddSystem(this);
 		m_pEventManager = c->GetSystem<IEventManager>();
 		m_pContext = c;
@@ -69,7 +70,7 @@ namespace Light
 	}
 
 
-	bool ActorFactory::VRegisterComponentFactory(string name, std::function<IComponent*()>func)
+	bool ActorFactory::VRegisterComponentFactory(const std::string& name, std::function<IComponent*()>func)
 	{
 		auto it = m_ComponentFactoryMap.find(name);
 		if (it != m_ComponentFactoryMap.end())
@@ -123,7 +124,7 @@ namespace Light
 			if (pComponent)
 			{
 				pComponent->SetOwner(pActor);
-				if (!pComponent->VInit(pNode))
+				if (!pComponent->VSerialize(m_pContext,pNode))
 				{
 					E_WARNING("Actor: %s, Component failed to initialize: %s", pActor->VGetName().c_str(),pNode->Value());
 					continue;
@@ -159,6 +160,28 @@ namespace Light
 			E_ERROR("Failer to send event");
 		}
 		return pActor;
+	}
+
+	bool ActorFactory::VRegisterMaterial(const std::string & name, std::function<render::Material*()> func)
+	{
+		auto result = m_MaterialMap.find(name);
+		if (result != m_MaterialMap.end())
+		{
+			E_ERROR("Material: %s has already exits!", name.c_str());
+			return false;
+		}
+
+		m_MaterialMap.insert(std::pair<std::string, render::Material*>(name, func()));
+
+		return true;
+	}
+
+	std::shared_ptr<render::Material> ActorFactory::VGetMaterial(const std::string & name)
+	{
+		auto result = m_MaterialMap.find(name);
+		if(result==m_MaterialMap.end()) return nullptr;
+
+		return result->second;
 	}
 
 	const char * ActorFactory::VGetName()

@@ -16,14 +16,14 @@ namespace Light
 
 
 		//---------------------------------------------------------------------------------------------------------------------
-		// EvtData_Destroy_Actor - sent when actors are destroyed	
+		// EvtDestroyActor - sent when actors are destroyed	
 		//---------------------------------------------------------------------------------------------------------------------
 		class EvtDestroyActor : public Event<EvtDestroyActor>
 		{
-			IActor* m_pActor;
+			ActorId m_Actor;
 		public:
-			explicit EvtDestroyActor(IActor*pActor):m_pActor(pActor){}
-			IActor* GetActor(void) const { return m_pActor; }
+			explicit EvtDestroyActor(ActorId pActor):m_Actor(pActor){}
+			ActorId GetActor(void) const { return m_Actor; }
 		};
 
 		//---------------------------------------------------------------------------------------------------------------------

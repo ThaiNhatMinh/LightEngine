@@ -58,7 +58,7 @@ namespace Light
 			//glEnable(GL_CULL_FACE);
 			//glCullFace(GL_BACK);
 			pContext->VAddSystem(this);
-			pContext->GetSystem<IEventManager>()->VAddListener(new EventDelegate<OpenGLRenderDevice>(this, this->OnObjectCreate), events::EvtNewActor::Type);
+			pContext->GetSystem<IEventManager>()->VAddListener(new EventDelegate<OpenGLRenderDevice>(this, &(this->OnObjectCreate)), events::EvtNewActor::StaticType);
 		}
 
 		const char * OpenGLRenderDevice::VGetName()
@@ -160,12 +160,49 @@ namespace Light
 			else glDrawElements(primitive, count, type, indices);
 		}
 
+		void OpenGLRenderDevice::Render()
+		{
+			for (auto renderable : m_ObjectRenders)
+			{
+				ModelRender* modelRender = renderable.m_RenderComponent->m_pModel;
+				//for(auto mesh)
+			}
+		}
+
 		void OpenGLRenderDevice::OnObjectCreate(std::shared_ptr<IEvent> event)
 		{
 			IActor* pActor = static_cast<events::EvtNewActor*>(event.get())->GetActor();
 			IMeshRenderComponent* pMeshRender = pActor->GetComponent<IMeshRenderComponent>();
-			
+			ITransformComponent* pTransform = pActor->GetComponent<ITransformComponent>();
 			if (pMeshRender == nullptr) return;
+
+			Renderable renderable;
+			renderable.m_Actor = pActor->VGetId();
+			renderable.m_RenderComponent = pMeshRender;
+			renderable.m_TransformComponent = pTransform;
+
+			m_ObjectRenders.push_back(renderable);
+			E_DEBUG("ObjectRender add: %s", pActor->VGetName().c_str());
+
+		}
+
+		void OpenGLRenderDevice::OnbjectDestroy(std::shared_ptr<IEvent> event)
+		{
+			ActorId Actor = static_cast<events::EvtDestroyActor*>(event.get())->GetActor();
+
+			auto result = std::find_if(m_ObjectRenders.begin(), m_ObjectRenders.end(), [Actor](Renderable renderable)
+			{
+				return Actor == renderable.m_Actor;
+			});
+			
+			if (result == m_ObjectRenders.end()) return;
+
+			m_ObjectRenders.erase(result);
+
+		}
+
+		void OpenGLRenderDevice::OnCameraCreate(std::shared_ptr<IEvent> event)
+		{
 		}
 
 	}

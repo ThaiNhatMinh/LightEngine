@@ -22,7 +22,7 @@
     <ProjectGuid>{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My3DProject</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
     <ProjectName>Light</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -73,7 +73,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath)</IncludePath>
+    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath)</IncludePath>
     <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -81,7 +81,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;$(IncludePath)</IncludePath>
+    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;$(IncludePath)</IncludePath>
     <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
@@ -238,6 +238,7 @@
     <ClInclude Include="ResourceManager\LTBFileLoader.h" />
     <ClInclude Include="ResourceManager\LTModel.h" />
     <ClInclude Include="ResourceManager\LTRawData.h" />
+    <ClInclude Include="ResourceManager\OtherModel.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="typedef.h" />
     <ClInclude Include="Utilities\Delegate.h" />

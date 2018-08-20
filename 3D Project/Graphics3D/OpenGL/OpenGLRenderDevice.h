@@ -37,13 +37,19 @@ namespace Light
 			{
 				IMeshRenderComponent* m_RenderComponent;
 				ITransformComponent* m_TransformComponent;
-
+				ActorId					m_Actor;
 			};
 
 			using RenderableList = std::list<Renderable>;
 
 			void OnObjectCreate(std::shared_ptr<IEvent> event);
+			void OnbjectDestroy(std::shared_ptr<IEvent> event);
 			void OnCameraCreate(std::shared_ptr<IEvent> event);
+
+		private:
+			RenderableList m_ObjectRenders;
+
 		};
 	}
 }
+

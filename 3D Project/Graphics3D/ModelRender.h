@@ -1,12 +1,20 @@
 #pragma once
+#include <vector>
+#include <memory>
 #include "Mesh.h"
 #include "Material.h"
-#include "..\ResourceManager\LTRawData.h"
-#include "Renderer.h"
+
+class Texture;
 namespace Light
 {
 	namespace render
 	{
+		class Model
+		{
+		public:
+			virtual ~Model() = default;
+		};
+
 		class ModelRender
 		{
 		public:
@@ -14,8 +22,8 @@ namespace Light
 		public:
 
 			std::vector<std::unique_ptr<Mesh>>  m_pMesh;
-			std::vector<Texture*> m_Texture;
-			std::vector<Material*>	m_Material;
+			std::vector<Texture*> m_Textures;
+			std::vector<std::unique_ptr<Material*>>	m_Material;
 		};
 	}
 }

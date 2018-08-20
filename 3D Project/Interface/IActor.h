@@ -24,7 +24,6 @@ namespace Light
 		virtual HRESULT		VOnUpdate(Scene *, float elapsedMs) = 0;
 		virtual HRESULT		VPostUpdate(Scene *) = 0;
 		virtual bool		VIsVisible(Scene *pScene) const = 0;
-		virtual HRESULT		VPostRender(Scene *pScene) = 0;
 		virtual bool		VAddChild(IActor* kid) = 0;
 		virtual bool		VRemoveChild(ActorId id) = 0;
 		virtual IActor*		VGetChild(int index) = 0;
