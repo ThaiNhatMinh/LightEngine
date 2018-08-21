@@ -9,7 +9,7 @@
 
 #include "..\Graphics3D\OpenGL\OpenGLTexture.h"
 #include "..\Core\OpenGLWindows.h"
-
+#include "..\Graphics3D\DefaultMesh.h"
 namespace Light
 {
 	namespace resources
@@ -49,6 +49,7 @@ namespace Light
 
 			c->VAddSystem(this);
 			m_pRenderDevice = c->GetSystem<render::RenderDevice>();
+			m_pFactory = c->GetSystem<IFactory>();
 			//m_FMOD = c->GetSystem<SoundEngine>()->GetFMODSystem();
 
 		}
@@ -527,53 +528,8 @@ namespace Light
 		render::Model * ResourceManager::LoadModel(const string& filename)
 		{
 			render::Model* pModel = nullptr;
-			if (filename.find(".LTB") != string::npos)
-			{
-				LTModel* pTemp = LTBFileLoader::LoadModel(filename.c_str());
-
-				vector<math::AABB> abb(pTemp->SkeNodes.size());
-				for (size_t i = 0; i < pTemp->Meshs.size(); i++)
-				{
-					LTRawData* pMesh = &pTemp->Meshs[i];
 
 
-					for (size_t j = 0; j < pMesh->Vertexs.size(); j++)
-					{
-						const SkeVertex& vertex = pMesh->Vertexs[j];
-						vec3 local;
-						for (int k = 0; k < 4; k++)
-						{
-							if (vertex.weights[k].Bone < 100.0f && vertex.weights[k].weight >= 0.0f)
-							{
-								local = pTemp->SkeNodes[vertex.weights[k].Bone].m_InvBindPose*vec4(vertex.pos, 1.0f);
-								local *= vertex.weights[k].weight;
-								abb[vertex.weights[k].Bone].Test(local);
-								pTemp->SkeNodes[vertex.weights[k].Bone].m_Flag = 1;
-							}
-							else
-							{
-								//assert(0);
-							}
-						}
-					}
-				}
-
-				for (size_t i = 0; i < pTemp->SkeNodes.size(); i++)
-				{
-					//vec3 size = abb[i].Max - abb[i].Min;
-					//vec3 pos = size / 2.0f + abb[i].Min;
-					//pos.x = 0;
-					//pos.y = 0;
-
-
-					//if(size<vec3(20)) pTemp->pSkeNodes[i]->m_Flag = 0;
-					//cout << size.x <<" " << size.y << " " << size.z << endl;
-					pTemp->SkeNodes[i].m_BoundBox.Min = abb[i].Min;
-					pTemp->SkeNodes[i].m_BoundBox.Max = abb[i].Max;
-				}
-
-				
-			}
 			m_ModelCaches.push_back(ResourceHandle<render::Model>(filename, pModel));
 			return pModel;
 		}
@@ -581,7 +537,7 @@ namespace Light
 		render::Model * ResourceManager::LoadModelXML(const string& XMLFile)
 		{
 			tinyxml2::XMLDocument doc;
-			render::ModelRender* pModelRender = nullptr;
+			LTModel* pModelRender = nullptr;
 
 			int errorID = doc.LoadFile(XMLFile.c_str());
 			if (errorID)
@@ -597,14 +553,14 @@ namespace Light
 				tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
 				const char* pFileName = pModelNode->Attribute("File");
 
-				render::Model* pModel = HasResource(m_ModelCaches,pFileName);
-				if (pModel)
+				LTRawData* pLTBData = LoadLTBModel(pFileName);
+				if (pLTBData)
 				{
 
-					pModelRender = new render::ModelRender();
+					pModelRender = new LTModel;
 				
 					tinyxml2::XMLElement* pTextureNode = pData->FirstChildElement("Texture");
-					vector<LTRawData>& ve = pModel->Meshs;
+					vector<LTRawMesh>& ve = pLTBData->Meshs;
 					for (size_t i = 0; i < ve.size(); i++)
 					{
 						pModelRender->m_pMesh.push_back(std::unique_ptr<Mesh>(new SkeMesh(m_pRenderDevice, &ve[i])));
@@ -724,6 +680,7 @@ namespace Light
 				Indices.clear();
 		
 				const aiMesh* mesh = scene->mMeshes[i];
+				
 				for (size_t j = 0; j < mesh->mNumVertices;j++)
 				{
 					aiVector3D pos = mesh->mVertices[j];
@@ -748,32 +705,39 @@ namespace Light
 				
 				uint32 a = mesh->mMaterialIndex;
 				aiMaterial* mat = scene->mMaterials[a];
-				Material m;
+				
+				auto m = m_pFactory->VGetMaterial("Default");
+
 				aiString name;
 				mat->Get<aiString>(AI_MATKEY_NAME, name);
-				m.Name = name.C_Str();
+				m->Name = name.C_Str();
 				aiColor3D color(0.f, 0.f, 0.f);
 				mat->Get(AI_MATKEY_COLOR_AMBIENT,color);
-				m.Ka = vec3(color.r, color.g, color.b);
+				m->Ka = vec3(color.r, color.g, color.b);
 				mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
-				m.Kd = vec3(color.r, color.g, color.b);
+				m->Kd = vec3(color.r, color.g, color.b);
 				mat->Get(AI_MATKEY_COLOR_SPECULAR, color);
-				m.Ks = vec3(color.r, color.g, color.b);
+				m->Ks = vec3(color.r, color.g, color.b);
 				float exp;
 				mat->Get(AI_MATKEY_SHININESS, exp);
-				m.exp = vec3(exp);
+				m->exp = vec3(exp);
 				aiString Path;
 				mat->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL);
-				Mesh* pMesh = new Mesh(vertexs, Indices);
+
+
+
+				DefaultMesh* pMesh = new DefaultMesh(m_pRenderDevice,vertexs, Indices, mesh->mName.C_Str());
 			
-				pMesh->Tex = LoadTexture(localPath + Path.C_Str());
-				pMesh->mat = m;
+				//pMesh->Tex = LoadTexture(localPath + Path.C_Str());
+				//pMesh->mat = m;
+				pModel->Textures.push_back(VGetTexture(localPath + Path.C_Str()));
+				pModel->Materials.push_back(m);
 				pModel->Meshs.push_back(std::unique_ptr<Mesh>(pMesh));
 				
 				
 			}
 		
-			m_ObjLists.push_back(std::unique_ptr<ObjModel>(pModel));
+			m_ModelCaches.push_back(ResourceHandle<render::Model>(filename,pModel));
 		
 			return pModel;
 		}
@@ -1086,6 +1050,54 @@ namespace Light
 		void ResourceManager::LoadSystemResources()
 		{
 			LoadResources(SYSTEM_RESOURCES_CONFIG);
+		}
+
+		LTRawData* ResourceManager::LoadLTBModel(const std::string & filename)
+		{
+			LTRawData* pTemp = LTBFileLoader::LoadModel(filename.c_str());
+
+			vector<math::AABB> abb(pTemp->SkeNodes.size());
+			for (size_t i = 0; i < pTemp->Meshs.size(); i++)
+			{
+				LTRawMesh* pMesh = &pTemp->Meshs[i];
+
+
+				for (size_t j = 0; j < pMesh->Vertexs.size(); j++)
+				{
+					const SkeVertex& vertex = pMesh->Vertexs[j];
+					vec3 local;
+					for (int k = 0; k < 4; k++)
+					{
+						if (vertex.weights[k].Bone < 100.0f && vertex.weights[k].weight >= 0.0f)
+						{
+							local = pTemp->SkeNodes[vertex.weights[k].Bone].m_InvBindPose*vec4(vertex.pos, 1.0f);
+							local *= vertex.weights[k].weight;
+							abb[vertex.weights[k].Bone].Test(local);
+							pTemp->SkeNodes[vertex.weights[k].Bone].m_Flag = 1;
+						}
+						else
+						{
+							//assert(0);
+						}
+					}
+				}
+			}
+
+			for (size_t i = 0; i < pTemp->SkeNodes.size(); i++)
+			{
+				//vec3 size = abb[i].Max - abb[i].Min;
+				//vec3 pos = size / 2.0f + abb[i].Min;
+				//pos.x = 0;
+				//pos.y = 0;
+
+
+				//if(size<vec3(20)) pTemp->pSkeNodes[i]->m_Flag = 0;
+				//cout << size.x <<" " << size.y << " " << size.z << endl;
+				pTemp->SkeNodes[i].m_BoundBox.Min = abb[i].Min;
+				pTemp->SkeNodes[i].m_BoundBox.Max = abb[i].Max;
+			}
+
+			return pTemp;
 		}
 
 

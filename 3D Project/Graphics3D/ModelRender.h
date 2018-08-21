@@ -14,16 +14,5 @@ namespace Light
 		public:
 			virtual ~Model() = default;
 		};
-
-		class ModelRender
-		{
-		public:
-			ModelRender() {};
-		public:
-
-			std::vector<std::unique_ptr<Mesh>>  m_pMesh;
-			std::vector<Texture*> m_Textures;
-			std::vector<std::unique_ptr<Material*>>	m_Material;
-		};
 	}
 }

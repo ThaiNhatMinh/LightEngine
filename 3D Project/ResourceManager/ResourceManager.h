@@ -10,6 +10,7 @@
 #include "..\Graphics3D\Vertex.h"
 #include "LTModel.h"
 #include "OtherModel.h"
+#include "Interface/IFactory.h"
 namespace Light
 {
 	namespace resources
@@ -49,6 +50,7 @@ namespace Light
 
 			//FMOD::System* m_FMOD;
 			IContext* m_pContext;
+			IFactory* m_pFactory;
 		private:
 
 			class OpenGLContext
@@ -66,44 +68,40 @@ namespace Light
 			template<class T>T* HasResource(std::vector<ResourceHandle<T>>& list, const std::string& filepath, CheckResourceFunc func = [](const std::string&a, const std::string& b) {return a == b; });
 			
 			ObjModel *				LoadObjModel(const std::string filename);
-			SpriteData*				LoadSpriteAnimation(const string& filename);
-			HeightMap*				LoadHeightMap(const string& filename, int size, int w, int h, float hscale, int sub);
-			render::Texture*		LoadTexture(const string& filename);
-			render::Texture*		LoadCubeTex(const vector<string>& filelist);
-			render::Texture*		LoadDTX(const string& filename);
-			render::Model*			LoadModel(const string& filename);
-			//SoundRAAI*		LoadSound(const string& filename, const string& tag, int mode);
+			SpriteData*				LoadSpriteAnimation(const std::string& filename);
+			HeightMap*				LoadHeightMap(const std::string& filename, int size, int w, int h, float hscale, int sub);
+			render::Texture*		LoadTexture(const std::string& filename);
+			render::Texture*		LoadCubeTex(const std::vector<std::string>& filelist);
+			render::Texture*		LoadDTX(const std::string& filename);
+			render::Model*			LoadModel(const std::string& filename);
+			//SoundRAAI*		LoadSound(const std::string& filename, const std::string& tag, int mode);
 			render::VertexShader*	LoadVertexShader(const std::string& filepath);
 			render::PixelShader*	LoadPixelShader(const std::string& filepath);
 
-			void				LoadResources(string path);
-			//void				LoadThreadResource(OpenGLContext* ThreadContext,const std::string& path);
+			void				LoadResources(const std::string path);
 			void				LoadSystemResources();
 
-			/*std::mutex			m_LoadLock;
-			LoadStatus			m_LoadStatus;
-			std::thread			m_LoadThread;
-			OpenGLContext		m_ThreadContext;*/
-		
+			LTRawData*			LoadLTBModel(const std::string& filename);
 
-			render::Model*		LoadModelXML(const string& filename);
+			/*
+				Load xml file store config for model (.LTB) and texture (.DTX)
+				Return render::Model* interface
+			*/
+			render::Model*		LoadModelXML(const std::string& filename);
 		public:
 			ResourceManager(IContext* c);
 			~ResourceManager();
 			virtual const char*			VGetName()override;
 
 
-			//virtual SpriteAnim*		VGetSpriteAnimation(const string& filename)override;
+			//virtual SpriteAnim*		VGetSpriteAnimation(const std::string& filename)override;
 			//virtual Shader*			VGetShader(string key)override;
-			virtual render::Texture*		VGetTexture(const string& filename)override;
+			virtual render::Texture*		VGetTexture(const std::string& filename)override;
 			virtual render::VertexShader*	VGetVertexShader(const std::string& filename)override;
 			virtual render::PixelShader*	VGetPixelShader(const std::string& filename)override;
-			virtual render::Model *			VGetModel(const string& filename)override;
-			virtual HeightMap*				VGetHeightMap(const string& filename)override;
-			//virtual FMOD::Sound*	VGetSound(const string& tag)override;
-
-			//virtual LoadStatus*				VLoadResource(const std::string& resourcePath, bool async = false);
-
+			virtual render::Model *			VGetModel(const std::string& filename)override;
+			virtual HeightMap*				VGetHeightMap(const std::string& filename)override;
+			//virtual FMOD::Sound*	VGetSound(const std::string& tag)override;
 
 		};
 

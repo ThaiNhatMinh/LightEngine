@@ -6,6 +6,9 @@
 #include "..\typedef.h"
 #include "LTRawData.h"
 #include "..\Math\AABB.h"
+#include "../Graphics3D/SkeMesh.h"
+#include "../Graphics3D/Renderer.h"
+
 namespace Light
 {
 
@@ -78,16 +81,21 @@ namespace Light
 		glm::mat4 Transform;
 	};
 
-
+	
 	class LTModel :public render::Model
 	{
 	public:
-		std::vector<LTRawData>					Meshs;
+
+		std::vector<std::unique_ptr<Mesh>>  m_pMesh;
+		std::vector<render::Texture*> m_Textures;
+		std::vector<std::unique_ptr<render::Material*>>	m_Material;
+
+		/*std::vector<LTRawData>					Meshs;
 		std::vector<SkeNode>						SkeNodes;
 		std::vector<WeightBlend>					wb;
 		std::vector<std::string>						ChildName;
 		std::vector<Animation>					Anims;
-		std::vector<LTBSocket>					Sockets;
+		std::vector<LTBSocket>					Sockets;*/
 
 
 	};

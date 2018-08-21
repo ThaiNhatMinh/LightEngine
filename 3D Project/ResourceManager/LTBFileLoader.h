@@ -1,8 +1,8 @@
 #pragma once
 #include "LTModel.h"
-
+#include "LTRawData.h"
 namespace LTBFileLoader
 {
 
-	Light::LTModel* LoadModel(const char* filepath);
+	LTRawData* LoadModel(const char* filepath);
 };

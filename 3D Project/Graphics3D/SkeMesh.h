@@ -30,7 +30,7 @@ namespace Light
 	class SkeMesh :public Mesh
 	{
 	public:
-		typedef std::vector<SkeVertex> SkeVertexList;
+		typedef std::vector<SkeVertex> VertexList;
 		typedef std::vector<unsigned int> IndicesList;
 	private:
 		std::string m_Name;
@@ -39,7 +39,7 @@ namespace Light
 		std::unique_ptr<render::IndexBuffer>		m_pIBO;
 
 	public:
-		SkeMesh(render::RenderDevice* pRenderDevice,LTRawData* pData);
+		SkeMesh(render::RenderDevice* pRenderDevice,LTRawMesh* pData);
 		~SkeMesh() {};
 	};
 }
