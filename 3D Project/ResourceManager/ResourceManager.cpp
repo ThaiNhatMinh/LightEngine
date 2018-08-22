@@ -793,18 +793,23 @@ namespace Light
 
 		render::Model * ResourceManager::VGetModel(const string& filename)
 		{
-			render::Model* pModel = HasResource(m_ModelCaches,filename);
+			render::Model* pModel = nullptr;
 			if (filename.find(".xml") != string::npos) pModel = LoadModelXML(filename);
 			/*else if (filename.find(".obj") != string::npos|| filename.find(".3ds") != string::npos)
 			{
 				for (size_t i = 0; i < m_ObjLists.size(); i++)
 					if (m_ObjLists[i]->GetName() == filename) pModel = m_ObjLists[i].get();
 			}*/
-			if (pModel == nullptr)
+			else
 			{
-				if((pModel=LoadModel(filename))==nullptr)
-					E_ERROR("Cound not find model: %s", filename.c_str());
+				pModel = HasResource(m_ModelCaches, filename);
+				if (pModel == nullptr)
+				{
+					if ((pModel = LoadModel(filename)) == nullptr)
+						E_ERROR("Cound not find model: %s", filename.c_str());
+				}
 			}
+			
 			return pModel;
 		}
 
