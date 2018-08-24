@@ -232,6 +232,12 @@
     <ClInclude Include="ResourceManager\OtherModel.h">
       <Filter>ResourceManager</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\LTBStruct.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\DefaultMesh.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -339,6 +345,9 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\DefaultMaterial.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\DefaultMesh.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
   </ItemGroup>

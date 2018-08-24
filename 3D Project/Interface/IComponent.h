@@ -3,6 +3,7 @@
 #include <glm\mat4x4.hpp>
 #include "..\Utilities\Utility.h"
 #include "..\typedef.h"
+#include "../Graphics3D/ModelRender.h"
 namespace Light 
 {
 	class IActor;
@@ -38,10 +39,10 @@ namespace Light
 		glm::mat4 transform;
 	};
 
-	class ModelRender;
+
 	class IMeshRenderComponent : public Component<IMeshRenderComponent>
 	{
 	public:
-		ModelRender* m_pModel;
+		render::Model* m_pModel;
 	};
 }

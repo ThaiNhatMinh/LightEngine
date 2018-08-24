@@ -24,7 +24,7 @@ const char *pixelShaderSource = "#version 140\n"
 "}";
 
 
-Light::resources::LoadStatus* loading = nullptr;
+
 void Game::Init(Light::IContext* pContext)
 {
 	std::cout << "Hello from DLL";

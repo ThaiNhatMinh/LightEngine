@@ -58,7 +58,7 @@ namespace Light
 			//glEnable(GL_CULL_FACE);
 			//glCullFace(GL_BACK);
 			pContext->VAddSystem(this);
-			pContext->GetSystem<IEventManager>()->VAddListener(new EventDelegate<OpenGLRenderDevice>(this, &(this->OnObjectCreate)), events::EvtNewActor::StaticType);
+			pContext->GetSystem<IEventManager>()->VAddListener(new EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnObjectCreate), events::EvtNewActor::StaticType);
 		}
 
 		const char * OpenGLRenderDevice::VGetName()
@@ -164,7 +164,7 @@ namespace Light
 		{
 			for (auto renderable : m_ObjectRenders)
 			{
-				ModelRender* modelRender = renderable.m_RenderComponent->m_pModel;
+				render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
 				//for(auto mesh)
 			}
 		}

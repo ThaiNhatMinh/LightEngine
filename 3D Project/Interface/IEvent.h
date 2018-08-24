@@ -6,7 +6,7 @@
 #include "..\Utilities\Utility.h"
 namespace Light
 {
-	class IEvent: //public util::Serialization
+	class IEvent//: public util::Serialization
 	{
 	public:
 		virtual ~IEvent(void) {}
@@ -22,7 +22,8 @@ namespace Light
 		static const EventType StaticType;
 		virtual const EventType& VGetEventType(void) const final
 		{
-			return typeid(T).hash_code();
+			static std::size_t Type = typeid(T).hash_code();
+			return Type;
 		}
 		virtual const char* GetName(void) const final
 		{
@@ -37,7 +38,7 @@ namespace Light
 	public:
 		virtual ~IEventDelegate() = default;
 		virtual inline void Invoke(std::shared_ptr<IEvent> eventData) = 0;
-		virtual inline EventDelegateType GetType() = 0;
+		virtual inline EventDelegateType GetType()const = 0;
 		virtual bool operator==(const IEventDelegate* other) const = 0;
 	};
 
@@ -51,7 +52,7 @@ namespace Light
 		T* m_Receiver;
 		Callback m_Callback;
 	public:
-		EventDelegate(T* receiver, Callback& callback)
+		EventDelegate(T* receiver, Callback callback)
 		{
 			m_Receiver = receiver;
 			m_Callback = callback;
@@ -61,7 +62,7 @@ namespace Light
 		{
 			(m_Receiver->*m_Callback)(eventData);
 		}
-		virtual inline EventDelegateType GetType()
+		virtual inline EventDelegateType GetType()const
 		{
 			static const EventDelegateType DELEGATE_TYPE{ typeid(T).hash_code() ^ typeid(Callback).hash_code() };
 			return DELEGATE_TYPE;
@@ -69,7 +70,9 @@ namespace Light
 
 		virtual bool operator==(const IEventDelegate* other) const
 		{
-			if (this->GetType() != other->GetType()) return false;
+			auto t1 = this->GetType();
+			auto t2 = other->GetType();
+			if (t1!=t2) return false;
 			EventDelegate* delegate = (EventDelegate*)other;
 			if (other == nullptr) return false;
 

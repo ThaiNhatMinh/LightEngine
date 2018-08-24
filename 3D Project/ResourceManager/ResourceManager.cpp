@@ -528,9 +528,10 @@ namespace Light
 		render::Model * ResourceManager::LoadModel(const string& filename)
 		{
 			render::Model* pModel = nullptr;
+			if (filename.find(".obj") != std::string::npos) pModel = LoadObjModel(filename);
 
-
-			m_ModelCaches.push_back(ResourceHandle<render::Model>(filename, pModel));
+			if(pModel)
+				m_ModelCaches.push_back(ResourceHandle<render::Model>(filename, pModel));
 			return pModel;
 		}
 

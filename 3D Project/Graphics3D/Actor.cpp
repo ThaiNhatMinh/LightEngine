@@ -141,7 +141,7 @@ namespace Light
 		return false;
 	}
 
-	IActor * Actor::VGetChild(int index)
+	IActor * Actor::VGetChild(std::size_t index)
 	{
 		assert(index >= 0 && index < m_Children.size());
 		return m_Children[index].get();

@@ -40,7 +40,7 @@ namespace Light
 		virtual bool		VIsVisible(Scene *pScene) const override;
 		virtual bool		VAddChild(IActor* kid)override;
 		virtual bool		VRemoveChild(ActorId id)override;
-		virtual IActor*		VGetChild(int index)override;
+		virtual IActor*		VGetChild(std::size_t index)override;
 		virtual IActor*		VGetChild(const string& name)override;
 		virtual IActor*		VGetParent()override; 
 		virtual ActorId		VGetId(void) const override;

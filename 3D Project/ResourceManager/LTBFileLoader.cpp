@@ -1,7 +1,8 @@
 #include "LTBFileLoader.h"
 #include <pch.h>
 #include "LTModel.h"
-
+#include "../Utilities/LTBStruct.h"
+#include "../Graphics3D/Vertex.h"
 using namespace Light;
 
 namespace LTBFileLoader
@@ -229,7 +230,7 @@ vector<LTRawMesh> LoadMesh(FILE* pFile)
 	unsigned short str_len;
 	for (uint32 iPieceCnt = 0; iPieceCnt < numPieces; iPieceCnt++)
 	{
-		vector<Light::SkeVertex>& vertex = meshlist[iPieceCnt].Vertexs;
+		vector<SkeVertex>& vertex = meshlist[iPieceCnt].Vertexs;
 		vector<unsigned int>& Index = meshlist[iPieceCnt].Indices;
 		std::string meshname;
 
@@ -298,16 +299,16 @@ vector<LTRawMesh> LoadMesh(FILE* pFile)
 					for (uint32 iStream = 0; iStream < 4; ++iStream)
 						for (uint32 i = 0; i < iVertCount; ++i)
 						{
-							Light::SkeVertex ver;
+							SkeVertex ver;
 							if (StreamData[iStream] & VERTDATATYPE_POSITION)
 							{
 								fread(&ver.pos.x, sizeof(float), 1, pFile);
 								fread(&ver.pos.y, sizeof(float), 1, pFile);
 								fread(&ver.pos.z, sizeof(float), 1, pFile);
-								ver.weights[0] = (Light::Weight(Bone, 1.0f));
-								ver.weights[1] = (Light::Weight(255, 0.0f));
-								ver.weights[2] = (Light::Weight(255, 0.0f));
-								ver.weights[3] = (Light::Weight(255, 0.0f));
+								ver.weights[0] = (Weight(Bone, 1.0f));
+								ver.weights[1] = (Weight(255, 0.0f));
+								ver.weights[2] = (Weight(255, 0.0f));
+								ver.weights[3] = (Weight(255, 0.0f));
 								vertex.push_back(ver);
 							}
 							if (StreamData[iStream] & VERTDATATYPE_NORMAL)
@@ -395,7 +396,7 @@ vector<LTRawMesh> LoadMesh(FILE* pFile)
 					{
 						for (uint32 i = 0; i < iVertCount; ++i)
 						{
-							Light::SkeVertex ver;
+							SkeVertex ver;
 							if (StreamData[iStream] & VERTDATATYPE_POSITION)
 							{
 								switch (iMaxBonesPerTri) {
@@ -407,30 +408,30 @@ vector<LTRawMesh> LoadMesh(FILE* pFile)
 									VSTREAM_XYZ_B1 tb1;
 									fread(&tb1, sizeof(VSTREAM_XYZ_B1), 1, pFile);
 									ver.pos = vec3(tb1.x, tb1.y, tb1.z);
-									ver.weights[0] = (Light::Weight(255, tb1.blend1));
-									ver.weights[1] = (Light::Weight(255, 1.0f - tb1.blend1));
-									ver.weights[2] = (Light::Weight(255, 0.0f));
-									ver.weights[3] = (Light::Weight(255, 0.0f));
+									ver.weights[0] = (Weight(255, tb1.blend1));
+									ver.weights[1] = (Weight(255, 1.0f - tb1.blend1));
+									ver.weights[2] = (Weight(255, 0.0f));
+									ver.weights[3] = (Weight(255, 0.0f));
 									vertex.push_back(ver);
 									break;
 								case 3:
 									VSTREAM_XYZ_B2 tx;
 									fread(&tx, sizeof(tx), 1, pFile);
 									ver.pos = vec3(tx.x, tx.y, tx.z);
-									ver.weights[0] = (Light::Weight(255, tx.blend1));
-									ver.weights[1] = (Light::Weight(255, tx.blend2));
-									ver.weights[2] = (Light::Weight(255, 1.0f - tx.blend1 - tx.blend2));
-									ver.weights[3] = (Light::Weight(255, 0.0f));
+									ver.weights[0] = (Weight(255, tx.blend1));
+									ver.weights[1] = (Weight(255, tx.blend2));
+									ver.weights[2] = (Weight(255, 1.0f - tx.blend1 - tx.blend2));
+									ver.weights[3] = (Weight(255, 0.0f));
 									vertex.push_back(ver);
 									break;
 								case 4:
 									VSTREAM_XYZ_B3 t;
 									fread(&t, sizeof(VSTREAM_XYZ_B3), 1, pFile);
 									ver.pos = vec3(t.x, t.y, t.z);
-									ver.weights[0] = (Light::Weight(255, t.blend1));
-									ver.weights[1] = (Light::Weight(255, t.blend2));
-									ver.weights[2] = (Light::Weight(255, t.blend3));
-									ver.weights[3] = (Light::Weight(255, 1.0f - t.blend3 - t.blend2 - t.blend1));
+									ver.weights[0] = (Weight(255, t.blend1));
+									ver.weights[1] = (Weight(255, t.blend2));
+									ver.weights[2] = (Weight(255, t.blend3));
+									ver.weights[3] = (Weight(255, 1.0f - t.blend3 - t.blend2 - t.blend1));
 
 									vertex.push_back(ver);
 									break;
@@ -556,9 +557,9 @@ vector<Light::SkeNode> LoadSkeleton(FILE *pFile)
 	return nodelist;
 }
 
-vector<Light::WeightBlend> LoadWS(FILE* pFile)
+vector<WeightBlend> LoadWS(FILE* pFile)
 {
-	vector<Light::WeightBlend> ws;
+	vector<WeightBlend> ws;
 
 	uint32 valid_ws_indexsize;
 	fread(&valid_ws_indexsize, sizeof(uint32), 1, pFile);

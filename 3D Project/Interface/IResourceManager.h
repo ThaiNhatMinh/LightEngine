@@ -3,7 +3,6 @@
 #include <memory>
 #include "..\Graphics3D\Renderer.h"
 #include "..\Graphics3D\ModelRender.h"
-#include "..\ResourceManager\LTModel.h"
 #include "..\typedef.h"
 
 namespace Light
@@ -62,18 +61,6 @@ namespace Light
 			std::unique_ptr<T> m_Object;
 		};
 
-		struct LoadStatus
-		{
-			enum State
-			{
-				LOADING,
-				FINISH,
-			};
-			
-			State  status;
-			float percent;
-			std::string path;
-		};
 		class IResourceManager : public ISubSystem
 		{
 		public:

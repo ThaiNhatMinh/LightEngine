@@ -14,6 +14,7 @@
 #include "..\ResourceManager\ResourceManager.h"
 #include "..\Core\OpenGLInput.h"
 
+using namespace Light;
 
 void Application::SetupSubmodule()
 {
@@ -21,10 +22,11 @@ void Application::SetupSubmodule()
 
 	m_Context = std::unique_ptr<Light::IContext>(new Light::Context());
 	
+	m_pEventManager = std::unique_ptr<Light::IEventManager>(new Light::EventManager(m_Context.get()));
 
 	m_pWindows = std::unique_ptr<Light::IWindow>(new Light::OpenGLWindows(m_Context.get()));
 	m_pRenderer = std::unique_ptr<Light::render::RenderDevice>(new Light::render::OpenGLRenderDevice(m_Context.get()));
-	m_pEventManager = std::unique_ptr<Light::IEventManager>(new Light::EventManager(m_Context.get()));
+	
 	m_pActorFactory = std::unique_ptr<Light::IFactory>(new Light::ActorFactory(m_Context.get()));
 	//m_pSoundEngine = std::unique_ptr<SoundEngine>(new SoundEngine(m_Context.get()));
 	m_pResources = std::unique_ptr<IResourceManager>(new Light::resources::ResourceManager(m_Context.get()));
@@ -142,4 +144,5 @@ void Application::MainLoop()
 	}
 
 	pGame->ShutDown();
+	
 }

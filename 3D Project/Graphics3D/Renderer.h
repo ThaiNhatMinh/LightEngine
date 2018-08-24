@@ -137,7 +137,7 @@ namespace Light
 		{
 			unsigned int index;			// location binding to vertex shader
 			VertexElementType type;		// type of vertex element
-			int size;					// number of components
+			std::size_t size;					// number of components
 			int stride;					// number of bytes between each successive element (leave zero for this to be assumed to be size times size of type)
 			long long offset;			// offset where first occurrence of this vertex element resides in the buffer
 		};
@@ -155,9 +155,9 @@ namespace Light
 			SHADER_NUM
 		};
 
-		const char* uMODEL	= "uModel";
-		const char* uMVP	= "uMVP";
-		const char* aPOS	= "aPos";
+		const static char* uMODEL	= "uModel";
+		const static char* uMVP	= "uMVP";
+		const static char* aPOS	= "aPos";
 		enum Primitive
 		{
 			PRIMITIVE_POINT = 0,

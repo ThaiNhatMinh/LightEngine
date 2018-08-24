@@ -26,7 +26,7 @@ namespace Light
 		virtual bool		VIsVisible(Scene *pScene) const = 0;
 		virtual bool		VAddChild(IActor* kid) = 0;
 		virtual bool		VRemoveChild(ActorId id) = 0;
-		virtual IActor*		VGetChild(int index) = 0;
+		virtual IActor*		VGetChild(std::size_t index) = 0;
 		virtual IActor*		VGetChild(const std::string& name) = 0;
 		virtual IActor*		VGetParent() = 0;
 		virtual ActorId		VGetId(void)const = 0;
