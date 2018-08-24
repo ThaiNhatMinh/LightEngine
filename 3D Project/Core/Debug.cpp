@@ -1,41 +1,28 @@
-#include "pch.h"
+#include <pch.h>
 
 
-Debug::Debug()
+Debug::Debug(Context* c):VAO(),VBO(GL_ARRAY_BUFFER)
 {
-}
+	pShader = c->GetSystem<Resources>()->GetShader("Debug");
 
-void Debug::Init(Context * c)
-{
-	pShader = c->m_pResources->GetShader("Debug");
+	
 
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * 2, NULL, GL_STREAM_DRAW);
-	glEnableVertexAttribArray(SHADER_POSITION_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, sizeof(DebugData), (GLvoid*)0);
-	glEnableVertexAttribArray(SHADER_COLOR_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_COLOR_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, sizeof(DebugData), (GLvoid*)(sizeof(vec3)));
-	c->m_pDebuger = std::unique_ptr<Debug>(this);
-	glBindVertexArray(0);
-}
-
-void Debug::ShutDown()
-{
-	glDeleteBuffers(1, &VBO);
-	glDeleteVertexArrays(1, &VAO);
+	VAO.Bind();
+	VBO.Bind();
+	VAO.SetAttibutePointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, sizeof(DebugData), 0);
+	VAO.SetAttibutePointer(SHADER_COLOR_ATTRIBUTE, 3, GL_FLOAT, sizeof(DebugData), sizeof(vec3));
+	c->AddSystem(this);
+	VAO.UnBind();
 }
 
 void Debug::Update()
 {
-	VP = Camera::GetCurrentCamera()->GetVPMatrix();
+	//VP = Camera::GetCurrentCamera()->GetVPMatrix();
 }
 
 Debug::~Debug()
 {
+
 }
 
 
@@ -82,17 +69,21 @@ void Debug::DrawCoord(const mat4 & m)
 	DrawLine(pos, pos+z*10.0f, vec3(0, 0,1));
 }
 
-void Debug::Render()
+void Debug::Render(Scene* pScene)
 {
 	if (m_Lists.empty()) return;
+
+	ICamera* pCam = pScene->GetCurrentCamera();
+	VP = pCam->GetVPMatrix();
 
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	pShader->Use();
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(DebugData) * m_Lists.size(), &m_Lists[0], GL_STREAM_DRAW);
+	
+	VAO.Bind();
+	VBO.Bind();
+	VBO.SetData(sizeof(DebugData)*m_Lists.size(), &m_Lists[0], GL_STREAM_DRAW);
 	pShader->SetUniformMatrix("MVP", glm::value_ptr(VP));
 	glDrawArrays(GL_LINES, 0, m_Lists.size());
 		

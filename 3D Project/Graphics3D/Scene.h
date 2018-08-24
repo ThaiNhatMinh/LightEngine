@@ -1,32 +1,42 @@
 #pragma once
-#include "pch.h"
-#include "RenderAPI.h"
-
+#include <vector>
 #include "Camera.h"
-class Scene
+#include "Light.h"
+#include "ICamera.h"
+
+#include "..\Interface\IActor.h"
+#include "..\Interface\IScene.h"
+
+namespace Light
 {
-private:
-	// Simple Object with only transform component
-	// This store every thing in scene
-	std::unique_ptr<Actor>	m_pRoot;
-	std::list<Actor*>		m_ActorLast;
-	Light					m_DirectionLight; // only one direction light
+	static const char* SYSTEM_ROOT_ACTOR = "GameAssets\\System\\Root.xml";
+	class Scene: public IScene
+	{
+	private:
+		// Simple Object with only transform component
+		// This store every thing in scene
+		std::unique_ptr<IActor>	m_pRoot;
+		//std::unique_ptr<Actor>	m_pSkyBox;
+		render::DirectionLight					m_DirectionLight; // only one direction light
+		std::vector<render::ICamera*>		m_CameraList;
+		render::ICamera*					m_CurrentCamera;
 
 
-	
-	
-	Context*			m_Context;
-public:
-	Scene(Context* c);
-	~Scene();
+		IContext*			m_Context;
 
-	bool LoadScene(const string& filename);
-	bool OnRender();
+	public:
+		Scene(IContext* c);
+		~Scene();
 
-	bool OnUpdate(float dt);
-	bool PostUpdate();
-	
-	void PushLastActor(Actor*);
-	Actor* GetRoot() { return m_pRoot.get(); };
-	Light GetDirLight() { return m_DirectionLight; };
-};
+		bool VLoadScene(const string& filename);
+		bool VOnRender();
+
+		bool VOnUpdate(float dt);
+		bool VPostUpdate();
+
+		render::ICamera*	VGetCurrentCamera();
+		void		VSetCurrentCamera(render::ICamera * cam);
+		IActor*		VGetRoot() { return m_pRoot.get(); };
+		render::DirectionLight		GetDirLight() { return m_DirectionLight; };
+	};
+}

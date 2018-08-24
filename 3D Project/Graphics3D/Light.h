@@ -1,11 +1,18 @@
 #pragma once
-#include "pch.h"
+#include <glm\vec3.hpp>
 
-class Light
+
+namespace Light
 {
-public:
-	vec3 La;
-	vec3 Ld;
-	vec3 Ls;
-	vec3 direction;
-};
+	namespace render
+	{
+		class DirectionLight
+		{
+		public:
+			glm::vec3 La;
+			glm::vec3 Ld;
+			glm::vec3 Ls;
+			glm::vec3 direction;
+		};
+	}
+}

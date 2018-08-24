@@ -1,5 +1,14 @@
 #pragma once
-#include "pch.h"
+#include <pch.h>
+
+
+// Direct Input
+#include <dinput.h>
+
+// Bullet Physic 
+#include <btBulletCollisionCommon.h>
+#include <btBulletDynamicsCommon.h>
+
 
 enum CollisionType
 {
@@ -80,6 +89,9 @@ struct PhysicsRaycastResult
 
 class BulletPhysics : public IGamePhysics, public ISubSystem
 {
+private:
+	EventManager * m_pEventManager;
+
 	friend class CharacterControllerComponent;
 	friend class RigidBodyComponent;;
 	// use auto pointers to automatically call delete on these objects
@@ -145,11 +157,10 @@ class BulletPhysics : public IGamePhysics, public ISubSystem
 protected:
 	
 public:
-	BulletPhysics();				// [mrmike] This was changed post-press to add event registration!
+	BulletPhysics(Context* c);				// [mrmike] This was changed post-press to add event registration!
 	virtual ~BulletPhysics();
 
-	virtual void Init(Context* c);
-	virtual void ShutDown();
+	
 
 	// Initialiazation and Maintenance of the Physics World
 	virtual bool VInitialize() override { return 1; };

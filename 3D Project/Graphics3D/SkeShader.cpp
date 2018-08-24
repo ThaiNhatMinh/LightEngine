@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 
 void SkeShader::SetupRender(Scene * pScene, Actor * pActor)
 {
@@ -7,7 +7,7 @@ void SkeShader::SetupRender(Scene * pScene, Actor * pActor)
 	mat4 globalTransform = pActor->VGetGlobalTransform();
 	BaseAnimComponent* ac = pActor->GetComponent<AnimationComponent>("AnimationComponent");
 	if (!ac) ac = pActor->GetComponent<PVAnimationComponent>("PVAnimationComponent");
-	ICamera* pCam = Camera::GetCurrentCamera();
+	ICamera* pCam = pScene->GetCurrentCamera();
 	
 	// ----- Transform Matricies ------
 	
@@ -24,7 +24,7 @@ void SkeShader::SetupRender(Scene * pScene, Actor * pActor)
 	}
 
 	// ----- Lighting ------
-	const Light& dirLight = pScene->GetDirLight();
+	const DirectionLight& dirLight = pScene->GetDirLight();
 	SetUniform("gLight.La", dirLight.La);
 	SetUniform("gLight.Ld", dirLight.Ld);
 	SetUniform("gLight.Ls", dirLight.Ls);

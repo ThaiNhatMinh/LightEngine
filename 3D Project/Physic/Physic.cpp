@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 #include <BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h>
 #include <BulletCollision\CollisionDispatch\btInternalEdgeUtility.h>
 // helpers for conversion to and from Bullet's data types
@@ -26,26 +26,15 @@ static bool CustomMaterialCombinerCallback(btManifoldPoint& cp, const btCollisio
 	return true;
 }
 
-BulletPhysics::BulletPhysics()
+BulletPhysics::BulletPhysics(Context * c)
 {
 	REGISTER_EVENT(EvtData_PhysTrigger_Enter);
 	REGISTER_EVENT(EvtData_PhysTrigger_Leave);
 	REGISTER_EVENT(EvtData_PhysCollisionStart);
 	REGISTER_EVENT(EvtData_PhysOnCollision);
 	REGISTER_EVENT(EvtData_PhysCollisionEnd);
-}
 
-
-/////////////////////////////////////////////////////////////////////////////
-// BulletPhysics::~BulletPhysics				
-//
-BulletPhysics::~BulletPhysics()
-{
-	ShutDown();
-}
-
-void BulletPhysics::Init(Context* c)
-{
+	m_pEventManager = m_Context->GetSystem<EventManager>();
 	//E_DEBUG("Physic Engine Initialize...");
 	LoadXml();
 
@@ -96,11 +85,14 @@ void BulletPhysics::Init(Context* c)
 	m_dynamicsWorld->getSolverInfo().m_splitImpulse = false; // Disable by default for performance
 	m_dynamicsWorld->setSynchronizeAllMotionStates(true);
 	//m_dynamicsWorld->debugDrawWorld();
-	
-	c->m_pPhysic = std::unique_ptr<BulletPhysics>(this);
+
+	c->AddSystem(this);
 }
 
-void BulletPhysics::ShutDown()
+/////////////////////////////////////////////////////////////////////////////
+// BulletPhysics::~BulletPhysics				
+//
+BulletPhysics::~BulletPhysics()
 {
 	//E_DEBUG("Physic Engine Shutdown...");
 	// delete any physics objects which are still in the world
@@ -115,8 +107,6 @@ void BulletPhysics::ShutDown()
 	}
 
 	m_rigidBodyToActorId.clear();
-
-	
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -165,7 +155,7 @@ void BulletPhysics::VOnUpdate(float const deltaSeconds)
 	//   We pass in 4 as a max number of sub steps.  Bullet will run the simulation
 	//   in increments of the fixed timestep until "deltaSeconds" amount of time has
 	//   passed, but will only run a maximum of 4 steps this way.
-	m_dynamicsWorld->stepSimulation(deltaSeconds);
+	m_dynamicsWorld->stepSimulation(deltaSeconds,4);
 	//E_DEBUG("Physuic Update()");
 	
 
@@ -246,13 +236,13 @@ void BulletPhysics::VPostStep(float timeStep)
 
 
 	std::shared_ptr<IEvent> pEvent(new EvtData_PhysPostStep(timeStep));
-	m_Context->m_pEventManager->VTriggerEvent(pEvent);
+	m_pEventManager->VTriggerEvent(pEvent);
 }
 
 void BulletPhysics::VPreStep(float timeStep)
 {
 	std::shared_ptr<IEvent>pEvent(new EvtData_PhysPreStep(timeStep));
-	m_Context->m_pEventManager->VTriggerEvent(pEvent);
+	m_pEventManager->VTriggerEvent(pEvent);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -284,7 +274,7 @@ void BulletPhysics::VSyncVisibleScene()
 				// Bullet has moved the actor's physics object.  Sync the transform and inform the game an actor has moved
 				pTransformComponent->SetTransform(actorMotionState->m_worldToPositionTransform);
 				std::shared_ptr<IEvent> pEvent(new EvtData_Move_Actor(id, actorMotionState->m_worldToPositionTransform));
-				m_Context->m_pEventManager->VQueueEvent(pEvent);
+				m_pEventManager->VQueueEvent(pEvent);
 			}
 		}
 	}
@@ -469,12 +459,12 @@ void BulletPhysics::SendCollisionEvents()
 			// this is new collision
 			// send the event for the game
 			std::shared_ptr<IEvent>  pEvent(new EvtData_PhysCollisionStart(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
-			m_Context->m_pEventManager->VQueueEvent(pEvent);
+			m_pEventManager->VQueueEvent(pEvent);
 		}
 		
 		// send the event for the game
 		std::shared_ptr<IEvent>  pEvent( new EvtData_PhysOnCollision(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
-		m_Context->m_pEventManager->VQueueEvent(pEvent);
+		m_pEventManager->VQueueEvent(pEvent);
 		
 	}
 
@@ -504,7 +494,7 @@ void BulletPhysics::SendCollisionEvents()
 		}
 
 		std::shared_ptr<IEvent>  pEvent(new EvtData_PhysCollisionEnd(id0, id1));
-		m_Context->m_pEventManager->VQueueEvent(pEvent);
+		m_pEventManager->VQueueEvent(pEvent);
 	}
 
 	// the current tick becomes the previous tick.  this is the way of all things.

@@ -2,21 +2,17 @@
 #include <string>
 #include <list>
 
-#include "IGamePlugin.h"
-#include "ContextDLL.h"
+#include "..\Interface\IGamePlugin.h"
 
 class GamePluginManager
 {
+	const char* PLUGIN_CONFIG_FILE = "Configs\\Plugin.xml";
 public:
-	GamePluginManager()=default;
-	GamePluginManager(Context* pContext);
-	~GamePluginManager() = default;
+	GamePluginManager();
+	~GamePluginManager();
 
-	bool LoadPlugin(const std::string& filename);
+	IGamePlugin* LoadPlugin();
 
-	void UpdateGame(float dt);
-	void RenderGame();
 private:
-	std::list<IGamePlugin*> m_GamePlugins;
-	ContextDLL m_ContextDLL;
+	
 };

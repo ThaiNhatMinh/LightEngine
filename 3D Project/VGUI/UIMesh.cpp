@@ -1,21 +1,21 @@
-#include "pch.h"
+#include <pch.h>
 
-void UIMesh::Init()
+UIMesh::UIMesh():VAO(),VBO(GL_ARRAY_BUFFER)
 {
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	VAO.Bind();
+	VBO.Bind();
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * 2, NULL, GL_STREAM_DRAW);
-	glEnableVertexAttribArray(SHADER_POSITION_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_POSITION_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, sizeof(float)*4, (GLvoid*)0);
-	glEnableVertexAttribArray(SHADER_TEXCOORD_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_TEXCOORD_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (GLvoid*)(sizeof(float)*2));
+	VBO.SetData(sizeof(float) * 4, NULL, GL_STATIC_DRAW);
+	VAO.SetAttibutePointer(SHADER_POSITION_ATTRIBUTE, 4, GL_FLOAT, sizeof(float) * 4, 0);
+	VAO.UnBind();
+	VBO.UnBind();
 }
 
-void UIMesh::Shutdown()
+UIMesh::~UIMesh()
 {
-	glDeleteBuffers(1, &VBO);
-	glDeleteVertexArrays(1, &VAO);
+}
+
+UIMesh::UIMesh(UIMesh && other):VAO(std::move(other.VAO)),VBO(std::move(VBO))
+{
+	
 }

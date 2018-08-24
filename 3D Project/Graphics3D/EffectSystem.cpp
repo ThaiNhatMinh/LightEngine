@@ -1,47 +1,46 @@
-#include "pch.h"
+#include <pch.h>
 
 void EffectSystem::CreateSpriteEvent(std::shared_ptr<IEvent> pEvent)
 {
 	EvtRequestCreateSprite* p = static_cast<EvtRequestCreateSprite*>(pEvent.get());
 
-	SpriteAnim* c = m_Context->m_pResources->GetSpriteAnimation(p->GetFile());
+	SpriteAnim* c = m_Context->GetSystem<Resources>()->GetSpriteAnimation(p->GetFile());
 	c->ResetState();
 	c->GetPos() = p->GetPos();
 	if (p->isLoop()) c->SetFlag(SpriteAnim::SF_LOOP);
 	this->AddSprite(c);
 }
 
-void EffectSystem::Init(Context * c)
+EffectSystem::EffectSystem(Context * c):VAO(),VBO(GL_ARRAY_BUFFER)
 {
-	const GLfloat g_vertex_buffer_data[] = { -0.5f,  0.5f, 0.0f, 
-	 -0.5f, -0.5f, 0.0f, 
-	 0.5f,  0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f, };
+	const GLfloat g_vertex_buffer_data[] = { -0.5f,  0.5f, 0.0f,
+		-0.5f, -0.5f, 0.0f,
+		0.5f,  0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f, };
 
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(SHADER_POSITION_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_POSITION_ATTRIBUTE,3,  GL_FLOAT,  GL_FALSE,   		0,  (void*)0    );
+	VAO.Bind();
+	VBO.Bind();
 
-	m_pShader = c->m_pResources->GetShader("SpriteShader");
-	c->m_pEffectSystem = std::unique_ptr<EffectSystem>(this);
+	VBO.SetData(sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+	VAO.SetAttibutePointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, 0, 0);
+	m_pRenderer = c->GetSystem<OpenGLRenderer>();
+	m_pShader = c->GetSystem<Resources>()->GetShader("SpriteShader");
+	c->AddSystem(this);
 
-	c->m_pEventManager->VAddListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
+	c->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
 }
 
-void EffectSystem::ShutDown() {
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	m_Context->m_pEventManager->VRemoveListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
+EffectSystem::~EffectSystem()
+{
+	//glDeleteVertexArrays(1, &VAO);
+	//glDeleteBuffers(1, &VBO);
+	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
 }
 
-void EffectSystem::Update(Scene* pScene,float dt)
+void EffectSystem::Update(Scene * pScene, float dt)
 {
-	ICamera* pCam = Camera::GetCurrentCamera();
+	ICamera* pCam = pScene->GetCurrentCamera();
 
 	for (auto itr = m_List2.begin();itr!=m_List2.end(); itr++)
 	{
@@ -54,9 +53,9 @@ void EffectSystem::Update(Scene* pScene,float dt)
 	}
 }
 
-void EffectSystem::Render(Scene* pScene)
+void EffectSystem::Render(Scene * pScene)
 {
-	ICamera* pCam = Camera::GetCurrentCamera();
+	ICamera* pCam = pScene->GetCurrentCamera();
 
 
 	//std::sort(m_List2.begin(), m_List2.end(), [](SpriteAnim*a, SpriteAnim*b) {return *a < *b; });
@@ -65,9 +64,9 @@ void EffectSystem::Render(Scene* pScene)
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	m_Context->m_pRenderer->SetDrawMode(GL_TRIANGLE_STRIP);
-	m_Context->m_pRenderer->SetVertexArrayBuffer(VAO);
-	
+	m_pRenderer->SetDrawMode(GL_TRIANGLE_STRIP);
+	//m_pRenderer->SetVertexArrayBuffer(VAO);
+	VAO.Bind();
 	m_pShader->SetUniformMatrix("MVP", glm::value_ptr(pCam->GetVPMatrix()));
 	mat4 ViewMatrix = pCam->GetViewMatrix();
 	m_pShader->SetUniform("CameraUp",pCam->GetUp());
@@ -87,7 +86,7 @@ void EffectSystem::Render(Scene* pScene)
 		auto data = el->GetCurrentFrame();
 		m_pShader->SetUniform("SpriteSize", data.Size);
 		data.Tex->Bind();
-		m_Context->m_pRenderer->Draw(0, 4);
+		m_pRenderer->Draw(0, 4);
 	}
 
 	glDisable(GL_BLEND);

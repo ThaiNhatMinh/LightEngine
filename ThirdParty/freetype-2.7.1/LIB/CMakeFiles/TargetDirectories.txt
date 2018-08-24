@@ -1,0 +1,6 @@
+E:/Code Collection/freetype-2.7.1/LIB/CMakeFiles/dist.dir
+E:/Code Collection/freetype-2.7.1/LIB/CMakeFiles/freetype.dir
+E:/Code Collection/freetype-2.7.1/LIB/CMakeFiles/PACKAGE.dir
+E:/Code Collection/freetype-2.7.1/LIB/CMakeFiles/INSTALL.dir
+E:/Code Collection/freetype-2.7.1/LIB/CMakeFiles/ALL_BUILD.dir
+E:/Code Collection/freetype-2.7.1/LIB/CMakeFiles/ZERO_CHECK.dir

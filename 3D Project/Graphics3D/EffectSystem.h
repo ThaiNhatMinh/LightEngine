@@ -5,23 +5,25 @@
 class EffectSystem: public ISubSystem
 {
 private:
-	GLuint VAO, VBO;
-	Mesh m_QuadMesh;
+	VertexArray			VAO;
+	BufferObject		VBO;
+	//Mesh				m_QuadMesh;
 	std::vector<Sprite> m_SpriteLists;
 
 	std::list<SpriteAnim*> m_List2;
 	Shader* m_pShader;
 
+	OpenGLRenderer *m_pRenderer;
+
 private:
 	void CreateSpriteEvent(std::shared_ptr<IEvent> pEvent);
 public:
-	EffectSystem() = default;
-	~EffectSystem() = default;
-	virtual void	Init(Context* c);
-	virtual void	ShutDown();
+	EffectSystem(Context* c);
+	~EffectSystem();
 
-	void			Update(Scene* pScene,float dt);
-	void			Render(Scene* pScene);
+
+	void			Update(Scene * pScene, float dt);
+	void			Render(Scene * pScene);
 
 	void			AddSprite(Sprite a);
 	void			AddSprite(SpriteAnim* a);

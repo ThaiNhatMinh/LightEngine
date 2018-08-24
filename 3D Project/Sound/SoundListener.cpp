@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 
 const char* SoundListener::Name = "SoundListener";
 
@@ -12,7 +12,7 @@ FMOD_VECTOR ToFMODVector(vec3 v)
 }
 bool SoundListener::VInit(const tinyxml2::XMLElement * pData)
 {
-	m_Context->m_pSoundEngine->SetListener(this);
+	m_Context->GetSystem<SoundEngine>()->SetListener(this);
 	return true;
 }
 void SoundListener::VUpdate(float dt)

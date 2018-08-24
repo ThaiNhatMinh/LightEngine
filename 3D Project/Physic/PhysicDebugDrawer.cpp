@@ -1,9 +1,9 @@
-#include "pch.h"
+#include <pch.h>
 
 
 BulletDebugDrawer::BulletDebugDrawer(Context * c)
 {
-	m_Debug = c->m_pDebuger.get();
+	m_Debug = c->GetSystem<Debug>();
 }
 
 void BulletDebugDrawer::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)

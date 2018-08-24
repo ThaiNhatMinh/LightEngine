@@ -13,7 +13,7 @@ public:
 	};
 	struct SpriteFrame
 	{
-		SpriteFrame(Texture* Tex) :Tex(Tex), Size(Tex->GetWidth(), Tex->GetHeight()) {}
+		SpriteFrame(Texture* Tex);
 		Texture*	Tex;
 		vec2		Size;
 	};

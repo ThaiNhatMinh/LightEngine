@@ -22,7 +22,8 @@
     <ProjectGuid>{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My3DProject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <ProjectName>Light</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -61,6 +62,7 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\PropertySheet.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -71,16 +73,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>E:\Code Collection\3D Project\3D Project\include;$(IncludePath);E:\Code Collection\bullet3-master\src;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;E:\Code Collection\freetype-2.9\include</IncludePath>
-    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet3-master\lib\Release;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Code Collection\3D Project\3D Project\include;E:\Code Collection\3D Project\3D Project;$(IncludePath);E:\Code Collection\bullet3-master\src;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;E:\Code Collection\freetype-2.7.1\include</IncludePath>
-    <LibraryPath>E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\bullet3-master\lib\Release;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;E:\Code Collection\freetype-2.7.1\LIB\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -95,14 +97,19 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>E:\Code Collection\3D Project\3D Project;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Visual Leak Detector\include;E:\Code Collection\3D Project\3D Project;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zm112 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>@ECHO ON
+@ECHO "$(VC_ExecutablePath_x86)\lib.exe" /out:"$(OutDir)$(ProjectName).lib" "$(IntermediateOutputPath)*.obj"
+"$(VC_ExecutablePath_x86)\lib.exe" /out:"$(OutDir)$(ProjectName).lib" "$(IntermediateOutputPath)*.obj"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -126,7 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;BUILDING_MYDLL;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>E:\Code Collection\3D Project\3D Project\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Visual Leak Detector\include;..\3D Project\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -134,9 +141,14 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;fmod_vc.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>@ECHO ON
+@ECHO "$(VC_ExecutablePath_x86)\lib.exe" /out:"$(OutDir)$(ProjectName).lib" "$(IntermediateOutputPath)*.obj"
+"$(VC_ExecutablePath_x86)\lib.exe" /out:"$(OutDir)$(ProjectName).lib" "$(IntermediateOutputPath)*.obj"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -156,202 +168,128 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\ThirdParty\imgui\imconfig.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="..\ThirdParty\imgui\stb_rect_pack.h" />
+    <ClInclude Include="..\ThirdParty\imgui\stb_textedit.h" />
+    <ClInclude Include="..\ThirdParty\imgui\stb_truetype.h" />
+    <ClInclude Include="Core\ActorFactory.h" />
     <ClInclude Include="Core\Application.h" />
-    <ClInclude Include="Core\Console.h" />
     <ClInclude Include="Core\Context.h" />
-    <ClInclude Include="Core\Debug.h" />
-    <ClInclude Include="Core\DirectInput.h" />
+    <ClInclude Include="Core\EventManager.h" />
+    <ClInclude Include="Core\Events.h" />
     <ClInclude Include="Core\Log.h" />
-    <ClInclude Include="Core\SystemUI.h" />
-    <ClInclude Include="Core\Windows.h" />
-    <ClInclude Include="EventManager\AnimationEvent.h" />
-    <ClInclude Include="EventManager\EventManager.h" />
-    <ClInclude Include="EventManager\Events.h" />
-    <ClInclude Include="EventManager\PhysicsEvents.h" />
-    <ClInclude Include="EventManager\SpriteEvent.h" />
-    <ClInclude Include="EventManager\TestScriptEvent.h" />
-    <ClInclude Include="GameHeader.h" />
-    <ClInclude Include="GameObject\Actor.h" />
-    <ClInclude Include="GameObject\ActorComponent.h" />
-    <ClInclude Include="GameObject\ActorFactory.h" />
-    <ClInclude Include="GameObject\AnimationComponent.h" />
-    <ClInclude Include="GameObject\CameraComponent.h" />
-    <ClInclude Include="GameObject\CharacterControllerComponent.h" />
-    <ClInclude Include="GameObject\ColliderComponent.h" />
-    <ClInclude Include="GameObject\LogicComponent.h" />
-    <ClInclude Include="GameObject\MeshRenderComponent.h" />
-    <ClInclude Include="GameObject\RigidBodyComponent.h" />
-    <ClInclude Include="GameObject\StaticObject.h" />
-    <ClInclude Include="GameObject\TerrainRenderComponent.h" />
-    <ClInclude Include="GameObject\TransformComponent.h" />
-    <ClInclude Include="GamePlugin\ContextDLL.h" />
+    <ClInclude Include="Core\OpenGLDebugRender.h" />
+    <ClInclude Include="Core\OpenGLInput.h" />
+    <ClInclude Include="Core\OpenGLSysUI.h" />
+    <ClInclude Include="Core\OpenGLWindows.h" />
+    <ClInclude Include="Core\Timer.h" />
+    <ClInclude Include="GameComponents\MeshRenderComponent.h" />
+    <ClInclude Include="GameComponents\TransformComponent.h" />
     <ClInclude Include="GamePlugin\GamePluginManager.h" />
-    <ClInclude Include="GamePlugin\IContextDLL.h" />
-    <ClInclude Include="GamePlugin\IGamePlugin.h" />
-    <ClInclude Include="GamePlugin\DLLInterface.h" />
-    <ClInclude Include="Graphics3D\Camera.h" />
-    <ClInclude Include="Graphics3D\DebugShader.h" />
-    <ClInclude Include="Graphics3D\EffectSystem.h" />
+    <ClInclude Include="Graphics3D\Actor.h" />
+    <ClInclude Include="Graphics3D\DefaultMaterial.h" />
     <ClInclude Include="Graphics3D\ICamera.h" />
-    <ClInclude Include="Graphics3D\ImGuiShader.h" />
-    <ClInclude Include="Graphics3D\Octree.h" />
-    <ClInclude Include="Graphics3D\OpenGLRenderer.h" />
-    <ClInclude Include="Graphics3D\Particles.h" />
-    <ClInclude Include="Graphics3D\RenderAPI.h" />
-    <ClInclude Include="Graphics3D\SkeShader.h" />
     <ClInclude Include="Graphics3D\Light.h" />
-    <ClInclude Include="Graphics3D\PrimitiveShader.h" />
-    <ClInclude Include="Graphics3D\Scene.h" />
     <ClInclude Include="Graphics3D\Material.h" />
     <ClInclude Include="Graphics3D\Mesh.h" />
+    <ClInclude Include="Graphics3D\ModelRender.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLCompressTexture.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLCubeTexture.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLIndexBuffer.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLPipeline.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLPipelineParam.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLPixelShader.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLRenderDevice.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLTexture.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexBuffer.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexDescription.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexShader.h" />
+    <ClInclude Include="Graphics3D\Renderer.h" />
+    <ClInclude Include="Graphics3D\Scene.h" />
+    <ClInclude Include="Graphics3D\SkeletonMaterial.h" />
     <ClInclude Include="Graphics3D\SkeMesh.h" />
-    <ClInclude Include="Graphics3D\Sprite.h" />
-    <ClInclude Include="Graphics3D\SpriteAnim.h" />
-    <ClInclude Include="Graphics3D\SpriteShader.h" />
-    <ClInclude Include="Graphics3D\TexShader.h" />
-    <ClInclude Include="include\imgui\imconfig.h" />
-    <ClInclude Include="include\imgui\imgui.h" />
-    <ClInclude Include="include\imgui\imgui_internal.h" />
-    <ClInclude Include="include\imgui\stb_rect_pack.h" />
-    <ClInclude Include="include\imgui\stb_textedit.h" />
-    <ClInclude Include="include\imgui\stb_truetype.h" />
+    <ClInclude Include="Graphics3D\Vertex.h" />
     <ClInclude Include="interface.h" />
-    <ClInclude Include="Interface\IPhysic.h" />
-    <ClInclude Include="Interface\IRenderer.h" />
+    <ClInclude Include="Interface\IActor.h" />
+    <ClInclude Include="Interface\IComponent.h" />
+    <ClInclude Include="Interface\IConsole.h" />
+    <ClInclude Include="Interface\IContext.h" />
+    <ClInclude Include="Interface\IDebugRender.h" />
+    <ClInclude Include="Interface\IEvent.h" />
+    <ClInclude Include="Interface\IEventManager.h" />
+    <ClInclude Include="Interface\IFactory.h" />
+    <ClInclude Include="Interface\IGamePhysic.h" />
+    <ClInclude Include="Interface\IGamePlugin.h" />
+    <ClInclude Include="Interface\IInput.h" />
+    <ClInclude Include="Interface\IModelResource.h" />
+    <ClInclude Include="Interface\IResourceManager.h" />
+    <ClInclude Include="Interface\IScene.h" />
+    <ClInclude Include="Interface\IShader.h" />
+    <ClInclude Include="Interface\ISoundEngine.h" />
+    <ClInclude Include="Interface\ISubSystem.h" />
+    <ClInclude Include="Interface\ISysUI.h" />
+    <ClInclude Include="Interface\ITimer.h" />
+    <ClInclude Include="Interface\IWindow.h" />
     <ClInclude Include="Math\AABB.h" />
-    <ClInclude Include="Math\Frustum.h" />
-    <ClInclude Include="Math\Math.h" />
-    <ClInclude Include="Math\Plane.h" />
-    <ClInclude Include="Math\Ray.h" />
-    <ClInclude Include="MyGame\AI_Explosive.h" />
-    <ClInclude Include="MyGame\CharacterResource.h" />
-    <ClInclude Include="MyGame\Creature.h" />
-    <ClInclude Include="MyGame\EvtData.h" />
-    <ClInclude Include="MyGame\Game.h" />
-    <ClInclude Include="MyGame\GunPlayerView.h" />
-    <ClInclude Include="MyGame\HitBox.h" />
-    <ClInclude Include="MyGame\LocalPlayerComponent.h" />
-    <ClInclude Include="MyGame\Player.h" />
-    <ClInclude Include="MyGame\PlayerView.h" />
-    <ClInclude Include="MyGame\Weapon.h" />
-    <ClInclude Include="MyGame\WeaponResource.h" />
-    <ClInclude Include="MyGame\Zombie.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Physic\Physic.h" />
-    <ClInclude Include="Physic\PhysicDebugDrawer.h" />
-    <ClInclude Include="ResourceCache\LTBDef.h" />
-    <ClInclude Include="ResourceCache\LTBFileLoader.h" />
-    <ClInclude Include="ResourceCache\ModelCache.h" />
-    <ClInclude Include="ResourceCache\ResourceLoader.h" />
-    <ClInclude Include="ResourceCache\Texture.h" />
-    <ClInclude Include="Sound\SoundEngine.h" />
-    <ClInclude Include="Sound\SoundListener.h" />
-    <ClInclude Include="Sound\SoundSource3D.h" />
+    <ClInclude Include="ResourceManager\LTBFileLoader.h" />
+    <ClInclude Include="ResourceManager\LTModel.h" />
+    <ClInclude Include="ResourceManager\LTRawData.h" />
+    <ClInclude Include="ResourceManager\OtherModel.h" />
+    <ClInclude Include="ResourceManager\ResourceManager.h" />
+    <ClInclude Include="typedef.h" />
+    <ClInclude Include="Utilities\Delegate.h" />
+    <ClInclude Include="Utilities\Observer.h" />
     <ClInclude Include="Utilities\PhysicsUtilities.h" />
-    <ClInclude Include="Utilities\PrimitiveShape\Cube.h" />
-    <ClInclude Include="Utilities\PrimitiveShape\Line.h" />
     <ClInclude Include="Utilities\Template.h" />
-    <ClInclude Include="Utilities\Input.h" />
-    <ClInclude Include="Utilities\Shader.h" />
     <ClInclude Include="Utilities\String.h" />
-    <ClInclude Include="Utilities\Timer.h" />
-    <ClInclude Include="VGUI\FreeTypeFont.h" />
-    <ClInclude Include="VGUI\UI.h" />
-    <ClInclude Include="VGUI\UIElement.h" />
-    <ClInclude Include="VGUI\UIImage.h" />
-    <ClInclude Include="VGUI\UIMesh.h" />
-    <ClInclude Include="VGUI\UIText.h" />
-    <ClInclude Include="VGUI\VGUI.h" />
-    <ClInclude Include="World\TerrainWorld.h" />
+    <ClInclude Include="Utilities\Utility.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\ThirdParty\imgui\imgui.cpp" />
+    <ClCompile Include="..\ThirdParty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Core\ActorFactory.cpp" />
     <ClCompile Include="Core\Application.cpp" />
-    <ClCompile Include="Core\Console.cpp" />
     <ClCompile Include="Core\Context.cpp" />
-    <ClCompile Include="Core\Debug.cpp" />
-    <ClCompile Include="Core\DirectInput.cpp" />
+    <ClCompile Include="Core\EventManager.cpp" />
     <ClCompile Include="Core\Log.cpp" />
-    <ClCompile Include="Core\SystemUI.cpp" />
-    <ClCompile Include="Core\Windows.cpp" />
-    <ClCompile Include="EventManager\EventManager.cpp" />
-    <ClCompile Include="EventManager\Events.cpp" />
-    <ClCompile Include="EventManager\PhysicsEvents.cpp" />
-    <ClCompile Include="EventManager\TestScriptEvent.cpp" />
-    <ClCompile Include="GameObject\Actor.cpp" />
-    <ClCompile Include="GameObject\ActorComponent.cpp" />
-    <ClCompile Include="GameObject\ActorFactory.cpp" />
-    <ClCompile Include="GameObject\AnimationComponent.cpp" />
-    <ClCompile Include="GameObject\CameraComponent.cpp" />
-    <ClCompile Include="GameObject\CharacterControllerComponent.cpp" />
-    <ClCompile Include="GameObject\ColliderComponent.cpp" />
-    <ClCompile Include="GameObject\LogicComponent.cpp" />
-    <ClCompile Include="GameObject\MeshRenderComponent.cpp" />
-    <ClCompile Include="GameObject\RigidBodyComponent.cpp" />
-    <ClCompile Include="GameObject\StaticObject.cpp" />
-    <ClCompile Include="GameObject\TerrainRenderComponent.cpp" />
-    <ClCompile Include="GameObject\TransformComponent.cpp" />
-    <ClCompile Include="GamePlugin\ContextDLL.cpp" />
+    <ClCompile Include="Core\OpenGLDebugRender.cpp" />
+    <ClCompile Include="Core\OpenGLInput.cpp" />
+    <ClCompile Include="Core\OpenGLWindows.cpp" />
+    <ClCompile Include="Core\Timer.cpp" />
+    <ClCompile Include="GameComponents\MeshRenderComponent.cpp" />
+    <ClCompile Include="GameComponents\TransformComponent.cpp" />
     <ClCompile Include="GamePlugin\GamePluginManager.cpp" />
-    <ClCompile Include="Graphics3D\Camera.cpp" />
-    <ClCompile Include="Graphics3D\DebugShader.cpp" />
-    <ClCompile Include="Graphics3D\EffectSystem.cpp" />
-    <ClCompile Include="Graphics3D\ICamera.cpp" />
-    <ClCompile Include="Graphics3D\ImGuiShader.cpp" />
-    <ClCompile Include="Graphics3D\Mesh.cpp" />
-    <ClCompile Include="Graphics3D\Octree.cpp" />
-    <ClCompile Include="Graphics3D\OpenGLRenderer.cpp" />
-    <ClCompile Include="Graphics3D\PrimitiveShader.cpp" />
+    <ClCompile Include="Graphics3D\Actor.cpp" />
+    <ClCompile Include="Graphics3D\DefaultMaterial.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLCompressTexture.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLCubeTexture.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLIndexBuffer.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLPipeline.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLPipelineParam.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLPixelShader.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLRenderDevice.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLTexture.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexBuffer.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexDescription.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexShader.cpp" />
     <ClCompile Include="Graphics3D\Scene.cpp" />
     <ClCompile Include="Graphics3D\SkeMesh.cpp" />
-    <ClCompile Include="Graphics3D\SkeShader.cpp" />
-    <ClCompile Include="Graphics3D\Sprite.cpp" />
-    <ClCompile Include="Graphics3D\SpriteAnim.cpp" />
-    <ClCompile Include="Graphics3D\SpriteShader.cpp" />
-    <ClCompile Include="Graphics3D\TexShader.cpp" />
-    <ClCompile Include="include\imgui\imgui.cpp" />
-    <ClCompile Include="include\imgui\imgui_draw.cpp" />
     <ClCompile Include="Math\AABB.cpp" />
-    <ClCompile Include="Math\Frustum.cpp" />
-    <ClCompile Include="Math\Plane.cpp" />
-    <ClCompile Include="MyGame\AI_Explosive.cpp" />
-    <ClCompile Include="MyGame\Creature.cpp" />
-    <ClCompile Include="MyGame\EvtData.cpp" />
-    <ClCompile Include="MyGame\EvtDdata.cpp" />
-    <ClCompile Include="MyGame\Game.cpp" />
-    <ClCompile Include="MyGame\GunPlayerView.cpp" />
-    <ClCompile Include="MyGame\HitBox.cpp" />
-    <ClCompile Include="MyGame\Player.cpp" />
-    <ClCompile Include="MyGame\PlayerView.cpp" />
-    <ClCompile Include="MyGame\LocalPlayerComponent.cpp" />
-    <ClCompile Include="MyGame\Weapon.cpp" />
-    <ClCompile Include="MyGame\Zombie.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Physic\Physic.cpp" />
-    <ClCompile Include="Physic\PhysicDebugDrawer.cpp" />
-    <ClCompile Include="ResourceCache\LTBFileLoader.cpp" />
-    <ClCompile Include="ResourceCache\ResourceLoader.cpp" />
-    <ClCompile Include="ResourceCache\Texture.cpp" />
-    <ClCompile Include="Sound\SoundEngine.cpp" />
-    <ClCompile Include="Sound\SoundListener.cpp" />
-    <ClCompile Include="Sound\SoundSource3D.cpp" />
+    <ClCompile Include="ResourceManager\LTBFileLoader.cpp" />
+    <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Utilities\Input.cpp" />
-    <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp" />
-    <ClCompile Include="Utilities\PrimitiveShape\Line.cpp" />
-    <ClCompile Include="Utilities\Shader.cpp" />
+    <ClCompile Include="Utilities\Observer.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
-    <ClCompile Include="Utilities\Timer.cpp" />
-    <ClCompile Include="VGUI\FreeTypeFont.cpp" />
-    <ClCompile Include="VGUI\UIElement.cpp" />
-    <ClCompile Include="VGUI\UIImage.cpp" />
-    <ClCompile Include="VGUI\UIMesh.cpp" />
-    <ClCompile Include="VGUI\UIText.cpp" />
-    <ClCompile Include="VGUI\VGUI.cpp" />
-    <ClCompile Include="World\TerrainWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameAssets\SCRIPTS\Box.lua" />
@@ -389,6 +327,11 @@
     <Xml Include="GameAssets\WEAPON\Weapon.xml">
       <SubType>Designer</SubType>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hunting\Hunting.vcxproj">
+      <Project>{17af2918-a454-4280-b3a8-829011ea70dc}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

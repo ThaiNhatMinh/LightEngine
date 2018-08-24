@@ -1,8 +1,15 @@
 #pragma once
+#include <glfw3.h>
+
 #include "RenderAPI.h"
-#include <GLFW\glfw3.h>
-
-
+#include "OpenGL\BufferObject.h"
+#include "OpenGL\VertexArray.h"
+#include "OpenGL\Texture.h"
+#include "OpenGL\CompressTexture.h"
+#include "OpenGL\CubeTexture.h"
+#include "OpenGL\IMesh.h"
+#include "OpenGL\FrameBuffer.h"
+#include "OpenGL\RenderBuffer.h"
 
 
 class OpenGLRenderer : public RenderAPICore,public ISubSystem
@@ -17,11 +24,9 @@ private:
 	GLenum			m_DrawMode;
 	GLFWwindow*		m_glfwWindow;
 public:
-	OpenGLRenderer();
+	OpenGLRenderer(Context* c);
 	~OpenGLRenderer();
 
-	virtual void Init(Context* c);
-	virtual void ShutDown();
 
 	virtual bool HasInit();
 	virtual void ClearBuffer();

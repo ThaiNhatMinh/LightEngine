@@ -1,8 +1,8 @@
 <Data>
 	<Model File="MODELS\CHARACTER\SAS_BODY_GR.LTB" />
 	<Texture>
-		<Object11 File="TEXTURES\CHARACTER\SAS\SAS_BODY_GR.DTX" />
-		<SAS_GR_F File="TEXTURES\CHARACTER\SAS\SAS_FACE_GR.DTX" />
+		<Object11 File="TEXTURES\CHARACTER\SAS\SAS_BODY_GR.DTX" Material="Default"/>
+		<SAS_GR_F File="TEXTURES\CHARACTER\SAS\SAS_FACE_GR.DTX" Material="Default"/>
 	</Texture>
 	<Material>
 			<Ka r="1.0" g="1.0" b="1.0" />

@@ -36,13 +36,13 @@ private:
 	char					InputBuf[256];
 	bool					p_Open;
 	bool					Show;
+	DirectInput*	m_pInput;
 protected:
 	
 public:
-	Console();
+	Console(Context* c);
 	~Console();
-	virtual void Init(Context* c);
-	virtual void ShutDown();
+	
 	void Draw();
 
 	

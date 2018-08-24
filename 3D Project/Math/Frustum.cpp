@@ -1,8 +1,8 @@
-#include "pch.h"
+#include <pch.h>
 
 void Frustum::Init()
 {
-	glGenVertexArrays(1, &VAO);
+	/*glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 
 	glBindVertexArray(VAO);
@@ -15,7 +15,7 @@ void Frustum::Init()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	glBindVertexArray(0);*/
 }
 
 Frustum::Frustum(float fov, float aspect, float _near, float _far)
@@ -165,7 +165,7 @@ void Frustum::Update(const vec3& Pos, const vec3& Forward, const vec3& right)
 
 void Frustum::Render(Shader* shader,mat4& view)
 {
-	shader->Use();
+	/*shader->Use();
 	mat4 model;
 	//model.Translate(0, 0, 100);
 	shader->SetUniformMatrix("Model", glm::value_ptr(model));
@@ -173,7 +173,7 @@ void Frustum::Render(Shader* shader,mat4& view)
 	shader->SetUniformMatrix("Proj", glm::value_ptr(m_ProjMatrix));
 	glBindVertexArray(VAO);
 	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);*/
 
 }
 

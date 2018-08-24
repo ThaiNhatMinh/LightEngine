@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 #include "Octree.h"
 
 void Octree::Build(const vector<vec3>& vertex)

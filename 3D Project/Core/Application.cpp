@@ -1,57 +1,45 @@
-#include "pch.h"
-#include "..\Graphics3D\OpenGLRenderer.h"
+#include <pch.h>
+#include "Application.h"
 #include <type_traits>
+
+#include "OpenGLWindows.h"
+#include "EventManager.h"
+#include "ActorFactory.h"
+#include "Timer.h"
+#include "Context.h"
+#include "..\Graphics3D\OpenGL\OpenGLRenderDevice.h"
+#include "..\Graphics3D\OpenGL\OpenGLPipeline.h"
+#include "..\Graphics3D\OpenGL\OpenGLVertexShader.h"
+#include "..\Graphics3D\OpenGL\OpenGLPixelShader.h"
+#include "..\ResourceManager\ResourceManager.h"
+#include "..\Core\OpenGLInput.h"
+
+
 void Application::SetupSubmodule()
 {
-	//E_DEBUG("Application StartUp...");
-	Context			*C = new Context();
-	Windows			*W = new Windows();
-	OpenGLRenderer	*O = new OpenGLRenderer();
-	EventManager	*E = new EventManager();
-	GameTimer		*G = new GameTimer();
-	Resources		*R = new Resources();
-	DirectInput		*D = new DirectInput();
-	BulletPhysics	*B = new BulletPhysics();
-	Console			*Con = new Console();
-	Debug			*Db = new Debug();
-	SystemUI		*S = new SystemUI();
-	ActorFactory	*A = new ActorFactory();
-	EffectSystem	*ES = new EffectSystem();
-	SoundEngine		*SE = new SoundEngine();
-	Actor::m_Context = C;
-	ActorComponent::m_Context = C;
-	ISubSystem::m_Context = C;
+	E_DEBUG("Application StartUp...");
 
-	// Init Windows
-	W->Init(C);
-	// Init Renderer
-	O->Init(C);
-	// Init Event system
-	E->Init(C);
-	// Init factory
-	A->Init(C);
-	// init sound engine
-	SE->Init(C);
-	// init resource
-	R->Init(C);
-	// init system UI
-	S->Init(C);
-	// init console
-	Con->Init(C);
-	// init input
-	D->Init(C);
-	// init debug renderer
-	Db->Init(C);
-	// init bullets physic
-	B->Init(C);
-	// init timer
-	G->Init(C);
-	//init effect system
-	ES->Init(C);
+	m_Context = std::unique_ptr<Light::IContext>(new Light::Context());
+	
 
-	m_Context = std::unique_ptr<Context>(C);
-
-	Con->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
+	m_pWindows = std::unique_ptr<Light::IWindow>(new Light::OpenGLWindows(m_Context.get()));
+	m_pRenderer = std::unique_ptr<Light::render::RenderDevice>(new Light::render::OpenGLRenderDevice(m_Context.get()));
+	m_pEventManager = std::unique_ptr<Light::IEventManager>(new Light::EventManager(m_Context.get()));
+	m_pActorFactory = std::unique_ptr<Light::IFactory>(new Light::ActorFactory(m_Context.get()));
+	//m_pSoundEngine = std::unique_ptr<SoundEngine>(new SoundEngine(m_Context.get()));
+	m_pResources = std::unique_ptr<IResourceManager>(new Light::resources::ResourceManager(m_Context.get()));
+	//m_pSystemUI = std::unique_ptr<SystemUI>(new SystemUI(m_Context.get()));
+	m_pInput = std::unique_ptr<Light::IInput>(new Light::OpenGLInput(m_Context.get()));
+	//m_pConsole = std::unique_ptr<Console>(new Console(m_Context.get()));
+	//m_pDebuger = std::unique_ptr<Debug>(new Debug(m_Context.get()));
+	//m_pPhysic = std::unique_ptr<BulletPhysics>(new BulletPhysics(m_Context.get()));
+	m_pTimer = std::unique_ptr<Light::ITimer>(new Light::GameTimer(m_Context.get()));
+	//m_pEffectSystem = std::unique_ptr<EffectSystem>(new EffectSystem(m_Context.get()));
+	//m_pVGUI = std::unique_ptr<VGUI>(new VGUI(m_Context.get()));
+	
+	
+	//m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
+	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
 
 }
 
@@ -64,10 +52,13 @@ Application::~Application()
 
 void Application::MainLoop()
 {
-	Setup();
+	
 	SetupSubmodule();
-	Start();
 
+
+						
+
+	
 	m_bRunMainLoop = true;
 	// PROBLEM: How every thing update ?
 	// 1. Timer
@@ -75,91 +66,80 @@ void Application::MainLoop()
 	// 3. Input 
 	// 4. Physic
 	// 5. 
-	
-	EventManager	*E = m_Context->m_pEventManager.get();
-	GameTimer		*G = m_Context->m_pTimer.get();
-	DirectInput		*D = m_Context->m_pInput.get();
-	BulletPhysics	*B = m_Context->m_pPhysic.get();
-	OpenGLRenderer	*O = m_Context->m_pRenderer.get();
-	Console			*C = m_Context->m_pConsole.get();
-	SystemUI		*S = m_Context->m_pSystemUI.get();
-	Debug			*Db = m_Context->m_pDebuger.get();
-	EffectSystem	*ES = m_Context->m_pEffectSystem.get();
-	SoundEngine		*SE = m_Context->m_pSoundEngine.get();
-	Scene			*pScene = m_Game->GetScene();
+
+	//Scene			*pScene = m_GamePlugins->GetScene();
 
 	
-	/*auto b = Sprite(m_Context->m_pResources->GetTexture("TEXTURES\\ESCAPE.DTX"));
-	b.GetPos() = vec3(100, 150, 100);
-	ES->AddSprite(b);
+	//m_Context->GetSystem<Windows>()->ShowWindows();
 
-	auto d = Sprite(m_Context->m_pResources->GetTexture("TEXTURES\\SGFX_se_decal_04.DTX"));
-	d.GetPos() = vec3(100, 150, 300);
-	ES->AddSprite(d);
+	m_pTimer->VReset();
 
-	auto a = m_Context->m_pResources->GetSpriteAnimation("BLOOD3.SPR");
-	a->GetPos() = vec3(200, 150, 0);
-	ES->AddSprite(a);
+	IGamePlugin* pGame = m_GamePlugins.LoadPlugin();
 
-	auto c = m_Context->m_pResources->GetSpriteAnimation("EX.SPR");
-	c->GetPos() = vec3(250, 350, 50);
-	ES->AddSprite(c);
-
-	
-	c = m_Context->m_pResources->GetSpriteAnimation("SGFX_se_fire_explode_01.SPR");
-	c->GetPos() = vec3(350, 250, 100);
-	ES->AddSprite(c);*/
-	
-	m_Context->m_pWindows->ShowWindows();
-
-	G->Reset();
+	pGame->Init(m_Context.get());
 
 	while (m_bRunMainLoop)
 	{
 		glfwPollEvents();
 		// Update input
-		D->Update();
-		if (D->KeyDown(DIK_ESCAPE)|| m_Context->m_pWindows->ShouldClose())	m_bRunMainLoop = false;
+		//		m_pInput->VUpdate();
+		if (m_pInput->VOnKey(Light::Escape))	m_bRunMainLoop = false;
 		// Timer
-		G->Tick();
-		S->NewFrame();
+		m_pTimer->VTick();
+		//m_pSystemUI->NewFrame();
 
+		//ImGui::Text("FPS: %d", m_pTimer->GetFPS());
 		// check if in console then don't update game
-		if (!C->CheckStatus())
-		{
+		//if (!m_pConsole->CheckStatus())
+		//{
 
+		//	float dt = m_pTimer->GetDeltaTime();
+		//	// Update Event
+		m_pEventManager->VUpdate(20);
+		//	// Update Game
+		//	m_GamePlugins->UpdateGame(dt);
+		//	// Update Physic
+		//	m_pPhysic->VOnUpdate(dt);
+		//	// Update Effect
+		//	m_pEffectSystem->Update(pScene,dt);
+		//	// Update Object
+		//	m_pPhysic->VSyncVisibleScene();
+		//	// Update sound
+		//	m_pSoundEngine->Update();
+		//	// Update Debuger
+		//	m_pDebuger->Update();
+		//	// Update VGUI
+		//	m_pVGUI->Update(dt);
+		//}
 
-			// Update Event
-			E->VUpdate(20);
-			// Update Game
-			m_Game->Update(G->GetDeltaTime());
-			// Update Physic
-			B->VOnUpdate(G->GetDeltaTime());
-			// Update Effect
-			ES->Update(pScene, G->GetDeltaTime());
-			// Update Object
-			B->VSyncVisibleScene();
-		}
-
-		// Update sound
-		SE->Update();
-		if (m_DebugPhysic) B->VRenderDiagnostics();
+		//
+		//if (m_DebugPhysic) m_pPhysic->VRenderDiagnostics();
 		
 
-		O->Clear();
-
+		m_pRenderer->Clear();
+		
+		// draw our first triangle
+		
+		pGame->Render();
 		// Draw Game
-		m_Game->Render();
+		//m_GamePlugins->RenderGame();
 		// Draw Effect
-		ES->Render(pScene);
+		//m_pEffectSystem->Render(pScene);
 		// Draw Console
-		C->Draw();
+		//m_pConsole->Draw();
 		// Daw Debug
-		Db->Render();
+		//m_pDebuger->Render(pScene);
 		// Draw SystemUI
-		S->Render();
-		O->SwapBuffer();
+		//m_pSystemUI->Render();
+		// Draw VGUI
+		//m_pVGUI->Render();
+
+		//m_pRenderer->SwapBuffer();
+
+		m_pWindows->VSwapBuffer();
 
 
 	}
+
+	pGame->ShutDown();
 }
