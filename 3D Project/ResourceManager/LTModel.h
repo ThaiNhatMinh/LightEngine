@@ -6,7 +6,7 @@
 #include "../typedef.h"
 #include "../Graphics3D/SkeMesh.h"
 #include "../Graphics3D/Renderer.h"
-
+#include "../Graphics3D/Material.h"
 namespace Light
 {
 	

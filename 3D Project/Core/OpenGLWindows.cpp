@@ -1,7 +1,8 @@
 #include <pch.h>
 #include "OpenGLWindows.h"
 #include "OpenGLInput.h"
-#include <glfw3.h>
+#include <GLFW/glfw3.h>
+#include <tinyxml2/tinyxml2.h>
 namespace Light
 {
 

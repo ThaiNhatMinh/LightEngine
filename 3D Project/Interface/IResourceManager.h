@@ -4,7 +4,7 @@
 #include "..\Graphics3D\Renderer.h"
 #include "..\Graphics3D\ModelRender.h"
 #include "..\typedef.h"
-
+#include "..\Graphics3D\Vertex.h"
 namespace Light
 {
 	namespace resources

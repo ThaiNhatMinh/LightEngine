@@ -3,6 +3,9 @@
 #include "..\Renderer.h"
 #include "..\..\Interface\IContext.h"
 #include "Interface\IEvent.h"
+#include "OpenGLDepthStencilState.h"
+#include "..\..\Interface\IComponent.h"
+
 namespace Light
 {
 	namespace render

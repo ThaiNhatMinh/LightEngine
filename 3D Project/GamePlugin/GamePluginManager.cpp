@@ -1,4 +1,5 @@
 #include <pch.h>
+#include <tinyxml2/tinyxml2.h>
 #include "GamePluginManager.h"
 
 #include <Windows.h>

@@ -56,11 +56,6 @@ using std::map;
 //#pragma comment(lib, "lib/dxguid.lib")
 //#pragma comment(lib, "opengl32.lib")
 
-#ifdef BUILDING_MYDLL
-#define MYDLL_API __declspec(dllexport)
-#else
-#define MYDLL_API __declspec(dllimport)
-#endif
 
 
 #include "mat4x4.hpp"
