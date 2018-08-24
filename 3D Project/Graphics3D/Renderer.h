@@ -210,6 +210,7 @@ namespace Light
 			DepthStencilState() {}
 		};
 
+		
 		enum Compare
 		{
 			// Test comparison never passes
@@ -268,6 +269,32 @@ namespace Light
 			STENCIL_MAX
 		};
 
+		struct DepthStencilConfig
+		{
+			bool	DepthEnable = true;
+			// Enable/Disable writing to depth buffer
+			bool	DepthMask = true;
+			Compare Depthfunc = COMPARE_LESS;
+
+			bool			FrontFaceStencilEnabled = false;
+			Compare			FrontFaceStencilCompare = COMPARE_ALWAYS;
+			StencilAction	FrontFaceStencilFail = STENCIL_KEEP;
+			StencilAction	FrontFaceStencilPass = STENCIL_KEEP;
+			StencilAction	FrontFaceDepthFail = STENCIL_KEEP;
+			int				FrontFaceRef = 0;
+			unsigned int	FrontFaceReadMask = 0xFFFFFFFF;
+			unsigned int	FrontFaceWriteMask = 0xFFFFFFFF;
+
+			bool			BackFaceStencilEnabled = false;
+			Compare			BackFaceStencilCompare = COMPARE_ALWAYS;
+			StencilAction	BackFaceStencilFail = STENCIL_KEEP;
+			StencilAction	BackFaceStencilPass = STENCIL_KEEP;
+			StencilAction	BackFaceDepthFail = STENCIL_KEEP;
+			int				BackFaceRef = 0;
+			unsigned int	BackFaceReadMask = 0xFFFFFFFF;
+			unsigned int	BackFaceWriteMask = 0xFFFFFFFF;
+		};
+
 		class RenderDevice :public ISubSystem
 		{
 		public:
@@ -281,11 +308,13 @@ namespace Light
 			virtual VertexArray*		CreateVertexArray(unsigned int numBuffer, VertexBuffer**vertexBuffer, VertexDescription** vertexDescription) = 0;
 			virtual IndexBuffer*		CreateIndexBuffer(unsigned int size, const void* pData = nullptr) = 0;
 			virtual Texture*			CreateTexture(const TextureCreateInfo& info, bool isCompress = false) = 0;
+			virtual DepthStencilState*	CreateDepthStencilState(const DepthStencilConfig& config) = 0;
 
 			virtual void				SetVertexArray(VertexArray*) = 0;
 			virtual void				SetPipeline(Pipeline*) = 0;
 			virtual void				SetIndexBuffer(IndexBuffer*) = 0;
 			virtual void				SetTexture(unsigned int slot, Texture*) = 0;
+			virtual void				SetDepthStencilState(DepthStencilState* state = nullptr) = 0;
 
 			virtual void				Clear(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 1.0f, float depth = 1.0f) = 0;
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;
