@@ -10,6 +10,7 @@
 #include "OpenGLCompressTexture.h"
 #include "OpenGLIndexBuffer.h"
 #include "OpenGLCubeTexture.h"
+#include "OpenGLDepthStencilState.h"
 #include "Core\OpenGLWindows.h"
 #include "Interface\IEventManager.h"
 #include "Core\Events.h"
@@ -54,11 +55,15 @@ namespace Light
 			int w, h;
 			pWindow->VGetWindowSize(w, h);
 			glViewport(0, 0, w, h);
-			//glEnable(GL_DEPTH_TEST);
-			//glEnable(GL_CULL_FACE);
-			//glCullFace(GL_BACK);
+
+			m_pDefaultDepthStencil = new OpenGLDepthStencilState(DepthStencilConfig());
 			pContext->VAddSystem(this);
 			pContext->GetSystem<IEventManager>()->VAddListener(new EventDelegate<OpenGLRenderDevice>(this, &(this->OnObjectCreate)), events::EvtNewActor::StaticType);
+		}
+
+		OpenGLRenderDevice::~OpenGLRenderDevice()
+		{
+			delete m_pDefaultDepthStencil;
 		}
 
 		const char * OpenGLRenderDevice::VGetName()
@@ -114,6 +119,11 @@ namespace Light
 			return new OpenGLIndexBuffer(size, pData);
 		}
 
+		DepthStencilState * OpenGLRenderDevice::CreateDepthStencilState(const DepthStencilConfig & config)
+		{
+			return new OpenGLDepthStencilState(config);
+		}
+
 		void OpenGLRenderDevice::SetVertexArray(VertexArray * pVertexArray)
 		{
 			assert(pVertexArray != nullptr);
@@ -137,6 +147,13 @@ namespace Light
 			assert(pTexture != nullptr);
 			glActiveTexture(GL_TEXTURE0 + slot);
 			glBindTexture(pTexture->m_TexInfo.eTarget, static_cast<OpenGLTexture*>(pTexture)->m_iHandle);
+		}
+
+		void OpenGLRenderDevice::SetDepthStencilState(DepthStencilState * state)
+		{
+			auto oldState = m_pDefaultDepthStencil;
+			if (state) m_pDefaultDepthStencil = static_cast<OpenGLDepthStencilState*>(state);
+
 		}
 
 		void OpenGLRenderDevice::Clear(float r, float g, float b, float alpha, float depth)
