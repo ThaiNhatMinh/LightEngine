@@ -2,7 +2,7 @@
 
 #include <IGamePlugin.h>
 #include <IContext.h>
-
+#include <IScene.h>
 class Game : public IGamePlugin
 {
 public:
@@ -18,7 +18,8 @@ public:
 private:
 	
 	Light::render::RenderDevice* m_pRenderer;
-	Light::render::Pipeline *pipeline;
+	/*Light::render::Pipeline *pipeline;
 	Light::render::VertexArray *vertexArray;
 	Light::render::VertexBuffer *vertexBuffer;
+	Light::render::Texture* pTex;*/
 };

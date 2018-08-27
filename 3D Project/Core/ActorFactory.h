@@ -17,6 +17,7 @@ namespace Light
 		std::map<std::string, std::function<IComponent*()>> m_ComponentFactoryMap;
 		std::map<std::string, std::function<IActor*(int id)>> m_ActorFactoryMap;
 		std::map<std::string, std::shared_ptr<render::Material>> m_MaterialMap;
+		std::vector<std::unique_ptr<IScene>> m_Scenes;
 	public:
 
 		ActorFactory(IContext* c);
@@ -28,6 +29,7 @@ namespace Light
 		virtual bool				VRegisterMaterial(const std::string& name, std::function<render::Material*()>) override;
 		virtual std::shared_ptr<render::Material>	VGetMaterial(const std::string& name) override;
 		virtual const char*	VGetName();
+		virtual IScene*				VCreateScene(const std::string& name);
 	private:
 		IComponent * CreateComponent(const tinyxml2::XMLElement* pData);
 		ActorId GetNextActorId(void) { ++m_lastActorId; return m_lastActorId; }

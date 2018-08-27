@@ -16,9 +16,18 @@ Light::DefaultMesh::DefaultMesh(render::RenderDevice * pRenderDevice, const Vert
 		{ render::SHADER_TEXCOORD_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, stride, 6 * sizeof(float) }
 	};
 
-	render::VertexDescription* pVertexDes = pRenderDevice->CreateVertexDescription(7, elements);
+	render::VertexDescription* pVertexDes = pRenderDevice->CreateVertexDescription(3, elements);
 	render::VertexBuffer* ptemp = m_pVBO.get();
 	m_pVAO = std::unique_ptr<render::VertexArray>(pRenderDevice->CreateVertexArray(1, &ptemp, &pVertexDes));
-
+	
+	m_iNNumIndices = indices.size();
+	
 	delete pVertexDes;
+}
+
+void Light::DefaultMesh::Draw(render::RenderDevice * renderer)
+{
+	renderer->SetVertexArray(m_pVAO.get());
+	renderer->SetIndexBuffer(m_pIBO.get());
+	renderer->DrawElement(m_iNNumIndices, 0);
 }

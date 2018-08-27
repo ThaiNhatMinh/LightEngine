@@ -24,7 +24,7 @@ namespace Light
 		std::vector<std::string>						ChildName;
 		std::vector<Animation>					Anims;
 		std::vector<LTBSocket>					Sockets;*/
-
+		virtual void Draw(render::RenderDevice* renderer, const float * model, const float * mvp);
 
 	};
 }

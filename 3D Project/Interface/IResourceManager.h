@@ -56,6 +56,7 @@ namespace Light
 		public:
 				ResourceHandle(const std::string path,T* obj) :m_Object(obj) ,IResource(path){};
 				T * Get(){return m_Object.get();};
+				
 
 		private:
 			std::unique_ptr<T> m_Object;

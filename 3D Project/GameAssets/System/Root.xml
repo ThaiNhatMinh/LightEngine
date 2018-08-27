@@ -5,8 +5,6 @@
 		<YawPitchRoll x="0" y="0" z="0"/>
 	</TransformComponent>
    </Component>
-   <Children>
-	<Actor File="GameAssets\ACTOR\FreeCamera.xml" />
-	
+   <Children>	
   </Children>
 </Actor>

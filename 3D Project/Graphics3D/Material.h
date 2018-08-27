@@ -12,24 +12,28 @@ namespace Light
 {
 	namespace render
 	{
-		class Material: public util::Serialization
+		class Material
 		{
+			friend class ResourceManager;
 		public:
 			
 			std::unique_ptr<Pipeline> m_Pipeline;
 			std::string Name;
-			glm::vec3 Ka;
-			glm::vec3 Kd;
-			glm::vec3 Ks;
-			glm::vec3 exp;
-			Material() :Ka(1.0f), Kd(1.0f), Ks(1.0f), exp(1, 1, 1)
+			//glm::vec3 Ka;
+			//glm::vec3 Kd;
+			//glm::vec3 Ks;
+			//glm::vec3 exp;
+
+		public:
+
+			Material() //:Ka(1.0f), Kd(1.0f), Ks(1.0f), exp(1, 1, 1)
 			{
 
 			}
 			virtual ~Material() = default;
 
-			virtual void Apply(IActor* pActor) = 0;
-			virtual void ApplyMatrix(float* model, float* mvp) = 0;
+			
+			virtual void Apply(render::RenderDevice* renderer, const float* model, const float* mvp) = 0;
 			virtual MaterialType GetType() = 0;
 		};
 	}

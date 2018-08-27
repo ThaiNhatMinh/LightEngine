@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ICamera.h"
 namespace Light
 {
 	namespace render
@@ -37,11 +38,11 @@ namespace Light
 		public:
 			virtual ~PipelineParam() = default;
 
-			virtual void SetAsInt(int value) = 0;
-			virtual void SetAsFloat(float value) = 0;
-			virtual void SetAsMat4(float* value) = 0;
-			virtual void SetAsVec3(float* value) = 0;
-			virtual void SetAsVec2(float* value) = 0;
+			virtual void SetAsInt(const int value) = 0;
+			virtual void SetAsFloat(const float value) = 0;
+			virtual void SetAsMat4(const float* value) = 0;
+			virtual void SetAsVec3(const float* value) = 0;
+			virtual void SetAsVec2(const float* value) = 0;
 		protected:
 			PipelineParam() = default;
 		};
@@ -138,7 +139,7 @@ namespace Light
 			unsigned int index;			// location binding to vertex shader
 			VertexElementType type;		// type of vertex element
 			std::size_t size;					// number of components
-			int stride;					// number of bytes between each successive element (leave zero for this to be assumed to be size times size of type)
+			std::size_t stride;					// number of bytes between each successive element (leave zero for this to be assumed to be size times size of type)
 			long long offset;			// offset where first occurrence of this vertex element resides in the buffer
 		};
 
@@ -318,9 +319,11 @@ namespace Light
 
 			virtual void				Clear(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 1.0f, float depth = 1.0f) = 0;
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;
-			virtual void				DrawElement(int count, int type, const void * indices, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;
+			virtual void				DrawElement(int count, const void * indices, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;
 
 			virtual void				Render() =0;
+			virtual render::ICamera*	VGetCurrentCamera() = 0;
+			virtual void				VSetCurrentCamera(render::ICamera * cam) = 0;
 
 		};
 	}

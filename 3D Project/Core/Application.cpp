@@ -20,29 +20,44 @@ void Application::SetupSubmodule()
 {
 	E_DEBUG("Application StartUp...");
 
-	m_Context = std::unique_ptr<Light::IContext>(new Light::Context());
+	m_Context = std::unique_ptr<Light::IContext>(DEBUG_NEW Light::Context());
 	
-	m_pEventManager = std::unique_ptr<Light::IEventManager>(new Light::EventManager(m_Context.get()));
+	m_pEventManager = std::unique_ptr<Light::IEventManager>(DEBUG_NEW Light::EventManager(m_Context.get()));
 
-	m_pWindows = std::unique_ptr<Light::IWindow>(new Light::OpenGLWindows(m_Context.get()));
-	m_pRenderer = std::unique_ptr<Light::render::RenderDevice>(new Light::render::OpenGLRenderDevice(m_Context.get()));
+	m_pWindows = std::unique_ptr<Light::IWindow>(DEBUG_NEW Light::OpenGLWindows(m_Context.get()));
+	m_pRenderer = std::unique_ptr<Light::render::RenderDevice>(DEBUG_NEW Light::render::OpenGLRenderDevice(m_Context.get()));
+	m_pResources = std::unique_ptr<IResourceManager>(DEBUG_NEW Light::resources::ResourceManager(m_Context.get()));
+
+	// Must be load in here for next module can use resource
+	LoadSystemResource();
+
+
+	m_pActorFactory = std::unique_ptr<Light::IFactory>(DEBUG_NEW Light::ActorFactory(m_Context.get()));
+	//m_pSoundEngine = std::unique_ptr<SoundEngine>(DEBUG_NEW SoundEngine(m_Context.get()));
 	
-	m_pActorFactory = std::unique_ptr<Light::IFactory>(new Light::ActorFactory(m_Context.get()));
-	//m_pSoundEngine = std::unique_ptr<SoundEngine>(new SoundEngine(m_Context.get()));
-	m_pResources = std::unique_ptr<IResourceManager>(new Light::resources::ResourceManager(m_Context.get()));
-	//m_pSystemUI = std::unique_ptr<SystemUI>(new SystemUI(m_Context.get()));
-	m_pInput = std::unique_ptr<Light::IInput>(new Light::OpenGLInput(m_Context.get()));
-	//m_pConsole = std::unique_ptr<Console>(new Console(m_Context.get()));
-	//m_pDebuger = std::unique_ptr<Debug>(new Debug(m_Context.get()));
-	//m_pPhysic = std::unique_ptr<BulletPhysics>(new BulletPhysics(m_Context.get()));
-	m_pTimer = std::unique_ptr<Light::ITimer>(new Light::GameTimer(m_Context.get()));
-	//m_pEffectSystem = std::unique_ptr<EffectSystem>(new EffectSystem(m_Context.get()));
-	//m_pVGUI = std::unique_ptr<VGUI>(new VGUI(m_Context.get()));
+	//m_pSystemUI = std::unique_ptr<SystemUI>(DEBUG_NEW SystemUI(m_Context.get()));
+	m_pInput = std::unique_ptr<Light::IInput>(DEBUG_NEW Light::OpenGLInput(m_Context.get()));
+	//m_pConsole = std::unique_ptr<Console>(DEBUG_NEW Console(m_Context.get()));
+	//m_pDebuger = std::unique_ptr<Debug>(DEBUG_NEW Debug(m_Context.get()));
+	//m_pPhysic = std::unique_ptr<BulletPhysics>(DEBUG_NEW BulletPhysics(m_Context.get()));
+	m_pTimer = std::unique_ptr<Light::ITimer>(DEBUG_NEW Light::GameTimer(m_Context.get()));
+	//m_pEffectSystem = std::unique_ptr<EffectSystem>(DEBUG_NEW EffectSystem(m_Context.get()));
+	//m_pVGUI = std::unique_ptr<VGUI>(DEBUG_NEW VGUI(m_Context.get()));
 	
 	
 	//m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
 
+}
+
+bool Light::Application::LoadSystemResource()
+{
+	std::string Path = "GameAssets\\System\\";
+	m_pResources->VGetPixelShader(Path + "Shader\\Default.fs");
+	m_pResources->VGetVertexShader(Path + "Shader\\Default.vs");
+
+
+	return true;
 }
 
 Application::~Application()
@@ -56,10 +71,10 @@ void Application::MainLoop()
 {
 	
 	SetupSubmodule();
-
+	
 
 						
-
+	
 	
 	m_bRunMainLoop = true;
 	// PROBLEM: How every thing update ?
@@ -144,5 +159,5 @@ void Application::MainLoop()
 	}
 
 	pGame->ShutDown();
-	
+	Log::OutputFile();
 }

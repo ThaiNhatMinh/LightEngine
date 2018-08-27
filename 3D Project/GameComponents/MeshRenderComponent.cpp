@@ -1,5 +1,6 @@
 #include <pch.h>
 #include "MeshRenderComponent.h"
+#include "..\Interface\IResourceManager.h"
 namespace Light
 {
 	MeshRenderComponent::MeshRenderComponent()
@@ -9,21 +10,21 @@ namespace Light
 	{
 		if (!pData) return false;
 
-		/*const tinyxml2::XMLElement* pModelPath = pData->FirstChildElement("Model");
+		const tinyxml2::XMLElement* pModelPath = pData->FirstChildElement("Model");
 
 		const char* pFileName = pModelPath->Attribute("File");
 		if (pFileName)
 		{
 			if (pFileName[0] != '\0')
 			{
-				IModelResource* pModel = m_Context->GetSystem<Resources>()->GetModel(pFileName);
+				render::Model* pModel = pContext->GetSystem<resources::IResourceManager>()->VGetModel(pFileName);
 				if (!pModel)
 					return false;
 
-				SetData(pModel);
+				this->m_pModel = pModel;
 			}
 		}
-		else
+		/*else
 		{
 			GLuint pShape = pModelPath->DoubleAttribute("Shape");
 			float size[3];
@@ -60,7 +61,10 @@ namespace Light
 		tinyxml2::XMLElement* pBaseElement = p->NewElement("MeshRenderComponent");
 		tinyxml2::XMLElement* pModelPath = p->NewElement("Model");
 		pModelPath->SetAttribute("File", "");
-		return nullptr;
+
+		pBaseElement->InsertFirstChild(pModelPath);
+
+		return pBaseElement;
 	}
 
 	//void MeshRenderComponent::Render(Scene* pScene)

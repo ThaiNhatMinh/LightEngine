@@ -6,10 +6,18 @@ namespace Light
 {
 	namespace render
 	{
-		DefaultMaterial::DefaultMaterial()
+		DefaultMaterial::DefaultMaterial(IContext* pContext)
 		{
+			auto pRenderer = pContext->GetSystem<RenderDevice>();
+			auto pResources = pContext->GetSystem<resources::IResourceManager>();
+			auto pVertexShader = pResources->VGetVertexShader("Default");
+			auto pPixelShader = pResources->VGetPixelShader("Default");
+			m_Pipeline = std::unique_ptr<Pipeline>(pRenderer->CreatePipeline(pVertexShader, pPixelShader));
+			//m_ShaderName = std::make_pair(pVertexNode->GetText(), pPixelNode->GetText());
+
+			this->GetUniform();
 		}
-		bool DefaultMaterial::VSerialize(IContext*pContext,const tinyxml2::XMLElement * pData)
+		/*bool DefaultMaterial::VSerialize(IContext*pContext,const tinyxml2::XMLElement * pData)
 		{
 			auto pRenderer = pContext->GetSystem<RenderDevice>();
 			auto pResources = pContext->GetSystem<resources::IResourceManager>();
@@ -68,16 +76,16 @@ namespace Light
 			pMaterial->InsertEndChild(pCoefficients);
 			pMaterial->InsertEndChild(pShaderNode);
 			return pMaterial;
-		}
-		void DefaultMaterial::Apply(IActor * pActor)
-		{
-		}
-		void DefaultMaterial::ApplyMatrix(float * model, float * mvp)
+		}*/
+		void DefaultMaterial::Apply(RenderDevice* renderer, const float * model, const float * mvp)
 		{
 			assert(model != nullptr && mvp != nullptr);
+			renderer->SetPipeline(m_Pipeline.get());
+
 			m_ModelUniform->SetAsMat4(model);
 			m_MVPUniform->SetAsMat4(mvp);
 		}
+		
 		MaterialType DefaultMaterial::GetType()
 		{
 			static std::size_t type = typeid(DefaultMaterial).hash_code();

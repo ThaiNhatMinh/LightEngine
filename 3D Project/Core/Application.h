@@ -43,7 +43,7 @@ namespace Light
 	private:
 		bool m_bRunMainLoop;
 		void SetupSubmodule();
-
+		bool LoadSystemResource();
 	protected:
 		std::unique_ptr<Light::IContext>			m_Context;
 		std::unique_ptr<IWindow>			m_pWindows;

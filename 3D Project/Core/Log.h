@@ -1,13 +1,15 @@
 #pragma once
 
-#include <pch.h>
+#include <mutex>
+#include <string>
+#include <vector>
 #include <mutex>
 #define STRINGIFY(x) #x
 
 class Log
 {
 private:
-	static vector<string> m_Log;
+	static std::vector<std::string> m_Log;
 	static std::mutex m_Lock;
 public:
 	enum LogType

@@ -4,6 +4,7 @@
 #include "IComponent.h"
 #include "IActor.h"
 #include "..\Graphics3D\Material.h"
+#include "IScene.h"
 namespace Light
 {
 	class IFactory: public ISubSystem
@@ -16,6 +17,7 @@ namespace Light
 		virtual IActor*				VCreateActor(const char* filePath, bool isCreateChild = false) = 0;
 		virtual bool				VRegisterMaterial(const std::string& name, std::function<render::Material*()>) = 0;
 		virtual std::shared_ptr<render::Material>	VGetMaterial(const std::string& name) = 0;
+		virtual IScene*				VCreateScene(const std::string& name) = 0;
 		//virtual IShader*		VCreateShader(const char* type, const char* vs, const char* fs) = 0;
 
 	};

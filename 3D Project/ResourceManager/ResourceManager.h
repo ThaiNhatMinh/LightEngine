@@ -8,8 +8,8 @@
 #include "..\Graphics3D\ModelRender.h"
 #include "..\Interface\IResourceManager.h"
 #include "..\Graphics3D\Vertex.h"
-#include "LTModel.h"
-#include "OtherModel.h"
+#include "..\Graphics3D\DefaultModel.h"
+#include "LTRawData.h"
 #include "Interface/IFactory.h"
 namespace Light
 {
@@ -50,7 +50,7 @@ namespace Light
 
 			//FMOD::System* m_FMOD;
 			IContext* m_pContext;
-			IFactory* m_pFactory;
+			
 		private:
 
 			class OpenGLContext
@@ -67,7 +67,7 @@ namespace Light
 			
 			template<class T>T* HasResource(std::vector<ResourceHandle<T>>& list, const std::string& filepath, CheckResourceFunc func = [](const std::string&a, const std::string& b) {return a == b; });
 			
-			ObjModel *				LoadObjModel(const std::string filename);
+			DefaultModel *			LoadObjModel(const std::string filename);
 			SpriteData*				LoadSpriteAnimation(const std::string& filename);
 			HeightMap*				LoadHeightMap(const std::string& filename, int size, int w, int h, float hscale, int sub);
 			render::Texture*		LoadTexture(const std::string& filename);

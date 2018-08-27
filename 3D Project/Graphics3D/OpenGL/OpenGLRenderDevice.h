@@ -5,7 +5,7 @@
 #include "Interface\IEvent.h"
 #include "OpenGLDepthStencilState.h"
 #include "..\..\Interface\IComponent.h"
-
+#include "..\ICamera.h"
 namespace Light
 {
 	namespace render
@@ -35,15 +35,21 @@ namespace Light
 
 			virtual void				Clear(float r = 0.0f, float g = 0.0f, float b = 0.0f, float alpha = 1.0f, float depth = 1.0f)override;
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES)override;
-			virtual void				DrawElement(int count, int type, const void * indices, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES)override;
+			virtual void				DrawElement(int count, const void * indices, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES)override;
 			virtual void				Render();
+
+			virtual render::ICamera*	VGetCurrentCamera()override;
+			virtual void				VSetCurrentCamera(render::ICamera * cam) override;
+
 		private:
 
 			struct Renderable
 			{
 				IMeshRenderComponent* m_RenderComponent;
-				ITransformComponent* m_TransformComponent;
-				ActorId					m_Actor;
+				ITransformComponent*	m_TransformComponent;
+				IActor*					m_pActor;
+				// More data because when object is destroyed we can't access m_pActor any more.
+				ActorId					m_ActorID;
 			};
 
 			using RenderableList = std::list<Renderable>;
@@ -53,6 +59,7 @@ namespace Light
 			void OnCameraCreate(std::shared_ptr<IEvent> event);
 
 		private:
+			ICamera * m_pCurrentCamera;
 			RenderableList m_ObjectRenders;
 
 			OpenGLDepthStencilState* m_pDefaultDepthStencil;

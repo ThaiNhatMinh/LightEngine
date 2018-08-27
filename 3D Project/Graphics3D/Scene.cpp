@@ -3,7 +3,7 @@
 #include "..\Interface\IFactory.h"
 namespace Light
 {
-	Scene::Scene(IContext* c) :m_Context(c), m_CurrentCamera(nullptr)
+	Scene::Scene(IContext* c,const std::string& name) :m_Context(c),m_Name(name)
 	{
 		m_pRoot = std::unique_ptr<IActor>(m_Context->GetSystem<IFactory>()->VCreateActor(SYSTEM_ROOT_ACTOR));
 		if (!m_pRoot)
@@ -22,19 +22,21 @@ namespace Light
 	{
 	}
 
-	bool Scene::VLoadScene(const string& filename)
+	
+	bool Scene::VLoad(const std::string& filename)
 	{
+		
 		tinyxml2::XMLDocument doc;
 		if (doc.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS)
 		{
-			E_ERROR("Can't load Scene file: %s" , filename.c_str());
+			E_ERROR("Can't load Scene file: %s", filename.c_str());
 			return 0;
 		}
 
 		tinyxml2::XMLElement* pScene = doc.FirstChildElement("Scene");
 		if (!pScene)
 		{
-			E_ERROR("Can't load Scene file: %s" , filename.c_str());
+			E_ERROR("Can't load Scene file: %s", filename.c_str());
 			return 0;
 		}
 
@@ -50,7 +52,7 @@ namespace Light
 
 		}
 
-		tinyxml2::XMLElement* pLightNode = doc.FirstChildElement("Light");
+		tinyxml2::XMLElement* pLightNode = pScene->FirstChildElement("Light");
 		if (pLightNode)
 		{
 			tinyxml2::XMLElement* pDirLight = pLightNode->FirstChildElement("Direction");
@@ -119,16 +121,4 @@ namespace Light
 		m_pRoot->VPostUpdate(this);
 		return true;
 	}
-
-	render::ICamera * Scene::VGetCurrentCamera()
-	{
-		return m_CurrentCamera;
-	}
-
-	void Scene::VSetCurrentCamera(render::ICamera * cam)
-	{
-		m_CurrentCamera = cam;
-	}
-
-
 }

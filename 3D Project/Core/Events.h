@@ -1,7 +1,7 @@
 #pragma once
 #include "..\Interface\IEvent.h"
 #include "..\Interface\IActor.h"
-
+#include "..\Graphics3D\ICamera.h"
 namespace Light
 {
 	namespace events
@@ -27,7 +27,7 @@ namespace Light
 		};
 
 		//---------------------------------------------------------------------------------------------------------------------
-		// EvtData_Move_Actor - sent when actors are moved
+		// EvtMoveActor - sent when actors are moved
 		//---------------------------------------------------------------------------------------------------------------------
 		class EvtMoveActor : public Event<EvtMoveActor>
 		{
@@ -38,6 +38,18 @@ namespace Light
 			EvtMoveActor(IActor* id, const glm::mat4& matrix): m_actor(id), m_matrix(matrix){}
 			IActor* GetId(void) const{	return m_actor;}
 			const glm::mat4& GetMatrix(void) const{	return m_matrix;}
+		};
+
+		//---------------------------------------------------------------------------------------------------------------------
+		// EvtCameraCreate - sent when Camera is create
+		//---------------------------------------------------------------------------------------------------------------------
+		class EvtCameraCreate : public Event<EvtCameraCreate>
+		{
+			render::ICamera* m_pCamera;
+
+		public:
+			EvtCameraCreate(render::ICamera* camera) : m_pCamera(camera){}
+			render::ICamera* GetCamera() { return m_pCamera; }
 		};
 	}
 }

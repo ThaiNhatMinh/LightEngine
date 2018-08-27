@@ -162,9 +162,6 @@
     <ClInclude Include="ResourceManager\LTBFileLoader.h">
       <Filter>ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager\LTModel.h">
-      <Filter>ResourceManager</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManager\LTRawData.h">
       <Filter>ResourceManager</Filter>
     </ClInclude>
@@ -229,9 +226,6 @@
     <ClInclude Include="Graphics3D\DefaultMaterial.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager\OtherModel.h">
-      <Filter>ResourceManager</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities\LTBStruct.h">
       <Filter>Utilities</Filter>
     </ClInclude>
@@ -240,6 +234,12 @@
     </ClInclude>
     <ClInclude Include="Graphics3D\OpenGL\OpenGLDepthStencilState.h">
       <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\LTModel.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\DefaultModel.h">
+      <Filter>Graphics3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +355,12 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\OpenGL\OpenGLDepthStencilState.cpp">
       <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\DefaultModel.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\LTModel.cpp">
+      <Filter>Graphics3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

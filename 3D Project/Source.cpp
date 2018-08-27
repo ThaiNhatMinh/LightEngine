@@ -4,7 +4,6 @@
 #include "Core\Application.h"
 
 #include <thread>
-
 void main()
 {
 
@@ -14,5 +13,5 @@ void main()
 #endif
 	Light::Application app;
 	app.MainLoop();
-
+	
 }

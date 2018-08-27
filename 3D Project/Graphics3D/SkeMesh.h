@@ -22,5 +22,6 @@ namespace Light
 	public:
 		SkeMesh(render::RenderDevice* pRenderDevice, LTRawMesh* pData);
 		~SkeMesh() {};
+		virtual void Draw(render::RenderDevice* renderer)override;
 	};
 }

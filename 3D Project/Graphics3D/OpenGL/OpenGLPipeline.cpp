@@ -8,6 +8,7 @@ using namespace Light;
 
 render::OpenGLPipeline::OpenGLPipeline(VertexShader * pVertexShader, PixelShader * pPixelShader)
 {
+	assert(pVertexShader != nullptr && pPixelShader != nullptr);
 
 	static char* attributeName[] = { "aPos", "aNormal", "aUV","aColor","aBlend1","aBlend2","aBlend3","aBlend4" };
 	
@@ -68,7 +69,7 @@ void render::OpenGLPipeline::GetUniformList()
 
 		glGetActiveUniform(m_iProgram, i, maxLen, &writen, &size, &type, name);
 		location = glGetUniformLocation(m_iProgram, name);
-		m_Uniforms.insert(std::make_pair( string(name),std::unique_ptr<PipelineParam>(new OpenGLPipelineParam(location,name))));
+		m_Uniforms.insert(std::make_pair( string(name),std::unique_ptr<PipelineParam>(DEBUG_NEW OpenGLPipelineParam(location,name))));
 
 	}
 }

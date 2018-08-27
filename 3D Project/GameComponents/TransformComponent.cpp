@@ -67,3 +67,14 @@ bool Light::TransformComponent::VSerialize(IContext*pContext,const tinyxml2::XML
 
 	return true;
 }
+
+tinyxml2::XMLElement * Light::TransformComponent::VDeserialize(tinyxml2::XMLDocument * p)
+{
+	auto pBaseNode = p->NewElement("TransformComponent");
+	auto pPosNode = p->NewElement("Position");
+	pPosNode->SetAttribute("x",0);
+	auto pRotateNode = p->NewElement("YawPitchRoll");
+
+
+	return nullptr;
+}

@@ -31,10 +31,6 @@ namespace Light {
 	{
 		for (auto& el : m_Systems)
 		{
-#if	defined(DEBUG) || defined(_DEBUG)
-			
-			cout <<"---" << typeid(*el).name() <<"__" << typeid(*el).hash_code() << endl;
-#endif
 			if (!strcmp(el->VGetName(), rtti.name())) return el;
 		}
 		

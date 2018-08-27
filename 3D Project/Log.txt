@@ -1,0 +1,3 @@
+[DEBUG] d:\code\3d-project\3d project\core\application.cpp Line:21| Application StartUp...
+[DEBUG] d:\code\3d-project\3d project\gameplugin\gamepluginmanager.cpp Line:22| ..\Debug\Hunting.dll
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:224| ObjectRender add: 707

@@ -22,8 +22,7 @@ namespace Light
 		static const EventType StaticType;
 		virtual const EventType& VGetEventType(void) const final
 		{
-			static std::size_t Type = typeid(T).hash_code();
-			return Type;
+			return StaticType;
 		}
 		virtual const char* GetName(void) const final
 		{

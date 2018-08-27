@@ -46,7 +46,7 @@ void Log::Message(LogType type, const char* file, int line, const char* format, 
 
 	std::stringstream ss;
 	ss << logString[type] << file <<" Line:" << line << "| " <<buffer;
-	//m_Log.push_back(ss.str());
+	m_Log.push_back(ss.str());
 	cout << ss.str() << endl;
 	SetConsoleTextAttribute(hConsole, 8);
 

@@ -1,6 +1,5 @@
 #include "LTBFileLoader.h"
 #include <pch.h>
-#include "LTModel.h"
 #include "../Utilities/LTBStruct.h"
 #include "../Graphics3D/Vertex.h"
 using namespace Light;
@@ -549,7 +548,7 @@ vector<Light::SkeNode> LoadSkeleton(FILE *pFile)
 {
 	vector<Light::SkeNode> nodelist;
 
-	//m_pSkeleton = new SkeletonNode;
+	//m_pSkeleton = DEBUG_NEW SkeletonNode;
 	//m_pSkeleton->m_pParent = NULL;
 	//m_pSkeleton->LoadSkeleton(pFile);
 	LoadSkeleton(pFile, NULL, nodelist);
@@ -797,7 +796,7 @@ LTRawData * LTBFileLoader::LoadModel(const char * pFileName)
 		return nullptr;
 	}
 
-	LTRawData* pModel = new LTRawData;
+	LTRawData* pModel = DEBUG_NEW LTRawData;
 	
 	LoadProp(pFile);
 	pModel->Meshs = LoadMesh(pFile);

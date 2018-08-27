@@ -1,50 +1,51 @@
 #include <pch.h>
 #include "ActorFactory.h"
+#include "Events.h"
 #include "..\Interface\IEvent.h"
 #include "..\Graphics3D\Actor.h"
 #include "..\GameComponents\TransformComponent.h"
 #include "..\GameComponents\MeshRenderComponent.h"
-#include "Events.h"
 #include "..\Graphics3D\DefaultMaterial.h"
+#include "..\Graphics3D\Scene.h"
 namespace Light
 {
 
-	ActorFactory::ActorFactory(IContext* c)
+	ActorFactory::ActorFactory(IContext* c):m_pContext(c)
 	{
 		m_lastActorId = 1;
-		m_ComponentFactoryMap.insert(std::make_pair("TransformComponent", []() { return new TransformComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("MeshRenderComponent", []() { return new MeshRenderComponent(); }));
-		/*m_ComponentFactoryMap.insert(std::make_pair("ColliderComponent", []() { return new ColliderComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("RigidBodyComponent", []() { return new RigidBodyComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("AnimationComponent", []() { return new AnimationComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("PVAnimationComponen", []() { return new PVAnimationComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("CharacterControllerComponent", []() { return new CharacterControllerComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("LogicComponent", []() { return new LogicComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("TransformComponent", []() { return DEBUG_NEW TransformComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("MeshRenderComponent", []() { return DEBUG_NEW MeshRenderComponent(); }));
+		/*m_ComponentFactoryMap.insert(std::make_pair("ColliderComponent", []() { return DEBUG_NEW ColliderComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("RigidBodyComponent", []() { return DEBUG_NEW RigidBodyComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("AnimationComponent", []() { return DEBUG_NEW AnimationComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("PVAnimationComponen", []() { return DEBUG_NEW PVAnimationComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("CharacterControllerComponent", []() { return DEBUG_NEW CharacterControllerComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("LogicComponent", []() { return DEBUG_NEW LogicComponent(); }));
 		
-		m_ComponentFactoryMap.insert(std::make_pair("TerrainRenderComponent", []() { return new TerrainRenderComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("CameraComponent", []() { return  new CameraComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("HitBox", []() { return  new HitBox(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("SoundListener", []() { return  new SoundListener(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("SoundSource3D", []() { return  new SoundSource3D(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("TerrainRenderComponent", []() { return DEBUG_NEW TerrainRenderComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("CameraComponent", []() { return  DEBUG_NEW CameraComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("HitBox", []() { return  DEBUG_NEW HitBox(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("SoundListener", []() { return  DEBUG_NEW SoundListener(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("SoundSource3D", []() { return  DEBUG_NEW SoundSource3D(); }));
 
 
-		m_ActorFactoryMap.insert(std::make_pair("Actor", [](int id) {return new Actor(id); }));
-		m_ActorFactoryMap.insert(std::make_pair("World", [](int id) {return new TerrainWorld(id); }));
-		m_ActorFactoryMap.insert(std::make_pair("StaticObject", [](int id) {return new StaticObject(id); }));
-		m_ActorFactoryMap.insert(std::make_pair("SkyBox", [](int id) {return new SkyBox(id); }));*/
+		m_ActorFactoryMap.insert(std::make_pair("Actor", [](int id) {return DEBUG_NEW Actor(id); }));
+		m_ActorFactoryMap.insert(std::make_pair("World", [](int id) {return DEBUG_NEW TerrainWorld(id); }));
+		m_ActorFactoryMap.insert(std::make_pair("StaticObject", [](int id) {return DEBUG_NEW StaticObject(id); }));
+		m_ActorFactoryMap.insert(std::make_pair("SkyBox", [](int id) {return DEBUG_NEW SkyBox(id); }));*/
 
 
-		/*m_ShaderFactory.insert(std::make_pair("SkeShader", [](const char*vs, const char* fs) {return new SkeShader(vs, fs); }));
-		m_ShaderFactory.insert(std::make_pair("PrimShader", [](const char*vs, const char* fs) {return new PrimShader(vs, fs); }));
-		m_ShaderFactory.insert(std::make_pair("Debug", [](const char*vs, const char* fs) {return new DebugShader(vs, fs); }));
-		m_ShaderFactory.insert(std::make_pair("Shader", [](const char*vs, const char* fs) {return new Shader(vs, fs); }));
-		m_ShaderFactory.insert(std::make_pair("ImGuiShader", [](const char*vs, const char* fs) {return new ImGuiShader(vs, fs); }));
-		m_ShaderFactory.insert(std::make_pair("SpriteShader", [](const char*vs, const char* fs) {return new SpriteShader(vs, fs); }));*/
+		/*m_ShaderFactory.insert(std::make_pair("SkeShader", [](const char*vs, const char* fs) {return DEBUG_NEW SkeShader(vs, fs); }));
+		m_ShaderFactory.insert(std::make_pair("PrimShader", [](const char*vs, const char* fs) {return DEBUG_NEW PrimShader(vs, fs); }));
+		m_ShaderFactory.insert(std::make_pair("Debug", [](const char*vs, const char* fs) {return DEBUG_NEW DebugShader(vs, fs); }));
+		m_ShaderFactory.insert(std::make_pair("Shader", [](const char*vs, const char* fs) {return DEBUG_NEW Shader(vs, fs); }));
+		m_ShaderFactory.insert(std::make_pair("ImGuiShader", [](const char*vs, const char* fs) {return DEBUG_NEW ImGuiShader(vs, fs); }));
+		m_ShaderFactory.insert(std::make_pair("SpriteShader", [](const char*vs, const char* fs) {return DEBUG_NEW SpriteShader(vs, fs); }));*/
 
-		m_MaterialMap.insert(std::make_pair("DefaultMaterial", std::shared_ptr<render::Material>(new render::DefaultMaterial())));
+		m_MaterialMap.insert(std::make_pair("Default", std::shared_ptr<render::Material>(DEBUG_NEW render::DefaultMaterial(m_pContext))));
 		c->VAddSystem(this);
 		m_pEventManager = c->GetSystem<IEventManager>();
-		m_pContext = c;
+		
 	}
 
 	ActorFactory::~ActorFactory()
@@ -62,7 +63,7 @@ namespace Light
 		if (factory != m_ComponentFactoryMap.end()) pComponent = factory->second();
 		else
 		{
-			E_ERROR("ActorFactory::VCreateComponent() can't find: %s",name);
+			E_ERROR("ActorFactory::CreateComponent() can't find: %s",name);
 			return nullptr;
 		}
 
@@ -107,7 +108,7 @@ namespace Light
 		auto factory = m_ActorFactoryMap.find(type);
 		IActor* pActor = nullptr;
 		if (factory != m_ActorFactoryMap.end()) pActor =factory->second(GetNextActorId());
-		else pActor = new Actor(GetNextActorId());
+		else pActor = DEBUG_NEW Actor(GetNextActorId());
 
 
 		if (!pActor->Init(pActorData))
@@ -155,7 +156,7 @@ namespace Light
 
 		if (!isCreateChild) pActor->PostInit();
 
-		if (!m_pEventManager->VQueueEvent(std::shared_ptr<IEvent>(new events::EvtNewActor(pActor))))
+		if (!m_pEventManager->VQueueEvent(std::shared_ptr<IEvent>(DEBUG_NEW events::EvtNewActor(pActor))))
 		{
 			E_ERROR("Failer to send event");
 		}
@@ -187,6 +188,14 @@ namespace Light
 	const char * ActorFactory::VGetName()
 	{
 		return typeid(IFactory).name();
+	}
+
+	IScene * ActorFactory::VCreateScene(const std::string & name)
+	{
+		auto pScene = DEBUG_NEW Scene(m_pContext,name);
+		m_Scenes.push_back(std::unique_ptr<IScene>(pScene));
+
+		return pScene;
 	}
 
 	/*Shader * ActorFactory::VCreateShader(const char * type, const char * vs, const char * fs)

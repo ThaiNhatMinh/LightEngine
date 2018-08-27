@@ -2,7 +2,6 @@
 #include <pch.h>
 #include "..\Interface\IActor.h"
 #include "..\Interface\IComponent.h"
-#include "GameComponents\TransformComponent.h"
 namespace Light 
 {
 	class Actor : public IActor
@@ -18,10 +17,11 @@ namespace Light
 		IActor*					m_pParent;
 		string					m_Name;
 		string					m_Tag;
-		std::unique_ptr<TransformComponent>		m_TransformComponent;
+		std::unique_ptr<ITransformComponent>		m_TransformComponent;
 		ActorId					m_id;					// unique id for the actor
 		ActorComponents			m_components;	// all components this actor has
 
+		glm::mat4				m_WorldTransform;
 	public:
 		Actor(ActorId id);
 		virtual ~Actor();

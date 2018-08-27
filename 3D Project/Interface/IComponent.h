@@ -31,8 +31,9 @@ namespace Light
 	};
 
 	template<class T> const ComponentType Component<T>::StaticType = typeid(T).hash_code();
+	
+	
 	/// really simple component
-
 	class ITransformComponent :public Component<ITransformComponent>
 	{
 	public:

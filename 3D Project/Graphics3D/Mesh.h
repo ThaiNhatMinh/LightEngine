@@ -7,7 +7,7 @@ namespace Light
 	{
 	public:
 		virtual ~Mesh()=default;
-		
+		virtual void Draw(render::RenderDevice* renderer) = 0;
 	};
 
 

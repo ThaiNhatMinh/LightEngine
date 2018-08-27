@@ -34,7 +34,7 @@ namespace Light
 
 	HRESULT Actor::VOnUpdate(Scene *pScene, float deltaMs)
 	{
-
+		
 		for (ActorList::iterator i = m_Children.begin(); i != m_Children.end(); i++)
 		{
 			(*i)->VOnUpdate(pScene, deltaMs);
@@ -78,9 +78,9 @@ namespace Light
 
 	bool Actor::VAddComponent(IComponent * pComponent)
 	{
-		if (typeid(*pComponent) == typeid(TransformComponent))
+		if (pComponent->GetType()==ITransformComponent::StaticType)
 		{
-			m_TransformComponent = std::unique_ptr<TransformComponent>(static_cast<TransformComponent*>(pComponent));
+			m_TransformComponent = std::unique_ptr<ITransformComponent>(static_cast<ITransformComponent*>(pComponent));
 			return true;
 		}
 

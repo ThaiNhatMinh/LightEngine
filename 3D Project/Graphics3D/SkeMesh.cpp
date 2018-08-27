@@ -31,4 +31,7 @@ namespace Light
 
 		m_Name = pData->Name;
 	}
+	void SkeMesh::Draw(render::RenderDevice * renderer)
+	{
+	}
 }

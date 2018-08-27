@@ -18,24 +18,19 @@ namespace Light
 		std::unique_ptr<IActor>	m_pRoot;
 		//std::unique_ptr<Actor>	m_pSkyBox;
 		render::DirectionLight					m_DirectionLight; // only one direction light
-		std::vector<render::ICamera*>		m_CameraList;
-		render::ICamera*					m_CurrentCamera;
 
 
 		IContext*			m_Context;
-
+		std::string			m_Name;
 	public:
-		Scene(IContext* c);
+		Scene(IContext* c,const std::string& name);
 		~Scene();
 
-		bool VLoadScene(const string& filename);
+		virtual bool VLoad(const std::string& file)override;
 		bool VOnRender();
 
 		bool VOnUpdate(float dt);
 		bool VPostUpdate();
-
-		render::ICamera*	VGetCurrentCamera();
-		void		VSetCurrentCamera(render::ICamera * cam);
 		IActor*		VGetRoot() { return m_pRoot.get(); };
 		render::DirectionLight		GetDirLight() { return m_DirectionLight; };
 	};

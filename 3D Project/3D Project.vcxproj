@@ -193,6 +193,7 @@
     <ClInclude Include="Graphics3D\DefaultMesh.h" />
     <ClInclude Include="Graphics3D\ICamera.h" />
     <ClInclude Include="Graphics3D\Light.h" />
+    <ClInclude Include="Graphics3D\LTModel.h" />
     <ClInclude Include="Graphics3D\Material.h" />
     <ClInclude Include="Graphics3D\Mesh.h" />
     <ClInclude Include="Graphics3D\ModelRender.h" />
@@ -209,6 +210,7 @@
     <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexBuffer.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexDescription.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexShader.h" />
+    <ClInclude Include="Graphics3D\DefaultModel.h" />
     <ClInclude Include="Graphics3D\Renderer.h" />
     <ClInclude Include="Graphics3D\Scene.h" />
     <ClInclude Include="Graphics3D\SkeletonMaterial.h" />
@@ -238,9 +240,7 @@
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ResourceManager\LTBFileLoader.h" />
-    <ClInclude Include="ResourceManager\LTModel.h" />
     <ClInclude Include="ResourceManager\LTRawData.h" />
-    <ClInclude Include="ResourceManager\OtherModel.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="typedef.h" />
     <ClInclude Include="Utilities\Delegate.h" />
@@ -269,6 +269,7 @@
     <ClCompile Include="Graphics3D\Actor.cpp" />
     <ClCompile Include="Graphics3D\DefaultMaterial.cpp" />
     <ClCompile Include="Graphics3D\DefaultMesh.cpp" />
+    <ClCompile Include="Graphics3D\LTModel.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCompressTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCubeTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLDepthStencilState.cpp" />
@@ -282,6 +283,7 @@
     <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexBuffer.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexDescription.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexShader.cpp" />
+    <ClCompile Include="Graphics3D\DefaultModel.cpp" />
     <ClCompile Include="Graphics3D\Scene.cpp" />
     <ClCompile Include="Graphics3D\SkeMesh.cpp" />
     <ClCompile Include="Math\AABB.cpp" />

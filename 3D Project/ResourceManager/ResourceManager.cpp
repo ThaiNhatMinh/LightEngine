@@ -10,6 +10,7 @@
 #include "..\Graphics3D\OpenGL\OpenGLTexture.h"
 #include "..\Core\OpenGLWindows.h"
 #include "..\Graphics3D\DefaultMesh.h"
+#include "..\Graphics3D\LTModel.h"
 namespace Light
 {
 	namespace resources
@@ -49,7 +50,7 @@ namespace Light
 
 			c->VAddSystem(this);
 			m_pRenderDevice = c->GetSystem<render::RenderDevice>();
-			m_pFactory = c->GetSystem<IFactory>();
+			
 			//m_FMOD = c->GetSystem<SoundEngine>()->GetFMODSystem();
 
 		}
@@ -96,7 +97,7 @@ namespace Light
 			fread(&bTranslucent, sizeof(uint32), 1, pFile);
 			fread(&colourKey, sizeof(uint32), 1, pFile);
 
-			s = new SpriteData;
+			s = DEBUG_NEW SpriteData;
 
 			//s->m_FrameLists.resize(nFrames);
 			s->m_MsFrameRate = nFrameRate;
@@ -166,7 +167,7 @@ namespace Light
 
 			//vec2 size = vec2(width*stepsize, height*stepsize);
 
-			GLubyte* pRawData = new GLubyte[width*height];
+			GLubyte* pRawData = DEBUG_NEW GLubyte[width*height];
 			int c = 0;
 			float min = 100000000;
 			float max = -min;
@@ -188,7 +189,7 @@ namespace Light
 
 			vec2 size = vec2((width - 1)*stepsize, (height - 1)*stepsize);
 			vec2 size2 = vec2((width - 0)*stepsize, (height - 0)*stepsize);
-			//Mesh* p = new Mesh;
+			//Mesh* p = DEBUG_NEW Mesh;
 
 			std::vector<DefaultVertex> vertex;
 			std::vector<unsigned int> Index;
@@ -255,7 +256,7 @@ namespace Light
 			// comput
 
 			ilResetMemory();
-			hm = new HeightMap();
+			hm = DEBUG_NEW HeightMap();
 			hm->Data = std::unique_ptr<GLubyte[]>(pRawData);
 			hm->Width = width;
 			hm->Height = height;
@@ -276,7 +277,6 @@ namespace Light
 		render::Texture * ResourceManager::LoadTexture(const string& filename)
 		{
 			render::Texture* tex = nullptr;
-			if ((tex = HasResource(m_Textures,filename)) != nullptr) return tex;
 
 			if (filename.find(".DTX") != string::npos) return LoadDTX(filename);
 			GLint width, height, iType, iBpp;
@@ -312,7 +312,7 @@ namespace Light
 			texinfo.eType = GL_UNSIGNED_BYTE;
 			texinfo.eFormat = texinfo.iInternalFormat;
 			
-			tex = new render::OpenGLTexture(texinfo);
+			tex = DEBUG_NEW render::OpenGLTexture(texinfo);
 
 
 			ilResetMemory();
@@ -349,7 +349,7 @@ namespace Light
 				ILubyte *Data = ilGetData();
 				iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
-				pData[i] = new unsigned char[width*height*iBpp];
+				pData[i] = DEBUG_NEW unsigned char[width*height*iBpp];
 				memcpy(pData[i], Data, width*height*iBpp);
 
 			}
@@ -394,7 +394,7 @@ namespace Light
 		//	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		//	//glBindTexture(GL_TEXTURE_2D, 0);
 		//	E_ERROR("ResourceManager::LoadTexMemory");
-		//	//tex = new Texture(w,h,24,data);
+		//	//tex = DEBUG_NEW Texture(w,h,24,data);
 
 		//	//m_Textures.push_back(std::unique_ptr<Texture>(tex));
 
@@ -468,7 +468,7 @@ namespace Light
 				return tex;
 			}
 
-			unsigned char* ubBuffer = new unsigned char[1024 * 1024 * 4];
+			unsigned char* ubBuffer = DEBUG_NEW unsigned char[1024 * 1024 * 4];
 
 			fread(ubBuffer, iSize, 1, pFile);
 
@@ -487,7 +487,7 @@ namespace Light
 			if (InternalFormat == GL_RGBA)
 			{
 				//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, W, H, 0, GL_RGBA, GL_UNSIGNED_BYTE, ubBuffer);
-				//tex = new Texture(W, H,32,ubBuffer);
+				//tex = DEBUG_NEW Texture(W, H,32,ubBuffer);
 				render::TextureCreateInfo texinfo;
 				texinfo.eTarget = GL_TEXTURE_2D;
 				texinfo.pData = ubBuffer;
@@ -514,7 +514,7 @@ namespace Light
 
 
 
-			//tex = new Texture(id,filename,W,H);
+			//tex = DEBUG_NEW Texture(id,filename,W,H);
 
 			m_Textures.push_back(ResourceHandle<render::Texture>(filename,tex));
 
@@ -558,13 +558,13 @@ namespace Light
 				if (pLTBData)
 				{
 
-					pModelRender = new LTModel;
+					pModelRender = DEBUG_NEW LTModel;
 				
 					tinyxml2::XMLElement* pTextureNode = pData->FirstChildElement("Texture");
 					vector<LTRawMesh>& ve = pLTBData->Meshs;
 					for (size_t i = 0; i < ve.size(); i++)
 					{
-						pModelRender->m_pMesh.push_back(std::unique_ptr<Mesh>(new SkeMesh(m_pRenderDevice, &ve[i])));
+						pModelRender->m_pMesh.push_back(std::unique_ptr<Mesh>(DEBUG_NEW SkeMesh(m_pRenderDevice, &ve[i])));
 
 						tinyxml2::XMLElement* pTextureElement = pTextureNode->FirstChildElement(ve[i].Name.c_str());
 						if (pTextureElement)
@@ -578,7 +578,10 @@ namespace Light
 
 						
 					}
+
+					delete pLTBData;
 				}
+				
 
 
 
@@ -632,7 +635,7 @@ namespace Light
 		//		return nullptr;
 		//	}
 		//	pFMODSound->set3DMinMaxDistance(0.5f, 10000.0f);
-		//	pSound = new SoundRAAI(pFMODSound);
+		//	pSound = DEBUG_NEW SoundRAAI(pFMODSound);
 		//	pSound->FilePath = filename;
 
 		//	return pSound;
@@ -656,7 +659,7 @@ namespace Light
 		//	return result;
 		//}
 		//
-		ObjModel * ResourceManager::LoadObjModel(const std::string filename)
+		DefaultModel * ResourceManager::LoadObjModel(const std::string filename)
 		{
 			
 			string localPath;
@@ -671,7 +674,7 @@ namespace Light
 				getchar();
 				return false;
 			}
-			ObjModel* pModel = new ObjModel;
+			DefaultModel* pModel = DEBUG_NEW DefaultModel();
 		
 			std::vector<DefaultVertex> vertexs;
 			std::vector<unsigned int> Indices;
@@ -707,9 +710,9 @@ namespace Light
 				uint32 a = mesh->mMaterialIndex;
 				aiMaterial* mat = scene->mMaterials[a];
 				
-				auto m = m_pFactory->VGetMaterial("Default");
+				auto m = m_pContext->GetSystem<IFactory>()->VGetMaterial("Default");
 
-				aiString name;
+				/*aiString name;
 				mat->Get<aiString>(AI_MATKEY_NAME, name);
 				m->Name = name.C_Str();
 				aiColor3D color(0.f, 0.f, 0.f);
@@ -721,13 +724,13 @@ namespace Light
 				m->Ks = vec3(color.r, color.g, color.b);
 				float exp;
 				mat->Get(AI_MATKEY_SHININESS, exp);
-				m->exp = vec3(exp);
+				m->exp = vec3(exp);*/
 				aiString Path;
 				mat->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL);
 
 
 
-				DefaultMesh* pMesh = new DefaultMesh(m_pRenderDevice,vertexs, Indices, mesh->mName.C_Str());
+				DefaultMesh* pMesh = DEBUG_NEW DefaultMesh(m_pRenderDevice,vertexs, Indices, mesh->mName.C_Str());
 			
 				//pMesh->Tex = LoadTexture(localPath + Path.C_Str());
 				//pMesh->mat = m;
@@ -736,10 +739,7 @@ namespace Light
 				pModel->Meshs.push_back(std::unique_ptr<Mesh>(pMesh));
 				
 				
-			}
-		
-			m_ModelCaches.push_back(ResourceHandle<render::Model>(filename,pModel));
-		
+			}		
 			return pModel;
 		}
 
@@ -754,9 +754,11 @@ namespace Light
 			tex = HasResource(m_Textures,filename);
 			if (tex == nullptr)
 			{
-				if((tex = LoadTexture(filename))==nullptr)
-					E_ERROR("Cound not find texture: %s" ,filename);
-				return m_pDefaultTex;
+				if ((tex = LoadTexture(filename)) == nullptr)
+				{
+					E_ERROR("Cound not find texture: %s", filename);
+					return m_pDefaultTex;
+				}
 			}
 			return tex;
 
@@ -767,7 +769,8 @@ namespace Light
 			render::VertexShader* Vshader = nullptr;
 			CheckResourceFunc a = [](const std::string&a, const std::string& b)
 			{
-				return (a.find(b) != string::npos);
+				bool s = a.find(b) != string::npos;
+				return s;
 			};
 			Vshader = HasResource(m_VertexShaders, filename,a);
 			if (Vshader == nullptr)
@@ -782,7 +785,12 @@ namespace Light
 		render::PixelShader * ResourceManager::VGetPixelShader(const std::string & filename)
 		{
 			render::PixelShader* Pshader = nullptr;
-			Pshader = HasResource(m_PixelShaders, filename);
+			CheckResourceFunc a = [](const std::string&a, const std::string& b)
+			{
+				bool s = a.find(b) != string::npos;
+				return s;
+			};
+			Pshader = HasResource(m_PixelShaders, filename,a);
 			if (Pshader == nullptr)
 			{
 				if((Pshader=LoadPixelShader(filename))==nullptr)
@@ -849,7 +857,7 @@ namespace Light
 		//{
 		//	if (type == SHAPE_BOX)
 		//	{
-		//		IMesh* pBox = new CubeMesh(size[0], size[1], size[2]);
+		//		IMesh* pBox = DEBUG_NEW CubeMesh(size[0], size[1], size[2]);
 		//		pBox->Name = ShapeName[type];
 		//		m_PrimList.push_back(std::unique_ptr<IMesh>(pBox));
 		//		return pBox;

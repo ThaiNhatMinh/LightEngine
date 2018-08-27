@@ -16,7 +16,7 @@
 #include "Core\Events.h"
 #include "GameComponents\TransformComponent.h"
 #include "GameComponents\MeshRenderComponent.h"
-
+#include "..\..\Core\Events.h"
 namespace Light
 {
 	namespace render
@@ -56,9 +56,9 @@ namespace Light
 			pWindow->VGetWindowSize(w, h);
 			glViewport(0, 0, w, h);
 
-			m_pDefaultDepthStencil = new OpenGLDepthStencilState(DepthStencilConfig());
+			m_pDefaultDepthStencil = DEBUG_NEW OpenGLDepthStencilState(DepthStencilConfig());
 			pContext->VAddSystem(this);
-			pContext->GetSystem<IEventManager>()->VAddListener(new EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnObjectCreate), events::EvtNewActor::StaticType);
+			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnObjectCreate), events::EvtNewActor::StaticType);
 		}
 
 		OpenGLRenderDevice::~OpenGLRenderDevice()
@@ -74,41 +74,41 @@ namespace Light
 
 		VertexShader* OpenGLRenderDevice::CreateVertexShader(const char * code)
 		{
-			return new OpenGLVertexShader(code);
+			return DEBUG_NEW OpenGLVertexShader(code);
 		}
 
 		PixelShader * OpenGLRenderDevice::CreatePixelShader(const char * code)
 		{
-			return new OpenGLPixelShader(code);
+			return DEBUG_NEW OpenGLPixelShader(code);
 		}
 
 		Pipeline * OpenGLRenderDevice::CreatePipeline(VertexShader *pVertexShader, PixelShader *pPixelShader)
 		{
-			return new OpenGLPipeline(pVertexShader, pPixelShader);
+			return DEBUG_NEW OpenGLPipeline(pVertexShader, pPixelShader);
 		}
 
 		VertexBuffer * OpenGLRenderDevice::CreateVertexBuffer(long long size, const void * data)
 		{
-			return new OpenGLVertexBuffer(size, data);
+			return DEBUG_NEW OpenGLVertexBuffer(size, data);
 		}
 
 		VertexDescription * OpenGLRenderDevice::CreateVertexDescription(unsigned int numElement, const VertexElement * pElement)
 		{
-			return new OpenGLVertexDescription(numElement, pElement);
+			return DEBUG_NEW OpenGLVertexDescription(numElement, pElement);
 		}
 
 		VertexArray * OpenGLRenderDevice::CreateVertexArray(unsigned int numBuffer, VertexBuffer ** vertexBuffer, VertexDescription ** vertexDescription)
 		{
-			return new OpenGLVertexArray(numBuffer, vertexBuffer, vertexDescription);
+			return DEBUG_NEW OpenGLVertexArray(numBuffer, vertexBuffer, vertexDescription);
 		}
 
 		Texture * OpenGLRenderDevice::CreateTexture(const TextureCreateInfo & info, bool isCompress)
 		{
-			if (isCompress) return new OpenGLCompressTexture(info);
+			if (isCompress) return DEBUG_NEW OpenGLCompressTexture(info);
 			
 			
-			if(info.eTarget==GL_TEXTURE_2D) return new OpenGLTexture(info);
-			else if (info.eTarget == GL_TEXTURE_CUBE_MAP) return new OpenGLCubeTexture(info);
+			if(info.eTarget==GL_TEXTURE_2D) return DEBUG_NEW OpenGLTexture(info);
+			else if (info.eTarget == GL_TEXTURE_CUBE_MAP) return DEBUG_NEW OpenGLCubeTexture(info);
 			else E_WARNING("Invaild target texture: %d", info.eTarget);
 			
 			return nullptr;
@@ -116,12 +116,12 @@ namespace Light
 
 		IndexBuffer * OpenGLRenderDevice::CreateIndexBuffer(unsigned int size, const void* pData)
 		{
-			return new OpenGLIndexBuffer(size, pData);
+			return DEBUG_NEW OpenGLIndexBuffer(size, pData);
 		}
 
 		DepthStencilState * OpenGLRenderDevice::CreateDepthStencilState(const DepthStencilConfig & config)
 		{
-			return new OpenGLDepthStencilState(config);
+			return DEBUG_NEW OpenGLDepthStencilState(config);
 		}
 
 		void OpenGLRenderDevice::SetVertexArray(VertexArray * pVertexArray)
@@ -171,19 +171,40 @@ namespace Light
 
 		}
 
-		void OpenGLRenderDevice::DrawElement(int count, int type, const void * indices, int primcount, Primitive primitive)
+		void OpenGLRenderDevice::DrawElement(int count, const void * indices, int primcount, Primitive primitive)
 		{
-			if (primcount) glDrawElementsInstanced(primitive, count, type, indices, primcount);
-			else glDrawElements(primitive, count, type, indices);
+			if (primcount) glDrawElementsInstanced(primitive, count, GL_UNSIGNED_INT, indices, primcount);
+			else glDrawElements(primitive, count, GL_UNSIGNED_INT, indices);
 		}
 
 		void OpenGLRenderDevice::Render()
 		{
+			// if there was no camera, so we can't see anything
+			if (m_pCurrentCamera == nullptr) return;
+
+
 			for (auto renderable : m_ObjectRenders)
 			{
 				render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
-				//for(auto mesh)
+				IActor* actor = renderable.m_pActor;
+				// computer transformation matrix
+				glm::mat4 vp = m_pCurrentCamera->GetVPMatrix();
+				glm::mat4 model = actor->VGetGlobalTransform();
+
+				// just draw it
+				modelRender->Draw(this,glm::value_ptr(model),glm::value_ptr(vp*model));
+				
 			}
+		}
+
+		render::ICamera * OpenGLRenderDevice::VGetCurrentCamera()
+		{
+			return m_pCurrentCamera;
+		}
+
+		void OpenGLRenderDevice::VSetCurrentCamera(render::ICamera * cam)
+		{
+			m_pCurrentCamera = cam;
 		}
 
 		void OpenGLRenderDevice::OnObjectCreate(std::shared_ptr<IEvent> event)
@@ -194,7 +215,8 @@ namespace Light
 			if (pMeshRender == nullptr) return;
 
 			Renderable renderable;
-			renderable.m_Actor = pActor->VGetId();
+			renderable.m_ActorID = pActor->VGetId();
+			renderable.m_pActor = pActor;
 			renderable.m_RenderComponent = pMeshRender;
 			renderable.m_TransformComponent = pTransform;
 
@@ -209,7 +231,7 @@ namespace Light
 
 			auto result = std::find_if(m_ObjectRenders.begin(), m_ObjectRenders.end(), [Actor](Renderable renderable)
 			{
-				return Actor == renderable.m_Actor;
+				return Actor == renderable.m_ActorID;
 			});
 			
 			if (result == m_ObjectRenders.end()) return;
@@ -220,6 +242,14 @@ namespace Light
 
 		void OpenGLRenderDevice::OnCameraCreate(std::shared_ptr<IEvent> event)
 		{
+			events::EvtCameraCreate* pEvent = static_cast<events::EvtCameraCreate*>(event.get());
+
+			m_pCurrentCamera = pEvent->GetCamera();
+			// just for debug, should remove in release
+			if (m_pCurrentCamera)
+			{
+				E_DEBUG("Camera create!");
+			}
 		}
 
 	}

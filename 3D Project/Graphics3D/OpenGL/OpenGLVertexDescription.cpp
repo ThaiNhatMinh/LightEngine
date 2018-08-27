@@ -3,7 +3,7 @@
 
 using namespace Light;
 
-render::OpenGLVertexDescription::OpenGLVertexDescription(std::size_t num, const VertexElement * pElements) :m_Elements(new OpenGLVertexElement[num]), m_iNum(num)
+render::OpenGLVertexDescription::OpenGLVertexDescription(std::size_t num, const VertexElement * pElements) :m_Elements(DEBUG_NEW OpenGLVertexElement[num]), m_iNum(num)
 {
 	static GLenum toOpenGLType[] = { 
 		GL_BYTE, GL_SHORT, GL_INT, 
