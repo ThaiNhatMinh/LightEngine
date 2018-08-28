@@ -37,7 +37,7 @@ namespace Light
 			GL_TRIANGLE_STRIP_ADJACENCY
 
 		};
-
+		
 		OpenGLRenderDevice::OpenGLRenderDevice(IContext * pContext)
 		{
 			// Initialize GLEW to setup the OpenGL Function pointers
@@ -202,8 +202,9 @@ namespace Light
 
 		void OpenGLRenderDevice::DrawElement(int count, const void * indices, int primcount, Primitive primitive)
 		{
-			if (primcount) glDrawElementsInstanced(primitive, count, GL_UNSIGNED_INT, indices, primcount);
-			else glDrawElements(primitive, count, GL_UNSIGNED_INT, indices);
+
+			if (primcount) glDrawElementsInstanced(toOpenGLPrimitive[primitive], count, GL_UNSIGNED_INT, indices, primcount);
+			else glDrawElements(toOpenGLPrimitive[primitive], count, GL_UNSIGNED_INT, indices);
 		}
 
 		void OpenGLRenderDevice::Render()
