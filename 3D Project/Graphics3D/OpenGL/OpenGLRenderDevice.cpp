@@ -215,15 +215,12 @@ namespace Light
 			static float angle = 0.0f;
 			angle += 0.1f;
 			if (angle > 360) angle = 0;
+
 			for (auto renderable : m_ObjectRenders)
 			{
 				render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
 				IActor* actor = renderable.m_pActor;
 				// computer transformation matrix
-				//glm::mat4 vp = m_pCurrentCamera->GetVPMatrix();
-				//glm::mat4 proj = glm::perspective(glm::radians(45.0f), 1024.0f / 600.0f, 1.0f, 500.0f);
-				//glm::mat4 view = glm::lookAt(glm::vec3(0, 0, 6.0f), glm::vec3(0), glm::vec3(0, 1, 0));
-				//glm::mat4 vp = proj * view;
 				glm::mat4 model = actor->VGetGlobalTransform();
 				model = glm::rotate(glm::mat4(), glm::radians(angle), glm::vec3(0, 1, 0));
 				// just draw it
@@ -239,7 +236,7 @@ namespace Light
 
 		void OpenGLRenderDevice::VSetCurrentCamera(render::ICamera * cam)
 		{
-			//m_pCurrentCamera = cam;
+			m_pCurrentCamera = cam;
 		}
 
 		void OpenGLRenderDevice::OnObjectCreate(std::shared_ptr<IEvent> event)

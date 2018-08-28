@@ -28,7 +28,7 @@ bool CameraComponent::VSerialize(Light::IContext* pContext, const tinyxml2::XMLE
 	{
 		int w, h;
 		pContext->GetSystem<IWindow>()->VGetWindowSize(w,h);
-		as = w/h;
+		as = float(w) / float(h);
 	}
 
 	WorldUp = vec3(0, 1, 0);

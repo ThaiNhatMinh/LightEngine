@@ -160,7 +160,6 @@ namespace Light
 				if (strlen(pFile) < 1) continue;
 				IActor* child = VCreateActor(pFile, 1);
 				pActor->VAddChild(child);
-				child->PostInit();
 			}
 
 		}

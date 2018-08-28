@@ -25,7 +25,11 @@ namespace Light
 
 	void Actor::PostInit(void)
 	{
-		
+		// Update m_WorldTrasform
+		VGetGlobalTransform();
+
+		for (ActorList::iterator i = m_Children.begin(); i != m_Children.end(); i++)
+			(*i)->PostInit();
 	}
 
 	void Actor::Destroy(void)

@@ -52,6 +52,9 @@ namespace Light
 
 		}
 
+
+		m_pRoot->PostInit();
+
 		tinyxml2::XMLElement* pLightNode = pScene->FirstChildElement("Light");
 		if (pLightNode)
 		{
