@@ -5,7 +5,7 @@
 #include "Interface\IEvent.h"
 #include "OpenGLDepthStencilState.h"
 #include "..\..\Interface\IComponent.h"
-#include "..\ICamera.h"
+#include "..\..\GameComponents\CameraComponent.h"
 namespace Light
 {
 	namespace render

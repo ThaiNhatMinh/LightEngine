@@ -25,7 +25,7 @@ namespace Light
 
 	void Actor::PostInit(void)
 	{
-	
+		
 	}
 
 	void Actor::Destroy(void)
@@ -58,11 +58,11 @@ namespace Light
 	mat4 Actor::VGetGlobalTransform()
 	{
 
-		mat4 transform = m_TransformComponent->transform;
+		m_WorldTransform = m_TransformComponent->transform;
 		if (m_pParent)
-			transform = m_pParent->VGetGlobalTransform()*transform;
+			m_WorldTransform = m_pParent->VGetGlobalTransform()*m_WorldTransform;
 
-		return transform;
+		return m_WorldTransform;
 	}
 
 
@@ -82,6 +82,11 @@ namespace Light
 		{
 			m_TransformComponent = std::unique_ptr<ITransformComponent>(static_cast<ITransformComponent*>(pComponent));
 			return true;
+		}
+		else if (pComponent->GetType() == ICameraComponent::StaticType)
+		{
+			auto pTemp = static_cast<ICameraComponent*>(pComponent);
+			pTemp->m_GlobalTransform = &m_WorldTransform;
 		}
 
 		std::pair<ActorComponents::iterator, bool> success = m_components.insert(std::make_pair(pComponent->GetType(), pComponent));

@@ -4,6 +4,7 @@
 #include "..\Utilities\Utility.h"
 #include "..\typedef.h"
 #include "../Graphics3D/ModelRender.h"
+#include "..\Graphics3D\ICamera.h"
 namespace Light 
 {
 	class IActor;
@@ -45,5 +46,11 @@ namespace Light
 	{
 	public:
 		render::Model* m_pModel;
+	};
+
+	class ICameraComponent : public Component<ICameraComponent>, public render::ICamera
+	{
+	public:
+		glm::mat4* m_GlobalTransform;
 	};
 }

@@ -241,6 +241,15 @@
     <ClInclude Include="Graphics3D\DefaultModel.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
+    <ClInclude Include="GameComponents\CameraComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Frustum.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Plane.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -361,6 +370,15 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\LTModel.cpp">
       <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\CameraComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Frustum.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Plane.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

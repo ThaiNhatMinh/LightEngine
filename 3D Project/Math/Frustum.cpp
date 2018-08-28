@@ -1,26 +1,17 @@
 #include <pch.h>
-
-void Frustum::Init()
+#include "Frustum.h"
+#include <glm\gtc\matrix_transform.hpp>
+using namespace Light;
+using namespace math;
+Frustum::Frustum(float fov, float aspect, float _Near, float _Far)
 {
-	/*glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	m_Fov = glm::radians(fov);
+	m_Aspect = aspect;
+	m_Near = _Near;
+	m_Far = _Far;
+	tanFovOver2 = tanf(glm::radians(fov / 2));
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8 * 3, NULL, GL_DYNAMIC_DRAW);
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	int indices[] = { 0,1,1,2,2,3,3,0,4,5,5,6,6,7,7,4,0,4,3,7,1,5,2,6 };
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_DYNAMIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);*/
-}
-
-Frustum::Frustum(float fov, float aspect, float _near, float _far)
-{
-	Init(fov, aspect, _near, _far);
+	m_ProjMatrix = glm::perspective(m_Fov, aspect, _Near, _Far);
 }
 
 Frustum::Frustum()
@@ -163,34 +154,21 @@ void Frustum::Update(const vec3& Pos, const vec3& Forward, const vec3& right)
 	*/
 }
 
-void Frustum::Render(Shader* shader,mat4& view)
-{
-	/*shader->Use();
-	mat4 model;
-	//model.Translate(0, 0, 100);
-	shader->SetUniformMatrix("Model", glm::value_ptr(model));
-	shader->SetUniformMatrix("View", glm::value_ptr(view));
-	shader->SetUniformMatrix("Proj", glm::value_ptr(m_ProjMatrix));
-	glBindVertexArray(VAO);
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);*/
-
-}
 
 const mat4& Frustum::GetProjMatrix()
 {
 	return m_ProjMatrix;
 }
-
-void Frustum::Init(float fov, float aspect, float _Near, float _Far)
-{
-	m_Fov = glm::radians(fov);
-	m_Aspect = aspect;
-	m_Near = _Near;
-	m_Far = _Far;
-	tanFovOver2 = tanf(glm::radians(fov/2));
-
-	m_ProjMatrix = glm::perspective(m_Fov, aspect, _Near, _Far);
-	
-	
-}
+//
+//void Frustum::Init(float fov, float aspect, float _Near, float _Far)
+//{
+//	m_Fov = glm::radians(fov);
+//	m_Aspect = aspect;
+//	m_Near = _Near;
+//	m_Far = _Far;
+//	tanFovOver2 = tanf(glm::radians(fov/2));
+//
+//	m_ProjMatrix = glm::perspective(m_Fov, aspect, _Near, _Far);
+//	
+//	
+//}

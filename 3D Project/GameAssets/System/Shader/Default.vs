@@ -1,5 +1,5 @@
 #version 140
-
+#pragma optimize (off)
 in vec3 aPos;
 in vec3 aNormal;
 in vec2 aUV;
@@ -13,7 +13,7 @@ uniform mat4 uModel;
 void main()
 {
     oUV = aUV;
-    oNormal = oNormal;
+    oNormal = mat3(uModel) * aNormal;
     
     gl_Position = uMVP * vec4(aPos, 1.0f);
 }

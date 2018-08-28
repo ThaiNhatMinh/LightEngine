@@ -1,3 +1,4 @@
-[DEBUG] d:\code\3d-project\3d project\core\application.cpp Line:21| Application StartUp...
-[DEBUG] d:\code\3d-project\3d project\gameplugin\gamepluginmanager.cpp Line:22| ..\Debug\Hunting.dll
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:224| ObjectRender add: 707
+[DEBUG] e:\learn\c++\3d-project\3d project\core\application.cpp Line:21| Application StartUp...
+[DEBUG] e:\learn\c++\3d-project\3d project\gameplugin\gamepluginmanager.cpp Line:22| ..\Debug\Hunting.dll
+[DEBUG] e:\learn\c++\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:259| ObjectRender add: 707
+[DEBUG] e:\learn\c++\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:286| Camera create!

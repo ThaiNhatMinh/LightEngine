@@ -5,6 +5,7 @@
 #include "..\Graphics3D\Actor.h"
 #include "..\GameComponents\TransformComponent.h"
 #include "..\GameComponents\MeshRenderComponent.h"
+#include "..\GameComponents\CameraComponent.h"
 #include "..\Graphics3D\DefaultMaterial.h"
 #include "..\Graphics3D\Scene.h"
 namespace Light
@@ -12,9 +13,20 @@ namespace Light
 
 	ActorFactory::ActorFactory(IContext* c):m_pContext(c)
 	{
+		c->VAddSystem(this);
+		m_pEventManager = c->GetSystem<IEventManager>();
+
 		m_lastActorId = 1;
 		m_ComponentFactoryMap.insert(std::make_pair("TransformComponent", []() { return DEBUG_NEW TransformComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("MeshRenderComponent", []() { return DEBUG_NEW MeshRenderComponent(); }));
+
+		auto CameraFunc = [&]()
+		{
+			CameraComponent* pCam = DEBUG_NEW CameraComponent();
+			m_pEventManager->VQueueEvent(std::shared_ptr<IEvent>(DEBUG_NEW events::EvtCameraCreate(pCam)));
+			return pCam;
+		};
+		m_ComponentFactoryMap.insert(std::make_pair("CameraComponent", CameraFunc));
 		/*m_ComponentFactoryMap.insert(std::make_pair("ColliderComponent", []() { return DEBUG_NEW ColliderComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("RigidBodyComponent", []() { return DEBUG_NEW RigidBodyComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("AnimationComponent", []() { return DEBUG_NEW AnimationComponent(); }));
@@ -23,7 +35,7 @@ namespace Light
 		m_ComponentFactoryMap.insert(std::make_pair("LogicComponent", []() { return DEBUG_NEW LogicComponent(); }));
 		
 		m_ComponentFactoryMap.insert(std::make_pair("TerrainRenderComponent", []() { return DEBUG_NEW TerrainRenderComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("CameraComponent", []() { return  DEBUG_NEW CameraComponent(); }));
+		
 		m_ComponentFactoryMap.insert(std::make_pair("HitBox", []() { return  DEBUG_NEW HitBox(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("SoundListener", []() { return  DEBUG_NEW SoundListener(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("SoundSource3D", []() { return  DEBUG_NEW SoundSource3D(); }));
@@ -43,8 +55,7 @@ namespace Light
 		m_ShaderFactory.insert(std::make_pair("SpriteShader", [](const char*vs, const char* fs) {return DEBUG_NEW SpriteShader(vs, fs); }));*/
 
 		m_MaterialMap.insert(std::make_pair("Default", std::shared_ptr<render::Material>(DEBUG_NEW render::DefaultMaterial(m_pContext))));
-		c->VAddSystem(this);
-		m_pEventManager = c->GetSystem<IEventManager>();
+		
 		
 	}
 

@@ -56,9 +56,13 @@ namespace Light
 			pWindow->VGetWindowSize(w, h);
 			glViewport(0, 0, w, h);
 
-			m_pDefaultDepthStencil = DEBUG_NEW OpenGLDepthStencilState(DepthStencilConfig());
+			m_pDefaultDepthStencil = nullptr;
+			SetDepthStencilState(DEBUG_NEW OpenGLDepthStencilState(DepthStencilConfig()));
+
+
 			pContext->VAddSystem(this);
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnObjectCreate), events::EvtNewActor::StaticType);
+			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnCameraCreate), events::EvtCameraCreate::StaticType);
 		}
 
 		OpenGLRenderDevice::~OpenGLRenderDevice()
@@ -151,14 +155,39 @@ namespace Light
 
 		void OpenGLRenderDevice::SetDepthStencilState(DepthStencilState * state)
 		{
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			auto oldState = m_pDefaultDepthStencil;
 			if (state) m_pDefaultDepthStencil = static_cast<OpenGLDepthStencilState*>(state);
+
+			if (oldState != m_pDefaultDepthStencil)
+			{
+				if (m_pDefaultDepthStencil->DepthEnable)
+				{
+					
+					glEnable(GL_DEPTH_TEST);
+					//glFrontFace(GL_CW);
+					glDepthMask(m_pDefaultDepthStencil->DepthMask);
+					glDepthFunc(m_pDefaultDepthStencil->Depthfunc);
+				}
+				if (m_pDefaultDepthStencil->FrontFaceStencilEnabled || m_pDefaultDepthStencil->BackFaceStencilEnabled)
+				{
+					glEnable(GL_STENCIL_TEST);
+					glStencilFuncSeparate(GL_FRONT, m_pDefaultDepthStencil->FrontFaceStencilCompare, m_pDefaultDepthStencil->FrontFaceRef, m_pDefaultDepthStencil->FrontFaceReadMask);
+					glStencilOpSeparate(GL_FRONT, m_pDefaultDepthStencil->FrontFaceStencilFail, m_pDefaultDepthStencil->FrontFaceDepthFail, m_pDefaultDepthStencil->FrontFaceStencilPass);
+					glStencilMaskSeparate(GL_FRONT, m_pDefaultDepthStencil->FrontFaceReadMask);
+
+					glStencilFuncSeparate(GL_BACK, m_pDefaultDepthStencil->BackFaceStencilCompare, m_pDefaultDepthStencil->BackFaceRef, m_pDefaultDepthStencil->BackFaceReadMask);
+					glStencilOpSeparate(GL_BACK, m_pDefaultDepthStencil->BackFaceStencilFail, m_pDefaultDepthStencil->BackFaceDepthFail, m_pDefaultDepthStencil->BackFaceStencilPass);
+					glStencilMaskSeparate(GL_BACK, m_pDefaultDepthStencil->BackFaceReadMask);
+
+				}
+			}
 
 		}
 
 		void OpenGLRenderDevice::Clear(float r, float g, float b, float alpha, float depth)
 		{
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 			glClearColor(r, g, b, alpha);
 			glClearDepth(depth);
 		}
@@ -182,17 +211,23 @@ namespace Light
 			// if there was no camera, so we can't see anything
 			if (m_pCurrentCamera == nullptr) return;
 
-
+			glm::mat4 pv = m_pCurrentCamera->GetProjMatrix()*m_pCurrentCamera->GetViewMatrix();
+			static float angle = 0.0f;
+			angle += 0.1f;
+			if (angle > 360) angle = 0;
 			for (auto renderable : m_ObjectRenders)
 			{
 				render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
 				IActor* actor = renderable.m_pActor;
 				// computer transformation matrix
-				glm::mat4 vp = m_pCurrentCamera->GetVPMatrix();
+				//glm::mat4 vp = m_pCurrentCamera->GetVPMatrix();
+				//glm::mat4 proj = glm::perspective(glm::radians(45.0f), 1024.0f / 600.0f, 1.0f, 500.0f);
+				//glm::mat4 view = glm::lookAt(glm::vec3(0, 0, 6.0f), glm::vec3(0), glm::vec3(0, 1, 0));
+				//glm::mat4 vp = proj * view;
 				glm::mat4 model = actor->VGetGlobalTransform();
-
+				model = glm::rotate(glm::mat4(), glm::radians(angle), glm::vec3(0, 1, 0));
 				// just draw it
-				modelRender->Draw(this,glm::value_ptr(model),glm::value_ptr(vp*model));
+				modelRender->Draw(this,glm::value_ptr(model),glm::value_ptr(pv*model));
 				
 			}
 		}
@@ -204,7 +239,7 @@ namespace Light
 
 		void OpenGLRenderDevice::VSetCurrentCamera(render::ICamera * cam)
 		{
-			m_pCurrentCamera = cam;
+			//m_pCurrentCamera = cam;
 		}
 
 		void OpenGLRenderDevice::OnObjectCreate(std::shared_ptr<IEvent> event)

@@ -22,7 +22,7 @@
     <ProjectGuid>{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My3DProject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>Light</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -185,6 +185,7 @@
     <ClInclude Include="Core\OpenGLSysUI.h" />
     <ClInclude Include="Core\OpenGLWindows.h" />
     <ClInclude Include="Core\Timer.h" />
+    <ClInclude Include="GameComponents\CameraComponent.h" />
     <ClInclude Include="GameComponents\MeshRenderComponent.h" />
     <ClInclude Include="GameComponents\TransformComponent.h" />
     <ClInclude Include="GamePlugin\GamePluginManager.h" />
@@ -238,6 +239,8 @@
     <ClInclude Include="Interface\ITimer.h" />
     <ClInclude Include="Interface\IWindow.h" />
     <ClInclude Include="Math\AABB.h" />
+    <ClInclude Include="Math\Frustum.h" />
+    <ClInclude Include="Math\Plane.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ResourceManager\LTBFileLoader.h" />
     <ClInclude Include="ResourceManager\LTRawData.h" />
@@ -263,6 +266,7 @@
     <ClCompile Include="Core\OpenGLInput.cpp" />
     <ClCompile Include="Core\OpenGLWindows.cpp" />
     <ClCompile Include="Core\Timer.cpp" />
+    <ClCompile Include="GameComponents\CameraComponent.cpp" />
     <ClCompile Include="GameComponents\MeshRenderComponent.cpp" />
     <ClCompile Include="GameComponents\TransformComponent.cpp" />
     <ClCompile Include="GamePlugin\GamePluginManager.cpp" />
@@ -287,6 +291,8 @@
     <ClCompile Include="Graphics3D\Scene.cpp" />
     <ClCompile Include="Graphics3D\SkeMesh.cpp" />
     <ClCompile Include="Math\AABB.cpp" />
+    <ClCompile Include="Math\Frustum.cpp" />
+    <ClCompile Include="Math\Plane.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>

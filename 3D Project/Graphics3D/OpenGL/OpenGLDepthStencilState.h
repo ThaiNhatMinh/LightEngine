@@ -11,25 +11,25 @@ namespace Light
 			OpenGLDepthStencilState(const DepthStencilConfig& config);
 
 		public:
-			bool	DepthEnable = true;
+			bool	DepthEnable;
 			// Enable/Disable writing to depth buffer
-			bool	DepthMask = true;
-			Compare Depthfunc = COMPARE_LESS;
+			bool	DepthMask;
+			GLenum	Depthfunc;
 
-			bool			FrontFaceStencilEnabled = false;
-			Compare			FrontFaceStencilCompare = COMPARE_ALWAYS;
-			StencilAction	FrontFaceStencilFail = STENCIL_KEEP;
-			StencilAction	FrontFaceStencilPass = STENCIL_KEEP;
-			StencilAction	FrontFaceDepthFail = STENCIL_KEEP;
+			bool			FrontFaceStencilEnabled;
+			GLenum			FrontFaceStencilCompare;
+			GLenum			FrontFaceStencilFail;
+			GLenum			FrontFaceStencilPass;
+			GLenum			FrontFaceDepthFail;
 			int				FrontFaceRef = 0;
 			unsigned int	FrontFaceReadMask = 0xFFFFFFFF;
 			unsigned int	FrontFaceWriteMask = 0xFFFFFFFF;
 
 			bool			BackFaceStencilEnabled = false;
-			Compare			BackFaceStencilCompare = COMPARE_ALWAYS;
-			StencilAction	BackFaceStencilFail = STENCIL_KEEP;
-			StencilAction	BackFaceStencilPass = STENCIL_KEEP;
-			StencilAction	BackFaceDepthFail = STENCIL_KEEP;
+			GLenum			BackFaceStencilCompare = COMPARE_ALWAYS;
+			GLenum			BackFaceStencilFail = STENCIL_KEEP;
+			GLenum			BackFaceStencilPass = STENCIL_KEEP;
+			GLenum			BackFaceDepthFail = STENCIL_KEEP;
 			int				BackFaceRef = 0;
 			unsigned int	BackFaceReadMask = 0xFFFFFFFF;
 			unsigned int	BackFaceWriteMask = 0xFFFFFFFF;

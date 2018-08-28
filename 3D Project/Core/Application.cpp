@@ -136,7 +136,7 @@ void Application::MainLoop()
 		m_pRenderer->Clear();
 		
 		// draw our first triangle
-		
+		m_pRenderer->Render();
 		pGame->Render();
 		// Draw Game
 		//m_GamePlugins->RenderGame();

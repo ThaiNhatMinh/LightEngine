@@ -225,3 +225,5 @@ ModelManifest.xml
 3D Project.VC.db
 !/Release/Light.exe
 !/ThirdParty/
+
+!/3D Project/GameAssets/test
