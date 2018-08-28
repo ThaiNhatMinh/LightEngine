@@ -82,7 +82,8 @@ namespace Light
 			assert(model != nullptr && mvp != nullptr);
 			renderer->SetPipeline(m_Pipeline.get());
 
-			m_ModelUniform->SetAsMat4(model);
+			
+			if(m_ModelUniform) m_ModelUniform->SetAsMat4(model);
 			m_MVPUniform->SetAsMat4(mvp);
 		}
 		

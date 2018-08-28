@@ -51,6 +51,8 @@ render::PipelineParam * render::OpenGLPipeline::GetParam(const char * name)
 	auto param = m_Uniforms.find(name);
 	if (param != m_Uniforms.end()) return param->second.get();
 
+	E_DEBUG("[Pipeline] Param %s not founnd!", name);
+
 	return nullptr;
 }
 

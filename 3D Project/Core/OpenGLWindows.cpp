@@ -241,7 +241,7 @@ namespace Light
 	}
 	void OpenGLWindows::scroll_callback(GLFWwindow*, double x, double y)
 	{
-		cout << x << y << endl;
+		//cout << x << y << endl;
 		
 	}
 }

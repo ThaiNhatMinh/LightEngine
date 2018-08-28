@@ -727,14 +727,17 @@ namespace Light
 				m->exp = vec3(exp);*/
 				aiString Path;
 				mat->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL);
-
+				//mat->GetTexture(aiTextureType_SPECULAR, 0, &Path, NULL, NULL, NULL, NULL, NULL);
+				//mat->GetTexture(aiTextureType_AMBIENT, 0, &Path, NULL, NULL, NULL, NULL, NULL);
+				
 
 
 				DefaultMesh* pMesh = DEBUG_NEW DefaultMesh(m_pRenderDevice,vertexs, Indices, mesh->mName.C_Str());
 			
 				//pMesh->Tex = LoadTexture(localPath + Path.C_Str());
 				//pMesh->mat = m;
-				pModel->Textures.push_back(VGetTexture(localPath + Path.C_Str()));
+				if(Path.length) pModel->Textures.push_back(VGetTexture(localPath + Path.C_Str()));
+				else pModel->Textures.push_back(nullptr);
 				pModel->Materials.push_back(m);
 				pModel->Meshs.push_back(std::unique_ptr<Mesh>(pMesh));
 				
