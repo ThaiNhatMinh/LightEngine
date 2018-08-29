@@ -188,6 +188,9 @@ namespace Light
 		static IContext* pContext = (IContext*)glfwGetWindowUserPointer(window);
 		static OpenGLInput* pInput = static_cast<OpenGLInput*>(pContext->GetSystem<IInput>());
 		
+		// if unicode key is press
+		if (key == -1) return;
+
 		if (action == GLFW_PRESS)
 		{
 			pInput->keys[key] = true;
