@@ -56,6 +56,8 @@ bool Light::Application::LoadSystemResource()
 	m_pResources->VGetPixelShader(Path + "Shader\\Default.fs");
 	m_pResources->VGetVertexShader(Path + "Shader\\Default.vs");
 	m_pResources->VGetVertexShader(Path + "Shader\\Skeleton.vs");
+	m_pResources->VGetVertexShader(Path + "Shader\\Outline.vs");
+	m_pResources->VGetPixelShader(Path + "Shader\\Color.fs");
 
 
 	return true;

@@ -6,6 +6,7 @@
 #include "OpenGLDepthStencilState.h"
 #include "..\..\Interface\IComponent.h"
 #include "..\..\GameComponents\CameraComponent.h"
+#include "..\RenderPass.h"
 namespace Light
 {
 	namespace render
@@ -41,6 +42,7 @@ namespace Light
 			virtual render::ICamera*	VGetCurrentCamera()override;
 			virtual void				VSetCurrentCamera(render::ICamera * cam) override;
 
+			void Test();
 		private:
 
 			struct Renderable
@@ -61,9 +63,13 @@ namespace Light
 		private:
 			ICamera * m_pCurrentCamera;
 			RenderableList m_ObjectRenders;
-
+			IContext * m_pContext;
 			OpenGLDepthStencilState* m_pDefaultDepthStencil;
+			//DepthStencilState* pass1;
+			//DepthStencilState* pass2;
 			//OpenGLRasterState* m_pDefaultRaster;
+			RenderPass pass1;
+			RenderPass pass2;
 
 		};
 	}

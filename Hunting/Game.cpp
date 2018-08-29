@@ -4,6 +4,7 @@
 #include <IEventManager.h>
 #include <IFactory.h>
 #include <ITimer.h>
+#include <Renderer.h>
 #include <iostream>
 #include "Game.h"
 
@@ -51,6 +52,16 @@ void Game::Init(Light::IContext* pContext)
 	auto pEventManager = pContext->GetSystem<Light::IEventManager>();
 	auto pFactory = pContext->GetSystem<Light::IFactory>();
 	auto pTimer = pContext->GetSystem<Light::ITimer>();
+
+	
+
+	render::DepthStencilConfig config1;
+	config1.DepthEnable = false;
+	config1.FrontStencilCompare = render::COMPARE_NOTEQUAL;
+	config1.FrontRef = 1;
+	config1.FrontCompareMask = 0xFF;
+
+
 }
 
 void Game::Render()

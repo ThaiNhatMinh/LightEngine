@@ -40,6 +40,7 @@ namespace Light
 		
 		OpenGLRenderDevice::OpenGLRenderDevice(IContext * pContext)
 		{
+			m_pContext = pContext;
 			// Initialize GLEW to setup the OpenGL Function pointers
 			glewExperimental = GL_TRUE;
 			GLenum err = glewInit();
@@ -57,12 +58,18 @@ namespace Light
 			glViewport(0, 0, w, h);
 
 			m_pDefaultDepthStencil = nullptr;
-			SetDepthStencilState(DEBUG_NEW OpenGLDepthStencilState(DepthStencilConfig()));
+			render::DepthStencilConfig config;
+			config.FrontStencilEnabled = true;
+			config.FrontWriteMask = 0;
+			SetDepthStencilState(DEBUG_NEW OpenGLDepthStencilState(config));
 
 
 			pContext->VAddSystem(this);
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnObjectCreate), events::EvtNewActor::StaticType);
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnCameraCreate), events::EvtCameraCreate::StaticType);
+
+			
+
 		}
 
 		OpenGLRenderDevice::~OpenGLRenderDevice()
@@ -165,20 +172,20 @@ namespace Light
 				{
 					
 					glEnable(GL_DEPTH_TEST);
-					//glFrontFace(GL_CW);
+					//glFront(GL_CW);
 					glDepthMask(m_pDefaultDepthStencil->DepthMask);
 					glDepthFunc(m_pDefaultDepthStencil->Depthfunc);
 				}
-				if (m_pDefaultDepthStencil->FrontFaceStencilEnabled || m_pDefaultDepthStencil->BackFaceStencilEnabled)
+				if (m_pDefaultDepthStencil->FrontStencilEnabled || m_pDefaultDepthStencil->BackStencilEnabled)
 				{
 					glEnable(GL_STENCIL_TEST);
-					glStencilFuncSeparate(GL_FRONT, m_pDefaultDepthStencil->FrontFaceStencilCompare, m_pDefaultDepthStencil->FrontFaceRef, m_pDefaultDepthStencil->FrontFaceReadMask);
-					glStencilOpSeparate(GL_FRONT, m_pDefaultDepthStencil->FrontFaceStencilFail, m_pDefaultDepthStencil->FrontFaceDepthFail, m_pDefaultDepthStencil->FrontFaceStencilPass);
-					glStencilMaskSeparate(GL_FRONT, m_pDefaultDepthStencil->FrontFaceReadMask);
+					glStencilFuncSeparate(GL_FRONT, m_pDefaultDepthStencil->FrontStencilCompare, m_pDefaultDepthStencil->FrontRef, m_pDefaultDepthStencil->FrontCompareMask);
+					glStencilOpSeparate(GL_FRONT, m_pDefaultDepthStencil->FrontStencilFail, m_pDefaultDepthStencil->FrontDepthFail, m_pDefaultDepthStencil->FrontStencilPass);
+					glStencilMaskSeparate(GL_FRONT, m_pDefaultDepthStencil->FrontWriteMask);
 
-					glStencilFuncSeparate(GL_BACK, m_pDefaultDepthStencil->BackFaceStencilCompare, m_pDefaultDepthStencil->BackFaceRef, m_pDefaultDepthStencil->BackFaceReadMask);
-					glStencilOpSeparate(GL_BACK, m_pDefaultDepthStencil->BackFaceStencilFail, m_pDefaultDepthStencil->BackFaceDepthFail, m_pDefaultDepthStencil->BackFaceStencilPass);
-					glStencilMaskSeparate(GL_BACK, m_pDefaultDepthStencil->BackFaceReadMask);
+					glStencilFuncSeparate(GL_BACK, m_pDefaultDepthStencil->BackStencilCompare, m_pDefaultDepthStencil->BackRef, m_pDefaultDepthStencil->BackCompareMask);
+					glStencilOpSeparate(GL_BACK, m_pDefaultDepthStencil->BackStencilFail, m_pDefaultDepthStencil->BackDepthFail, m_pDefaultDepthStencil->BackStencilPass);
+					glStencilMaskSeparate(GL_BACK, m_pDefaultDepthStencil->BackWriteMask);
 
 				}
 			}
@@ -207,6 +214,8 @@ namespace Light
 			else glDrawElements(toOpenGLPrimitive[primitive], count, GL_UNSIGNED_INT, indices);
 		}
 
+		
+
 		void OpenGLRenderDevice::Render()
 		{
 			this->Clear();
@@ -215,20 +224,23 @@ namespace Light
 			if (m_pCurrentCamera == nullptr) return;
 
 			glm::mat4 pv = m_pCurrentCamera->GetProjMatrix()*m_pCurrentCamera->GetViewMatrix();
-			//static float angle = 0.0f;
-			//angle += 0.1f;
-			//if (angle > 360) angle = 0;
+	
+			{// pass 1
 
-			for (auto renderable : m_ObjectRenders)
-			{
-				render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
-				IActor* actor = renderable.m_pActor;
-				// computer transformation matrix
-				glm::mat4 model = actor->VGetGlobalTransform();
-				//model = glm::rotate(glm::mat4(), glm::radians(angle), glm::vec3(0, 1, 0));
-				// just draw it
-				modelRender->Draw(this,glm::value_ptr(model),glm::value_ptr(pv*model));
-				
+				for (auto renderable : m_ObjectRenders)
+				{
+					render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
+					IActor* actor = renderable.m_pActor;
+					// computer transformation matrix
+					glm::mat4 model = actor->VGetGlobalTransform();
+					//model = glm::rotate(glm::mat4(), glm::radians(angle), glm::vec3(0, 1, 0));
+					// just draw it
+					modelRender->Draw(this, glm::value_ptr(model), glm::value_ptr(pv*model));
+
+				}
+			}
+			{// pass 2
+
 			}
 		}
 
@@ -240,6 +252,38 @@ namespace Light
 		void OpenGLRenderDevice::VSetCurrentCamera(render::ICamera * cam)
 		{
 			m_pCurrentCamera = cam;
+		}
+
+		void OpenGLRenderDevice::Test()
+		{
+			auto Resources = m_pContext->GetSystem<resources::IResourceManager>();
+			auto VS = Resources->VGetVertexShader("Outline");
+			auto FS = Resources->VGetPixelShader("Color");
+
+			{
+				render::DepthStencilConfig config;
+				config.FrontStencilEnabled = true;
+				config.FrontWriteMask = 0xFF;
+				config.FrontStencilCompare = render::COMPARE_ALWAYS;
+				config.FrontRef = 1;
+				config.FrontCompareMask = 0xFF;
+				DepthStencilState* DSS = DEBUG_NEW OpenGLDepthStencilState(config);
+				pass1.pRenderer = this;
+				pass1.pDepthStencilConfig = DSS;
+			}
+			{
+				render::DepthStencilConfig config;
+				config.FrontStencilEnabled = true;
+				config.FrontStencilCompare = render::COMPARE_NOTEQUAL;
+				config.FrontRef = 1;
+				config.FrontCompareMask = 0xFF;
+				config.FrontWriteMask = 0;
+				config.DepthEnable = false;
+				DepthStencilState* DSS = DEBUG_NEW OpenGLDepthStencilState(config);
+				pass2.pRenderer = this;
+				pass2.pDepthStencilConfig = DSS;
+
+			}
 		}
 
 		void OpenGLRenderDevice::OnObjectCreate(std::shared_ptr<IEvent> event)

@@ -9,21 +9,21 @@ Light::render::OpenGLDepthStencilState::OpenGLDepthStencilState(const DepthStenc
 	DepthMask = config.DepthMask? GL_TRUE: GL_FALSE;
 	Depthfunc = DepthFunc[config.Depthfunc];
 
-	FrontFaceStencilEnabled = config.FrontFaceStencilEnabled;
-	FrontFaceStencilCompare = DepthFunc[config.FrontFaceStencilCompare];
-	FrontFaceStencilFail = StencilOp[config.FrontFaceStencilFail];
-	FrontFaceStencilPass = StencilOp[config.FrontFaceStencilPass];
-	FrontFaceDepthFail = StencilOp[config.FrontFaceDepthFail];
-	FrontFaceRef = config.FrontFaceRef;
-	FrontFaceReadMask = config.FrontFaceReadMask;
-	FrontFaceWriteMask = config.FrontFaceWriteMask;
+	FrontStencilEnabled = config.FrontStencilEnabled;
+	FrontStencilCompare = DepthFunc[config.FrontStencilCompare];
+	FrontStencilFail = StencilOp[config.FrontStencilFail];
+	FrontStencilPass = StencilOp[config.FrontStencilPass];
+	FrontDepthFail = StencilOp[config.FrontDepthFail];
+	FrontRef = config.FrontRef;
+	FrontCompareMask = config.FrontCompareMask;
+	FrontWriteMask = config.FrontWriteMask;
 
-	BackFaceStencilEnabled = config.BackFaceStencilEnabled;
-	BackFaceStencilCompare = DepthFunc[config.BackFaceStencilCompare];
-	BackFaceStencilFail = StencilOp[config.BackFaceStencilFail];
-	BackFaceStencilPass = StencilOp[config.BackFaceStencilPass];
-	BackFaceDepthFail = StencilOp[config.BackFaceDepthFail];
-	BackFaceRef = config.BackFaceRef;
-	BackFaceReadMask = config.BackFaceReadMask;
-	BackFaceWriteMask = config.BackFaceWriteMask;
+	BackStencilEnabled = config.BackStencilEnabled;
+	BackStencilCompare = DepthFunc[config.BackStencilCompare];
+	BackStencilFail = StencilOp[config.BackStencilFail];
+	BackStencilPass = StencilOp[config.BackStencilPass];
+	BackDepthFail = StencilOp[config.BackDepthFail];
+	BackRef = config.BackRef;
+	BackCompareMask = config.BackCompareMask;
+	BackWriteMask = config.BackWriteMask;
 }

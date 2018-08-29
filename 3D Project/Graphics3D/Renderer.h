@@ -277,23 +277,23 @@ namespace Light
 			bool	DepthMask = true;
 			Compare Depthfunc = COMPARE_LESS;
 
-			bool			FrontFaceStencilEnabled = false;
-			Compare			FrontFaceStencilCompare = COMPARE_ALWAYS;
-			StencilAction	FrontFaceStencilFail = STENCIL_KEEP;
-			StencilAction	FrontFaceStencilPass = STENCIL_KEEP;
-			StencilAction	FrontFaceDepthFail = STENCIL_KEEP;
-			int				FrontFaceRef = 0;
-			unsigned int	FrontFaceReadMask = 0xFFFFFFFF;
-			unsigned int	FrontFaceWriteMask = 0xFFFFFFFF;
+			bool			FrontStencilEnabled = false;
+			Compare			FrontStencilCompare = COMPARE_ALWAYS;
+			StencilAction	FrontStencilFail = STENCIL_KEEP;
+			StencilAction	FrontStencilPass = STENCIL_KEEP;
+			StencilAction	FrontDepthFail = STENCIL_KEEP;
+			int				FrontRef = 0;
+			unsigned int	FrontCompareMask = 0xFFFFFFFF;
+			unsigned int	FrontWriteMask = 0xFFFFFFFF;
 
-			bool			BackFaceStencilEnabled = false;
-			Compare			BackFaceStencilCompare = COMPARE_ALWAYS;
-			StencilAction	BackFaceStencilFail = STENCIL_KEEP;
-			StencilAction	BackFaceStencilPass = STENCIL_KEEP;
-			StencilAction	BackFaceDepthFail = STENCIL_KEEP;
-			int				BackFaceRef = 0;
-			unsigned int	BackFaceReadMask = 0xFFFFFFFF;
-			unsigned int	BackFaceWriteMask = 0xFFFFFFFF;
+			bool			BackStencilEnabled = false;
+			Compare			BackStencilCompare = COMPARE_ALWAYS;
+			StencilAction	BackStencilFail = STENCIL_KEEP;
+			StencilAction	BackStencilPass = STENCIL_KEEP;
+			StencilAction	BackDepthFail = STENCIL_KEEP;
+			int				BackRef = 0;
+			unsigned int	BackCompareMask = 0xFFFFFFFF;
+			unsigned int	BackWriteMask = 0xFFFFFFFF;
 		};
 
 		class RenderDevice :public ISubSystem
