@@ -142,6 +142,7 @@ namespace Light
 	{
 		dx = MouseD[0];
 		dy = MouseD[1];
+		MouseD[0] = MouseD[1] = 0;
 	}
 
 }
