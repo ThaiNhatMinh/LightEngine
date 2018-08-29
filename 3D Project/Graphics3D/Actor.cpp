@@ -137,7 +137,7 @@ namespace Light
 
 	void Actor::VSetScript(IScript * pScript)
 	{
-		m_pScript.release();
+		m_pScript.reset();
 		m_pScript = std::unique_ptr<IScript>(pScript);
 	}
 
