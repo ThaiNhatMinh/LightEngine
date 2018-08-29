@@ -250,6 +250,12 @@
     <ClInclude Include="Math\Plane.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="Interface\IScript.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\CameraControl.h">
+      <Filter>Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -380,6 +386,10 @@
     <ClCompile Include="Math\Plane.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics3D\SkeletonMaterial.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Script\CameraControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -429,6 +439,9 @@
     </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{5207efdf-e9f8-4b16-9070-645412eac913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{46387a48-d0bc-4610-9d42-8fbd76318116}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

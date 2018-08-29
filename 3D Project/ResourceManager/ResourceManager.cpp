@@ -605,6 +605,9 @@ namespace Light
 
 				//pModelRender->m_Material.resize(pModelRender->m_pMesh.size(), mat);
 				// Done return LTModel
+
+				m_ModelCaches.push_back(ResourceHandle<render::Model>(XMLFile, pModelRender));
+
 				return pModelRender;
 			}
 			else if (strcmp(pData->Value(), "PVModel") == 0)

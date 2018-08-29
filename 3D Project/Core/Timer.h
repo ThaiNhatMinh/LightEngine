@@ -28,7 +28,7 @@ namespace Light
 		virtual void VStop();	// call when pause
 		virtual void VTick();	// call every frame
 		virtual const char* VGetName();
-		int GetFPS();
+		virtual int VGetFPS();
 
 	};
 }

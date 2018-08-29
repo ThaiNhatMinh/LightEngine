@@ -136,7 +136,7 @@ namespace Light
 		return typeid(ITimer).name();
 	}
 
-	int GameTimer::GetFPS()
+	int GameTimer::VGetFPS()
 	{
 
 		return m_FPS;

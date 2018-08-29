@@ -9,6 +9,7 @@
 #include "..\Graphics3D\DefaultMaterial.h"
 #include "..\Graphics3D\SkeletonMaterial.h"
 #include "..\Graphics3D\Scene.h"
+#include "..\Script\CameraControl.h"
 namespace Light
 {
 
@@ -58,7 +59,8 @@ namespace Light
 		m_MaterialMap.insert(std::make_pair("Default", std::shared_ptr<render::Material>(DEBUG_NEW render::DefaultMaterial(m_pContext))));
 		m_MaterialMap.insert(std::make_pair("Skeleton", std::shared_ptr<render::Material>(DEBUG_NEW render::SkeletonMaterial(m_pContext))));
 		
-		
+		m_ScriptMap.insert(std::make_pair("CameraControl", [](IContext* pContext, IActor* owner) {return DEBUG_NEW CameraControl(pContext, owner); }));
+
 	}
 
 	ActorFactory::~ActorFactory()
@@ -148,6 +150,20 @@ namespace Light
 			}
 		}
 
+		// Create script
+		auto pcriptNode = pActorData->FirstChildElement("Script");
+		if (pcriptNode)
+		{
+			const char* name = pcriptNode->Attribute("name");
+
+			auto scriptFactory = m_ScriptMap.find(name);
+			if (scriptFactory != m_ScriptMap.end())
+			{
+				auto script = scriptFactory->second(m_pContext, pActor);
+				script->VSerialize(m_pContext,pcriptNode);
+				pActor->VSetScript(script);
+			}
+		}
 
 		// load child
 		tinyxml2::XMLElement* pChildData = pActorData->FirstChildElement("Children");

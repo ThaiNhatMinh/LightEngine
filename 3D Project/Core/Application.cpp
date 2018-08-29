@@ -99,11 +99,12 @@ void Application::MainLoop()
 	while (m_bRunMainLoop)
 	{
 		glfwPollEvents();
+		m_pTimer->VTick();
 		// Update input
 		//		m_pInput->VUpdate();
 		if (m_pInput->VOnKey(Light::Escape))	m_bRunMainLoop = false;
 		// Timer
-		m_pTimer->VTick();
+		
 		//m_pSystemUI->NewFrame();
 
 		//ImGui::Text("FPS: %d", m_pTimer->GetFPS());
@@ -111,7 +112,7 @@ void Application::MainLoop()
 		//if (!m_pConsole->CheckStatus())
 		//{
 
-		//	float dt = m_pTimer->GetDeltaTime();
+		float dt = m_pTimer->VGetDeltaTime();
 		//	// Update Event
 		m_pEventManager->VUpdate(20);
 		//	// Update Game
@@ -132,13 +133,12 @@ void Application::MainLoop()
 
 		//
 		//if (m_DebugPhysic) m_pPhysic->VRenderDiagnostics();
-		
-
-		m_pRenderer->Clear();
-		
+		pGame->Update(dt);
+		pGame->Render();
+		cout << m_pTimer->VGetFPS() << endl;
 		// draw our first triangle
 		m_pRenderer->Render();
-		pGame->Render();
+		
 		// Draw Game
 		//m_GamePlugins->RenderGame();
 		// Draw Effect

@@ -78,3 +78,23 @@ tinyxml2::XMLElement * Light::TransformComponent::VDeserialize(tinyxml2::XMLDocu
 
 	return nullptr;
 }
+
+glm::vec3 Light::TransformComponent::GetFront()
+{
+	return transform[2];
+}
+
+glm::vec3 Light::TransformComponent::GetRight()
+{
+	return transform[0];
+}
+
+glm::vec3 Light::TransformComponent::GetUp()
+{
+	return transform[1];
+}
+
+glm::vec3 Light::TransformComponent::GetPos()
+{
+	return transform[3];
+}

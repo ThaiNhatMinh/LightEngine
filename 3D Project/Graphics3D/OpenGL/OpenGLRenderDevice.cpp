@@ -209,13 +209,15 @@ namespace Light
 
 		void OpenGLRenderDevice::Render()
 		{
+			this->Clear();
+
 			// if there was no camera, so we can't see anything
 			if (m_pCurrentCamera == nullptr) return;
 
 			glm::mat4 pv = m_pCurrentCamera->GetProjMatrix()*m_pCurrentCamera->GetViewMatrix();
-			static float angle = 0.0f;
-			angle += 0.1f;
-			if (angle > 360) angle = 0;
+			//static float angle = 0.0f;
+			//angle += 0.1f;
+			//if (angle > 360) angle = 0;
 
 			for (auto renderable : m_ObjectRenders)
 			{
@@ -223,7 +225,7 @@ namespace Light
 				IActor* actor = renderable.m_pActor;
 				// computer transformation matrix
 				glm::mat4 model = actor->VGetGlobalTransform();
-				model = glm::rotate(glm::mat4(), glm::radians(angle), glm::vec3(0, 1, 0));
+				//model = glm::rotate(glm::mat4(), glm::radians(angle), glm::vec3(0, 1, 0));
 				// just draw it
 				modelRender->Draw(this,glm::value_ptr(model),glm::value_ptr(pv*model));
 				

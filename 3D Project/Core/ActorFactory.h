@@ -6,7 +6,7 @@
 #include "..\Interface\IActor.h"
 #include "..\Interface\IEventManager.h"
 #include "..\Graphics3D\Material.h"
-
+#include "..\Interface\IScript.h"
 namespace Light
 {
 	class ActorFactory : public IFactory
@@ -17,6 +17,8 @@ namespace Light
 		std::map<std::string, std::function<IComponent*()>> m_ComponentFactoryMap;
 		std::map<std::string, std::function<IActor*(int id)>> m_ActorFactoryMap;
 		std::map<std::string, std::shared_ptr<render::Material>> m_MaterialMap;
+		std::map<std::string, std::function<IScript*(IContext* pContext, IActor* owner)>> m_ScriptMap;
+
 		std::vector<std::unique_ptr<IScene>> m_Scenes;
 	public:
 

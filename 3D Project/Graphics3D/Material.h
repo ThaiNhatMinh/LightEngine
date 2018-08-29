@@ -30,7 +30,7 @@ namespace Light
 			{
 
 			}
-			virtual ~Material() = default;
+			virtual ~Material() {};
 
 			
 			virtual void Apply(render::RenderDevice* renderer, const float* model, const float* mvp) = 0;

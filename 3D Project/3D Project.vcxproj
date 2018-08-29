@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My3DProject</RootNamespace>
     <ProjectName>Light</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -232,6 +232,7 @@
     <ClInclude Include="Interface\IModelResource.h" />
     <ClInclude Include="Interface\IResourceManager.h" />
     <ClInclude Include="Interface\IScene.h" />
+    <ClInclude Include="Interface\IScript.h" />
     <ClInclude Include="Interface\IShader.h" />
     <ClInclude Include="Interface\ISoundEngine.h" />
     <ClInclude Include="Interface\ISubSystem.h" />
@@ -245,6 +246,7 @@
     <ClInclude Include="ResourceManager\LTBFileLoader.h" />
     <ClInclude Include="ResourceManager\LTRawData.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
+    <ClInclude Include="Script\CameraControl.h" />
     <ClInclude Include="typedef.h" />
     <ClInclude Include="Utilities\Delegate.h" />
     <ClInclude Include="Utilities\LTBStruct.h" />
@@ -289,6 +291,7 @@
     <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexShader.cpp" />
     <ClCompile Include="Graphics3D\DefaultModel.cpp" />
     <ClCompile Include="Graphics3D\Scene.cpp" />
+    <ClCompile Include="Graphics3D\SkeletonMaterial.cpp" />
     <ClCompile Include="Graphics3D\SkeMesh.cpp" />
     <ClCompile Include="Math\AABB.cpp" />
     <ClCompile Include="Math\Frustum.cpp" />
@@ -300,6 +303,7 @@
     </ClCompile>
     <ClCompile Include="ResourceManager\LTBFileLoader.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="Script\CameraControl.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Utilities\Observer.cpp" />
     <ClCompile Include="Utilities\String.cpp" />

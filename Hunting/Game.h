@@ -9,14 +9,14 @@ public:
 	// Call after engine init
 	virtual void	Init(Light::IContext* pContext);
 	// Call every frame
-	virtual void	Update(float dt) {};
+	virtual void	Update(float dt);
 	// Call every frame
 	virtual void	Render();
 	// Call before engine shutdown
 	virtual void	ShutDown();
 
 private:
-	
+	Light::IScene* pScene;
 	Light::render::RenderDevice* m_pRenderer;
 	/*Light::render::Pipeline *pipeline;
 	Light::render::VertexArray *vertexArray;

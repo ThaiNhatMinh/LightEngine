@@ -20,7 +20,7 @@ void Game::Init(Light::IContext* pContext)
 
 	//pResources->VGetModel("GameAssets\\MODELS\\707_BL.xml");
 
-	Light::IScene* pScene = Factory->VCreateScene("Test");
+	pScene = Factory->VCreateScene("Test");
 	pScene->VLoad("GameAssets\\test\\Scene.xml");
 	//render::VertexShader *vertexShader = pResources->VGetVertexShader("GameAssets\\test\\test.vs");
 	//// fragment shader
@@ -69,4 +69,10 @@ void Game::ShutDown()
 	//delete pipeline;
 	//delete vertexBuffer;
 	
+}
+
+void Game::Update(float dt)
+{
+	pScene->VOnUpdate(dt);
+
 }

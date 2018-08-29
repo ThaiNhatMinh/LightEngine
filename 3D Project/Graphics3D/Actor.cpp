@@ -2,7 +2,7 @@
 #include <pch.h>
 namespace Light
 {
-	Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr)
+	Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr), m_pScript(DEBUG_NEW NullScript()) // default is nullscript
 	{
 
 	}
@@ -30,6 +30,8 @@ namespace Light
 
 		for (ActorList::iterator i = m_Children.begin(); i != m_Children.end(); i++)
 			(*i)->PostInit();
+
+		m_pScript->PostInit();
 	}
 
 	void Actor::Destroy(void)
@@ -38,7 +40,13 @@ namespace Light
 
 	HRESULT Actor::VOnUpdate(Scene *pScene, float deltaMs)
 	{
-		
+		m_WorldTransform = m_TransformComponent->transform;
+		if (m_pParent)
+			m_WorldTransform = m_pParent->VGetGlobalTransform()*m_WorldTransform;
+		// Script update first
+		m_pScript->Update(deltaMs);
+
+
 		for (ActorList::iterator i = m_Children.begin(); i != m_Children.end(); i++)
 		{
 			(*i)->VOnUpdate(pScene, deltaMs);
@@ -62,9 +70,7 @@ namespace Light
 	mat4 Actor::VGetGlobalTransform()
 	{
 
-		m_WorldTransform = m_TransformComponent->transform;
-		if (m_pParent)
-			m_WorldTransform = m_pParent->VGetGlobalTransform()*m_WorldTransform;
+	
 
 		return m_WorldTransform;
 	}
@@ -99,6 +105,9 @@ namespace Light
 
 	IComponent * Actor::VGetComponent(ComponentType id)
 	{
+		if (id == ITransformComponent::StaticType) return m_TransformComponent.get();
+
+
 		ActorComponents::iterator findIt = m_components.find(id);
 		if (findIt != m_components.end())
 		{
@@ -124,6 +133,12 @@ namespace Light
 		
 		return false;
 		
+	}
+
+	void Actor::VSetScript(IScript * pScript)
+	{
+		m_pScript.release();
+		m_pScript = std::unique_ptr<IScript>(pScript);
 	}
 
 	

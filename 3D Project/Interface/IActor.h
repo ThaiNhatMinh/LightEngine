@@ -1,5 +1,6 @@
 #pragma once
 #include "IComponent.h"
+#include "IScript.h"
 #include "..\typedef.h"
 #include <string>
 
@@ -37,6 +38,9 @@ namespace Light
 
 		template<class ComponentType>ComponentType* GetComponent();
 		template<class ComponentType>bool RemoveComponent();
+		// Current using for test.
+		// Script can using Lua instead of C++
+		virtual void		VSetScript(IScript* pScript) = 0;
 	};
 
 	template<class ComponentType>

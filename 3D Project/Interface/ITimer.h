@@ -12,5 +12,6 @@ namespace Light
 		virtual void	VTick() = 0;	// call every frame
 		virtual float	VGetGameTime() const = 0; // in second
 		virtual float	VGetDeltaTime() const = 0; // in second
+		virtual int		VGetFPS() = 0;
 	};
 }

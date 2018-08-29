@@ -22,6 +22,7 @@ namespace Light
 		ActorComponents			m_components;	// all components this actor has
 
 		glm::mat4				m_WorldTransform;
+		std::unique_ptr<IScript>m_pScript;
 	public:
 		Actor(ActorId id);
 		virtual ~Actor();
@@ -47,6 +48,7 @@ namespace Light
 		virtual bool		VAddComponent(IComponent* pComponent)override;
 		virtual IComponent* VGetComponent(ComponentType id)override;
 		virtual bool		VRemoveComponent(ComponentType id)override;
+		virtual void		VSetScript(IScript* pScript)override;
 		//template<class ComponentType>ComponentType* GetComponent(ComponentId id);
 		//template<class ComponentType>ComponentType* GetComponent(const char*  name)const;
 
