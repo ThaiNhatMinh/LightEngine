@@ -43,7 +43,7 @@ namespace Light
 
 		glfwSetWindowUserPointer(m_pWindow, c);
 		glfwMakeContextCurrent(m_pWindow);
-		//glfwSwapInterval(1);
+		glfwSwapInterval(0);
 		glfwSetCursorPos(m_pWindow, m_iWidth / 2, m_iHeight / 2);
 		//glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
