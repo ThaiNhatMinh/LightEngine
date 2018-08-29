@@ -55,6 +55,7 @@ bool Light::Application::LoadSystemResource()
 	std::string Path = "GameAssets\\System\\";
 	m_pResources->VGetPixelShader(Path + "Shader\\Default.fs");
 	m_pResources->VGetVertexShader(Path + "Shader\\Default.vs");
+	m_pResources->VGetVertexShader(Path + "Shader\\Skeleton.vs");
 
 
 	return true;

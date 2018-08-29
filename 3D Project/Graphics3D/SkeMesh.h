@@ -18,7 +18,7 @@ namespace Light
 		std::unique_ptr<render::VertexArray>		m_pVAO;
 		std::unique_ptr<render::VertexBuffer>		m_pVBO;
 		std::unique_ptr<render::IndexBuffer>		m_pIBO;
-
+		std::size_t m_iNNumIndices;
 	public:
 		SkeMesh(render::RenderDevice* pRenderDevice, LTRawMesh* pData);
 		~SkeMesh() {};

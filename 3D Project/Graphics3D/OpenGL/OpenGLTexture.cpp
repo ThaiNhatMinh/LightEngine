@@ -13,6 +13,7 @@ render::OpenGLTexture::OpenGLTexture(const TextureCreateInfo & info) :Texture(in
 
 	glTexImage2D(info.eTarget, info.iLevel, info.iInternalFormat, info.uiWidth, info.uiHeight, 0, info.eFormat, info.eType, info.pData);
 	glGenerateMipmap(info.eTarget);
+	glBindTexture(info.eTarget, 0);
 }
 
 render::OpenGLTexture::~OpenGLTexture()

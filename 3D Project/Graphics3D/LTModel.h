@@ -14,9 +14,9 @@ namespace Light
 	{
 	public:
 
-		std::vector<std::unique_ptr<Mesh>>  m_pMesh;
-		std::vector<render::Texture*> m_Textures;
-		std::vector<std::unique_ptr<render::Material*>>	m_Material;
+		std::vector<std::unique_ptr<Mesh>>  Meshs;
+		std::vector<render::Texture*> Textures;
+		std::vector<std::shared_ptr<render::Material>>	Materials;
 
 		/*std::vector<LTRawData>					Meshs;
 		std::vector<SkeNode>						SkeNodes;

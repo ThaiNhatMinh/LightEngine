@@ -7,6 +7,7 @@
 #include "..\GameComponents\MeshRenderComponent.h"
 #include "..\GameComponents\CameraComponent.h"
 #include "..\Graphics3D\DefaultMaterial.h"
+#include "..\Graphics3D\SkeletonMaterial.h"
 #include "..\Graphics3D\Scene.h"
 namespace Light
 {
@@ -55,6 +56,7 @@ namespace Light
 		m_ShaderFactory.insert(std::make_pair("SpriteShader", [](const char*vs, const char* fs) {return DEBUG_NEW SpriteShader(vs, fs); }));*/
 
 		m_MaterialMap.insert(std::make_pair("Default", std::shared_ptr<render::Material>(DEBUG_NEW render::DefaultMaterial(m_pContext))));
+		m_MaterialMap.insert(std::make_pair("Skeleton", std::shared_ptr<render::Material>(DEBUG_NEW render::SkeletonMaterial(m_pContext))));
 		
 		
 	}

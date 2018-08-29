@@ -1,8 +1,8 @@
 <Data>
-	<Model File="MODELS\CHARACTER\C707_BODY_BL.LTB" />
+	<Model File="GameAssets\MODELS\CHARACTER\C707_BODY_BL.LTB" />
 	<Texture>
-		<Object02 File="TEXTURES\CHARACTER\707\C707_BODY_BL.DTX" Material="Default"/>
-		<C707_BL_Head File="TEXTURES\CHARACTER\707\C707_FACE_BL.DTX" Material="Default"/>
+		<Object02 File="GameAssets\TEXTURES\CHARACTER\707\C707_BODY_BL.DTX" Material="Skeleton"/>
+		<C707_BL_Head File="GameAssets\TEXTURES\CHARACTER\707\C707_FACE_BL.DTX" Material="Skeleton"/>
 	</Texture>
 	<Material>
 			<Ka r="1.0" g="1.0" b="1.0" />

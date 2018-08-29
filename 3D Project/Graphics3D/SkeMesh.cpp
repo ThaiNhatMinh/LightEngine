@@ -30,8 +30,12 @@ namespace Light
 		delete pVertexDes;
 
 		m_Name = pData->Name;
+		m_iNNumIndices = indices.size();
 	}
 	void SkeMesh::Draw(render::RenderDevice * renderer)
 	{
+		renderer->SetVertexArray(m_pVAO.get());
+		renderer->SetIndexBuffer(m_pIBO.get());
+		renderer->DrawElement(m_iNNumIndices, 0);
 	}
 }

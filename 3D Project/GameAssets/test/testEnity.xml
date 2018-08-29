@@ -1,7 +1,7 @@
 <Actor type="Player" name="707" >
   <Component>  
 	  <MeshRenderComponent>
-		  <Model File="GameAssets\test\Crate1.obj" />
+		  <Model File="GameAssets\MODELS\707_BL.xml" />
 	  </MeshRenderComponent>
 	  
 	 <TransformComponent>

@@ -18,6 +18,8 @@ void Game::Init(Light::IContext* pContext)
 	auto pResources = pContext->GetSystem<resources::IResourceManager>();
 	auto Factory = pContext->GetSystem<IFactory>();
 
+	//pResources->VGetModel("GameAssets\\MODELS\\707_BL.xml");
+
 	Light::IScene* pScene = Factory->VCreateScene("Test");
 	pScene->VLoad("GameAssets\\test\\Scene.xml");
 	//render::VertexShader *vertexShader = pResources->VGetVertexShader("GameAssets\\test\\test.vs");

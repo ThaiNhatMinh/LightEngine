@@ -279,6 +279,7 @@ namespace Light
 			render::Texture* tex = nullptr;
 
 			if (filename.find(".DTX") != string::npos) return LoadDTX(filename);
+
 			GLint width, height, iType, iBpp;
 
 			
@@ -407,9 +408,7 @@ namespace Light
 		{
 
 			render::Texture* tex = nullptr;
-			if ((tex = HasResource(m_Textures,filename)) != nullptr) return tex;
-
-			
+						
 
 			FILE* pFile = fopen(filename.c_str(), "rb");
 			if (!pFile)
@@ -506,6 +505,7 @@ namespace Light
 				texinfo.uiHeight = H;
 				texinfo.iInternalFormat = InternalFormat;
 				texinfo.iLevel = iSize;
+				texinfo.eTarget = GL_TEXTURE_2D;
 				tex = m_pRenderDevice->CreateTexture(texinfo,true);
 			}
 
@@ -564,17 +564,18 @@ namespace Light
 					vector<LTRawMesh>& ve = pLTBData->Meshs;
 					for (size_t i = 0; i < ve.size(); i++)
 					{
-						pModelRender->m_pMesh.push_back(std::unique_ptr<Mesh>(DEBUG_NEW SkeMesh(m_pRenderDevice, &ve[i])));
+						pModelRender->Meshs.push_back(std::unique_ptr<Mesh>(DEBUG_NEW SkeMesh(m_pRenderDevice, &ve[i])));
 
 						tinyxml2::XMLElement* pTextureElement = pTextureNode->FirstChildElement(ve[i].Name.c_str());
 						if (pTextureElement)
 						{
 							const char* pTextureFile = pTextureElement->Attribute("File");
-							pModelRender->m_Textures.push_back(HasResource(m_Textures, pTextureFile));
+							pModelRender->Textures.push_back(VGetTexture(pTextureFile));
 							const char* pMaterialFile = pTextureElement->Attribute("Material");
+							pModelRender->Materials.push_back(m_pContext->GetSystem<IFactory>()->VGetMaterial("Skeleton"));
 							
 						}
-						else pModelRender->m_Textures.push_back(m_pDefaultTex);
+						else pModelRender->Textures.push_back(m_pDefaultTex);
 
 						
 					}
@@ -806,6 +807,9 @@ namespace Light
 		render::Model * ResourceManager::VGetModel(const string& filename)
 		{
 			render::Model* pModel = nullptr;
+			pModel = HasResource(m_ModelCaches, filename);
+			if (pModel) return pModel;
+
 			if (filename.find(".xml") != string::npos) pModel = LoadModelXML(filename);
 			/*else if (filename.find(".obj") != string::npos|| filename.find(".3ds") != string::npos)
 			{
@@ -814,14 +818,11 @@ namespace Light
 			}*/
 			else
 			{
-				pModel = HasResource(m_ModelCaches, filename);
-				if (pModel == nullptr)
-				{
-					if ((pModel = LoadModel(filename)) == nullptr)
-						E_ERROR("Cound not find model: %s", filename.c_str());
-				}
+				pModel = LoadModel(filename);
 			}
 			
+			if(pModel==nullptr) E_ERROR("Cound not find model: %s", filename.c_str());
+
 			return pModel;
 		}
 
@@ -1072,6 +1073,7 @@ namespace Light
 		LTRawData* ResourceManager::LoadLTBModel(const std::string & filename)
 		{
 			LTRawData* pTemp = LTBFileLoader::LoadModel(filename.c_str());
+			if (pTemp == nullptr) return nullptr;
 
 			vector<math::AABB> abb(pTemp->SkeNodes.size());
 			for (size_t i = 0; i < pTemp->Meshs.size(); i++)

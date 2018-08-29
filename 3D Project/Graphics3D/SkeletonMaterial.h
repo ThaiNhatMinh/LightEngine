@@ -9,11 +9,15 @@ namespace Light
 		class SkeletonMaterial : public Material
 		{
 		public:
-			virtual bool VSerialize(IContext*pContext,const tinyxml2::XMLElement * pData);
-			virtual tinyxml2::XMLElement* VDeserialize(tinyxml2::XMLDocument*p);
-			virtual void Apply(IActor* pActor);
-			virtual void ApplyMatrix(float* model, float* mvp);
+			SkeletonMaterial(IContext* pContext);
+			virtual void Apply(RenderDevice* renderer, const float* model, const float* mvp);
 			virtual MaterialType GetType();
+
+		private:
+			void GetUniform();
+		private:
+			PipelineParam * m_pModelUniform;
+			PipelineParam * m_pMVPUniform;
 		};
 	}
 }
