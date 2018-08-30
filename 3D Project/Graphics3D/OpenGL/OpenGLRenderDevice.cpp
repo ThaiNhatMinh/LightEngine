@@ -244,8 +244,6 @@ namespace Light
 			if (m_pCurrentCamera == nullptr) return;
 
 			glm::mat4 pv = m_pCurrentCamera->GetProjMatrix()*m_pCurrentCamera->GetViewMatrix();
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // don't forget to clear the stencil buffer!
 			{// pass 1
 				this->SetDepthStencilState(pass1.pDepthStencilConfig);
 				for (auto renderable : m_ObjectRenders)
@@ -256,7 +254,7 @@ namespace Light
 					glm::mat4 model = actor->VGetGlobalTransform();
 					//model = glm::rotate(glm::mat4(), glm::radians(angle), glm::vec3(0, 1, 0));
 					// just draw it
-					modelRender->Draw(&pass1, glm::value_ptr(model), glm::value_ptr(pv*model));
+					modelRender->Draw(&m_DefaultPass, glm::value_ptr(model), glm::value_ptr(pv*model));
 
 				}
 			}
@@ -318,7 +316,7 @@ namespace Light
 				DepthStencilState* DSS = DEBUG_NEW OpenGLDepthStencilState(config);
 				pass2.pRenderer = this;
 				pass2.pDepthStencilConfig = DSS;
-				pass2.pGlobalMaterial = m_pContext->GetSystem<IFactory>()->VGetMaterial("Default");
+				pass2.pGlobalMaterial = m_pContext->GetSystem<IFactory>()->VGetMaterial("Default")->Clone();
 				pass2.pGlobalMaterial->SetPipeline(pipeline);
 
 			}

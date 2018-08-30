@@ -99,6 +99,11 @@ namespace Light
 			this->GetUniform();
 
 		}
+		std::shared_ptr<Material> DefaultMaterial::Clone()
+		{
+			std::shared_ptr<Material> mat = std::shared_ptr<Material>(new DefaultMaterial());
+			return mat;
+		}
 		void DefaultMaterial::GetUniform()
 		{
 			assert(m_Pipeline != nullptr);

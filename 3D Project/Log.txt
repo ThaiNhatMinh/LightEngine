@@ -3,8 +3,5 @@
 [DEBUG] e:\learn\c++\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param uModel not founnd!
 [DEBUG] e:\learn\c++\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param uModel not founnd!
 [DEBUG] e:\learn\c++\3d-project\3d project\gameplugin\gamepluginmanager.cpp Line:22| ..\Debug\Hunting.dll
-[DEBUG] e:\learn\c++\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:341| ObjectRender add: 707
-[DEBUG] e:\learn\c++\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:341| ObjectRender add: 707
-[DEBUG] e:\learn\c++\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:341| ObjectRender add: 707
-[DEBUG] e:\learn\c++\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:341| ObjectRender add: 707
-[DEBUG] e:\learn\c++\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:367| Camera create!
+[DEBUG] e:\learn\c++\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:365| Camera create!
+[DEBUG] e:\learn\c++\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:339| ObjectRender add: 707

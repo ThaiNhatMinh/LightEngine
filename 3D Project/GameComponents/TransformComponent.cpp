@@ -36,9 +36,9 @@ bool Light::TransformComponent::VSerialize(IContext*pContext,const tinyxml2::XML
 	const tinyxml2::XMLElement* pScaleElement = pData->FirstChildElement("Scale");
 	if (pScaleElement)
 	{
-		float x = 0;
-		float y = 0;
-		float z = 0;
+		float x = 1.0;
+		float y = 1.0;
+		float z = 1.0;
 		x = pScaleElement->FloatAttribute("x");
 		y = pScaleElement->FloatAttribute("y");
 		z = pScaleElement->FloatAttribute("z");

@@ -11,6 +11,6 @@ void main()
 {
     //vec3 a = oNormal;
    // Color *= vec4(a, 1.0f);
-    Color = texture(uTex,vec2(oUV.x,oUV.y-1));
+    Color = texture(uTex,vec2(oUV.x,oUV.y));
     //Color = vec4(oNormal,1.0f);
 }

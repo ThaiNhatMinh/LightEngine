@@ -35,6 +35,11 @@ void Light::render::SkeletonMaterial::SetPipeline(Pipeline * pipeline)
 
 }
 
+std::shared_ptr<Light::render::Material> Light::render::SkeletonMaterial::Clone()
+{
+	return std::shared_ptr<Material>(new SkeletonMaterial());
+}
+
 void Light::render::SkeletonMaterial::GetUniform()
 {
 	assert(m_Pipeline != nullptr);

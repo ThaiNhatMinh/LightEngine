@@ -5,7 +5,8 @@ void Light::DefaultModel::Draw(render::RenderPass * pass,const float * model, co
 {
 	for (std::size_t i=0; i<Meshs.size(); i++)
 	{
-		Materials[i]->Apply(pass->pRenderer, model, mvp);
+		if (pass->pGlobalMaterial) pass->pGlobalMaterial->Apply(pass->pRenderer, model, mvp);
+		else Materials[i]->Apply(pass->pRenderer, model, mvp);
 		if(Textures[i]) pass->pRenderer->SetTexture(0, Textures[i]);
 		Meshs[i]->Draw(pass->pRenderer);
 	}
