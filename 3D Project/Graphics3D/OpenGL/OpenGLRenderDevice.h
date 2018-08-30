@@ -68,6 +68,7 @@ namespace Light
 			//DepthStencilState* pass1;
 			//DepthStencilState* pass2;
 			//OpenGLRasterState* m_pDefaultRaster;
+			RenderPass m_DefaultPass;
 			RenderPass pass1;
 			RenderPass pass2;
 

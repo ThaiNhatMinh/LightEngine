@@ -14,6 +14,6 @@ namespace Light
 		std::vector<render::Texture*> Textures;
 		std::vector<std::shared_ptr<render::Material>>	Materials;
 
-		virtual void Draw(render::RenderDevice* renderer, const float * model, const float * mvp);
+		virtual void Draw(render::RenderPass * pass, const float * model, const float * mvp);
 	};
 }

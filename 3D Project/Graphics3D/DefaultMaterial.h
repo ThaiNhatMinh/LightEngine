@@ -16,6 +16,7 @@ namespace Light
 			//virtual tinyxml2::XMLElement* VDeserialize(tinyxml2::XMLDocument*p);
 			virtual void Apply(RenderDevice* renderer, const float* model, const float* mvp);
 			virtual MaterialType GetType();
+			virtual void SetPipeline(Pipeline* pipeline)override;
 		private:
 			void GetUniform();
 		private:

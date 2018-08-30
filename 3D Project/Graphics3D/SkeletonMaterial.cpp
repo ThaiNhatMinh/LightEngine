@@ -27,6 +27,14 @@ MaterialType Light::render::SkeletonMaterial::GetType()
 	return type;
 }
 
+void Light::render::SkeletonMaterial::SetPipeline(Pipeline * pipeline)
+{
+	m_Pipeline.reset();
+	m_Pipeline.reset(pipeline);
+	this->GetUniform();
+
+}
+
 void Light::render::SkeletonMaterial::GetUniform()
 {
 	assert(m_Pipeline != nullptr);

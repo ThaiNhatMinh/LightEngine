@@ -278,22 +278,22 @@ namespace Light
 			Compare Depthfunc = COMPARE_LESS;
 
 			bool			FrontStencilEnabled = false;
-			Compare			FrontStencilCompare = COMPARE_ALWAYS;
+			Compare			FrontStencilCompare = COMPARE_NOTEQUAL;
 			StencilAction	FrontStencilFail = STENCIL_KEEP;
-			StencilAction	FrontStencilPass = STENCIL_KEEP;
+			StencilAction	FrontStencilPass = STENCIL_REPLACE;
 			StencilAction	FrontDepthFail = STENCIL_KEEP;
-			int				FrontRef = 0;
+			int				FrontRef = 1;
 			unsigned int	FrontCompareMask = 0xFFFFFFFF;
 			unsigned int	FrontWriteMask = 0xFFFFFFFF;
 
-			bool			BackStencilEnabled = false;
-			Compare			BackStencilCompare = COMPARE_ALWAYS;
+			/*bool			BackStencilEnabled = false;
+			Compare			BackStencilCompare = COMPARE_NOTEQUAL;
 			StencilAction	BackStencilFail = STENCIL_KEEP;
-			StencilAction	BackStencilPass = STENCIL_KEEP;
+			StencilAction	BackStencilPass = STENCIL_REPLACE;
 			StencilAction	BackDepthFail = STENCIL_KEEP;
-			int				BackRef = 0;
+			int				BackRef = 1;
 			unsigned int	BackCompareMask = 0xFFFFFFFF;
-			unsigned int	BackWriteMask = 0xFFFFFFFF;
+			unsigned int	BackWriteMask = 0xFFFFFFFF;*/
 		};
 
 		class RenderDevice :public ISubSystem

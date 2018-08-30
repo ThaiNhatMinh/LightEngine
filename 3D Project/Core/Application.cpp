@@ -25,7 +25,8 @@ void Application::SetupSubmodule()
 	m_pEventManager = std::unique_ptr<Light::IEventManager>(DEBUG_NEW Light::EventManager(m_Context.get()));
 
 	m_pWindows = std::unique_ptr<Light::IWindow>(DEBUG_NEW Light::OpenGLWindows(m_Context.get()));
-	m_pRenderer = std::unique_ptr<Light::render::RenderDevice>(DEBUG_NEW Light::render::OpenGLRenderDevice(m_Context.get()));
+	auto a = DEBUG_NEW Light::render::OpenGLRenderDevice(m_Context.get());
+	m_pRenderer = std::unique_ptr<Light::render::RenderDevice>(a);
 	m_pResources = std::unique_ptr<IResourceManager>(DEBUG_NEW Light::resources::ResourceManager(m_Context.get()));
 
 	// Must be load in here for next module can use resource
@@ -47,7 +48,7 @@ void Application::SetupSubmodule()
 	
 	//m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
-
+	a->Test();
 }
 
 bool Light::Application::LoadSystemResource()
@@ -136,8 +137,7 @@ void Application::MainLoop()
 		//
 		//if (m_DebugPhysic) m_pPhysic->VRenderDiagnostics();
 		pGame->Update(dt);
-		pGame->Render();
-		cout << m_pTimer->VGetFPS() << endl;
+		//pGame->Render();
 		// draw our first triangle
 		m_pRenderer->Render();
 		

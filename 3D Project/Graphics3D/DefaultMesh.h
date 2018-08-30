@@ -20,6 +20,6 @@ namespace Light
 	public:
 		DefaultMesh(render::RenderDevice* pRenderDevice,const  VertexList&, const IndicesList&,const std::string& name);
 		~DefaultMesh() {};
-		virtual void Draw(render::RenderDevice* renderer);
+		virtual void Draw(render::RenderDevice * renderer);
 	};
 }

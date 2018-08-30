@@ -256,6 +256,9 @@
     <ClInclude Include="Script\CameraControl.h">
       <Filter>Script</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\RenderPass.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

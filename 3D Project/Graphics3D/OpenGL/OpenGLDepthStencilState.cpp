@@ -18,12 +18,12 @@ Light::render::OpenGLDepthStencilState::OpenGLDepthStencilState(const DepthStenc
 	FrontCompareMask = config.FrontCompareMask;
 	FrontWriteMask = config.FrontWriteMask;
 
-	BackStencilEnabled = config.BackStencilEnabled;
+	/*BackStencilEnabled = config.BackStencilEnabled;
 	BackStencilCompare = DepthFunc[config.BackStencilCompare];
 	BackStencilFail = StencilOp[config.BackStencilFail];
 	BackStencilPass = StencilOp[config.BackStencilPass];
 	BackDepthFail = StencilOp[config.BackDepthFail];
 	BackRef = config.BackRef;
 	BackCompareMask = config.BackCompareMask;
-	BackWriteMask = config.BackWriteMask;
+	BackWriteMask = config.BackWriteMask;*/
 }

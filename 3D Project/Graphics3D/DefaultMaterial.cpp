@@ -92,6 +92,13 @@ namespace Light
 			static std::size_t type = typeid(DefaultMaterial).hash_code();
 			return type;
 		}
+		void DefaultMaterial::SetPipeline(Pipeline * pipeline)
+		{
+			m_Pipeline.reset();
+			m_Pipeline.reset(pipeline);
+			this->GetUniform();
+
+		}
 		void DefaultMaterial::GetUniform()
 		{
 			assert(m_Pipeline != nullptr);

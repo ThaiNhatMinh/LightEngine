@@ -35,6 +35,8 @@ namespace Light
 			
 			virtual void Apply(render::RenderDevice* renderer, const float* model, const float* mvp) = 0;
 			virtual MaterialType GetType() = 0;
+
+			virtual void SetPipeline(Pipeline* pipeline) = 0;
 		};
 	}
 }

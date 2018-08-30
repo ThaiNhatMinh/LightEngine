@@ -1,5 +1,6 @@
 #pragma once
 #include "Vertex.h"
+#include "..\Graphics3D\RenderPass.h"
 #include <vector>
 namespace Light 
 {
@@ -7,7 +8,7 @@ namespace Light
 	{
 	public:
 		virtual ~Mesh()=default;
-		virtual void Draw(render::RenderDevice* renderer) = 0;
+		virtual void Draw(render::RenderDevice * renderer) = 0;
 	};
 
 

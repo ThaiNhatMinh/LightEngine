@@ -213,6 +213,7 @@
     <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexShader.h" />
     <ClInclude Include="Graphics3D\DefaultModel.h" />
     <ClInclude Include="Graphics3D\Renderer.h" />
+    <ClInclude Include="Graphics3D\RenderPass.h" />
     <ClInclude Include="Graphics3D\Scene.h" />
     <ClInclude Include="Graphics3D\SkeletonMaterial.h" />
     <ClInclude Include="Graphics3D\SkeMesh.h" />

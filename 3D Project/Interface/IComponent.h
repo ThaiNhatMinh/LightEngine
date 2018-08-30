@@ -3,7 +3,6 @@
 #include <glm\mat4x4.hpp>
 #include "..\Utilities\Utility.h"
 #include "..\typedef.h"
-#include "../Graphics3D/ModelRender.h"
 #include "..\Graphics3D\ICamera.h"
 namespace Light 
 {
@@ -49,6 +48,10 @@ namespace Light
 		virtual glm::vec3 GetPos() = 0;
 	};
 
+	namespace render
+	{
+		class Model;
+	}
 
 	class IMeshRenderComponent : public Component<IMeshRenderComponent>
 	{

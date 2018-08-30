@@ -9,7 +9,7 @@ namespace Light
 		struct RenderPass
 		{
 			RenderDevice* pRenderer;
-			Material* pGlobalMaterial = nullptr;
+			std::shared_ptr<Material> pGlobalMaterial = nullptr;
 			DepthStencilState* pDepthStencilConfig;
 		};
 	}

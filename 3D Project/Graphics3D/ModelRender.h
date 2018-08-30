@@ -2,6 +2,7 @@
 #include <vector>
 #include <memory>
 #include "..\Core\Log.h"
+#include "RenderPass.h"
 
 namespace Light
 {
@@ -11,7 +12,7 @@ namespace Light
 		{
 		public:
 			virtual ~Model(){};
-			virtual void Draw(RenderDevice* renderer, const float * model, const float * mvp) = 0;
+			virtual void Draw(render::RenderPass * pass, const float * model, const float * mvp) = 0;
 		};
 	}
 }

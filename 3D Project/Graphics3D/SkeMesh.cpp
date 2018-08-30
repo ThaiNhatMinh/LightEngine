@@ -1,5 +1,6 @@
 #include <pch.h>
 #include "SkeMesh.h"
+#include "..\Graphics3D\RenderPass.h"
 #include "..\ResourceManager\LTRawData.h"
 
 namespace Light 

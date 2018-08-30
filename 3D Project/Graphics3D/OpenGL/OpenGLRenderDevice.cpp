@@ -13,10 +13,11 @@
 #include "OpenGLDepthStencilState.h"
 #include "Core\OpenGLWindows.h"
 #include "Interface\IEventManager.h"
-#include "Core\Events.h"
 #include "GameComponents\TransformComponent.h"
 #include "GameComponents\MeshRenderComponent.h"
 #include "..\..\Core\Events.h"
+#include "Core\Events.h"
+#include "..\..\Interface\IFactory.h"
 namespace Light
 {
 	namespace render
@@ -38,7 +39,7 @@ namespace Light
 
 		};
 		
-		OpenGLRenderDevice::OpenGLRenderDevice(IContext * pContext)
+		OpenGLRenderDevice::OpenGLRenderDevice(IContext * pContext):m_pCurrentCamera(nullptr)
 		{
 			m_pContext = pContext;
 			// Initialize GLEW to setup the OpenGL Function pointers
@@ -59,8 +60,20 @@ namespace Light
 
 			m_pDefaultDepthStencil = nullptr;
 			render::DepthStencilConfig config;
+			
+			config.Depthfunc = COMPARE_LESS;
+			config.DepthMask = true;
+			config.FrontWriteMask = 0xFF;
 			config.FrontStencilEnabled = true;
-			config.FrontWriteMask = 0;
+			config.FrontStencilCompare = COMPARE_NOTEQUAL;
+			config.FrontRef = 1;
+			config.FrontCompareMask = 0xFF;
+			config.FrontStencilFail = STENCIL_KEEP;
+			config.FrontDepthFail = STENCIL_KEEP;
+			config.FrontStencilPass = STENCIL_REPLACE;
+
+			
+
 			SetDepthStencilState(DEBUG_NEW OpenGLDepthStencilState(config));
 
 
@@ -69,7 +82,14 @@ namespace Light
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnCameraCreate), events::EvtCameraCreate::StaticType);
 
 			
-
+			m_DefaultPass.pRenderer = this;
+			m_DefaultPass.pGlobalMaterial = nullptr;
+			m_DefaultPass.pDepthStencilConfig = m_pDefaultDepthStencil;
+			/*glEnable(GL_DEPTH_TEST);
+			glDepthFunc(GL_LESS);
+			glEnable(GL_STENCIL_TEST);
+			glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+			glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);*/
 		}
 
 		OpenGLRenderDevice::~OpenGLRenderDevice()
@@ -179,13 +199,13 @@ namespace Light
 				if (m_pDefaultDepthStencil->FrontStencilEnabled || m_pDefaultDepthStencil->BackStencilEnabled)
 				{
 					glEnable(GL_STENCIL_TEST);
-					glStencilFuncSeparate(GL_FRONT, m_pDefaultDepthStencil->FrontStencilCompare, m_pDefaultDepthStencil->FrontRef, m_pDefaultDepthStencil->FrontCompareMask);
-					glStencilOpSeparate(GL_FRONT, m_pDefaultDepthStencil->FrontStencilFail, m_pDefaultDepthStencil->FrontDepthFail, m_pDefaultDepthStencil->FrontStencilPass);
-					glStencilMaskSeparate(GL_FRONT, m_pDefaultDepthStencil->FrontWriteMask);
+					glStencilFunc( m_pDefaultDepthStencil->FrontStencilCompare, m_pDefaultDepthStencil->FrontRef, m_pDefaultDepthStencil->FrontCompareMask);
+					glStencilOp(m_pDefaultDepthStencil->FrontStencilFail, m_pDefaultDepthStencil->FrontDepthFail, m_pDefaultDepthStencil->FrontStencilPass);
+					glStencilMask(m_pDefaultDepthStencil->FrontWriteMask);
 
-					glStencilFuncSeparate(GL_BACK, m_pDefaultDepthStencil->BackStencilCompare, m_pDefaultDepthStencil->BackRef, m_pDefaultDepthStencil->BackCompareMask);
+					/*glStencilFuncSeparate(GL_BACK, m_pDefaultDepthStencil->BackStencilCompare, m_pDefaultDepthStencil->BackRef, m_pDefaultDepthStencil->BackCompareMask);
 					glStencilOpSeparate(GL_BACK, m_pDefaultDepthStencil->BackStencilFail, m_pDefaultDepthStencil->BackDepthFail, m_pDefaultDepthStencil->BackStencilPass);
-					glStencilMaskSeparate(GL_BACK, m_pDefaultDepthStencil->BackWriteMask);
+					glStencilMaskSeparate(GL_BACK, m_pDefaultDepthStencil->BackWriteMask);*/
 
 				}
 			}
@@ -224,9 +244,10 @@ namespace Light
 			if (m_pCurrentCamera == nullptr) return;
 
 			glm::mat4 pv = m_pCurrentCamera->GetProjMatrix()*m_pCurrentCamera->GetViewMatrix();
-	
+			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // don't forget to clear the stencil buffer!
 			{// pass 1
-
+				this->SetDepthStencilState(pass1.pDepthStencilConfig);
 				for (auto renderable : m_ObjectRenders)
 				{
 					render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
@@ -235,13 +256,26 @@ namespace Light
 					glm::mat4 model = actor->VGetGlobalTransform();
 					//model = glm::rotate(glm::mat4(), glm::radians(angle), glm::vec3(0, 1, 0));
 					// just draw it
-					modelRender->Draw(this, glm::value_ptr(model), glm::value_ptr(pv*model));
+					modelRender->Draw(&pass1, glm::value_ptr(model), glm::value_ptr(pv*model));
 
 				}
 			}
 			{// pass 2
+				this->SetDepthStencilState(pass2.pDepthStencilConfig);
+				for (auto renderable : m_ObjectRenders)
+				{
+					render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
+					IActor* actor = renderable.m_pActor;
+					// computer transformation matrix
+					glm::mat4 model = actor->VGetGlobalTransform();
+					//model = glm::rotate(glm::mat4(), glm::radians(angle), glm::vec3(0, 1, 0));
+					// just draw it
+					modelRender->Draw(&pass2, glm::value_ptr(model), glm::value_ptr(pv*model));
 
+				}
 			}
+
+			SetDepthStencilState(m_DefaultPass.pDepthStencilConfig);
 		}
 
 		render::ICamera * OpenGLRenderDevice::VGetCurrentCamera()
@@ -259,7 +293,7 @@ namespace Light
 			auto Resources = m_pContext->GetSystem<resources::IResourceManager>();
 			auto VS = Resources->VGetVertexShader("Outline");
 			auto FS = Resources->VGetPixelShader("Color");
-
+			auto pipeline = this->CreatePipeline(VS, FS);
 			{
 				render::DepthStencilConfig config;
 				config.FrontStencilEnabled = true;
@@ -270,6 +304,7 @@ namespace Light
 				DepthStencilState* DSS = DEBUG_NEW OpenGLDepthStencilState(config);
 				pass1.pRenderer = this;
 				pass1.pDepthStencilConfig = DSS;
+				
 			}
 			{
 				render::DepthStencilConfig config;
@@ -277,11 +312,14 @@ namespace Light
 				config.FrontStencilCompare = render::COMPARE_NOTEQUAL;
 				config.FrontRef = 1;
 				config.FrontCompareMask = 0xFF;
-				config.FrontWriteMask = 0;
+				config.FrontWriteMask = 0x00;
 				config.DepthEnable = false;
+
 				DepthStencilState* DSS = DEBUG_NEW OpenGLDepthStencilState(config);
 				pass2.pRenderer = this;
 				pass2.pDepthStencilConfig = DSS;
+				pass2.pGlobalMaterial = m_pContext->GetSystem<IFactory>()->VGetMaterial("Default");
+				pass2.pGlobalMaterial->SetPipeline(pipeline);
 
 			}
 		}
@@ -325,10 +363,9 @@ namespace Light
 
 			m_pCurrentCamera = pEvent->GetCamera();
 			// just for debug, should remove in release
-			if (m_pCurrentCamera)
-			{
-				E_DEBUG("Camera create!");
-			}
+						
+			E_DEBUG("Camera create!");
+			
 		}
 
 	}
