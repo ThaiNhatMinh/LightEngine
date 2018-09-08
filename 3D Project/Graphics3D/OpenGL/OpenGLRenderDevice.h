@@ -4,6 +4,9 @@
 #include "..\..\Interface\IContext.h"
 #include "Interface\IEvent.h"
 #include "OpenGLDepthStencilState.h"
+#include "OpenGLRasterState.h"
+#include "OpenGLBlendingState.h"
+
 #include "..\..\Interface\IComponent.h"
 #include "..\..\GameComponents\CameraComponent.h"
 #include "..\RenderPass.h"
@@ -27,12 +30,17 @@ namespace Light
 			virtual Texture*			CreateTexture(const TextureCreateInfo& info, bool isCompress = false)override;
 			virtual IndexBuffer*		CreateIndexBuffer(unsigned int size, const void* pData = nullptr)override;
 			virtual DepthStencilState*	CreateDepthStencilState(const DepthStencilConfig& config);
+			virtual RasterState*		CreateRasterState(const CullFaceConfig& config) override;
+			virtual BlendingState*		CreateBlendingState(const BlendConfig& config)override;
 
 			virtual void				SetVertexArray(VertexArray*)override;
 			virtual void				SetPipeline(Pipeline*)override;
 			virtual void				SetIndexBuffer(IndexBuffer*)override;
 			virtual void				SetTexture(unsigned int slot, Texture*)override;
 			virtual void				SetDepthStencilState(DepthStencilState* state = nullptr);
+			virtual void				SetRasterState(RasterState* state = nullptr)override;
+			virtual void				SetBlendingState(BlendingState* state = nullptr)override;
+
 
 			virtual void				Clear(float r = 0.0f, float g = 0.0f, float b = 0.0f, float alpha = 1.0f, float depth = 1.0f)override;
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES)override;
@@ -57,10 +65,11 @@ namespace Light
 
 		private:
 			ICamera * m_pCurrentCamera;
-			//RenderableList m_ObjectRenders;
+			
 			IContext * m_pContext;
-			OpenGLDepthStencilState* m_pDefaultDepthStencil;
-			OpenGLDepthStencilState* m_pCurrentDepthStencil;
+			OpenGLDepthStencilState* m_pDefaultDepthStencil, *m_pCurrentDepthStencil;
+			OpenGLRasterState * m_pCurrentRaster, *m_pDefaultRaster;
+			OpenGLBlendingState * m_pCurrentBlending, *m_pDefaultBlending;
 
 			std::unique_ptr<RenderPass> m_DefaultPass;
 			std::list<std::unique_ptr<RenderPass>> m_ExtraPass;

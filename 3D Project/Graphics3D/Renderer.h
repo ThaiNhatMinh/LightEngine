@@ -302,8 +302,57 @@ namespace Light
 			unsigned int	BackWriteMask = 0xFFFFFFFF;*/
 		};
 
+		struct CullFaceConfig
+		{
+			bool CullEnable = true;
+			Winding FrontFaceWinding = WINDING_CCW;
+			Face CullFace = FACE_BACK;
+			RasterMode FillMode = RASTERMODE_FILL;
+		};
 		
-		
+		enum BlendFactor
+		{
+			FACTOR_ZERO = 0, 
+			FACTOR_ONE, 
+			FACTOR_SRC_COLOR, 
+			FACTOR_ONE_MINUS_SRC_COLOR, 
+			FACTOR_DST_COLOR, 
+			FACTOR_ONE_MINUS_DST_COLOR, 
+			FACTOR_SRC_ALPHA, 
+			FACTOR_ONE_MINUS_SRC_ALPHA, 
+			FACTOR_DST_ALPHA, 
+			FACTOR_ONE_MINUS_DST_ALPHA,
+			FACTOR_CONSTANT_COLOR, 
+			FACTOR_ONE_MINUS_CONSTANT_COLOR, 
+			FACTOR_CONSTANT_ALPHA,  
+			FACTOR_ONE_MINUS_CONSTANT_ALPHA,
+			FACTOR_MAX
+		};
+
+		enum BlendFunc
+		{
+			FUNC_ADD, 
+			FUNC_SUBTRACT, 
+			FUNC_REVERSE_SUBTRACT, 
+			MIN, 
+			MAX
+		};
+
+		struct BlendConfig
+		{
+			bool Enable = false;
+			BlendFactor sfactor = FACTOR_SRC_ALPHA;
+			BlendFactor dfactor = FACTOR_ONE_MINUS_SRC_ALPHA;
+			BlendFunc func = FUNC_ADD;
+		};
+
+		class BlendingState
+		{
+		public:
+			virtual ~BlendingState() = default;
+		};
+
+
 		class RenderDevice :public ISubSystem
 		{
 		public:
@@ -318,12 +367,17 @@ namespace Light
 			virtual IndexBuffer*		CreateIndexBuffer(unsigned int size, const void* pData = nullptr) = 0;
 			virtual Texture*			CreateTexture(const TextureCreateInfo& info, bool isCompress = false) = 0;
 			virtual DepthStencilState*	CreateDepthStencilState(const DepthStencilConfig& config) = 0;
+			virtual RasterState*		CreateRasterState(const CullFaceConfig& config) = 0;
+			virtual BlendingState*		CreateBlendingState(const BlendConfig& config) = 0;
+
 
 			virtual void				SetVertexArray(VertexArray*) = 0;
 			virtual void				SetPipeline(Pipeline*) = 0;
 			virtual void				SetIndexBuffer(IndexBuffer*) = 0;
 			virtual void				SetTexture(unsigned int slot, Texture*) = 0;
 			virtual void				SetDepthStencilState(DepthStencilState* state = nullptr) = 0;
+			virtual void				SetRasterState(RasterState* state = nullptr) = 0;
+			virtual void				SetBlendingState(BlendingState* state = nullptr) = 0;
 
 			virtual void				Clear(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 1.0f, float depth = 1.0f) = 0;
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;

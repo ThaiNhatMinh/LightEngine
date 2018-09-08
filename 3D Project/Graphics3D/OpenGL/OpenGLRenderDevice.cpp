@@ -59,21 +59,29 @@ namespace Light
 			pWindow->VGetWindowSize(w, h);
 			glViewport(0, 0, w, h);
 
-			m_pDefaultDepthStencil = nullptr;
-			render::DepthStencilConfig config;
-			
-			config.Depthfunc = COMPARE_LESS;
-			config.DepthMask = true;
-			config.FrontWriteMask = 0xFF;
-			config.FrontStencilEnabled = true;
-			config.FrontStencilCompare = COMPARE_NOTEQUAL;
-			config.FrontRef = 1;
-			config.FrontCompareMask = 0xFFFFFFFF;
-			config.FrontStencilFail = STENCIL_KEEP;
-			config.FrontDepthFail = STENCIL_KEEP;
-			config.FrontStencilPass = STENCIL_REPLACE;
-			m_pDefaultDepthStencil = DEBUG_NEW OpenGLDepthStencilState(config);
-			
+			{
+				m_pDefaultDepthStencil = nullptr;
+				render::DepthStencilConfig config;
+
+				config.Depthfunc = COMPARE_LESS;
+				config.DepthMask = true;
+				config.FrontWriteMask = 0xFF;
+				config.FrontStencilEnabled = true;
+				config.FrontStencilCompare = COMPARE_NOTEQUAL;
+				config.FrontRef = 1;
+				config.FrontCompareMask = 0xFFFFFFFF;
+				config.FrontStencilFail = STENCIL_KEEP;
+				config.FrontDepthFail = STENCIL_KEEP;
+				config.FrontStencilPass = STENCIL_REPLACE;
+				m_pDefaultDepthStencil = DEBUG_NEW OpenGLDepthStencilState(config);
+			}
+
+			{
+				m_pDefaultRaster = nullptr;
+				render::CullFaceConfig config;
+				m_pDefaultRaster = DEBUG_NEW OpenGLRasterState(config); 
+				this->SetRasterState(m_pDefaultRaster);
+			}
 
 
 			pContext->VAddSystem(this);
@@ -81,17 +89,6 @@ namespace Light
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnCameraCreate), events::EvtCameraCreate::StaticType);
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnbjectDestroy), events::EvtDestroyActor::StaticType);
 
-			
-			/*m_DefaultPass.pRenderer = this;
-			m_DefaultPass.pGlobalMaterial = nullptr;
-			m_DefaultPass.pDepthStencilConfig = m_pDefaultDepthStencil;
-			m_DefaultPass.m_name = "Default";*/
-
-			/*glEnable(GL_DEPTH_TEST);
-			glDepthFunc(GL_LESS);
-			glEnable(GL_STENCIL_TEST);
-			glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-			glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);*/
 
 			m_DefaultPass = std::unique_ptr<RenderPass>(DEBUG_NEW DefaultRenderPass("Default", m_pContext));
 
@@ -100,6 +97,7 @@ namespace Light
 		OpenGLRenderDevice::~OpenGLRenderDevice()
 		{
 			delete m_pDefaultDepthStencil;
+			delete m_pDefaultRaster;
 		}
 
 		const char * OpenGLRenderDevice::VGetName()
@@ -158,6 +156,16 @@ namespace Light
 		DepthStencilState * OpenGLRenderDevice::CreateDepthStencilState(const DepthStencilConfig & config)
 		{
 			return DEBUG_NEW OpenGLDepthStencilState(config);
+		}
+
+		RasterState * OpenGLRenderDevice::CreateRasterState(const CullFaceConfig & config)
+		{
+			return DEBUG_NEW OpenGLRasterState(config);
+		}
+
+		BlendingState * OpenGLRenderDevice::CreateBlendingState(const BlendConfig & config)
+		{
+			return DEBUG_NEW OpenGLBlendingState(config);
 		}
 
 		void OpenGLRenderDevice::SetVertexArray(VertexArray * pVertexArray)
@@ -219,6 +227,46 @@ namespace Light
 
 			}
 
+		}
+
+		void OpenGLRenderDevice::SetRasterState(RasterState * state)
+		{
+			auto oldState = m_pCurrentRaster;
+
+			if (state) m_pCurrentRaster = static_cast<OpenGLRasterState*>(state);
+			else m_pCurrentRaster = m_pDefaultRaster;
+
+			if (m_pCurrentRaster != oldState)
+			{
+				if (m_pCurrentRaster->CullEnable)
+				{
+					glEnable(GL_CULL_FACE);
+					glFrontFace(m_pCurrentRaster->FrontFaceWinding);
+					glCullFace(m_pCurrentRaster->CullFace);
+					glPolygonMode(GL_FRONT_AND_BACK, m_pCurrentRaster->FillMode);
+				}
+				else glDisable(GL_CULL_FACE);
+			}
+
+		}
+
+		void OpenGLRenderDevice::SetBlendingState(BlendingState * state)
+		{
+			auto oldState = m_pCurrentBlending;
+
+			if (state) m_pCurrentBlending = static_cast<OpenGLBlendingState*>(state);
+			else m_pCurrentBlending = m_pDefaultBlending;
+
+			if (m_pCurrentBlending != oldState)
+			{
+				if (m_pCurrentBlending->Enable)
+				{
+					glEnable(GL_BLEND);
+					glBlendFunc(m_pCurrentBlending->sfactor, m_pCurrentBlending->dfactor);
+					glBlendEquation(m_pCurrentBlending->func);
+				}
+				else glDisable(GL_BLEND);
+			}
 		}
 
 		void OpenGLRenderDevice::Clear(float r, float g, float b, float alpha, float depth)

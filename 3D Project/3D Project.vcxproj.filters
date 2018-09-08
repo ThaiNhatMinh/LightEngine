@@ -265,6 +265,12 @@
     <ClInclude Include="Graphics3D\RenderPass\OutlinePass.h">
       <Filter>Graphics3D\RenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLRasterState.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLBlendingState.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -406,6 +412,12 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\RenderPass\OutlinePass.cpp">
       <Filter>Graphics3D\RenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLBlendingState.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLRasterState.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
