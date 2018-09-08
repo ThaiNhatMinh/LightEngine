@@ -41,36 +41,29 @@ namespace Light
 
 			virtual render::ICamera*	VGetCurrentCamera()override;
 			virtual void				VSetCurrentCamera(render::ICamera * cam) override;
-
-			void Test();
+			virtual void				AddExtraPass(RenderPass* pass);
+			virtual RenderPass*			GetRenderPass(const std::string& name = "Default")override;
 		private:
 
-			struct Renderable
-			{
-				IMeshRenderComponent* m_RenderComponent;
-				ITransformComponent*	m_TransformComponent;
-				IActor*					m_pActor;
-				// More data because when object is destroyed we can't access m_pActor any more.
-				ActorId					m_ActorID;
-			};
+			
 
-			using RenderableList = std::list<Renderable>;
+			//using RenderableList = std::list<Renderable>;
 
 			void OnObjectCreate(std::shared_ptr<IEvent> event);
 			void OnbjectDestroy(std::shared_ptr<IEvent> event);
 			void OnCameraCreate(std::shared_ptr<IEvent> event);
 
+			void AddObjectToPass(IActor* pActor, RenderPass* pass);
+
 		private:
 			ICamera * m_pCurrentCamera;
-			RenderableList m_ObjectRenders;
+			//RenderableList m_ObjectRenders;
 			IContext * m_pContext;
 			OpenGLDepthStencilState* m_pDefaultDepthStencil;
-			//DepthStencilState* pass1;
-			//DepthStencilState* pass2;
-			//OpenGLRasterState* m_pDefaultRaster;
-			RenderPass m_DefaultPass;
-			RenderPass pass1;
-			RenderPass pass2;
+			OpenGLDepthStencilState* m_pCurrentDepthStencil;
+
+			std::unique_ptr<RenderPass> m_DefaultPass;
+			std::list<std::unique_ptr<RenderPass>> m_ExtraPass;
 
 		};
 	}

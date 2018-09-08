@@ -1,8 +1,10 @@
 #pragma once
 
 #include "ICamera.h"
+#include "RenderPass.h"
 namespace Light
 {
+	class IActor;
 	namespace render
 	{
 		struct TextureCreateInfo
@@ -196,6 +198,7 @@ namespace Light
 			RASTERMODE_FILL,
 			RASTERMODE_MAX
 		};
+
 		// Encapsulates the depth/stencil state
 		class DepthStencilState
 		{
@@ -279,9 +282,12 @@ namespace Light
 
 			bool			FrontStencilEnabled = false;
 			Compare			FrontStencilCompare = COMPARE_NOTEQUAL;
+			// stencil test fail
 			StencilAction	FrontStencilFail = STENCIL_KEEP;
-			StencilAction	FrontStencilPass = STENCIL_REPLACE;
+			// stencil test pass, depth test fail
 			StencilAction	FrontDepthFail = STENCIL_KEEP;
+			// both stencil/depth test pass
+			StencilAction	FrontStencilPass = STENCIL_REPLACE;
 			int				FrontRef = 1;
 			unsigned int	FrontCompareMask = 0xFFFFFFFF;
 			unsigned int	FrontWriteMask = 0xFFFFFFFF;
@@ -296,6 +302,8 @@ namespace Light
 			unsigned int	BackWriteMask = 0xFFFFFFFF;*/
 		};
 
+		
+		
 		class RenderDevice :public ISubSystem
 		{
 		public:
@@ -324,6 +332,9 @@ namespace Light
 			virtual void				Render() =0;
 			virtual render::ICamera*	VGetCurrentCamera() = 0;
 			virtual void				VSetCurrentCamera(render::ICamera * cam) = 0;
+
+			virtual void				AddExtraPass(RenderPass* pass) = 0;
+			virtual RenderPass*			GetRenderPass(const std::string& name = "Default") = 0;
 
 		};
 	}

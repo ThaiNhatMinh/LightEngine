@@ -4,7 +4,6 @@
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
 #include <glm/vec4.hpp>
-#include "Renderer.h"
 #include "..\Utilities\Utility.h"
 #include "..\Interface\IActor.h"
 #include "..\typedef.h"
@@ -12,6 +11,8 @@ namespace Light
 {
 	namespace render
 	{
+		class Pipeline;
+		class RenderDevice;
 		class Material
 		{
 			friend class ResourceManager;
@@ -33,7 +34,7 @@ namespace Light
 			virtual ~Material() {};
 
 			
-			virtual void Apply(render::RenderDevice* renderer, const float* model, const float* mvp) = 0;
+			virtual void Apply(RenderDevice* renderer, const float* model, const float* mvp) = 0;
 			virtual MaterialType GetType() = 0;
 			virtual std::shared_ptr<Material> Clone() = 0;
 			virtual void SetPipeline(Pipeline* pipeline) = 0;

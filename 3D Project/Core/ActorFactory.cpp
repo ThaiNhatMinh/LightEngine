@@ -123,7 +123,7 @@ namespace Light
 		auto factory = m_ActorFactoryMap.find(type);
 		IActor* pActor = nullptr;
 		if (factory != m_ActorFactoryMap.end()) pActor =factory->second(GetNextActorId());
-		else pActor = DEBUG_NEW Actor(GetNextActorId());
+		else pActor = DEBUG_NEW Actor(m_pContext,GetNextActorId());
 
 
 		if (!pActor->Init(pActorData))

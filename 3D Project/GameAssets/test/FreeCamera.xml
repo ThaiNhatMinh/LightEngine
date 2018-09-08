@@ -1,18 +1,18 @@
 <Actor type="None" name="Camera">
 
 	<Script name="CameraControl">
-		<Speed>100</Speed>
+		<Speed>400</Speed>
 		<MouseSensitivity>0.25</MouseSensitivity>
 	</Script>
 	
  <Component>
   <TransformComponent>
-    <Position x="0" y="0" z="3"/>
+    <Position x="0" y="0" z="300"/>
     <YawPitchRoll x="0" y="180" z="0"/>
 	
   </TransformComponent>
   <CameraComponent>
-    <Frustum fov="45.0" aspect ="-1.0" nplane ="0.1" fplane="1000.0" />
+    <Frustum fov="45.0" aspect ="-1.0" nplane ="0.1" fplane="5000.0" />
   </CameraComponent>
   
    </Component>

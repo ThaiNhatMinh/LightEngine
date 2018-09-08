@@ -2,6 +2,7 @@
 #include <pch.h>
 #include "..\Interface\IActor.h"
 #include "..\Interface\IComponent.h"
+#include "..\Interface\IEventManager.h"
 namespace Light 
 {
 	class Actor : public IActor
@@ -23,8 +24,9 @@ namespace Light
 
 		glm::mat4				m_WorldTransform;
 		std::unique_ptr<IScript>m_pScript;
+		IEventManager*			m_pEventManager;
 	public:
-		Actor(ActorId id);
+		Actor(IContext* pContext,ActorId id);
 		virtual ~Actor();
 
 		virtual bool		Init(const tinyxml2::XMLElement* pData)override;

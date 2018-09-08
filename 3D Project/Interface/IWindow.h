@@ -12,6 +12,7 @@ namespace Light
 	public:
 
 		virtual void VGetWindowSize(int& width, int& height) = 0;
+		virtual void HideMouse(bool isHide) = 0;
 		virtual HWND VGetHandle() = 0;
 		virtual void VSwapBuffer() = 0;
 	};

@@ -8,6 +8,7 @@ namespace Light
 
 	public:
 		OpenGLInput(IContext* pContext);
+		virtual void				VUpdate()override;
 		virtual const char*			VGetName()override;
 		virtual bool				VOnKey(Key k);
 		virtual bool				VOnMouse(MouseButton m);

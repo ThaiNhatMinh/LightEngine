@@ -175,6 +175,11 @@ namespace Light
 		glfwSwapBuffers(m_pWindow);
 	}
 
+	void OpenGLWindows::HideMouse(bool isHide)
+	{
+		glfwSetInputMode(m_pWindow, GLFW_CURSOR, isHide?GLFW_CURSOR_DISABLED: GLFW_CURSOR_NORMAL);
+	}
+
 	GLFWwindow * OpenGLWindows::GetGLFW()
 	{
 		return m_pWindow;

@@ -13,7 +13,7 @@
 #include "..\Graphics3D\OpenGL\OpenGLPixelShader.h"
 #include "..\ResourceManager\ResourceManager.h"
 #include "..\Core\OpenGLInput.h"
-
+#include "..\Graphics3D\RenderPass\OutlinePass.h"
 using namespace Light;
 
 void Application::SetupSubmodule()
@@ -48,7 +48,12 @@ void Application::SetupSubmodule()
 	
 	//m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
-	a->Test();
+	//a->Test();
+
+	render::OutlineRenderPass* pOutline = DEBUG_NEW render::OutlineRenderPass("Outline", m_Context.get());
+	m_pRenderer->AddExtraPass(pOutline);
+
+	m_pWindows->HideMouse(1);
 }
 
 bool Light::Application::LoadSystemResource()
@@ -101,7 +106,8 @@ void Application::MainLoop()
 
 	while (m_bRunMainLoop)
 	{
-		glfwPollEvents();
+		
+		m_pInput->VUpdate();
 		m_pTimer->VTick();
 		// Update input
 		//		m_pInput->VUpdate();

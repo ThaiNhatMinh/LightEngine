@@ -259,6 +259,12 @@
     <ClInclude Include="Graphics3D\RenderPass.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\RenderPass\DefaultPass.h">
+      <Filter>Graphics3D\RenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\RenderPass\OutlinePass.h">
+      <Filter>Graphics3D\RenderPass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -392,7 +398,15 @@
     <ClCompile Include="Graphics3D\SkeletonMaterial.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
-    <ClCompile Include="Script\CameraControl.cpp" />
+    <ClCompile Include="Graphics3D\RenderPass\DefaultPass.cpp">
+      <Filter>Graphics3D\RenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Script\CameraControl.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\RenderPass\OutlinePass.cpp">
+      <Filter>Graphics3D\RenderPass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -445,6 +459,9 @@
     </Filter>
     <Filter Include="Script">
       <UniqueIdentifier>{46387a48-d0bc-4610-9d42-8fbd76318116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\RenderPass">
+      <UniqueIdentifier>{eedb91e4-e560-4afe-aef7-6151792799ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

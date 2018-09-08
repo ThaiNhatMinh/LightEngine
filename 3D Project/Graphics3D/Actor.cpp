@@ -1,15 +1,16 @@
 #include "Actor.h"
 #include <pch.h>
+#include "..\Core\Events.h"
 namespace Light
 {
-	Actor::Actor(ActorId id) :m_id(id), m_pParent(nullptr), m_pScript(DEBUG_NEW NullScript()) // default is nullscript
+	Actor::Actor(IContext* pContext,ActorId id) :m_id(id), m_pParent(nullptr), m_pScript(DEBUG_NEW NullScript()) // default is nullscript
 	{
-
+		m_pEventManager = pContext->GetSystem<IEventManager>();
 	}
 
 	Actor::~Actor()
 	{
-
+		m_pEventManager->VQueueEvent(std::shared_ptr<IEvent>(DEBUG_NEW events::EvtDestroyActor(m_id)));
 	}
 
 	bool Actor::Init(const tinyxml2::XMLElement* pData)

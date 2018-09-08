@@ -122,6 +122,12 @@ namespace Light
 		pContext->VAddSystem(this);
 	}
 
+	void OpenGLInput::VUpdate()
+	{
+		MouseD[0] = MouseD[1] = 0;
+		glfwPollEvents();
+	}
+
 	const char * OpenGLInput::VGetName()
 	{
 		static const char* pname = typeid(IInput).name();
@@ -140,9 +146,10 @@ namespace Light
 
 	void OpenGLInput::VMouseDeltaPos(int & dx, int & dy)
 	{
+		
 		dx = MouseD[0];
 		dy = MouseD[1];
-		MouseD[0] = MouseD[1] = 0;
+		
 	}
 
 }
