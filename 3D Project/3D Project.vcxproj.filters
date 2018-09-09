@@ -271,6 +271,12 @@
     <ClInclude Include="Graphics3D\OpenGL\OpenGLBlendingState.h">
       <Filter>Graphics3D\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLFrameBuffer.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLRenderBuffer.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -417,6 +423,12 @@
       <Filter>Graphics3D\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\OpenGL\OpenGLRasterState.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLFrameBuffer.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLRenderBuffer.cpp">
       <Filter>Graphics3D\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>

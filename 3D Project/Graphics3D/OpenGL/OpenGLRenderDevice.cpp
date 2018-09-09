@@ -83,6 +83,12 @@ namespace Light
 				this->SetRasterState(m_pDefaultRaster);
 			}
 
+			{
+				m_pDefaultBlending = nullptr;
+				render::BlendConfig config;
+				m_pDefaultBlending = DEBUG_NEW OpenGLBlendingState(config);
+				this->SetBlendingState(m_pDefaultBlending);
+			}
 
 			pContext->VAddSystem(this);
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnObjectCreate), events::EvtNewActor::StaticType);
@@ -98,6 +104,7 @@ namespace Light
 		{
 			delete m_pDefaultDepthStencil;
 			delete m_pDefaultRaster;
+			delete m_pDefaultBlending;
 		}
 
 		const char * OpenGLRenderDevice::VGetName()

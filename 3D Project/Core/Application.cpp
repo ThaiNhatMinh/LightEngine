@@ -8,9 +8,9 @@
 #include "Timer.h"
 #include "Context.h"
 #include "..\Graphics3D\OpenGL\OpenGLRenderDevice.h"
-#include "..\Graphics3D\OpenGL\OpenGLPipeline.h"
-#include "..\Graphics3D\OpenGL\OpenGLVertexShader.h"
-#include "..\Graphics3D\OpenGL\OpenGLPixelShader.h"
+#include "..\Graphics3D\OpenGL\OpenGLRenderBuffer.h"
+#include "..\Graphics3D\OpenGL\OpenGLTexture.h"
+#include "..\Graphics3D\OpenGL\OpenGLFrameBuffer.h"
 #include "..\ResourceManager\ResourceManager.h"
 #include "..\Core\OpenGLInput.h"
 #include "..\Graphics3D\RenderPass\OutlinePass.h"
@@ -64,7 +64,8 @@ bool Light::Application::LoadSystemResource()
 	m_pResources->VGetVertexShader(Path + "Shader\\Skeleton.vs");
 	m_pResources->VGetVertexShader(Path + "Shader\\Outline.vs");
 	m_pResources->VGetPixelShader(Path + "Shader\\Color.fs");
-
+	m_pResources->VGetVertexShader(Path + "Shader\\Screen.vs");
+	m_pResources->VGetPixelShader(Path + "Shader\\Screen.fs");
 
 	return true;
 }
@@ -80,11 +81,77 @@ void Application::MainLoop()
 {
 	
 	SetupSubmodule();
-	
 
-						
+	int w, h;
+	m_pWindows->VGetWindowSize(w, h);
 	
-	
+	render::OpenGLFrameBuffer framebuffer;
+	framebuffer.Begin();
+
+	render::TextureCreateInfo config;
+	config.eTarget = GL_TEXTURE_2D;
+	config.eFormat = GL_RGB;
+	config.eType = GL_UNSIGNED_INT;
+	config.iInternalFormat = GL_RGB;
+	config.iLevel = 0;
+	config.pData = nullptr;
+	config.uiWidth = w;
+	config.uiHeight = h;
+	render::OpenGLTexture tex(config);
+	framebuffer.AttachTexture(render::COLOR_ATTACHMENT, &tex, 0);
+
+	render::OpenGLRenderBuffer renderbuffer(w, h, render::InternalFormat::FORMAT_DEPTH24_STENCIL8);
+	framebuffer.AttachRenderBuffer(render::DEPTH_STENCIL_ATTACHMENT, &renderbuffer);
+	framebuffer.End();
+
+	//unsigned int framebuffer;
+	//glGenFramebuffers(1, &framebuffer);
+	//glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+	//// create a color attachment texture
+	//unsigned int textureColorbuffer;
+	//glGenTextures(1, &textureColorbuffer);
+	//glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
+	//// create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
+	//unsigned int rbo;
+	//glGenRenderbuffers(1, &rbo);
+	//glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h); // use a single renderbuffer object for both a depth AND stencil buffer.
+	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
+	//// now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
+	//if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	//	cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//
+
+	std::string Path = "GameAssets\\System\\";
+	auto shader = m_pRenderer->CreatePipeline(m_pResources->VGetVertexShader(Path + "Shader\\Screen.vs"), m_pResources->VGetPixelShader(Path + "Shader\\Screen.fs"));
+
+
+	float vertices[] = {
+		 -1.0f,  1.0f,  0.0f, 1.0f,
+		-1.0f, -1.0f,  0.0f, 0.0f,
+		 1.0f, -1.0f,  1.0f, 0.0f,
+
+		-1.0f,  1.0f,  0.0f, 1.0f,
+		 1.0f, -1.0f,  1.0f, 0.0f,
+		 1.0f,  1.0f,  1.0f, 1.0f
+	};
+
+	render::VertexBuffer *vertexBuffer = m_pRenderer->CreateVertexBuffer(sizeof(vertices), vertices);
+
+	render::VertexElement vertexElement[] = 
+	{
+		{  render::SHADER_POSITION_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, sizeof(float) * 4, 0, },
+		{ render::SHADER_TEXCOORD_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, sizeof(float) * 4,sizeof(float) * 2, }
+	};
+	render::VertexDescription *vertexDescription = m_pRenderer->CreateVertexDescription(2, vertexElement);
+
+	render::VertexArray *vertexArray = m_pRenderer->CreateVertexArray(1, &vertexBuffer, &vertexDescription);
+
 	m_bRunMainLoop = true;
 	// PROBLEM: How every thing update ?
 	// 1. Timer
@@ -103,6 +170,8 @@ void Application::MainLoop()
 	IGamePlugin* pGame = m_GamePlugins.LoadPlugin();
 
 	pGame->Init(m_Context.get());
+
+	auto v = m_pResources->VGetTexture("GameAssets\\TEXTURES\\grass_autumn_orn_d.jpg");
 
 	while (m_bRunMainLoop)
 	{
@@ -145,8 +214,22 @@ void Application::MainLoop()
 		pGame->Update(dt);
 		//pGame->Render();
 		// draw our first triangle
+
+		framebuffer.Begin();
+		//glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 		m_pRenderer->Render();
+		framebuffer.End();
+		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		glDisable(GL_DEPTH_TEST);
+		m_pRenderer->Clear();
 		
+		m_pRenderer->SetPipeline(shader);
+		m_pRenderer->SetTexture(0, &tex);
+		//glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+		
+		m_pRenderer->SetVertexArray(vertexArray);
+		m_pRenderer->Draw(0, 6);
 		// Draw Game
 		//m_GamePlugins->RenderGame();
 		// Draw Effect

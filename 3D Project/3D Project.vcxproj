@@ -202,11 +202,13 @@
     <ClInclude Include="Graphics3D\OpenGL\OpenGLCompressTexture.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLCubeTexture.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLDepthStencilState.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLIndexBuffer.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLPipeline.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLPipelineParam.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLPixelShader.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLRasterState.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLRenderBuffer.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLRenderDevice.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLTexture.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexArray.h" />
@@ -285,11 +287,13 @@
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCompressTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCubeTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLDepthStencilState.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLIndexBuffer.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLPipeline.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLPipelineParam.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLPixelShader.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLRasterState.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLRenderBuffer.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLRenderDevice.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexArray.cpp" />

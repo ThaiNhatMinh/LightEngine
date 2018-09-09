@@ -30,12 +30,11 @@ void Game::Init(Light::IContext* pContext)
 
 	
 
-	render::DepthStencilConfig config1;
-	config1.DepthEnable = false;
-	config1.FrontStencilCompare = render::COMPARE_NOTEQUAL;
-	config1.FrontRef = 1;
-	config1.FrontCompareMask = 0xFF;
-
+	/*render::BlendConfig config;
+	config.Enable = true;
+	auto a = m_pRenderer->CreateBlendingState(config);
+	m_pRenderer->SetBlendingState(a);*/
+	
 
 }
 

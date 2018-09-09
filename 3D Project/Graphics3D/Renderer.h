@@ -7,15 +7,64 @@ namespace Light
 	class IActor;
 	namespace render
 	{
+		enum InternalFormat
+		{
+			FORMAT_R8,
+			FORMAT_R8UI,
+			FORMAT_R8I,
+			FORMAT_R16UI,
+			FORMAT_R16I,
+			FORMAT_R32UI,
+			FORMAT_R32I,
+			FORMAT_RG8,
+			FORMAT_RG8UI,
+			FORMAT_RG8I,
+			FORMAT_RG16UI,
+			FORMAT_RG16I,
+			FORMAT_RG32UI,
+			FORMAT_RG32I,
+			FORMAT_RGB8,
+			FORMAT_RGB565,
+			FORMAT_RGBA8,
+			FORMAT_SRGB8_ALPHA8,
+			FORMAT_RGB5_A1,
+			FORMAT_RGBA4,
+			FORMAT_RGB10_A2,
+			FORMAT_RGBA8UI,
+			FORMAT_RGBA8I,
+			FORMAT_RGB10_A2UI,
+			FORMAT_RGBA16UI,
+			FORMAT_RGBA16I,
+			FORMAT_RGBA32I,
+			FORMAT_RGBA32UI,
+
+			///////////////////////////////
+			FORMAT_DEPTH_COMPONENT16,
+			FORMAT_DEPTH_COMPONENT24,
+			FORMAT_DEPTH_COMPONENT32F,
+			FORMAT_DEPTH24_STENCIL8,
+			FORMAT_DEPTH32F_STENCIL8,
+			FORMAT_STENCIL_INDEX8,
+			FORMAT_MAX
+		};
+
+		enum Attachment
+		{
+			COLOR_ATTACHMENT = 0,
+			DEPTH_ATTACHMENT,
+			STENCIL_ATTACHMENT,
+			DEPTH_STENCIL_ATTACHMENT,
+			MAX_ATTACHMENT
+		};
 		struct TextureCreateInfo
 		{
-			unsigned int eTarget;		//  GL_TEXTURE_2D, GL_PROXY_TEXTURE_2D, GL_TEXTURE_1D_ARRAY, GL_PROXY_TEXTURE_1D_ARRAY, GL_TEXTURE_RECTANGLE, GL_PROXY_TEXTURE_RECTANGLE
-			int iLevel;				// Specifies the level-of-detail number.
-			int iInternalFormat;		// Specifies the number of color components in the texture.
+			unsigned int eTarget;			//  GL_TEXTURE_2D, GL_PROXY_TEXTURE_2D, GL_TEXTURE_1D_ARRAY, GL_PROXY_TEXTURE_1D_ARRAY, GL_TEXTURE_RECTANGLE, GL_PROXY_TEXTURE_RECTANGLE
+			int iLevel;						// Specifies the level-of-detail number.
+			int iInternalFormat;			// Specifies the number of color components in the texture.
 			unsigned int uiWidth, uiHeight;	// Specifies the width/height of the texture image
-			unsigned int eFormat;				// Specifies the format of the pixel data.
+			unsigned int eFormat;			// Specifies the format of the pixel data.
 			unsigned int eType;				// Specifies the data type of the pixel data
-			void* pData;				// Specifies a pointer to the image data in memory. 
+			void* pData;					// Specifies a pointer to the image data in memory. 
 			TextureCreateInfo() {};
 		};
 
@@ -352,6 +401,22 @@ namespace Light
 			virtual ~BlendingState() = default;
 		};
 
+		class RenderBuffer
+		{
+		public:
+			virtual ~RenderBuffer() = default;
+		};
+		class FrameBuffer
+		{
+		public:
+			virtual ~FrameBuffer() = default;
+
+			virtual void AttachTexture(Attachment attachment, Texture* pTex, int level) = 0;
+			virtual void AttachRenderBuffer(Attachment attachment, RenderBuffer* pBuffer) = 0;
+			virtual void Begin() = 0;
+			virtual void End() = 0;
+		};
+
 
 		class RenderDevice :public ISubSystem
 		{
@@ -379,7 +444,7 @@ namespace Light
 			virtual void				SetRasterState(RasterState* state = nullptr) = 0;
 			virtual void				SetBlendingState(BlendingState* state = nullptr) = 0;
 
-			virtual void				Clear(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 1.0f, float depth = 1.0f) = 0;
+			virtual void				Clear(float red = 0.2f, float green = 0.2f, float blue = 0.2f, float alpha = 1.0f, float depth = 1.0f) = 0;
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;
 			virtual void				DrawElement(int count, const void * indices, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;
 
