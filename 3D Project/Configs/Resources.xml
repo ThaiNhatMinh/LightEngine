@@ -1,3 +1,10 @@
 <Resources Path ="GameAssets\System\">
 	<Texture File="Texture\Default.png"/>
+	<VertexShader File="Shader\Default.vs"/>
+	<VertexShader File="Shader\Skeleton.vs"/>
+	<VertexShader File="Shader\Outline.vs"/>
+	<VertexShader File="Shader\Screen.vs"/>
+	<PixelShader File="Shader\Default.fs"/>
+	<PixelShader File="Shader\Color.fs"/>
+	<PixelShader File="Shader\Screen.fs"/>
 </Resources>

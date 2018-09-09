@@ -11,6 +11,9 @@
 #include "OpenGLIndexBuffer.h"
 #include "OpenGLCubeTexture.h"
 #include "OpenGLDepthStencilState.h"
+#include "OpenGLFrameBuffer.h"
+#include "OpenGLRenderBuffer.h"
+#include "DataMap.h"
 #include "Core\OpenGLWindows.h"
 #include "Interface\IEventManager.h"
 #include "GameComponents\TransformComponent.h"
@@ -148,8 +151,8 @@ namespace Light
 			if (isCompress) return DEBUG_NEW OpenGLCompressTexture(info);
 			
 			
-			if(info.eTarget==GL_TEXTURE_2D) return DEBUG_NEW OpenGLTexture(info);
-			else if (info.eTarget == GL_TEXTURE_CUBE_MAP) return DEBUG_NEW OpenGLCubeTexture(info);
+			if(info.eTarget==TEXTURE_2D) return DEBUG_NEW OpenGLTexture(info);
+			else if (info.eTarget == TEXTURE_CUBE_MAP) return DEBUG_NEW OpenGLCubeTexture(info);
 			else E_WARNING("Invaild target texture: %d", info.eTarget);
 			
 			return nullptr;
@@ -175,6 +178,22 @@ namespace Light
 			return DEBUG_NEW OpenGLBlendingState(config);
 		}
 
+		FrameBuffer * OpenGLRenderDevice::CreateFrameBuffer()
+		{
+			return DEBUG_NEW OpenGLFrameBuffer();
+		}
+
+		RenderBuffer * OpenGLRenderDevice::CreateRenderBuffer(ColorFormat format, int w, int h)
+		{
+			if (w == -1 || h == -1)
+			{
+				IWindow* pWindow = m_pContext->GetSystem<Light::IWindow>();
+				pWindow->VGetWindowSize(w, h);
+			}
+
+			return DEBUG_NEW OpenGLRenderBuffer(w,h,format);
+		}
+
 		void OpenGLRenderDevice::SetVertexArray(VertexArray * pVertexArray)
 		{
 			assert(pVertexArray != nullptr);
@@ -197,7 +216,7 @@ namespace Light
 		{
 			assert(pTexture != nullptr);
 			glActiveTexture(GL_TEXTURE0 + slot);
-			glBindTexture(pTexture->m_TexInfo.eTarget, static_cast<OpenGLTexture*>(pTexture)->m_iHandle);
+			glBindTexture(openGLTexType[pTexture->m_TexInfo.eTarget], static_cast<OpenGLTexture*>(pTexture)->m_iHandle);
 		}
 
 		void OpenGLRenderDevice::SetDepthStencilState(DepthStencilState * state)

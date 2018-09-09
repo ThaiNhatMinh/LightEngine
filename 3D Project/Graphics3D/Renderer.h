@@ -7,8 +7,18 @@ namespace Light
 	class IActor;
 	namespace render
 	{
-		enum InternalFormat
+		enum ColorFormat
 		{
+			// Base Internal Formats
+			FORMAT_DEPTH_COMPONENT = 0,
+			FORMAT_DEPTH_STENCIL,
+			FORMAT_STENCIL_INDEX,
+			FORMAT_RED,
+			FORMAT_RG,
+			FORMAT_RGB,
+			FORMAT_RGBA,
+
+			// Sized Internal Formats
 			FORMAT_R8,
 			FORMAT_R8UI,
 			FORMAT_R8I,
@@ -38,13 +48,17 @@ namespace Light
 			FORMAT_RGBA32I,
 			FORMAT_RGBA32UI,
 
-			///////////////////////////////
+			// Sized Depth and Stencil Internal Formats
 			FORMAT_DEPTH_COMPONENT16,
 			FORMAT_DEPTH_COMPONENT24,
 			FORMAT_DEPTH_COMPONENT32F,
 			FORMAT_DEPTH24_STENCIL8,
 			FORMAT_DEPTH32F_STENCIL8,
 			FORMAT_STENCIL_INDEX8,
+			// S3TC formats
+			FORMAT_COMPRESSED_RGBA_S3TC_DXT1_EXT,
+			FORMAT_COMPRESSED_RGBA_S3TC_DXT3_EXT,
+			FORMAT_COMPRESSED_RGBA_S3TC_DXT5_EXT,
 			FORMAT_MAX
 		};
 
@@ -54,16 +68,55 @@ namespace Light
 			DEPTH_ATTACHMENT,
 			STENCIL_ATTACHMENT,
 			DEPTH_STENCIL_ATTACHMENT,
-			MAX_ATTACHMENT
+			ATTACHMENT_MAX
+		};
+
+		enum TextureType
+		{
+			TEXTURE_2D = 0, 
+			PROXY_TEXTURE_2D, 
+			TEXTURE_1D_ARRAY, 
+			PROXY_TEXTURE_1D_ARRAY, 
+			TEXTURE_RECTANGLE, 
+			PROXY_TEXTURE_RECTANGLE, 
+			TEXTURE_CUBE_MAP,
+			TEXTURE_CUBE_MAP_POSITIVE_X, 
+			TEXTURE_CUBE_MAP_NEGATIVE_X, 
+			TEXTURE_CUBE_MAP_POSITIVE_Y, 
+			TEXTURE_CUBE_MAP_NEGATIVE_Y, 
+			TEXTURE_CUBE_MAP_POSITIVE_Z, 
+			TEXTURE_CUBE_MAP_NEGATIVE_Z, 
+			PROXY_TEXTURE_CUBE_MAP,
+			TEXTURE_MAX
+		};
+		enum NumberFormat
+		{
+			UNSIGNED_BYTE = 0, 
+			BYTE, 
+			UNSIGNED_SHORT, 
+			SHORT, 
+			UNSIGNED_INT, 
+			INT, 
+			HALF_FLOAT, 
+			FLOAT, 
+			UNSIGNED_SHORT_5_6_5, 
+			UNSIGNED_SHORT_4_4_4_4, 
+			UNSIGNED_SHORT_5_5_5_1, 
+			UNSIGNED_INT_2_10_10_10_REV, 
+			UNSIGNED_INT_10F_11F_11F_REV, 
+			UNSIGNED_INT_5_9_9_9_REV, 
+			UNSIGNED_INT_24_8, 
+			FLOAT_32_UNSIGNED_INT_24_8_REV,
+			NUMBERFORMAT_MAX
 		};
 		struct TextureCreateInfo
 		{
-			unsigned int eTarget;			//  GL_TEXTURE_2D, GL_PROXY_TEXTURE_2D, GL_TEXTURE_1D_ARRAY, GL_PROXY_TEXTURE_1D_ARRAY, GL_TEXTURE_RECTANGLE, GL_PROXY_TEXTURE_RECTANGLE
+			TextureType eTarget;			//  GL_TEXTURE_2D, GL_PROXY_TEXTURE_2D, GL_TEXTURE_1D_ARRAY, GL_PROXY_TEXTURE_1D_ARRAY, GL_TEXTURE_RECTANGLE, GL_PROXY_TEXTURE_RECTANGLE
 			int iLevel;						// Specifies the level-of-detail number.
-			int iInternalFormat;			// Specifies the number of color components in the texture.
+			ColorFormat iInternalFormat;			// Specifies the number of color components in the texture.
 			unsigned int uiWidth, uiHeight;	// Specifies the width/height of the texture image
-			unsigned int eFormat;			// Specifies the format of the pixel data.
-			unsigned int eType;				// Specifies the data type of the pixel data
+			ColorFormat eFormat;			// Specifies the format of the pixel data.
+			NumberFormat eType;				// Specifies the data type of the pixel data
 			void* pData;					// Specifies a pointer to the image data in memory. 
 			TextureCreateInfo() {};
 		};
@@ -434,7 +487,8 @@ namespace Light
 			virtual DepthStencilState*	CreateDepthStencilState(const DepthStencilConfig& config) = 0;
 			virtual RasterState*		CreateRasterState(const CullFaceConfig& config) = 0;
 			virtual BlendingState*		CreateBlendingState(const BlendConfig& config) = 0;
-
+			virtual FrameBuffer*		CreateFrameBuffer() = 0;
+			virtual RenderBuffer*		CreateRenderBuffer(ColorFormat format, int w = -1, int h = -1) = 0;
 
 			virtual void				SetVertexArray(VertexArray*) = 0;
 			virtual void				SetPipeline(Pipeline*) = 0;

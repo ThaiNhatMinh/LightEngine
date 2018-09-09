@@ -198,6 +198,7 @@
     <ClInclude Include="Graphics3D\Material.h" />
     <ClInclude Include="Graphics3D\Mesh.h" />
     <ClInclude Include="Graphics3D\ModelRender.h" />
+    <ClInclude Include="Graphics3D\OpenGL\DataMap.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLBlendingState.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLCompressTexture.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLCubeTexture.h" />

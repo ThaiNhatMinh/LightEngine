@@ -12,7 +12,7 @@ namespace Light
 			GLuint m_iHandle;
 
 		public:
-			OpenGLRenderBuffer(int w, int h,InternalFormat format);
+			OpenGLRenderBuffer(int w, int h, ColorFormat format);
 			~OpenGLRenderBuffer();
 
 		

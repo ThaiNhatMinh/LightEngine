@@ -7,7 +7,6 @@
 #include <assimp\postprocess.h>
 #include "ResourceManager.h"
 
-#include "..\Graphics3D\OpenGL\OpenGLTexture.h"
 #include "..\Core\OpenGLWindows.h"
 #include "..\Graphics3D\DefaultMesh.h"
 #include "..\Graphics3D\LTModel.h"
@@ -31,6 +30,8 @@ namespace Light
 
 		ResourceManager::ResourceManager(IContext* c) :m_pContext(c)
 		{
+			c->VAddSystem(this);
+			m_pRenderDevice = c->GetSystem<render::RenderDevice>();
 			ilInit();
 			ILenum Error;
 			Error = ilGetError();
@@ -48,8 +49,7 @@ namespace Light
 
 			//LoadResources("GameAssets/" + string(Light::RESOURCES_FILE));
 
-			c->VAddSystem(this);
-			m_pRenderDevice = c->GetSystem<render::RenderDevice>();
+			
 			
 			//m_FMOD = c->GetSystem<SoundEngine>()->GetFMODSystem();
 
@@ -304,16 +304,16 @@ namespace Light
 
 				
 			render::TextureCreateInfo texinfo;
-			texinfo.eTarget = GL_TEXTURE_2D;
+			texinfo.eTarget = render::TEXTURE_2D;
 			texinfo.iLevel = 0;
-			texinfo.iInternalFormat = iBpp==3?GL_RGB:GL_RGBA;
+			texinfo.iInternalFormat = iBpp==3?render::FORMAT_RGB:render::FORMAT_RGBA;
 			texinfo.uiWidth = width;
 			texinfo.uiHeight = height;
 			texinfo.pData = Data;
-			texinfo.eType = GL_UNSIGNED_BYTE;
+			texinfo.eType = render::UNSIGNED_BYTE;
 			texinfo.eFormat = texinfo.iInternalFormat;
 			
-			tex = DEBUG_NEW render::OpenGLTexture(texinfo);
+			tex = m_pRenderDevice->CreateTexture(texinfo);
 
 
 			ilResetMemory();
@@ -357,13 +357,14 @@ namespace Light
 
 
 			render::TextureCreateInfo texinfo;
-			texinfo.eTarget = GL_TEXTURE_CUBE_MAP;
+			texinfo.eTarget = render::TEXTURE_CUBE_MAP;
 			texinfo.iLevel = 0;
-			texinfo.iInternalFormat = iBpp == 3 ? GL_RGB : GL_RGBA;
+			texinfo.iInternalFormat = iBpp == 3 ? render::FORMAT_RGB : render::FORMAT_RGBA;
 			texinfo.uiWidth = width;
 			texinfo.uiHeight = height;
 			texinfo.pData = pData;
-			texinfo.eType = GL_UNSIGNED_BYTE;
+			texinfo.eType = render::UNSIGNED_BYTE;
+
 			texinfo.eFormat = texinfo.iInternalFormat;
 
 
@@ -432,26 +433,26 @@ namespace Light
 			H = Header.usHeight;
 			int iBpp = Header.ubExtra[2];
 			int iSize;
-			int InternalFormat;
+			render::ColorFormat InternalFormat;
 			if (iBpp == 3)
 			{
 				iSize = Header.usWidth * Header.usHeight * 4;
-				InternalFormat = GL_RGBA;
+				InternalFormat = render::ColorFormat::FORMAT_RGBA;
 			}
 			else if (iBpp == 4)
 			{
 				iSize = (Header.usWidth * Header.usHeight) >> 1;
-				InternalFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+				InternalFormat = render::ColorFormat::FORMAT_COMPRESSED_RGBA_S3TC_DXT1_EXT;
 			}
 			else if (iBpp == 5)
 			{
 				iSize = Header.usWidth * Header.usHeight;
-				InternalFormat = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+				InternalFormat = render::ColorFormat::FORMAT_COMPRESSED_RGBA_S3TC_DXT3_EXT;
 			}
 			else if (iBpp == 6)
 			{
 				iSize = Header.usWidth * Header.usHeight;
-				InternalFormat = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+				InternalFormat = render::ColorFormat::FORMAT_COMPRESSED_RGBA_S3TC_DXT5_EXT;
 			}
 			else
 			{
@@ -483,21 +484,19 @@ namespace Light
 
 	
 
-			if (InternalFormat == GL_RGBA)
+			if (InternalFormat == render::FORMAT_RGBA)
 			{
-				//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, W, H, 0, GL_RGBA, GL_UNSIGNED_BYTE, ubBuffer);
-				//tex = DEBUG_NEW Texture(W, H,32,ubBuffer);
 				render::TextureCreateInfo texinfo;
-				texinfo.eTarget = GL_TEXTURE_2D;
+				texinfo.eTarget = render::TEXTURE_2D;
 				texinfo.pData = ubBuffer;
-				texinfo.eType = GL_UNSIGNED_BYTE;
+				texinfo.eType = render::UNSIGNED_BYTE;
 				texinfo.uiWidth = W;
 				texinfo.uiHeight = H;
 				texinfo.iInternalFormat = InternalFormat;
-				texinfo.eFormat = GL_RGBA;
+				texinfo.eFormat = render::FORMAT_RGBA;
 				tex = m_pRenderDevice->CreateTexture(texinfo);
 			}
-			else if (InternalFormat == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || InternalFormat == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT || InternalFormat == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)
+			else if (InternalFormat == render::FORMAT_COMPRESSED_RGBA_S3TC_DXT1_EXT || InternalFormat == render::FORMAT_COMPRESSED_RGBA_S3TC_DXT3_EXT || InternalFormat == render::FORMAT_COMPRESSED_RGBA_S3TC_DXT5_EXT)
 			{
 				render::TextureCreateInfo texinfo;
 				texinfo.pData = ubBuffer;
@@ -505,16 +504,9 @@ namespace Light
 				texinfo.uiHeight = H;
 				texinfo.iInternalFormat = InternalFormat;
 				texinfo.iLevel = iSize;
-				texinfo.eTarget = GL_TEXTURE_2D;
+				texinfo.eTarget = render::TEXTURE_2D;
 				tex = m_pRenderDevice->CreateTexture(texinfo,true);
 			}
-
-
-			//glBindTexture(GL_TEXTURE_2D, 0);
-
-
-
-			//tex = DEBUG_NEW Texture(id,filename,W,H);
 
 			m_Textures.push_back(ResourceHandle<render::Texture>(filename,tex));
 

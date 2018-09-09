@@ -1,23 +1,11 @@
 #include "pch.h"
 #include "OpenGLVertexDescription.h"
-
+#include "DataMap.h"
 using namespace Light;
 
 render::OpenGLVertexDescription::OpenGLVertexDescription(std::size_t num, const VertexElement * pElements) :m_Elements(DEBUG_NEW OpenGLVertexElement[num]), m_iNum(num)
 {
-	static GLenum toOpenGLType[] = { 
-		GL_BYTE, GL_SHORT, GL_INT, 
-		GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, GL_UNSIGNED_INT,
-		GL_BYTE, GL_SHORT, GL_INT, 
-		GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, GL_UNSIGNED_INT, 
-		GL_HALF_FLOAT, GL_FLOAT, GL_DOUBLE };
-
-	static GLboolean toOpenGLNormalized[] = { 
-		GL_FALSE, GL_FALSE, GL_FALSE, 
-		GL_FALSE, GL_FALSE, GL_FALSE,
-		GL_TRUE, GL_TRUE, GL_TRUE, 
-		GL_TRUE, GL_TRUE, GL_TRUE, 
-		GL_FALSE, GL_FALSE, GL_FALSE };
+	
 
 	for (std::size_t i = 0; i < num; i++)
 	{

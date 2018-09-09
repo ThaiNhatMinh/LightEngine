@@ -277,6 +277,9 @@
     <ClInclude Include="Graphics3D\OpenGL\OpenGLRenderBuffer.h">
       <Filter>Graphics3D\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\DataMap.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

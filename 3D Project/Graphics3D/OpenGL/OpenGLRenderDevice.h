@@ -32,6 +32,9 @@ namespace Light
 			virtual DepthStencilState*	CreateDepthStencilState(const DepthStencilConfig& config);
 			virtual RasterState*		CreateRasterState(const CullFaceConfig& config) override;
 			virtual BlendingState*		CreateBlendingState(const BlendConfig& config)override;
+			virtual FrameBuffer*		CreateFrameBuffer()override;
+			virtual RenderBuffer*		CreateRenderBuffer(ColorFormat format, int w = -1, int h = -1)override;
+
 
 			virtual void				SetVertexArray(VertexArray*)override;
 			virtual void				SetPipeline(Pipeline*)override;
@@ -64,6 +67,7 @@ namespace Light
 			void AddObjectToPass(IActor* pActor, RenderPass* pass);
 
 		private:
+			
 			ICamera * m_pCurrentCamera;
 			
 			IContext * m_pContext;
