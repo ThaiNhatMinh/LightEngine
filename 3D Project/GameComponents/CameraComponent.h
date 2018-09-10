@@ -27,7 +27,7 @@ namespace Light
 		virtual const mat4& GetViewMatrix() override;
 		virtual const mat4& GetProjMatrix() override;
 		virtual const mat4& GetVPMatrix();
-		virtual const vec3& GetPosition();
+		virtual const vec3& GetPosition()override;
 		virtual math::Frustum*	GetFrustum() override;
 		virtual const vec3& GetUp();
 		virtual const vec3& GetRight();

@@ -1,6 +1,8 @@
 #include "Scene.h"
 #include <pch.h>
 #include "..\Interface\IFactory.h"
+#include "..\Interface\IEventManager.h"
+#include "..\Core\Events.h"
 namespace Light
 {
 	Scene::Scene(IContext* c,const std::string& name) :m_Context(c),m_Name(name)
@@ -15,7 +17,7 @@ namespace Light
 		m_DirectionLight.Ls = vec3(1.0f, 1.0f, 1.0f);
 		m_DirectionLight.direction = glm::normalize(vec3(-1, -3, -1));
 
-		//m_DefaultCamera = Camera(c,vec3(0, 0, 100.0f), vec3(.0f), vec3(0, 1.0f, 0), 45.0f, 4.0f / 3.0f, 1.0f, 10000.0f);
+		c->GetSystem<IEventManager>()->VQueueEvent(std::shared_ptr<IEvent>(DEBUG_NEW events::EvtSceneCreate(this)));
 	}
 
 	Scene::~Scene()
@@ -82,34 +84,18 @@ namespace Light
 				m_DirectionLight.Ls.z = pSpecular->DoubleAttribute("b", 1.0f);
 			}
 		}
+
+
+		auto pSkybox = pScene->FirstChildElement("SkyBox");
+
+		m_SkyBox.VSerialize(m_Context, pSkybox);
+
 		return 1;
 	}
 
 	bool Scene::VOnRender()
 	{
-
-		// The render passes usually go like this 
-		// 1. Static objects & terrain
-		// 2. Actors (dynamic objects that can move)
-		// 3. The Sky
-		// 4. Anything with Alpha
-
-
-		// Root doesn't have anything to render, so just render children	
-		//m_pRoot->VRenderChildren(this);
-
-		// render last
-		//m_Context->m_pRenderer->ClearBuffer();
-		//ImGui::Text("Size: %d", m_ActorLast.size());
-		/*while (m_ActorLast.size() > 0)
-		{
-			Actor* pActor = m_ActorLast.back();
-			m_ActorLast.pop_back();
-			pActor->GetComponent<MeshRenderComponent>("MeshRenderComponent")->Render(this);
-		}*/
-
-
-		//m_pSkyBox->VRender(this);
+		m_SkyBox.VRender();
 		return true;
 	}
 
@@ -123,5 +109,13 @@ namespace Light
 	{
 		m_pRoot->VPostUpdate(this);
 		return true;
+	}
+	std::string Scene::VGetSceneName()
+	{
+		return m_Name;
+	}
+	render::SkyBox * Scene::GetSkyBox()
+	{
+		return &m_SkyBox;
 	}
 }

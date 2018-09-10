@@ -15,6 +15,7 @@ namespace Light
 			virtual const glm::mat4& GetViewMatrix() = 0;
 			virtual const glm::mat4& GetProjMatrix() = 0;
 			virtual math::Frustum*	GetFrustum() = 0;
+			virtual const glm::vec3& GetPosition() = 0;
 		};
 	}
 }

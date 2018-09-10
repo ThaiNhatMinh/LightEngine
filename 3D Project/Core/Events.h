@@ -2,6 +2,7 @@
 #include "..\Interface\IEvent.h"
 #include "..\Interface\IActor.h"
 #include "..\Graphics3D\ICamera.h"
+#include "..\Interface\IScene.h"
 namespace Light
 {
 	namespace events
@@ -50,6 +51,14 @@ namespace Light
 		public:
 			EvtCameraCreate(render::ICamera* camera) : m_pCamera(camera){}
 			render::ICamera* GetCamera() { return m_pCamera; }
+		};
+
+		class EvtSceneCreate : public Event<EvtSceneCreate>
+		{
+		public:
+			IScene* m_pScene;
+			EvtSceneCreate(IScene* pScene) :m_pScene(pScene) {}
+
 		};
 	}
 }

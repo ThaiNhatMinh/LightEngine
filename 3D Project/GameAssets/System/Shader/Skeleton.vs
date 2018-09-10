@@ -16,7 +16,7 @@ uniform mat4 uModel;
 out vec3 oNormal;
 out vec2 oUV;
 out vec3 oFragPos;
-
+out vec3 oPosition;
 void main()
 {
 	vec4 pos = vec4(aPos,1.0f);
@@ -55,7 +55,7 @@ void main()
 
 	gl_Position = uMVP*pos;
 	oNormal =  mat3(uModel)*aNormal;  
-
+	oPosition = vec3(uModel * pos);
 	oUV = aUV;
 	//oFragPos = vec3(uModel * pos);
 

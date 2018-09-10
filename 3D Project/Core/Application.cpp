@@ -14,6 +14,7 @@
 #include "..\ResourceManager\ResourceManager.h"
 #include "..\Core\OpenGLInput.h"
 #include "..\Graphics3D\RenderPass\OutlinePass.h"
+#include "..\Graphics3D\OpenGL\DataMap.h"
 using namespace Light;
 
 void Application::SetupSubmodule()
@@ -48,8 +49,8 @@ void Application::SetupSubmodule()
 	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
 	//a->Test();
 
-	render::OutlineRenderPass* pOutline = DEBUG_NEW render::OutlineRenderPass("Outline", m_Context.get());
-	m_pRenderer->AddExtraPass(pOutline);
+	//render::OutlineRenderPass* pOutline = DEBUG_NEW render::OutlineRenderPass("Outline", m_Context.get());
+	//m_pRenderer->AddExtraPass(pOutline);
 
 	m_pWindows->HideMouse(1);
 }
@@ -66,54 +67,63 @@ void Application::MainLoop()
 {
 	
 	SetupSubmodule();
-
-	/*int w, h;
-	m_pWindows->VGetWindowSize(w, h);
 	
-	render::OpenGLFrameBuffer framebuffer;
-	framebuffer.Begin();
 
-	render::TextureCreateInfo config;
-	config.eTarget = render::TEXTURE_2D;
-	config.eFormat = render::FORMAT_RGB;
-	config.eType = render::UNSIGNED_BYTE;
-	config.iInternalFormat = render::FORMAT_RGB;
-	config.iLevel = 0;
-	config.pData = nullptr;
-	config.uiWidth = w;
-	config.uiHeight = h;
-	render::OpenGLTexture tex(config);
-	framebuffer.AttachTexture(render::COLOR_ATTACHMENT, &tex, 0);
+	
+	//
+	//int w, h;
+	//m_pWindows->VGetWindowSize(w, h);
+	//
+	//render::OpenGLFrameBuffer framebuffer;
+	//framebuffer.Begin();
+	//render::TextureCreateInfo config;
+	//config.eTarget = render::TEXTURE_2D;
+	//config.eFormat = render::FORMAT_RGB;
+	//config.eType = render::UNSIGNED_BYTE;
+	//config.iInternalFormat = render::FORMAT_RGB;
+	//config.iLevel = 0;
+	//config.pData = nullptr;
+	//config.uiWidth = w;
+	//config.uiHeight = h;
+	//render::OpenGLTexture tex(config);
+	//framebuffer.AttachTexture(render::COLOR_ATTACHMENT, &tex, 0);
 
-	render::OpenGLRenderBuffer renderbuffer(w, h, render::ColorFormat::FORMAT_DEPTH24_STENCIL8);
-	framebuffer.AttachRenderBuffer(render::DEPTH_STENCIL_ATTACHMENT, &renderbuffer);
-	framebuffer.End();
+	//config.iInternalFormat = render::FORMAT_DEPTH_COMPONENT;
+	//config.eFormat = render::FORMAT_DEPTH_COMPONENT;
+	//config.eType = render::FLOAT;
+	//render::OpenGLTexture depthtex(config);
+	//framebuffer.AttachTexture(render::DEPTH_ATTACHMENT, &depthtex, 0);
 
-	std::string Path = "GameAssets\\System\\";
-	auto shader = m_pRenderer->CreatePipeline(m_pResources->VGetVertexShader(Path + "Shader\\Screen.vs"), m_pResources->VGetPixelShader(Path + "Shader\\Screen.fs"));
+	////render::OpenGLRenderBuffer renderbuffer(w, h, render::ColorFormat::FORMAT_DEPTH_COMPONENT);
+	////framebuffer.AttachRenderBuffer(render::DEPTH_ATTACHMENT, &renderbuffer);
+	//framebuffer.End();
 
+	//std::string Path = "GameAssets\\System\\";
+	//auto shader = m_pRenderer->CreatePipeline(m_pResources->VGetVertexShader(Path + "Shader\\Screen.vs"), m_pResources->VGetPixelShader(Path + "Shader\\Screen.fs"));
+	//auto uTex = shader->GetParam("uTex");
+	//auto udepthTex = shader->GetParam("uDepthTex");
 
-	float vertices[] = {
-		 -1.0f,  1.0f,  0.0f, 1.0f,
-		-1.0f, -1.0f,  0.0f, 0.0f,
-		 1.0f, -1.0f,  1.0f, 0.0f,
+	//float vertices[] = {
+	//	 -1.0f,  1.0f,  0.0f, 1.0f,
+	//	-1.0f, -1.0f,  0.0f, 0.0f,
+	//	 1.0f, -1.0f,  1.0f, 0.0f,
 
-		-1.0f,  1.0f,  0.0f, 1.0f,
-		 1.0f, -1.0f,  1.0f, 0.0f,
-		 1.0f,  1.0f,  1.0f, 1.0f
-	};
+	//	-1.0f,  1.0f,  0.0f, 1.0f,
+	//	 1.0f, -1.0f,  1.0f, 0.0f,
+	//	 1.0f,  1.0f,  1.0f, 1.0f
+	//};
 
-	render::VertexBuffer *vertexBuffer = m_pRenderer->CreateVertexBuffer(sizeof(vertices), vertices);
+	//render::VertexBuffer *vertexBuffer = m_pRenderer->CreateVertexBuffer(sizeof(vertices), vertices);
 
-	render::VertexElement vertexElement[] = 
-	{
-		{  render::SHADER_POSITION_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, sizeof(float) * 4, 0, },
-		{ render::SHADER_TEXCOORD_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, sizeof(float) * 4,sizeof(float) * 2, }
-	};
-	render::VertexDescription *vertexDescription = m_pRenderer->CreateVertexDescription(2, vertexElement);
+	//render::VertexElement vertexElement[] = 
+	//{
+	//	{  render::SHADER_POSITION_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, sizeof(float) * 4, 0, },
+	//	{ render::SHADER_TEXCOORD_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, sizeof(float) * 4,sizeof(float) * 2, }
+	//};
+	//render::VertexDescription *vertexDescription = m_pRenderer->CreateVertexDescription(2, vertexElement);
 
-	render::VertexArray *vertexArray = m_pRenderer->CreateVertexArray(1, &vertexBuffer, &vertexDescription);
-*/
+	//render::VertexArray *vertexArray = m_pRenderer->CreateVertexArray(1, &vertexBuffer, &vertexDescription);
+
 	m_bRunMainLoop = true;
 	// PROBLEM: How every thing update ?
 	// 1. Timer
@@ -153,7 +163,7 @@ void Application::MainLoop()
 
 		float dt = m_pTimer->VGetDeltaTime();
 		//	// Update Event
-		m_pEventManager->VUpdate(20);
+		m_pEventManager->VUpdate(200);
 		//	// Update Game
 		//	m_GamePlugins->UpdateGame(dt);
 		//	// Update Physic
@@ -173,24 +183,25 @@ void Application::MainLoop()
 		//
 		//if (m_DebugPhysic) m_pPhysic->VRenderDiagnostics();
 		pGame->Update(dt);
-		//pGame->Render();
-		// draw our first triangle
 
 		//framebuffer.Begin();
-		//glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+		
 		m_pRenderer->Render();
-		//framebuffer.End();
-		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		/*framebuffer.End();
+		
 
-		//glDisable(GL_DEPTH_TEST);
-		//m_pRenderer->Clear();
-		//
-		//m_pRenderer->SetPipeline(shader);
-		//m_pRenderer->SetTexture(0, &tex);
-		////glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
-		//
-		//m_pRenderer->SetVertexArray(vertexArray);
-		//m_pRenderer->Draw(0, 6);
+		glDisable(GL_DEPTH_TEST);
+		m_pRenderer->Clear();
+		
+		m_pRenderer->SetPipeline(shader);
+		uTex->SetAsInt(render::UNIT_DEFAULT);
+		m_pRenderer->SetTexture(render::UNIT_DEFAULT, &tex);
+		udepthTex->SetAsInt(render::UNIT_DEPTH);
+		m_pRenderer->SetTexture(render::UNIT_DEPTH, &depthtex);
+		
+		m_pRenderer->SetVertexArray(vertexArray);
+		m_pRenderer->Draw(0, 6);*/
+
 		// Draw Game
 		//m_GamePlugins->RenderGame();
 		// Draw Effect

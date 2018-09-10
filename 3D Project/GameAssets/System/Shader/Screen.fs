@@ -5,8 +5,16 @@ in vec2 oUV;
 out vec4 oColor;
 
 uniform sampler2D uTex;
-
+uniform sampler2D uDepthTex;
 const float offset = 1.0 / 300.0;  
+
+float zfar = 5000.0f;
+float znear = 0.1f;
+
+float linearize(float depth)
+{
+    return (-zfar * znear / (depth * (zfar - znear) - zfar)) / zfar;
+}
 
 void main()
 {
@@ -37,5 +45,11 @@ void main()
     for(int i = 0; i < 9; i++)
         col += sampleTex[i] * kernel[i];
     
-    oColor = vec4(col, 1.0);
+
+    float depth = linearize(texture(uDepthTex,oUV).r);
+    if(depth<=0.02f) oColor = vec4(col, 1.0);
+    else oColor = texture(uTex, oUV);
+    //oColor = vec4(vec3(linearize(depth)),1.0f);
+    //oColor = texture(uTex,oUV);
+    
 }  

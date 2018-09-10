@@ -127,3 +127,5 @@ static GLboolean toOpenGLNormalized[] = {
 	GL_TRUE, GL_TRUE, GL_TRUE,
 	GL_TRUE, GL_TRUE, GL_TRUE,
 	GL_FALSE, GL_FALSE, GL_FALSE };
+
+static GLenum openglTexuint[] = { GL_TEXTURE0 ,GL_TEXTURE1,GL_TEXTURE2};

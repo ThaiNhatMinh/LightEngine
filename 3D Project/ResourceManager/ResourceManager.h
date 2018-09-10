@@ -101,6 +101,7 @@ namespace Light
 			virtual render::PixelShader*	VGetPixelShader(const std::string& filename)override;
 			virtual render::Model *			VGetModel(const std::string& filename)override;
 			virtual HeightMap*				VGetHeightMap(const std::string& filename)override;
+			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist)override;
 			//virtual FMOD::Sound*	VGetSound(const std::string& tag)override;
 
 		};

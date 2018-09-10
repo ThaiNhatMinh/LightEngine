@@ -25,6 +25,7 @@ namespace Light
 		private:
 			PipelineParam* m_ModelUniform;
 			PipelineParam* m_MVPUniform;
+			
 			std::pair<std::string, std::string> m_ShaderName;
 		};
 	}

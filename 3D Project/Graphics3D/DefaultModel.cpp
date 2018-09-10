@@ -6,10 +6,9 @@ namespace Light
 	{
 		for (std::size_t i = 0; i < Meshs.size(); i++)
 		{
-			//if (pass->pGlobalMaterial) pass->pGlobalMaterial->Apply(pass->pRenderer, model, mvp);
-			//else
+			
 			Materials[i]->Apply(pRenderer, model, mvp);
-			pRenderer->SetTexture(0, Textures[i]);
+			pRenderer->SetTexture(render::UNIT_DEFAULT, Textures[i]);
 			Meshs[i]->Draw(pRenderer);
 		}
 	}

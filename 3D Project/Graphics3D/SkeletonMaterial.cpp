@@ -16,6 +16,10 @@ Light::render::SkeletonMaterial::SkeletonMaterial(IContext * pContext):m_pModelU
 void Light::render::SkeletonMaterial::Apply(RenderDevice * renderer, const float * model, const float * mvp)
 {
 	renderer->SetPipeline(m_Pipeline.get());
+	if(m_uTex) m_uTex->SetAsInt(UNIT_DEFAULT);
+	m_uCubeTex->SetAsInt(UNIT_SKYBOX);
+	renderer->SetTexture(UNIT_SKYBOX,renderer->GetSkyBoxTexture());
+	m_uCameraPos->SetAsVec3(glm::value_ptr(renderer->VGetCurrentCamera()->GetPosition()));
 	if (m_pModelUniform) m_pModelUniform->SetAsMat4(model);
 	m_pMVPUniform->SetAsMat4(mvp);
 
@@ -45,4 +49,8 @@ void Light::render::SkeletonMaterial::GetUniform()
 	assert(m_Pipeline != nullptr);
 	m_pModelUniform = m_Pipeline->GetParam(uMODEL);
 	m_pMVPUniform = m_Pipeline->GetParam(uMVP);
+	m_uTex = m_Pipeline->GetParam(uTex);
+	m_uCubeTex = m_Pipeline->GetParam(uCubeTex);
+	m_uCameraPos = m_Pipeline->GetParam(uCameraPos);
+
 }

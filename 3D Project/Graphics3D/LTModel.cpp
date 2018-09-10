@@ -10,7 +10,7 @@ namespace Light
 			//if (pass->pGlobalMaterial) pass->pGlobalMaterial->Apply(pass->pRenderer, model, mvp);
 			//else
 			Materials[i]->Apply(pRenderer, model, mvp);
-			pRenderer->SetTexture(0, Textures[i]);
+			pRenderer->SetTexture(render::UNIT_DEFAULT, Textures[i]);
 			Meshs[i]->Draw(pRenderer);
 		}
 	}

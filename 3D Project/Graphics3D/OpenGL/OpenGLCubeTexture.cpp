@@ -27,4 +27,5 @@ Light::render::OpenGLCubeTexture::OpenGLCubeTexture(const TextureCreateInfo& inf
 
 Light::render::OpenGLCubeTexture::~OpenGLCubeTexture()
 {
+	glDeleteTextures(1, &m_iHandle);
 }

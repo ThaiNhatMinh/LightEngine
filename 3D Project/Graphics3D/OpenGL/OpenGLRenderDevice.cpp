@@ -22,6 +22,10 @@
 #include "Core\Events.h"
 #include "..\..\Interface\IFactory.h"
 #include "..\RenderPass\DefaultPass.h"
+#include "..\SkyBox.h"
+#include "..\Scene.h"
+
+
 namespace Light
 {
 	namespace render
@@ -43,7 +47,7 @@ namespace Light
 
 		};
 		
-		OpenGLRenderDevice::OpenGLRenderDevice(IContext * pContext):m_pCurrentCamera(nullptr)
+		OpenGLRenderDevice::OpenGLRenderDevice(IContext * pContext):m_pCurrentCamera(nullptr), m_pScene(nullptr)
 		{
 			m_pContext = pContext;
 			// Initialize GLEW to setup the OpenGL Function pointers
@@ -97,6 +101,7 @@ namespace Light
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnObjectCreate), events::EvtNewActor::StaticType);
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnCameraCreate), events::EvtCameraCreate::StaticType);
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnbjectDestroy), events::EvtDestroyActor::StaticType);
+			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<OpenGLRenderDevice>(this, &OpenGLRenderDevice::OnSceneCreate), events::EvtSceneCreate::StaticType);
 
 
 			m_DefaultPass = std::unique_ptr<RenderPass>(DEBUG_NEW DefaultRenderPass("Default", m_pContext));
@@ -212,10 +217,10 @@ namespace Light
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_cast<OpenGLIndexBuffer*>(pIndexBuffer)->m_iHandle);
 		}
 
-		void OpenGLRenderDevice::SetTexture(unsigned int slot, Texture *pTexture)
+		void OpenGLRenderDevice::SetTexture(TextureUnit slot, Texture *pTexture)
 		{
 			assert(pTexture != nullptr);
-			glActiveTexture(GL_TEXTURE0 + slot);
+			glActiveTexture(openglTexuint[slot]);
 			glBindTexture(openGLTexType[pTexture->m_TexInfo.eTarget], static_cast<OpenGLTexture*>(pTexture)->m_iHandle);
 		}
 
@@ -338,6 +343,8 @@ namespace Light
 					pass->Render(pv);
 				}
 			}
+
+			m_pScene->VOnRender();
 		}
 
 		render::ICamera * OpenGLRenderDevice::VGetCurrentCamera()
@@ -377,41 +384,12 @@ namespace Light
 			return (*r).get();
 		}
 
-		/*void OpenGLRenderDevice::Test()
+		Texture * OpenGLRenderDevice::GetSkyBoxTexture()
 		{
-			auto Resources = m_pContext->GetSystem<resources::IResourceManager>();
-			auto VS = Resources->VGetVertexShader("Outline");
-			auto FS = Resources->VGetPixelShader("Color");
-			auto pipeline = this->CreatePipeline(VS, FS);
-			{
-				render::DepthStencilConfig config;
-				config.FrontStencilEnabled = true;
-				config.FrontWriteMask = 0xFF;
-				config.FrontStencilCompare = render::COMPARE_ALWAYS;
-				config.FrontRef = 1;
-				config.FrontCompareMask = 0xFF;
-				DepthStencilState* DSS = DEBUG_NEW OpenGLDepthStencilState(config);
-				pass1.pRenderer = this;
-				pass1.pDepthStencilConfig = DSS;
-				
-			}
-			{
-				render::DepthStencilConfig config;
-				config.FrontStencilEnabled = true;
-				config.FrontStencilCompare = render::COMPARE_NOTEQUAL;
-				config.FrontRef = 1;
-				config.FrontCompareMask = 0xFF;
-				config.FrontWriteMask = 0x00;
-				config.DepthEnable = false;
-
-				DepthStencilState* DSS = DEBUG_NEW OpenGLDepthStencilState(config);
-				pass2.pRenderer = this;
-				pass2.pDepthStencilConfig = DSS;
-				pass2.pGlobalMaterial = m_pContext->GetSystem<IFactory>()->VGetMaterial("Default")->Clone();
-				pass2.pGlobalMaterial->SetPipeline(pipeline);
-
-			}
-		}*/
+			SkyBox* pSky = static_cast<Scene*>(m_pScene)->GetSkyBox();
+			return pSky->GetTexture();
+			
+		}
 
 		void OpenGLRenderDevice::OnObjectCreate(std::shared_ptr<IEvent> event)
 		{
@@ -444,6 +422,13 @@ namespace Light
 						
 			E_DEBUG("Camera create!");
 			
+		}
+
+		void OpenGLRenderDevice::OnSceneCreate(std::shared_ptr<IEvent> event)
+		{
+			events::EvtSceneCreate* pEvent = static_cast<events::EvtSceneCreate*>(event.get());
+			m_pScene = pEvent->m_pScene;
+			E_DEBUG("SceneRender add: %s", m_pScene->VGetSceneName().c_str());
 		}
 
 		void OpenGLRenderDevice::AddObjectToPass(IActor * pActor, RenderPass * pass)

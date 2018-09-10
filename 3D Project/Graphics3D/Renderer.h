@@ -7,6 +7,13 @@ namespace Light
 	class IActor;
 	namespace render
 	{
+		enum TextureUnit
+		{
+			UNIT_DEFAULT = 0,
+			UNIT_SKYBOX,
+			UNIT_DEPTH,
+
+		};
 		enum ColorFormat
 		{
 			// Base Internal Formats
@@ -261,7 +268,11 @@ namespace Light
 		};
 
 		const static char* uMODEL	= "uModel";
-		const static char* uMVP	= "uMVP";
+		const static char* uMVP		= "uMVP";
+		const static char* uTex		= "uTex";
+		const static char* uCubeTex = "uCubeTex";
+		const static char* uCameraPos = "uCameraPos";
+
 		const static char* aPOS	= "aPos";
 		enum Primitive
 		{
@@ -493,7 +504,7 @@ namespace Light
 			virtual void				SetVertexArray(VertexArray*) = 0;
 			virtual void				SetPipeline(Pipeline*) = 0;
 			virtual void				SetIndexBuffer(IndexBuffer*) = 0;
-			virtual void				SetTexture(unsigned int slot, Texture*) = 0;
+			virtual void				SetTexture(TextureUnit slot, Texture*) = 0;
 			virtual void				SetDepthStencilState(DepthStencilState* state = nullptr) = 0;
 			virtual void				SetRasterState(RasterState* state = nullptr) = 0;
 			virtual void				SetBlendingState(BlendingState* state = nullptr) = 0;
@@ -508,6 +519,8 @@ namespace Light
 
 			virtual void				AddExtraPass(RenderPass* pass) = 0;
 			virtual RenderPass*			GetRenderPass(const std::string& name = "Default") = 0;
+
+			virtual Texture*			GetSkyBoxTexture() = 0;
 
 		};
 	}

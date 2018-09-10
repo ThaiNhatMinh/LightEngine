@@ -7,4 +7,6 @@
 	<PixelShader File="Shader\Default.fs"/>
 	<PixelShader File="Shader\Color.fs"/>
 	<PixelShader File="Shader\Screen.fs"/>
+	<VertexShader File="Shader\SkyBox.vs"/>
+	<PixelShader File="Shader\SkyBox.fs"/>
 </Resources>

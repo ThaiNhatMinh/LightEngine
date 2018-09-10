@@ -85,6 +85,7 @@ namespace Light
 			
 			if(m_ModelUniform) m_ModelUniform->SetAsMat4(model);
 			m_MVPUniform->SetAsMat4(mvp);
+			
 		}
 		
 		MaterialType DefaultMaterial::GetType()

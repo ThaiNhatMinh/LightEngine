@@ -755,7 +755,7 @@ namespace Light
 			{
 				if ((tex = LoadTexture(filename)) == nullptr)
 				{
-					E_ERROR("Cound not find texture: %s", filename);
+					E_ERROR("Cound not find texture: %s", filename.c_str());
 					return m_pDefaultTex;
 				}
 			}
@@ -775,7 +775,7 @@ namespace Light
 			if (Vshader == nullptr)
 			{
 				if((Vshader=LoadVertexShader(filename))==nullptr)
-					E_ERROR("Cound not find vertex shader: %s", filename);
+					E_ERROR("Cound not find vertex shader: %s", filename.c_str());
 				
 			}
 			return Vshader;
@@ -793,7 +793,7 @@ namespace Light
 			if (Pshader == nullptr)
 			{
 				if((Pshader=LoadPixelShader(filename))==nullptr)
-					E_ERROR("Cound not find pixel shader: %s", filename);
+					E_ERROR("Cound not find pixel shader: %s", filename.c_str());
 
 			}
 			return Pshader;
@@ -830,6 +830,21 @@ namespace Light
 				E_ERROR("Could not find heightmap: %s", filename.c_str());
 			}
 			return hm;
+		}
+
+		render::Texture * ResourceManager::VGetCubeTex(const std::vector<std::string>& filelist)
+		{
+
+			render::Texture* tex = nullptr;
+			tex = HasResource(m_Textures, filelist[0]);
+			if (tex == nullptr)
+			{
+				if ((tex = LoadCubeTex(filelist)) == nullptr)
+				{
+					return m_pDefaultTex;
+				}
+			}
+			return tex;
 		}
 
 		/*LoadStatus * ResourceManager::VLoadResource(const std::string & resourcePath, bool async)

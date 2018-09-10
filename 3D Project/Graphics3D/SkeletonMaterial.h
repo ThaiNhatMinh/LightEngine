@@ -20,6 +20,9 @@ namespace Light
 		private:
 			PipelineParam * m_pModelUniform;
 			PipelineParam * m_pMVPUniform;
+			PipelineParam* m_uTex;
+			PipelineParam* m_uCubeTex;
+			PipelineParam* m_uCameraPos;
 		};
 	}
 }

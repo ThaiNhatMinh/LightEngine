@@ -10,6 +10,8 @@
 #include "..\..\Interface\IComponent.h"
 #include "..\..\GameComponents\CameraComponent.h"
 #include "..\RenderPass.h"
+#include "..\..\Interface\IScene.h"
+
 namespace Light
 {
 	namespace render
@@ -39,7 +41,7 @@ namespace Light
 			virtual void				SetVertexArray(VertexArray*)override;
 			virtual void				SetPipeline(Pipeline*)override;
 			virtual void				SetIndexBuffer(IndexBuffer*)override;
-			virtual void				SetTexture(unsigned int slot, Texture*)override;
+			virtual void				SetTexture(TextureUnit slot, Texture*)override;
 			virtual void				SetDepthStencilState(DepthStencilState* state = nullptr);
 			virtual void				SetRasterState(RasterState* state = nullptr)override;
 			virtual void				SetBlendingState(BlendingState* state = nullptr)override;
@@ -54,6 +56,7 @@ namespace Light
 			virtual void				VSetCurrentCamera(render::ICamera * cam) override;
 			virtual void				AddExtraPass(RenderPass* pass);
 			virtual RenderPass*			GetRenderPass(const std::string& name = "Default")override;
+			virtual Texture*			GetSkyBoxTexture();
 		private:
 
 			
@@ -63,7 +66,7 @@ namespace Light
 			void OnObjectCreate(std::shared_ptr<IEvent> event);
 			void OnbjectDestroy(std::shared_ptr<IEvent> event);
 			void OnCameraCreate(std::shared_ptr<IEvent> event);
-
+			void OnSceneCreate(std::shared_ptr<IEvent> event);
 			void AddObjectToPass(IActor* pActor, RenderPass* pass);
 
 		private:
@@ -77,7 +80,7 @@ namespace Light
 
 			std::unique_ptr<RenderPass> m_DefaultPass;
 			std::list<std::unique_ptr<RenderPass>> m_ExtraPass;
-
+			IScene* m_pScene;
 		};
 	}
 }

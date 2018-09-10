@@ -14,5 +14,6 @@ namespace Light
 		virtual bool				VOnUpdate(float dt) = 0;
 		virtual bool				VPostUpdate() = 0;
 		virtual IActor*				VGetRoot() = 0;
+		virtual std::string			VGetSceneName() = 0;
 	};
 }
