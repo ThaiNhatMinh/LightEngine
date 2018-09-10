@@ -14,4 +14,14 @@
 			<Specular r="0.0" g="0.0" b="0.0"/>
 		</Direction>
 	</Light>
+	<SkyBox>
+		<Texture Path="GameAssets\TEXTURES\SKYBOX\hw_ruins\">
+			<POSITIVE_Z File="ruins_ft.tga" />
+			<NEGATIVE_Z File="ruins_bk.tga" />
+			<NEGATIVE_Y File="ruins_dn.tga" />
+			<POSITIVE_Y File="ruins_up.tga" />
+			<POSITIVE_X File="ruins_rt.tga" />
+			<NEGATIVE_X File="ruins_lf.tga" />
+		</Texture>
+	</SkyBox>
 </Scene>
