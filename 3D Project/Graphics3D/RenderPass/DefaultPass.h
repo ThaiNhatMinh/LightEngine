@@ -2,7 +2,7 @@
 
 
 #include "..\RenderPass.h"
-
+#include "..\Material.h"
 namespace Light
 {
 	namespace render

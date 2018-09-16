@@ -280,6 +280,18 @@
     <ClInclude Include="Graphics3D\OpenGL\DataMap.h">
       <Filter>Graphics3D\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\SkyBox.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Light\DirectionLight.h">
+      <Filter>Graphics3D\LightData</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Light\PointLight.h">
+      <Filter>Graphics3D\LightData</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\LightManager.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -434,6 +446,21 @@
     <ClCompile Include="Graphics3D\OpenGL\OpenGLRenderBuffer.cpp">
       <Filter>Graphics3D\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics3D\SkyBox.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Material.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Light\DirectionLight.cpp">
+      <Filter>Graphics3D\LightData</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Light\PointLight.cpp">
+      <Filter>Graphics3D\LightData</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\LightManager.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -489,6 +516,9 @@
     </Filter>
     <Filter Include="Graphics3D\RenderPass">
       <UniqueIdentifier>{eedb91e4-e560-4afe-aef7-6151792799ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\LightData">
+      <UniqueIdentifier>{f5b27735-a0b8-4148-9ec0-a3be31883716}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

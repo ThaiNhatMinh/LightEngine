@@ -73,8 +73,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\RelWithDebInfo;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\RelWithDebInfo;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\RelWithDebInfo;..\ThirdParty\Devil\lib\x86\Release;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\RelWithDebInfo;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -103,7 +103,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;BulletCollision_RelWithDebugInfo.lib;BulletDynamics_RelWithDebugInfo.lib;LinearMath_RelWithDebugInfo.lib;freetype.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;ILU.lib;BulletCollision_RelWithDebugInfo.lib;BulletDynamics_RelWithDebugInfo.lib;LinearMath_RelWithDebugInfo.lib;freetype.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>@ECHO ON
@@ -141,7 +141,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;ILU.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
@@ -194,6 +194,9 @@
     <ClInclude Include="Graphics3D\DefaultMesh.h" />
     <ClInclude Include="Graphics3D\ICamera.h" />
     <ClInclude Include="Graphics3D\Light.h" />
+    <ClInclude Include="Graphics3D\LightManager.h" />
+    <ClInclude Include="Graphics3D\Light\DirectionLight.h" />
+    <ClInclude Include="Graphics3D\Light\PointLight.h" />
     <ClInclude Include="Graphics3D\LTModel.h" />
     <ClInclude Include="Graphics3D\Material.h" />
     <ClInclude Include="Graphics3D\Mesh.h" />
@@ -224,6 +227,7 @@
     <ClInclude Include="Graphics3D\Scene.h" />
     <ClInclude Include="Graphics3D\SkeletonMaterial.h" />
     <ClInclude Include="Graphics3D\SkeMesh.h" />
+    <ClInclude Include="Graphics3D\SkyBox.h" />
     <ClInclude Include="Graphics3D\Vertex.h" />
     <ClInclude Include="interface.h" />
     <ClInclude Include="Interface\IActor.h" />
@@ -283,7 +287,11 @@
     <ClCompile Include="Graphics3D\Actor.cpp" />
     <ClCompile Include="Graphics3D\DefaultMaterial.cpp" />
     <ClCompile Include="Graphics3D\DefaultMesh.cpp" />
+    <ClCompile Include="Graphics3D\LightManager.cpp" />
+    <ClCompile Include="Graphics3D\Light\DirectionLight.cpp" />
+    <ClCompile Include="Graphics3D\Light\PointLight.cpp" />
     <ClCompile Include="Graphics3D\LTModel.cpp" />
+    <ClCompile Include="Graphics3D\Material.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLBlendingState.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCompressTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCubeTexture.cpp" />
@@ -307,6 +315,7 @@
     <ClCompile Include="Graphics3D\Scene.cpp" />
     <ClCompile Include="Graphics3D\SkeletonMaterial.cpp" />
     <ClCompile Include="Graphics3D\SkeMesh.cpp" />
+    <ClCompile Include="Graphics3D\SkyBox.cpp" />
     <ClCompile Include="Math\AABB.cpp" />
     <ClCompile Include="Math\Frustum.cpp" />
     <ClCompile Include="Math\Plane.cpp" />

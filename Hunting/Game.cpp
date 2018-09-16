@@ -12,7 +12,7 @@
 
 void Game::Init(Light::IContext* pContext)
 {
-	std::cout << "Hello from DLL";
+	std::cout << "Hello from DLL\n";
 	using namespace Light;
 
 	m_pRenderer = pContext->GetSystem<render::RenderDevice>();
@@ -36,16 +36,6 @@ void Game::Init(Light::IContext* pContext)
 	m_pRenderer->SetBlendingState(a);*/
 	
 
-}
-
-void Game::Render()
-{
-	//m_pRenderer->SetPipeline(pipeline);
-	//param->SetAsInt(0);
-	//m_pRenderer->SetTexture(0, pTex);
-	//m_pRenderer->SetVertexArray(vertexArray);
-	//m_pRenderer->Draw(0, 3);
-	//pScene->VOnRender
 }
 
 void Game::ShutDown()

@@ -8,6 +8,15 @@
 namespace Light {
 	namespace render
 	{
+		class NullPipelineParam : public PipelineParam
+		{
+			virtual void SetAsInt(const int value) {};
+			virtual void SetAsFloat(const float value) {};
+			virtual void SetAsMat4(const float* value) {};
+			virtual void SetAsVec3(const float* value) {};
+			virtual void SetAsVec2(const float* value) {};
+		};
+
 		class OpenGLPipeline : public Pipeline
 		{
 		public:
@@ -20,6 +29,7 @@ namespace Light {
 		public:
 			GLuint m_iProgram;
 		private:
+			NullPipelineParam m_NullParam;
 			std::map<std::string, std::unique_ptr<PipelineParam>> m_Uniforms;
 		};
 	}

@@ -1,18 +1,16 @@
-[DEBUG] d:\code\3d-project\3d project\core\application.cpp Line:21| Application StartUp...
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param uModel not founnd!
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param uModel not founnd!
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param uModel not founnd!
+[DEBUG] d:\code\3d-project\3d project\core\application.cpp Line:23| Application StartUp...
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param mat.ambient not founnd!
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param mat.specular not founnd!
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param uCubeTex not founnd!
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param mat.Ka not founnd!
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param mat.Kd not founnd!
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param mat.Ks not founnd!
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param mat.shininess not founnd!
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglpipeline.cpp Line:54| [Pipeline] Param uCubeTex not founnd!
 [DEBUG] d:\code\3d-project\3d project\gameplugin\gamepluginmanager.cpp Line:22| ..\Debug\Hunting.dll
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:445| Camera create!
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:464| ObjectRender add: 707_No
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:464| ObjectRender add: 707_No
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:464| ObjectRender add: 707
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:464| ObjectRender add: 707
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:464| ObjectRender add: 707_No
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:464| ObjectRender add: 707_No
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:464| ObjectRender add: 707
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:464| ObjectRender add: 707
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:464| ObjectRender add: 707
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:464| ObjectRender add: 707
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:464| ObjectRender add: 707_No
-[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:464| ObjectRender add: 707_No
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:436| SceneRender add: Test
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:428| Camera create!
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:454| ObjectRender add: 707
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:454| ObjectRender add: 707
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:454| ObjectRender add: 707
+[DEBUG] d:\code\3d-project\3d project\graphics3d\opengl\openglrenderdevice.cpp Line:454| ObjectRender add: 707_No

@@ -7,8 +7,10 @@ namespace Light
 		for (std::size_t i = 0; i < Meshs.size(); i++)
 		{
 			
-			Materials[i]->Apply(pRenderer, model, mvp);
-			pRenderer->SetTexture(render::UNIT_DEFAULT, Textures[i]);
+			Materials[i]->Apply(pRenderer, model, mvp,this->MatParam[i]);
+			//pRenderer->SetTexture(render::UNIT_AMBIENT, Ambient[i]);
+			pRenderer->SetTexture(render::UNIT_DIFFUSE, Diffuse[i]);
+			//pRenderer->SetTexture(render::UNIT_SPECULAR, Specular[i]);
 			Meshs[i]->Draw(pRenderer);
 		}
 	}

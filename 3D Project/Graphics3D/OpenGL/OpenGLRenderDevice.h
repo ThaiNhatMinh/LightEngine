@@ -57,6 +57,7 @@ namespace Light
 			virtual void				AddExtraPass(RenderPass* pass);
 			virtual RenderPass*			GetRenderPass(const std::string& name = "Default")override;
 			virtual Texture*			GetSkyBoxTexture();
+			virtual IScene*				GetScene();
 		private:
 
 			

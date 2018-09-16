@@ -1,6 +1,7 @@
 #pragma once
 
 #include "..\Renderer.h"
+#include "..\Material.h"
 
 namespace Light
 {

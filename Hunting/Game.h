@@ -10,8 +10,6 @@ public:
 	virtual void	Init(Light::IContext* pContext);
 	// Call every frame
 	virtual void	Update(float dt);
-	// Call every frame
-	virtual void	Render();
 	// Call before engine shutdown
 	virtual void	ShutDown();
 

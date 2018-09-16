@@ -5,11 +5,35 @@
 namespace Light
 {
 	class IActor;
+	class IScene;
 	namespace render
 	{
+		enum BufferUsage
+		{
+			// The data store contents will be modified repeatedly and used many times.
+			STREAM_DRAW = 0, 
+			STREAM_READ, 
+			STREAM_COPY, 
+			// The data store contents will be modified repeatedly and used many times.
+			STATIC_DRAW, 
+			STATIC_READ, 
+			STATIC_COPY, 
+			// The data store contents will be modified repeatedly and used many times.
+			DYNAMIC_DRAW, 
+			DYNAMIC_READ, 
+			DYNAMIC_COPY
+		};
+		enum BufferAccess
+		{
+			READ_ONLY = 0,
+			WRITE_ONLY,
+			READ_WRITE
+		};
 		enum TextureUnit
 		{
-			UNIT_DEFAULT = 0,
+			UNIT_AMBIENT = 0,
+			UNIT_DIFFUSE,
+			UNIT_SPECULAR,
 			UNIT_SKYBOX,
 			UNIT_DEPTH,
 
@@ -171,6 +195,9 @@ namespace Light
 		{
 		public:
 			virtual ~VertexBuffer() = default;
+			virtual void SetData(long long size, const void* data, BufferUsage usage = STATIC_DRAW) = 0;
+			virtual void* Map(BufferAccess access) = 0;
+			virtual bool UnMap() = 0;
 		protected:
 			VertexBuffer() = default;
 		};
@@ -272,7 +299,7 @@ namespace Light
 		const static char* uTex		= "uTex";
 		const static char* uCubeTex = "uCubeTex";
 		const static char* uCameraPos = "uCameraPos";
-
+		const static char* uColor	= "uColor";
 		const static char* aPOS	= "aPos";
 		enum Primitive
 		{
@@ -521,6 +548,7 @@ namespace Light
 			virtual RenderPass*			GetRenderPass(const std::string& name = "Default") = 0;
 
 			virtual Texture*			GetSkyBoxTexture() = 0;
+			virtual IScene*				GetScene() = 0;
 
 		};
 	}

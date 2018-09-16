@@ -7,6 +7,8 @@
 
 #include "..\Interface\IActor.h"
 #include "..\Interface\IScene.h"
+#include "LightManager.h"
+
 
 namespace Light
 {
@@ -18,8 +20,8 @@ namespace Light
 		// This store every thing in scene
 		std::unique_ptr<IActor>	m_pRoot;
 		//std::unique_ptr<Actor>	m_pSkyBox;
-		render::DirectionLight					m_DirectionLight; // only one direction light
-
+		
+		render::LightManager m_LightManager;
 
 		IContext*			m_Context;
 		std::string			m_Name;
@@ -28,14 +30,15 @@ namespace Light
 		Scene(IContext* c,const std::string& name);
 		~Scene();
 
-		virtual bool VLoad(const std::string& file)override;
-		bool VOnRender();
+		bool					VLoad(const std::string& file)override;
+		bool					VOnRender()override;
 
-		bool VOnUpdate(float dt);
-		bool VPostUpdate();
-		IActor*		VGetRoot() { return m_pRoot.get(); };
-		render::DirectionLight		GetDirLight() { return m_DirectionLight; };
-		virtual std::string VGetSceneName()override;
-		render::SkyBox* GetSkyBox();
+		bool					VOnUpdate(float dt)override;
+		bool					VPostUpdate()override;
+		std::string				VGetSceneName()override;
+
+		IActor*					VGetRoot() { return m_pRoot.get(); };
+		render::SkyBox*			GetSkyBox();
+		render::LightManager*	GetLightManager();
 	};
 }

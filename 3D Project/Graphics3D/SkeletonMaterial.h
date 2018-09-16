@@ -10,7 +10,7 @@ namespace Light
 		{
 		public:
 			SkeletonMaterial(IContext* pContext);
-			virtual void Apply(RenderDevice* renderer, const float* model, const float* mvp);
+			virtual void Apply(RenderDevice* renderer, const float* model, const float* mvp, const MaterialData& matData);
 			virtual MaterialType GetType();
 			virtual void SetPipeline(Pipeline* pipeline)override;
 			virtual std::shared_ptr<Material> Clone()override;
@@ -23,6 +23,7 @@ namespace Light
 			PipelineParam* m_uTex;
 			PipelineParam* m_uCubeTex;
 			PipelineParam* m_uCameraPos;
+			LightParam m_uDirLight;
 		};
 	}
 }

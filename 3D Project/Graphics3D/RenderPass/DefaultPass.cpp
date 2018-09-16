@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "DefaultPass.h"
+#include "..\..\Interface\IActor.h"
 namespace Light
 {
 	render::DefaultRenderPass::DefaultRenderPass(const std::string & name, IContext * pContext)
@@ -13,7 +14,7 @@ namespace Light
 		config.Depthfunc = COMPARE_LESS;
 		config.DepthMask = true;
 
-		config.FrontStencilEnabled = true;
+		config.FrontStencilEnabled = false;
 		config.FrontWriteMask = 0x00;
 		config.FrontStencilCompare = COMPARE_NOTEQUAL;
 		config.FrontRef = 1;

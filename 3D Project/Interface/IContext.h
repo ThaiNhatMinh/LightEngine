@@ -21,9 +21,6 @@ namespace Light
 
 	template <class T>T* IContext::GetSystem()
 	{
-#if	defined(DEBUG) || defined(_DEBUG)
-		std::cout << typeid(T*).name() << std::endl;
-#endif
 		return static_cast<T*>(VGetSystem(typeid(T)));
 	}
 }

@@ -1,18 +1,19 @@
 #pragma once
-#include <glm\vec3.hpp>
+
 
 
 namespace Light
 {
 	namespace render
 	{
-		class DirectionLight
+		
+		struct LightParam;
+		class LightData
 		{
 		public:
-			glm::vec3 La;
-			glm::vec3 Ld;
-			glm::vec3 Ls;
-			glm::vec3 direction;
+			virtual ~LightData() = default;
+
+			virtual void SetupParam(LightParam*) = 0;
 		};
 	}
 }

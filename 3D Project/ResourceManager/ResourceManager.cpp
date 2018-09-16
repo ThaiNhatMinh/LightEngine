@@ -1,5 +1,6 @@
 #include <pch.h>
-#include <IL/il.h>
+#include <DevIL/include/IL/il.h>
+#include <DevIL/include/IL/ilu.h>
 #include "LTBFileLoader.h"
 #include <fmod_errors.h>
 #include <assimp\Importer.hpp>
@@ -45,7 +46,7 @@ namespace Light
 				return (a.find(b) != string::npos);
 			};
 			// Load default tex
-			m_pDefaultTex = HasResource(m_Textures, "Default.png",a );
+			m_pDefaultTex = HasResource(m_Textures, "White.png",a );
 
 			//LoadResources("GameAssets/" + string(Light::RESOURCES_FILE));
 
@@ -290,8 +291,9 @@ namespace Light
 			if (Error != IL_NO_ERROR)
 			{
 				//string error = iluErrorString(Error);
+				ILenum e = ilGetError();
 				E_ERROR("Can't load texture: %s",filename.c_str());
-				
+				E_ERROR("[IL] %d",e);
 				//Log::Message(Log::LOG_ERROR, "Devil: " + error);
 				return m_pDefaultTex;//HasTexture("GameAssets/TEXTURE/Default.png");
 			}
@@ -302,11 +304,28 @@ namespace Light
 			ILubyte *Data = ilGetData();
 			iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
-				
+			render::ColorFormat format;
+			switch (iBpp)
+			{
+			case 1:
+				format= render::FORMAT_RED;
+				break;
+			case 3:
+				format= render::FORMAT_RGB;
+				break;
+			case 4:
+				format = render::FORMAT_RGBA;
+				break;
+			default:
+				format = render::FORMAT_RGB;
+				break;
+			}
+
+
 			render::TextureCreateInfo texinfo;
 			texinfo.eTarget = render::TEXTURE_2D;
 			texinfo.iLevel = 0;
-			texinfo.iInternalFormat = iBpp==3?render::FORMAT_RGB:render::FORMAT_RGBA;
+			texinfo.iInternalFormat = format;
 			texinfo.uiWidth = width;
 			texinfo.uiHeight = height;
 			texinfo.pData = Data;
@@ -707,34 +726,39 @@ namespace Light
 				aiMaterial* mat = scene->mMaterials[a];
 				
 				auto m = m_pContext->GetSystem<IFactory>()->VGetMaterial("Default");
-
-				/*aiString name;
+				render::MaterialData matParam;
+				aiString name;
 				mat->Get<aiString>(AI_MATKEY_NAME, name);
-				m->Name = name.C_Str();
+				matParam.Name = name.C_Str();
 				aiColor3D color(0.f, 0.f, 0.f);
 				mat->Get(AI_MATKEY_COLOR_AMBIENT,color);
-				m->Ka = vec3(color.r, color.g, color.b);
+				matParam.Ka = vec3(color.r, color.g, color.b);
 				mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
-				m->Kd = vec3(color.r, color.g, color.b);
+				matParam.Kd = vec3(color.r, color.g, color.b);
 				mat->Get(AI_MATKEY_COLOR_SPECULAR, color);
-				m->Ks = vec3(color.r, color.g, color.b);
+				matParam.Ks = vec3(color.r, color.g, color.b);
 				float exp;
 				mat->Get(AI_MATKEY_SHININESS, exp);
-				m->exp = vec3(exp);*/
+				matParam.exp = vec3(exp);
+
+				pModel->MatParam.push_back(matParam);
+
 				aiString Path;
-				mat->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL);
-				//mat->GetTexture(aiTextureType_SPECULAR, 0, &Path, NULL, NULL, NULL, NULL, NULL);
-				//mat->GetTexture(aiTextureType_AMBIENT, 0, &Path, NULL, NULL, NULL, NULL, NULL);
-				
-
-
-				DefaultMesh* pMesh = DEBUG_NEW DefaultMesh(m_pRenderDevice,vertexs, Indices, mesh->mName.C_Str());
-			
-				//pMesh->Tex = LoadTexture(localPath + Path.C_Str());
-				//pMesh->mat = m;
-				if(Path.length) pModel->Textures.push_back(VGetTexture(localPath + Path.C_Str()));
-				else pModel->Textures.push_back(nullptr);
+				/*{
+					mat->GetTexture(aiTextureType_AMBIENT, 0, &Path, NULL, NULL, NULL, NULL, NULL);
+					pModel->Ambient.push_back(VGetTexture(localPath + Path.C_Str()));
+				}*/
+				{
+					mat->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL);
+					pModel->Diffuse.push_back(VGetTexture(localPath + Path.C_Str()));
+				}
+				/*{
+					mat->GetTexture(aiTextureType_SPECULAR, 0, &Path, NULL, NULL, NULL, NULL, NULL);
+					pModel->Specular.push_back(VGetTexture(localPath + Path.C_Str()));
+				}	*/			
 				pModel->Materials.push_back(m);
+
+				DefaultMesh* pMesh = DEBUG_NEW DefaultMesh(m_pRenderDevice, vertexs, Indices, mesh->mName.C_Str());
 				pModel->Meshs.push_back(std::unique_ptr<Mesh>(pMesh));
 				
 				
@@ -755,7 +779,6 @@ namespace Light
 			{
 				if ((tex = LoadTexture(filename)) == nullptr)
 				{
-					E_ERROR("Cound not find texture: %s", filename.c_str());
 					return m_pDefaultTex;
 				}
 			}

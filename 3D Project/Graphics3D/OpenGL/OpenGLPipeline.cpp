@@ -53,7 +53,7 @@ render::PipelineParam * render::OpenGLPipeline::GetParam(const char * name)
 
 	E_DEBUG("[Pipeline] Param %s not founnd!", name);
 
-	return nullptr;
+	return &m_NullParam;
 }
 
 void render::OpenGLPipeline::GetUniformList()

@@ -14,13 +14,15 @@
 #include "OpenGLFrameBuffer.h"
 #include "OpenGLRenderBuffer.h"
 #include "DataMap.h"
-#include "Core\OpenGLWindows.h"
+
 #include "Interface\IEventManager.h"
 #include "GameComponents\TransformComponent.h"
 #include "GameComponents\MeshRenderComponent.h"
 #include "..\..\Core\Events.h"
 #include "Core\Events.h"
 #include "..\..\Interface\IFactory.h"
+#include "..\..\Interface\IWindow.h"
+
 #include "..\RenderPass\DefaultPass.h"
 #include "..\SkyBox.h"
 #include "..\Scene.h"
@@ -327,8 +329,6 @@ namespace Light
 
 		void OpenGLRenderDevice::Render()
 		{
-			this->Clear();
-
 			// if there was no camera, so we can't see anything
 			if (m_pCurrentCamera == nullptr) return;
 
@@ -389,6 +389,11 @@ namespace Light
 			SkyBox* pSky = static_cast<Scene*>(m_pScene)->GetSkyBox();
 			return pSky->GetTexture();
 			
+		}
+
+		IScene * OpenGLRenderDevice::GetScene()
+		{
+			return m_pScene;
 		}
 
 		void OpenGLRenderDevice::OnObjectCreate(std::shared_ptr<IEvent> event)

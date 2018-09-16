@@ -1,7 +1,7 @@
 #pragma once
-#include "Material.h"
 #include <list>
 #include <string>
+#include "..\Interface\IComponent.h"
 namespace Light
 {
 	namespace render
