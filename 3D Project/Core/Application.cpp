@@ -14,7 +14,8 @@
 #include "..\ResourceManager\ResourceManager.h"
 #include "..\Core\OpenGLInput.h"
 #include "..\Graphics3D\RenderPass\OutlinePass.h"
-#include "..\Graphics3D\OpenGL\DataMap.h"
+#include "OpenGLDebugRender.h"
+
 using namespace Light;
 
 void Application::SetupSubmodule()
@@ -30,15 +31,13 @@ void Application::SetupSubmodule()
 	m_pRenderer = std::unique_ptr<Light::render::RenderDevice>(a);
 	m_pResources = std::unique_ptr<IResourceManager>(DEBUG_NEW Light::resources::ResourceManager(m_Context.get()));
 
-
-
 	m_pActorFactory = std::unique_ptr<Light::IFactory>(DEBUG_NEW Light::ActorFactory(m_Context.get()));
 	//m_pSoundEngine = std::unique_ptr<SoundEngine>(DEBUG_NEW SoundEngine(m_Context.get()));
 	
 	//m_pSystemUI = std::unique_ptr<SystemUI>(DEBUG_NEW SystemUI(m_Context.get()));
 	m_pInput = std::unique_ptr<Light::IInput>(DEBUG_NEW Light::OpenGLInput(m_Context.get()));
 	//m_pConsole = std::unique_ptr<Console>(DEBUG_NEW Console(m_Context.get()));
-	//m_pDebuger = std::unique_ptr<Debug>(DEBUG_NEW Debug(m_Context.get()));
+	m_pDebuger = std::unique_ptr<Light::IDebugRender>(DEBUG_NEW OpenGLDebugRender(m_Context.get()));
 	//m_pPhysic = std::unique_ptr<BulletPhysics>(DEBUG_NEW BulletPhysics(m_Context.get()));
 	m_pTimer = std::unique_ptr<Light::ITimer>(DEBUG_NEW Light::GameTimer(m_Context.get()));
 	//m_pEffectSystem = std::unique_ptr<EffectSystem>(DEBUG_NEW EffectSystem(m_Context.get()));
@@ -185,7 +184,11 @@ void Application::MainLoop()
 		pGame->Update(dt);
 
 		//framebuffer.Begin();
-		
+		m_pRenderer->Clear();
+
+		//m_pDebuger->DrawLineBox(glm::vec3(0), glm::vec3(100));
+		//m_pDebuger->DrawCoord(glm::translate(glm::mat4(),glm::vec3(10,10,10)));
+		m_pDebuger->Render();
 		m_pRenderer->Render();
 		/*framebuffer.End();
 		

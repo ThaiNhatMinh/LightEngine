@@ -10,7 +10,7 @@
 //#include "..\Interface\ISysUI.h"
 //#include "..\Interface\IConsole.h"
 #include "..\Interface\IInput.h"
-//#include "..\Interface\IDebugRender.h"
+#include "..\Interface\IDebugRender.h"
 //#include "..\Interface\IGamePhysic.h"
 #include "..\Interface\ITimer.h"
 #include "..\Graphics3D\Renderer.h"
@@ -55,7 +55,7 @@ namespace Light
 		//std::unique_ptr<IConsole>			m_pConsole;
 		std::unique_ptr<IInput>				m_pInput;
 
-		//std::unique_ptr<IDebugRender>		m_pDebuger;
+		std::unique_ptr<IDebugRender>		m_pDebuger;
 		//std::unique_ptr<IGamePhysic>		m_pPhysic;
 		std::unique_ptr<ITimer>				m_pTimer;
 		//std::unique_ptr<EffectSystem>		m_pEffectSystem;
