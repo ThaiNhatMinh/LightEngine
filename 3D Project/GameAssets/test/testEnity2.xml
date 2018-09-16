@@ -1,12 +1,13 @@
 <Actor type="Player" name="707" >
   <Component>  
 	  <MeshRenderComponent>
-		  <Model File="GameAssets\MODELS\707_BL.xml" />
+		  <Model File="GameAssets\test\Crate1.obj" />
 	  </MeshRenderComponent>
 	  
 	 <TransformComponent>
-		  <Position x="200" y="0" z="200"/>
+		  <Position x="0" y="0" z="10"/>
 		  <YawPitchRoll x="0" y="0" z="0"/>
+			<Scale x="3" y="3" z="3"/>
 	  </TransformComponent>
   </Component>
   <Children>

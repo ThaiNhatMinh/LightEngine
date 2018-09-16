@@ -1,13 +1,13 @@
 <Actor type="None" name="Camera">
 
 	<Script name="CameraControl">
-		<Speed>400</Speed>
+		<Speed>20</Speed>
 		<MouseSensitivity>0.25</MouseSensitivity>
 	</Script>
 	
  <Component>
   <TransformComponent>
-    <Position x="0" y="0" z="300"/>
+    <Position x="0" y="0" z="0"/>
     <YawPitchRoll x="0" y="180" z="0"/>
 	
   </TransformComponent>

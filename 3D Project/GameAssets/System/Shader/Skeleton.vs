@@ -1,4 +1,4 @@
-#version 140
+#version 330
 // neu co bien khong dung toi thi trinh bien dich se tu dong xoa khi bien dich.
 in vec3 aPos;	// location = 0
 in vec3 aNormal;		// location = 1
@@ -13,10 +13,18 @@ uniform mat4 uMVP;
 uniform mat4 uModel;
 //uniform mat4 uTransform[70];
 
-out vec3 oNormal;
-out vec2 oUV;
-out vec3 oFragPos;
-out vec3 oPosition;
+//out vec3 oNormal;
+//out vec2 oUV;
+//out vec3 oFragPos;
+//out vec3 oPosition;
+out VS_OUT
+{
+    vec2 oUV;
+    vec3 oNormal;
+    vec3 oPosition;
+}vs_out;
+
+
 void main()
 {
 	vec4 pos = vec4(aPos,1.0f);
@@ -54,9 +62,9 @@ void main()
 
 
 	gl_Position = uMVP*pos;
-	oNormal =  mat3(uModel)*aNormal;  
-	oPosition = vec3(uModel * pos);
-	oUV = aUV;
+	vs_out.oNormal =  mat3(transpose(inverse(uModel))) *aNormal;  
+	vs_out.oPosition = vec3(uModel * pos);
+	vs_out.oUV = aUV;
 	//oFragPos = vec3(uModel * pos);
 
 	

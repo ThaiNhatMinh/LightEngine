@@ -1,12 +1,13 @@
 <Actor type="Player" name="707" >
   <Component>  
 	  <MeshRenderComponent>
-		  <Model File="GameAssets\MODELS\707_BL.xml" />
+		  <Model File="GameAssets\test\nanosuit\nanosuit.obj" />
 	  </MeshRenderComponent>
 	  
 	 <TransformComponent>
 		  <Position x="0" y="0" z="0"/>
 		  <YawPitchRoll x="0" y="0" z="0"/>
+			<Scale x="2" y="2" z="2"/>
 	  </TransformComponent>
   </Component>
   <Children>
