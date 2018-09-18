@@ -565,7 +565,7 @@ namespace Light
 				tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
 				const char* pFileName = pModelNode->Attribute("File");
 
-				LTRawData* pLTBData = LoadLTBModel(pFileName);
+				LTRawData* pLTBData = VGetRawModel(pFileName);
 				if (pLTBData)
 				{
 
@@ -590,8 +590,6 @@ namespace Light
 
 						
 					}
-
-					delete pLTBData;
 				}
 				
 
@@ -868,6 +866,18 @@ namespace Light
 				}
 			}
 			return tex;
+		}
+
+		LTRawData * ResourceManager::VGetRawModel(const std::string & filename)
+		{
+			LTRawData* pData = HasResource(m_RawModels, filename);
+			if (pData) return pData;
+
+			pData = LoadLTBModel(filename);
+
+			m_RawModels.push_back(ResourceHandle<LTRawData>(filename, pData));
+
+			return pData;
 		}
 
 		/*LoadStatus * ResourceManager::VLoadResource(const std::string & resourcePath, bool async)

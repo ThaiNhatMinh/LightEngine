@@ -4,7 +4,7 @@
 #include "..\Graphics3D\Mesh.h"
 #include "..\Core\Log.h"
 #include "RenderPass.h"
-
+#include "Material.h"
 namespace Light
 {
 	namespace render
@@ -17,7 +17,7 @@ namespace Light
 
 		public:
 			virtual ~Model(){};
-			virtual void Draw(render::RenderDevice* pRenderer, const float * model, const float * mvp) = 0;
+			virtual void Draw(render::RenderDevice* pRenderer,  Material::MatrixParam& matrixParam) = 0;
 			virtual MeshList& GetMeshs() = 0;
 		};
 	}

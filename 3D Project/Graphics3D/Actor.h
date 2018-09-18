@@ -25,6 +25,9 @@ namespace Light
 		glm::mat4				m_WorldTransform;
 		std::unique_ptr<IScript>m_pScript;
 		IEventManager*			m_pEventManager;
+
+		std::vector<util::Updatable*> m_ObjectUpdate;
+		std::vector<util::PreRenderable*> m_ObjectPreRender;
 	public:
 		Actor(IContext* pContext,ActorId id);
 		virtual ~Actor();
@@ -40,6 +43,7 @@ namespace Light
 		virtual mat4		VGetGlobalTransform()override;
 		virtual HRESULT		VOnUpdate(Scene *, float elapsedMs)override;
 		virtual HRESULT		VPostUpdate(Scene *)override;
+		virtual void		VPreRender(render::Material::MatrixParam& param)override;
 		virtual bool		VIsVisible(Scene *pScene) const override;
 		virtual bool		VAddChild(IActor* kid)override;
 		virtual bool		VRemoveChild(ActorId id)override;

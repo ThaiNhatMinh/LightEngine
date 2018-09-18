@@ -174,6 +174,7 @@
     <ClInclude Include="..\ThirdParty\imgui\stb_rect_pack.h" />
     <ClInclude Include="..\ThirdParty\imgui\stb_textedit.h" />
     <ClInclude Include="..\ThirdParty\imgui\stb_truetype.h" />
+    <ClInclude Include="Animation\AnimationState.h" />
     <ClInclude Include="Core\ActorFactory.h" />
     <ClInclude Include="Core\Application.h" />
     <ClInclude Include="Core\Context.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Core\OpenGLSysUI.h" />
     <ClInclude Include="Core\OpenGLWindows.h" />
     <ClInclude Include="Core\Timer.h" />
+    <ClInclude Include="GameComponents\AnimatorComponent.h" />
     <ClInclude Include="GameComponents\CameraComponent.h" />
     <ClInclude Include="GameComponents\MeshRenderComponent.h" />
     <ClInclude Include="GameComponents\TransformComponent.h" />
@@ -259,6 +261,7 @@
     <ClInclude Include="ResourceManager\LTRawData.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="Script\CameraControl.h" />
+    <ClInclude Include="Script\TestScript.h" />
     <ClInclude Include="typedef.h" />
     <ClInclude Include="Utilities\Delegate.h" />
     <ClInclude Include="Utilities\LTBStruct.h" />
@@ -271,6 +274,7 @@
   <ItemGroup>
     <ClCompile Include="..\ThirdParty\imgui\imgui.cpp" />
     <ClCompile Include="..\ThirdParty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Animation\AnimationState.cpp" />
     <ClCompile Include="Core\ActorFactory.cpp" />
     <ClCompile Include="Core\Application.cpp" />
     <ClCompile Include="Core\Context.cpp" />
@@ -280,6 +284,7 @@
     <ClCompile Include="Core\OpenGLInput.cpp" />
     <ClCompile Include="Core\OpenGLWindows.cpp" />
     <ClCompile Include="Core\Timer.cpp" />
+    <ClCompile Include="GameComponents\AnimatorComponent.cpp" />
     <ClCompile Include="GameComponents\CameraComponent.cpp" />
     <ClCompile Include="GameComponents\MeshRenderComponent.cpp" />
     <ClCompile Include="GameComponents\TransformComponent.cpp" />
@@ -327,6 +332,7 @@
     <ClCompile Include="ResourceManager\LTBFileLoader.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Script\CameraControl.cpp" />
+    <ClCompile Include="Script\TestScript.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Utilities\Observer.cpp" />
     <ClCompile Include="Utilities\String.cpp" />

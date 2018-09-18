@@ -178,6 +178,11 @@ namespace Light
 			virtual void SetAsMat4(const float* value) = 0;
 			virtual void SetAsVec3(const float* value) = 0;
 			virtual void SetAsVec2(const float* value) = 0;
+
+			virtual void SetAsFloatV(const float* value,int num) = 0;
+			virtual void SetAsMat4V(const float* value, int num) = 0;
+			virtual void SetAsVec3V(const float* value, int num) = 0;
+			virtual void SetAsVec2V(const float* value, int num) = 0;
 		protected:
 			PipelineParam() = default;
 		};
@@ -300,7 +305,9 @@ namespace Light
 		const static char* uCubeTex = "uCubeTex";
 		const static char* uCameraPos = "uCameraPos";
 		const static char* uColor	= "uColor";
-		const static char* aPOS	= "aPos";
+		const static char* uSkeTransform = "uTransform[0]";
+		const static char* aPOS		= "aPos";
+
 		enum Primitive
 		{
 			PRIMITIVE_POINT = 0,

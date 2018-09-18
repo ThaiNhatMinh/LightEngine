@@ -5,11 +5,13 @@
 #include "..\Graphics3D\Actor.h"
 #include "..\GameComponents\TransformComponent.h"
 #include "..\GameComponents\MeshRenderComponent.h"
+#include "..\GameComponents\AnimatorComponent.h"
 #include "..\GameComponents\CameraComponent.h"
 #include "..\Graphics3D\DefaultMaterial.h"
 #include "..\Graphics3D\SkeletonMaterial.h"
 #include "..\Graphics3D\Scene.h"
 #include "..\Script\CameraControl.h"
+#include "..\Script\TestScript.h"
 namespace Light
 {
 
@@ -21,6 +23,7 @@ namespace Light
 		m_lastActorId = 1;
 		m_ComponentFactoryMap.insert(std::make_pair("TransformComponent", []() { return DEBUG_NEW TransformComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("MeshRenderComponent", []() { return DEBUG_NEW MeshRenderComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("AnimatorComponent", []() { return DEBUG_NEW AnimatorComponent(); }));
 
 		auto CameraFunc = [&]()
 		{
@@ -60,6 +63,7 @@ namespace Light
 		m_MaterialMap.insert(std::make_pair("Skeleton", std::shared_ptr<render::Material>(DEBUG_NEW render::SkeletonMaterial(m_pContext))));
 		
 		m_ScriptMap.insert(std::make_pair("CameraControl", [](IContext* pContext, IActor* owner) {return DEBUG_NEW CameraControl(pContext, owner); }));
+		m_ScriptMap.insert(std::make_pair("Test", [](IContext* pContext, IActor* owner) {return DEBUG_NEW TestScript(pContext, owner); }));
 
 	}
 

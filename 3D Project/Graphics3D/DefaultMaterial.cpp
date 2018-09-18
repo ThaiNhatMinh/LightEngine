@@ -82,13 +82,13 @@ namespace Light
 			pMaterial->InsertEndChild(pShaderNode);
 			return pMaterial;
 		}*/
-		void DefaultMaterial::Apply(RenderDevice* renderer, const float * model, const float * mvp, const MaterialData& matData)
+		void DefaultMaterial::Apply(RenderDevice* renderer, const MatrixParam& matrixParam, const MaterialData& matData)
 		{
-			assert(model != nullptr && mvp != nullptr);
+			const float* model = matrixParam.at(render::uMODEL);
+			const float* mvp = matrixParam.at(render::uMVP);
+
 			renderer->SetPipeline(m_Pipeline.get());
 
-			
-			renderer->SetPipeline(m_Pipeline.get());
 			m_uNumLight->SetAsInt(m_pLightManager->GetNumPointLight());
 			m_pLightManager->SetupDirLight(&m_uDirLight);
 			m_pLightManager->SetupPointLight(m_uPointLight);

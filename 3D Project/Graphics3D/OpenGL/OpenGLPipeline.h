@@ -15,6 +15,10 @@ namespace Light {
 			virtual void SetAsMat4(const float* value) {};
 			virtual void SetAsVec3(const float* value) {};
 			virtual void SetAsVec2(const float* value) {};
+			virtual void SetAsFloatV(const float* value, int num) {};
+			virtual void SetAsMat4V(const float* value, int num) {};
+			virtual void SetAsVec3V(const float* value, int num) {};
+			virtual void SetAsVec2V(const float* value, int num) {};
 		};
 
 		class OpenGLPipeline : public Pipeline

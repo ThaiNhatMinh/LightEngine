@@ -40,7 +40,7 @@ namespace Light
 			std::vector<ResourceHandle<render::Model>> m_ModelCaches;
 			std::vector<ResourceHandle<HeightMap>> m_HeightMaps;
 			std::vector<ResourceHandle<SpriteData>> m_Sprites;
-			
+			std::vector<ResourceHandle<LTRawData>> m_RawModels;
 			//map<string, std::unique_ptr<SoundRAAI>> m_SoundList;
 
 			//vector<std::unique_ptr<IMesh>>	m_PrimList;
@@ -102,6 +102,7 @@ namespace Light
 			virtual render::Model *			VGetModel(const std::string& filename)override;
 			virtual HeightMap*				VGetHeightMap(const std::string& filename)override;
 			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist)override;
+			virtual LTRawData*				VGetRawModel(const std::string& filename)override;
 			//virtual FMOD::Sound*	VGetSound(const std::string& tag)override;
 
 		};

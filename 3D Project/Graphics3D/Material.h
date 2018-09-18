@@ -45,7 +45,7 @@ namespace Light
 			
 			std::unique_ptr<Pipeline> m_Pipeline;
 			
-			
+			typedef std::map<const char*,const float*> MatrixParam;
 
 		public:
 
@@ -56,7 +56,7 @@ namespace Light
 			virtual ~Material() {};
 
 			
-			virtual void Apply(RenderDevice* renderer, const float* model, const float* mvp, const MaterialData& matData = MaterialData()) = 0;
+			virtual void Apply(RenderDevice* renderer,const MatrixParam& matrixParam, const MaterialData& matData = MaterialData()) = 0;
 			virtual MaterialType GetType() = 0;
 			virtual std::shared_ptr<Material> Clone() = 0;
 			virtual void SetPipeline(Pipeline* pipeline) = 0;

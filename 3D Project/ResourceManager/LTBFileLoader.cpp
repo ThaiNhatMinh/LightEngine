@@ -792,7 +792,6 @@ LTRawData * LTBFileLoader::LoadModel(const char * pFileName)
 	FILE* pFile = fopen(pFileName, "rb");
 	if (!pFile)
 	{
-		E_ERROR("Can't load file: %s",pFileName);
 		return nullptr;
 	}
 

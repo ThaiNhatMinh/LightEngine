@@ -18,7 +18,7 @@ namespace Light
 			DefaultMaterial(IContext* pContext);
 			//virtual bool VSerialize(IContext*pContext,const tinyxml2::XMLElement * pData);
 			//virtual tinyxml2::XMLElement* VDeserialize(tinyxml2::XMLDocument*p);
-			virtual void Apply(RenderDevice* renderer, const float* model, const float* mvp, const MaterialData& matData);
+			virtual void Apply(RenderDevice* renderer, const MatrixParam& matrixParam, const MaterialData& matData)override;
 			virtual MaterialType GetType();
 			virtual void SetPipeline(Pipeline* pipeline)override;
 

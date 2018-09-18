@@ -292,6 +292,15 @@
     <ClInclude Include="Graphics3D\LightManager.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
+    <ClInclude Include="Animation\AnimationState.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\AnimatorComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\TestScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -461,6 +470,13 @@
     <ClCompile Include="Graphics3D\LightManager.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
+    <ClCompile Include="Animation\AnimationState.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\AnimatorComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Script\TestScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -519,6 +535,9 @@
     </Filter>
     <Filter Include="Graphics3D\LightData">
       <UniqueIdentifier>{f5b27735-a0b8-4148-9ec0-a3be31883716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation">
+      <UniqueIdentifier>{926dc625-7ff7-419f-ad64-f59a593130a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

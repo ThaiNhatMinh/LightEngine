@@ -67,6 +67,9 @@ namespace Light
 		if (m_ObjectList.size() == 0) return;
 
 		pRenderer->SetDepthStencilState(pDepthStencilConfig1.get());
+
+		Material::MatrixParam param;
+
 		for (Renderable& renderable : m_ObjectList)
 		{
 			render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
@@ -74,8 +77,10 @@ namespace Light
 			// computer transformation matrix
 			glm::mat4 model = actor->VGetGlobalTransform();
 
+			param[uMODEL] = glm::value_ptr(model);
+			param[uMVP] = glm::value_ptr(pv*model);
 			// just draw it
-			modelRender->Draw(pRenderer, glm::value_ptr(model), glm::value_ptr(pv*model));
+			modelRender->Draw(pRenderer, param);
 		}
 
 		pRenderer->SetDepthStencilState(pDepthStencilConfig2.get());
@@ -85,7 +90,11 @@ namespace Light
 			IActor* actor = renderable.m_pActor;
 			// computer transformation matrix
 			glm::mat4 model = actor->VGetGlobalTransform();
-			pGlobalMaterial->Apply(pRenderer, glm::value_ptr(model), glm::value_ptr(pv*model));
+
+			param[uMODEL] = glm::value_ptr(model);
+			param[uMVP] = glm::value_ptr(pv*model);
+
+			pGlobalMaterial->Apply(pRenderer, param);
 
 			// just draw it
 			Model::MeshList& meshs = modelRender->GetMeshs();

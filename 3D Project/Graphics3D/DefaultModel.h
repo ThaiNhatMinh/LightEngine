@@ -17,7 +17,7 @@ namespace Light
 		std::vector<std::shared_ptr<render::Material>>	Materials;
 		std::vector<render::MaterialData> MatParam;
 
-		virtual void Draw(render::RenderDevice* pRenderer, const float * model, const float * mvp);
+		virtual void Draw(render::RenderDevice* pRenderer,  render::Material::MatrixParam& matrixParam)override;
 		virtual MeshList& GetMeshs()override;
 	};
 }

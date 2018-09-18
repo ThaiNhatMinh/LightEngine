@@ -433,29 +433,6 @@ void AnimationComponent::VUpdate(float deltaMs)
 		mat4 translate = glm::translate(mat4(), m_CurrentFrames[i].m_Pos);
 		mat4 transform = translate*rotate;
 
-		
-		
-		if (m_Pitch != 0)
-		{
-			if (m_pSkeNodes[i]->m_Name == "M-bone Neck")
-			{
-				mat4 rotate;
-				rotate = glm::rotate(rotate, glm::radians(m_Pitch / 3), vec3(0, 1, 0));
-				transform = rotate*transform;
-			}
-			else if (m_pSkeNodes[i]->m_Name == "M-bone Spine")
-			{
-				mat4 rotate;
-				rotate = glm::rotate(rotate, glm::radians(m_Pitch / 3), vec3(0, 1, 0));
-				transform = rotate*transform;
-			}
-			else if (m_pSkeNodes[i]->m_Name == "M-bone Spine1")
-			{
-				mat4 rotate;
-				rotate = glm::rotate(rotate, glm::radians(m_Pitch / 3), vec3(0, 1, 0));
-				transform = rotate*transform;
-			}
-		}
 
 		if (m_pSkeNodes[i]->m_ParentIndex != -1) m_TransformLocal = m_DbTransform[m_pSkeNodes[i]->m_ParentIndex] * transform;
 		else m_TransformLocal = transform;

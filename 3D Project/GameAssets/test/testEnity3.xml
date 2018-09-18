@@ -1,4 +1,6 @@
 <Actor type="Player" name="707" >
+	<Script name="Test">
+	</Script>
   <Component>  
 	  <MeshRenderComponent>
 		  <Model File="GameAssets\MODELS\707_BL.xml" />
@@ -8,6 +10,27 @@
 		  <Position x="200" y="0" z="400"/>
 		  <YawPitchRoll x="0" y="0" z="0"/>
 	  </TransformComponent>
+		<AnimatorComponent>
+			<EntryPoint>Idle</EntryPoint>
+			<AnimationState>
+				<State TransitionTime="1.0">
+					<Name>Idle</Name>
+					<Motion name="M-idle">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Motion>
+					<Next>Shoot</Next>
+					<Next>Reload</Next>
+				</State>
+				<State TransitionTime="0.2">
+					<Name>Shoot</Name>
+					<Motion name="M-Shoot-MP5-upper">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Motion>
+					<Next>Idle</Next>
+				</State>
+				<State TransitionTime="0.2">
+					<Name>Reload</Name>
+					<Motion name="M-reload-M700">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Motion>
+					<Next>Idle</Next>
+				</State>
+			</AnimationState>
+		</AnimatorComponent>
   </Component>
   <Children>
   </Children>

@@ -15,6 +15,7 @@ namespace Light
 
 			std::shared_ptr<Material> pGlobalMaterial = nullptr;
 			std::unique_ptr<DepthStencilState> pDepthStencilConfig;
+			Material::MatrixParam param;
 		public:
 			DefaultRenderPass(const std::string& name, IContext* pContext);
 			virtual void Render(const glm::mat4& pv)override;

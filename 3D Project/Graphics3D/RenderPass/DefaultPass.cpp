@@ -25,6 +25,9 @@ namespace Light
 
 		pDepthStencilConfig = std::unique_ptr<DepthStencilState>(pRenderer->CreateDepthStencilState(config));
 
+
+		param[uMODEL] = nullptr;
+		param[uMVP] = nullptr;
 	}
 
 	void render::DefaultRenderPass::Render(const glm::mat4 & pv)
@@ -32,14 +35,18 @@ namespace Light
 		if (m_ObjectList.size() == 0) return;
 		pRenderer->SetDepthStencilState(pDepthStencilConfig.get());
 	
+		
 		for (Renderable& renderable : m_ObjectList)
 		{
 			render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
 			IActor* actor = renderable.m_pActor;
+			actor->VPreRender(param);
 			// computer transformation matrix
 			glm::mat4 model = actor->VGetGlobalTransform();
+			param[uMODEL] = glm::value_ptr(model);
+			param[uMVP] = glm::value_ptr(pv*model);
 			// just draw it
-			modelRender->Draw(pRenderer, glm::value_ptr(model), glm::value_ptr(pv*model));
+			modelRender->Draw(pRenderer, param);
 		}
 	}
 

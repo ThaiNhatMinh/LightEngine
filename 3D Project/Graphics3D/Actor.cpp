@@ -41,6 +41,10 @@ namespace Light
 
 	HRESULT Actor::VOnUpdate(Scene *pScene, float deltaMs)
 	{
+		// update internal data
+		for (auto el : m_ObjectUpdate)
+			el->VUpdate(deltaMs);
+
 		m_WorldTransform = m_TransformComponent->transform;
 		if (m_pParent)
 			m_WorldTransform = m_pParent->VGetGlobalTransform()*m_WorldTransform;
@@ -66,6 +70,13 @@ namespace Light
 			(*i)->VPostUpdate(pScene);
 		}
 		return S_OK;
+	}
+
+	void Actor::VPreRender(render::Material::MatrixParam & param)
+	{
+		for (auto el : m_ObjectPreRender)
+			el->VPreRender(param);
+
 	}
 
 	mat4 Actor::VGetGlobalTransform()
@@ -101,6 +112,16 @@ namespace Light
 		}
 
 		std::pair<ActorComponents::iterator, bool> success = m_components.insert(std::make_pair(pComponent->GetType(), pComponent));
+
+		{
+			auto r = dynamic_cast<util::Updatable*>(pComponent);
+			if (r) m_ObjectUpdate.push_back(r);
+		}
+		{
+			auto r = dynamic_cast<util::PreRenderable*>(pComponent);
+			if (r) m_ObjectPreRender.push_back(r); 
+		}
+
 		return success.second;
 	}
 

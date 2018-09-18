@@ -8,6 +8,21 @@
 		  <Position x="400" y="0" z="400"/>
 		  <YawPitchRoll x="0" y="0" z="0"/>
 	  </TransformComponent>
+		<AnimatorComponent>
+			<EntryPoint>Shoot</EntryPoint>
+			<AnimationState>
+				<State TransitionTime="0.2">
+					<Name>Idle</Name>
+					<Motion name="M-idle">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Motion>
+					<Next>Shoot</Next>
+				</State>
+				<State TransitionTime="0.2">
+					<Name>Shoot</Name>
+					<Motion name="M-Shoot-MP5-upper">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Motion>
+					<Next>Idle</Next>
+				</State>
+			</AnimationState>
+		</AnimatorComponent>
   </Component>
   <Children>
   </Children>

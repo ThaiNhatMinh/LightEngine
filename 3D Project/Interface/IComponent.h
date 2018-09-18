@@ -14,7 +14,7 @@ namespace Light
 		virtual ComponentType	GetType() = 0;
 		IActor* GetOwner() {			return m_pOwner;		};
 		void SetOwner(IActor* pActor) {			m_pOwner = pActor;		};
-	private:
+	protected:
 		IActor* m_pOwner;
 	};
 
@@ -63,5 +63,13 @@ namespace Light
 	{
 	public:
 		glm::mat4* m_GlobalTransform;
+	};
+
+
+	// respone for transition between animation clip, store animation state machine 
+	class IAnimatorComponent : public Component<IAnimatorComponent>
+	{
+	public:
+		virtual void Play(const std::string& name, bool loop, float fadeinTime) = 0;
 	};
 }

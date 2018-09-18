@@ -6,7 +6,7 @@
 	<!-- <Actor File="GameAssets\test\testEnity1.xml" /> -->
 	<Actor File="GameAssets\test\testEnity2.xml" />
 	<Actor File="GameAssets\test\testEnity3.xml" />
-	<Actor File="GameAssets\test\testEnity4.xml" />
+	<!-- <Actor File="GameAssets\test\testEnity4.xml" /> -->
 	<Light>
 		<Direction x="-0.2" y="-1" z="-0.3">
 			<Ambient r="0.4" g="0.4" b="0.4" />

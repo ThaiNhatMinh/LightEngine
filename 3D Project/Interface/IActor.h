@@ -24,6 +24,7 @@ namespace Light
 		virtual glm::mat4	VGetGlobalTransform() = 0;
 		virtual HRESULT		VOnUpdate(Scene *, float elapsedMs) = 0;
 		virtual HRESULT		VPostUpdate(Scene *) = 0;
+		virtual void		VPreRender(render::Material::MatrixParam& param) = 0;
 		virtual bool		VIsVisible(Scene *pScene) const = 0;
 		virtual bool		VAddChild(IActor* kid) = 0;
 		virtual bool		VRemoveChild(ActorId id) = 0;

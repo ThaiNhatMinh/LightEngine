@@ -5,6 +5,8 @@
 #include "..\Graphics3D\ModelRender.h"
 #include "..\typedef.h"
 #include "..\Graphics3D\Vertex.h"
+#include "..\ResourceManager\LTRawData.h"
+
 namespace Light
 {
 	namespace resources
@@ -74,6 +76,7 @@ namespace Light
 			virtual render::Model *			VGetModel(const std::string& filename) = 0;
 			virtual HeightMap*				VGetHeightMap(const std::string& filename) = 0;
 			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist) = 0;
+			virtual LTRawData*				VGetRawModel(const std::string& filename)=0;
 			//virtual LoadStatus*				VLoadResource(const std::string& resourcePath, bool async = false) = 0;
 			//virtual FMOD::Sound*	VGetSound(const string& tag) = 0;
 		};

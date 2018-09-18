@@ -1,5 +1,6 @@
 #pragma once
 #include "..\Math\AABB.h"
+#include <glm\gtc\quaternion.hpp>
 
 namespace Light
 {
