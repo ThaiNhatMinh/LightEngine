@@ -14,9 +14,9 @@
 			
 			<AnimationLayer>
 				<EntryPoint>Shoot</EntryPoint>
-				<Name>Lower</Name>
+				<Name>Default</Name>
 				<Weight>1.0</Weight>
-				<Mask type="3"></Mask>
+				<Mask type="3"><File name="Lower">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</File></Mask>
 				<AnimationState>
 					<State TransitionTime="0.2">
 						<Name>Idle</Name>
@@ -32,6 +32,7 @@
 					</State>
 				</AnimationState>
 			</AnimationLayer>
+			
 		</AnimatorComponent>
 	</Component>
 	<Children>

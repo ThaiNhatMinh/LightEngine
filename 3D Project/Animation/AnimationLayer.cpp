@@ -23,6 +23,7 @@ bool Light::AnimationLayer::VSerialize(IContext * pContext, const tinyxml2::XMLE
 		else if (type == MASK_ONE)
 		{
 			m_Masks.resize(m_iNumNode, 1);
+			m_Masks[0] = 0;
 		}
 		else if (type == MASK_DEFAULT)
 		{
@@ -114,8 +115,8 @@ Light::FrameData Light::AnimationLayer::ComputerFrame(int i)
 {
 	FrameData frame = m_CurrentAnimation->ComputerFrame(i);
 	frame.m_Pos *= m_fWeight * m_Masks[i];
-	frame.m_Ort = glm::slerp(glm::quat(), frame.m_Ort, m_fWeight);
-	frame.m_Ort = glm::slerp(glm::quat(), frame.m_Ort, m_Masks[i]);
+	float t = m_fWeight * m_Masks[i];
+	frame.m_Ort = glm::slerp(glm::quat(), frame.m_Ort, t);
 
 	return frame;
 }

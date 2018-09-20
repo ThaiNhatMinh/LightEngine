@@ -480,6 +480,9 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Script\TestScript.cpp" />
+    <ClCompile Include="Animation\AnimationLayer.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
