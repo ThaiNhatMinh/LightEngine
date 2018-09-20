@@ -2,7 +2,7 @@
 
 
 #include "..\Interface\IComponent.h"
-#include "..\Animation\AnimationState.h"
+#include "..\Animation\AnimationLayer.h"
 #include "..\Utilities\Utility.h"
 namespace Light
 {
@@ -12,20 +12,22 @@ namespace Light
 		virtual bool		VSerialize(IContext*pContext, const tinyxml2::XMLElement * pData);
 		virtual tinyxml2::XMLElement* VDeserialize(tinyxml2::XMLDocument*p);
 
-		virtual void		Play(const std::string& name, bool loop, float fadeinTime);
+		virtual void		Play(const std::string& name, bool loop, const std::string& layer="Default");
 
-		void				SetCurrentState(AnimationState* pState);
+		
 
 		virtual void		VUpdate(float dt);
 		virtual void		VPreRender(render::Material::MatrixParam& param)override;
 	private:
-		Animation* GetAnimation(LTRawData* pData,const std::string& name);
-		AnimationState* GetState(const std::string& name);
+		
+		
 	private:
-		// All state availble in object
-		std::vector<AnimationState> m_AllState;
-		AnimationState* m_CurrentAnimation;
+		int								m_iNumNode;
+		std::vector<std::unique_ptr<AnimationLayer>>		m_Layers;
+		std::vector<FrameData>			m_CurrentFrame;
 
-		//render::Model* m_pRenderModel;
+		std::vector<glm::mat4>			m_SkeTransform;			// matrix using to transform vertex, include invert bind-pose matrix
+		std::vector<glm::mat4>			m_DbTransform;			// matrix using to debug
+		SkeNode*						m_pSkeNodes;
 	};
 }

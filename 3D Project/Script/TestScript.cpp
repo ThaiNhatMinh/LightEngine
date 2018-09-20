@@ -24,5 +24,5 @@ tinyxml2::XMLElement * Light::TestScript::VDeserialize(tinyxml2::XMLDocument * p
 void Light::TestScript::Update(float dt)
 {
 	if (m_pInput->VOnKey(Key::Space)) 
-		m_pAnimator->Play("Reload", 0, 0);
+		m_pAnimator->Play("Reload", 0);
 }

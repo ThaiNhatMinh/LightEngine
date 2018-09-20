@@ -7,51 +7,27 @@ bool Light::AnimatorComponent::VSerialize(IContext * pContext, const tinyxml2::X
 	auto pResources = pContext->GetSystem<resources::IResourceManager>();
 
 	IMeshRenderComponent* pMeshRender = m_pOwner->GetComponent<IMeshRenderComponent>();
+	// need to check if owner doesn't has mesh render
 	if (pMeshRender == nullptr) return false;
 	//m_pRenderModel = pMeshRender->m_pModel;
+	auto pSkeleton = pData->FirstChildElement("Skeleton")->GetText();
+
+	auto raw = pResources->VGetRawModel(pSkeleton);
+	m_pSkeNodes = raw->SkeNodes.data();
+	m_iNumNode = raw->SkeNodes.size();
+	m_SkeTransform.resize(m_iNumNode);
+	m_DbTransform.resize(m_iNumNode);
+	m_CurrentFrame.resize(m_iNumNode);
+
+	for (auto pNode = pData->FirstChildElement("AnimationLayer"); pNode; pNode = pNode->NextSiblingElement("AnimationLayer"))
+	{
+		AnimationLayer* layer = DEBUG_NEW AnimationLayer(m_iNumNode);
+		layer->VSerialize(pContext, pNode);
+		m_Layers.push_back(std::unique_ptr<AnimationLayer>(layer));
+	}
+	
 
 	
-	// need to check if owner doesn't has mesh render
-
-	auto pStateNode = pData->FirstChildElement("AnimationState");
-	if (!pStateNode) return false;
-
-	for (auto pNode = pStateNode->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
-	{
-		const char* name = pNode->FirstChildElement("Name")->GetText();
-		const char* MotionFile = pNode->FirstChildElement("Motion")->GetText();
-		const char* MotionName = pNode->FirstChildElement("Motion")->Attribute("name");
-		
-
-		auto Raw = pResources->VGetRawModel(MotionFile);
-		Animation* pAnimData = GetAnimation(Raw, MotionName);
-		if (pAnimData == nullptr) E_ERROR("Can't get animation: %s", MotionName);
-
-		AnimationState state(Raw->SkeNodes.size());
-		state.m_pOwner = this;
-		state.m_Name = name;
-		state.m_pAnimData = pAnimData;
-		state.m_pSkeNodes = Raw->SkeNodes.data();
-		state.m_fTransitionTime = pNode->DoubleAttribute("TransitionTime", 0.2);
-
-		m_AllState.push_back(state);
-	}
-	int i = 0;
-	for (auto pNode = pStateNode->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
-	{
-		for (auto pNexNode = pNode->FirstChildElement("Next"); pNexNode; pNexNode = pNexNode->NextSiblingElement("Next"))
-		{
-			const char* Next = pNexNode->GetText();
-			auto pState = GetState(Next);
-			m_AllState[i].m_NextState.push_back(pState);
-		}
-		i++;
-	}
-
-	const char* pEntryPoint = pData->FirstChildElement("EntryPoint")->GetText();
-
-	m_CurrentAnimation = GetState(pEntryPoint);
-	m_CurrentAnimation->m_bLoop = true;
 	return true;
 }
 
@@ -60,50 +36,53 @@ tinyxml2::XMLElement * Light::AnimatorComponent::VDeserialize(tinyxml2::XMLDocum
 	return nullptr;
 }
 
-void Light::AnimatorComponent::Play(const std::string & name, bool loop, float fadeinTime)
+void Light::AnimatorComponent::Play(const std::string & name, bool loop, const std::string& layer)
 {
-	m_CurrentAnimation->Transition(name, loop);
+	for (std::size_t i = 0; i < m_Layers.size(); i++)
+	{
+		if (m_Layers[i]->GetName() == layer)
+			m_Layers[i]->Play(name,loop);
+	}
 }
 
-void Light::AnimatorComponent::SetCurrentState(AnimationState * pState)
-{
-	// ? Any thing special need to do here?
-	m_CurrentAnimation = pState;
-}
 
 void Light::AnimatorComponent::VUpdate(float dt)
 {
-	m_CurrentAnimation->Update(dt);
+	for (auto& el : m_Layers) el->Update(dt);
+
+
+	for (int i = 0; i < m_iNumNode; i++)
+	{
+		FrameData frame;
+		for (auto& el : m_Layers)
+		{
+			FrameData data = el->ComputerFrame(i);
+			frame.m_Pos += data.m_Pos;
+			frame.m_Ort *= data.m_Ort;
+		}
+
+		m_CurrentFrame[i] = frame;
+
+		glm::mat4 m_TransformLocal;
+		glm::mat4 rotate = glm::toMat4(frame.m_Ort);
+		glm::mat4 translate = glm::translate(mat4(), frame.m_Pos);
+		glm::mat4 transform = translate * rotate;
+
+
+		if (m_pSkeNodes[i].m_ParentIndex != -1) m_TransformLocal = m_DbTransform[m_pSkeNodes[i].m_ParentIndex] * transform;
+		else m_TransformLocal = transform;
+
+		m_SkeTransform[i] = m_TransformLocal;
+		m_DbTransform[i] = m_TransformLocal;
+		m_SkeTransform[i] = m_SkeTransform[i] * m_pSkeNodes[i].m_InvBindPose;
+	}
 	
 }
 
 void Light::AnimatorComponent::VPreRender(render::Material::MatrixParam & param)
 {
 
-	param[render::uSkeTransform] = m_CurrentAnimation->GetTransformMatrixs();
-	param["numNode"] = (float*)m_CurrentAnimation->GetNumNodes();
+	param[render::uSkeTransform] = glm::value_ptr(m_SkeTransform[0]);
+	param["numNode"] = (float*)m_iNumNode;
 }
 
-Light::Animation * Light::AnimatorComponent::GetAnimation(LTRawData * pData, const std::string & name)
-{
-	for (std::size_t i = 0; i < pData->Anims.size(); i++)
-	{
-		if (pData->Anims[i].Name == name) return &pData->Anims[i];
-	}
-
-	return nullptr;
-}
-
-Light::AnimationState * Light::AnimatorComponent::GetState(const std::string & name)
-{
-	for (auto& el : m_AllState)
-		if (el.GetName() == name)
-			return &el;
-
-	return nullptr;
-}
-
-int Light::AnimationState::GetNumNodes()
-{
-	return m_iNumNode;
-}

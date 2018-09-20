@@ -1,37 +1,55 @@
-<Actor type="Player" name="707" >
+<Actor type="Player" name="707">
 	<Script name="Test">
 	</Script>
-  <Component>  
-	  <MeshRenderComponent>
-		  <Model File="GameAssets\MODELS\707_BL.xml" />
-	  </MeshRenderComponent>
-	  
-	 <TransformComponent>
-		  <Position x="200" y="0" z="400"/>
-		  <YawPitchRoll x="0" y="0" z="0"/>
-	  </TransformComponent>
+	<Component>
+		<MeshRenderComponent>
+			<Model File="GameAssets\MODELS\707_BL.xml" />
+		</MeshRenderComponent>
+
+		<TransformComponent>
+			<Position x="200" y="0" z="400"/>
+			<YawPitchRoll x="0" y="0" z="0"/>
+		</TransformComponent>
 		<AnimatorComponent>
-			<EntryPoint>Idle</EntryPoint>
-			<AnimationState>
-				<State TransitionTime="1.0">
-					<Name>Idle</Name>
-					<Motion name="M-idle">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Motion>
-					<Next>Shoot</Next>
-					<Next>Reload</Next>
-				</State>
-				<State TransitionTime="0.2">
-					<Name>Shoot</Name>
-					<Motion name="M-Shoot-MP5-upper">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Motion>
-					<Next>Idle</Next>
-				</State>
-				<State TransitionTime="0.2">
-					<Name>Reload</Name>
-					<Motion name="M-reload-M700">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Motion>
-					<Next>Idle</Next>
-				</State>
-			</AnimationState>
+			<Skeleton>GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Skeleton>
+			
+			
+			<AnimationLayer>
+				<EntryPoint>Idle</EntryPoint>
+				<Name>Default</Name>
+				<Weight>1.0</Weight>
+				<Mask type="1"><File name="Lower">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</File></Mask>
+				<AnimationState>
+					<State TransitionTime="0.2">
+						<Name>Idle</Name>
+						<Speed>1</Speed>
+						<Motion name="M-idle">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Motion>
+						<Next>Shoot</Next>
+					</State>
+					<State TransitionTime="0.2">
+						<Name>Shoot</Name>
+						<Speed>1.0</Speed>
+						<Motion name="M-Shoot-MP5-upper">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Motion>
+						<Next>Idle</Next>
+					</State>
+				</AnimationState>
+			</AnimationLayer>
+			<AnimationLayer>
+				<EntryPoint>Reload</EntryPoint>
+				<Name>Upper</Name>
+				<Weight>1.0</Weight>
+				<Mask type="1"><File name="Upper">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</File></Mask>
+				<AnimationState>
+					<State TransitionTime="0.2">
+						<Name>Reload</Name>
+						<Speed>1</Speed>
+						<Motion name="M-reload-M700">GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Motion>
+						<Next>bb</Next>
+					</State>
+				</AnimationState>
+			</AnimationLayer>
 		</AnimatorComponent>
-  </Component>
-  <Children>
-  </Children>
+	</Component>
+	<Children>
+	</Children>
 </Actor>

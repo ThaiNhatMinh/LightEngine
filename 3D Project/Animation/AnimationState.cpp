@@ -3,17 +3,17 @@
 #include "..\Utilities\LTBStruct.h"
 #include "..\GameComponents\AnimatorComponent.h"
 #include <glm/gtx/common.hpp>
-Light::AnimationState::AnimationState(int numNode)
+Light::AnimationState::AnimationState()
 {
 	m_TransitionState = nullptr;
-	m_iNumNode = numNode;
 	m_bLoop = false;
 	m_fTime = 0;
 	m_iCurrentFrame = 0;
 	KeyFrameID = 0;
-	m_CurrentFrame.resize(numNode);
-	m_SkeTransform.resize(numNode);
-	m_DbTransform.resize(numNode);
+	m_fSpeed = 1.0f;
+	//m_CurrentFrame.resize(numNode);
+	//m_SkeTransform.resize(numNode);
+	//m_DbTransform.resize(numNode);
 
 
 }
@@ -43,7 +43,7 @@ void Light::AnimationState::Transition(const std::string & name, bool loop)
 
 void Light::AnimationState::Update(float dt)
 {
-	m_fTime += dt;
+	m_fTime += dt * m_fSpeed;
 	m_iCurrentFrame = m_fTime * 1000;
 
 	if (m_TransitionState)
@@ -55,9 +55,9 @@ void Light::AnimationState::Update(float dt)
 			m_pOwner->SetCurrentState(m_TransitionState);
 	}
 
-	for (int i = 0; i < m_iNumNode; i++)
+	/*for (int i = 0; i < m_iNumNode; i++)
 	{
-		ComputerFrame(i);
+		m_CurrentFrame[i] = ComputerFrame(i);
 
 		glm::mat4 m_TransformLocal;
 		glm::mat4 rotate = glm::toMat4(m_CurrentFrame[i].m_Ort);
@@ -72,7 +72,7 @@ void Light::AnimationState::Update(float dt)
 		m_DbTransform[i] = m_TransformLocal;
 		m_SkeTransform[i] = m_SkeTransform[i] * m_pSkeNodes[i].m_InvBindPose;
 
-	}
+	}*/
 }
 
 const std::string & Light::AnimationState::GetName()
@@ -80,7 +80,7 @@ const std::string & Light::AnimationState::GetName()
 	return m_Name;
 }
 
-void Light::AnimationState::ComputerFrame(int i)
+Light::FrameData Light::AnimationState::ComputerFrame(int i)
 {
 	FrameData final;
 	FrameData frame = InterpolateFrame(this, m_pAnimData->AnimNodeLists[i], m_pAnimData->KeyFrames);
@@ -89,7 +89,6 @@ void Light::AnimationState::ComputerFrame(int i)
 		FrameData exxtra = InterpolateFrame(m_TransitionState, m_TransitionState->m_pAnimData->AnimNodeLists[i], m_TransitionState->m_pAnimData->KeyFrames);
 
 		float t = m_TransitionState->m_fTime / m_fTransitionTime;
-		E_DEBUG("T: %f", t);
 
 		final.m_Pos = glm::lerp(frame.m_Pos, exxtra.m_Pos, t);
 		final.m_Ort = glm::slerp(frame.m_Ort, exxtra.m_Ort, t);
@@ -97,12 +96,7 @@ void Light::AnimationState::ComputerFrame(int i)
 	}
 	else final = frame;
 
-	m_CurrentFrame[i] = final;	
-}
-
-float* Light::AnimationState::GetTransformMatrixs()
-{
-	return glm::value_ptr(m_SkeTransform[0]);
+	return final;	
 }
 
 
@@ -167,6 +161,7 @@ void Light::AnimationState::AnimEvent(const string & name)
 
 void Light::AnimationState::OnFinish()
 {
+	
 	if (m_bLoop)
 	{
 		m_fTime = 0;
@@ -174,3 +169,8 @@ void Light::AnimationState::OnFinish()
 		m_iCurrentFrame = 0;
 	}
 }
+void Light::AnimationState::SetSpeed(float speed)
+{
+	m_fSpeed = speed;
+}
+

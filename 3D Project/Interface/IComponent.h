@@ -70,6 +70,6 @@ namespace Light
 	class IAnimatorComponent : public Component<IAnimatorComponent>
 	{
 	public:
-		virtual void Play(const std::string& name, bool loop, float fadeinTime) = 0;
+		virtual void Play(const std::string& name, bool loop, const std::string& layer = "Default") = 0;
 	};
 }

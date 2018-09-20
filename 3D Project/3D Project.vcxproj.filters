@@ -301,6 +301,9 @@
     <ClInclude Include="Script\TestScript.h">
       <Filter>Script</Filter>
     </ClInclude>
+    <ClInclude Include="Animation\AnimationLayer.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

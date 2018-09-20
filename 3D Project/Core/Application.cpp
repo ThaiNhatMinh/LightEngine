@@ -136,12 +136,12 @@ void Application::MainLoop()
 	
 	//m_Context->GetSystem<Windows>()->ShowWindows();
 
-	m_pTimer->VReset();
 
 	IGamePlugin* pGame = m_GamePlugins.LoadPlugin();
 
 	pGame->Init(m_Context.get());
 
+	m_pTimer->VReset();
 
 	while (m_bRunMainLoop)
 	{
