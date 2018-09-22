@@ -13,9 +13,9 @@ class Scene;
 #include "Interface\IInput.h"
 #include "Interface\IDebugRender.h"
 #include "Interface\IResourceManager.h"
-
-//#include "Interface\ISysUI.h"
-//#include "Interface\ISoundEngine.h"
+#include "Interface\IActor.h"
+#include "Interface\ISysUI.h"
+#include "Interface\ISoundEngine.h"
 
 //#include "Interface\IActor.h"
 //#include "Interface\IComponent.h"

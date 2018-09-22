@@ -331,6 +331,15 @@
     <ClInclude Include="GameComponents\RigidBodyComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="GameComponents\SoundListener.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\SoundSource3D.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\SoundEngine.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -538,6 +547,15 @@
     </ClCompile>
     <ClCompile Include="GameComponents\RigidBodyComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\SoundListener.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\SoundSource3D.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\SoundEngine.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

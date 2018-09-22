@@ -187,6 +187,7 @@
     <ClInclude Include="Core\OpenGLSysUI.h" />
     <ClInclude Include="Core\OpenGLWindows.h" />
     <ClInclude Include="Core\Physic.h" />
+    <ClInclude Include="Core\SoundEngine.h" />
     <ClInclude Include="Core\Timer.h" />
     <ClInclude Include="GameComponents\AnimatorComponent.h" />
     <ClInclude Include="GameComponents\CameraComponent.h" />
@@ -194,6 +195,8 @@
     <ClInclude Include="GameComponents\MeshRenderComponent.h" />
     <ClInclude Include="GameComponents\RigidBodyComponent.h" />
     <ClInclude Include="GameComponents\ScriptComponent.h" />
+    <ClInclude Include="GameComponents\SoundListener.h" />
+    <ClInclude Include="GameComponents\SoundSource3D.h" />
     <ClInclude Include="GameComponents\TransformComponent.h" />
     <ClInclude Include="GamePlugin\GamePluginManager.h" />
     <ClInclude Include="Graphics3D\Actor.h" />
@@ -298,6 +301,7 @@
     <ClCompile Include="Core\OpenGLSysUI.cpp" />
     <ClCompile Include="Core\OpenGLWindows.cpp" />
     <ClCompile Include="Core\Physic.cpp" />
+    <ClCompile Include="Core\SoundEngine.cpp" />
     <ClCompile Include="Core\Timer.cpp" />
     <ClCompile Include="GameComponents\AnimatorComponent.cpp" />
     <ClCompile Include="GameComponents\CameraComponent.cpp" />
@@ -305,6 +309,8 @@
     <ClCompile Include="GameComponents\MeshRenderComponent.cpp" />
     <ClCompile Include="GameComponents\RigidBodyComponent.cpp" />
     <ClCompile Include="GameComponents\ScriptComponent.cpp" />
+    <ClCompile Include="GameComponents\SoundListener.cpp" />
+    <ClCompile Include="GameComponents\SoundSource3D.cpp" />
     <ClCompile Include="GameComponents\TransformComponent.cpp" />
     <ClCompile Include="GamePlugin\GamePluginManager.cpp" />
     <ClCompile Include="Graphics3D\Actor.cpp" />

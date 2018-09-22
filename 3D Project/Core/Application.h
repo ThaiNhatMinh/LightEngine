@@ -5,7 +5,7 @@
 #include "..\Interface\IWindow.h"
 #include "..\Interface\IEventManager.h"
 #include "..\Interface\IFactory.h"
-//#include "..\Interface\ISoundEngine.h"
+#include "..\Interface\ISoundEngine.h"
 #include "..\Interface\IResourceManager.h"
 #include "..\Interface\ISysUI.h"
 //#include "..\Interface\IConsole.h"
@@ -52,7 +52,7 @@ namespace Light
 		std::unique_ptr<IDebugRender>		m_pDebuger;
 		std::unique_ptr<physics::IGamePhysic>m_pPhysic;
 		std::unique_ptr<IFactory>			m_pActorFactory;
-				//std::unique_ptr<ISoundEngine>		m_pSoundEngine;
+		std::unique_ptr<ISoundEngine>		m_pSoundEngine;
 		std::unique_ptr<IResourceManager>	m_pResources;
 		std::unique_ptr<ISysUI>				m_pSystemUI;
 		//std::unique_ptr<IConsole>			m_pConsole;

@@ -40,7 +40,12 @@ namespace Light
 			uint32					m_Flags;
 		};
 
-		
+		class Sound
+		{
+		public:
+			virtual ~Sound() = default;
+		};
+
 		class IResource
 		{
 		public:
@@ -78,7 +83,7 @@ namespace Light
 			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist) = 0;
 			virtual LTRawData*				VGetRawModel(const std::string& filename)=0;
 			//virtual LoadStatus*				VLoadResource(const std::string& resourcePath, bool async = false) = 0;
-			//virtual FMOD::Sound*	VGetSound(const string& tag) = 0;
+			virtual Sound*					VGetSound(const std::string& tag) = 0;
 		};
 	}
 }

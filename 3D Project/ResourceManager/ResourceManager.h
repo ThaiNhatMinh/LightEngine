@@ -18,20 +18,16 @@ namespace Light
 		static const char* SYSTEM_RESOURCES_CONFIG = "Configs\\Resources.xml";
 
 		
-
+		class FModSound : public Sound
+		{
+		public:
+			FModSound(FMOD::Sound* p) :pFMODSound(p) {};
+			FMOD::Sound* pFMODSound;
+		};
 		class ResourceManager : public IResourceManager
 		{
 		private:
-			/*class SoundRAAI
-			{
-			public:
-				string FilePath;
-				SoundRAAI(FMOD::Sound *p) :m_pSound(p) {};
-				~SoundRAAI() { m_pSound->release(); };
-				FMOD::Sound* GetSound() { return m_pSound; }
-			private:
-				FMOD::Sound* m_pSound;
-			};*/
+			
 
 			render::RenderDevice *m_pRenderDevice;
 			std::vector<ResourceHandle<render::Texture>> m_Textures;
@@ -41,7 +37,7 @@ namespace Light
 			std::vector<ResourceHandle<HeightMap>> m_HeightMaps;
 			std::vector<ResourceHandle<SpriteData>> m_Sprites;
 			std::vector<ResourceHandle<LTRawData>> m_RawModels;
-			//map<string, std::unique_ptr<SoundRAAI>> m_SoundList;
+			std::vector<ResourceHandle<Sound>> m_SoundList;
 
 			//vector<std::unique_ptr<IMesh>>	m_PrimList;
 			// Default texture when can't found tex
@@ -74,7 +70,7 @@ namespace Light
 			render::Texture*		LoadCubeTex(const std::vector<std::string>& filelist);
 			render::Texture*		LoadDTX(const std::string& filename);
 			render::Model*			LoadModel(const std::string& filename);
-			//SoundRAAI*		LoadSound(const std::string& filename, const std::string& tag, int mode);
+			Sound*					LoadSound(const std::string& filename, int mode);
 			render::VertexShader*	LoadVertexShader(const std::string& filepath);
 			render::PixelShader*	LoadPixelShader(const std::string& filepath);
 
@@ -103,7 +99,7 @@ namespace Light
 			virtual HeightMap*				VGetHeightMap(const std::string& filename)override;
 			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist)override;
 			virtual LTRawData*				VGetRawModel(const std::string& filename)override;
-			//virtual FMOD::Sound*	VGetSound(const std::string& tag)override;
+			virtual Sound*					VGetSound(const std::string& tag)override;
 
 		};
 

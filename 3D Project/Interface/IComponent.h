@@ -108,4 +108,17 @@ namespace Light
 	public:
 		
 	};
+
+	class ISoundListener : public Component<ISoundListener>
+	{
+
+	};
+
+	class ISoundSource3D : public Component<ISoundSource3D>
+	{
+	public:
+		virtual bool Play(const std::string& name) = 0;
+		virtual bool Play(const std::string& name, const glm::vec3& pos) = 0;
+		virtual bool AddSound(const std::string& name) = 0;
+	};
 }

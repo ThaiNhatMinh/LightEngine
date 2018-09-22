@@ -9,6 +9,7 @@
 #include "Timer.h"
 #include "Context.h"
 #include "Physic.h"
+#include "SoundEngine.h"
 #include "..\Script\LuaScriptExporter.h"
 
 #include "..\Graphics3D\OpenGL\OpenGLRenderDevice.h"
@@ -36,7 +37,7 @@ void Application::SetupSubmodule()
 	m_pResources = std::unique_ptr<IResourceManager>(DEBUG_NEW Light::resources::ResourceManager(m_Context.get()));
 
 	m_pActorFactory = std::unique_ptr<Light::IFactory>(DEBUG_NEW Light::ActorFactory(m_Context.get()));
-	//m_pSoundEngine = std::unique_ptr<SoundEngine>(DEBUG_NEW SoundEngine(m_Context.get()));
+	m_pSoundEngine = std::unique_ptr<SoundEngine>(DEBUG_NEW SoundEngine(m_Context.get()));
 	
 	
 	m_pInput = std::unique_ptr<Light::IInput>(DEBUG_NEW Light::OpenGLInput(m_Context.get()));
@@ -147,6 +148,7 @@ void Application::MainLoop()
 
 		m_pPhysic->VOnUpdate(dt);
 		m_pPhysic->VSyncVisibleScene();
+		m_pSoundEngine->VUpdate();
 		//m_pPhysic->VRenderDiagnostics();
 		//framebuffer.Begin();
 		

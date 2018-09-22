@@ -3,6 +3,7 @@
 #include <DevIL/include/IL/ilu.h>
 #include "LTBFileLoader.h"
 #include <fmod_errors.h>
+#include <fmod.hpp>
 #include <assimp\Importer.hpp>
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
@@ -11,6 +12,7 @@
 #include "..\Core\OpenGLWindows.h"
 #include "..\Graphics3D\DefaultMesh.h"
 #include "..\Graphics3D\LTModel.h"
+#include "..\Core\SoundEngine.h"
 namespace Light
 {
 	namespace resources
@@ -627,51 +629,29 @@ namespace Light
 			return nullptr;
 		}
 
-		//ResourceManager::SoundRAAI * ResourceManager::LoadSound(const string & filename, const string& tag, int mode)
-		//{
-		//	SoundRAAI* pSound = nullptr;
-		//	if ((pSound = HasSound(tag)))
-		//	{
-		//		E_ERROR("Sound: " + tag + "has been exits.");
-		//		return nullptr;
-		//	}
+		Sound * ResourceManager::LoadSound(const string & filename, int mode)
+		{
+			FModSound* pSound = nullptr;
+			
 
-		//	FMOD::Sound* pFMODSound = nullptr;
-		//	FMOD::System* pSystem = m_pContext->GetSystem<SoundEngine>()->GetFMODSystem();
-		//	FMOD_RESULT result;
+			FMOD::Sound* pFMODSound = nullptr;
+			FMOD::System* pSystem = static_cast<SoundEngine*>(m_pContext->GetSystem<ISoundEngine>())->GetFMODSystem();
+			FMOD_RESULT result;
 
-		//	string fullpath = m_Path + filename;
-		//	if ((result = pSystem->createSound(fullpath.c_str(), mode, 0, &pFMODSound)) != FMOD_OK)
-		//	{
-		//		E_ERROR("Can't create sound: " + fullpath);
-		//		printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
-		//		return nullptr;
-		//	}
-		//	pFMODSound->set3DMinMaxDistance(0.5f, 10000.0f);
-		//	pSound = DEBUG_NEW SoundRAAI(pFMODSound);
-		//	pSound->FilePath = filename;
+			string fullpath = filename;
+			if ((result = pSystem->createSound(fullpath.c_str(), mode, 0, &pFMODSound)) != FMOD_OK)
+			{
+				E_ERROR("Can't create sound: %s" , fullpath.c_str());
+				E_ERROR("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+				return nullptr;
+			}
+			pFMODSound->set3DMinMaxDistance(0.5f, 10000.0f);
+			pSound = DEBUG_NEW FModSound(pFMODSound);
 
-		//	return pSound;
-		//}
+			return pSound;
+		}
 
-		//Shader * ResourceManager::LoadShader(string key, const char* type, const char * vs, const char* fs, bool linkshader)
-		//{
-		//	auto pos = m_ShaderList.find(key);
-		//	if (pos != m_ShaderList.end()) return pos->second.get();
-
-
-		//	string fullPathvs = m_Path + vs;
-		//	string fullPathfs = m_Path + fs;
-		//	std::unique_ptr<Shader> p(m_pContext->GetSystem<ActorFactory>()->VCreateShader(type, fullPathvs.c_str(), fullPathfs.c_str()));
-		//	Shader* result = p.get();
-
-		//	if (linkshader) p->LinkShader();
-
-		//	m_ShaderList.insert({ key, std::move(p) });
-
-		//	return result;
-		//}
-		//
+		
 		DefaultModel * ResourceManager::LoadObjModel(const std::string filename)
 		{
 			
@@ -764,11 +744,7 @@ namespace Light
 			return pModel;
 		}
 
-		/*Shader * ResourceManager::VGetShader(string key)
-		{
-			return m_ShaderList[key].get();
-		}*/
-
+	
 		render::Texture * ResourceManager::VGetTexture(const string& filename)
 		{
 			render::Texture* tex = nullptr;
@@ -893,28 +869,25 @@ namespace Light
 			return nullptr;
 		}*/
 
-		//FMOD::Sound * ResourceManager::VGetSound(const string & tag)
-		//{
-		//	SoundRAAI* pSound = HasSound(tag);
-		//	if (pSound) return pSound->GetSound();
-		//	return nullptr;
-		//}
+		Sound * ResourceManager::VGetSound(const string & tag)
+		{
+			Sound* pSound = HasResource(m_SoundList, tag, [](const std::string& inList, const std::string& tag)
+			{return inList.find(tag) != std::string::npos; });
 
-		//IMesh * ResourceManager::CreateShape(ShapeType type, float* size)
-		//{
-		//	if (type == SHAPE_BOX)
-		//	{
-		//		IMesh* pBox = DEBUG_NEW CubeMesh(size[0], size[1], size[2]);
-		//		pBox->Name = ShapeName[type];
-		//		m_PrimList.push_back(std::unique_ptr<IMesh>(pBox));
-		//		return pBox;
-		//		//E_ERROR("Error ResourceManager::CreateShape doesn't empl yet");
-		//		//return nullptr;
-		//	}
+			if (pSound) return pSound;
 
-		//	return nullptr;
+			pSound = LoadSound(tag, FMOD_3D);
 
-		//}
+			if (pSound)
+			{
+				m_SoundList.push_back(ResourceHandle<Sound>(tag, pSound));
+				return pSound;
+			}
+			
+			return nullptr;
+		}
+
+		
 
 		//SpriteAnim * ResourceManager::VGetSpriteAnimation(const string& filename)
 		//{
