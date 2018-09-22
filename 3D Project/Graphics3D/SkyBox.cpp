@@ -86,7 +86,6 @@ tinyxml2::XMLElement * Light::render::SkyBox::VDeserialize(tinyxml2::XMLDocument
 
 void Light::render::SkyBox::VRender()
 {
-	return;
 	auto pCamera = m_pRenderer->VGetCurrentCamera();
 	glm::mat4 view = pCamera->GetViewMatrix();
 	view = glm::mat3(view);

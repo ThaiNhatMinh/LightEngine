@@ -45,7 +45,7 @@ namespace Light
 		for (auto el : m_ObjectUpdate)
 			el->VUpdate(deltaMs);
 
-		m_WorldTransform = m_TransformComponent->transform;
+		m_WorldTransform = m_TransformComponent->GetTransform();
 		if (m_pParent)
 			m_WorldTransform = m_pParent->VGetGlobalTransform()*m_WorldTransform;
 		// Script update first

@@ -1,50 +1,65 @@
 #include <pch.h>
-//#include "RigidBodyComponent.h"
+#include "RigidBodyComponent.h"
+#include "collidercomponent.h"
+#include "..\Core\Physic.h"
+#include "..\Interface\IActor.h"
+#include "..\Utilities\PhysicsUtilities.h"
+#include <glm\gtx\matrix_decompose.hpp>
 
-const char* RigidBodyComponent::Name = "RigidBodyComponent";
-RigidBodyComponent::RigidBodyComponent(void):m_pRigidBody(nullptr),m_RigidBodyLocation(0),m_RigidBodyOrientation(0),m_CustomGravity(0),m_bUseGravity(true)
+namespace Light
+{
+namespace physics
+{
+RigidBodyComponent::RigidBodyComponent(void):m_pRigidBody(nullptr),m_RigidBodyLocation(0),m_RigidBodyOrientation(),m_CustomGravity(0),m_bUseGravity(true)
 {
 }
 
 RigidBodyComponent::~RigidBodyComponent(void)
 {
-	m_Context->GetSystem<BulletPhysics>()->VRemoveActor(m_pOwner->GetId());
+	m_pPhysic->VRemoveActor(m_pOwner->VGetId());
 }
 
-tinyxml2::XMLElement * RigidBodyComponent::VGenerateXml(tinyxml2::XMLDocument * doc)
+tinyxml2::XMLElement * RigidBodyComponent::VDeserialize(tinyxml2::XMLDocument * doc)
 {
 	return nullptr;
 }
 
-bool RigidBodyComponent::VInit(const tinyxml2::XMLElement* pData)
+bool RigidBodyComponent::VSerialize(IContext* pContext,const tinyxml2::XMLElement* pData)
 {
+	m_pPhysic = pContext->GetSystem<IGamePhysic>();
 	if (!pData) return false;
 	// mass
 	const tinyxml2::XMLElement* pMass = pData->FirstChildElement("Mass");
 	if (pMass)
-		m_fMass = pMass->DoubleAttribute("value");
+		this->m_fMass = pMass->DoubleAttribute("value");
 
 	// material
 	const tinyxml2::XMLElement* pMaterial = pData->FirstChildElement("PhysicsMaterial");
 	if (pMaterial)
-		m_material = pMaterial->FirstChild()->Value();
+		this->m_material = pMaterial->FirstChild()->Value();
 
 	// initial transform
 	const tinyxml2::XMLElement* pRigidBodyTransform = pData->FirstChildElement("RigidBodyTransform");
 	if (pRigidBodyTransform)
 		BuildRigidBodyTransform(pRigidBodyTransform);
 
-	
+	PostInit();
 	return true;
 }
 
-void RigidBodyComponent::VPostInit(void)
+void RigidBodyComponent::PostInit(void)
 {
-	BulletPhysics* B = m_Context->GetSystem<BulletPhysics>();
-	ColliderComponent* pCollider = m_pOwner->GetComponent<ColliderComponent>(ColliderComponent::Name);
-	TransformComponent* pTransformComponent = m_pOwner->GetTransform();
-	btCollisionShape* pShape = pCollider->GetCollisionShape();
+	ITransformComponent* pTransformComponent = m_pOwner->GetComponent<ITransformComponent>();
+	ColliderComponent* pCollider = static_cast<ColliderComponent*>(m_pOwner->GetComponent<IColliderComponent>());
+	
+	btCollisionShape* pShape = pCollider->m_pCollisionShape;
 	ActorMotionState * myMotionState = nullptr;
+
+	glm::mat4 transform;
+
+	
+	transform = glm::translate(glm::mat4(), pTransformComponent->GetPos()) * glm::mat4_cast(pTransformComponent->GetOrientation());
+	transform = glm::translate(glm::mat4(), m_RigidBodyLocation) * glm::mat4_cast(m_RigidBodyOrientation) * transform;
 
 	if (pCollider->GetType() == SHAPE_TERRAIN)
 	{
@@ -52,10 +67,10 @@ void RigidBodyComponent::VPostInit(void)
 		float off = (mm.x + mm.y) / 2.0;
 		mat4 m;
 		m = glm::translate(m, vec3(0, off, 0));
-		myMotionState = new ActorMotionState((pTransformComponent->GetTransform()*m));
+		myMotionState = DEBUG_NEW ActorMotionState((transform*m));
 	}
 	
-	else myMotionState = new ActorMotionState(pTransformComponent->GetTransform());
+	else myMotionState = DEBUG_NEW ActorMotionState(transform);
 	
 
 	// localInertia defines how the object's mass is distributed
@@ -66,7 +81,7 @@ void RigidBodyComponent::VPostInit(void)
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(m_fMass, myMotionState, pShape, localInertia);
 
 	// lookup the material
-	MaterialData material(B->LookupMaterialData(m_material));
+	MaterialData material(static_cast<BulletPhysics*>(m_pPhysic)->LookupMaterialData(m_material));
 
 	// set up the materal properties
 	rbInfo.m_restitution = material.m_restitution;
@@ -79,10 +94,6 @@ void RigidBodyComponent::VPostInit(void)
 	{
 		this->SetAngularFactor(vec3(0));
 		m_pRigidBody->setCollisionFlags(m_pRigidBody->getCollisionFlags() | btCollisionObject::CF_CHARACTER_OBJECT);
-		//m_pRigidBody->setHitFraction(1);
-		//m_pRigidBody->setSleepingThresholds(0, 0);
-		//m_pRigidBody->setContactProcessingThreshold(0.0);
-		
 	}
 	else if (pCollider->GetType() == SHAPE_TRIANGLEMESH)
 	{
@@ -90,14 +101,11 @@ void RigidBodyComponent::VPostInit(void)
 		m_pRigidBody->setCollisionFlags(m_pRigidBody->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
 
 	}
-	ActorId actorID = m_pOwner->GetId();
-	B->AddRigidBody(actorID, this);
+	ActorId actorID = m_pOwner->VGetId();
+	m_pPhysic->AddRigidBody(actorID, this);
 
 }
 
-void RigidBodyComponent::VUpdate(float deltaMs)
-{
-}
 
 btMotionState * RigidBodyComponent::GetMotionState()
 {
@@ -229,7 +237,7 @@ void RigidBodyComponent::BuildRigidBodyTransform(const tinyxml2::XMLElement * pT
 		double roll = pPositionElement->DoubleAttribute("roll");
 
 
-		m_RigidBodyOrientation = vec3((float)glm::radians(yaw), (float)glm::radians(pitch), (float)glm::radians(roll));
+		m_RigidBodyOrientation = glm::toQuat(glm::orientate3(vec3((float)glm::radians(yaw), (float)glm::radians(pitch), (float)glm::radians(roll))));
 	}
 
 }
@@ -282,7 +290,7 @@ void RigidBodyComponent::Activate()
 
 void RigidBodyComponent::UpdateGravity()
 {
-	BulletPhysics* B = m_Context->GetSystem<BulletPhysics>();
+	
 
 	int flag = m_pRigidBody->getFlags();
 
@@ -296,8 +304,10 @@ void RigidBodyComponent::UpdateGravity()
 	if (m_bUseGravity)
 	{
 		if (m_CustomGravity == vec3(0))
-			m_pRigidBody->setGravity(B->m_dynamicsWorld->getGravity());
+			m_pRigidBody->setGravity(ToBtVector3(m_pPhysic->VGetGravity()));
 		else m_pRigidBody->setGravity(ToBtVector3(m_CustomGravity));
 	}
 	else m_pRigidBody->setGravity(btVector3(0, 0, 0));
+}
+}
 }

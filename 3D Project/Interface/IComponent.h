@@ -37,13 +37,14 @@ namespace Light
 	class ITransformComponent :public Component<ITransformComponent>
 	{
 	public:
-		glm::mat4 transform;
+		
 		
 		virtual glm::vec3	GetFront() = 0;		// +Z axis
 		virtual glm::vec3	GetRight() = 0;		// +X axis
 		virtual glm::vec3	GetUp() = 0;		// +Y axis
 		virtual glm::vec3	GetPos() = 0;		// Current position
-
+		virtual glm::mat4	GetTransform() = 0;
+		virtual glm::quat	GetOrientation() = 0;
 		virtual void		SetPos(glm::vec3 pos) = 0;
 		virtual void		SetOrientation(glm::quat ort) = 0;
 		virtual void		SetTransform(glm::vec3 pos, glm::quat quad) = 0;
@@ -78,5 +79,33 @@ namespace Light
 	{
 	public:
 		virtual const std::string& VGetFile() = 0;
+	};
+
+	enum ShapeType
+	{
+		SHAPE_NONE,
+		SHAPE_BOX,
+		SHAPE_SPHERE,
+		SHAPE_CAPSULE,
+		SHAPE_CYLINDER,
+		SHAPE_STATICPLANE,
+		SHAPE_CONE,
+		SHAPE_TRIANGLEMESH,
+		SHAPE_CONVEXHULL,
+		SHAPE_TERRAIN,
+		SHAPE_CHARACTER
+	};
+
+	class IColliderComponent : public Component<IColliderComponent>
+	{
+	public:
+		virtual ShapeType GetShapeType() = 0;
+	};
+
+
+	class IRigidBodyComponent : public Component<IRigidBodyComponent>
+	{
+	public:
+		
 	};
 }

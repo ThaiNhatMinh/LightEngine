@@ -8,6 +8,8 @@
 #include "..\GameComponents\AnimatorComponent.h"
 #include "..\GameComponents\CameraComponent.h"
 #include "..\GameComponents\ScriptComponent.h"
+#include "..\GameComponents\collidercomponent.h"
+#include "..\GameComponents\RigidBodyComponent.h"
 #include "..\Graphics3D\DefaultMaterial.h"
 #include "..\Graphics3D\SkeletonMaterial.h"
 #include "..\Graphics3D\Scene.h"
@@ -25,6 +27,8 @@ namespace Light
 		m_ComponentFactoryMap.insert(std::make_pair("TransformComponent", []() { return DEBUG_NEW TransformComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("MeshRenderComponent", []() { return DEBUG_NEW MeshRenderComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("AnimatorComponent", []() { return DEBUG_NEW AnimatorComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("RigidBodyComponent", []() { return DEBUG_NEW physics::RigidBodyComponent(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("ColliderComponent", []() { return DEBUG_NEW physics::ColliderComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("Script", []() { return DEBUG_NEW ScriptComponent(); }));
 
 		auto CameraFunc = [&]()

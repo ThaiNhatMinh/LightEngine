@@ -4,6 +4,9 @@
 #include "..\Graphics3D\ICamera.h"
 #include "..\Interface\IScene.h"
 #include "..\Interface\IInput.h"
+#include "..\Interface\IGamePhysic.h"
+
+
 namespace Light
 {
 	namespace events
@@ -77,6 +80,91 @@ namespace Light
 			float dx, dy;
 			float x, y;
 
+		};
+
+		class EvtPhysPostStep : public Event<EvtPhysPostStep>
+		{
+		public:
+			float m_fTimeStep;
+			EvtPhysPostStep(float t) :m_fTimeStep(t) {};
+		};
+
+		class EvtPhysPreStep : public Event<EvtPhysPreStep>
+		{
+		public:
+			float m_fTimeStep;
+			EvtPhysPreStep(float t) :m_fTimeStep(t) {};
+		};
+
+		class EvtPhysCollisionEnd : public Event<EvtPhysCollisionEnd>
+		{
+		public:
+			ActorId m_ActorA;
+			ActorId m_ActorB;
+			EvtPhysCollisionEnd(ActorId actorA, ActorId actorB)
+				: m_ActorA(actorA)
+				, m_ActorB(actorB) {};
+		};
+
+
+		class EvtPhysOnCollision : public Event<EvtPhysOnCollision>
+		{
+		public:
+			IActor* m_ActorA;
+			IActor* m_ActorB;
+
+			vec3 m_SumNormalForce;
+			vec3 m_SumFrictionForce;
+			vector<physics::PhysicCollisionData> m_CollisionData;
+			EvtPhysOnCollision(IActor* actorA,
+				IActor* actorB,
+				vec3 sumNormalForce,
+				vec3 sumFrictionForce,
+				vector<physics::PhysicCollisionData> collisionPoints)
+				: m_ActorA(actorA),
+				m_ActorB(actorB),
+				m_SumNormalForce(sumNormalForce),
+				m_SumFrictionForce(sumFrictionForce),
+				m_CollisionData(collisionPoints) {};
+		};
+		class EvtPhysCollisionStart : public Event<EvtPhysCollisionStart>
+		{
+		public:
+			IActor* m_ActorA;
+			IActor* m_ActorB;
+			vec3 m_SumNormalForce;
+			vec3 m_SumFrictionForce;
+			vector<physics::PhysicCollisionData> m_CollisionPoints;
+			EvtPhysCollisionStart(IActor* actorA,
+				IActor* actorB,
+				vec3 sumNormalForce,
+				vec3 sumFrictionForce,
+				vector<physics::PhysicCollisionData> collisionPoints)
+				: m_ActorA(actorA),
+				m_ActorB(actorB),
+				m_SumNormalForce(sumNormalForce),
+				m_SumFrictionForce(sumFrictionForce),
+				m_CollisionPoints(collisionPoints)
+			{};
+		};
+		class EvtPhysTriggerLeave : public Event<EvtPhysTriggerLeave>
+		{
+		public:
+			int m_triggerID;
+			ActorId m_other;
+			EvtPhysTriggerLeave(int triggerID, ActorId other)
+				: m_triggerID(triggerID),
+				m_other(other) {};
+		};
+
+		class EvtPhysTriggerEnter : public Event<EvtPhysTriggerEnter>
+		{
+		public:
+			int m_triggerID;
+			ActorId m_other;
+			EvtPhysTriggerEnter(int triggerID, ActorId other)
+				: m_triggerID(triggerID),
+				m_other(other) {};
 		};
 	}
 }

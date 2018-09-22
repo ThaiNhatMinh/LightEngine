@@ -2,7 +2,18 @@
 #include <BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h>
 #include <BulletCollision\CollisionDispatch\btInternalEdgeUtility.h>
 
-const char* ColliderComponent::Name = "ColliderComponent";
+#include "..\Utilities\PhysicsUtilities.h"
+#include "..\Interface\IActor.h"
+#include "..\Interface\IResourceManager.h"
+
+#include "AnimatorComponent.h"
+
+#include "collidercomponent.h"
+namespace Light
+{
+namespace physics
+{
+
 
 ColliderComponent::ColliderComponent(void):m_pCollisionShape(nullptr)
 {
@@ -12,12 +23,12 @@ ColliderComponent::~ColliderComponent(void)
 {
 }
 
-tinyxml2::XMLElement * ColliderComponent::VGenerateXml(tinyxml2::XMLDocument * doc)
+tinyxml2::XMLElement * ColliderComponent::VDeserialize(tinyxml2::XMLDocument*p)
 {
 	return nullptr;
 }
 
-bool ColliderComponent::VInit(const tinyxml2::XMLElement* pData)
+bool ColliderComponent::VSerialize(IContext* pContex,const tinyxml2::XMLElement* pData)
 {
 	if (!pData) return false;
 	// shape
@@ -25,7 +36,7 @@ bool ColliderComponent::VInit(const tinyxml2::XMLElement* pData)
 	if (pShape == nullptr) return false;
 	m_ShapeName = pShape->FirstChild()->Value();
 
-	CreateShape(m_ShapeName,pData);
+	CreateShape(m_ShapeName,pData, pContex);
 
 	return true;
 }
@@ -40,7 +51,7 @@ void ColliderComponent::SetCollisionShape(btCollisionShape * shape)
 	m_pCollisionShape = shape;
 }
 
-ShapeType ColliderComponent::GetType()
+ShapeType ColliderComponent::GetShapeType()
 {
 	return m_Type;
 }
@@ -50,7 +61,7 @@ vec2 ColliderComponent::GetMinMax()
 	return m_MM;
 }
 
-void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pData)
+void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pData, IContext* pContex)
 {
 	if (name == "Box")
 	{
@@ -78,8 +89,8 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 	}
 	else if (name == "Character")
 	{
-		AnimationComponent* pAnim = m_pOwner->GetComponent<AnimationComponent>(AnimationComponent::Name);
-		AABB aabb = pAnim->GetUserDimesion();
+		IAnimatorComponent* pAnim = m_pOwner->GetComponent<IAnimatorComponent>();
+		math::AABB aabb;// = pAnim->GetUserDimesion();
 		//m_pCollisionShape = new btBoxShape(ToBtVector3(aabb.Max));
 		// r = aabb.Max.x
 		m_pCollisionShape = new btCapsuleShape(aabb.Max.x, aabb.Max.y*2 - aabb.Max.x*2);
@@ -92,8 +103,8 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		if (pFile == nullptr) return;
 		const char* path = pFile->Attribute("Path");
 		if (path == nullptr) return;
-		HeightMap* hm = m_Context->GetSystem<Resources>()->GetHeightMap(path);
-		m_pCollisionShape = new btHeightfieldTerrainShape(hm->Width, hm->Height, hm->Data, 1, hm->minH, hm->maxH, 1, PHY_UCHAR, false);
+		resources::HeightMap* hm = pContex->GetSystem<resources::IResourceManager>()->VGetHeightMap(path);
+		m_pCollisionShape = new btHeightfieldTerrainShape(hm->Width, hm->Height, hm->Data.get(), 1, hm->minH, hm->maxH, 1, PHY_UCHAR, false);
 		btVector3 localScaling(hm->stepsize, hm->hscale, hm->stepsize);
 		m_pCollisionShape->setLocalScaling(localScaling);
 		m_MM = vec2(hm->minH, hm->maxH);
@@ -106,7 +117,7 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		const char* path = pFile->Attribute("Path");
 		if (path == nullptr) return;
 
-		HeightMap* hm = m_Context->GetSystem<Resources>()->GetHeightMap(path);
+		resources::HeightMap* hm = pContex->GetSystem<resources::IResourceManager>()->VGetHeightMap(path);
 		
 		//Mesh* m = static_cast<Mesh*>(hm->m_Mesh.get());
 		int totaltriangle = hm->m_Indices.size() / 3;
@@ -132,4 +143,6 @@ TriangleMesh::TriangleMesh(btStridingMeshInterface *meshInterface, bool useQuant
 TriangleMesh::~TriangleMesh()
 {
 	
+}
+}
 }

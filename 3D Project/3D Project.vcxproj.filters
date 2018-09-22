@@ -319,6 +319,18 @@
     <ClInclude Include="..\ThirdParty\imgui\imstb_truetype.h">
       <Filter>Utilities\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Physic.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Ray.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\collidercomponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\RigidBodyComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -517,6 +529,15 @@
     </ClCompile>
     <ClCompile Include="Core\OpenGLSysUI.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Physic.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\ColliderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\RigidBodyComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

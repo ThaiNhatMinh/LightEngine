@@ -8,6 +8,7 @@
 #include "OpenGLSysUI.h"
 #include "Timer.h"
 #include "Context.h"
+#include "Physic.h"
 #include "..\Script\LuaScriptExporter.h"
 
 #include "..\Graphics3D\OpenGL\OpenGLRenderDevice.h"
@@ -41,7 +42,7 @@ void Application::SetupSubmodule()
 	m_pInput = std::unique_ptr<Light::IInput>(DEBUG_NEW Light::OpenGLInput(m_Context.get()));
 	//m_pConsole = std::unique_ptr<Console>(DEBUG_NEW Console(m_Context.get()));
 	m_pDebuger = std::unique_ptr<Light::IDebugRender>(DEBUG_NEW OpenGLDebugRender(m_Context.get()));
-	//m_pPhysic = std::unique_ptr<BulletPhysics>(DEBUG_NEW BulletPhysics(m_Context.get()));
+	m_pPhysic = std::unique_ptr<physics::IGamePhysic>(DEBUG_NEW physics::BulletPhysics(m_Context.get()));
 	m_pTimer = std::unique_ptr<Light::ITimer>(DEBUG_NEW Light::GameTimer(m_Context.get()));
 	//m_pEffectSystem = std::unique_ptr<EffectSystem>(DEBUG_NEW EffectSystem(m_Context.get()));
 	//m_pVGUI = std::unique_ptr<VGUI>(DEBUG_NEW VGUI(m_Context.get()));
@@ -54,7 +55,7 @@ void Application::SetupSubmodule()
 	//render::OutlineRenderPass* pOutline = DEBUG_NEW render::OutlineRenderPass("Outline", m_Context.get());
 	//m_pRenderer->AddExtraPass(pOutline);
 
-	//m_pWindows->HideMouse(1);
+	m_pWindows->HideMouse(1);
 }
 
 
@@ -141,11 +142,12 @@ void Application::MainLoop()
 		
 		m_pEventManager->VUpdate(200);
 		m_pSystemUI->Update(dt);
-		
 		m_pScriptManager->Update(dt);
-		
 		pGame->Update(dt);
 
+		m_pPhysic->VOnUpdate(dt);
+		m_pPhysic->VSyncVisibleScene();
+		m_pPhysic->VRenderDiagnostics();
 		//framebuffer.Begin();
 		
 	

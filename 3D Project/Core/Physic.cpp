@@ -1,6 +1,15 @@
 #include <pch.h>
 #include <BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h>
 #include <BulletCollision\CollisionDispatch\btInternalEdgeUtility.h>
+#include "Physic.h"
+#include "Events.h"
+#include "..\Utilities\PhysicsUtilities.h"
+
+#include "..\GameComponents\RigidBodyComponent.h"
+namespace Light
+{
+namespace physics
+{
 // helpers for conversion to and from Bullet's data types
 static btVector3 Vec3_to_btVector3(vec3 const & v)
 {
@@ -12,7 +21,7 @@ static vec3 btVector3_to_Vec3(btVector3 const & btvec)
 	return vec3(btvec.x(), btvec.y(), btvec.z());
 }
 
-extern ContactAddedCallback      gContactAddedCallback;
+ContactAddedCallback      gContactAddedCallback;
 
 static bool CustomMaterialCombinerCallback(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap, int partId0,
 	int index0, const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1)
@@ -26,30 +35,30 @@ static bool CustomMaterialCombinerCallback(btManifoldPoint& cp, const btCollisio
 	return true;
 }
 
-BulletPhysics::BulletPhysics(Context * c)
+BulletPhysics::BulletPhysics(IContext * c)
 {
-	REGISTER_EVENT(EvtData_PhysTrigger_Enter);
+	/*REGISTER_EVENT(EvtData_PhysTrigger_Enter);
 	REGISTER_EVENT(EvtData_PhysTrigger_Leave);
 	REGISTER_EVENT(EvtData_PhysCollisionStart);
 	REGISTER_EVENT(EvtData_PhysOnCollision);
-	REGISTER_EVENT(EvtData_PhysCollisionEnd);
+	REGISTER_EVENT(EvtData_PhysCollisionEnd);*/
 
-	m_pEventManager = m_Context->GetSystem<EventManager>();
-	//E_DEBUG("Physic Engine Initialize...");
+	m_pEventManager = c->GetSystem<IEventManager>();
+	m_pDebuger = c->GetSystem<IDebugRender>();
 	LoadXml();
 
 	gContactAddedCallback = CustomMaterialCombinerCallback;
 
 	// this controls how Bullet does internal memory management during the collision pass
-	m_collisionConfiguration = std::unique_ptr<btDefaultCollisionConfiguration>(new btDefaultCollisionConfiguration());
+	m_collisionConfiguration = std::unique_ptr<btDefaultCollisionConfiguration>(DEBUG_NEW btDefaultCollisionConfiguration());
 
 	// this manages how Bullet detects precise collisions between pairs of objects
-	m_dispatcher = std::unique_ptr<btCollisionDispatcher>(new btCollisionDispatcher(m_collisionConfiguration.get()));
+	m_dispatcher = std::unique_ptr<btCollisionDispatcher>(DEBUG_NEW btCollisionDispatcher(m_collisionConfiguration.get()));
 
 	// Bullet uses this to quickly (imprecisely) detect collisions between objects.
 	//   Once a possible collision passes the broad phase, it will be passed to the
 	//   slower but more precise narrow-phase collision detection (btCollisionDispatcher).
-	m_broadphase = std::unique_ptr<btDbvtBroadphase>(new btDbvtBroadphase());
+	m_broadphase = std::unique_ptr<btDbvtBroadphase>(DEBUG_NEW btDbvtBroadphase());
 
 	// Manages constraints which apply forces to the physics simulation.  Used
 	//  for e.g. springs, motors.  We don't use any constraints right now.
@@ -61,20 +70,20 @@ BulletPhysics::BulletPhysics(Context * c)
 		m_solver.get(),
 		m_collisionConfiguration.get()));
 
-	m_dynamicsWorld->setGravity(btVector3(0, -WORLD_GRAVITY, 0));
+	m_dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
-	m_debugDrawer = std::unique_ptr<BulletDebugDrawer>(new BulletDebugDrawer(c));
-	m_debugDrawer->m_DebugModes = btIDebugDraw::DBG_DrawWireframe;
+	
+	m_DebugModes = btIDebugDraw::DBG_DrawWireframe;
 	//m_debugDrawer->ReadOptions();
 
 	if (!m_collisionConfiguration || !m_dispatcher || !m_broadphase ||
-		!m_solver || !m_dynamicsWorld || !m_debugDrawer)
+		!m_solver || !m_dynamicsWorld)
 	{
 		E_ERROR("BulletPhysics::VInitialize failed!");
 		return;
 	}
 
-	m_dynamicsWorld->setDebugDrawer(m_debugDrawer.get());
+	m_dynamicsWorld->setDebugDrawer(this);
 
 
 	// and set the internal tick callback to our own method "BulletInternalTickCallback"
@@ -86,7 +95,7 @@ BulletPhysics::BulletPhysics(Context * c)
 	m_dynamicsWorld->setSynchronizeAllMotionStates(true);
 	//m_dynamicsWorld->debugDrawWorld();
 
-	c->AddSystem(this);
+	c->VAddSystem(this);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -118,7 +127,7 @@ void BulletPhysics::LoadXml()
 {
 	// Load the physics config file and grab the root XML node
 	tinyxml2::XMLDocument doc;
-	doc.LoadFile("GameAssets\\Physics.xml");
+	doc.LoadFile("Configs\\physics.xml");
 
 	tinyxml2::XMLElement* pRoot = doc.FirstChildElement("Physics");
 
@@ -167,7 +176,7 @@ void BulletPhysics::VRenderDiagnostics()
 	m_dynamicsWorld->debugDrawWorld();
 }
 
-void BulletPhysics::RayCast(PhysicsRaycastResult & result, const Ray & r, float maxdistance, unsigned mask)
+void BulletPhysics::RayCast(PhysicsRaycastResult & result, const math::Ray & r, float maxdistance, unsigned mask)
 {
 	btCollisionWorld::ClosestRayResultCallback raycallback(ToBtVector3(r.pos), ToBtVector3(r.pos + r.direction*maxdistance));
 	raycallback.m_collisionFilterGroup = 0xffff;
@@ -195,7 +204,7 @@ void BulletPhysics::RayCast(PhysicsRaycastResult & result, const Ray & r, float 
 	}
 }
 
-void BulletPhysics::RayCast(std::vector<PhysicsRaycastResult>& result, const Ray & r, float maxdistance, unsigned mask)
+void BulletPhysics::RayCast(std::vector<PhysicsRaycastResult>& result, const  math::Ray & r, float maxdistance, unsigned mask)
 {
 	btCollisionWorld::AllHitsRayResultCallback
 		rayCallback(ToBtVector3(r.pos), ToBtVector3(r.pos + maxdistance * r.direction));
@@ -223,6 +232,17 @@ void BulletPhysics::RayCast(std::vector<PhysicsRaycastResult>& result, const Ray
 	std::sort(result.begin(), result.end(), CompareRaycastResults);
 }
 
+glm::vec3 Light::physics::BulletPhysics::VGetGravity()
+{
+	return ToVector3(m_dynamicsWorld->getGravity());
+}
+
+const char * Light::physics::BulletPhysics::VGetName()
+{
+	static const char * t = typeid(IGamePhysic).name();
+	return t;
+}
+
 btCollisionWorld * BulletPhysics::GetCollisionWorld()
 {
 	return m_dynamicsWorld.get();
@@ -235,13 +255,13 @@ void BulletPhysics::VPostStep(float timeStep)
 	SendCollisionEvents();
 
 
-	std::shared_ptr<IEvent> pEvent(new EvtData_PhysPostStep(timeStep));
+	std::shared_ptr<IEvent> pEvent(DEBUG_NEW events::EvtPhysPostStep(timeStep));
 	m_pEventManager->VTriggerEvent(pEvent);
 }
 
 void BulletPhysics::VPreStep(float timeStep)
 {
-	std::shared_ptr<IEvent>pEvent(new EvtData_PhysPreStep(timeStep));
+	std::shared_ptr<IEvent>pEvent(DEBUG_NEW events::EvtPhysPreStep(timeStep));
 	m_pEventManager->VTriggerEvent(pEvent);
 }
 
@@ -258,33 +278,33 @@ void BulletPhysics::VSyncVisibleScene()
 	{
 		ActorId const id = it->first;
 
-		// get the MotionState.  this object is updated by Bullet.
-		// it's safe to cast the btMotionState to ActorMotionState, because all the bodies in m_actorIdToRigidBody
-		//   were created through AddShape()E
 		ActorMotionState const * const actorMotionState = static_cast<ActorMotionState*>(it->second->GetMotionState());
 		//GCC_ASSERT(actorMotionState);
-		Actor* pGameActor = 0;
+		IActor* pGameActor = 0;
 		RigidBodyComponent *pRb = FindBulletRigidBody(id);
 		pGameActor = pRb->GetOwner();
-		TransformComponent* pTransformComponent = pGameActor->GetTransform();
+		ITransformComponent* pTransformComponent = pGameActor->GetComponent<ITransformComponent>();
 		if (pTransformComponent)
 		{
-			if (pTransformComponent->GetTransform() != actorMotionState->m_worldToPositionTransform)
+			if (pTransformComponent->GetPos() != actorMotionState->position || pTransformComponent->GetOrientation() != actorMotionState->orientation)
 			{
 				// Bullet has moved the actor's physics object.  Sync the transform and inform the game an actor has moved
-				pTransformComponent->SetTransform(actorMotionState->m_worldToPositionTransform);
-				std::shared_ptr<IEvent> pEvent(new EvtData_Move_Actor(id, actorMotionState->m_worldToPositionTransform));
+				pTransformComponent->SetPos(actorMotionState->position);
+				pTransformComponent->SetOrientation(actorMotionState->orientation);
+
+				std::shared_ptr<IEvent> pEvent(DEBUG_NEW events::EvtMoveActor(pGameActor, actorMotionState->m_worldToPositionTransform));
 				m_pEventManager->VQueueEvent(pEvent);
 			}
 		}
 	}
 }
 
-void BulletPhysics::AddRigidBody(ActorId id, RigidBodyComponent * rb)
+void BulletPhysics::AddRigidBody(ActorId id, IRigidBodyComponent * rb)
 {
-	m_dynamicsWorld->addRigidBody(rb->GetRigidBody());
-	m_actorIdToRigidBody[id] = rb;
-	m_rigidBodyToActorId[rb] = id;
+	auto r = static_cast<RigidBodyComponent*>(rb);
+	m_dynamicsWorld->addRigidBody(r->m_pRigidBody);
+	m_actorIdToRigidBody[id] = r;
+	m_rigidBodyToActorId[r] = id;
 }
 /////////////////////////////////////////////////////////////////////////////
 // BulletPhysics::RemoveCollisionObject			
@@ -430,8 +450,8 @@ void BulletPhysics::SendCollisionEvents()
 		RigidBodyComponent* bodyC0 = static_cast<RigidBodyComponent*>(body0->getUserPointer());
 		RigidBodyComponent* bodyC1 = static_cast<RigidBodyComponent*>(body1->getUserPointer());
 		// this is a new contact, which wasn't in our list before.  send an event to the game.
-		ActorId const id0 = bodyC0->GetOwner()->GetId();
-		ActorId const id1 = bodyC1->GetOwner()->GetId();
+		ActorId const id0 = bodyC0->GetOwner()->VGetId();
+		ActorId const id1 = bodyC1->GetOwner()->VGetId();
 
 		if (id0 == 0 || id1 == 0)
 		{
@@ -458,12 +478,12 @@ void BulletPhysics::SendCollisionEvents()
 		{
 			// this is new collision
 			// send the event for the game
-			std::shared_ptr<IEvent>  pEvent(new EvtData_PhysCollisionStart(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
+			std::shared_ptr<IEvent>  pEvent(DEBUG_NEW events::EvtPhysCollisionStart(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
 			m_pEventManager->VQueueEvent(pEvent);
 		}
 		
 		// send the event for the game
-		std::shared_ptr<IEvent>  pEvent( new EvtData_PhysOnCollision(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
+		std::shared_ptr<IEvent>  pEvent( DEBUG_NEW events::EvtPhysOnCollision(bodyC0->GetOwner(), bodyC1->GetOwner(), sumNormalForce, sumFrictionForce, collisionPoints));
 		m_pEventManager->VQueueEvent(pEvent);
 		
 	}
@@ -484,8 +504,8 @@ void BulletPhysics::SendCollisionEvents()
 		RigidBodyComponent* bodyA = static_cast<RigidBodyComponent*>(body0->getUserPointer());
 		RigidBodyComponent* bodyB = static_cast<RigidBodyComponent*>(body1->getUserPointer());
 
-		ActorId const id0 = bodyA->GetOwner()->GetId();
-		ActorId const id1 = bodyB->GetOwner()->GetId();
+		ActorId const id0 = bodyA->GetOwner()->VGetId();
+		ActorId const id1 = bodyB->GetOwner()->VGetId();
 
 		if (id0 == 0 || id1 == 0)
 		{
@@ -493,7 +513,7 @@ void BulletPhysics::SendCollisionEvents()
 			return;
 		}
 
-		std::shared_ptr<IEvent>  pEvent(new EvtData_PhysCollisionEnd(id0, id1));
+		std::shared_ptr<IEvent>  pEvent(DEBUG_NEW events::EvtPhysCollisionEnd(id0, id1));
 		m_pEventManager->VQueueEvent(pEvent);
 	}
 
@@ -520,4 +540,162 @@ MaterialData BulletPhysics::LookupMaterialData(const std::string& materialStr)
 		return materialIt->second;
 	else
 		return MaterialData(0, 0);
+}
+
+
+void BulletPhysics::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)
+{
+	// draw a line to represent the normal.  This only lasts one frame, and is hard to see.
+	//   it might help to linger this drawn object onscreen for a while to make it more noticeable
+
+	btVector3 const startPoint = PointOnB;
+	btVector3 const endPoint = PointOnB + normalOnB * distance;
+
+	drawLine(startPoint, endPoint, color);
+}
+
+void BulletPhysics::reportErrorWarning(const char* warningString)
+{
+	E_WARNING(warningString);
+}
+
+void BulletPhysics::draw3dText(const btVector3& location, const char* textString)
+{
+	// FUTURE WORK - BulletPhysics::draw3dText needs an implementation
+}
+
+void BulletPhysics::setDebugMode(int debugMode)
+{
+	m_DebugModes = (DebugDrawModes)debugMode;
+}
+
+int BulletPhysics::getDebugMode() const
+{
+	return m_DebugModes;
+}
+//
+//void BulletPhysics::ReadOptions()
+//{
+//	
+//	TiXmlDocument *optionsDoc = g_pApp->m_Options.m_pDoc;
+//	TiXmlElement *pRoot = optionsDoc->RootElement();
+//	if (!pRoot)
+//		return;
+//
+//	int debugModes = btIDebugDraw::DBG_NoDebug;
+//	TiXmlElement *pNode = pRoot->FirstChildElement("PhysicsDebug");
+//	if (pNode)
+//	{
+//		if (pNode->Attribute("DrawWireFrame"))
+//		{
+//			std::string attribute(pNode->Attribute("DrawWireFrame"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_DrawWireframe;
+//		}
+//
+//		if (pNode->Attribute("DrawAabb"))
+//		{
+//			std::string attribute(pNode->Attribute("DrawAabb"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_DrawAabb;
+//		}
+//
+//		if (pNode->Attribute("DrawFeaturesText"))
+//		{
+//			std::string attribute(pNode->Attribute("DrawFeaturesText"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_DrawFeaturesText;
+//		}
+//
+//		if (pNode->Attribute("DrawContactPoints"))
+//		{
+//			std::string attribute(pNode->Attribute("DrawContactPoints"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_DrawContactPoints;
+//		}
+//
+//		if (pNode->Attribute("NoDeactivation"))
+//		{
+//			std::string attribute(pNode->Attribute("NoDeactivation"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_NoDeactivation;
+//		}
+//
+//		if (pNode->Attribute("NoHelpText"))
+//		{
+//			std::string attribute(pNode->Attribute("NoHelpText"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_NoHelpText;
+//		}
+//
+//		if (pNode->Attribute("DrawText"))
+//		{
+//			std::string attribute(pNode->Attribute("DrawText"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_DrawText;
+//		}
+//
+//		if (pNode->Attribute("ProfileTimings"))
+//		{
+//			std::string attribute(pNode->Attribute("ProfileTimings"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_ProfileTimings;
+//		}
+//
+//		if (pNode->Attribute("EnableSatComparison"))
+//		{
+//			std::string attribute(pNode->Attribute("EnableSatComparison"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_EnableSatComparison;
+//		}
+//
+//		if (pNode->Attribute("DisableBulletLCP"))
+//		{
+//			std::string attribute(pNode->Attribute("DisableBulletLCP"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_DisableBulletLCP;
+//		}
+//
+//		if (pNode->Attribute("EnableCCD"))
+//		{
+//			std::string attribute(pNode->Attribute("EnableCCD"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_EnableCCD;
+//		}
+//
+//		if (pNode->Attribute("DrawConstraints"))
+//		{
+//			std::string attribute(pNode->Attribute("DrawConstraints"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_DrawConstraints;
+//		}
+//
+//		if (pNode->Attribute("DrawConstraintLimits"))
+//		{
+//			std::string attribute(pNode->Attribute("DrawConstraintLimits"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_DrawConstraintLimits;
+//		}
+//
+//		if (pNode->Attribute("FastWireframe"))
+//		{
+//			std::string attribute(pNode->Attribute("FastWireframe"));
+//			if (attribute == "yes") debugModes |= btIDebugDraw::DBG_FastWireframe;
+//		}
+//
+//		if (debugModes != btIDebugDraw::DBG_NoDebug)
+//		{
+//			setDebugMode(debugModes);
+//		}
+//	}
+//
+//}
+
+
+
+void BulletPhysics::drawLine(const btVector3& from, const btVector3& to, const btVector3& lineColor)
+{
+
+	vec3 vec3From, vec3To;
+	vec3From.x = from.x();
+	vec3From.y = from.y();
+	vec3From.z = from.z();
+
+	vec3To.x = to.x();
+	vec3To.y = to.y();
+	vec3To.z = to.z();
+	vec3 color(lineColor.x(), lineColor.y(), lineColor.z());
+
+
+	m_pDebuger->DrawLine(vec3From, vec3To, color);
+}
+
+}
 }
