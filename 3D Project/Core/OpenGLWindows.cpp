@@ -5,6 +5,7 @@
 #include <tinyxml2/tinyxml2.h>
 #include "..\Core\Events.h"
 #include "..\Interface\IEventManager.h"
+#include "..\Interface\ITimer.h"
 namespace Light
 {
 
@@ -195,7 +196,7 @@ namespace Light
 		static IContext* pContext = (IContext*)glfwGetWindowUserPointer(window);
 		static OpenGLInput* pInput = static_cast<OpenGLInput*>(pContext->GetSystem<IInput>());
 		static IEventManager* pEventManager = pContext->GetSystem<IEventManager>();
-
+		static ITimer* pTimer = pContext->GetSystem<ITimer>();
 		
 		
 		// if unicode key is press
@@ -203,7 +204,7 @@ namespace Light
 		auto pEvent = DEBUG_NEW events::EvtKeyEvent();
 
 		pEvent->key = (Key)key;
-
+		pEvent->dt = pTimer->VGetDeltaTime();
 		if (action == GLFW_PRESS)
 		{
 			pInput->keys[key] = true;
@@ -236,6 +237,7 @@ namespace Light
 	{
 		static IContext* pContext = (IContext*)glfwGetWindowUserPointer(window);
 		static OpenGLInput* pInput = static_cast<OpenGLInput*>(pContext->GetSystem<IInput>());
+		static IEventManager* pEventManager = pContext->GetSystem<IEventManager>();
 
 		static bool firstMouse = false;
 		static double last_x = 0;
@@ -250,6 +252,13 @@ namespace Light
 
 		float dx = (float)(xpos - last_x);
 		float dy = -(float)(ypos - last_y);
+
+		auto pEvent = DEBUG_NEW events::EvtMouseMove();
+		pEvent->dx = dx;
+		pEvent->dy = dy;
+		pEvent->x = xpos;
+		pEvent->y = ypos;
+		pEventManager->VQueueEvent(std::shared_ptr<IEvent>(pEvent));
 
 		pInput->MouseD[0] = dx;
 		pInput->MouseD[1] = dy;

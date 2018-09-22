@@ -17,5 +17,6 @@ namespace Light
 		virtual glm::vec3	GetPos()override;
 		virtual void		SetPos(glm::vec3 pos)override;
 		virtual void		SetTransform(glm::vec3 pos, glm::quat quad) override;
+		virtual void		SetOrientation(glm::quat ort) override;
 	};
 }

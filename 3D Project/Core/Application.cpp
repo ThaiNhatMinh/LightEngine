@@ -182,7 +182,7 @@ void Application::MainLoop()
 		//	// Update VGUI
 		//	m_pVGUI->Update(dt);
 		//}
-
+		m_pScriptManager->Update(dt);
 		//
 		//if (m_DebugPhysic) m_pPhysic->VRenderDiagnostics();
 		pGame->Update(dt);

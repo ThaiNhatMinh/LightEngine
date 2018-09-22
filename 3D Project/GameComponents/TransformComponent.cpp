@@ -110,3 +110,10 @@ void Light::TransformComponent::SetTransform(glm::vec3 pos, glm::quat orientatio
 	glm::mat4 translate = glm::translate(glm::mat4(), pos);
 	transform = (translate*rotate);
 }
+
+void Light::TransformComponent::SetOrientation(glm::quat ort)
+{
+	glm::mat4 rotate = glm::mat4_cast(ort);
+	glm::mat4 translate = glm::translate(glm::mat4(), GetPos());
+	transform = (translate*rotate);
+}

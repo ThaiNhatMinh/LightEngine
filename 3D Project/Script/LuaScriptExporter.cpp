@@ -31,7 +31,7 @@ void Light::LuaScriptManager::BindComponent(IScriptComponent *pComponent)
 	state->m_Lua.require("glm", sol::c_call<decltype(&GLMBinding), &GLMBinding>);
 	state->m_Lua.require("Event", sol::c_call<decltype(&EventBinding), &EventBinding>);
 	state->m_Lua.require("Input", sol::c_call<decltype(&InputBinding), &InputBinding>);
-	
+	state->Update = state->m_Lua["Update"];
 	BaseBinding(state);
 
 	
@@ -57,6 +57,13 @@ const char * Light::LuaScriptManager::VGetName()
 	return typeid(IScriptManager).name();
 }
 
+void Light::LuaScriptManager::Update(float dt)
+{
+	for (std::size_t i = 0; i < m_Lists.size(); i++)
+		if(m_Lists[i]->Update.valid())
+			m_Lists[i]->Update(dt);
+}
+
 void Light::LuaScriptManager::BaseBinding(LuaState* pState)
 {
 	sol::state& lua = pState->m_Lua;
@@ -70,6 +77,7 @@ void Light::LuaScriptManager::BaseBinding(LuaState* pState)
 		"GetUp", &TransformComponent::GetUp,
 		"GetPos", &TransformComponent::GetPos,
 		"SetPos", &TransformComponent::SetPos,
+		"SetOrientation",&TransformComponent::SetOrientation,
 		"SetTransform", &TransformComponent::SetTransform);
 
 
@@ -114,7 +122,13 @@ void Light::LuaScriptManager::BaseBinding(LuaState* pState)
 			m_pEventManager->VAddListener(DEBUG_NEW EventDelegate<ScriptEventListener<events::EvtMoveActor>>(P, &ScriptEventListener<events::EvtMoveActor>::OnEvent), events::EvtMoveActor::StaticType);
 			pListener = P;
 		}
-
+		else if (eventType == events::EvtMouseMove::StaticType)
+		{
+			auto* P = DEBUG_NEW ScriptEventListener<events::EvtMouseMove>();
+			m_pEventManager->VAddListener(DEBUG_NEW EventDelegate<ScriptEventListener<events::EvtMouseMove>>(P, &ScriptEventListener<events::EvtMouseMove>::OnEvent), events::EvtMouseMove::StaticType);
+			pListener = P;
+		}
+		
 		if (pListener == nullptr)
 		{
 			E_ERROR("Can't find event type: %d", eventType);

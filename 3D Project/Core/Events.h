@@ -68,6 +68,14 @@ namespace Light
 		public:
 			KeyAction action;
 			Key key;
+			float dt;
+
+		};
+		class EvtMouseMove : public Event<EvtMouseMove>
+		{
+		public:
+			float dx, dy;
+			float x, y;
 
 		};
 	}

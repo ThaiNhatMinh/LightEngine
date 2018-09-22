@@ -38,15 +38,14 @@ namespace Light
 	{
 	public:
 		glm::mat4 transform;
-		// +Z axis
-		virtual glm::vec3 GetFront() = 0;
-		// +X axis
-		virtual glm::vec3 GetRight() = 0;
-		// +Y axis
-		virtual glm::vec3 GetUp() = 0;
-		// Current position
-		virtual glm::vec3 GetPos() = 0;
+		
+		virtual glm::vec3	GetFront() = 0;		// +Z axis
+		virtual glm::vec3	GetRight() = 0;		// +X axis
+		virtual glm::vec3	GetUp() = 0;		// +Y axis
+		virtual glm::vec3	GetPos() = 0;		// Current position
+
 		virtual void		SetPos(glm::vec3 pos) = 0;
+		virtual void		SetOrientation(glm::quat ort) = 0;
 		virtual void		SetTransform(glm::vec3 pos, glm::quat quad) = 0;
 	};
 

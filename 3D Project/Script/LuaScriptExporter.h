@@ -16,16 +16,17 @@ namespace Light
 			sol::state m_Lua;
 			sol::load_result m_Script;
 			IActor* m_pActor;
-
+			sol::function Update;
 			std::vector<std::unique_ptr<EventListener>> m_Listener;
 		};
 
 	public:
 		LuaScriptManager(IContext* pContext);
 		~LuaScriptManager();
-		virtual void BindComponent(IScriptComponent*);
-		virtual void Start();
+		virtual void		BindComponent(IScriptComponent*);
+		virtual void		Start();
 		virtual const char* VGetName();
+		virtual void		Update(float dt)override;
 	private:
 		void BaseBinding(LuaState* pState);
 

@@ -63,9 +63,13 @@ void Light::CameraControl::Update(float deltaTIme)
 	//For a FPS camera we can omit roll
 	glm::quat orientation = qYaw * qPitch;
 	orientation = glm::normalize(orientation);
-	glm::mat4 rotate = glm::mat4_cast(orientation);
+	/*glm::mat4 rotate = glm::mat4_cast(orientation);
 
 	glm::mat4 translate = glm::mat4(1.0f);
 	translate = glm::translate(translate, m_Position);
-	m_pTransform->transform = (translate*rotate);
+	m_pTransform->transform = (translate*rotate);*/
+
+	m_pTransform->SetTransform(m_Position, orientation);
+	//m_pTransform->SetPos(m_Position);
+	//m_pTransform->SetOrientation(orientation);
 }
