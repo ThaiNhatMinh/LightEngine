@@ -25,11 +25,7 @@ namespace Light
 		uint32							KeyFrameID;
 		float							m_fSpeed;
 		float							m_fTransitionTime;		// transition time between current state and next state
-
-		//std::vector<FrameData>			m_CurrentFrame;
-		//SkeNode*						m_pSkeNodes;
-		//std::vector<glm::mat4>			m_SkeTransform;			// matrix using to transform vertex, include invert bind-pose matrix
-		//std::vector<glm::mat4>			m_DbTransform;			// matrix using to debug
+		bool							m_bFinish;
 	public:
 		AnimationState();
 		void							Transition(const std::string& name, bool loop);
@@ -37,10 +33,8 @@ namespace Light
 		const std::string&				GetName();
 
 		FrameData						ComputerFrame(int i);
-
-		///float*							GetTransformMatrixs();
-		//int								GetNumNodes();
 		void							SetSpeed(float speed);
+		bool							IsFinish();
 	private:
 		FrameData						InterpolateFrame(AnimationState* state,const AnimNode & Anim, const vector<AnimKeyFrame>& KeyFrames);
 		void							AnimEvent(const string&);

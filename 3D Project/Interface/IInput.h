@@ -3,9 +3,9 @@
 
 namespace Light
 {
+#define stringify( name ) # name
 	enum Key
 	{
-		Unknown = -1, ///< Unhandled key
 		A = 0,        ///< The A key
 		B,            ///< The B key
 		C,            ///< The C key
@@ -116,7 +116,13 @@ namespace Light
 		XButton2,   ///< The second extra mouse button
 		ButtonCount ///< Keep last -- the total number of mouse buttons
 	};
-
+	enum KeyAction
+	{
+		Press,
+		Release,
+		Repeat
+	};
+	
 	class IInput : public ISubSystem
 	{
 	public:

@@ -98,3 +98,15 @@ glm::vec3 Light::TransformComponent::GetPos()
 {
 	return transform[3];
 }
+
+void Light::TransformComponent::SetPos(glm::vec3 pos)
+{
+	transform[3] = glm::vec4(pos, 1.0f);
+}
+
+void Light::TransformComponent::SetTransform(glm::vec3 pos, glm::quat orientation)
+{
+	glm::mat4 rotate = glm::mat4_cast(orientation);
+	glm::mat4 translate = glm::translate(glm::mat4(), pos);
+	transform = (translate*rotate);
+}

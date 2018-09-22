@@ -140,7 +140,10 @@ void Light::AnimationLayer::SetCurrentState(AnimationState * pState)
 
 void Light::AnimationLayer::Play(const std::string & name, bool loop)
 {
-	m_CurrentAnimation->Transition(name, loop);
+	if (m_CurrentAnimation->GetName() == name)
+	{
+
+	}else m_CurrentAnimation->Transition(name, loop);
 }
 
 const std::string & Light::AnimationLayer::GetName()

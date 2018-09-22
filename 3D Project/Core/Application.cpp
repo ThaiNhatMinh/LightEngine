@@ -7,6 +7,8 @@
 #include "ActorFactory.h"
 #include "Timer.h"
 #include "Context.h"
+#include "..\Script\LuaScriptExporter.h"
+
 #include "..\Graphics3D\OpenGL\OpenGLRenderDevice.h"
 #include "..\Graphics3D\OpenGL\OpenGLRenderBuffer.h"
 #include "..\Graphics3D\OpenGL\OpenGLTexture.h"
@@ -43,7 +45,7 @@ void Application::SetupSubmodule()
 	//m_pEffectSystem = std::unique_ptr<EffectSystem>(DEBUG_NEW EffectSystem(m_Context.get()));
 	//m_pVGUI = std::unique_ptr<VGUI>(DEBUG_NEW VGUI(m_Context.get()));
 	
-	
+	m_pScriptManager = std::unique_ptr<Light::IScriptManager>(DEBUG_NEW Light::LuaScriptManager(m_Context.get()));
 	//m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
 	//a->Test();
@@ -140,6 +142,8 @@ void Application::MainLoop()
 	IGamePlugin* pGame = m_GamePlugins.LoadPlugin();
 
 	pGame->Init(m_Context.get());
+
+	m_pScriptManager->Start();
 
 	m_pTimer->VReset();
 

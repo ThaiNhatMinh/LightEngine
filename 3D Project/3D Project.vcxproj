@@ -73,16 +73,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\RelWithDebInfo;..\ThirdParty\Devil\lib\x86\Release;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\RelWithDebInfo;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2</IncludePath>
+    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\RelWithDebInfo;..\ThirdParty\Devil\lib\x86\Release;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\RelWithDebInfo;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath);..\ThirdParty\lua\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2</IncludePath>
+    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath);..\ThirdParty\lua\lib</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -103,7 +103,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;ILU.lib;BulletCollision_RelWithDebugInfo.lib;BulletDynamics_RelWithDebugInfo.lib;LinearMath_RelWithDebugInfo.lib;freetype.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;ILU.lib;lua5.1.lib;BulletCollision_RelWithDebugInfo.lib;BulletDynamics_RelWithDebugInfo.lib;LinearMath_RelWithDebugInfo.lib;freetype.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>@ECHO ON
@@ -141,7 +141,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;ILU.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;ILU.lib;lua5.1.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
@@ -190,6 +190,7 @@
     <ClInclude Include="GameComponents\AnimatorComponent.h" />
     <ClInclude Include="GameComponents\CameraComponent.h" />
     <ClInclude Include="GameComponents\MeshRenderComponent.h" />
+    <ClInclude Include="GameComponents\ScriptComponent.h" />
     <ClInclude Include="GameComponents\TransformComponent.h" />
     <ClInclude Include="GamePlugin\GamePluginManager.h" />
     <ClInclude Include="Graphics3D\Actor.h" />
@@ -248,6 +249,7 @@
     <ClInclude Include="Interface\IResourceManager.h" />
     <ClInclude Include="Interface\IScene.h" />
     <ClInclude Include="Interface\IScript.h" />
+    <ClInclude Include="Interface\IScriptManager.h" />
     <ClInclude Include="Interface\IShader.h" />
     <ClInclude Include="Interface\ISoundEngine.h" />
     <ClInclude Include="Interface\ISubSystem.h" />
@@ -262,6 +264,9 @@
     <ClInclude Include="ResourceManager\LTRawData.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="Script\CameraControl.h" />
+    <ClInclude Include="Script\ComponentBinding.h" />
+    <ClInclude Include="Script\LuaScriptExporter.h" />
+    <ClInclude Include="Script\ScriptEventListener.h" />
     <ClInclude Include="Script\TestScript.h" />
     <ClInclude Include="typedef.h" />
     <ClInclude Include="Utilities\Delegate.h" />
@@ -289,6 +294,7 @@
     <ClCompile Include="GameComponents\AnimatorComponent.cpp" />
     <ClCompile Include="GameComponents\CameraComponent.cpp" />
     <ClCompile Include="GameComponents\MeshRenderComponent.cpp" />
+    <ClCompile Include="GameComponents\ScriptComponent.cpp" />
     <ClCompile Include="GameComponents\TransformComponent.cpp" />
     <ClCompile Include="GamePlugin\GamePluginManager.cpp" />
     <ClCompile Include="Graphics3D\Actor.cpp" />
@@ -334,6 +340,8 @@
     <ClCompile Include="ResourceManager\LTBFileLoader.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Script\CameraControl.cpp" />
+    <ClCompile Include="Script\LuaScriptExporter.cpp" />
+    <ClCompile Include="Script\ScriptEventListener.cpp" />
     <ClCompile Include="Script\TestScript.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Utilities\Observer.cpp" />

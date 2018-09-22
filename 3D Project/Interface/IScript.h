@@ -3,9 +3,9 @@
 
 namespace Light
 {
-	// Using attack to Actor
+	// Using attach to Actor
 	// Make Actor can do logic
-	// Just test
+	// Just test, can using for Lua script or JS
 	class IScript: public util::Serialization
 	{
 	protected:

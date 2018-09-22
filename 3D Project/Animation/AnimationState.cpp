@@ -167,10 +167,20 @@ void Light::AnimationState::OnFinish()
 		m_fTime = 0;
 		KeyFrameID = 0;
 		m_iCurrentFrame = 0;
+		m_bFinish = 0;
+	}
+	else
+	{
+		m_bFinish = 1;
 	}
 }
 void Light::AnimationState::SetSpeed(float speed)
 {
 	m_fSpeed = speed;
+}
+
+bool Light::AnimationState::IsFinish()
+{
+	return m_bFinish;
 }
 

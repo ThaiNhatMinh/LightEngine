@@ -14,6 +14,7 @@
 //#include "..\Interface\IGamePhysic.h"
 #include "..\Interface\ITimer.h"
 #include "..\Graphics3D\Renderer.h"
+#include "..\Interface\IScriptManager.h"
 
 using Light::render::RenderDevice;
 using Light::IWindow;
@@ -61,7 +62,7 @@ namespace Light
 		//std::unique_ptr<EffectSystem>		m_pEffectSystem;
 		//std::unique_ptr<VGUI>				m_pVGUI;
 
-
+		std::unique_ptr<IScriptManager>		m_pScriptManager;
 		GamePluginManager					m_GamePlugins;
 	};
 

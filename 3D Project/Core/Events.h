@@ -3,6 +3,7 @@
 #include "..\Interface\IActor.h"
 #include "..\Graphics3D\ICamera.h"
 #include "..\Interface\IScene.h"
+#include "..\Interface\IInput.h"
 namespace Light
 {
 	namespace events
@@ -13,6 +14,7 @@ namespace Light
 		public:
 			explicit EvtNewActor(IActor* pActor) :m_pActor(pActor){	}
 			IActor* GetActor(void) const{return m_pActor;}
+			ActorId GetID() {return m_pActor->VGetId();	};
 		};
 
 
@@ -58,6 +60,14 @@ namespace Light
 		public:
 			IScene* m_pScene;
 			EvtSceneCreate(IScene* pScene) :m_pScene(pScene) {}
+
+		};
+
+		class EvtKeyEvent : public Event<EvtKeyEvent>
+		{
+		public:
+			KeyAction action;
+			Key key;
 
 		};
 	}

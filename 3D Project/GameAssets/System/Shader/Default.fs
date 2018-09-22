@@ -76,11 +76,11 @@ vec4 ComputerPointLight(SurfaceInfo info,PointLight pLight)
     vec3 reflectDir = reflect(-LightDir,info.normal);
 
     float diff = max(dot(LightDir, info.normal),0.0f);
-    float spec = pow(max(dot(info.viewDir, reflectDir),0.0f), 32);
+    float spec = pow(max(dot(info.viewDir, reflectDir),0.0f), mat.shininess);
 
-    vec4 ambient =  vec4(pLight.Ia,1.0f) * info.texel;
-    vec4 diffuse =  vec4(pLight.Id,1.0f) * diff * info.texel;
-    vec4 specular = vec4(pLight.Is,1.0f) * spec * info.texel;
+    vec4 ambient =  vec4(pLight.Ia,1.0f) * vec4(mat.Ka,1.0f) *  info.texel;
+    vec4 diffuse =  vec4(pLight.Id,1.0f) * vec4(mat.Kd,1.0f) * diff * info.texel;
+    vec4 specular = vec4(pLight.Is,1.0f) * vec4(mat.Ks,1.0f) * spec * info.texel;
 
     // attenuation
     float distance    = length(pLight.Pos -  info.position);

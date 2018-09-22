@@ -3,6 +3,8 @@
 #include "OpenGLInput.h"
 #include <GLFW/glfw3.h>
 #include <tinyxml2/tinyxml2.h>
+#include "..\Core\Events.h"
+#include "..\Interface\IEventManager.h"
 namespace Light
 {
 
@@ -192,18 +194,28 @@ namespace Light
 	{
 		static IContext* pContext = (IContext*)glfwGetWindowUserPointer(window);
 		static OpenGLInput* pInput = static_cast<OpenGLInput*>(pContext->GetSystem<IInput>());
+		static IEventManager* pEventManager = pContext->GetSystem<IEventManager>();
+
+		
 		
 		// if unicode key is press
 		if (key == -1) return;
+		auto pEvent = DEBUG_NEW events::EvtKeyEvent();
+
+		pEvent->key = (Key)key;
 
 		if (action == GLFW_PRESS)
 		{
 			pInput->keys[key] = true;
+			pEvent->action = Press;
 		}
 		else if (action == GLFW_RELEASE)
 		{
 			pInput->keys[key] = false;
+			pEvent->action = Release;
 		}
+
+		pEventManager->VQueueEvent(std::shared_ptr<IEvent>(pEvent));
 	}
 
 	void OpenGLWindows::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)

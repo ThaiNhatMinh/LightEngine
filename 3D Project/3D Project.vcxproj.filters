@@ -304,6 +304,21 @@
     <ClInclude Include="Animation\AnimationLayer.h">
       <Filter>Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Script\LuaScriptExporter.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\ScriptComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IScriptManager.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\ComponentBinding.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\ScriptEventListener.h">
+      <Filter>Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -479,10 +494,19 @@
     <ClCompile Include="GameComponents\AnimatorComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Script\TestScript.cpp" />
     <ClCompile Include="Animation\AnimationLayer.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
+    <ClCompile Include="Script\TestScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\ScriptComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Script\LuaScriptExporter.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Script\ScriptEventListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
