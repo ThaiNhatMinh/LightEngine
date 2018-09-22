@@ -15,5 +15,6 @@ namespace Light
 		virtual void HideMouse(bool isHide) = 0;
 		virtual HWND VGetHandle() = 0;
 		virtual void VSwapBuffer() = 0;
+		virtual int VShouldClose() = 0;
 	};
 }

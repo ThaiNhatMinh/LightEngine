@@ -44,7 +44,7 @@ namespace physics
 			position = ToVector3(worldTrans.getOrigin());
 			orientation = ToQuaternion(worldTrans.getRotation());
 
-			m_worldToPositionTransform = btTransform_to_Mat4x4(worldTrans);
+			//m_worldToPositionTransform = btTransform_to_Mat4x4(worldTrans);
 		}
 	};
 

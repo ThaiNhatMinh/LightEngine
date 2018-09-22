@@ -44,7 +44,7 @@ namespace Light {
 		void HideWindows();
 		void EnableFullScreen(bool enable);
 		void SwitchMode();
-		int ShouldClose();
+		
 		void SetMouse(int t);
 		GLFWwindow* Window() { return m_pWindow; };
 
@@ -62,7 +62,7 @@ namespace Light {
 		virtual HWND VGetHandle();
 		virtual void VSwapBuffer();
 		virtual void HideMouse(bool isHide);
-
+		virtual int VShouldClose()override;
 		GLFWwindow*	GetGLFW();
 	};
 

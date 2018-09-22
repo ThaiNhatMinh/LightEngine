@@ -142,7 +142,7 @@ namespace Light
 		else EnableFullScreen(true);
 	}
 
-	int OpenGLWindows::ShouldClose()
+	int OpenGLWindows::VShouldClose()
 	{
 		return glfwWindowShouldClose(m_pWindow);
 	}

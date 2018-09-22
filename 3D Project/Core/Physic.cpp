@@ -281,7 +281,7 @@ void BulletPhysics::VSyncVisibleScene()
 		ActorMotionState const * const actorMotionState = static_cast<ActorMotionState*>(it->second->GetMotionState());
 		//GCC_ASSERT(actorMotionState);
 		IActor* pGameActor = 0;
-		RigidBodyComponent *pRb = FindBulletRigidBody(id);
+		RigidBodyComponent *pRb = it->second;// FindBulletRigidBody(id);
 		pGameActor = pRb->GetOwner();
 		ITransformComponent* pTransformComponent = pGameActor->GetComponent<ITransformComponent>();
 		if (pTransformComponent)

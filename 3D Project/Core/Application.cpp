@@ -130,7 +130,7 @@ void Application::MainLoop()
 
 	m_pTimer->VReset();
 
-	while (m_bRunMainLoop)
+	while (m_bRunMainLoop && !m_pWindows->VShouldClose())
 	{
 		
 		m_pInput->VUpdate();
@@ -147,7 +147,7 @@ void Application::MainLoop()
 
 		m_pPhysic->VOnUpdate(dt);
 		m_pPhysic->VSyncVisibleScene();
-		m_pPhysic->VRenderDiagnostics();
+		//m_pPhysic->VRenderDiagnostics();
 		//framebuffer.Begin();
 		
 	
