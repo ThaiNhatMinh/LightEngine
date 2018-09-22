@@ -81,8 +81,9 @@ namespace Light
 				config.FrontCompareMask = 0xFFFFFFFF;
 				config.FrontStencilFail = STENCIL_KEEP;
 				config.FrontDepthFail = STENCIL_KEEP;
-				config.FrontStencilPass = STENCIL_REPLACE;
+				config.FrontStencilPass = STENCIL_KEEP;
 				m_pDefaultDepthStencil = DEBUG_NEW OpenGLDepthStencilState(config);
+				this->SetDepthStencilState(m_pDefaultDepthStencil);
 			}
 
 			{
@@ -234,29 +235,18 @@ namespace Light
 
 			if (oldState != m_pCurrentDepthStencil)
 			{
-				if (m_pCurrentDepthStencil->DepthEnable)
-				{
-					
-					glEnable(GL_DEPTH_TEST);
-					//glFront(GL_CW);
-					glDepthMask(m_pCurrentDepthStencil->DepthMask);
-					glDepthFunc(m_pCurrentDepthStencil->Depthfunc);
-				}
+				if (m_pCurrentDepthStencil->DepthEnable) glEnable(GL_DEPTH_TEST);
 				else glDisable(GL_DEPTH_TEST);
 
-				if (m_pCurrentDepthStencil->FrontStencilEnabled || m_pCurrentDepthStencil->BackStencilEnabled)
-				{
-					glEnable(GL_STENCIL_TEST);
-					glStencilFunc( m_pCurrentDepthStencil->FrontStencilCompare, m_pCurrentDepthStencil->FrontRef, m_pCurrentDepthStencil->FrontCompareMask);
-					glStencilOp(m_pCurrentDepthStencil->FrontStencilFail, m_pCurrentDepthStencil->FrontDepthFail, m_pCurrentDepthStencil->FrontStencilPass);
-					glStencilMask(m_pCurrentDepthStencil->FrontWriteMask);
+				glDepthMask(m_pCurrentDepthStencil->DepthMask);
+				glDepthFunc(m_pCurrentDepthStencil->Depthfunc);
 
-					/*glStencilFuncSeparate(GL_BACK, m_pCurrentDepthStencil->BackStencilCompare, m_pCurrentDepthStencil->BackRef, m_pCurrentDepthStencil->BackCompareMask);
-					glStencilOpSeparate(GL_BACK, m_pCurrentDepthStencil->BackStencilFail, m_pCurrentDepthStencil->BackDepthFail, m_pCurrentDepthStencil->BackStencilPass);
-					glStencilMaskSeparate(GL_BACK, m_pCurrentDepthStencil->BackWriteMask);*/
-
-				}
+				if (m_pCurrentDepthStencil->FrontStencilEnabled || m_pCurrentDepthStencil->BackStencilEnabled) glEnable(GL_STENCIL_TEST);
 				else glDisable(GL_STENCIL_TEST);
+
+				glStencilFunc(m_pCurrentDepthStencil->FrontStencilCompare, m_pCurrentDepthStencil->FrontRef, m_pCurrentDepthStencil->FrontCompareMask);
+				glStencilOp(m_pCurrentDepthStencil->FrontStencilFail, m_pCurrentDepthStencil->FrontDepthFail, m_pCurrentDepthStencil->FrontStencilPass);
+				glStencilMask(m_pCurrentDepthStencil->FrontWriteMask);
 
 			}
 
@@ -307,7 +297,6 @@ namespace Light
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 			glClearColor(r, g, b, alpha);
 			glClearDepth(depth);
-			glClearStencil(0);
 		}
 
 		void OpenGLRenderDevice::Draw(int first, int count, int primcount, Primitive primitive)

@@ -5,6 +5,7 @@
 #include "OpenGLWindows.h"
 #include "EventManager.h"
 #include "ActorFactory.h"
+#include "OpenGLSysUI.h"
 #include "Timer.h"
 #include "Context.h"
 #include "..\Script\LuaScriptExporter.h"
@@ -36,7 +37,7 @@ void Application::SetupSubmodule()
 	m_pActorFactory = std::unique_ptr<Light::IFactory>(DEBUG_NEW Light::ActorFactory(m_Context.get()));
 	//m_pSoundEngine = std::unique_ptr<SoundEngine>(DEBUG_NEW SoundEngine(m_Context.get()));
 	
-	//m_pSystemUI = std::unique_ptr<SystemUI>(DEBUG_NEW SystemUI(m_Context.get()));
+	
 	m_pInput = std::unique_ptr<Light::IInput>(DEBUG_NEW Light::OpenGLInput(m_Context.get()));
 	//m_pConsole = std::unique_ptr<Console>(DEBUG_NEW Console(m_Context.get()));
 	m_pDebuger = std::unique_ptr<Light::IDebugRender>(DEBUG_NEW OpenGLDebugRender(m_Context.get()));
@@ -44,7 +45,7 @@ void Application::SetupSubmodule()
 	m_pTimer = std::unique_ptr<Light::ITimer>(DEBUG_NEW Light::GameTimer(m_Context.get()));
 	//m_pEffectSystem = std::unique_ptr<EffectSystem>(DEBUG_NEW EffectSystem(m_Context.get()));
 	//m_pVGUI = std::unique_ptr<VGUI>(DEBUG_NEW VGUI(m_Context.get()));
-	
+	m_pSystemUI = std::unique_ptr<OpenGLSysUI>(DEBUG_NEW OpenGLSysUI(m_Context.get()));
 	m_pScriptManager = std::unique_ptr<Light::IScriptManager>(DEBUG_NEW Light::LuaScriptManager(m_Context.get()));
 	//m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
@@ -53,7 +54,7 @@ void Application::SetupSubmodule()
 	//render::OutlineRenderPass* pOutline = DEBUG_NEW render::OutlineRenderPass("Outline", m_Context.get());
 	//m_pRenderer->AddExtraPass(pOutline);
 
-	m_pWindows->HideMouse(1);
+	//m_pWindows->HideMouse(1);
 }
 
 
@@ -88,55 +89,36 @@ void Application::MainLoop()
 	//config.uiHeight = h;
 	//render::OpenGLTexture tex(config);
 	//framebuffer.AttachTexture(render::COLOR_ATTACHMENT, &tex, 0);
-
 	//config.iInternalFormat = render::FORMAT_DEPTH_COMPONENT;
 	//config.eFormat = render::FORMAT_DEPTH_COMPONENT;
 	//config.eType = render::FLOAT;
 	//render::OpenGLTexture depthtex(config);
 	//framebuffer.AttachTexture(render::DEPTH_ATTACHMENT, &depthtex, 0);
-
 	////render::OpenGLRenderBuffer renderbuffer(w, h, render::ColorFormat::FORMAT_DEPTH_COMPONENT);
 	////framebuffer.AttachRenderBuffer(render::DEPTH_ATTACHMENT, &renderbuffer);
 	//framebuffer.End();
-
 	//std::string Path = "GameAssets\\System\\";
 	//auto shader = m_pRenderer->CreatePipeline(m_pResources->VGetVertexShader(Path + "Shader\\Screen.vs"), m_pResources->VGetPixelShader(Path + "Shader\\Screen.fs"));
 	//auto uTex = shader->GetParam("uTex");
 	//auto udepthTex = shader->GetParam("uDepthTex");
-
 	//float vertices[] = {
 	//	 -1.0f,  1.0f,  0.0f, 1.0f,
 	//	-1.0f, -1.0f,  0.0f, 0.0f,
 	//	 1.0f, -1.0f,  1.0f, 0.0f,
-
 	//	-1.0f,  1.0f,  0.0f, 1.0f,
 	//	 1.0f, -1.0f,  1.0f, 0.0f,
 	//	 1.0f,  1.0f,  1.0f, 1.0f
 	//};
-
 	//render::VertexBuffer *vertexBuffer = m_pRenderer->CreateVertexBuffer(sizeof(vertices), vertices);
-
 	//render::VertexElement vertexElement[] = 
 	//{
 	//	{  render::SHADER_POSITION_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, sizeof(float) * 4, 0, },
 	//	{ render::SHADER_TEXCOORD_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, sizeof(float) * 4,sizeof(float) * 2, }
 	//};
 	//render::VertexDescription *vertexDescription = m_pRenderer->CreateVertexDescription(2, vertexElement);
-
 	//render::VertexArray *vertexArray = m_pRenderer->CreateVertexArray(1, &vertexBuffer, &vertexDescription);
 
 	m_bRunMainLoop = true;
-	// PROBLEM: How every thing update ?
-	// 1. Timer
-	// 2. Event Manager
-	// 3. Input 
-	// 4. Physic
-	// 5. 
-
-	//Scene			*pScene = m_GamePlugins->GetScene();
-
-	
-	//m_Context->GetSystem<Windows>()->ShowWindows();
 
 
 	IGamePlugin* pGame = m_GamePlugins.LoadPlugin();
@@ -152,48 +134,25 @@ void Application::MainLoop()
 		
 		m_pInput->VUpdate();
 		m_pTimer->VTick();
-		// Update input
-		//		m_pInput->VUpdate();
+		m_pRenderer->Clear();
 		if (m_pInput->VOnKey(Light::Escape))	m_bRunMainLoop = false;
-		// Timer
 		
-		//m_pSystemUI->NewFrame();
-
-		//ImGui::Text("FPS: %d", m_pTimer->GetFPS());
-		// check if in console then don't update game
-		//if (!m_pConsole->CheckStatus())
-		//{
-
 		float dt = m_pTimer->VGetDeltaTime();
-		//	// Update Event
+		
 		m_pEventManager->VUpdate(200);
-		//	// Update Game
-		//	m_GamePlugins->UpdateGame(dt);
-		//	// Update Physic
-		//	m_pPhysic->VOnUpdate(dt);
-		//	// Update Effect
-		//	m_pEffectSystem->Update(pScene,dt);
-		//	// Update Object
-		//	m_pPhysic->VSyncVisibleScene();
-		//	// Update sound
-		//	m_pSoundEngine->Update();
-		//	// Update Debuger
-		//	m_pDebuger->Update();
-		//	// Update VGUI
-		//	m_pVGUI->Update(dt);
-		//}
+		m_pSystemUI->Update(dt);
+		
 		m_pScriptManager->Update(dt);
-		//
-		//if (m_DebugPhysic) m_pPhysic->VRenderDiagnostics();
+		
 		pGame->Update(dt);
 
 		//framebuffer.Begin();
-		m_pRenderer->Clear();
-
-		//m_pDebuger->DrawLineBox(glm::vec3(0), glm::vec3(100));
-		//m_pDebuger->DrawCoord(glm::translate(glm::mat4(),glm::vec3(10,10,10)));
+		
+	
+		
 		m_pDebuger->Render();
 		m_pRenderer->Render();
+		m_pSystemUI->Render();
 		/*framebuffer.End();
 		
 
@@ -219,11 +178,7 @@ void Application::MainLoop()
 		//m_pDebuger->Render(pScene);
 		// Draw SystemUI
 		//m_pSystemUI->Render();
-		// Draw VGUI
-		//m_pVGUI->Render();
-
-		//m_pRenderer->SwapBuffer();
-
+	
 		m_pWindows->VSwapBuffer();
 
 

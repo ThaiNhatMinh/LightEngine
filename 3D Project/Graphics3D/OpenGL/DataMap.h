@@ -235,7 +235,7 @@ static GLenum toOpenGLType[] = {
 
 static GLboolean toOpenGLNormalized[] = {
 	GL_FALSE, GL_FALSE, GL_FALSE,
-	GL_FALSE, GL_FALSE, GL_FALSE,
+	GL_TRUE, GL_FALSE, GL_FALSE,
 	GL_TRUE, GL_TRUE, GL_TRUE,
 	GL_TRUE, GL_TRUE, GL_TRUE,
 	GL_FALSE, GL_FALSE, GL_FALSE };

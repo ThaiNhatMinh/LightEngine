@@ -127,7 +127,7 @@ namespace Light
 		}
 		else
 		{
-			E_WARNING("Events Skipping event since there are no delegates registered to receive it: %s",pEvent->GetName());
+			//E_WARNING("Events Skipping event since there are no delegates registered to receive it: %s",pEvent->GetName());
 			return false;
 		}
 	}

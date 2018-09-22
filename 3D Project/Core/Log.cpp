@@ -16,7 +16,7 @@ Log::~Log()
 {
 }
 
-int ImFormatStringV(char* buf, size_t buf_size, const char* fmt, va_list args)
+int AAAA(char* buf, size_t buf_size, const char* fmt, va_list args)
 {
 
 	int w = vsnprintf(buf, buf_size, fmt, args);
@@ -37,7 +37,7 @@ void Log::Message(LogType type, const char* file, int line, const char* format, 
 
 	va_list args;
 	va_start(args, format);
-	ImFormatStringV(buffer,512,format, args);
+	AAAA(buffer,512,format, args);
 	va_end(args);
 
 	if (type == LOG_ERROR) SetConsoleTextAttribute(hConsole, 12);

@@ -228,6 +228,9 @@ namespace Light
 		{
 		public:
 			virtual ~IndexBuffer() = default;
+			virtual void SetData(long long size, const void* data, BufferUsage usage = STATIC_DRAW) = 0;
+			virtual void* Map(BufferAccess access) = 0;
+			virtual bool UnMap() = 0;
 		protected:
 			IndexBuffer() = default;
 		};

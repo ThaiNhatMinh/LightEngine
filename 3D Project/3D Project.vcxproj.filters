@@ -27,24 +27,6 @@
     <ClInclude Include="Utilities\Observer.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="..\ThirdParty\imgui\imconfig.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThirdParty\imgui\imgui.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThirdParty\imgui\imgui_internal.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThirdParty\imgui\stb_rect_pack.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThirdParty\imgui\stb_textedit.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThirdParty\imgui\stb_truetype.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\IActor.h">
       <Filter>Interface</Filter>
     </ClInclude>
@@ -319,6 +301,24 @@
     <ClInclude Include="Script\ScriptEventListener.h">
       <Filter>Script</Filter>
     </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imconfig.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imgui.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imgui_internal.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imstb_rectpack.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imstb_textedit.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imstb_truetype.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -340,12 +340,6 @@
     </ClCompile>
     <ClCompile Include="Utilities\Observer.cpp">
       <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ThirdParty\imgui\imgui.cpp">
-      <Filter>Utilities\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ThirdParty\imgui\imgui_draw.cpp">
-      <Filter>Utilities\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\OpenGL\OpenGLPixelShader.cpp">
       <Filter>Graphics3D\OpenGL</Filter>
@@ -506,7 +500,24 @@
     <ClCompile Include="Script\LuaScriptExporter.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="Script\ScriptEventListener.cpp" />
+    <ClCompile Include="..\ThirdParty\imgui\imgui.cpp">
+      <Filter>Utilities\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\imgui\imgui_demo.cpp">
+      <Filter>Utilities\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\imgui\imgui_draw.cpp">
+      <Filter>Utilities\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\imgui\imgui_widgets.cpp">
+      <Filter>Utilities\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Script\ScriptEventListener.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\OpenGLSysUI.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

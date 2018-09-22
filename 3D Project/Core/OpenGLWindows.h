@@ -55,6 +55,7 @@ namespace Light {
 		static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 		static void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 		static void scroll_callback(GLFWwindow*, double, double);
+		static void char_callback(GLFWwindow*window, unsigned int c);
 	public:
 		virtual const char* VGetName();
 		virtual void VGetWindowSize(int& width, int& height);
