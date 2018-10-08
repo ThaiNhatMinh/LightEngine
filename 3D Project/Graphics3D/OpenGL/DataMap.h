@@ -19,6 +19,8 @@ static void _check_gl_error(const char *file, int line) {
 	}
 }
 
+static GLenum DepthFunc[] = { GL_NEVER,GL_LESS,GL_EQUAL,GL_LEQUAL,GL_GREATER,GL_NOTEQUAL,GL_GEQUAL,GL_ALWAYS };
+static GLenum StencilOp[] = { GL_KEEP,GL_ZERO,GL_REPLACE,GL_INCR,GL_INCR_WRAP,GL_DECR,GL_DECR_WRAP,GL_INVERT };
 static int toglfw3Key[] =
 {
 	GLFW_KEY_A,

@@ -4,24 +4,21 @@ namespace Light
 {
 	namespace render
 	{
-		class OpenGLDepthStencilState : public DepthStencilState
+		class OpenGLStencilState : public StencilState
 		{
 		public:
 
-			OpenGLDepthStencilState(const DepthStencilConfig& config);
+			OpenGLStencilState(const StencilConfig& config);
 
 		public:
-			bool	DepthEnable;
-			// Enable/Disable writing to depth buffer
-			bool	DepthMask;
-			GLenum	Depthfunc;
+			
 
 			bool			FrontStencilEnabled;
 			GLenum			FrontStencilCompare;
 			GLenum			FrontStencilFail;
 			GLenum			FrontStencilPass;
 			GLenum			FrontDepthFail;
-			int				FrontRef = 0;
+			int				FrontRef;
 			unsigned int	FrontCompareMask;
 			unsigned int	FrontWriteMask;
 

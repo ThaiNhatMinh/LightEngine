@@ -350,20 +350,33 @@ namespace Light
 		};
 
 		// Encapsulates the depth/stencil state
-		class DepthStencilState
+		class DepthState
 		{
 		public:
 
 			// virtual destructor to ensure subclasses have a virtual destructor
-			virtual ~DepthStencilState() {}
+			virtual ~DepthState() {}
 
 		protected:
 
 			// protected default constructor to ensure these are never created
 			// directly
-			DepthStencilState() {}
+			DepthState() {}
 		};
 
+		class StencilState
+		{
+		public:
+
+			// virtual destructor to ensure subclasses have a virtual destructor
+			virtual ~StencilState() {}
+
+		protected:
+
+			// protected default constructor to ensure these are never created
+			// directly
+			StencilState() {}
+		};
 		
 		enum Compare
 		{
@@ -423,33 +436,31 @@ namespace Light
 			STENCIL_MAX
 		};
 
-		struct DepthStencilConfig
+		struct StencilConfig
 		{
-			bool	DepthEnable = true;
-			// Enable/Disable writing to depth buffer
-			bool	DepthMask = true;
-			Compare Depthfunc = COMPARE_LESS;
-
-			bool			FrontStencilEnabled = false;
-			Compare			FrontStencilCompare = COMPARE_NOTEQUAL;
+			bool			FrontEnabled = false;
+			Compare			FrontCompare = COMPARE_NOTEQUAL;
 			// stencil test fail
 			StencilAction	FrontStencilFail = STENCIL_KEEP;
 			// stencil test pass, depth test fail
 			StencilAction	FrontDepthFail = STENCIL_KEEP;
 			// both stencil/depth test pass
-			StencilAction	FrontStencilPass = STENCIL_REPLACE;
+			StencilAction	FrontPass = STENCIL_REPLACE;
 			int				FrontRef = 1;
 			unsigned int	FrontCompareMask = 0xFFFFFFFF;
 			unsigned int	FrontWriteMask = 0xFFFFFFFF;
 
-			/*bool			BackStencilEnabled = false;
-			Compare			BackStencilCompare = COMPARE_NOTEQUAL;
+			bool			BackEnabled = false;
+			Compare			BackCompare = COMPARE_NOTEQUAL;
+			// stencil test fail
 			StencilAction	BackStencilFail = STENCIL_KEEP;
-			StencilAction	BackStencilPass = STENCIL_REPLACE;
+			// stencil test pass, depth test fail
 			StencilAction	BackDepthFail = STENCIL_KEEP;
+			// both stencil/depth test pass
+			StencilAction	BackPass = STENCIL_REPLACE;
 			int				BackRef = 1;
 			unsigned int	BackCompareMask = 0xFFFFFFFF;
-			unsigned int	BackWriteMask = 0xFFFFFFFF;*/
+			unsigned int	BackWriteMask = 0xFFFFFFFF;
 		};
 
 		struct CullFaceConfig
@@ -532,7 +543,8 @@ namespace Light
 			virtual VertexArray*		CreateVertexArray(unsigned int numBuffer, VertexBuffer**vertexBuffer, VertexDescription** vertexDescription) = 0;
 			virtual IndexBuffer*		CreateIndexBuffer(unsigned int size, const void* pData = nullptr) = 0;
 			virtual Texture*			CreateTexture(const TextureCreateInfo& info, bool isCompress = false) = 0;
-			virtual DepthStencilState*	CreateDepthStencilState(const DepthStencilConfig& config) = 0;
+			virtual DepthState*			CreateDepthState(bool enable=true,bool mask = true, Compare depthFunc = COMPARE_LESS) = 0;
+			virtual StencilState*		CreateStencilState(const StencilConfig & config) = 0;
 			virtual RasterState*		CreateRasterState(const CullFaceConfig& config) = 0;
 			virtual BlendingState*		CreateBlendingState(const BlendConfig& config) = 0;
 			virtual FrameBuffer*		CreateFrameBuffer() = 0;
@@ -542,10 +554,20 @@ namespace Light
 			virtual void				SetPipeline(Pipeline*) = 0;
 			virtual void				SetIndexBuffer(IndexBuffer*) = 0;
 			virtual void				SetTexture(TextureUnit slot, Texture*) = 0;
-			virtual void				SetDepthStencilState(DepthStencilState* state = nullptr) = 0;
+			virtual void				SetDepthState(DepthState* state = nullptr) = 0;
+			virtual void				SetStencilState(StencilState* state = nullptr) = 0;
 			virtual void				SetRasterState(RasterState* state = nullptr) = 0;
 			virtual void				SetBlendingState(BlendingState* state = nullptr) = 0;
 
+			// immediate apply
+			virtual void				SetDepth(bool enable = true, bool mask = true, Compare depthFunc = COMPARE_LESS) = 0;
+			virtual void				SetStencil(bool enable = false, Compare compare = COMPARE_NOTEQUAL, StencilAction StencilFail = STENCIL_KEEP ,
+										StencilAction depthFail = STENCIL_KEEP, StencilAction depthstencilpass = STENCIL_KEEP,
+										int ref=1,unsigned int comparemask = 0xFFFFFFFF, unsigned int writemask = 0xFFFFFFFF) = 0;
+			virtual void				SetCullFace(bool enable = true, Face cullFace = FACE_BACK, Winding frontWindinng = WINDING_CCW, RasterMode fillmode = RASTERMODE_FILL) = 0;
+			virtual void				SetBlend(bool enable = false, BlendFactor sfactor = FACTOR_SRC_ALPHA, BlendFactor dfactor = FACTOR_ONE_MINUS_SRC_ALPHA, BlendFunc func = FUNC_ADD) = 0;
+
+			
 			virtual void				Clear(float red = 0.2f, float green = 0.2f, float blue = 0.2f, float alpha = 1.0f, float depth = 1.0f) = 0;
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;
 			virtual void				DrawElement(int count, const void * indices, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;
