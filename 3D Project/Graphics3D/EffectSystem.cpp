@@ -1,107 +1,141 @@
 #include <pch.h>
-
-void EffectSystem::CreateSpriteEvent(std::shared_ptr<IEvent> pEvent)
+#include "EffectSystem.h"
+#include "..\Core\Events.h"
+#include "..\Interface\IEventManager.h"
+#include "..\Graphics3D\ICamera.h"
+namespace Light
 {
-	EvtRequestCreateSprite* p = static_cast<EvtRequestCreateSprite*>(pEvent.get());
-
-	SpriteAnim* c = m_Context->GetSystem<Resources>()->GetSpriteAnimation(p->GetFile());
-	c->ResetState();
-	c->GetPos() = p->GetPos();
-	if (p->isLoop()) c->SetFlag(SpriteAnim::SF_LOOP);
-	this->AddSprite(c);
-}
-
-EffectSystem::EffectSystem(Context * c):VAO(),VBO(GL_ARRAY_BUFFER)
-{
-	const GLfloat g_vertex_buffer_data[] = { -0.5f,  0.5f, 0.0f,
-		-0.5f, -0.5f, 0.0f,
-		0.5f,  0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f, };
-
-
-	VAO.Bind();
-	VBO.Bind();
-
-	VBO.SetData(sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	VAO.SetAttibutePointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, 0, 0);
-	m_pRenderer = c->GetSystem<OpenGLRenderer>();
-	m_pShader = c->GetSystem<Resources>()->GetShader("SpriteShader");
-	c->AddSystem(this);
-
-	c->GetSystem<EventManager>()->VAddListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
-}
-
-EffectSystem::~EffectSystem()
-{
-	//glDeleteVertexArrays(1, &VAO);
-	//glDeleteBuffers(1, &VBO);
-	m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
-}
-
-void EffectSystem::Update(Scene * pScene, float dt)
-{
-	ICamera* pCam = pScene->GetCurrentCamera();
-
-	for (auto itr = m_List2.begin();itr!=m_List2.end(); itr++)
+	void EffectSystem::CreateSpriteEvent(std::shared_ptr<IEvent> pEvent)
 	{
-		if (!(*itr)->Update(dt))
+		events::EvtRequestCreateSprite* p = static_cast<events::EvtRequestCreateSprite*>(pEvent.get());
+
+		auto r = m_pResources->VCreateSprite(p->File, p->Pos);
+		r->m_Loop = p->Loop;
+		m_SpriteLists.push_back(std::unique_ptr<render::Sprite>(r));
+
+	}
+
+	void EffectSystem::UpdateSprite(float dt, render::ICamera*pCam)
+	{
+		for (auto&el : m_SpriteLists)
 		{
-			m_List2.erase(itr);
-			//cout << "Remove: " << (*itr)->GetFilePath() << endl;
+			auto* pData = el->m_pData;
+
+			//if(m_Flags==)
+			el->m_MsCurTime += dt * 1000;
+
+			if (el->m_MsCurTime > pData->m_MsAnimLength&& el->m_Loop)
+			{
+				el->m_MsCurTime = 0;
+				
+			}
+
+			// Figure out current frame
+			el->m_iCurrentFrame = (el->m_MsCurTime / (1000 / pData->m_MsFrameRate)) % pData->m_FrameLists.size();
+			
+			el->CameraDistance = glm::length2(el->m_Pos - pCam->GetPosition());
 		}
-		else (*itr)->CameraDistance = glm::length2((*itr)->Pos - pCam->GetPosition());
-	}
-}
-
-void EffectSystem::Render(Scene * pScene)
-{
-	ICamera* pCam = pScene->GetCurrentCamera();
-
-
-	//std::sort(m_List2.begin(), m_List2.end(), [](SpriteAnim*a, SpriteAnim*b) {return *a < *b; });
-
-	m_pShader->Use();
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	m_pRenderer->SetDrawMode(GL_TRIANGLE_STRIP);
-	//m_pRenderer->SetVertexArrayBuffer(VAO);
-	VAO.Bind();
-	m_pShader->SetUniformMatrix("MVP", glm::value_ptr(pCam->GetVPMatrix()));
-	mat4 ViewMatrix = pCam->GetViewMatrix();
-	m_pShader->SetUniform("CameraUp",pCam->GetUp());
-	m_pShader->SetUniform("CameraRight", -pCam->GetRight());
-
-	/*for (auto& el : m_SpriteLists)
-	{
-		m_pShader->SetUniform("SpritePos", el.Pos);
-		m_pShader->SetUniform("SpriteSize", el.size);
-		m_Context->m_pRenderer->SetTexture(el.m_Tex);
-		m_Context->m_pRenderer->Draw(0, 4);
-	}*/
-
-	for (auto& el : m_List2)
-	{
-		m_pShader->SetUniform("SpritePos", el->GetPos());
-		auto data = el->GetCurrentFrame();
-		m_pShader->SetUniform("SpriteSize", data.Size);
-		data.Tex->Bind();
-		m_pRenderer->Draw(0, 4);
 	}
 
-	glDisable(GL_BLEND);
-}
+	void EffectSystem::RenderSprite()
+	{
+	}
 
-void EffectSystem::AddSprite(Sprite a) {
-	m_SpriteLists.push_back(a);
-}
+	const char * EffectSystem::VGetName()
+	{
+		static const char * p = typeid(IEffectSystem).name();
+		return p;
+	}
 
-void EffectSystem::AddSprite(SpriteAnim * a)
-{
-	m_List2.push_back(a);
-}
+	EffectSystem::EffectSystem(IContext * c)
+	{
+		c->VAddSystem(this);
+		m_pRenderer = c->GetSystem<render::RenderDevice>();
+		m_pResources = c->GetSystem<resources::IResourceManager>();
 
-void EffectSystem::AddTempSprite(SpriteAnim * a)
-{
+		const GLfloat g_vertex_buffer_data[] = { -0.5f,  0.5f, 0.0f,
+			-0.5f, -0.5f, 0.0f,
+			0.5f,  0.5f, 0.0f,
+			0.5f, -0.5f, 0.0f, };
 
+		VBO = m_pRenderer->CreateVertexBuffer(sizeof(g_vertex_buffer_data), g_vertex_buffer_data);
+		render::VertexElement elements = { render::SHADER_POSITION_ATTRIBUTE,render::VertexElementType::VERTEXELEMENTTYPE_FLOAT,3,0,0 };
+		render::VertexDescription* pDesc = m_pRenderer->CreateVertexDescription(1, &elements);
+		VAO = m_pRenderer->CreateVertexArray(1, &VBO, &pDesc);
+		
+
+		//VAO.SetAttibutePointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, 0, 0);
+		
+		m_pShader = m_pRenderer->CreatePipeline(m_pResources->VGetVertexShader("Sprite"), m_pResources->VGetPixelShader("Sprite"));
+		m_uMVP = m_pShader->GetParam("uMVP");
+		m_uCamRight = m_pShader->GetParam("uCameraRight");
+		m_uCamUp = m_pShader->GetParam("uCameraUp");
+
+		c->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<EffectSystem>(this, &EffectSystem::CreateSpriteEvent), events::EvtRequestCreateSprite::StaticType);
+	}
+
+	EffectSystem::~EffectSystem()
+	{
+		//glDeleteVertexArrays(1, &VAO);
+		//glDeleteBuffers(1, &VBO);
+		delete VAO;
+		delete VBO;
+
+		//m_Context->GetSystem<EventManager>()->VRemoveListener(MakeDelegate(this, &EffectSystem::CreateSpriteEvent), EvtRequestCreateSprite::sk_EventType);
+	}
+
+	void EffectSystem::VUpdate(float dt)
+	{
+		render::ICamera* pCam = m_pRenderer->VGetCurrentCamera();
+		UpdateSprite(dt,pCam);
+		//for (auto itr = m_List2.begin(); itr != m_List2.end(); itr++)
+		//{
+		//	if (!(*itr)->Update(dt))
+		//	{
+		//		m_List2.erase(itr);
+		//		//cout << "Remove: " << (*itr)->GetFilePath() << endl;
+		//	}
+		//	else (*itr)->CameraDistance = glm::length2((*itr)->Pos - pCam->GetPosition());
+		//}
+	}
+
+	void EffectSystem::VRender()
+	{
+		if (m_SpriteLists.size() == 0) return;
+		render::ICamera* pCam = m_pRenderer->VGetCurrentCamera();
+
+
+		//std::sort(m_SpriteLists.begin(), m_SpriteLists.end(), [](render::Sprite*a, render::Sprite*b) {return *a < *b; });
+
+		m_pRenderer->SetPipeline(m_pShader);
+		
+		m_pRenderer->SetVertexArray(VAO);
+		
+		mat4 PV = pCam->GetProjMatrix() * pCam->GetViewMatrix();
+		m_uMVP->SetAsMat4(glm::value_ptr(PV));
+		mat4 ViewMatrix = pCam->GetViewMatrix();
+		m_uCamUp->SetAsVec3(glm::value_ptr(pCam->GetUp()));
+		m_uCamRight->SetAsVec3(glm::value_ptr(pCam->GetRight()));
+
+		/*for (auto& el : m_SpriteLists)
+		{
+			m_pShader->SetUniform("SpritePos", el.Pos);
+			m_pShader->SetUniform("SpriteSize", el.size);
+			m_Context->m_pRenderer->SetTexture(el.m_Tex);
+			m_Context->m_pRenderer->Draw(0, 4);
+		}*/
+
+		/*for (auto& el : m_List2)
+		{
+			m_pShader->SetUniform("SpritePos", el->GetPos());
+			auto data = el->GetCurrentFrame();
+			m_pShader->SetUniform("SpriteSize", data.Size);
+			data.Tex->Bind();
+			m_pRenderer->Draw(0, 4);
+		}
+
+		glDisable(GL_BLEND);*/
+	}
+
+	
 }

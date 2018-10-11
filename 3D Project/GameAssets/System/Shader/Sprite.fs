@@ -1,6 +1,6 @@
 #version 140
 
-in vec2 vUV;
+in vec2 oUV;
 out vec4 color;
 uniform sampler2D Tex;
 

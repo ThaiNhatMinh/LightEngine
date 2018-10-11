@@ -41,32 +41,19 @@ namespace Light
 			return pCam;
 		};
 		m_ComponentFactoryMap.insert(std::make_pair("CameraComponent", CameraFunc));
-		/*m_ComponentFactoryMap.insert(std::make_pair("ColliderComponent", []() { return DEBUG_NEW ColliderComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("RigidBodyComponent", []() { return DEBUG_NEW RigidBodyComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("AnimationComponent", []() { return DEBUG_NEW AnimationComponent(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("PVAnimationComponen", []() { return DEBUG_NEW PVAnimationComponent(); }));
+		/*
 		m_ComponentFactoryMap.insert(std::make_pair("CharacterControllerComponent", []() { return DEBUG_NEW CharacterControllerComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("LogicComponent", []() { return DEBUG_NEW LogicComponent(); }));
 		
 		m_ComponentFactoryMap.insert(std::make_pair("TerrainRenderComponent", []() { return DEBUG_NEW TerrainRenderComponent(); }));
 		
 		m_ComponentFactoryMap.insert(std::make_pair("HitBox", []() { return  DEBUG_NEW HitBox(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("SoundListener", []() { return  DEBUG_NEW SoundListener(); }));
-		m_ComponentFactoryMap.insert(std::make_pair("SoundSource3D", []() { return  DEBUG_NEW SoundSource3D(); }));
 
 
 		m_ActorFactoryMap.insert(std::make_pair("Actor", [](int id) {return DEBUG_NEW Actor(id); }));
 		m_ActorFactoryMap.insert(std::make_pair("World", [](int id) {return DEBUG_NEW TerrainWorld(id); }));
 		m_ActorFactoryMap.insert(std::make_pair("StaticObject", [](int id) {return DEBUG_NEW StaticObject(id); }));
 		m_ActorFactoryMap.insert(std::make_pair("SkyBox", [](int id) {return DEBUG_NEW SkyBox(id); }));*/
-
-
-		/*m_ShaderFactory.insert(std::make_pair("SkeShader", [](const char*vs, const char* fs) {return DEBUG_NEW SkeShader(vs, fs); }));
-		m_ShaderFactory.insert(std::make_pair("PrimShader", [](const char*vs, const char* fs) {return DEBUG_NEW PrimShader(vs, fs); }));
-		m_ShaderFactory.insert(std::make_pair("Debug", [](const char*vs, const char* fs) {return DEBUG_NEW DebugShader(vs, fs); }));
-		m_ShaderFactory.insert(std::make_pair("Shader", [](const char*vs, const char* fs) {return DEBUG_NEW Shader(vs, fs); }));
-		m_ShaderFactory.insert(std::make_pair("ImGuiShader", [](const char*vs, const char* fs) {return DEBUG_NEW ImGuiShader(vs, fs); }));
-		m_ShaderFactory.insert(std::make_pair("SpriteShader", [](const char*vs, const char* fs) {return DEBUG_NEW SpriteShader(vs, fs); }));*/
 
 		m_MaterialMap.insert(std::make_pair("Default", std::shared_ptr<render::Material>(DEBUG_NEW render::DefaultMaterial(m_pContext))));
 		m_MaterialMap.insert(std::make_pair("Skeleton", std::shared_ptr<render::Material>(DEBUG_NEW render::SkeletonMaterial(m_pContext))));

@@ -9,6 +9,7 @@
 #include "..\Interface\IResourceManager.h"
 #include "..\Interface\ISysUI.h"
 //#include "..\Interface\IConsole.h"
+#include "..\Interface\IEffectSystem.h"
 #include "..\Interface\IInput.h"
 #include "..\Interface\IDebugRender.h"
 #include "..\Interface\IGamePhysic.h"
@@ -54,13 +55,13 @@ namespace Light
 		std::unique_ptr<IFactory>			m_pActorFactory;
 		std::unique_ptr<ISoundEngine>		m_pSoundEngine;
 		std::unique_ptr<IResourceManager>	m_pResources;
+		std::unique_ptr<IEffectSystem>		m_pEffectSystem;
 		std::unique_ptr<ISysUI>				m_pSystemUI;
 		//std::unique_ptr<IConsole>			m_pConsole;
 		std::unique_ptr<IInput>				m_pInput;
 
 		
 		std::unique_ptr<ITimer>				m_pTimer;
-		//std::unique_ptr<EffectSystem>		m_pEffectSystem;
 		//std::unique_ptr<VGUI>				m_pVGUI;
 
 		std::unique_ptr<IScriptManager>		m_pScriptManager;

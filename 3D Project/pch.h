@@ -43,8 +43,6 @@ using std::map;
 //#include <LuaPlus.h>
 // OpenGL Include
 // GLEW
-#define GLEW_STATIC
-#include <gl\glew.h>
 
 // ImGui
 //#include <imgui.h>

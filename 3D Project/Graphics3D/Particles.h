@@ -1,26 +1,43 @@
 #pragma once
+#include "Renderer.h"
 
 #define TYPE_DECAL 1<<1
 #define TYPE_PARTICLE 1<<2
-
-struct Particle
+namespace Light
 {
-	float CameraDistance;
-	glm::vec3 Pos;
-	glm::vec3 color;
-	glm::vec2 size;
-
-	float life;
-
-	bool Update(float dt) { return 0; }
-
-	bool operator<(const Particle& other)
+	namespace render
 	{
-		return CameraDistance > other.CameraDistance;
-	}
-};
+		struct BaseParticle
+		{
+			float CameraDistance;
+			bool operator<(const BaseParticle& other)
+			{
+				return CameraDistance > other.CameraDistance;
+			}
+		};
+		struct Particle:public BaseParticle
+		{
+			Texture* Tex;
+			
+			glm::vec3 Pos;
+			glm::vec3 color;
+			glm::vec2 size;
 
-struct Decal : public Particle
-{
-	glm::vec3 Front; // normal vector in plane
-};
+			float life; // life time 
+
+			
+		};
+
+		struct Decal : public Particle
+		{
+			glm::vec3 normal; // normal vector in plane
+		};
+
+
+		struct Billboard : public Particle
+		{
+			glm::vec3 front;
+		};
+
+	}
+}

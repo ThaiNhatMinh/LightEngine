@@ -166,5 +166,16 @@ namespace Light
 				: m_triggerID(triggerID),
 				m_other(other) {};
 		};
+
+
+		class EvtRequestCreateSprite :public Event<EvtRequestCreateSprite>
+		{
+
+		public:
+			bool Loop;
+			string File;
+			IActor* Parent;
+			glm::vec3 Pos;
+		};
 	}
 }

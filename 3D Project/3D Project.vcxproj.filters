@@ -54,9 +54,6 @@
     <ClInclude Include="Interface\IShader.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\Renderer.h">
-      <Filter>Graphics3D</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\OpenGL\OpenGLRenderDevice.h">
       <Filter>Graphics3D\OpenGL</Filter>
     </ClInclude>
@@ -104,9 +101,6 @@
     </ClInclude>
     <ClInclude Include="Interface\IDebugRender.h">
       <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\OpenGLDebugRender.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Interface\ISysUI.h">
       <Filter>Interface</Filter>
@@ -169,9 +163,6 @@
     <ClInclude Include="Graphics3D\Actor.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\ICamera.h">
-      <Filter>Graphics3D</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\Scene.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
@@ -213,9 +204,6 @@
     </ClInclude>
     <ClInclude Include="Graphics3D\DefaultMesh.h">
       <Filter>Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLDepthStencilState.h">
-      <Filter>Graphics3D\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\LTModel.h">
       <Filter>Graphics3D</Filter>
@@ -340,6 +328,39 @@
     <ClInclude Include="Core\SoundEngine.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\EffectSystem.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IEffectSystem.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Particles.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Sprite.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLStencilState.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLDepthState.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\RenderSystem.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IRenderSystem.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ICamera.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Renderer.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DebugRender.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -398,9 +419,6 @@
     <ClCompile Include="Core\OpenGLWindows.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\OpenGLDebugRender.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Core\OpenGLInput.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -445,9 +463,6 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\DefaultMesh.cpp">
       <Filter>Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLDepthStencilState.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\DefaultModel.cpp">
       <Filter>Graphics3D</Filter>
@@ -557,6 +572,21 @@
     <ClCompile Include="Core\SoundEngine.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics3D\EffectSystem.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLStencilState.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLDepthState.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DebugRender.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\RenderSystem.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -618,6 +648,9 @@
     </Filter>
     <Filter Include="Animation">
       <UniqueIdentifier>{926dc625-7ff7-419f-ad64-f59a593130a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VGUI">
+      <UniqueIdentifier>{01d34b06-d574-4402-acbe-2abdad5349a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

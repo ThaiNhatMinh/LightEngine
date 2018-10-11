@@ -4,9 +4,12 @@
 
 #include "..\Interface\IGamePlugin.h"
 
+const static char* PLUGIN_CONFIG_FILE = "Configs\\Plugin.xml";
+
 class GamePluginManager
 {
-	const char* PLUGIN_CONFIG_FILE = "Configs\\Plugin.xml";
+public:
+	
 public:
 	GamePluginManager();
 	~GamePluginManager();

@@ -76,6 +76,7 @@ void Light::LuaScriptManager::BaseBinding(LuaState* pState)
 		"GetRight", &TransformComponent::GetRight,
 		"GetUp", &TransformComponent::GetUp,
 		"GetPos", &TransformComponent::GetPos,
+		"GetOrientation", &TransformComponent::GetOrientation,
 		"SetPos", &TransformComponent::SetPos,
 		"SetOrientation",&TransformComponent::SetOrientation,
 		"SetTransform", &TransformComponent::SetTransform);

@@ -1,7 +1,5 @@
 #pragma once
-
-#include "ICamera.h"
-#include "RenderPass.h"
+#include <vector>
 namespace Light
 {
 	class IActor;
@@ -530,11 +528,11 @@ namespace Light
 		};
 
 
-		class RenderDevice :public ISubSystem
+		class RenderDevice
 		{
 		public:
 			virtual ~RenderDevice() {}
-
+			virtual void				SetViewPort(size_t x, size_t y, size_t width, size_t height) = 0;
 			virtual VertexShader*		CreateVertexShader(const char* code) = 0;
 			virtual PixelShader*		CreatePixelShader(const char* code) = 0;
 			virtual Pipeline*			CreatePipeline(VertexShader*, PixelShader*) = 0;
@@ -572,15 +570,7 @@ namespace Light
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;
 			virtual void				DrawElement(int count, const void * indices, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;
 
-			virtual void				Render() =0;
-			virtual render::ICamera*	VGetCurrentCamera() = 0;
-			virtual void				VSetCurrentCamera(render::ICamera * cam) = 0;
-
-			virtual void				AddExtraPass(RenderPass* pass) = 0;
-			virtual RenderPass*			GetRenderPass(const std::string& name = "Default") = 0;
-
-			virtual Texture*			GetSkyBoxTexture() = 0;
-			virtual IScene*				GetScene() = 0;
+			
 
 		};
 	}

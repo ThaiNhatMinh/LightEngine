@@ -100,7 +100,7 @@ namespace Light
 			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist)override;
 			virtual LTRawData*				VGetRawModel(const std::string& filename)override;
 			virtual Sound*					VGetSound(const std::string& tag)override;
-
+			virtual render::Sprite*			VCreateSprite(const std::string& filename, glm::vec3 pos)override;
 		};
 
 		

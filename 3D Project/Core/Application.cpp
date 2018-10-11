@@ -10,6 +10,7 @@
 #include "Context.h"
 #include "Physic.h"
 #include "SoundEngine.h"
+#include "..\Graphics3D\EffectSystem.h"
 #include "..\Script\LuaScriptExporter.h"
 
 #include "..\Graphics3D\OpenGL\OpenGLRenderDevice.h"
@@ -19,7 +20,7 @@
 #include "..\ResourceManager\ResourceManager.h"
 #include "..\Core\OpenGLInput.h"
 #include "..\Graphics3D\RenderPass\OutlinePass.h"
-#include "OpenGLDebugRender.h"
+#include "DebugRender.h"
 
 using namespace Light;
 
@@ -35,17 +36,17 @@ void Application::SetupSubmodule()
 	auto a = DEBUG_NEW Light::render::OpenGLRenderDevice(m_Context.get());
 	m_pRenderer = std::unique_ptr<Light::render::RenderDevice>(a);
 	m_pResources = std::unique_ptr<IResourceManager>(DEBUG_NEW Light::resources::ResourceManager(m_Context.get()));
-
+	m_pEffectSystem = std::unique_ptr<EffectSystem>(DEBUG_NEW EffectSystem(m_Context.get()));
 	m_pActorFactory = std::unique_ptr<Light::IFactory>(DEBUG_NEW Light::ActorFactory(m_Context.get()));
 	m_pSoundEngine = std::unique_ptr<SoundEngine>(DEBUG_NEW SoundEngine(m_Context.get()));
 	
 	
 	m_pInput = std::unique_ptr<Light::IInput>(DEBUG_NEW Light::OpenGLInput(m_Context.get()));
 	//m_pConsole = std::unique_ptr<Console>(DEBUG_NEW Console(m_Context.get()));
-	m_pDebuger = std::unique_ptr<Light::IDebugRender>(DEBUG_NEW OpenGLDebugRender(m_Context.get()));
+	m_pDebuger = std::unique_ptr<Light::IDebugRender>(DEBUG_NEW DebugRender(m_Context.get()));
 	m_pPhysic = std::unique_ptr<physics::IGamePhysic>(DEBUG_NEW physics::BulletPhysics(m_Context.get()));
 	m_pTimer = std::unique_ptr<Light::ITimer>(DEBUG_NEW Light::GameTimer(m_Context.get()));
-	//m_pEffectSystem = std::unique_ptr<EffectSystem>(DEBUG_NEW EffectSystem(m_Context.get()));
+	
 	//m_pVGUI = std::unique_ptr<VGUI>(DEBUG_NEW VGUI(m_Context.get()));
 	m_pSystemUI = std::unique_ptr<OpenGLSysUI>(DEBUG_NEW OpenGLSysUI(m_Context.get()));
 	m_pScriptManager = std::unique_ptr<Light::IScriptManager>(DEBUG_NEW Light::LuaScriptManager(m_Context.get()));
@@ -137,6 +138,7 @@ void Application::MainLoop()
 		m_pInput->VUpdate();
 		m_pTimer->VTick();
 		m_pRenderer->Clear();
+
 		if (m_pInput->VOnKey(Light::Escape))	m_bRunMainLoop = false;
 		
 		float dt = m_pTimer->VGetDeltaTime();
@@ -149,6 +151,7 @@ void Application::MainLoop()
 		m_pPhysic->VOnUpdate(dt);
 		m_pPhysic->VSyncVisibleScene();
 		m_pSoundEngine->VUpdate();
+		m_pEffectSystem->VUpdate(dt);
 		//m_pPhysic->VRenderDiagnostics();
 		//framebuffer.Begin();
 		
@@ -156,6 +159,7 @@ void Application::MainLoop()
 		
 		m_pDebuger->Render();
 		m_pRenderer->Render();
+		m_pEffectSystem->VRender();
 		m_pSystemUI->Render();
 		/*framebuffer.End();
 		

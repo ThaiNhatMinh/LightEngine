@@ -1,34 +1,37 @@
 #pragma once
-
-
-
-class EffectSystem: public ISubSystem
+#include "..\Interface\IEffectSystem.h"
+#include "..\Interface\IResourceManager.h"
+#include "..\Graphics3D\Renderer.h"
+#include "..\Interface\IEvent.h"
+#include "Sprite.h"
+namespace Light
 {
-private:
-	VertexArray			VAO;
-	BufferObject		VBO;
-	//Mesh				m_QuadMesh;
-	std::vector<Sprite> m_SpriteLists;
+	class EffectSystem : public IEffectSystem
+	{
+	private:
+		render::VertexArray*			VAO;
+		render::VertexBuffer*		VBO;		
+		std::vector<std::unique_ptr<render::Sprite>> m_SpriteLists;
+		std::list<render::BaseParticle*> m_Particles;
+		render::Pipeline* m_pShader;
+		render::PipelineParam* m_uMVP,*m_uCamUp,*m_uCamRight;
+		render::RenderDevice *m_pRenderer;
+		resources::IResourceManager* m_pResources;
 
-	std::list<SpriteAnim*> m_List2;
-	Shader* m_pShader;
+	private:
+		void CreateSpriteEvent(std::shared_ptr<IEvent> pEvent);
 
-	OpenGLRenderer *m_pRenderer;
+		void UpdateSprite(float dt, render::ICamera*);
+		void RenderSprite();
+	public:
+		virtual const char* VGetName();
+		EffectSystem(IContext* c);
+		~EffectSystem();
 
-private:
-	void CreateSpriteEvent(std::shared_ptr<IEvent> pEvent);
-public:
-	EffectSystem(Context* c);
-	~EffectSystem();
+		
+		void			VUpdate(float dt);
+		void			VRender();
 
-
-	void			Update(Scene * pScene, float dt);
-	void			Render(Scene * pScene);
-
-	void			AddSprite(Sprite a);
-	void			AddSprite(SpriteAnim* a);
-
-	// Temp sprite is sprite has short life in game loop
-	// It don't need to sort in z-order
-	void			AddTempSprite(SpriteAnim* a);
-};
+	
+	};
+}

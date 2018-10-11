@@ -77,8 +77,6 @@ namespace Light
 			
 
 			SpriteData* s = nullptr;
-			s = HasResource(m_Sprites,filename);
-			if (s) return s;
 
 			if (filename.size() == 0) return nullptr;
 
@@ -134,7 +132,7 @@ namespace Light
 
 			}
 
-			m_Sprites.push_back(ResourceHandle<SpriteData>(filename,s));
+			
 			return s;
 		}
 
@@ -885,6 +883,31 @@ namespace Light
 			}
 			
 			return nullptr;
+		}
+
+		render::Sprite * ResourceManager::VCreateSprite(const std::string & filename, glm::vec3 pos)
+		{
+			SpriteData* pData = HasResource(m_Sprites, filename);
+			if (pData == nullptr)
+			{
+				pData = LoadSpriteAnimation(filename);
+				if(pData==nullptr) return nullptr;
+
+				m_Sprites.push_back(ResourceHandle<SpriteData>(filename, pData));
+			}
+			
+			
+			render::Sprite* p = DEBUG_NEW render::Sprite();
+			p->m_pData = pData;
+			for (auto el : pData->m_FrameLists)
+			{
+				auto tex = VGetTexture(el);
+				if (!tex) E_ERROR("Can't load texture: %s", el.c_str());
+				p->m_FrameLists.push_back(tex);
+			}
+
+			p->m_Pos = pos;
+			return p;
 		}
 
 		

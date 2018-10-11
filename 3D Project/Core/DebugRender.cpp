@@ -1,12 +1,13 @@
 #include "pch.h"
-#include "OpenGLDebugRender.h"
+#include "DebugRender.h"
 #include "..\Interface\IResourceManager.h"
 namespace Light
 {
-	OpenGLDebugRender::OpenGLDebugRender(IContext * pContext)
+	DebugRender::DebugRender(IContext * pContext)
 	{
 		pContext->VAddSystem(this);
-		m_pRenderer = pContext->GetSystem<render::RenderDevice>();
+		m_pRS = pContext->GetSystem<render::IRenderSystem>();
+		m_pRenderer = m_pRS->GetRenderDevice();
 		auto pResources = pContext->GetSystem<resources::IResourceManager>();
 
 		
@@ -15,7 +16,7 @@ namespace Light
 		SetupBoxRender(pResources);
 	}
 
-	void OpenGLDebugRender::DrawLine(const vec3 & from, const vec3 & to, const vec3 & color, const mat4 & m)
+	void DebugRender::DrawLine(const vec3 & from, const vec3 & to, const vec3 & color, const mat4 & m)
 	{
 		DebugData db;
 		db.color = color;
@@ -25,7 +26,7 @@ namespace Light
 		m_Lists.push_back(db);
 	}
 
-	void OpenGLDebugRender::DrawLineBox(vec3 min, vec3 max, vec3 color, const mat4 & m)
+	void DebugRender::DrawLineBox(vec3 min, vec3 max, vec3 color, const mat4 & m)
 	{
 		DrawLine(vec3(min.x, min.y, min.z), vec3(max.x, min.y, min.z),color,m);
 		DrawLine(vec3(max.x, min.y, min.z), vec3(max.x, min.y, max.z), color,m);
@@ -43,7 +44,7 @@ namespace Light
 		DrawLine(vec3(min.x, max.y, max.z), vec3(min.x, min.y, max.z), color,m);
 	}
 
-	void OpenGLDebugRender::DrawCoord(const mat4 & m)
+	void DebugRender::DrawCoord(const mat4 & m)
 	{
 		vec3 pos = m[3];
 		vec3 x = m[0];
@@ -54,7 +55,7 @@ namespace Light
 		DrawLine(pos, pos + z * 10.0f, vec3(0, 0, 1));
 	}
 
-	void OpenGLDebugRender::AddLightBox(glm::vec3 pos, glm::vec3 color)
+	void DebugRender::AddLightBox(glm::vec3 pos, glm::vec3 color)
 	{
 		LightData data;
 		data.color = color;
@@ -63,10 +64,10 @@ namespace Light
 
 	}
 
-	void OpenGLDebugRender::Render()
+	void DebugRender::Render()
 	{
 		
-		auto camera = m_pRenderer->VGetCurrentCamera();
+		auto camera = m_pRS->VGetCurrentCamera();
 
 		glm::mat4 PV = camera->GetProjMatrix() * camera->GetViewMatrix();
 
@@ -85,7 +86,7 @@ namespace Light
 
 	}
 
-	void OpenGLDebugRender::RenderLight(const glm::mat4& pv)
+	void DebugRender::RenderLight(const glm::mat4& pv)
 	{
 		
 		m_pRenderer->SetPipeline(m_ShaderLight.get());
@@ -99,13 +100,13 @@ namespace Light
 			m_pRenderer->DrawElement(36, 0);
 		}
 	}
-	const char * OpenGLDebugRender::VGetName()
+	const char * DebugRender::VGetName()
 	{
 		static const char* pName = typeid(IDebugRender).name();
 		return pName;
 	}
 
-	void OpenGLDebugRender::SetupBoxRender(resources::IResourceManager*pResources)
+	void DebugRender::SetupBoxRender(resources::IResourceManager*pResources)
 	{
 
 		m_ShaderLight = std::unique_ptr<render::Pipeline>(m_pRenderer->CreatePipeline(pResources->VGetVertexShader("Debug_Box"), pResources->VGetPixelShader("Debug_Box")));
@@ -144,18 +145,15 @@ namespace Light
 		delete pVertexDes;
 	}
 
-	void OpenGLDebugRender::SetupLineRender(resources::IResourceManager*pResources)
+	void DebugRender::SetupLineRender(resources::IResourceManager*pResources)
 	{
 		m_Shader = std::unique_ptr<render::Pipeline>(m_pRenderer->CreatePipeline(pResources->VGetVertexShader("Debug_Line"), pResources->VGetPixelShader("Debug_Line")));
 		m_uMVP = m_Shader->GetParam(render::uMVP);
 
-		{
-			render::DepthStencilConfig config;
-			config.DepthEnable = false;
-			config.Depthfunc = render::COMPARE_LESS;
+		
 
-			m_DepthConfig = std::unique_ptr<render::DepthStencilState>(m_pRenderer->CreateDepthStencilState(config));
-		}
+		m_DepthConfig = std::unique_ptr<render::DepthState>(m_pRenderer->CreateDepthState(false,true,render::COMPARE_LESS));
+		
 		m_VBO = std::unique_ptr<render::VertexBuffer>(m_pRenderer->CreateVertexBuffer(0));
 		render::VertexElement elements[] =
 		{

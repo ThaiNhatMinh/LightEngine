@@ -1,16 +1,32 @@
 #pragma once
 
-
-class Texture;
-
-class Sprite :public Particle
+#include "Renderer.h"
+#include "Particles.h"
+namespace Light
 {
-	friend class EffectSystem;
-public:
-	Sprite(Texture *Tex);
-	~Sprite() = default;
+	namespace resources
+	{
+		struct SpriteData;
+	}
+	namespace render
+	{
+		class Sprite: public BaseParticle
+		{
 
-	vec3& GetPos() { return Pos; }
-private:
-	Texture		*m_Tex;
-};
+		public:
+			Sprite() :m_MsCurTime(0), m_iCurrentFrame(0), m_Loop(0){};
+			
+
+		public:
+
+			std::vector<render::Texture*>m_FrameLists;
+			resources::SpriteData* m_pData;
+			
+			uint32					m_MsCurTime;
+			uint32					m_iCurrentFrame;
+			glm::vec3				m_Pos;
+			float					m_fLife;
+			bool					m_Loop;
+		};
+	}
+}

@@ -182,11 +182,12 @@
     <ClInclude Include="Core\EventManager.h" />
     <ClInclude Include="Core\Events.h" />
     <ClInclude Include="Core\Log.h" />
-    <ClInclude Include="Core\OpenGLDebugRender.h" />
+    <ClInclude Include="Core\DebugRender.h" />
     <ClInclude Include="Core\OpenGLInput.h" />
     <ClInclude Include="Core\OpenGLSysUI.h" />
     <ClInclude Include="Core\OpenGLWindows.h" />
     <ClInclude Include="Core\Physic.h" />
+    <ClInclude Include="Core\RenderSystem.h" />
     <ClInclude Include="Core\SoundEngine.h" />
     <ClInclude Include="Core\Timer.h" />
     <ClInclude Include="GameComponents\AnimatorComponent.h" />
@@ -202,7 +203,7 @@
     <ClInclude Include="Graphics3D\Actor.h" />
     <ClInclude Include="Graphics3D\DefaultMaterial.h" />
     <ClInclude Include="Graphics3D\DefaultMesh.h" />
-    <ClInclude Include="Graphics3D\ICamera.h" />
+    <ClInclude Include="Graphics3D\EffectSystem.h" />
     <ClInclude Include="Graphics3D\Light.h" />
     <ClInclude Include="Graphics3D\LightManager.h" />
     <ClInclude Include="Graphics3D\Light\DirectionLight.h" />
@@ -215,7 +216,8 @@
     <ClInclude Include="Graphics3D\OpenGL\OpenGLBlendingState.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLCompressTexture.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLCubeTexture.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLDepthStencilState.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLDepthState.h" />
+    <ClInclude Include="Graphics3D\OpenGL\OpenGLStencilState.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLIndexBuffer.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLPipeline.h" />
@@ -230,7 +232,7 @@
     <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexDescription.h" />
     <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexShader.h" />
     <ClInclude Include="Graphics3D\DefaultModel.h" />
-    <ClInclude Include="Graphics3D\Renderer.h" />
+    <ClInclude Include="Graphics3D\Particles.h" />
     <ClInclude Include="Graphics3D\RenderPass.h" />
     <ClInclude Include="Graphics3D\RenderPass\DefaultPass.h" />
     <ClInclude Include="Graphics3D\RenderPass\OutlinePass.h" />
@@ -238,13 +240,16 @@
     <ClInclude Include="Graphics3D\SkeletonMaterial.h" />
     <ClInclude Include="Graphics3D\SkeMesh.h" />
     <ClInclude Include="Graphics3D\SkyBox.h" />
+    <ClInclude Include="Graphics3D\Sprite.h" />
     <ClInclude Include="Graphics3D\Vertex.h" />
     <ClInclude Include="interface.h" />
     <ClInclude Include="Interface\IActor.h" />
+    <ClInclude Include="Interface\ICamera.h" />
     <ClInclude Include="Interface\IComponent.h" />
     <ClInclude Include="Interface\IConsole.h" />
     <ClInclude Include="Interface\IContext.h" />
     <ClInclude Include="Interface\IDebugRender.h" />
+    <ClInclude Include="Interface\IEffectSystem.h" />
     <ClInclude Include="Interface\IEvent.h" />
     <ClInclude Include="Interface\IEventManager.h" />
     <ClInclude Include="Interface\IFactory.h" />
@@ -252,6 +257,7 @@
     <ClInclude Include="Interface\IGamePlugin.h" />
     <ClInclude Include="Interface\IInput.h" />
     <ClInclude Include="Interface\IModelResource.h" />
+    <ClInclude Include="Interface\IRenderSystem.h" />
     <ClInclude Include="Interface\IResourceManager.h" />
     <ClInclude Include="Interface\IScene.h" />
     <ClInclude Include="Interface\IScript.h" />
@@ -262,6 +268,7 @@
     <ClInclude Include="Interface\ISysUI.h" />
     <ClInclude Include="Interface\ITimer.h" />
     <ClInclude Include="Interface\IWindow.h" />
+    <ClInclude Include="Interface\Renderer.h" />
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="Math\Frustum.h" />
     <ClInclude Include="Math\Plane.h" />
@@ -296,11 +303,12 @@
     <ClCompile Include="Core\Context.cpp" />
     <ClCompile Include="Core\EventManager.cpp" />
     <ClCompile Include="Core\Log.cpp" />
-    <ClCompile Include="Core\OpenGLDebugRender.cpp" />
+    <ClCompile Include="Core\DebugRender.cpp" />
     <ClCompile Include="Core\OpenGLInput.cpp" />
     <ClCompile Include="Core\OpenGLSysUI.cpp" />
     <ClCompile Include="Core\OpenGLWindows.cpp" />
     <ClCompile Include="Core\Physic.cpp" />
+    <ClCompile Include="Core\RenderSystem.cpp" />
     <ClCompile Include="Core\SoundEngine.cpp" />
     <ClCompile Include="Core\Timer.cpp" />
     <ClCompile Include="GameComponents\AnimatorComponent.cpp" />
@@ -316,6 +324,7 @@
     <ClCompile Include="Graphics3D\Actor.cpp" />
     <ClCompile Include="Graphics3D\DefaultMaterial.cpp" />
     <ClCompile Include="Graphics3D\DefaultMesh.cpp" />
+    <ClCompile Include="Graphics3D\EffectSystem.cpp" />
     <ClCompile Include="Graphics3D\LightManager.cpp" />
     <ClCompile Include="Graphics3D\Light\DirectionLight.cpp" />
     <ClCompile Include="Graphics3D\Light\PointLight.cpp" />
@@ -324,7 +333,8 @@
     <ClCompile Include="Graphics3D\OpenGL\OpenGLBlendingState.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCompressTexture.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLCubeTexture.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLDepthStencilState.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLDepthState.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\OpenGLStencilState.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLIndexBuffer.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\OpenGLPipeline.cpp" />

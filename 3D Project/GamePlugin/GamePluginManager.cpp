@@ -35,6 +35,8 @@ IGamePlugin* GamePluginManager::LoadPlugin()
 	}
 	IGamePlugin* pGamePlugin = fnCreateInterface();
 
+	FreeLibrary(hModule);
+
 	if (pGamePlugin)
 	{
 

@@ -6,7 +6,7 @@
 #include "..\typedef.h"
 #include "..\Graphics3D\Vertex.h"
 #include "..\ResourceManager\LTRawData.h"
-
+#include "..\Graphics3D\Sprite.h"
 namespace Light
 {
 	namespace resources
@@ -36,7 +36,6 @@ namespace Light
 			bool					m_bKeyed;
 			uint32					m_ColourKey;
 			bool					m_bTranslucent;
-			uint32					m_MsCurTime;
 			uint32					m_Flags;
 		};
 
@@ -82,7 +81,7 @@ namespace Light
 			virtual HeightMap*				VGetHeightMap(const std::string& filename) = 0;
 			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist) = 0;
 			virtual LTRawData*				VGetRawModel(const std::string& filename)=0;
-			//virtual LoadStatus*				VLoadResource(const std::string& resourcePath, bool async = false) = 0;
+			virtual render::Sprite*			VCreateSprite(const std::string& filename,glm::vec3 pos) = 0;
 			virtual Sound*					VGetSound(const std::string& tag) = 0;
 		};
 	}

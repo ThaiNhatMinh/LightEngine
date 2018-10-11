@@ -14,8 +14,13 @@
 
 	<VertexShader File="Shader\Debug_Line.vs"/>
 	<PixelShader File="Shader\Debug_Line.fs"/>
+
 	<VertexShader File="Shader\Debug_Box.vs"/>
 	<PixelShader File="Shader\Debug_Box.fs"/>
+
 	<VertexShader File="Shader\imgui.vs"/>
 	<PixelShader File="Shader\imgui.fs"/>
+
+	<VertexShader File="Shader\Sprite.vs"/>
+	<PixelShader File="Shader\Sprite.fs"/>
 </Resources>

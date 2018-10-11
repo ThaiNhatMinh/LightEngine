@@ -2,16 +2,11 @@
 
 #include "..\Renderer.h"
 #include "..\..\Interface\IContext.h"
-#include "Interface\IEvent.h"
-#include "OpenGLDepthStencilState.h"
+
 #include "OpenGLRasterState.h"
 #include "OpenGLBlendingState.h"
 
 #include "..\..\Interface\IComponent.h"
-#include "..\..\GameComponents\CameraComponent.h"
-#include "..\RenderPass.h"
-#include "..\..\Interface\IScene.h"
-
 namespace Light
 {
 	namespace render
@@ -19,7 +14,7 @@ namespace Light
 		class OpenGLRenderDevice : public RenderDevice
 		{
 		public:
-			OpenGLRenderDevice(IContext* pContext);
+			OpenGLRenderDevice();
 			~OpenGLRenderDevice();
 			virtual const char*			VGetName()override;
 
@@ -59,38 +54,19 @@ namespace Light
 			virtual void				Clear(float red = 0.2f, float green = 0.2f, float blue = 0.2f, float alpha = 1.0f, float depth = 1.0f)override;
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES)override;
 			virtual void				DrawElement(int count, const void * indices, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES)override;
-			virtual void				Render();
-
-			virtual render::ICamera*	VGetCurrentCamera()override;
-			virtual void				VSetCurrentCamera(render::ICamera * cam) override;
-			virtual void				AddExtraPass(RenderPass* pass);
-			virtual RenderPass*			GetRenderPass(const std::string& name = "Default")override;
-			virtual Texture*			GetSkyBoxTexture();
-			virtual IScene*				GetScene();
-		private:
-
 			
 
-			//using RenderableList = std::list<Renderable>;
-
-			void OnObjectCreate(std::shared_ptr<IEvent> event);
-			void OnbjectDestroy(std::shared_ptr<IEvent> event);
-			void OnCameraCreate(std::shared_ptr<IEvent> event);
-			void OnSceneCreate(std::shared_ptr<IEvent> event);
-			void AddObjectToPass(IActor* pActor, RenderPass* pass);
+			
+	
 
 		private:
 			
-			ICamera * m_pCurrentCamera;
 			
-			IContext * m_pContext;
 			OpenGLDepthState* m_pDefaultDepth, *m_pCurrentDepth;
 			OpenGLRasterState * m_pCurrentRaster, *m_pDefaultRaster;
 			OpenGLBlendingState * m_pCurrentBlending, *m_pDefaultBlending;
 			OpenGLStencilState* m_pDefaultStencil, *m_pCurrentStencil;
-			std::unique_ptr<RenderPass> m_DefaultPass;
-			std::list<std::unique_ptr<RenderPass>> m_ExtraPass;
-			IScene* m_pScene;
+			
 		};
 	}
 }

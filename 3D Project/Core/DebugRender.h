@@ -2,11 +2,11 @@
 #include <glm/vec3.hpp>
 #include <vector>
 #include <memory>
-#include "..\Graphics3D\Renderer.h"
+#include "..\Interface\IRenderSystem.h"
 
 namespace Light
 {
-	class OpenGLDebugRender: public IDebugRender
+	class DebugRender: public IDebugRender
 	{
 	private:
 
@@ -21,7 +21,7 @@ namespace Light
 			glm::vec3 color;
 		};
 	public:
-		OpenGLDebugRender(IContext* pContext);
+		DebugRender(IContext* pContext);
 		virtual void DrawLine(const vec3& from, const vec3& to, const vec3& color = glm::vec3(1, 1, 1), const mat4& m = mat4())override;
 		virtual void DrawLineBox(vec3 min, vec3 max, vec3 color = vec3(0.5f), const mat4& m = mat4())override;
 		virtual void DrawCoord(const mat4& m)override;
@@ -35,7 +35,8 @@ namespace Light
 	private:
 		
 		render::RenderDevice* m_pRenderer;
-		std::unique_ptr<render::DepthStencilState> m_DepthConfig;
+		render::IRenderSystem* m_pRS;
+		std::unique_ptr<render::DepthState> m_DepthConfig;
 		std::unique_ptr<render::RasterState> m_CullConfig;
 
 		// for light render
