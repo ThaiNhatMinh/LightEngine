@@ -24,14 +24,14 @@ IGamePlugin* GamePluginManager::LoadPlugin()
 	if (!hModule)
 	{
 		E_ERROR("Can't load dll: %s" ,pXMLNode->Value());
-		return 0;
+		return &m_Null;
 	}
 	CreateInterfaceFn fnCreateInterface = (CreateInterfaceFn)GetProcAddress((HMODULE)hModule, CREATEINTERFACE_PROCNAME);
 
 	if (fnCreateInterface == nullptr)
 	{
 		E_ERROR("Can't load CreateInterface() ");
-		return 0;
+		return &m_Null;
 	}
 	IGamePlugin* pGamePlugin = fnCreateInterface();
 
@@ -43,6 +43,6 @@ IGamePlugin* GamePluginManager::LoadPlugin()
 		return pGamePlugin;
 	}
 
-	return nullptr;
+	return &m_Null;
 
 }

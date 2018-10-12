@@ -8,8 +8,15 @@ const static char* PLUGIN_CONFIG_FILE = "Configs\\Plugin.xml";
 
 class GamePluginManager
 {
-public:
-	
+private:
+	class NullGamePlugin : public IGamePlugin
+	{
+	public:
+		
+		virtual void	Init(Light::IContext*) {};
+		virtual void	Update(float dt) {};
+		virtual void	ShutDown() {};
+	};
 public:
 	GamePluginManager();
 	~GamePluginManager();
@@ -17,5 +24,5 @@ public:
 	IGamePlugin* LoadPlugin();
 
 private:
-	
+	NullGamePlugin m_Null;
 };
