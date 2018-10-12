@@ -21,8 +21,8 @@ bool Light::render::SkyBox::VSerialize(IContext * pContext, const tinyxml2::XMLE
 		return false;
 	}
 	auto pResourceManager = pContext->GetSystem<resources::IResourceManager>();
-	auto pRenderer = pContext->GetSystem<RenderDevice>();
-	m_pRenderer = pRenderer;
+	m_pRS = pContext->GetSystem<IRenderSystem>();
+	m_pRenderer = m_pRS->GetRenderDevice();
 
 	auto pFolderNode = pData->FirstChildElement("Texture");
 	const char* Path = pFolderNode->Attribute("Path");
@@ -31,7 +31,7 @@ bool Light::render::SkyBox::VSerialize(IContext * pContext, const tinyxml2::XMLE
 
 	auto VS = pResourceManager->VGetVertexShader("SkyBox");
 	auto PS = pResourceManager->VGetPixelShader("SkyBox");
-	m_Shader = std::unique_ptr<Pipeline>(pRenderer->CreatePipeline(VS, PS));
+	m_Shader = std::unique_ptr<Pipeline>(m_pRenderer->CreatePipeline(VS, PS));
 	m_uMVP = m_Shader->GetParam(uMVP);
 
 	std::vector<glm::vec3> vertex =
@@ -55,22 +55,20 @@ bool Light::render::SkyBox::VSerialize(IContext * pContext, const tinyxml2::XMLE
 
 	VertexElement elementList = { SHADER_POSITION_ATTRIBUTE,VertexElementType::VERTEXELEMENTTYPE_FLOAT,3,sizeof(glm::vec3),0 };
 
-	m_VBO = std::unique_ptr<VertexBuffer>(pRenderer->CreateVertexBuffer(sizeof(glm::vec3)*vertex.size(), &vertex[0]));
-	m_IBO = std::unique_ptr<IndexBuffer>(pRenderer->CreateIndexBuffer(sizeof(unsigned int)*indices.size(), &indices[0]));
-	render::VertexDescription* pVertexDes = pRenderer->CreateVertexDescription(1, &elementList);
+	m_VBO = std::unique_ptr<VertexBuffer>(m_pRenderer->CreateVertexBuffer(sizeof(glm::vec3)*vertex.size(), &vertex[0]));
+	m_IBO = std::unique_ptr<IndexBuffer>(m_pRenderer->CreateIndexBuffer(sizeof(unsigned int)*indices.size(), &indices[0]));
+	render::VertexDescription* pVertexDes = m_pRenderer->CreateVertexDescription(1, &elementList);
 	VertexBuffer* pTemp = m_VBO.get();
 
-	m_VAO = std::unique_ptr<VertexArray>(pRenderer->CreateVertexArray(1, &pTemp, &pVertexDes));
+	m_VAO = std::unique_ptr<VertexArray>(m_pRenderer->CreateVertexArray(1, &pTemp, &pVertexDes));
 
-	{	
-		DepthStencilConfig config;
-		config.Depthfunc = COMPARE_LEQUAL;
-		m_DepthState = std::unique_ptr<DepthStencilState>(pRenderer->CreateDepthStencilState(config));
-	}
+	
+	m_DepthState = std::unique_ptr<DepthState>(m_pRenderer->CreateDepthState(true,true, COMPARE_LEQUAL));
+	
 	{
 		CullFaceConfig config;
 		config.CullEnable = false;
-		m_CullState = std::unique_ptr<RasterState>(pRenderer->CreateRasterState(config));
+		m_CullState = std::unique_ptr<RasterState>(m_pRenderer->CreateRasterState(config));
 	}
 
 
@@ -86,13 +84,13 @@ tinyxml2::XMLElement * Light::render::SkyBox::VDeserialize(tinyxml2::XMLDocument
 
 void Light::render::SkyBox::VRender()
 {
-	auto pCamera = m_pRenderer->VGetCurrentCamera();
+	auto pCamera = m_pRS->VGetCurrentCamera();
 	glm::mat4 view = pCamera->GetViewMatrix();
 	view = glm::mat3(view);
 	glm::mat4 projection = pCamera->GetProjMatrix();
 
 	glm::mat4 mvp = projection * view;
-	m_pRenderer->SetDepthStencilState(m_DepthState.get());
+	m_pRenderer->SetDepthState(m_DepthState.get());
 	m_pRenderer->SetRasterState(m_CullState.get());
 	m_pRenderer->SetPipeline(m_Shader.get());
 	m_uMVP->SetAsMat4(glm::value_ptr(mvp));

@@ -2,7 +2,7 @@
 #include <vector>
 #include "Camera.h"
 #include "Light.h"
-#include "ICamera.h"
+#include "..\Interface\ICamera.h"
 #include "SkyBox.h"
 
 #include "..\Interface\IActor.h"

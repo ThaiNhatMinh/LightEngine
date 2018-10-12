@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Scene.h"
 #include "DefaultMaterial.h"
-#include "Renderer.h"
+#include "..\Interface\Renderer.h"
 #include "Interface\IResourceManager.h"
 #include "..\Interface\IScene.h"
 #include "..\Interface\IEventManager.h"
@@ -13,7 +13,7 @@ namespace Light
 	{
 		DefaultMaterial::DefaultMaterial(IContext* pContext)
 		{
-			auto pRenderer = pContext->GetSystem<RenderDevice>();
+			auto pRenderer = pContext->GetSystem<IRenderSystem>()->GetRenderDevice();
 			auto pResources = pContext->GetSystem<resources::IResourceManager>();
 			auto pVertexShader = pResources->VGetVertexShader("Default");
 			auto pPixelShader = pResources->VGetPixelShader("Default");
@@ -86,7 +86,7 @@ namespace Light
 		{
 			const float* model = matrixParam.at(render::uMODEL);
 			const float* mvp = matrixParam.at(render::uMVP);
-
+			const float* cameraPos = matrixParam.at(uCameraPos);
 			renderer->SetPipeline(m_Pipeline.get());
 
 			m_uNumLight->SetAsInt(m_pLightManager->GetNumPointLight());
@@ -104,8 +104,8 @@ namespace Light
 			m_uShiness->SetAsFloat(matData.exp.x);
 
 
-			renderer->SetTexture(UNIT_SKYBOX, renderer->GetSkyBoxTexture());
-			m_uCameraPos->SetAsVec3(glm::value_ptr(renderer->VGetCurrentCamera()->GetPosition()));
+			//renderer->SetTexture(UNIT_SKYBOX, renderer->GetSkyBoxTexture());
+			m_uCameraPos->SetAsVec3(cameraPos);
 			m_pModelUniform->SetAsMat4(model);
 			m_pMVPUniform->SetAsMat4(mvp);
 			

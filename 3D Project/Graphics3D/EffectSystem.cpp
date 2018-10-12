@@ -2,7 +2,7 @@
 #include "EffectSystem.h"
 #include "..\Core\Events.h"
 #include "..\Interface\IEventManager.h"
-#include "..\Graphics3D\ICamera.h"
+#include "..\Interface\ICamera.h"
 namespace Light
 {
 	void EffectSystem::CreateSpriteEvent(std::shared_ptr<IEvent> pEvent)
@@ -50,10 +50,11 @@ namespace Light
 	EffectSystem::EffectSystem(IContext * c)
 	{
 		c->VAddSystem(this);
-		m_pRenderer = c->GetSystem<render::RenderDevice>();
+		m_pRS = c->GetSystem<render::IRenderSystem>();
+		m_pRenderer = m_pRS->GetRenderDevice();
 		m_pResources = c->GetSystem<resources::IResourceManager>();
 
-		const GLfloat g_vertex_buffer_data[] = { -0.5f,  0.5f, 0.0f,
+		const float g_vertex_buffer_data[] = { -0.5f,  0.5f, 0.0f,
 			-0.5f, -0.5f, 0.0f,
 			0.5f,  0.5f, 0.0f,
 			0.5f, -0.5f, 0.0f, };
@@ -86,7 +87,7 @@ namespace Light
 
 	void EffectSystem::VUpdate(float dt)
 	{
-		render::ICamera* pCam = m_pRenderer->VGetCurrentCamera();
+		render::ICamera* pCam = m_pRS->VGetCurrentCamera();
 		UpdateSprite(dt,pCam);
 		//for (auto itr = m_List2.begin(); itr != m_List2.end(); itr++)
 		//{
@@ -102,7 +103,7 @@ namespace Light
 	void EffectSystem::VRender()
 	{
 		if (m_SpriteLists.size() == 0) return;
-		render::ICamera* pCam = m_pRenderer->VGetCurrentCamera();
+		render::ICamera* pCam = m_pRS->VGetCurrentCamera();
 
 
 		//std::sort(m_SpriteLists.begin(), m_SpriteLists.end(), [](render::Sprite*a, render::Sprite*b) {return *a < *b; });

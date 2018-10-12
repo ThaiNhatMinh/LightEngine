@@ -5,7 +5,7 @@
 #include <glm/mat4x4.hpp>
 #include "../typedef.h"
 #include "../Graphics3D/SkeMesh.h"
-#include "../Graphics3D/Renderer.h"
+#include "../Interface/Renderer.h"
 #include "../Graphics3D/Material.h"
 namespace Light
 {

@@ -5,35 +5,23 @@ namespace Light
 {
 	render::DefaultRenderPass::DefaultRenderPass(const std::string & name, IContext * pContext)
 	{
-		pRenderer = pContext->GetSystem<RenderDevice>();
+		auto pRS = pContext->GetSystem<IRenderSystem>();
+		auto pRenderer = pRS->GetRenderDevice();
 		m_name = name;
 
 
-		render::DepthStencilConfig config;
-		config.DepthEnable = true;
-		config.Depthfunc = COMPARE_LESS;
-		config.DepthMask = true;
-
-		config.FrontStencilEnabled = false;
-		config.FrontWriteMask = 0x00;
-		config.FrontStencilCompare = COMPARE_NOTEQUAL;
-		config.FrontRef = 1;
-		config.FrontCompareMask = 0xFF;
-		config.FrontStencilFail = STENCIL_KEEP;
-		config.FrontDepthFail = STENCIL_KEEP;
-		config.FrontStencilPass = STENCIL_KEEP;
-
-		pDepthStencilConfig = std::unique_ptr<DepthStencilState>(pRenderer->CreateDepthStencilState(config));
+		pDepthStencilConfig = std::unique_ptr<DepthState>(pRenderer->CreateDepthState());
 
 
 		param[uMODEL] = nullptr;
 		param[uMVP] = nullptr;
+		param[uCameraPos] = nullptr;
 	}
 
-	void render::DefaultRenderPass::Render(const glm::mat4 & pv)
+	void render::DefaultRenderPass::Render(const glm::mat4& pv, RenderDevice* pRenderer, ICamera* pCamera)
 	{
 		if (m_ObjectList.size() == 0) return;
-		pRenderer->SetDepthStencilState(pDepthStencilConfig.get());
+		pRenderer->SetDepthState(pDepthStencilConfig.get());
 	
 		
 		for (Renderable& renderable : m_ObjectList)
@@ -45,6 +33,7 @@ namespace Light
 			glm::mat4 model = actor->VGetGlobalTransform();
 			param[uMODEL] = glm::value_ptr(model);
 			param[uMVP] = glm::value_ptr(pv*model);
+			param[uCameraPos] = glm::value_ptr(pCamera->GetPosition());
 			// just draw it
 			modelRender->Draw(pRenderer, param);
 		}

@@ -21,11 +21,10 @@ namespace Light
 		protected:
 
 			std::string m_name;
-			RenderDevice* pRenderer;
 			std::list<Renderable> m_ObjectList;
 		public:
 			virtual ~RenderPass() = default;
-			virtual void Render(const glm::mat4& pv) = 0;
+			virtual void Render(const glm::mat4& pv, RenderDevice* pRenderer,ICamera* pCamera) = 0;
 
 			virtual void AddRenderObject(Renderable& Obj) = 0;
 			virtual IActor* RemoveRenderObject(ActorId id) = 0;

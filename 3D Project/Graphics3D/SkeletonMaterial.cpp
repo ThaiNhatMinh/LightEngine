@@ -2,14 +2,14 @@
 #include "SkeletonMaterial.h"
 
 #include "Scene.h"
-#include "Renderer.h"
+#include "..\Interface\IRenderSystem.h"
 #include "Interface\IResourceManager.h"
 #include "..\Interface\IScene.h"
 #include "..\Interface\IEventManager.h"
 #include "..\Core\Events.h"
 Light::render::SkeletonMaterial::SkeletonMaterial(IContext * pContext):m_pModelUniform(nullptr),m_pMVPUniform(nullptr)
 {
-	auto pRenderer = pContext->GetSystem<RenderDevice>();
+	auto pRenderer = pContext->GetSystem<render::IRenderSystem>()->GetRenderDevice();
 	auto pResources = pContext->GetSystem<resources::IResourceManager>();
 
 	auto pVertexShader = pResources->VGetVertexShader("Skeleton");
@@ -25,6 +25,7 @@ void Light::render::SkeletonMaterial::Apply(RenderDevice * renderer, const Matri
 	const float* model = matrixParam.at(render::uMODEL);
 	const float* mvp = matrixParam.at(render::uMVP);
 	const float* skeTrannsform = matrixParam.at(render::uSkeTransform);
+	const float* cameraPos = matrixParam.at(uCameraPos);
 	const int numNode = (int)matrixParam.at("numNode");
 	renderer->SetPipeline(m_Pipeline.get());
 	
@@ -42,8 +43,8 @@ void Light::render::SkeletonMaterial::Apply(RenderDevice * renderer, const Matri
 	m_uKs->SetAsVec3(glm::value_ptr(matData.Ks));
 	m_uShiness->SetAsFloat(matData.exp.x);
 
-	renderer->SetTexture(UNIT_SKYBOX,renderer->GetSkyBoxTexture());
-	m_uCameraPos->SetAsVec3(glm::value_ptr(renderer->VGetCurrentCamera()->GetPosition()));
+	//renderer->SetTexture(UNIT_SKYBOX,renderer->GetSkyBoxTexture());
+	m_uCameraPos->SetAsVec3(cameraPos);
 	m_pModelUniform->SetAsMat4(model);
 	m_pMVPUniform->SetAsMat4(mvp);
 
