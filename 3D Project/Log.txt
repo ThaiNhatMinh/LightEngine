@@ -1,4 +1,4 @@
-[DEBUG] d:\code\3d-project\3d project\core\application.cpp Line:27| Application StartUp...
+[DEBUG] d:\code\3d-project\3d project\core\application.cpp Line:28| Application StartUp...
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:122| ..\Debug\OpenGLRenderDevice.dll
 [DEBUG] d:\code\3d-project\3d project\gameplugin\gamepluginmanager.cpp Line:22| ..\Debug\Hunting.dll
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:182| SceneRender add: Test
@@ -6,3 +6,14 @@
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:200| ObjectRender add: 707
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:200| ObjectRender add: 707
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:200| ObjectRender add: 707
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:437| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0000.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:437| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0006.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:437| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0008.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:437| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0012.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:437| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0014.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:437| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0018.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:437| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0020.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:437| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0022.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:437| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0024.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:437| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0026.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:437| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0028.DTX

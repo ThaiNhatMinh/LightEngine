@@ -54,39 +54,6 @@
     <ClInclude Include="Interface\IShader.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLRenderDevice.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexShader.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLPixelShader.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLPipeline.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexBuffer.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLIndexBuffer.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLTexture.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLCompressTexture.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLPipelineParam.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexArray.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexDescription.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\IWindow.h">
       <Filter>Interface</Filter>
     </ClInclude>
@@ -131,9 +98,6 @@
     </ClInclude>
     <ClInclude Include="Interface\ISubSystem.h">
       <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLCubeTexture.h">
-      <Filter>Graphics3D\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager\LTBFileLoader.h">
       <Filter>ResourceManager</Filter>
@@ -235,21 +199,6 @@
     <ClInclude Include="Graphics3D\RenderPass\OutlinePass.h">
       <Filter>Graphics3D\RenderPass</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLRasterState.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLBlendingState.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLFrameBuffer.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLRenderBuffer.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\DataMap.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\SkyBox.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
@@ -340,12 +289,6 @@
     <ClInclude Include="Graphics3D\Sprite.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLStencilState.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLDepthState.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="Core\RenderSystem.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -383,39 +326,6 @@
     <ClCompile Include="Utilities\Observer.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLPixelShader.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexShader.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLCompressTexture.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLIndexBuffer.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLPipeline.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLPipelineParam.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLRenderDevice.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLTexture.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexArray.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexBuffer.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexDescription.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="Core\OpenGLWindows.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -433,9 +343,6 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\SkeMesh.cpp">
       <Filter>Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLCubeTexture.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Core\ActorFactory.cpp">
       <Filter>Core</Filter>
@@ -490,18 +397,6 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\RenderPass\OutlinePass.cpp">
       <Filter>Graphics3D\RenderPass</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLBlendingState.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLRasterState.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLFrameBuffer.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLRenderBuffer.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\SkyBox.cpp">
       <Filter>Graphics3D</Filter>
@@ -575,12 +470,6 @@
     <ClCompile Include="Graphics3D\EffectSystem.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLStencilState.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLDepthState.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="Core\DebugRender.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -621,9 +510,6 @@
     </Filter>
     <Filter Include="GamePlugin">
       <UniqueIdentifier>{71709d11-4ce1-46cb-b786-e4d5f3f1dc46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics3D\OpenGL">
-      <UniqueIdentifier>{f3e355db-8a15-4633-87b0-4af65f1c66c4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Interface">
       <UniqueIdentifier>{d3db6774-c306-4bf6-a76e-20175664330e}</UniqueIdentifier>

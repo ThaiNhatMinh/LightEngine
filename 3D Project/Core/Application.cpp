@@ -1,7 +1,7 @@
 #include <pch.h>
 #include "Application.h"
 #include <type_traits>
-
+#include "Events.h"
 #include "OpenGLWindows.h"
 #include "EventManager.h"
 #include "ActorFactory.h"
@@ -11,14 +11,15 @@
 #include "Physic.h"
 #include "SoundEngine.h"
 #include "RenderSystem.h"
+#include "OpenGLInput.h"
+#include "DebugRender.h"
 #include "..\Graphics3D\EffectSystem.h"
 #include "..\Script\LuaScriptExporter.h"
 
 
 #include "..\ResourceManager\ResourceManager.h"
-#include "..\Core\OpenGLInput.h"
+
 #include "..\Graphics3D\RenderPass\OutlinePass.h"
-#include "DebugRender.h"
 
 using namespace Light;
 
@@ -54,6 +55,8 @@ void Application::SetupSubmodule()
 
 	//render::OutlineRenderPass* pOutline = DEBUG_NEW render::OutlineRenderPass("Outline", m_Context.get());
 	//m_pRenderer->AddExtraPass(pOutline);
+
+	
 
 	m_pWindows->HideMouse(1);
 }
@@ -173,17 +176,6 @@ void Application::MainLoop()
 		
 		m_pRenderer->SetVertexArray(vertexArray);
 		m_pRenderer->Draw(0, 6);*/
-
-		// Draw Game
-		//m_GamePlugins->RenderGame();
-		// Draw Effect
-		//m_pEffectSystem->Render(pScene);
-		// Draw Console
-		//m_pConsole->Draw();
-		// Daw Debug
-		//m_pDebuger->Render(pScene);
-		// Draw SystemUI
-		//m_pSystemUI->Render();
 	
 		m_pWindows->VSwapBuffer();
 

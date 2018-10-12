@@ -902,12 +902,12 @@ namespace Light
 			p->m_pData = pData;
 			for (auto el : pData->m_FrameLists)
 			{
-				auto tex = VGetTexture(el);
-				if (!tex) E_ERROR("Can't load texture: %s", el.c_str());
+				auto tex = VGetTexture("GameAssets\\" + el);
 				p->m_FrameLists.push_back(tex);
 			}
 
 			p->m_Pos = pos;
+			p->m_Size = glm::vec2(p->m_FrameLists[0]->m_TexInfo.uiWidth, p->m_FrameLists[0]->m_TexInfo.uiHeight);
 			return p;
 		}
 

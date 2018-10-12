@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderer.h"
+#include "..\Interface\Renderer.h"
 #include "Particles.h"
 namespace Light
 {
@@ -27,6 +27,7 @@ namespace Light
 			glm::vec3				m_Pos;
 			float					m_fLife;
 			bool					m_Loop;
+			glm::vec2				m_Size;
 		};
 	}
 }

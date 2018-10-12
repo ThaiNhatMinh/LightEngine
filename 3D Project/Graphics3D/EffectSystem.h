@@ -11,10 +11,10 @@ namespace Light
 	private:
 		render::VertexArray*			VAO;
 		render::VertexBuffer*		VBO;		
-		std::vector<std::unique_ptr<render::Sprite>> m_SpriteLists;
+		std::list<std::unique_ptr<render::Sprite>> m_SpriteLists;
 		std::list<render::BaseParticle*> m_Particles;
 		render::Pipeline* m_pShader;
-		render::PipelineParam* m_uMVP,*m_uCamUp,*m_uCamRight;
+		render::PipelineParam* m_uMVP,*m_uCamUp,*m_uCamRight, *m_uSpritePos,*m_uSpriteSize;
 		render::RenderDevice* m_pRenderer;
 		render::IRenderSystem* m_pRS;
 		resources::IResourceManager* m_pResources;

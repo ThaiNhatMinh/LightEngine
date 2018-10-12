@@ -1,5 +1,5 @@
 #pragma once
-#include "Renderer.h"
+#include "..\Interface\Renderer.h"
 
 #define TYPE_DECAL 1<<1
 #define TYPE_PARTICLE 1<<2

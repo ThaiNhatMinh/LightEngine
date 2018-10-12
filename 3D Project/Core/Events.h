@@ -5,7 +5,8 @@
 #include "..\Interface\IScene.h"
 #include "..\Interface\IInput.h"
 #include "..\Interface\IGamePhysic.h"
-
+#include <vector>
+#include <glm\glm.hpp>
 
 namespace Light
 {
@@ -113,14 +114,14 @@ namespace Light
 			IActor* m_ActorA;
 			IActor* m_ActorB;
 
-			vec3 m_SumNormalForce;
-			vec3 m_SumFrictionForce;
-			vector<physics::PhysicCollisionData> m_CollisionData;
+			glm::vec3 m_SumNormalForce;
+			glm::vec3 m_SumFrictionForce;
+			std::vector<physics::PhysicCollisionData> m_CollisionData;
 			EvtPhysOnCollision(IActor* actorA,
 				IActor* actorB,
-				vec3 sumNormalForce,
-				vec3 sumFrictionForce,
-				vector<physics::PhysicCollisionData> collisionPoints)
+				glm::vec3 sumNormalForce,
+				glm::vec3 sumFrictionForce,
+				std::vector<physics::PhysicCollisionData> collisionPoints)
 				: m_ActorA(actorA),
 				m_ActorB(actorB),
 				m_SumNormalForce(sumNormalForce),
@@ -132,14 +133,14 @@ namespace Light
 		public:
 			IActor* m_ActorA;
 			IActor* m_ActorB;
-			vec3 m_SumNormalForce;
-			vec3 m_SumFrictionForce;
-			vector<physics::PhysicCollisionData> m_CollisionPoints;
+			glm::vec3 m_SumNormalForce;
+			glm::vec3 m_SumFrictionForce;
+			std::vector<physics::PhysicCollisionData> m_CollisionPoints;
 			EvtPhysCollisionStart(IActor* actorA,
 				IActor* actorB,
-				vec3 sumNormalForce,
-				vec3 sumFrictionForce,
-				vector<physics::PhysicCollisionData> collisionPoints)
+				glm::vec3 sumNormalForce,
+				glm::vec3 sumFrictionForce,
+				std::vector<physics::PhysicCollisionData> collisionPoints)
 				: m_ActorA(actorA),
 				m_ActorB(actorB),
 				m_SumNormalForce(sumNormalForce),
@@ -173,7 +174,8 @@ namespace Light
 
 		public:
 			bool Loop;
-			string File;
+			std::string File;
+			float	life;
 			IActor* Parent;
 			glm::vec3 Pos;
 		};

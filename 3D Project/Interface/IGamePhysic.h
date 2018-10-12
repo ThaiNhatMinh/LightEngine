@@ -54,9 +54,9 @@ namespace Light
 			}
 
 			/// Hit worldspace position.
-			vec3 position;
+			glm::vec3 position;
 			/// Hit worldspace normal.
-			vec3 normal;
+			glm::vec3 normal;
 			/// Hit distance from ray origin.
 			float distance;
 			/// Hit fraction.
@@ -68,9 +68,9 @@ namespace Light
 		class PhysicCollisionData
 		{
 		public:
-			vec3 pos;
-			vec3 normal;
-			PhysicCollisionData(vec3 p, vec3 n) :pos(p), normal(n) {}
+			glm::vec3 pos;
+			glm::vec3 normal;
+			PhysicCollisionData(glm::vec3 p, glm::vec3 n) :pos(p), normal(n) {}
 
 		};
 		class IGamePhysic: public ISubSystem
