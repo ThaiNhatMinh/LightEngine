@@ -10,6 +10,7 @@ namespace Light
 
 		virtual ~ISubSystem() {};
 		virtual const char* VGetName() = 0;
+		virtual void PostInit() {};
 	protected:
 		ISubSystem() {};
 		ISubSystem& operator=(const ISubSystem& other) { return *this; }

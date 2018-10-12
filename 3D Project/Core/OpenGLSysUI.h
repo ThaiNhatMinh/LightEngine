@@ -30,6 +30,7 @@ namespace Light
 		bool             g_MouseJustPressed[5] = { false, false, false, false, false };
 
 		ITimer* m_pTimer;
+		IContext* pContext;
 	public:
 
 		OpenGLSysUI(IContext* pContext);
@@ -38,6 +39,7 @@ namespace Light
 		virtual void Update(float dt);
 		virtual void Render();
 		virtual const char* VGetName();
+		void PostInit();
 	private:
 		void OnRenderDrawLists(ImDrawData* data);
 		void CreateFontsTexture();

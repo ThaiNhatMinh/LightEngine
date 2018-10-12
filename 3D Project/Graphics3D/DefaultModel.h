@@ -10,6 +10,7 @@ namespace Light
 	class DefaultModel : public render::Model
 	{
 	public:
+		math::AABB Box;
 		MeshList  Meshs;
 		//std::vector<render::Texture*> Ambient; 
 		std::vector<render::Texture*> Diffuse; // diffuse
@@ -19,5 +20,6 @@ namespace Light
 
 		virtual void Draw(render::RenderDevice* pRenderer,  render::Material::MatrixParam& matrixParam)override;
 		virtual MeshList& GetMeshs()override;
+		virtual math::AABB GetBox()override;
 	};
 }

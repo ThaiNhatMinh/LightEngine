@@ -54,10 +54,11 @@ namespace Light
 
 	EffectSystem::EffectSystem(IContext * c)
 	{
-		c->VAddSystem(this);
 		m_pRS = c->GetSystem<render::IRenderSystem>();
 		m_pRenderer = m_pRS->GetRenderDevice();
 		m_pResources = c->GetSystem<resources::IResourceManager>();
+
+		
 
 		const float g_vertex_buffer_data[] = { -0.5f,  0.5f, 0.0f,
 			-0.5f, -0.5f, 0.0f,

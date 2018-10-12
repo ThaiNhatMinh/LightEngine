@@ -55,11 +55,7 @@ namespace Light
 		m_ActorFactoryMap.insert(std::make_pair("StaticObject", [](int id) {return DEBUG_NEW StaticObject(id); }));
 		m_ActorFactoryMap.insert(std::make_pair("SkyBox", [](int id) {return DEBUG_NEW SkyBox(id); }));*/
 
-		m_MaterialMap.insert(std::make_pair("Default", std::shared_ptr<render::Material>(DEBUG_NEW render::DefaultMaterial(m_pContext))));
-		m_MaterialMap.insert(std::make_pair("Skeleton", std::shared_ptr<render::Material>(DEBUG_NEW render::SkeletonMaterial(m_pContext))));
 		
-		m_ScriptMap.insert(std::make_pair("CameraControl", [](IContext* pContext, IActor* owner) {return DEBUG_NEW CameraControl(pContext, owner); }));
-		m_ScriptMap.insert(std::make_pair("Test", [](IContext* pContext, IActor* owner) {return DEBUG_NEW TestScript(pContext, owner); }));
 
 	}
 
@@ -68,7 +64,14 @@ namespace Light
 
 	}
 
+	void ActorFactory::PostInit()
+	{
+		m_MaterialMap.insert(std::make_pair("Default", std::shared_ptr<render::Material>(DEBUG_NEW render::DefaultMaterial(m_pContext))));
+		m_MaterialMap.insert(std::make_pair("Skeleton", std::shared_ptr<render::Material>(DEBUG_NEW render::SkeletonMaterial(m_pContext))));
 
+		m_ScriptMap.insert(std::make_pair("CameraControl", [](IContext* pContext, IActor* owner) {return DEBUG_NEW CameraControl(pContext, owner); }));
+		m_ScriptMap.insert(std::make_pair("Test", [](IContext* pContext, IActor* owner) {return DEBUG_NEW TestScript(pContext, owner); }));
+	}
 
 	IComponent * ActorFactory::CreateComponent(const tinyxml2::XMLElement* pData)
 	{

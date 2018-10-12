@@ -11,7 +11,7 @@ namespace Light
 		class IRenderSystem : public ISubSystem
 		{
 		public:
-
+			virtual void				Update(float dt) = 0;
 			virtual void				Render() = 0;
 			virtual render::ICamera*	VGetCurrentCamera() = 0;
 			virtual void				VSetCurrentCamera(render::ICamera * cam) = 0;
@@ -22,6 +22,8 @@ namespace Light
 			virtual Texture*			GetSkyBoxTexture() = 0;
 			virtual IScene*				GetScene() = 0;
 			virtual RenderDevice*		GetRenderDevice() = 0;
+			virtual IDebugRender*		GetDebugRender()=0;
+			virtual IEffectSystem*		GetEffectSystem()=0;
 		};
 	}
 }

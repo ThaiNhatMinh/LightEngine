@@ -3,7 +3,7 @@
 
 namespace Light
 {
-	class IEffectSystem : public ISubSystem
+	class IEffectSystem
 	{
 	public:
 		virtual void VUpdate(float dt) = 0;

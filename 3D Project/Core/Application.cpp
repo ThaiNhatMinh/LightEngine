@@ -32,17 +32,17 @@ void Application::SetupSubmodule()
 	m_pEventManager = std::unique_ptr<Light::IEventManager>(DEBUG_NEW Light::EventManager(m_Context.get()));
 
 	m_pWindows = std::unique_ptr<Light::IWindow>(DEBUG_NEW Light::OpenGLWindows(m_Context.get()));
-	auto a = DEBUG_NEW Light::render::RenderSystem(m_Context.get());
-	m_pRenderer = std::unique_ptr<Light::render::IRenderSystem>(a);
-	m_pResources = std::unique_ptr<IResourceManager>(DEBUG_NEW Light::resources::ResourceManager(m_Context.get()));
-	m_pEffectSystem = std::unique_ptr<EffectSystem>(DEBUG_NEW EffectSystem(m_Context.get()));
+	m_pResources = std::unique_ptr<resources::IResourceManager>(DEBUG_NEW Light::resources::ResourceManager(m_Context.get()));
+	m_pRenderer = std::unique_ptr<Light::render::IRenderSystem>(DEBUG_NEW Light::render::RenderSystem(m_Context.get()));
+	
+	
 	m_pActorFactory = std::unique_ptr<Light::IFactory>(DEBUG_NEW Light::ActorFactory(m_Context.get()));
 	m_pSoundEngine = std::unique_ptr<SoundEngine>(DEBUG_NEW SoundEngine(m_Context.get()));
 	
 	
 	m_pInput = std::unique_ptr<Light::IInput>(DEBUG_NEW Light::OpenGLInput(m_Context.get()));
 	//m_pConsole = std::unique_ptr<Console>(DEBUG_NEW Console(m_Context.get()));
-	m_pDebuger = std::unique_ptr<Light::IDebugRender>(DEBUG_NEW DebugRender(m_Context.get()));
+	
 	m_pPhysic = std::unique_ptr<physics::IGamePhysic>(DEBUG_NEW physics::BulletPhysics(m_Context.get()));
 	m_pTimer = std::unique_ptr<Light::ITimer>(DEBUG_NEW Light::GameTimer(m_Context.get()));
 	
@@ -56,7 +56,10 @@ void Application::SetupSubmodule()
 	//render::OutlineRenderPass* pOutline = DEBUG_NEW render::OutlineRenderPass("Outline", m_Context.get());
 	//m_pRenderer->AddExtraPass(pOutline);
 
-	
+	m_pResources->PostInit();
+	m_pRenderer->PostInit();
+	m_pActorFactory->PostInit();
+	m_pSystemUI->PostInit();
 
 	m_pWindows->HideMouse(1);
 }
@@ -152,7 +155,7 @@ void Application::MainLoop()
 		m_pPhysic->VOnUpdate(dt);
 		m_pPhysic->VSyncVisibleScene();
 		m_pSoundEngine->VUpdate();
-		m_pEffectSystem->VUpdate(dt);
+		m_pRenderer->Update(dt);
 		//m_pPhysic->VRenderDiagnostics();
 		//framebuffer.Begin();
 		
@@ -160,7 +163,7 @@ void Application::MainLoop()
 		
 		//m_pDebuger->Render();
 		m_pRenderer->Render();
-		m_pEffectSystem->VRender();
+		
 		//m_pSystemUI->Render();
 		/*framebuffer.End();
 		

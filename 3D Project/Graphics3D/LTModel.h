@@ -27,7 +27,7 @@ namespace Light
 		virtual void Draw(render::RenderDevice* pRenderer,  render::Material::MatrixParam& matrixParam)override;
 
 		virtual MeshList& GetMeshs()override;
-
+		virtual math::AABB GetBox()override;
 	private:
 	};
 }

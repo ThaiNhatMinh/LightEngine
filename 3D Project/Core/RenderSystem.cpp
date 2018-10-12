@@ -6,6 +6,8 @@
 #include "..\Graphics3D\Scene.h"
 #include "Events.h"
 #include "EventManager.h"
+#include "DebugRender.h"
+#include "..\Graphics3D\EffectSystem.h"
 namespace Light
 {
 	namespace render
@@ -29,6 +31,12 @@ namespace Light
 
 			m_DefaultPass = std::unique_ptr<RenderPass>(DEBUG_NEW DefaultRenderPass("Default", m_pContext));
 
+			
+		}
+
+		void RenderSystem::Update(float dt)
+		{
+			m_pEffectSystem->VUpdate(dt);
 		}
 
 
@@ -51,6 +59,7 @@ namespace Light
 			}
 
 			m_pScene->VOnRender();
+			m_pEffectSystem->VRender();
 		}
 
 		render::ICamera * RenderSystem::VGetCurrentCamera()
@@ -111,6 +120,19 @@ namespace Light
 		RenderDevice * RenderSystem::GetRenderDevice()
 		{
 			return m_pRenderer;
+		}
+		IDebugRender * RenderSystem::GetDebugRender()
+		{
+			return m_pDebuger.get();
+		}
+		IEffectSystem * RenderSystem::GetEffectSystem()
+		{
+			return m_pEffectSystem.get();
+		}
+		void RenderSystem::PostInit()
+		{
+			m_pEffectSystem = std::unique_ptr<IEffectSystem>(DEBUG_NEW EffectSystem(m_pContext));
+			m_pDebuger = std::unique_ptr<IDebugRender>(DEBUG_NEW DebugRender(m_pContext));
 		}
 		typedef Light::render::RenderDevice* (*CreateInterfaceFn)();
 		void RenderSystem::LoadRenderDevice()

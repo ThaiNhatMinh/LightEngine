@@ -32,6 +32,7 @@ namespace Light
 		virtual std::shared_ptr<render::Material>	VGetMaterial(const std::string& name) override;
 		virtual const char*	VGetName();
 		virtual IScene*				VCreateScene(const std::string& name);
+		void						PostInit();
 	private:
 		IComponent * CreateComponent(const tinyxml2::XMLElement* pData);
 		ActorId GetNextActorId(void) { ++m_lastActorId; return m_lastActorId; }

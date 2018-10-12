@@ -4,12 +4,12 @@
 #include "..\Interface\IResourceManager.h"
 #include "..\Interface\IRenderSystem.h"
 
-Light::OpenGLSysUI::OpenGLSysUI(IContext * pContext):m_Time(0)
+Light::OpenGLSysUI::OpenGLSysUI(IContext * pContext):m_Time(0), pContext(pContext)
 {
 	pContext->VAddSystem(this);
 	m_pRenderer = pContext->GetSystem<render::IRenderSystem>()->GetRenderDevice();
 	m_pTimer = pContext->GetSystem<ITimer>();
-	auto pResources = pContext->GetSystem<resources::IResourceManager>();
+	
 	m_pGLFW = static_cast<OpenGLWindows*>(pContext->GetSystem<Light::IWindow>())->GetGLFW();
 
 	// Setup Dear ImGui binding
@@ -69,6 +69,15 @@ Light::OpenGLSysUI::OpenGLSysUI(IContext * pContext):m_Time(0)
 
 	CreateFontsTexture();
 
+	
+
+}
+
+void Light::OpenGLSysUI::PostInit()
+{
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+	auto pResources = pContext->GetSystem<resources::IResourceManager>();
 	m_pShader = m_pRenderer->CreatePipeline(pResources->VGetVertexShader("imgui"), pResources->VGetPixelShader("imgui"));
 	m_uMVP = m_pShader->GetParam("uMVP");
 	ortho = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
@@ -88,9 +97,7 @@ Light::OpenGLSysUI::OpenGLSysUI(IContext * pContext):m_Time(0)
 	render::VertexDescription* pDesc = m_pRenderer->CreateVertexDescription(3, elements);
 	m_VAO = m_pRenderer->CreateVertexArray(1, &m_VBO, &pDesc);
 	delete pDesc;
-
 }
-
 Light::OpenGLSysUI::~OpenGLSysUI()
 {
 	ImGui::DestroyContext();

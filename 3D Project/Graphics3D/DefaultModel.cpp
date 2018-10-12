@@ -20,4 +20,8 @@ namespace Light
 	{
 		return Meshs;
 	}
+	math::AABB DefaultModel::GetBox()
+	{
+		return Box;
+	}
 }

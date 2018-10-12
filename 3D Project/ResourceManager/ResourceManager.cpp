@@ -35,7 +35,7 @@ namespace Light
 		ResourceManager::ResourceManager(IContext* c) :m_pContext(c)
 		{
 			c->VAddSystem(this);
-			m_pRenderDevice = c->GetSystem<render::IRenderSystem>()->GetRenderDevice();
+			
 			ilInit();
 			ILenum Error;
 			Error = ilGetError();
@@ -43,7 +43,7 @@ namespace Light
 			if (Error != IL_NO_ERROR)
 				E_ERROR("Can't init Devil Lib.");
 
-			LoadSystemResources();
+			
 			CheckResourceFunc a = [](const std::string&a, const std::string& b)
 			{
 				return (a.find(b) != string::npos);
@@ -687,6 +687,8 @@ namespace Light
 					dv.normal = vec3(n.x, n.y, n.z);
 					dv.uv = vec2(UVW.x, UVW.y);
 					vertexs.push_back(dv);
+
+					pModel->Box.Insert(dv.pos);
 				}
 				for (size_t j = 0; j < mesh->mNumFaces; j++)
 				{
@@ -734,7 +736,7 @@ namespace Light
 					pModel->Specular.push_back(VGetTexture(localPath + Path.C_Str()));
 				}	*/			
 				pModel->Materials.push_back(m);
-
+				
 				DefaultMesh* pMesh = DEBUG_NEW DefaultMesh(m_pRenderDevice, vertexs, Indices, mesh->mName.C_Str());
 				pModel->Meshs.push_back(std::unique_ptr<Mesh>(pMesh));
 				
@@ -909,6 +911,12 @@ namespace Light
 			p->m_Pos = pos;
 			p->m_Size = glm::vec2(p->m_FrameLists[0]->m_TexInfo.uiWidth, p->m_FrameLists[0]->m_TexInfo.uiHeight);
 			return p;
+		}
+
+		void ResourceManager::PostInit()
+		{
+			m_pRenderDevice = m_pContext->GetSystem<render::IRenderSystem>()->GetRenderDevice();
+			LoadSystemResources();
 		}
 
 		

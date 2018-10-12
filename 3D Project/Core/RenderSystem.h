@@ -1,6 +1,8 @@
 #pragma once
 #include "..\Interface\IRenderSystem.h"
 #include "Interface\IEvent.h"
+#include "..\Interface\IDebugRender.h"
+#include "..\Interface\IEffectSystem.h"
 namespace Light
 {
 	namespace render
@@ -9,6 +11,7 @@ namespace Light
 		{
 		public:
 			RenderSystem(IContext* pContext);
+			virtual void				Update(float dt);
 			virtual void				Render();
 			virtual render::ICamera*	VGetCurrentCamera()override;
 			virtual void				VSetCurrentCamera(render::ICamera * cam) override;
@@ -18,6 +21,10 @@ namespace Light
 			virtual IScene*				GetScene();
 			const char *				VGetName();
 			virtual RenderDevice*		GetRenderDevice() override;
+			virtual IDebugRender*		GetDebugRender()override;
+			virtual IEffectSystem*		GetEffectSystem()override;
+			virtual void				PostInit();
+
 		private:
 			//using RenderableList = std::list<Renderable>;
 			void LoadRenderDevice();
@@ -31,6 +38,9 @@ namespace Light
 		private:
 			ICamera * m_pCurrentCamera;
 			RenderDevice* m_pRenderer;
+			std::unique_ptr<IDebugRender>		m_pDebuger;
+			std::unique_ptr<IEffectSystem>		m_pEffectSystem;
+
 			IContext * m_pContext;
 			std::unique_ptr<RenderPass> m_DefaultPass;
 			std::list<std::unique_ptr<RenderPass>> m_ExtraPass;

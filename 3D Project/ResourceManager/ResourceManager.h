@@ -75,8 +75,8 @@ namespace Light
 			render::PixelShader*	LoadPixelShader(const std::string& filepath);
 
 			void				LoadResources(const std::string path);
-			void				LoadSystemResources();
-
+			
+			void							LoadSystemResources();
 			LTRawData*			LoadLTBModel(const std::string& filename);
 
 			/*
@@ -101,6 +101,9 @@ namespace Light
 			virtual LTRawData*				VGetRawModel(const std::string& filename)override;
 			virtual Sound*					VGetSound(const std::string& tag)override;
 			virtual render::Sprite*			VCreateSprite(const std::string& filename, glm::vec3 pos)override;
+
+			void							PostInit();
+
 		};
 
 		
