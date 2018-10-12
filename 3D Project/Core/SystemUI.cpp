@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 #include "SystemUI.h"
 
 
@@ -29,16 +29,15 @@ void ImGui_ImplGlfwGL3_CharCallback(GLFWwindow*, unsigned int c)
 void ImGui_ImplGlfwGL3_MouseButtonCallback(GLFWwindow* w, int button, int action, int /*mods*/)
 {
 	Context* pw = (Context*)glfwGetWindowUserPointer(w);
-	pw->m_pConsole;
 	if (action == GLFW_PRESS && button >= 0 && button < 3)
-		pw->m_pSystemUI->m_MousePress[button] = true;
+		pw->GetSystem<SystemUI>()->m_MousePress[button] = true;
 }
 
 void ImGui_ImplGlfwGL3_ScrollCallback(GLFWwindow* w, double /*xoffset*/, double yoffset)
 {
 	Context* pw = (Context*)glfwGetWindowUserPointer(w);
 
-	pw->m_pSystemUI->m_MouseWhell += (float)yoffset; // Use fractional mouse wheel.
+	pw->GetSystem<SystemUI>()->m_MouseWhell += (float)yoffset; // Use fractional mouse wheel.
 }
 
 void SystemUI::CreateFontsTexture()
@@ -109,15 +108,9 @@ void SystemUI::NewFrame()
 
 }
 
-SystemUI::~SystemUI()
+SystemUI::SystemUI(Context * c)
 {
-	m_Mesh->Shutdown();
-	ImGui::Shutdown();
-}
-
-void SystemUI::Init(Context * c)
-{
-	w = c->m_pWindows->Window();
+	w = c->GetSystem<Windows>()->Window();
 	ImGuiIO& io = ImGui::GetIO();
 	io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;                         // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
 	io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
@@ -161,10 +154,10 @@ void SystemUI::Init(Context * c)
 	glfwSetKeyCallback(w, ImGui_ImplGlfwGL3_KeyCallback);
 	glfwSetCharCallback(w, ImGui_ImplGlfwGL3_CharCallback);
 
-	m_pShader = c->m_pResources->GetShader("ImGuiShader");
+	m_pShader = c->GetSystem<Resources>()->GetShader("ImGuiShader");
 
 	m_Mesh = std::make_unique<imguiMesh>();
-	m_Mesh->Init();
+	//m_Mesh->Init();
 
 
 	// Setup display size (every frame to accommodate for window resizing)
@@ -176,13 +169,13 @@ void SystemUI::Init(Context * c)
 	io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
 
 	CreateFontsTexture();
-	c->m_pSystemUI = std::unique_ptr<SystemUI>(this);
-
+	c->AddSystem(this);
 }
 
-void SystemUI::ShutDown()
+SystemUI::~SystemUI()
 {
-	
+	//m_Mesh->Shutdown();
+	ImGui::Shutdown();
 }
 
 void SystemUI::Text(const char * fmt, ...)
@@ -211,13 +204,13 @@ void SystemUI::OnRenderDrawLists(ImDrawData * draw_data)
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	// Setup viewport, orthographic projection matrix
 	glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
 
 	m_pShader->Use();
-	glBindVertexArray(m_Mesh->VAO);
+	m_Mesh->VAO.Bind();
 	glBindSampler(0, 0);
 	mat4 ortho = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
 	m_pShader->SetUniformMatrix("ProjMtx", glm::value_ptr(ortho));
@@ -227,11 +220,11 @@ void SystemUI::OnRenderDrawLists(ImDrawData * draw_data)
 		const ImDrawList* cmd_list = draw_data->CmdLists[n];
 		const ImDrawIdx* idx_buffer_offset = 0;
 
-		glBindBuffer(GL_ARRAY_BUFFER, m_Mesh->VBO);
-		glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
+		m_Mesh->VBO.Bind();
+		m_Mesh->VBO.SetData((GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Mesh->EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
+		m_Mesh->EBO.Bind();
+		m_Mesh->EBO.SetData((GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
 		for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
 		{
 			const ImDrawCmd* pcmd = &cmd_list->CmdBuffer[cmd_i];
@@ -253,5 +246,5 @@ void SystemUI::OnRenderDrawLists(ImDrawData * draw_data)
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_SCISSOR_TEST);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

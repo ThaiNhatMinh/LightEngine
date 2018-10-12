@@ -1,5 +1,8 @@
-#include "pch.h"
+#include <pch.h>
+#include "Plane.h"
 
+using namespace Light;
+using namespace math;
 Plane::Plane(float a, float b, float c, float d)
 {
 	m_Normal.x = a;

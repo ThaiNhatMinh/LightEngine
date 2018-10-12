@@ -15,10 +15,8 @@ protected:
 	void CreateFontsTexture();
 	
 public:
-	SystemUI() {};
+	SystemUI(Context* c);
 	~SystemUI();
-	virtual void Init(Context* c);
-	virtual void ShutDown();
 	void NewFrame();
 
 	void Text(const char* fmt, ...);

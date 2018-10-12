@@ -2,41 +2,111 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Core\Windows.h">
+    <ClInclude Include="Utilities\String.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Template.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\PhysicsUtilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Application.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Shader.h">
+    <ClInclude Include="Core\Context.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Log.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="interface.h" />
+    <ClInclude Include="GamePlugin\GamePluginManager.h">
+      <Filter>GamePlugin</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Observer.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Timer.h">
-      <Filter>Utilities</Filter>
+    <ClInclude Include="Interface\IActor.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Input.h">
-      <Filter>Utilities</Filter>
+    <ClInclude Include="Interface\IComponent.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Frustum.h">
-      <Filter>Math</Filter>
+    <ClInclude Include="Interface\IFactory.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Plane.h">
-      <Filter>Math</Filter>
+    <ClInclude Include="Interface\IEventManager.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceCache\ModelCache.h">
-      <Filter>ResourceCache</Filter>
+    <ClInclude Include="Interface\IEvent.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceCache\ResourceLoader.h">
-      <Filter>ResourceCache</Filter>
+    <ClInclude Include="Interface\IResourceManager.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceCache\Texture.h">
-      <Filter>ResourceCache</Filter>
+    <ClInclude Include="Interface\IModelResource.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceCache\LTBDef.h">
-      <Filter>ResourceCache</Filter>
+    <ClInclude Include="Interface\IContext.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceCache\LTBFileLoader.h">
-      <Filter>ResourceCache</Filter>
+    <ClInclude Include="Interface\IShader.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\Mesh.h">
+    <ClInclude Include="Interface\IWindow.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\OpenGLWindows.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IInput.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\OpenGLInput.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IDebugRender.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ISysUI.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\OpenGLSysUI.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ISoundEngine.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IConsole.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IGamePhysic.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ITimer.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\ResourceManager.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Vertex.h">
       <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IGamePlugin.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ISubSystem.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\LTBFileLoader.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\LTRawData.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\AABB.h">
+      <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\Material.h">
       <Filter>Graphics3D</Filter>
@@ -44,414 +114,204 @@
     <ClInclude Include="Graphics3D\SkeMesh.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Actor.h">
-      <Filter>GameObject</Filter>
+    <ClInclude Include="Graphics3D\ModelRender.h">
+      <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\String.h">
-      <Filter>Utilities</Filter>
+    <ClInclude Include="Graphics3D\Mesh.h">
+      <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\ActorFactory.h">
-      <Filter>GameObject</Filter>
+    <ClInclude Include="typedef.h" />
+    <ClInclude Include="Core\ActorFactory.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Template.h">
-      <Filter>Utilities</Filter>
+    <ClInclude Include="Graphics3D\Actor.h">
+      <Filter>Graphics3D</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\Scene.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\PrimitiveShape\Cube.h">
-      <Filter>Utilities\Primitive Shape</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\Light.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Physic\Physic.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager\EventManager.h">
-      <Filter>EventManager</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager\Events.h">
-      <Filter>EventManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Physic\PhysicDebugDrawer.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\PrimitiveShape\Line.h">
-      <Filter>Utilities\Primitive Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\AABB.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager\AnimationEvent.h">
-      <Filter>EventManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\PrimitiveShader.h">
-      <Filter>Graphics3D\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\TexShader.h">
-      <Filter>Graphics3D\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\SkeShader.h">
-      <Filter>Graphics3D\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager\TestScriptEvent.h">
-      <Filter>EventManager</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager\PhysicsEvents.h">
-      <Filter>EventManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\RenderAPI.h">
-      <Filter>Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\PhysicsUtilities.h">
+    <ClInclude Include="Utilities\Delegate.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGLRenderer.h">
+    <ClInclude Include="Interface\IScene.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\EventManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Timer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\TransformComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\MeshRenderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Utility.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\SkeletonMaterial.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="World\TerrainWorld.h">
-      <Filter>World</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\Octree.h">
+    <ClInclude Include="Graphics3D\DefaultMaterial.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\ActorComponent.h">
-      <Filter>GameObject\Component</Filter>
+    <ClInclude Include="Utilities\LTBStruct.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\AnimationComponent.h">
-      <Filter>GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\CameraComponent.h">
-      <Filter>GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\CharacterControllerComponent.h">
-      <Filter>GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\ColliderComponent.h">
-      <Filter>GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\LogicComponent.h">
-      <Filter>GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\MeshRenderComponent.h">
-      <Filter>GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\RigidBodyComponent.h">
-      <Filter>GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\TerrainRenderComponent.h">
-      <Filter>GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\TransformComponent.h">
-      <Filter>GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Context.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imgui\imconfig.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imgui\imgui.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imgui\imgui_internal.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imgui\stb_rect_pack.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imgui\stb_textedit.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imgui\stb_truetype.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\Camera.h">
+    <ClInclude Include="Graphics3D\DefaultMesh.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Console.h">
+    <ClInclude Include="Graphics3D\LTModel.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\DefaultModel.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\CameraComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Frustum.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Plane.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IScript.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\CameraControl.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\RenderPass.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\RenderPass\DefaultPass.h">
+      <Filter>Graphics3D\RenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\RenderPass\OutlinePass.h">
+      <Filter>Graphics3D\RenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\SkyBox.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Light\DirectionLight.h">
+      <Filter>Graphics3D\LightData</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Light\PointLight.h">
+      <Filter>Graphics3D\LightData</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\LightManager.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\AnimationState.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\AnimatorComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\TestScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\AnimationLayer.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\LuaScriptExporter.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\ScriptComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IScriptManager.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\ComponentBinding.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\ScriptEventListener.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imconfig.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imgui.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imgui_internal.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imstb_rectpack.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imstb_textedit.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\imgui\imstb_truetype.h">
+      <Filter>Utilities\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Physic.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\DirectInput.h">
+    <ClInclude Include="Math\Ray.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\collidercomponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\RigidBodyComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\SoundListener.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\SoundSource3D.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\SoundEngine.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Log.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Debug.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Game.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="GameHeader.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\WeaponResource.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\CharacterResource.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Weapon.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\EvtData.h">
-      <Filter>MyGame\Event</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\ImGuiShader.h">
-      <Filter>Graphics3D\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Player.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\PlayerView.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\DebugShader.h">
-      <Filter>Graphics3D\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\SystemUI.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\LocalPlayerComponent.h">
-      <Filter>MyGame\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\StaticObject.h">
-      <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\EffectSystem.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IEffectSystem.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Particles.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\Sprite.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\SpriteShader.h">
-      <Filter>Graphics3D\Shader</Filter>
+    <ClInclude Include="Core\RenderSystem.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\SpriteAnim.h">
-      <Filter>Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager\SpriteEvent.h">
-      <Filter>EventManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\Particles.h">
-      <Filter>Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Ray.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Math.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Creature.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\HitBox.h">
-      <Filter>MyGame\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\ICamera.h">
-      <Filter>Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\GunPlayerView.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlugin\IGamePlugin.h">
-      <Filter>GamePlugin</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlugin\IContextDLL.h">
-      <Filter>GamePlugin</Filter>
-    </ClInclude>
-    <ClInclude Include="interface.h" />
-    <ClInclude Include="GamePlugin\GamePluginManager.h">
-      <Filter>GamePlugin</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlugin\ContextDLL.h">
-      <Filter>GamePlugin</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlugin\DLLInterface.h">
-      <Filter>GamePlugin</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\IPhysic.h">
+    <ClInclude Include="Interface\IRenderSystem.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Interface\IRenderer.h">
+    <ClInclude Include="Interface\ICamera.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Sound\SoundEngine.h">
-      <Filter>Sound</Filter>
+    <ClInclude Include="Interface\Renderer.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Sound\SoundListener.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="Sound\SoundSource3D.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Zombie.h">
-      <Filter>MyGame\Zombie</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\AI_Explosive.h">
-      <Filter>MyGame\Zombie</Filter>
-    </ClInclude>
-    <ClInclude Include="VGUI\FreeTypeFont.h">
-      <Filter>VGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="VGUI\VGUI.h">
-      <Filter>VGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="VGUI\UIElement.h">
-      <Filter>VGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="VGUI\UIMesh.h">
-      <Filter>VGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="VGUI\UIImage.h">
-      <Filter>VGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="VGUI\UIText.h">
-      <Filter>VGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="VGUI\UI.h">
-      <Filter>VGUI</Filter>
+    <ClInclude Include="Core\DebugRender.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Core\Windows.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Utilities\Shader.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities\Timer.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities\Input.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Frustum.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Plane.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceCache\ResourceLoader.cpp">
-      <Filter>ResourceCache</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceCache\LTBFileLoader.cpp">
-      <Filter>ResourceCache</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\Mesh.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\SkeMesh.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Actor.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Utilities\String.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\Scene.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities\PrimitiveShape\Cube.cpp">
-      <Filter>Utilities\Primitive Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="Physic\Physic.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="EventManager\EventManager.cpp">
-      <Filter>EventManager</Filter>
-    </ClCompile>
-    <ClCompile Include="EventManager\Events.cpp">
-      <Filter>EventManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Physic\PhysicDebugDrawer.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities\PrimitiveShape\Line.cpp">
-      <Filter>Utilities\Primitive Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\AABB.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\PrimitiveShader.cpp">
-      <Filter>Graphics3D\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\TexShader.cpp">
-      <Filter>Graphics3D\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\SkeShader.cpp">
-      <Filter>Graphics3D\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="EventManager\TestScriptEvent.cpp">
-      <Filter>EventManager</Filter>
-    </ClCompile>
-    <ClCompile Include="EventManager\PhysicsEvents.cpp">
-      <Filter>EventManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGLRenderer.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Application.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="World\TerrainWorld.cpp">
-      <Filter>World</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\ActorFactory.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\Octree.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\AnimationComponent.cpp">
-      <Filter>GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\CameraComponent.cpp">
-      <Filter>GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\CharacterControllerComponent.cpp">
-      <Filter>GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\ColliderComponent.cpp">
-      <Filter>GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\LogicComponent.cpp">
-      <Filter>GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\MeshRenderComponent.cpp">
-      <Filter>GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\RigidBodyComponent.cpp">
-      <Filter>GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\TerrainRenderComponent.cpp">
-      <Filter>GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\TransformComponent.cpp">
-      <Filter>GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="include\imgui\imgui.cpp">
-      <Filter>Utilities\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="include\imgui\imgui_draw.cpp">
-      <Filter>Utilities\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\Camera.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Console.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\DirectInput.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Core\Log.cpp">
@@ -460,133 +320,172 @@
     <ClCompile Include="Core\Context.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\ActorComponent.cpp">
-      <Filter>GameObject\Component</Filter>
+    <ClCompile Include="GamePlugin\GamePluginManager.cpp">
+      <Filter>GamePlugin</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Debug.cpp">
+    <ClCompile Include="Utilities\Observer.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\OpenGLWindows.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame\Game.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Weapon.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceCache\Texture.cpp">
-      <Filter>ResourceCache</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\EvtDdata.cpp">
-      <Filter>MyGame\Event</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Player.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\PlayerView.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\ImGuiShader.cpp">
-      <Filter>Graphics3D\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\DebugShader.cpp">
-      <Filter>Graphics3D\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\SystemUI.cpp">
+    <ClCompile Include="Core\OpenGLInput.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame\LocalPlayerComponent.cpp">
-      <Filter>MyGame\Component</Filter>
+    <ClCompile Include="ResourceManager\ResourceManager.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\LTBFileLoader.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\AABB.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\SkeMesh.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ActorFactory.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Actor.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\EventManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Timer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\TransformComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\MeshRenderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\DefaultMaterial.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\DefaultMesh.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\DefaultModel.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\LTModel.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\CameraComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Frustum.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Plane.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\SkeletonMaterial.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\RenderPass\DefaultPass.cpp">
+      <Filter>Graphics3D\RenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Script\CameraControl.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\RenderPass\OutlinePass.cpp">
+      <Filter>Graphics3D\RenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\SkyBox.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Material.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Light\DirectionLight.cpp">
+      <Filter>Graphics3D\LightData</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Light\PointLight.cpp">
+      <Filter>Graphics3D\LightData</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\LightManager.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\AnimationState.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\AnimatorComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\AnimationLayer.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Script\TestScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\ScriptComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Script\LuaScriptExporter.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\imgui\imgui.cpp">
+      <Filter>Utilities\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\imgui\imgui_demo.cpp">
+      <Filter>Utilities\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\imgui\imgui_draw.cpp">
+      <Filter>Utilities\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\imgui\imgui_widgets.cpp">
+      <Filter>Utilities\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Script\ScriptEventListener.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\OpenGLSysUI.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Physic.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\ColliderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\RigidBodyComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\SoundListener.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\SoundSource3D.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\SoundEngine.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\EffectSystem.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\Sprite.cpp">
-      <Filter>Graphics3D</Filter>
+    <ClCompile Include="Core\DebugRender.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\SpriteShader.cpp">
-      <Filter>Graphics3D\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\SpriteAnim.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Creature.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\HitBox.cpp">
-      <Filter>MyGame\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\ICamera.cpp">
-      <Filter>Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\StaticObject.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\GunPlayerView.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePlugin\GamePluginManager.cpp">
-      <Filter>GamePlugin</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePlugin\ContextDLL.cpp">
-      <Filter>GamePlugin</Filter>
-    </ClCompile>
-    <ClCompile Include="Sound\SoundEngine.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="Sound\SoundListener.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="Sound\SoundSource3D.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\EvtData.cpp">
-      <Filter>MyGame\Event</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Zombie.cpp">
-      <Filter>MyGame\Zombie</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\AI_Explosive.cpp">
-      <Filter>MyGame\Zombie</Filter>
-    </ClCompile>
-    <ClCompile Include="VGUI\FreeTypeFont.cpp">
-      <Filter>VGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="VGUI\UIElement.cpp">
-      <Filter>VGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="VGUI\UIMesh.cpp">
-      <Filter>VGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="VGUI\UIImage.cpp">
-      <Filter>VGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="VGUI\VGUI.cpp">
-      <Filter>VGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="VGUI\UIText.cpp">
-      <Filter>VGUI</Filter>
+    <ClCompile Include="Core\RenderSystem.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
       <UniqueIdentifier>{75cf2257-7778-4b99-941a-3aa1c5a16d1f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Math">
-      <UniqueIdentifier>{055f1407-bf34-4cde-9a5d-d76d2e753875}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utilities">
       <UniqueIdentifier>{ab572b2e-eaae-47a7-a3b2-ea7ebe26bca1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ResourceCache">
-      <UniqueIdentifier>{6e27c3eb-7718-4335-9f1f-320cb2be3f53}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics3D">
       <UniqueIdentifier>{9fea3dfb-c595-4397-8847-9cfb6ec2a646}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject">
-      <UniqueIdentifier>{4c146923-d6f9-4a48-aab7-dfa9bf8a2a13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utilities\Primitive Shape">
-      <UniqueIdentifier>{03267231-4d95-47c3-be6f-97dcd55099e7}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameAssets">
       <UniqueIdentifier>{e065ac98-9017-4c21-ab1a-c062573d470a}</UniqueIdentifier>
@@ -597,23 +496,8 @@
     <Filter Include="GameAssets\MODEL">
       <UniqueIdentifier>{74725479-50fd-4ccc-a60b-c83a5578a4fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EventManager">
-      <UniqueIdentifier>{7317b3bb-9bcd-43dc-9e97-15f255ddf013}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics3D\Shader">
-      <UniqueIdentifier>{4fff9f02-8bf5-446c-8dfe-0b2d7a041e72}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameAssets\SCRIPT">
       <UniqueIdentifier>{28500c10-7e1f-4bae-9498-5a26d4db9f1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Physics">
-      <UniqueIdentifier>{a064230a-ae38-4e46-b725-b76b8b1d44eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="World">
-      <UniqueIdentifier>{ca959d2e-619f-4e25-a864-991fc425c9d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component">
-      <UniqueIdentifier>{2be29528-ced4-459a-bea9-46e666d0fc85}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utilities\imgui">
       <UniqueIdentifier>{e56bc35b-3139-4a90-aaf9-47b79952884a}</UniqueIdentifier>
@@ -624,29 +508,35 @@
     <Filter Include="GameAssets\WEAPON">
       <UniqueIdentifier>{7bb93134-dcf5-459d-8479-958495850ed0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MyGame">
-      <UniqueIdentifier>{e94714dd-ad1b-4fa2-a4ee-a2ad7f9ce945}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyGame\Event">
-      <UniqueIdentifier>{dde52c79-37a7-4582-b1c8-f2612d78f59c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyGame\Component">
-      <UniqueIdentifier>{b5ee274c-05cc-4339-870d-3b1aea57751c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GamePlugin">
       <UniqueIdentifier>{71709d11-4ce1-46cb-b786-e4d5f3f1dc46}</UniqueIdentifier>
     </Filter>
     <Filter Include="Interface">
-      <UniqueIdentifier>{280df749-e0a1-42f3-b8f6-4cc15a6c6d1a}</UniqueIdentifier>
+      <UniqueIdentifier>{d3db6774-c306-4bf6-a76e-20175664330e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sound">
-      <UniqueIdentifier>{112c080b-5b0e-489d-9d0f-0df7db6d537a}</UniqueIdentifier>
+    <Filter Include="ResourceManager">
+      <UniqueIdentifier>{d56bd2ce-bd71-4626-9df1-5fb93043b849}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MyGame\Zombie">
-      <UniqueIdentifier>{4bf575f7-052a-45e0-a9b8-7b0a830492d0}</UniqueIdentifier>
+    <Filter Include="Math">
+      <UniqueIdentifier>{88a7836e-fd70-4c5d-abd7-29eb3783718c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{5207efdf-e9f8-4b16-9070-645412eac913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{46387a48-d0bc-4610-9d42-8fbd76318116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\RenderPass">
+      <UniqueIdentifier>{eedb91e4-e560-4afe-aef7-6151792799ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\LightData">
+      <UniqueIdentifier>{f5b27735-a0b8-4148-9ec0-a3be31883716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation">
+      <UniqueIdentifier>{926dc625-7ff7-419f-ad64-f59a593130a3}</UniqueIdentifier>
     </Filter>
     <Filter Include="VGUI">
-      <UniqueIdentifier>{2ed385a3-fb81-48e9-93f5-0bc15f4cbee2}</UniqueIdentifier>
+      <UniqueIdentifier>{01d34b06-d574-4402-acbe-2abdad5349a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

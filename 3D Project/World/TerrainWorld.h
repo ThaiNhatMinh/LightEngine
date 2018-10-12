@@ -1,6 +1,6 @@
 #pragma once
 
-class TerrainWorld : public IGameWorld, public Actor
+class TerrainWorld :public Actor
 {
 public:
 	virtual bool Init(const tinyxml2::XMLElement* pData);

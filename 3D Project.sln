@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3D Project", "3D Project\3D Project.vcxproj", "{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Light", "3D Project\3D Project.vcxproj", "{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hunting", "Hunting\Hunting.vcxproj", "{17AF2918-A454-4280-B3A8-829011EA70DC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLRenderDevice", "OpenGLRenderDevice\OpenGLRenderDevice.vcxproj", "{BD0CD1B2-6012-4B25-B97F-C02300EC3E5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,22 @@ Global
 		{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}.Release|x64.Build.0 = Release|x64
 		{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}.Release|x86.ActiveCfg = Release|Win32
 		{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}.Release|x86.Build.0 = Release|Win32
+		{17AF2918-A454-4280-B3A8-829011EA70DC}.Debug|x64.ActiveCfg = Debug|x64
+		{17AF2918-A454-4280-B3A8-829011EA70DC}.Debug|x64.Build.0 = Debug|x64
+		{17AF2918-A454-4280-B3A8-829011EA70DC}.Debug|x86.ActiveCfg = Debug|Win32
+		{17AF2918-A454-4280-B3A8-829011EA70DC}.Debug|x86.Build.0 = Debug|Win32
+		{17AF2918-A454-4280-B3A8-829011EA70DC}.Release|x64.ActiveCfg = Release|x64
+		{17AF2918-A454-4280-B3A8-829011EA70DC}.Release|x64.Build.0 = Release|x64
+		{17AF2918-A454-4280-B3A8-829011EA70DC}.Release|x86.ActiveCfg = Release|Win32
+		{17AF2918-A454-4280-B3A8-829011EA70DC}.Release|x86.Build.0 = Release|Win32
+		{BD0CD1B2-6012-4B25-B97F-C02300EC3E5E}.Debug|x64.ActiveCfg = Debug|x64
+		{BD0CD1B2-6012-4B25-B97F-C02300EC3E5E}.Debug|x64.Build.0 = Debug|x64
+		{BD0CD1B2-6012-4B25-B97F-C02300EC3E5E}.Debug|x86.ActiveCfg = Debug|Win32
+		{BD0CD1B2-6012-4B25-B97F-C02300EC3E5E}.Debug|x86.Build.0 = Debug|Win32
+		{BD0CD1B2-6012-4B25-B97F-C02300EC3E5E}.Release|x64.ActiveCfg = Release|x64
+		{BD0CD1B2-6012-4B25-B97F-C02300EC3E5E}.Release|x64.Build.0 = Release|x64
+		{BD0CD1B2-6012-4B25-B97F-C02300EC3E5E}.Release|x86.ActiveCfg = Release|Win32
+		{BD0CD1B2-6012-4B25-B97F-C02300EC3E5E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

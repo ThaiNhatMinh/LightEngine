@@ -23,21 +23,21 @@
     <ProjectGuid>{39A1395D-9381-422E-93C7-3B3F7283A306}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>FPSGame</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -72,13 +72,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>E:\Code Collection\3D Project\3D Project;E:\Code Collection\3D Project\3D Project\include;E:\Code Collection\bullet-2.79\src;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Code Collection\3D Project\3D Project;E:\Code Collection\3D Project\3D Project\lib;E:\Code Collection\3D Project\Release;E:\Code Collection\bullet-2.79\lib\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\FMod\inc;..\3D Project\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThirdParty\assimp-4.1.0\lib\Release;..\ThirdParty\glew;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Release;$(LibraryPath)</LibraryPath>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>E:\Code Collection\3D Project\3D Project;E:\Code Collection\3D Project\3D Project\include;E:\Code Collection\bullet-2.79\src;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Code Collection\3D Project\3D Project;E:\Code Collection\3D Project\3D Project\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\FMod\inc;..\3D Project\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath)</LibraryPath>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -95,13 +97,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp.lib;Light.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)$(SolutionName)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -111,10 +115,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;freetype.lib;Light.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -148,18 +155,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\3D Project\EngineHeader.h" />
+    <ClInclude Include="AI_Explosive.h" />
+    <ClInclude Include="CharacterResource.h" />
+    <ClInclude Include="Creature.h" />
+    <ClInclude Include="EvtData.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GunPlayerView.h" />
+    <ClInclude Include="LocalPlayerComponent.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerView.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponResource.h" />
+    <ClInclude Include="Zombie.h" />
+    <ClInclude Include="ZombieController.h" />
+    <ClInclude Include="ZombieState.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FPSGame.cpp" />
+    <ClCompile Include="AI_Explosive.cpp" />
+    <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="EvtData.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GunPlayerView.cpp" />
+    <ClCompile Include="LocalPlayerComponent.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerView.cpp" />
     <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="Zombie.cpp" />
+    <ClCompile Include="ZombieController.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,13 +1,20 @@
 #pragma once
+#include <glm.hpp>
 
-class Ray
+namespace Light
 {
+	namespace math
+	{
+		class Ray
+		{
 
-public:
-	Ray() = default;
-	Ray(const vec3& pos, const vec3& direction) :pos(pos), direction(direction) {};
+		public:
+			Ray() = default;
+			Ray(const glm::vec3& pos, const glm::vec3& direction) :pos(pos), direction(direction) {};
 
-public:
-	vec3 pos;
-	vec3 direction;
-};
+		public:
+			glm::vec3 pos;
+			glm::vec3 direction;
+		};
+	}
+}

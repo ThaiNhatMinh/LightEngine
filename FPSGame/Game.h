@@ -1,21 +1,27 @@
 #pragma once
-#include <pch.h>
 
-class Game : public IGame
-{
-
-public:
-	virtual void Init() {};
-	virtual void Update(float dt) {};
-	virtual void Render() {};
-};
-
-class MyGame : public Application
+class Game : public IGamePlugin,public ISubSystem
 {
 public:
-	virtual void Start()
-	{
-		m_Game = std::unique_ptr<Game>(new Game);
-	}
+	virtual void Init(Context* c) ;
+	virtual void Update(float dt);
+	virtual void Render();
+	virtual void ShutDown();
+	virtual Scene*	GetScene();
 
+	const std::vector<Player*>& GetPlayerList();
+public:
+	static CharacterResource LoadCharacter(const string& file);
+	static WeaponResource LoadWeaponInfo(const string& wpName);
+protected:
+	void EventTakeDamage(std::shared_ptr<IEvent> pEvent);
+	void EventExplosion(std::shared_ptr<IEvent> pEvent);
+	void EventCreateActor(std::shared_ptr<IEvent> pEvent);
+private:
+	std::unique_ptr<Scene> m_Scene;
+	std::vector<WeaponResource> m_WeaponResources;
+	std::vector<CharacterResource> m_CharacterResources;
+	std::vector<Player*> m_PlayerLists;
+
+	Context* m_Context;
 };

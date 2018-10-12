@@ -1,59 +1,69 @@
-#include "pch.h"
-#include "..\Graphics3D\OpenGLRenderer.h"
+#include <pch.h>
+#include "Application.h"
 #include <type_traits>
+#include "Events.h"
+#include "OpenGLWindows.h"
+#include "EventManager.h"
+#include "ActorFactory.h"
+#include "OpenGLSysUI.h"
+#include "Timer.h"
+#include "Context.h"
+#include "Physic.h"
+#include "SoundEngine.h"
+#include "RenderSystem.h"
+#include "OpenGLInput.h"
+#include "DebugRender.h"
+#include "..\Graphics3D\EffectSystem.h"
+#include "..\Script\LuaScriptExporter.h"
+
+
+#include "..\ResourceManager\ResourceManager.h"
+
+#include "..\Graphics3D\RenderPass\OutlinePass.h"
+
+using namespace Light;
+
 void Application::SetupSubmodule()
 {
-	//E_DEBUG("Application StartUp...");
-	Context			*C = new Context();
-	Windows			*W = new Windows();
-	OpenGLRenderer	*O = new OpenGLRenderer();
-	EventManager	*E = new EventManager();
-	GameTimer		*G = new GameTimer();
-	Resources		*R = new Resources();
-	DirectInput		*D = new DirectInput();
-	BulletPhysics	*B = new BulletPhysics();
-	Console			*Con = new Console();
-	Debug			*Db = new Debug();
-	SystemUI		*S = new SystemUI();
-	ActorFactory	*A = new ActorFactory();
-	EffectSystem	*ES = new EffectSystem();
-	SoundEngine		*SE = new SoundEngine();
-	Actor::m_Context = C;
-	ActorComponent::m_Context = C;
-	ISubSystem::m_Context = C;
+	E_DEBUG("Application StartUp...");
 
-	// Init Windows
-	W->Init(C);
-	// Init Renderer
-	O->Init(C);
-	// Init Event system
-	E->Init(C);
-	// Init factory
-	A->Init(C);
-	// init sound engine
-	SE->Init(C);
-	// init resource
-	R->Init(C);
-	// init system UI
-	S->Init(C);
-	// init console
-	Con->Init(C);
-	// init input
-	D->Init(C);
-	// init debug renderer
-	Db->Init(C);
-	// init bullets physic
-	B->Init(C);
-	// init timer
-	G->Init(C);
-	//init effect system
-	ES->Init(C);
+	m_Context = std::unique_ptr<Light::IContext>(DEBUG_NEW Light::Context());
+	
+	m_pEventManager = std::unique_ptr<Light::IEventManager>(DEBUG_NEW Light::EventManager(m_Context.get()));
 
-	m_Context = std::unique_ptr<Context>(C);
+	m_pWindows = std::unique_ptr<Light::IWindow>(DEBUG_NEW Light::OpenGLWindows(m_Context.get()));
+	m_pResources = std::unique_ptr<resources::IResourceManager>(DEBUG_NEW Light::resources::ResourceManager(m_Context.get()));
+	m_pRenderer = std::unique_ptr<Light::render::IRenderSystem>(DEBUG_NEW Light::render::RenderSystem(m_Context.get()));
+	
+	
+	m_pActorFactory = std::unique_ptr<Light::IFactory>(DEBUG_NEW Light::ActorFactory(m_Context.get()));
+	m_pSoundEngine = std::unique_ptr<SoundEngine>(DEBUG_NEW SoundEngine(m_Context.get()));
+	
+	
+	m_pInput = std::unique_ptr<Light::IInput>(DEBUG_NEW Light::OpenGLInput(m_Context.get()));
+	//m_pConsole = std::unique_ptr<Console>(DEBUG_NEW Console(m_Context.get()));
+	
+	m_pPhysic = std::unique_ptr<physics::IGamePhysic>(DEBUG_NEW physics::BulletPhysics(m_Context.get()));
+	m_pTimer = std::unique_ptr<Light::ITimer>(DEBUG_NEW Light::GameTimer(m_Context.get()));
+	
+	//m_pVGUI = std::unique_ptr<VGUI>(DEBUG_NEW VGUI(m_Context.get()));
+	m_pSystemUI = std::unique_ptr<OpenGLSysUI>(DEBUG_NEW OpenGLSysUI(m_Context.get()));
+	m_pScriptManager = std::unique_ptr<Light::IScriptManager>(DEBUG_NEW Light::LuaScriptManager(m_Context.get()));
+	//m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
+	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
+	//a->Test();
 
-	Con->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
+	//render::OutlineRenderPass* pOutline = DEBUG_NEW render::OutlineRenderPass("Outline", m_Context.get());
+	//m_pRenderer->AddExtraPass(pOutline);
 
+	m_pResources->PostInit();
+	m_pRenderer->PostInit();
+	m_pActorFactory->PostInit();
+	m_pSystemUI->PostInit();
+
+	m_pWindows->HideMouse(1);
 }
+
 
 Application::~Application()
 {
@@ -64,102 +74,117 @@ Application::~Application()
 
 void Application::MainLoop()
 {
-	Setup();
+	
 	SetupSubmodule();
-	Start();
+	
+
+	
+	//
+	//int w, h;
+	//m_pWindows->VGetWindowSize(w, h);
+	//
+	//render::OpenGLFrameBuffer framebuffer;
+	//framebuffer.Begin();
+	//render::TextureCreateInfo config;
+	//config.eTarget = render::TEXTURE_2D;
+	//config.eFormat = render::FORMAT_RGB;
+	//config.eType = render::UNSIGNED_BYTE;
+	//config.iInternalFormat = render::FORMAT_RGB;
+	//config.iLevel = 0;
+	//config.pData = nullptr;
+	//config.uiWidth = w;
+	//config.uiHeight = h;
+	//render::OpenGLTexture tex(config);
+	//framebuffer.AttachTexture(render::COLOR_ATTACHMENT, &tex, 0);
+	//config.iInternalFormat = render::FORMAT_DEPTH_COMPONENT;
+	//config.eFormat = render::FORMAT_DEPTH_COMPONENT;
+	//config.eType = render::FLOAT;
+	//render::OpenGLTexture depthtex(config);
+	//framebuffer.AttachTexture(render::DEPTH_ATTACHMENT, &depthtex, 0);
+	////render::OpenGLRenderBuffer renderbuffer(w, h, render::ColorFormat::FORMAT_DEPTH_COMPONENT);
+	////framebuffer.AttachRenderBuffer(render::DEPTH_ATTACHMENT, &renderbuffer);
+	//framebuffer.End();
+	//std::string Path = "GameAssets\\System\\";
+	//auto shader = m_pRenderer->CreatePipeline(m_pResources->VGetVertexShader(Path + "Shader\\Screen.vs"), m_pResources->VGetPixelShader(Path + "Shader\\Screen.fs"));
+	//auto uTex = shader->GetParam("uTex");
+	//auto udepthTex = shader->GetParam("uDepthTex");
+	//float vertices[] = {
+	//	 -1.0f,  1.0f,  0.0f, 1.0f,
+	//	-1.0f, -1.0f,  0.0f, 0.0f,
+	//	 1.0f, -1.0f,  1.0f, 0.0f,
+	//	-1.0f,  1.0f,  0.0f, 1.0f,
+	//	 1.0f, -1.0f,  1.0f, 0.0f,
+	//	 1.0f,  1.0f,  1.0f, 1.0f
+	//};
+	//render::VertexBuffer *vertexBuffer = m_pRenderer->CreateVertexBuffer(sizeof(vertices), vertices);
+	//render::VertexElement vertexElement[] = 
+	//{
+	//	{  render::SHADER_POSITION_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, sizeof(float) * 4, 0, },
+	//	{ render::SHADER_TEXCOORD_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, sizeof(float) * 4,sizeof(float) * 2, }
+	//};
+	//render::VertexDescription *vertexDescription = m_pRenderer->CreateVertexDescription(2, vertexElement);
+	//render::VertexArray *vertexArray = m_pRenderer->CreateVertexArray(1, &vertexBuffer, &vertexDescription);
 
 	m_bRunMainLoop = true;
-	// PROBLEM: How every thing update ?
-	// 1. Timer
-	// 2. Event Manager
-	// 3. Input 
-	// 4. Physic
-	// 5. 
-	
-	EventManager	*E = m_Context->m_pEventManager.get();
-	GameTimer		*G = m_Context->m_pTimer.get();
-	DirectInput		*D = m_Context->m_pInput.get();
-	BulletPhysics	*B = m_Context->m_pPhysic.get();
-	OpenGLRenderer	*O = m_Context->m_pRenderer.get();
-	Console			*C = m_Context->m_pConsole.get();
-	SystemUI		*S = m_Context->m_pSystemUI.get();
-	Debug			*Db = m_Context->m_pDebuger.get();
-	EffectSystem	*ES = m_Context->m_pEffectSystem.get();
-	SoundEngine		*SE = m_Context->m_pSoundEngine.get();
-	Scene			*pScene = m_Game->GetScene();
 
-	
-	/*auto b = Sprite(m_Context->m_pResources->GetTexture("TEXTURES\\ESCAPE.DTX"));
-	b.GetPos() = vec3(100, 150, 100);
-	ES->AddSprite(b);
 
-	auto d = Sprite(m_Context->m_pResources->GetTexture("TEXTURES\\SGFX_se_decal_04.DTX"));
-	d.GetPos() = vec3(100, 150, 300);
-	ES->AddSprite(d);
+	IGamePlugin* pGame = m_GamePlugins.LoadPlugin();
 
-	auto a = m_Context->m_pResources->GetSpriteAnimation("BLOOD3.SPR");
-	a->GetPos() = vec3(200, 150, 0);
-	ES->AddSprite(a);
+	pGame->Init(m_Context.get());
 
-	auto c = m_Context->m_pResources->GetSpriteAnimation("EX.SPR");
-	c->GetPos() = vec3(250, 350, 50);
-	ES->AddSprite(c);
+	m_pScriptManager->Start();
 
-	
-	c = m_Context->m_pResources->GetSpriteAnimation("SGFX_se_fire_explode_01.SPR");
-	c->GetPos() = vec3(350, 250, 100);
-	ES->AddSprite(c);*/
-	
-	m_Context->m_pWindows->ShowWindows();
+	m_pTimer->VReset();
 
-	G->Reset();
-
-	while (m_bRunMainLoop)
+	while (m_bRunMainLoop && !m_pWindows->VShouldClose())
 	{
-		glfwPollEvents();
-		// Update input
-		D->Update();
-		if (D->KeyDown(DIK_ESCAPE)|| m_Context->m_pWindows->ShouldClose())	m_bRunMainLoop = false;
-		// Timer
-		G->Tick();
-		S->NewFrame();
-
-		// check if in console then don't update game
-		if (!C->CheckStatus())
-		{
-
-
-			// Update Event
-			E->VUpdate(20);
-			// Update Game
-			m_Game->Update(G->GetDeltaTime());
-			// Update Physic
-			B->VOnUpdate(G->GetDeltaTime());
-			// Update Effect
-			ES->Update(pScene, G->GetDeltaTime());
-			// Update Object
-			B->VSyncVisibleScene();
-		}
-
-		// Update sound
-		SE->Update();
-		if (m_DebugPhysic) B->VRenderDiagnostics();
+		
+		m_pInput->VUpdate();
+		m_pTimer->VTick();
 		
 
-		O->Clear();
+		if (m_pInput->VOnKey(Light::Escape))	m_bRunMainLoop = false;
+		
+		float dt = m_pTimer->VGetDeltaTime();
+		
+		m_pEventManager->VUpdate(200);
+		//m_pSystemUI->Update(dt);
+		m_pScriptManager->Update(dt);
+		pGame->Update(dt);
 
-		// Draw Game
-		m_Game->Render();
-		// Draw Effect
-		ES->Render(pScene);
-		// Draw Console
-		C->Draw();
-		// Daw Debug
-		Db->Render();
-		// Draw SystemUI
-		S->Render();
-		O->SwapBuffer();
+		m_pPhysic->VOnUpdate(dt);
+		m_pPhysic->VSyncVisibleScene();
+		m_pSoundEngine->VUpdate();
+		m_pRenderer->Update(dt);
+		//m_pPhysic->VRenderDiagnostics();
+		//framebuffer.Begin();
+		
+	
+		
+		//m_pDebuger->Render();
+		m_pRenderer->Render();
+		
+		//m_pSystemUI->Render();
+		/*framebuffer.End();
+		
+
+		glDisable(GL_DEPTH_TEST);
+		m_pRenderer->Clear();
+		
+		m_pRenderer->SetPipeline(shader);
+		uTex->SetAsInt(render::UNIT_DEFAULT);
+		m_pRenderer->SetTexture(render::UNIT_DEFAULT, &tex);
+		udepthTex->SetAsInt(render::UNIT_DEPTH);
+		m_pRenderer->SetTexture(render::UNIT_DEPTH, &depthtex);
+		
+		m_pRenderer->SetVertexArray(vertexArray);
+		m_pRenderer->Draw(0, 6);*/
+	
+		m_pWindows->VSwapBuffer();
 
 
 	}
+
+	pGame->ShutDown();
+	Log::OutputFile();
 }

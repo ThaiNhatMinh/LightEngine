@@ -1,9 +1,9 @@
-#include "pch.h"
+#include <pch.h>
 
 void PrimShader::SetupRender(Scene * pScene, Actor * pActor)
 {
 	this->Use();
-	ICamera* pCam = Camera::GetCurrentCamera();
+	ICamera* pCam = pScene->GetCurrentCamera();
 	// ----- Transform Matricies ------
 	
 	mat4 globalTransform = pActor->VGetGlobalTransform();
@@ -12,7 +12,7 @@ void PrimShader::SetupRender(Scene * pScene, Actor * pActor)
 	SetUniformMatrix("MVP", glm::value_ptr(MVP));
 
 	// ----- Lighting ------
-	const Light& dirLight = pScene->GetDirLight();
+	const DirectionLight& dirLight = pScene->GetDirLight();
 	SetUniform("gLight.La", dirLight.La);
 	SetUniform("gLight.Ld", dirLight.Ld);
 	SetUniform("gLight.Ls", dirLight.Ls);

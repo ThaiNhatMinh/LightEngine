@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 
 uint32 UIElement::IDCount = 0;
 
@@ -35,7 +35,7 @@ uint32 UIElement::GetID()
 	return m_ID;
 }
 
-UIGroup::UIGroup(VGUI * pVGUI)
+UIGroup::UIGroup()
 {
 }
 
@@ -53,6 +53,7 @@ bool UIGroup::Update(float dt, const vec2& mousePos)
 
 void UIGroup::AddChild(UIElement * pChild)
 {
+	//cout << "VGUI add: " << typeid(*pChild).name() << endl;
 	m_Childrens.push_back(std::unique_ptr<UIElement>(pChild));
 }
 

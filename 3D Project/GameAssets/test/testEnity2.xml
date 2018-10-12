@@ -1,0 +1,31 @@
+<Actor type="Player" name="707">
+	<Component>
+		<TransformComponent>
+			<Position x="0" y="10" z="0"/>
+			<YawPitchRoll x="0" y="0" z="0"/>
+			<Scale x="20" y="3" z="20"/>
+		</TransformComponent>
+		<ColliderComponent>
+			<Shape>Box</Shape>
+			<HalfSize x="20" y="3" z="20" />
+		</ColliderComponent>
+		<RigidBodyComponent>
+			<Mass value="0.0" />
+			<PhysicsMaterial>Normal</PhysicsMaterial>
+			<RigidBodyTransform>
+				<Position x="0.0" y="0.0" z="0.0"/>
+			</RigidBodyTransform>
+		</RigidBodyComponent>
+
+		<MeshRenderComponent>
+			<Model File="GameAssets\test\Crate1.obj" />
+		</MeshRenderComponent>
+
+		
+		<Script>
+			<File>GameAssets\test\script1.lua</File>
+		</Script>
+	</Component>
+	<Children>
+	</Children>
+</Actor>

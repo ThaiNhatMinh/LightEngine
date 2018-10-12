@@ -1,12 +1,13 @@
 #pragma once
 
 
-class UIMesh: public GLBO
+class UIMesh
 {
 public:
-	virtual void Init();
-	virtual void Shutdown();
+	UIMesh();
+	~UIMesh();
 
-	GLuint VAO;
-	GLuint VBO;
+	VertexArray VAO;
+	BufferObject VBO;
+	UIMesh(UIMesh&& other);
 };

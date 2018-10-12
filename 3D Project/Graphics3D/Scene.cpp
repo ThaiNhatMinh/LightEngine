@@ -1,94 +1,99 @@
-#include "pch.h"
-#include "OpenGLRenderer.h"
-
-
-Scene::Scene(Context* c) :m_Context(c)
+#include "Scene.h"
+#include <pch.h>
+#include "..\Interface\IFactory.h"
+#include "..\Interface\IEventManager.h"
+#include "..\Core\Events.h"
+namespace Light
 {
-	m_pRoot = std::unique_ptr<Actor>(m_Context->m_pActorFactory->CreateActor("GameAssets\\ACTOR\\Root.xml",nullptr,0));
-	if (!m_pRoot)
+	Scene::Scene(IContext* c,const std::string& name) :m_Context(c),m_Name(name)
 	{
-		E_ERROR("Can't create Root Node.");
-	}
-	m_DirectionLight.La = vec3(0.2, 0.2, 0.2);
-	m_DirectionLight.Ld = vec3(0.5, 0.5, 0.5);
-	m_DirectionLight.Ls = vec3(1.0f, 1.0f, 1.0f);
-	m_DirectionLight.direction = glm::normalize(vec3(-1, -1,- 1));
-
-	//m_DefaultCamera = Camera(c,vec3(0, 0, 100.0f), vec3(.0f), vec3(0, 1.0f, 0), 45.0f, 4.0f / 3.0f, 1.0f, 10000.0f);
-}
-
-Scene::~Scene()
-{
-}
-
-bool Scene::LoadScene(const string& filename)
-{
-	tinyxml2::XMLDocument doc;
-	if (doc.LoadFile(filename.c_str())!= tinyxml2::XML_SUCCESS)
-	{
-		E_ERROR("Can't load Scene file: " + filename);
-		return 0;
-	}
-
-	tinyxml2::XMLElement* pScene = doc.FirstChildElement("Scene");
-	if (!pScene)
-	{
-		E_ERROR("Can't load Scene file: " + filename);
-		return 0;
-	}
-
-	for (tinyxml2::XMLElement* pNode = pScene->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
-	{
-		if (!strcmp(pNode->Value(), "Actor"))
+		m_pRoot = std::unique_ptr<IActor>(m_Context->GetSystem<IFactory>()->VCreateActor(SYSTEM_ROOT_ACTOR));
+		if (!m_pRoot)
 		{
-			const char* pFile = pNode->Attribute("File");
-			if (!pFile) continue;
-			Actor* p4 = m_Context->m_pActorFactory->CreateActor(pFile, nullptr, 0);
-			m_pRoot->VAddChild(std::unique_ptr<Actor>(p4));
+			E_ERROR("Can't create Root Node.");
 		}
+	
+		c->GetSystem<IEventManager>()->VQueueEvent(std::shared_ptr<IEvent>(DEBUG_NEW events::EvtSceneCreate(this)));
 	}
 
-	return 1;
-}
-
-bool Scene::OnRender()
-{
-	
-	// The render passes usually go like this 
-	// 1. Static objects & terrain
-	// 2. Actors (dynamic objects that can move)
-	// 3. The Sky
-	// 4. Anything with Alpha
-	
-	// Root doesn't have anything to render, so just render children	
-	m_pRoot->VRenderChildren(this);
-	
-	// render last
-	//m_Context->m_pRenderer->ClearBuffer();
-	ImGui::Text("Size: %d", m_ActorLast.size());
-	while (m_ActorLast.size()>0)
+	Scene::~Scene()
 	{
-		Actor* pActor = m_ActorLast.back();
-		m_ActorLast.pop_back();
-		pActor->GetComponent<MeshRenderComponent>("MeshRenderComponent")->Render(this);
 	}
+
 	
-	return true;
-}
+	bool Scene::VLoad(const std::string& filename)
+	{
+		
+		tinyxml2::XMLDocument doc;
+		if (doc.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS)
+		{
+			E_ERROR("Can't load Scene file: %s", filename.c_str());
+			return 0;
+		}
 
-bool Scene::OnUpdate(float dt)
-{
-	m_pRoot->VOnUpdate(this, dt);
-	m_Context->m_pDebuger->Update();
-	return true;
-}
-bool Scene::PostUpdate()
-{
-	m_pRoot->VPostUpdate(this);
-	return true;
-}
+		tinyxml2::XMLElement* pScene = doc.FirstChildElement("Scene");
+		if (!pScene)
+		{
+			E_ERROR("Can't load Scene file: %s", filename.c_str());
+			return 0;
+		}
 
-void Scene::PushLastActor(Actor * pActor)
-{
-	m_ActorLast.push_back(pActor);
+		for (tinyxml2::XMLElement* pNode = pScene->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+		{
+			if (!strcmp(pNode->Value(), "Actor"))
+			{
+				const char* pFile = pNode->Attribute("File");
+				if (!pFile) continue;
+				IActor* p4 = m_Context->GetSystem<IFactory>()->VCreateActor(pFile);
+				m_pRoot->VAddChild(p4);
+			}
+
+		}
+
+
+		m_pRoot->PostInit();
+
+		tinyxml2::XMLElement* pLightNode = pScene->FirstChildElement("Light");
+		
+		m_LightManager.VSerialize(m_Context, pLightNode);
+		
+
+
+
+		auto pSkybox = pScene->FirstChildElement("SkyBox");
+
+		m_SkyBox.VSerialize(m_Context, pSkybox);
+
+		return 1;
+	}
+
+	bool Scene::VOnRender()
+	{
+		m_SkyBox.VRender();
+		return true;
+	}
+
+	bool Scene::VOnUpdate(float dt)
+	{
+		m_pRoot->VOnUpdate(this, dt);
+		//m_Context->m_pDebuger->Update();
+		return true;
+	}
+	bool Scene::VPostUpdate()
+	{
+		m_pRoot->VPostUpdate(this);
+		return true;
+	}
+	std::string Scene::VGetSceneName()
+	{
+		return m_Name;
+	}
+	render::SkyBox * Scene::GetSkyBox()
+	{
+		return &m_SkyBox;
+	}
+	render::LightManager * Scene::GetLightManager()
+	{
+		return &m_LightManager;
+	}
 }

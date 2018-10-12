@@ -1,24 +1,10 @@
-#include "pch.h"
+#include <pch.h>
 #include "Context.h"
 
-DirectInput::DirectInput():m_pDInput(0), m_pKeyboard(0), m_pMouse(0)
+DirectInput::DirectInput(Context * c):m_pDInput(0), m_pKeyboard(0), m_pMouse(0)
 {
 	memset(m_KeyLock, 0, sizeof(m_KeyLock));
-}
-
-DirectInput::~DirectInput()
-{
-	m_pDInput->Release();
-	m_pKeyboard->Unacquire();
-	m_pKeyboard->Release();
-	m_pMouse->Unacquire();
-	m_pMouse->Release();
-
-}
-
-void DirectInput::Init(Context * c)
-{
-	GLFWwindow* w = c->m_pWindows->Window();
+	GLFWwindow* w = c->GetSystem<Windows>()->Window();
 	ZeroMemory(m_KeyState, sizeof(m_KeyState));
 	ZeroMemory(&m_MouseState, sizeof(m_MouseState));
 
@@ -31,20 +17,25 @@ void DirectInput::Init(Context * c)
 	HWND handle = GetActiveWindow();
 	m_pDInput->CreateDevice(GUID_SysKeyboard, &m_pKeyboard, 0);
 	m_pKeyboard->SetDataFormat(&c_dfDIKeyboard);
-	m_pKeyboard->SetCooperativeLevel(glfwGetWin32Window(w) , DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
+	m_pKeyboard->SetCooperativeLevel(glfwGetWin32Window(w), DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 	m_pKeyboard->Acquire();
 
 	m_pDInput->CreateDevice(GUID_SysMouse, &m_pMouse, 0);
 	m_pMouse->SetDataFormat(&c_dfDIMouse2);
 	m_pMouse->SetCooperativeLevel(glfwGetWin32Window(w), DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 	m_pMouse->Acquire();
-	c->m_pInput = std::unique_ptr<DirectInput>(this);
+	c->AddSystem(this);
 	m_Lock = 0;
-
 }
 
-void DirectInput::ShutDown()
+DirectInput::~DirectInput()
 {
+	m_pDInput->Release();
+	m_pKeyboard->Unacquire();
+	m_pKeyboard->Release();
+	m_pMouse->Unacquire();
+	m_pMouse->Release();
+
 }
 
 void DirectInput::Update()

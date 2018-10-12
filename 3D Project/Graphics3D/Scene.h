@@ -1,32 +1,44 @@
 #pragma once
-#include "pch.h"
-#include "RenderAPI.h"
-
+#include <vector>
 #include "Camera.h"
-class Scene
+#include "Light.h"
+#include "..\Interface\ICamera.h"
+#include "SkyBox.h"
+
+#include "..\Interface\IActor.h"
+#include "..\Interface\IScene.h"
+#include "LightManager.h"
+
+
+namespace Light
 {
-private:
-	// Simple Object with only transform component
-	// This store every thing in scene
-	std::unique_ptr<Actor>	m_pRoot;
-	std::list<Actor*>		m_ActorLast;
-	Light					m_DirectionLight; // only one direction light
+	static const char* SYSTEM_ROOT_ACTOR = "GameAssets\\System\\Root.xml";
+	class Scene: public IScene
+	{
+	private:
+		// Simple Object with only transform component
+		// This store every thing in scene
+		std::unique_ptr<IActor>	m_pRoot;
+		//std::unique_ptr<Actor>	m_pSkyBox;
+		
+		render::LightManager m_LightManager;
 
+		IContext*			m_Context;
+		std::string			m_Name;
+		render::SkyBox		m_SkyBox;
+	public:
+		Scene(IContext* c,const std::string& name);
+		~Scene();
 
-	
-	
-	Context*			m_Context;
-public:
-	Scene(Context* c);
-	~Scene();
+		bool					VLoad(const std::string& file)override;
+		bool					VOnRender()override;
 
-	bool LoadScene(const string& filename);
-	bool OnRender();
+		bool					VOnUpdate(float dt)override;
+		bool					VPostUpdate()override;
+		std::string				VGetSceneName()override;
 
-	bool OnUpdate(float dt);
-	bool PostUpdate();
-	
-	void PushLastActor(Actor*);
-	Actor* GetRoot() { return m_pRoot.get(); };
-	Light GetDirLight() { return m_DirectionLight; };
-};
+		IActor*					VGetRoot() { return m_pRoot.get(); };
+		render::SkyBox*			GetSkyBox();
+		render::LightManager*	GetLightManager();
+	};
+}

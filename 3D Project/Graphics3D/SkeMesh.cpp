@@ -1,69 +1,42 @@
-#include "pch.h"
+#include <pch.h>
+#include "SkeMesh.h"
+#include "..\Graphics3D\RenderPass.h"
+#include "..\ResourceManager\LTRawData.h"
 
-void SkeMesh::Init()
+namespace Light 
 {
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
+	SkeMesh::SkeMesh(render::RenderDevice* pRenderDevice, LTRawMesh* pData) //:m_Vertexs(vertex), m_Indices(indices)
+	{
+		auto& vertex = pData->Vertexs;
+		auto& indices = pData->Indices;
+		m_pVBO = std::unique_ptr<render::VertexBuffer>(pRenderDevice->CreateVertexBuffer(vertex.size() * sizeof(SkeVertex), &vertex[0]));
+		m_pIBO = std::unique_ptr<render::IndexBuffer>(pRenderDevice->CreateIndexBuffer(indices.size() * sizeof(unsigned int), &indices[0]));
+		
+		size_t stride = sizeof(SkeVertex);
+		render::VertexElement elements[] = 
+		{
+			{ render::SHADER_POSITION_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 3, stride, 0 },
+			{ render::SHADER_NORMAL_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 3, stride, 3 * sizeof(float) },
+			{ render::SHADER_TEXCOORD_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, stride, 6 * sizeof(float) },
+			{ render::SHADER_BLEND1_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, stride,8 * sizeof(float) },
+			{ render::SHADER_BLEND2_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, stride, 10 * sizeof(float) },
+			{ render::SHADER_BLEND3_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, stride, 12 * sizeof(float) },
+			{ render::SHADER_BLEND4_ATTRIBUTE, render::VERTEXELEMENTTYPE_FLOAT, 2, stride, 14 * sizeof(float) },
+		};
 
+		render::VertexDescription* pVertexDes = pRenderDevice->CreateVertexDescription(7, elements);
+		render::VertexBuffer* ptemp = m_pVBO.get();
+		m_pVAO = std::unique_ptr<render::VertexArray>(pRenderDevice->CreateVertexArray(1, &ptemp, &pVertexDes));
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, m_Vertexs.size()*sizeof(SkeVertex), &m_Vertexs[0], GL_STATIC_DRAW);
+		delete pVertexDes;
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(unsigned int), &m_Indices[0], GL_STATIC_DRAW);
-
-	size_t stride = sizeof(SkeVertex);
-
-
-	size_t offset = 0;
-
-	
-	glEnableVertexAttribArray(SHADER_POSITION_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
-	offset += 3 * sizeof(float);
-
-
-	
-	glEnableVertexAttribArray(SHADER_NORMAL_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_NORMAL_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
-	offset += 3 * sizeof(float);
-
-
-
-	
-	glEnableVertexAttribArray(SHADER_TEXCOORD_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_TEXCOORD_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
-	offset += 2 * sizeof(float);
-
-	
-	glEnableVertexAttribArray(SHADER_BLEND1_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_BLEND1_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
-	offset += sizeof(vec2);
-
-	
-	glEnableVertexAttribArray(SHADER_BLEND2_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_BLEND2_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
-	offset += sizeof(vec2);
-
-	
-	glEnableVertexAttribArray(SHADER_BLEND3_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_BLEND3_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
-	offset += sizeof(vec2);
-
-	
-	glEnableVertexAttribArray(SHADER_BLEND4_ATTRIBUTE);
-	glVertexAttribPointer(SHADER_BLEND4_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
-
-	NumIndices = m_Indices.size();
-	Topology = GL_TRIANGLES;
-
-}
-
-void SkeMesh::Shutdown()
-{
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+		m_Name = pData->Name;
+		m_iNNumIndices = indices.size();
+	}
+	void SkeMesh::Draw(render::RenderDevice * renderer)
+	{
+		renderer->SetVertexArray(m_pVAO.get());
+		renderer->SetIndexBuffer(m_pIBO.get());
+		renderer->DrawElement(m_iNNumIndices, 0);
+	}
 }

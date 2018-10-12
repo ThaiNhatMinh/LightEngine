@@ -52,6 +52,7 @@ void main()
 	v.prop = gMaterial;
 
 	color = ParallelLight(v, gLight, EyePos);
+	//color = texel;
 }
 
 vec4 ParallelLight(SurfaceInfo v, Light L, vec3 eyePos)
@@ -62,16 +63,16 @@ vec4 ParallelLight(SurfaceInfo v, Light L, vec3 eyePos)
 	vec3 lightDir = normalize(-L.direction);
 	vec3 viewDir = normalize(eyePos - v.pos);
 
-	vec3 Ia = v.prop.Ka * L.La;
+	vec3 Ia = L.La;
 	LightI += Ia;
+
 	float diffuseS = max(dot(v.normal, lightDir),0.0);
-	
 	vec3 Id = v.prop.Kd * L.Ld * diffuseS;
+	
+	
 	vec3 halfwayDir = normalize(lightDir + viewDir);
 	
 	float exp = v.prop.exp.z;
-	//if(exp==128.0) exp = 128;
-	//else exp = 0;
 	float specularS = pow(max(dot(v.normal, halfwayDir), 0.0), exp);
 
 	vec3 Is = v.prop.Ks * L.Ls * specularS;

@@ -1,0 +1,40 @@
+<Scene>
+	
+	<Actor File="GameAssets\test\FreeCamera.xml" />
+	<!-- <Actor File="GameAssets\test\Box.xml" /> -->
+	<Actor File="GameAssets\test\testEnity.xml" />
+	<!-- <Actor File="GameAssets\test\testEnity1.xml" /> -->
+	<Actor File="GameAssets\test\testEnity2.xml" />
+	<!-- <Actor File="GameAssets\test\testEnity3.xml" /> -->
+	<!-- <Actor File="GameAssets\test\testEnity4.xml" /> -->
+	<Actor File="GameAssets\test\testEnity5.xml" />
+	<Light>
+		<Direction x="-0.2" y="-1" z="-0.3">
+			<Ambient r="0.4" g="0.4" b="0.4" />
+			<Diffuse r="1" g="1" b="1" />
+			<Specular r="1" g="1" b="1"/>
+		</Direction>
+		<Point x="0.7" y="0.2" z="2.0">
+			<Ambient r="0.04" g="0.07" b="0.1" />
+			<Diffuse r="0.4" g="0.7" b="0.1" />
+			<Specular r="0.4" g="0.7" b="0.1"/>
+			<Attenuation Const="1" Linear="0.07" Quadratic="0.017"/>
+		</Point>
+		<Point x="0.7" y="0.2" z="20.0">
+			<Ambient r="0.04" g="0.07" b="0.1" />
+			<Diffuse r="0.4" g="0.7" b="0.1" />
+			<Specular r="0.4" g="0.7" b="0.1"/>
+			<Attenuation Const="1" Linear="0.07" Quadratic="0.017"/>
+		</Point>
+	</Light>
+	<SkyBox>
+		<Texture Path="GameAssets\TEXTURES\SKYBOX\hw_ruins\">
+			<POSITIVE_Z File="ruins_ft.tga" />
+			<NEGATIVE_Z File="ruins_bk.tga" />
+			<NEGATIVE_Y File="ruins_dn.tga" />
+			<POSITIVE_Y File="ruins_up.tga" />
+			<POSITIVE_X File="ruins_rt.tga" />
+			<NEGATIVE_X File="ruins_lf.tga" />
+		</Texture>
+	</SkyBox>
+</Scene>

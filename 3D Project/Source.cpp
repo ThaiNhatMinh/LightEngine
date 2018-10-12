@@ -1,14 +1,9 @@
 
-#ifdef _DEBUG
-#define  _CRTDBG_MAP_ALLOC
-#include <cstdlib>
-#include <crtdbg.h>
-#endif
 
-#include "pch.h"
+#include <pch.h>
+#include "Core\Application.h"
 
-
-
+#include <thread>
 void main()
 {
 
@@ -16,10 +11,7 @@ void main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
 #endif
-
-
-
-	MyGame app;
+	Light::Application app;
 	app.MainLoop();
-
+	
 }

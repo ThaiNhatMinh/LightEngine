@@ -1,35 +1,27 @@
 #pragma once
-#include "pch.h"
+#include <vector>
+#include <glm\vec3.hpp>
+#include <glm\vec2.hpp>
+#include "Mesh.h"
+#include "Vertex.h"
+#include "..\ResourceManager\LTRawData.h"
 
-struct Weight
-{
-	Weight(int b, float w) { Bone = (float)b; weight = w; };
-	Weight():Bone(0), weight(0){};
-	float Bone;
-	float weight;
-};
-
-typedef vector<Weight> WeightList;
-struct SkeVertex
-{
-	vec3		pos;
-	vec3		normal;
-	vec2		uv;
-	Weight		weights[4];
-	
-};
-typedef std::vector<SkeVertex> SkeVertexList;
-
-class SkeMesh :public IMesh
-{
-public:
-	SkeVertexList			m_Vertexs;
-	vector<unsigned int>	m_Indices;
-	
-	
-public:
-	SkeMesh() { Tex = 0; };
-	~SkeMesh() {};
-	virtual void Init();
-	virtual void Shutdown();
-};
+namespace Light
+{	
+	class SkeMesh :public Mesh
+	{
+	public:
+		typedef std::vector<SkeVertex> VertexList;
+		typedef std::vector<unsigned int> IndicesList;
+	private:
+		std::string m_Name;
+		std::unique_ptr<render::VertexArray>		m_pVAO;
+		std::unique_ptr<render::VertexBuffer>		m_pVBO;
+		std::unique_ptr<render::IndexBuffer>		m_pIBO;
+		std::size_t m_iNNumIndices;
+	public:
+		SkeMesh(render::RenderDevice* pRenderDevice, LTRawMesh* pData);
+		~SkeMesh() {};
+		virtual void Draw(render::RenderDevice * renderer)override;
+	};
+}

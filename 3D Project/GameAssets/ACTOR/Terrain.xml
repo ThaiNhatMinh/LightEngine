@@ -21,7 +21,7 @@
 		</TransformComponent>
 		<TerrainRenderComponent>
 			<Model File="WORLD\heightmap.png" />
-			<Texture File0 ="TEXTURES\Default.png" />
+			<Texture File0 ="TEXTURES\TERRAIN\mntn_green_d.jpg" />
 			<Shader name="Terrain" />
 		</TerrainRenderComponent>	
    </Component>

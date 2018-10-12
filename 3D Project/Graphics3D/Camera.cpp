@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <pch.h>
 
 
 /*
@@ -56,13 +56,13 @@ Camera::~Camera()
 void Camera::Update(float deltaTIme)
 {
 	// Camera controls
-	if (m_Context->m_pInput->KeyDown(DIK_W)) m_Position += m_Front*m_Speed*deltaTIme;
-	if (m_Context->m_pInput->KeyDown(DIK_S)) m_Position -= m_Front*m_Speed*deltaTIme;
-	if (m_Context->m_pInput->KeyDown(DIK_D)) m_Position += m_Right*m_Speed*deltaTIme;
-	if (m_Context->m_pInput->KeyDown(DIK_A)) m_Position -= m_Right*m_Speed*deltaTIme;
+	if (m_pInput->KeyDown(DIK_W)) m_Position += m_Front*m_Speed*deltaTIme;
+	if (m_pInput->KeyDown(DIK_S)) m_Position -= m_Front*m_Speed*deltaTIme;
+	if (m_pInput->KeyDown(DIK_D)) m_Position += m_Right*m_Speed*deltaTIme;
+	if (m_pInput->KeyDown(DIK_A)) m_Position -= m_Right*m_Speed*deltaTIme;
 
-	m_Pitch += m_Context->m_pInput->mouseDY()*MouseSensitivity;
-	m_Yaw += m_Context->m_pInput->mouseDX()*MouseSensitivity;
+	m_Pitch += m_pInput->mouseDY()*MouseSensitivity;
+	m_Yaw += m_pInput->mouseDX()*MouseSensitivity;
 	if (m_Pitch > 89.0f) m_Pitch = 89.0f;
 	if (m_Pitch < -89.0f) m_Pitch = -89.0f;
 

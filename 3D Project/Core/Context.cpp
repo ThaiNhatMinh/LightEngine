@@ -1,27 +1,40 @@
-#include "pch.h"
-
-Context* ISubSystem::m_Context = nullptr;
-
-Context::Context()
-{
-	
-	int errorID = ConfigData.LoadFile(ConfigFile);
-	if (errorID)
+#include <pch.h>
+#include "..\Interface\IWindow.h"
+#include "Context.h"
+#include "OpenGLWindows.h"
+namespace Light {
+	Context::Context()
 	{
-		E_ERROR("Failed to load engine config file: " + string(ConfigFile));
+
 	}
-}
 
-Context::~Context()
-{
-	E_WARNING("Context Release...");
-}
+	Context::~Context()
+	{
+	}
 
-tinyxml2::XMLElement * Context::GetElement(const char * p)
-{
-	tinyxml2::XMLElement * pData = nullptr;
-	tinyxml2::XMLElement* pRoot = ConfigData.FirstChildElement("GameConfig");
-	pData = pRoot->FirstChildElement(p);
 
-	return pData;
+	bool Context::VAddSystem(ISubSystem * system)
+	{
+		for (auto& el : m_Systems)
+			if (typeid(*el) == typeid(*system)) return false;
+
+		m_Systems.push_back(system);
+		return true;
+	}
+
+	void Context::VMakeContext()
+	{
+		
+	}
+
+	ISubSystem * Context::VGetSystem(const std::type_info & rtti)
+	{
+		for (auto& el : m_Systems)
+		{
+			if (!strcmp(el->VGetName(), rtti.name())) return el;
+		}
+		
+		return nullptr;
+	}
+
 }

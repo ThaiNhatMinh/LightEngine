@@ -1,0 +1,84 @@
+#pragma once
+#include <memory>
+#include <iostream>
+#include <strstream>
+#include "..\typedef.h"
+#include "..\Utilities\Utility.h"
+namespace Light
+{
+	class IEvent//: public util::Serialization
+	{
+	public:
+		virtual ~IEvent(void) {}
+		virtual const EventType& VGetEventType(void) const = 0;
+		virtual const char* GetName(void) const = 0;
+
+	};
+	
+	template<class T>
+	class Event: public IEvent
+	{
+	public:
+		static const EventType StaticType;
+		virtual const EventType& VGetEventType(void) const final
+		{
+			return StaticType;
+		}
+		virtual const char* GetName(void) const final
+		{
+			return typeid(T).name();
+		}
+	};
+
+	template<class T> const EventType Event<T>::StaticType = typeid(T).hash_code();
+
+	class IEventDelegate
+	{
+	public:
+		virtual ~IEventDelegate() = default;
+		virtual inline void Invoke(std::shared_ptr<IEvent> eventData) = 0;
+		virtual inline EventDelegateType GetType()const = 0;
+		virtual bool operator==(const IEventDelegate* other) const = 0;
+	};
+
+
+	template<class T>
+	class EventDelegate : public IEventDelegate
+	{
+	private:
+		typedef void(T::*Callback)(std::shared_ptr<IEvent>);
+
+		T* m_Receiver;
+		Callback m_Callback;
+	public:
+		EventDelegate(T* receiver, Callback callback)
+		{
+			m_Receiver = receiver;
+			m_Callback = callback;
+		}
+
+		virtual inline void Invoke(std::shared_ptr<IEvent> eventData)
+		{
+			(m_Receiver->*m_Callback)(eventData);
+		}
+		virtual inline EventDelegateType GetType()const
+		{
+			static const EventDelegateType DELEGATE_TYPE{ typeid(T).hash_code() ^ typeid(Callback).hash_code() };
+			return DELEGATE_TYPE;
+		}
+
+		virtual bool operator==(const IEventDelegate* other) const
+		{
+			auto t1 = this->GetType();
+			auto t2 = other->GetType();
+			if (t1!=t2) return false;
+			EventDelegate* delegate = (EventDelegate*)other;
+			if (other == nullptr) return false;
+
+			return (m_Callback == delegate->m_Callback && m_Receiver == delegate->m_Receiver);
+		}
+	};
+
+	
+}
+

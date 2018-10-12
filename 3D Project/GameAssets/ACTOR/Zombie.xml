@@ -1,19 +1,16 @@
-<Actor type="Player" name="Zombie" >
+<Actor type="StaticObject" name="Tree" >
 
-	<TransformComponent>
-		<Position x="100" y="0" z="0"/>
-		<YawPitchRoll x="0" y="0" z="0"/>
-	</TransformComponent>
-  
-	<AnimationComponent>
-		<Model File="GameAssets\MODEL\NANO_TERMINATOR\M-MOTION-TERMINATOR.LTB" />
-	</AnimationComponent>
+	<Component>
+		<TransformComponent>
+			<Position x="0" y="-300" z="0"/>
+			<YawPitchRoll x="0" y="0" z="0"/>
+			<Scale x="300" y="300" z="300"/>
+		</TransformComponent>
 	
-  <MeshRenderComponent>
-		<Model File="GameAssets\MODEL\Terminator.xml" />
-		<Scale x="1.0" y="1.0" z="1.0"/>
-    <Shader name="SkeShader" />
-	</MeshRenderComponent>
-  
+		<MeshRenderComponent>
+			<Model File="WORLD\Tree 02\Tree.obj" />
+			<Shader name="PrimShader" />
+		</MeshRenderComponent>
+	</Component>
 
 </Actor>

@@ -1,5 +1,0 @@
-IncludeModule copyfile ;
-
-Lua.Module expand : : expand.lua ;
-
-CopyFiles expand : $(LUA_LDIR) : $(SUBDIR)/expand.lua ;

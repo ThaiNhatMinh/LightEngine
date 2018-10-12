@@ -1,34 +1,24 @@
-#include "pch.h"
+#include <pch.h>
 #include "../Core/Context.h"
 #include "Console.h"
 
 
 
 
-Console::Console():Show(0)
+Console::Console(Context* c):Show(0)
 {
+
 	memset(InputBuf, 0, sizeof(InputBuf));
+	c->AddSystem(this);
+
+	m_pInput = c->GetSystem<DirectInput>();
 }
 
 Console::~Console()
 {
-	
-	
+		
 }
 
-void Console::Init(Context* c)
-{
-	
-
-	c->m_pConsole = std::unique_ptr<Console>(this);
-
-	
-
-}
-
-void Console::ShutDown()
-{
-}
 
 void Console::Draw()
 {
@@ -265,10 +255,10 @@ bool Console::CheckStatus()
 	if (io.KeysDown[GLFW_KEY_GRAVE_ACCENT] && !oldstatus)
 	{
 		
-		m_Context->m_pInput->LookAll();
+		m_pInput->LookAll();
 		Show = !Show;
-		if(Show) m_Context->m_pWindows->SetMouse(GLFW_CURSOR_NORMAL);
-		else m_Context->m_pWindows->SetMouse(GLFW_CURSOR_DISABLED);
+		if(Show) m_Context->GetSystem<Windows>()->SetMouse(GLFW_CURSOR_NORMAL);
+		else m_Context->GetSystem<Windows>()->SetMouse(GLFW_CURSOR_DISABLED);
 		strcpy(InputBuf, "");		
 	}
 	oldstatus = io.KeysDown[GLFW_KEY_GRAVE_ACCENT];

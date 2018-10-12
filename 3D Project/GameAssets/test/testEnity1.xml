@@ -1,0 +1,15 @@
+<Actor type="Player" name="707_No" >
+  <Component>  
+	  <MeshRenderComponent>
+		  <Model File="GameAssets\test\earth\707_BL.xml" />
+	  </MeshRenderComponent>
+	  
+	 <TransformComponent>
+		  <Position x="0" y="0" z="100"/>
+		  <YawPitchRoll x="0" y="0" z="0"/>
+		  <Scale x="1.0" y="1.0" z="1.0" />
+	  </TransformComponent>
+  </Component>
+  <Children>
+  </Children>
+</Actor>

@@ -1,20 +1,16 @@
-#include "pch.h"
+#include <pch.h>
 #include "FreeTypeFont.h"
 
-FTFont::FTFont(const string& fontfile)
+FT_Library  FTFont::m_library;
+FTFont::FTFont(const string& name, const string& fontfile) :m_face(0)
 {
+	m_Name = name;
 	
-	FT_Error error = FT_Init_FreeType(&m_library);
-	if (error)
-	{
-		E_ERROR("Can't init freetype.");
-		return;
-	}
 
 	
 	if (FT_New_Face(m_library, fontfile.c_str(), 0, &m_face))
 	{
-		E_ERROR("Can't load fontface.");
+		E_ERROR("Can't load fontface: " + fontfile);
 		return;
 	}
 	
@@ -25,7 +21,7 @@ FTFont::FTFont(const string& fontfile)
 
 	charcode = FT_Get_First_Char(m_face, &gindex);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	while (gindex != 0)
+	while(gindex!=0)
 	{
 
 		if (FT_Load_Char(m_face, charcode, FT_LOAD_RENDER))
@@ -58,13 +54,13 @@ FTFont::FTFont(const string& fontfile)
 		charcode = FT_Get_Next_Char(m_face, charcode, &gindex);
 
 	}
-	
+	FT_Done_Face(m_face);
 }
 
 FTFont::~FTFont()
 {
-	FT_Done_Face(m_face);
-	FT_Done_FreeType(m_library);
+	
+	
 }
 
 void FTFont::SetFontSize(int size)
@@ -75,10 +71,30 @@ void FTFont::SetFontSize(int size)
 	}
 }
 
-FTFont::FontChar * FTFont::GetChar(char c)
+FTFont::FontChar * FTFont::GetChar(FT_ULong c)
 {
 	auto result = m_CharMaps.find(c);
 	if (result == m_CharMaps.end()) return nullptr;
 	
 	return &result->second;
+}
+
+const string & FTFont::GetName()
+{
+	return m_Name;
+}
+
+void FTFont::InitFreeTypeFont()
+{
+	FT_Error error = FT_Init_FreeType(&m_library);
+	if (error)
+	{
+		E_ERROR("Can't init freetype.");
+		return;
+	}
+}
+
+void FTFont::ReleaseFreeTypeFont()
+{
+	FT_Done_FreeType(m_library);
 }
