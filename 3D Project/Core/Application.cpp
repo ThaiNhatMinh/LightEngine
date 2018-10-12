@@ -10,13 +10,11 @@
 #include "Context.h"
 #include "Physic.h"
 #include "SoundEngine.h"
+#include "RenderSystem.h"
 #include "..\Graphics3D\EffectSystem.h"
 #include "..\Script\LuaScriptExporter.h"
 
-#include "..\Graphics3D\OpenGL\OpenGLRenderDevice.h"
-#include "..\Graphics3D\OpenGL\OpenGLRenderBuffer.h"
-#include "..\Graphics3D\OpenGL\OpenGLTexture.h"
-#include "..\Graphics3D\OpenGL\OpenGLFrameBuffer.h"
+
 #include "..\ResourceManager\ResourceManager.h"
 #include "..\Core\OpenGLInput.h"
 #include "..\Graphics3D\RenderPass\OutlinePass.h"
@@ -33,8 +31,8 @@ void Application::SetupSubmodule()
 	m_pEventManager = std::unique_ptr<Light::IEventManager>(DEBUG_NEW Light::EventManager(m_Context.get()));
 
 	m_pWindows = std::unique_ptr<Light::IWindow>(DEBUG_NEW Light::OpenGLWindows(m_Context.get()));
-	auto a = DEBUG_NEW Light::render::OpenGLRenderDevice(m_Context.get());
-	m_pRenderer = std::unique_ptr<Light::render::RenderDevice>(a);
+	auto a = DEBUG_NEW Light::render::RenderSystem(m_Context.get());
+	m_pRenderer = std::unique_ptr<Light::render::IRenderSystem>(a);
 	m_pResources = std::unique_ptr<IResourceManager>(DEBUG_NEW Light::resources::ResourceManager(m_Context.get()));
 	m_pEffectSystem = std::unique_ptr<EffectSystem>(DEBUG_NEW EffectSystem(m_Context.get()));
 	m_pActorFactory = std::unique_ptr<Light::IFactory>(DEBUG_NEW Light::ActorFactory(m_Context.get()));
@@ -137,14 +135,14 @@ void Application::MainLoop()
 		
 		m_pInput->VUpdate();
 		m_pTimer->VTick();
-		m_pRenderer->Clear();
+		
 
 		if (m_pInput->VOnKey(Light::Escape))	m_bRunMainLoop = false;
 		
 		float dt = m_pTimer->VGetDeltaTime();
 		
 		m_pEventManager->VUpdate(200);
-		m_pSystemUI->Update(dt);
+		//m_pSystemUI->Update(dt);
 		m_pScriptManager->Update(dt);
 		pGame->Update(dt);
 
@@ -157,10 +155,10 @@ void Application::MainLoop()
 		
 	
 		
-		m_pDebuger->Render();
+		//m_pDebuger->Render();
 		m_pRenderer->Render();
 		m_pEffectSystem->VRender();
-		m_pSystemUI->Render();
+		//m_pSystemUI->Render();
 		/*framebuffer.End();
 		
 

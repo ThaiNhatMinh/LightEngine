@@ -11,7 +11,7 @@ namespace Light
 	{
 		//Max = v[0];
 		//Min = v[0];
-		for (GLuint i = 0; i < v.size(); i++)
+		for (size_t i = 0; i < v.size(); i++)
 		{
 			if (Min.x > v[i].x) Min.x = v[i].x;
 			else if (Max.x < v[i].x) Max.x = v[i].x;
@@ -22,7 +22,7 @@ namespace Light
 		}
 	}
 
-	void AABB::Test(const vec3 & v)
+	void AABB::Test(const glm::vec3 & v)
 	{
 		if (Min.x > v.x) Min.x = v.x;
 		else if (Max.x < v.x) Max.x = v.x;

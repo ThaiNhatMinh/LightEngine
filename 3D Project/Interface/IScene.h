@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "..\Graphics3D\ICamera.h"
+#include "ICamera.h"
 #include "IActor.h"
 #include "..\Utilities\Utility.h"
 #include "..\Graphics3D\Light.h"

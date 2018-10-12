@@ -1,7 +1,7 @@
 #pragma once
 #include "..\Interface\IEvent.h"
 #include "..\Interface\IActor.h"
-#include "..\Graphics3D\ICamera.h"
+#include "..\Interface\ICamera.h"
 #include "..\Interface\IScene.h"
 #include "..\Interface\IInput.h"
 #include "..\Interface\IGamePhysic.h"

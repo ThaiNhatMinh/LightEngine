@@ -4,7 +4,7 @@
 #include <mutex>
 
 #include <thread>
-#include "..\Graphics3D\Renderer.h"
+#include "..\Interface\Renderer.h"
 #include "..\Graphics3D\ModelRender.h"
 #include "..\Interface\IResourceManager.h"
 #include "..\Graphics3D\Vertex.h"

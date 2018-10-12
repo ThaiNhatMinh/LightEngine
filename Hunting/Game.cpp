@@ -15,7 +15,7 @@ void Game::Init(Light::IContext* pContext)
 	std::cout << "Hello from DLL\n";
 	using namespace Light;
 
-	m_pRenderer = pContext->GetSystem<render::RenderDevice>();
+	//m_pRenderer = pContext->GetSystem<render::RenderDevice>();
 	auto pResources = pContext->GetSystem<resources::IResourceManager>();
 	auto Factory = pContext->GetSystem<IFactory>();
 

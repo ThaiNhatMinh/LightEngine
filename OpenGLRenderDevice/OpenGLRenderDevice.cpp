@@ -58,14 +58,6 @@ namespace Light
 			{
 				m_pDefaultStencil = nullptr;
 				render::StencilConfig config;
-				config.FrontWriteMask = 0xFF;
-				config.FrontEnabled = true;
-				config.FrontCompare = COMPARE_NOTEQUAL;
-				config.FrontRef = 1;
-				config.FrontCompareMask = 0xFFFFFFFF;
-				config.FrontStencilFail = STENCIL_KEEP;
-				config.FrontDepthFail = STENCIL_KEEP;
-				config.FrontPass = STENCIL_KEEP;
 				m_pDefaultStencil = DEBUG_NEW OpenGLStencilState(config);
 				this->SetStencilState(m_pDefaultStencil);
 			}

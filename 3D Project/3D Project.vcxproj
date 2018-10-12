@@ -73,16 +73,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2</IncludePath>
-    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\lib\x86\Release;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\RelWithDebInfo;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath);..\ThirdParty\lua\lib</LibraryPath>
+    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2</IncludePath>
+    <LibraryPath>..\ThirdParty\;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\lib\x86\Release;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\RelWithDebInfo;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath);..\ThirdParty\lua\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;..\ThirdParty\glew;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2</IncludePath>
-    <LibraryPath>..\ThirdParty\glew;..\ThirdParty\;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath);..\ThirdParty\lua\lib</LibraryPath>
+    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2</IncludePath>
+    <LibraryPath>..\ThirdParty\;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath);..\ThirdParty\lua\lib</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -98,12 +98,12 @@
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>C:\Program Files (x86)\Visual Leak Detector\include;E:\Code Collection\3D Project\3D Project;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>/Zm112 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;ILU.lib;lua5.1.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glfw3.lib;fmod_vc.lib;ILU.lib;lua5.1.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>@ECHO ON
@@ -141,7 +141,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glew32s.lib;glfw3.lib;fmod_vc.lib;ILU.lib;lua5.1.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glfw3.lib;fmod_vc.lib;ILU.lib;lua5.1.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
@@ -213,24 +213,6 @@
     <ClInclude Include="Graphics3D\Mesh.h" />
     <ClInclude Include="Graphics3D\ModelRender.h" />
     <ClInclude Include="Graphics3D\OpenGL\DataMap.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLBlendingState.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLCompressTexture.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLCubeTexture.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLDepthState.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLStencilState.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLFrameBuffer.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLIndexBuffer.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLPipeline.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLPipelineParam.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLPixelShader.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLRasterState.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLRenderBuffer.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLRenderDevice.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLTexture.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexBuffer.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexDescription.h" />
-    <ClInclude Include="Graphics3D\OpenGL\OpenGLVertexShader.h" />
     <ClInclude Include="Graphics3D\DefaultModel.h" />
     <ClInclude Include="Graphics3D\Particles.h" />
     <ClInclude Include="Graphics3D\RenderPass.h" />
@@ -330,24 +312,6 @@
     <ClCompile Include="Graphics3D\Light\PointLight.cpp" />
     <ClCompile Include="Graphics3D\LTModel.cpp" />
     <ClCompile Include="Graphics3D\Material.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLBlendingState.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLCompressTexture.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLCubeTexture.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLDepthState.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLStencilState.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLFrameBuffer.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLIndexBuffer.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLPipeline.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLPipelineParam.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLPixelShader.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLRasterState.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLRenderBuffer.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLRenderDevice.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLTexture.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexBuffer.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexDescription.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\OpenGLVertexShader.cpp" />
     <ClCompile Include="Graphics3D\DefaultModel.cpp" />
     <ClCompile Include="Graphics3D\RenderPass\DefaultPass.cpp" />
     <ClCompile Include="Graphics3D\RenderPass\OutlinePass.cpp" />
@@ -413,6 +377,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Hunting\Hunting.vcxproj">
       <Project>{17af2918-a454-4280-b3a8-829011ea70dc}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenGLRenderDevice\OpenGLRenderDevice.vcxproj">
+      <Project>{bd0cd1b2-6012-4b25-b97f-c02300ec3e5e}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

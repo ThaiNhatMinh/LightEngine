@@ -2,12 +2,12 @@
 #include "OpenGLSysUI.h"
 #include "OpenGLWindows.h"
 #include "..\Interface\IResourceManager.h"
-
+#include "..\Interface\IRenderSystem.h"
 
 Light::OpenGLSysUI::OpenGLSysUI(IContext * pContext):m_Time(0)
 {
 	pContext->VAddSystem(this);
-	m_pRenderer = pContext->GetSystem<render::RenderDevice>();
+	m_pRenderer = pContext->GetSystem<render::IRenderSystem>()->GetRenderDevice();
 	m_pTimer = pContext->GetSystem<ITimer>();
 	auto pResources = pContext->GetSystem<resources::IResourceManager>();
 	m_pGLFW = static_cast<OpenGLWindows*>(pContext->GetSystem<Light::IWindow>())->GetGLFW();
@@ -116,6 +116,7 @@ void Light::OpenGLSysUI::Update(float dt)
 
 void Light::OpenGLSysUI::Render()
 {
+	return;
 	ImGui::Render();
 }
 
@@ -137,20 +138,20 @@ void Light::OpenGLSysUI::OnRenderDrawLists(ImDrawData * draw_data)
 		return;
 	draw_data->ScaleClipRects(io.DisplayFramebufferScale);
 
-	glEnable(GL_BLEND);
+	/*glEnable(GL_BLEND);
 	glBlendEquation(GL_FUNC_ADD);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
-	glDisable(GL_STENCIL_TEST);
+	glDisable(GL_STENCIL_TEST);*/
 	// Setup viewport, orthographic projection matrix
-	glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
+	//glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
 
 	m_pRenderer->SetPipeline(m_pShader);
 
 	m_pRenderer->SetVertexArray(m_VAO);
-	glBindSampler(0, 0);
+	//glBindSampler(0, 0);
 	
 	m_uMVP->SetAsMat4(glm::value_ptr(ortho));
 
@@ -160,10 +161,10 @@ void Light::OpenGLSysUI::OnRenderDrawLists(ImDrawData * draw_data)
 		const ImDrawIdx* idx_buffer_offset = 0;
 
 		
-		m_VBO->SetData((GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, render::STREAM_DRAW);
+		m_VBO->SetData(cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, render::STREAM_DRAW);
 
 		
-		m_IBO->SetData((GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, render::STREAM_DRAW);
+		m_IBO->SetData(cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, render::STREAM_DRAW);
 		m_pRenderer->SetIndexBuffer(m_IBO);
 		for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
 		{
@@ -174,17 +175,17 @@ void Light::OpenGLSysUI::OnRenderDrawLists(ImDrawData * draw_data)
 			}
 			else
 			{
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pcmd->TextureId);
-				glScissor((int)pcmd->ClipRect.x, (int)(fb_height - pcmd->ClipRect.w), (int)(pcmd->ClipRect.z - pcmd->ClipRect.x), (int)(pcmd->ClipRect.w - pcmd->ClipRect.y));
-				glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, idx_buffer_offset);
+				//glActiveTexture(GL_TEXTURE0);
+				//glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pcmd->TextureId);
+				//glScissor((int)pcmd->ClipRect.x, (int)(fb_height - pcmd->ClipRect.w), (int)(pcmd->ClipRect.z - pcmd->ClipRect.x), (int)(pcmd->ClipRect.w - pcmd->ClipRect.y));
+				//glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, idx_buffer_offset);
 			}
 			idx_buffer_offset += pcmd->ElemCount;
 		}
 	}
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
-	glDisable(GL_SCISSOR_TEST);
+	//glEnable(GL_DEPTH_TEST);
+	//glDisable(GL_BLEND);
+	//glDisable(GL_SCISSOR_TEST);
 }
 
 void Light::OpenGLSysUI::CreateFontsTexture()
@@ -197,11 +198,11 @@ void Light::OpenGLSysUI::CreateFontsTexture()
 
 															  // Upload texture to graphics system
 
-	glGenTextures(1, &m_FontTexture);
+	/*glGenTextures(1, &m_FontTexture);
 	glBindTexture(GL_TEXTURE_2D, m_FontTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);*/
 
 	// Store our identifier
 	io.Fonts->TexID = (void *)(intptr_t)m_FontTexture;

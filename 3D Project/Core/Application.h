@@ -14,10 +14,10 @@
 #include "..\Interface\IDebugRender.h"
 #include "..\Interface\IGamePhysic.h"
 #include "..\Interface\ITimer.h"
-#include "..\Graphics3D\Renderer.h"
+#include "..\Interface\IRenderSystem.h"
 #include "..\Interface\IScriptManager.h"
 
-using Light::render::RenderDevice;
+using Light::render::IRenderSystem;
 using Light::IWindow;
 using Light::IEventManager;
 using Light::IFactory;
@@ -47,7 +47,7 @@ namespace Light
 	protected:
 		std::unique_ptr<Light::IContext>			m_Context;
 		std::unique_ptr<IWindow>			m_pWindows;
-		std::unique_ptr<RenderDevice>		m_pRenderer;
+		std::unique_ptr<IRenderSystem>		m_pRenderer;
 		std::unique_ptr<IEventManager>		m_pEventManager;
 
 		std::unique_ptr<IDebugRender>		m_pDebuger;

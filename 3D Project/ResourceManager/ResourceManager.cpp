@@ -13,6 +13,7 @@
 #include "..\Graphics3D\DefaultMesh.h"
 #include "..\Graphics3D\LTModel.h"
 #include "..\Core\SoundEngine.h"
+#include "..\Core\RenderSystem.h"
 namespace Light
 {
 	namespace resources
@@ -34,7 +35,7 @@ namespace Light
 		ResourceManager::ResourceManager(IContext* c) :m_pContext(c)
 		{
 			c->VAddSystem(this);
-			m_pRenderDevice = c->GetSystem<render::RenderDevice>();
+			m_pRenderDevice = c->GetSystem<render::IRenderSystem>()->GetRenderDevice();
 			ilInit();
 			ILenum Error;
 			Error = ilGetError();

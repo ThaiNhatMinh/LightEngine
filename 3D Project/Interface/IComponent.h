@@ -3,7 +3,7 @@
 #include <glm\mat4x4.hpp>
 #include "..\Utilities\Utility.h"
 #include "..\typedef.h"
-#include "..\Graphics3D\ICamera.h"
+#include "ICamera.h"
 namespace Light 
 {
 	class IActor;

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <memory>
-#include "..\Graphics3D\Renderer.h"
+#include "Renderer.h"
 #include "..\Graphics3D\ModelRender.h"
 #include "..\typedef.h"
 #include "..\Graphics3D\Vertex.h"

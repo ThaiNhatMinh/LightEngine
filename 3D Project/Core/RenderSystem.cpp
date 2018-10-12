@@ -10,13 +10,15 @@ namespace Light
 {
 	namespace render
 	{
-		RenderSystem::RenderSystem(IContext * pContext)
+		RenderSystem::RenderSystem(IContext * pContext):m_pContext(pContext)
 		{
+			LoadRenderDevice();
+
 			IWindow* pWindow = pContext->GetSystem<Light::IWindow>();
 
 			int w, h;
 			pWindow->VGetWindowSize(w, h);
-			//glViewport(0, 0, w, h);
+			m_pRenderer->SetViewPort(0, 0, w, h);
 
 			pContext->VAddSystem(this);
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<RenderSystem>(this, &RenderSystem::OnObjectCreate), events::EvtNewActor::StaticType);
@@ -32,18 +34,19 @@ namespace Light
 
 		void RenderSystem::Render()
 		{
+			m_pRenderer->Clear();
 			// if there was no camera, so we can't see anything
 			if (m_pCurrentCamera == nullptr) return;
 
 			glm::mat4 pv = m_pCurrentCamera->GetProjMatrix()*m_pCurrentCamera->GetViewMatrix();
 
 			{// pass default
-				m_DefaultPass->Render(pv);
+				m_DefaultPass->Render(pv,m_pRenderer,m_pCurrentCamera);
 			}
 			{// pass extra
 				for (auto& pass : m_ExtraPass)
 				{
-					pass->Render(pv);
+					pass->Render(pv, m_pRenderer, m_pCurrentCamera);
 				}
 			}
 
@@ -109,7 +112,7 @@ namespace Light
 		{
 			return m_pRenderer;
 		}
-
+		typedef Light::render::RenderDevice* (*CreateInterfaceFn)();
 		void RenderSystem::LoadRenderDevice()
 		{
 			tinyxml2::XMLDocument doc;
@@ -123,7 +126,7 @@ namespace Light
 				E_ERROR("Can't load dll: %s", pXMLNode->Value());
 			}
 
-			typedef Light::render::RenderDevice* (*CreateInterfaceFn);
+			
 
 			CreateInterfaceFn fnCreateInterface = (CreateInterfaceFn)GetProcAddress((HMODULE)hModule, "CreateInterface");
 
@@ -134,7 +137,7 @@ namespace Light
 			}
 			m_pRenderer = fnCreateInterface();
 
-			FreeLibrary(hModule);
+			
 
 		
 		}

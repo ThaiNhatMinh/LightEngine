@@ -657,7 +657,7 @@ vector<Light::Animation> LoadAnimation(FILE* pFile,const vector<Light::SkeNode>&
 		 //m_pSkeleton->LoadAnimation(pFile, str, KeyFrame, m_CompressionType);
 		 //printf("Finish animation: %s\n",str);
 
-		 for (GLuint j = 0; j < skenode.size(); j++)
+		 for (size_t j = 0; j < skenode.size(); j++)
 		 {
 			 //p.AnimNodeLists.resize(pNodeList.size());
 			 Light::AnimNode node;

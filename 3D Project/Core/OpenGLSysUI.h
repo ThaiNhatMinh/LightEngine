@@ -1,7 +1,7 @@
 #pragma once
 
 #include "..\Interface\ISysUI.h"
-#include "..\Graphics3D\Renderer.h"
+#include "..\Interface\Renderer.h"
 #include "..\Interface\ITimer.h"
 #include <imgui.h>
 #include <glfw3.h>
