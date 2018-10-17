@@ -18,6 +18,7 @@ namespace Light
 
 		virtual void		VUpdate(float dt);
 		virtual void		VPreRender(render::Material::MatrixParam& param)override;
+		virtual math::AABB	GetBox();
 	private:
 		
 		

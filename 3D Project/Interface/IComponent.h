@@ -4,6 +4,8 @@
 #include "..\Utilities\Utility.h"
 #include "..\typedef.h"
 #include "ICamera.h"
+#include "..\Math\AABB.h"
+
 namespace Light 
 {
 	class IActor;
@@ -43,8 +45,11 @@ namespace Light
 		virtual glm::vec3	GetRight() = 0;		// +X axis
 		virtual glm::vec3	GetUp() = 0;		// +Y axis
 		virtual glm::vec3	GetPos() = 0;		// Current position
+		virtual glm::vec3	GetScale() = 0;
+		
 		virtual glm::mat4	GetTransform() = 0;
 		virtual glm::quat	GetOrientation() = 0;
+		virtual void		SetScale(glm::vec3 s) = 0;
 		virtual void		SetPos(glm::vec3 pos) = 0;
 		virtual void		SetOrientation(glm::quat ort) = 0;
 		virtual void		SetTransform(glm::vec3 pos, glm::quat quad) = 0;
@@ -73,6 +78,8 @@ namespace Light
 	{
 	public:
 		virtual void Play(const std::string& name, bool loop, const std::string& layer = "Default") = 0;
+
+		virtual math::AABB GetBox() = 0;
 	};
 
 	class IScriptComponent : public Component<IScriptComponent>

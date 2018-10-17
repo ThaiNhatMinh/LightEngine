@@ -35,6 +35,7 @@ namespace Light
 		FrameData						ComputerFrame(int i);
 		void							SetSpeed(float speed);
 		bool							IsFinish();
+		math::AABB						GetBox();
 	private:
 		FrameData						InterpolateFrame(AnimationState* state,const AnimNode & Anim, const vector<AnimKeyFrame>& KeyFrames);
 		void							AnimEvent(const string&);

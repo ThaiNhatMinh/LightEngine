@@ -1,9 +1,9 @@
 #pragma once
 
-
+#include "AABB.h"
 namespace Light
 {
-	namespace Math
+	namespace math
 	{
 		template<typename T>
 		std::vector<T> CopySubMatrix(std::vector<T> array, int pos[2], int subsize)
@@ -19,6 +19,20 @@ namespace Light
 
 			}
 			return result;
+		}
+
+		AABB TrasformAABB(AABB box,glm::mat4 trasform)
+		{
+			glm::vec3 v[8];
+			box.GenPoint(v);
+			AABB newbox;
+
+			for (int i = 0; i < 8; i++)
+			{
+				v[i] = trasform * glm::vec4(v[i],1.0f);
+				newbox.Insert(v[i]);
+			}
+			return newbox;
 		}
 	}
 }

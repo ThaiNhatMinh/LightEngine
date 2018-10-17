@@ -105,6 +105,18 @@ glm::quat Light::TransformComponent::GetOrientation()
 	return m_Orientation;
 }
 
+glm::vec3 Light::TransformComponent::GetScale()
+{
+	return m_Scale;
+}
+
+void Light::TransformComponent::SetScale(glm::vec3 s)
+{
+	m_Scale = s;
+
+	BuildMatrix();
+}
+
 void Light::TransformComponent::SetPos(glm::vec3 pos)
 {
 	m_Position = pos;

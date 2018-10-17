@@ -28,6 +28,7 @@ namespace Light
 
 		std::vector<util::Updatable*> m_ObjectUpdate;
 		std::vector<util::PreRenderable*> m_ObjectPreRender;
+		bool					m_bIsStatic;
 	public:
 		Actor(IContext* pContext,ActorId id);
 		virtual ~Actor();
@@ -41,10 +42,10 @@ namespace Light
 		virtual void		VSetTag(string tag)override { m_Tag = tag; };
 		virtual string		VGetTag()override { return m_Tag; };
 		virtual mat4		VGetGlobalTransform()override;
-		virtual HRESULT		VOnUpdate(Scene *, float elapsedMs)override;
-		virtual HRESULT		VPostUpdate(Scene *)override;
+		virtual HRESULT		VOnUpdate(IScene *, float elapsedMs)override;
+		virtual HRESULT		VPostUpdate(IScene *)override;
 		virtual void		VPreRender(render::Material::MatrixParam& param)override;
-		virtual bool		VIsVisible(Scene *pScene) const override;
+		virtual bool		VIsVisible(IScene *pScene) const override;
 		virtual bool		VAddChild(IActor* kid)override;
 		virtual bool		VRemoveChild(ActorId id)override;
 		virtual IActor*		VGetChild(std::size_t index)override;
@@ -55,62 +56,9 @@ namespace Light
 		virtual IComponent* VGetComponent(ComponentType id)override;
 		virtual bool		VRemoveComponent(ComponentType id)override;
 		virtual void		VSetScript(IScript* pScript)override;
-		//template<class ComponentType>ComponentType* GetComponent(ComponentId id);
-		//template<class ComponentType>ComponentType* GetComponent(const char*  name)const;
-
-		//template<class ComponentType>ComponentType* RemoveComponent(const char*  name);
-		//const ActorComponents*						GetComponents() { return &m_components; }
-		//TransformComponent*							GetTransform();
+		
 
 	};
 
-	//template<class ComponentType>
-	//inline ComponentType * Actor::GetComponent(ComponentId id)
-	//{
-	//	ActorComponents::iterator findIt = m_components.find(id);
-	//	if (findIt != m_components.end())
-	//	{
-	//		ActorComponent* pBase(findIt->second.get());
-	//		ComponentType* pWeakSub = static_cast<ComponentType*>(pBase);
-	//		return pWeakSub;  // return the weak pointer
-	//	}
-	//	else
-	//	{
-	//		return nullptr;
-	//	}
-	//}
-
-	//template<class ComponentType>
-	//inline ComponentType * Actor::GetComponent(const char * name)const
-	//{
-	//	ComponentId id = ActorComponent::GetIdFromName(name);
-	//	ActorComponents::const_iterator findIt = m_components.find(id);
-	//	if (findIt != m_components.end())
-	//	{
-	//		ActorComponent* pBase(findIt->second.get());
-	//		ComponentType* pWeakSub = static_cast<ComponentType*>(pBase);
-	//		return pWeakSub;  // return the weak pointer
-	//	}
-	//	else
-	//	{
-	//		return nullptr;
-	//	}
-	//}
-
-	//template<class ComponentType>ComponentType* Actor::RemoveComponent(const char*  name)
-	//{
-	//	ComponentId id = ActorComponent::GetIdFromName(name);
-	//	ActorComponents::iterator findIt = m_components.find(id);
-	//	if (findIt != m_components.end())
-	//	{
-	//		ActorComponent* pBase(findIt->second.release());
-	//		m_components.erase(id);
-	//		ComponentType* pWeakSub = static_cast<ComponentType*>(pBase);
-	//		return pWeakSub;  // return the weak pointer
-	//	}
-	//	else
-	//	{
-	//		return nullptr;
-	//	}
-	//}
+	
 }

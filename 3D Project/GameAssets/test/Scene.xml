@@ -5,8 +5,8 @@
 	<Actor File="GameAssets\test\testEnity.xml" />
 	<!-- <Actor File="GameAssets\test\testEnity1.xml" /> -->
 	<Actor File="GameAssets\test\testEnity2.xml" />
-	<!-- <Actor File="GameAssets\test\testEnity3.xml" /> -->
-	<!-- <Actor File="GameAssets\test\testEnity4.xml" /> -->
+	<Actor File="GameAssets\test\testEnity3.xml" />
+	<Actor File="GameAssets\test\testEnity4.xml" />
 	<Actor File="GameAssets\test\testEnity5.xml" />
 	<Light>
 		<Direction x="-0.2" y="-1" z="-0.3">

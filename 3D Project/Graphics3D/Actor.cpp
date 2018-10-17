@@ -39,7 +39,7 @@ namespace Light
 	{
 	}
 
-	HRESULT Actor::VOnUpdate(Scene *pScene, float deltaMs)
+	HRESULT Actor::VOnUpdate(IScene *pScene, float deltaMs)
 	{
 		// update internal data
 		for (auto el : m_ObjectUpdate)
@@ -61,7 +61,7 @@ namespace Light
 
 	}
 
-	HRESULT Actor::VPostUpdate(Scene *pScene)
+	HRESULT Actor::VPostUpdate(IScene *pScene)
 	{
 
 
@@ -88,7 +88,7 @@ namespace Light
 	}
 
 
-	bool Actor::VIsVisible(Scene * pScene) const
+	bool Actor::VIsVisible(IScene * pScene) const
 	{
 		return true;
 	}

@@ -252,6 +252,7 @@
     <ClInclude Include="Interface\Renderer.h" />
     <ClInclude Include="Math\AABB.h" />
     <ClInclude Include="Math\Frustum.h" />
+    <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Math\Plane.h" />
     <ClInclude Include="Math\Ray.h" />
     <ClInclude Include="pch.h" />

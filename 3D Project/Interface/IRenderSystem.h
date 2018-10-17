@@ -3,7 +3,7 @@
 #include "ICamera.h"
 #include "..\Graphics3D\RenderPass.h"
 #include "IContext.h"
-
+#include "IEffectSystem.h"
 namespace Light
 {
 	namespace render

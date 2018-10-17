@@ -4,11 +4,16 @@
 #include "..\typedef.h"
 #include <string>
 
-class Scene;
+class IScene;
 namespace Light
 {
 	class IActor
 	{
+	public:
+		enum ActorType
+		{
+
+		};
 	public:
 
 		virtual ~IActor() = default;
@@ -22,10 +27,10 @@ namespace Light
 		virtual void		VSetTag(std::string tag) = 0;
 		virtual std::string	VGetTag() = 0;
 		virtual glm::mat4	VGetGlobalTransform() = 0;
-		virtual HRESULT		VOnUpdate(Scene *, float elapsedMs) = 0;
-		virtual HRESULT		VPostUpdate(Scene *) = 0;
+		virtual HRESULT		VOnUpdate(IScene *, float elapsedMs) = 0;
+		virtual HRESULT		VPostUpdate(IScene *) = 0;
 		virtual void		VPreRender(render::Material::MatrixParam& param) = 0;
-		virtual bool		VIsVisible(Scene *pScene) const = 0;
+		virtual bool		VIsVisible(IScene *pScene) const = 0;
 		virtual bool		VAddChild(IActor* kid) = 0;
 		virtual bool		VRemoveChild(ActorId id) = 0;
 		virtual IActor*		VGetChild(std::size_t index) = 0;

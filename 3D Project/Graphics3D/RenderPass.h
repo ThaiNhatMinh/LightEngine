@@ -10,6 +10,7 @@ namespace Light
 		{
 			IMeshRenderComponent*	m_RenderComponent;
 			ITransformComponent*	m_TransformComponent;
+			IAnimatorComponent*		pAnimator;
 			IActor*					m_pActor;
 			// More data because when object is destroyed we can't access m_pActor any more.
 			ActorId					m_ActorID;

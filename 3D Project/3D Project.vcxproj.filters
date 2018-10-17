@@ -304,6 +304,9 @@
     <ClInclude Include="Core\DebugRender.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Math\Math.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

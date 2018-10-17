@@ -209,6 +209,8 @@ namespace Light
 
 			IMeshRenderComponent* pMeshRender = pActor->GetComponent<IMeshRenderComponent>();
 			ITransformComponent* pTransform = pActor->GetComponent<ITransformComponent>();
+			IAnimatorComponent* pAnimatoor = pActor->GetComponent<IAnimatorComponent>();
+
 			if (pMeshRender == nullptr) return;
 
 			Renderable renderable;
@@ -216,6 +218,7 @@ namespace Light
 			renderable.m_pActor = pActor;
 			renderable.m_RenderComponent = pMeshRender;
 			renderable.m_TransformComponent = pTransform;
+			renderable.pAnimator = pAnimatoor;
 
 			pass->AddRenderObject(renderable);
 

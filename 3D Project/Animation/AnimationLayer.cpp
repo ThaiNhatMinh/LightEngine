@@ -138,6 +138,11 @@ void Light::AnimationLayer::SetCurrentState(AnimationState * pState)
 	m_CurrentAnimation = pState;
 }
 
+Light::AnimationState * Light::AnimationLayer::GetCurrentState()
+{
+	return m_CurrentAnimation;
+}
+
 void Light::AnimationLayer::Play(const std::string & name, bool loop)
 {
 	if (m_CurrentAnimation->GetName() == name)

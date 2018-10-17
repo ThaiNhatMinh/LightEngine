@@ -31,6 +31,7 @@ namespace Light
 		void							Update(float dt);
 		Light::FrameData				ComputerFrame(int i);
 		void							SetCurrentState(AnimationState* pState);
+		AnimationState*					GetCurrentState();
 		void							Play(const std::string & name, bool loop);
 		const std::string&				GetName();
 	private:

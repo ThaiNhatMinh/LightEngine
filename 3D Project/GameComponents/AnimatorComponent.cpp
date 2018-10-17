@@ -2,6 +2,7 @@
 #include "AnimatorComponent.h"
 #include "MeshRenderComponent.h"
 #include "..\Interface\IActor.h"
+#include "..\Math\AABB.h"
 bool Light::AnimatorComponent::VSerialize(IContext * pContext, const tinyxml2::XMLElement * pData)
 {
 	auto pResources = pContext->GetSystem<resources::IResourceManager>();
@@ -84,5 +85,11 @@ void Light::AnimatorComponent::VPreRender(render::Material::MatrixParam & param)
 
 	param[render::uSkeTransform] = glm::value_ptr(m_SkeTransform[0]);
 	param["numNode"] = (float*)m_iNumNode;
+}
+
+Light::math::AABB Light::AnimatorComponent::GetBox()
+{
+	auto layer = m_Layers.begin();
+	return (*layer)->GetCurrentState()->GetBox();
 }
 

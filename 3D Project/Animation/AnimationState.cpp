@@ -184,3 +184,8 @@ bool Light::AnimationState::IsFinish()
 	return m_bFinish;
 }
 
+Light::math::AABB Light::AnimationState::GetBox()
+{
+	return m_pAnimData->BV;
+}
+

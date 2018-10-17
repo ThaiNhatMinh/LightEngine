@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "DefaultPass.h"
 #include "..\..\Interface\IActor.h"
+#include "..\..\Math\Math.h"
+
 namespace Light
 {
 	render::DefaultRenderPass::DefaultRenderPass(const std::string & name, IContext * pContext)
@@ -22,11 +24,24 @@ namespace Light
 	{
 		if (m_ObjectList.size() == 0) return;
 		pRenderer->SetDepthState(pDepthStencilConfig.get());
-	
+		auto pfrustum = pCamera->GetFrustum();
 		
+		int numdraw = 0;
 		for (Renderable& renderable : m_ObjectList)
 		{
 			render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
+			math::AABB box = modelRender->GetBox();
+			glm::mat4 t = renderable.m_TransformComponent->GetTransform();
+			box = math::TrasformAABB(box, t);
+
+			
+			
+			if (renderable.pAnimator)
+			{
+				box = renderable.pAnimator->GetBox();
+				if (!pfrustum->Inside(box.Min, box.Max)) continue;
+			}else if (!pfrustum->Inside(box.Min, box.Max)) continue;
+
 			IActor* actor = renderable.m_pActor;
 			actor->VPreRender(param);
 			// computer transformation matrix
@@ -36,7 +51,11 @@ namespace Light
 			param[uCameraPos] = glm::value_ptr(pCamera->GetPosition());
 			// just draw it
 			modelRender->Draw(pRenderer, param);
+			numdraw++;
 		}
+
+		cout << numdraw << endl;
+		
 	}
 
 	void render::DefaultRenderPass::AddRenderObject(Renderable & Obj)
