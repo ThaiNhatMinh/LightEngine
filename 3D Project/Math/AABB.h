@@ -25,7 +25,6 @@ namespace Light
 				Max = max;
 			};
 			bool Intersect(const AABB& a);
-			void Insert(const glm::vec3& v);
 			void GenPoint(glm::vec3 a[8]);
 			void Translate(const glm::vec3& v)
 			{

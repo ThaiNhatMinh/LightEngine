@@ -8,6 +8,7 @@ namespace Light
 	render::DefaultRenderPass::DefaultRenderPass(const std::string & name, IContext * pContext)
 	{
 		auto pRS = pContext->GetSystem<IRenderSystem>();
+		m_pDebug = pRS->GetDebugRender();
 		auto pRenderer = pRS->GetRenderDevice();
 		m_name = name;
 
@@ -20,13 +21,13 @@ namespace Light
 		param[uCameraPos] = nullptr;
 	}
 
-	void render::DefaultRenderPass::Render(const glm::mat4& pv, RenderDevice* pRenderer, ICamera* pCamera)
+	void render::DefaultRenderPass::Render(RenderData& rd)
 	{
 		if (m_ObjectList.size() == 0) return;
-		pRenderer->SetDepthState(pDepthStencilConfig.get());
-		auto pfrustum = pCamera->GetFrustum();
+		rd.pRenderer->SetDepthState(pDepthStencilConfig.get());
+		auto pfrustum = rd.pCamera->GetFrustum();
 		
-		int numdraw = 0;
+	
 		for (Renderable& renderable : m_ObjectList)
 		{
 			render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
@@ -39,22 +40,24 @@ namespace Light
 			if (renderable.pAnimator)
 			{
 				box = renderable.pAnimator->GetBox();
+				box = math::TrasformAABB(box, t);
 				if (!pfrustum->Inside(box.Min, box.Max)) continue;
 			}else if (!pfrustum->Inside(box.Min, box.Max)) continue;
 
+			m_pDebug->DrawLineBox(box.Min, box.Max);
 			IActor* actor = renderable.m_pActor;
 			actor->VPreRender(param);
 			// computer transformation matrix
 			glm::mat4 model = actor->VGetGlobalTransform();
 			param[uMODEL] = glm::value_ptr(model);
-			param[uMVP] = glm::value_ptr(pv*model);
-			param[uCameraPos] = glm::value_ptr(pCamera->GetPosition());
+			param[uMVP] = glm::value_ptr(rd.pv*model);
+			param[uCameraPos] = glm::value_ptr(rd.pCamera->GetPosition());
 			// just draw it
-			modelRender->Draw(pRenderer, param);
-			numdraw++;
+			modelRender->Draw(rd,param);
+			
 		}
 
-		cout << numdraw << endl;
+		
 		
 	}
 

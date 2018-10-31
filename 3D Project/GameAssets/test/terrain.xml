@@ -1,0 +1,16 @@
+<Actor type="Terrain" name="Model" >
+  <Component>  
+	  <TerrainRender>
+		    <Model File="GameAssets\WORLD\heightmap.png" />
+		    <Texture File0 ="GameAssets\TEXTURES\TERRAIN\mntn_green_d.jpg" />
+	  </TerrainRender>
+	  
+	 <TransformComponent>
+		    <Position x="0" y="0" z="0"/>
+		    <YawPitchRoll x="0" y="0" z="0"/>
+	  </TransformComponent>
+  </Component>
+
+  <Children>
+  </Children>
+</Actor>

@@ -198,6 +198,7 @@
     <ClInclude Include="GameComponents\ScriptComponent.h" />
     <ClInclude Include="GameComponents\SoundListener.h" />
     <ClInclude Include="GameComponents\SoundSource3D.h" />
+    <ClInclude Include="GameComponents\TerrainRenderComponent.h" />
     <ClInclude Include="GameComponents\TransformComponent.h" />
     <ClInclude Include="GamePlugin\GamePluginManager.h" />
     <ClInclude Include="Graphics3D\Actor.h" />
@@ -301,6 +302,7 @@
     <ClCompile Include="GameComponents\ScriptComponent.cpp" />
     <ClCompile Include="GameComponents\SoundListener.cpp" />
     <ClCompile Include="GameComponents\SoundSource3D.cpp" />
+    <ClCompile Include="GameComponents\TerrainRenderComponent.cpp" />
     <ClCompile Include="GameComponents\TransformComponent.cpp" />
     <ClCompile Include="GamePlugin\GamePluginManager.cpp" />
     <ClCompile Include="Graphics3D\Actor.cpp" />

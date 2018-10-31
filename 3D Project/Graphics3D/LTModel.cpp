@@ -3,20 +3,20 @@
 
 namespace Light
 {
-	void LTModel::Draw(render::RenderDevice* pRenderer,  render::Material::MatrixParam& matrixParam)
+	void LTModel::Draw(render::RenderData& rd,  render::Material::MatrixParam& matrixParam)
 	{
 
 		for (std::size_t i = 0; i < Meshs.size(); i++)
 		{
 			
-			Materials[i]->Apply(pRenderer,matrixParam);
-			pRenderer->SetTexture(render::UNIT_DIFFUSE, Textures[i]);
-			Meshs[i]->Draw(pRenderer);
+			Materials[i]->Apply(rd.pRenderer,matrixParam);
+			rd.pRenderer->SetTexture(render::UNIT_DIFFUSE, Textures[i]);
+			Meshs[i]->Draw(rd.pRenderer);
 		}
 	}
 
 
-	render::Model::MeshList & LTModel::GetMeshs()
+	render::MeshList & LTModel::GetMeshs()
 	{
 		return Meshs;
 	}

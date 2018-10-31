@@ -43,15 +43,6 @@ namespace Light
 		return true;
 	}
 
-	void AABB::Insert(const vec3 & v)
-	{
-		if (v.x < Min.x) Min.x = v.x;
-		if (v.y < Min.y) Min.y = v.y;
-		if (v.z < Min.z) Min.z = v.z;
-		if (v.x > Max.x) Max.x = v.x;
-		if (v.y > Max.x) Max.y = v.y;
-		if (v.z > Max.x) Max.z = v.z;
-	}
 
 	void AABB::GenPoint(vec3 a[8])
 	{

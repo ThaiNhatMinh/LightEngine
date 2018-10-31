@@ -61,11 +61,11 @@ namespace Light
 		
 	}
 
-	void render::OutlineRenderPass::Render(const glm::mat4 & pv, RenderDevice* pRenderer, ICamera* pCamera)
+	void render::OutlineRenderPass::Render(RenderData& rd)
 	{
 		if (m_ObjectList.size() == 0) return;
 
-		pRenderer->SetStencilState(pStencilConfig1.get());
+		rd.pRenderer->SetStencilState(pStencilConfig1.get());
 
 		Material::MatrixParam param;
 
@@ -77,13 +77,13 @@ namespace Light
 			glm::mat4 model = actor->VGetGlobalTransform();
 
 			param[uMODEL] = glm::value_ptr(model);
-			param[uMVP] = glm::value_ptr(pv*model);
+			param[uMVP] = glm::value_ptr(rd.pv*model);
 			// just draw it
-			modelRender->Draw(pRenderer, param);
+			modelRender->Draw(rd, param);
 		}
 
-		pRenderer->SetStencilState(pStencilConfig2.get());
-		pRenderer->SetDepthState(pDepthConfig2.get());
+		rd.pRenderer->SetStencilState(pStencilConfig2.get());
+		rd.pRenderer->SetDepthState(pDepthConfig2.get());
 
 		for (Renderable& renderable : m_ObjectList)
 		{
@@ -93,17 +93,17 @@ namespace Light
 			glm::mat4 model = actor->VGetGlobalTransform();
 
 			param[uMODEL] = glm::value_ptr(model);
-			param[uMVP] = glm::value_ptr(pv*model);
+			param[uMVP] = glm::value_ptr(rd.pv*model);
 
-			pGlobalMaterial->Apply(pRenderer, param);
+			pGlobalMaterial->Apply(rd.pRenderer, param);
 
 			// just draw it
-			Model::MeshList& meshs = modelRender->GetMeshs();
+			MeshList& meshs = modelRender->GetMeshs();
 			for (auto& mesh : meshs)
-				mesh->Draw(pRenderer);
+				mesh->Draw(rd.pRenderer);
 		}
-		pRenderer->SetStencilState(pStencilConfig3.get());
-		pRenderer->SetDepthState(pDepthConfig3.get());
+		rd.pRenderer->SetStencilState(pStencilConfig3.get());
+		rd.pRenderer->SetDepthState(pDepthConfig3.get());
 	}
 
 	void render::OutlineRenderPass::AddRenderObject(Renderable & Obj)

@@ -21,7 +21,7 @@ namespace Light
 			return result;
 		}
 
-		AABB TrasformAABB(AABB box,glm::mat4 trasform)
+		static AABB TrasformAABB(AABB box,glm::mat4 trasform)
 		{
 			glm::vec3 v[8];
 			box.GenPoint(v);
@@ -30,7 +30,7 @@ namespace Light
 			for (int i = 0; i < 8; i++)
 			{
 				v[i] = trasform * glm::vec4(v[i],1.0f);
-				newbox.Insert(v[i]);
+				newbox.Test(v[i]);
 			}
 			return newbox;
 		}

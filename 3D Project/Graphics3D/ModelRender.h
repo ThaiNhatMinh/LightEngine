@@ -10,16 +10,17 @@ namespace Light
 {
 	namespace render
 	{
-		
+		typedef std::vector<std::unique_ptr<Mesh>> MeshList;
+
 		class Model
 		{
 		public:
-			typedef std::vector<std::unique_ptr<Mesh>> MeshList;
+			
 
 		public:
 			
 			virtual ~Model(){};
-			virtual void Draw(render::RenderDevice* pRenderer,  Material::MatrixParam& matrixParam) = 0;
+			virtual void Draw(RenderData& rd,  Material::MatrixParam& matrixParam) = 0;
 			virtual MeshList& GetMeshs() = 0;
 			virtual math::AABB GetBox() = 0;
 		};

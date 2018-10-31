@@ -19,7 +19,7 @@ namespace Light
 			std::unique_ptr<DepthState> pDepthConfig3;
 		public:
 			OutlineRenderPass(const std::string& name, IContext* pContext);
-			virtual void Render(const glm::mat4& pv, RenderDevice* pRenderer, ICamera* pCamera)override;
+			virtual void Render(RenderData& rd)override;
 			virtual void AddRenderObject(Renderable& Obj)override;
 			virtual IActor* RemoveRenderObject(ActorId id)override;
 		};

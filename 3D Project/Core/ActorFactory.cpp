@@ -12,6 +12,7 @@
 #include "..\GameComponents\RigidBodyComponent.h"
 #include "..\GameComponents\SoundListener.h"
 #include "..\GameComponents\SoundSource3D.h"
+#include "..\GameComponents\TerrainRenderComponent.h"
 #include "..\Graphics3D\DefaultMaterial.h"
 #include "..\Graphics3D\SkeletonMaterial.h"
 #include "..\Graphics3D\Scene.h"
@@ -34,6 +35,8 @@ namespace Light
 		m_ComponentFactoryMap.insert(std::make_pair("Script", []() { return DEBUG_NEW ScriptComponent(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("SoundListener", []() { return  DEBUG_NEW SoundListener(); }));
 		m_ComponentFactoryMap.insert(std::make_pair("SoundSource3D", []() { return  DEBUG_NEW SoundSource3D(); }));
+		m_ComponentFactoryMap.insert(std::make_pair("TerrainRender", []() { return  DEBUG_NEW TerrainRenderComponent(); }));
+
 		auto CameraFunc = [&]()
 		{
 			CameraComponent* pCam = DEBUG_NEW CameraComponent();

@@ -3,6 +3,7 @@
 #include "..\..\Interface\IRenderSystem.h"
 #include "..\RenderPass.h"
 #include "..\Material.h"
+#include "..\..\Interface\IDebugRender.h"
 namespace Light
 {
 	namespace render
@@ -17,9 +18,10 @@ namespace Light
 			std::unique_ptr<DepthState> pDepthStencilConfig;
 			Material::MatrixParam param;
 			IRenderSystem* m_pRS;
+			IDebugRender* m_pDebug;
 		public:
 			DefaultRenderPass(const std::string& name, IContext* pContext);
-			virtual void Render(const glm::mat4& pv, RenderDevice* pRenderer, ICamera* pCamera)override;
+			virtual void Render(RenderData& rd)override;
 			virtual void AddRenderObject(Renderable& Obj)override;
 			virtual IActor* RemoveRenderObject(ActorId id)override;
 		};

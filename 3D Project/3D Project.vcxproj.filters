@@ -307,6 +307,9 @@
     <ClInclude Include="Math\Math.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="GameComponents\TerrainRenderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -478,6 +481,9 @@
     </ClCompile>
     <ClCompile Include="Core\RenderSystem.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\TerrainRenderComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

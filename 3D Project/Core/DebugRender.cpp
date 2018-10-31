@@ -66,7 +66,7 @@ namespace Light
 
 	void DebugRender::Render()
 	{
-		
+		m_pRenderer->SetDepth(false);
 		auto camera = m_pRS->VGetCurrentCamera();
 
 		glm::mat4 PV = camera->GetProjMatrix() * camera->GetViewMatrix();

@@ -24,9 +24,9 @@ namespace Light
 		std::vector<std::string>						ChildName;
 		std::vector<Animation>					Anims;
 		std::vector<LTBSocket>					Sockets;*/
-		virtual void Draw(render::RenderDevice* pRenderer,  render::Material::MatrixParam& matrixParam)override;
+		virtual void Draw(render::RenderData& rd,  render::Material::MatrixParam& matrixParam)override;
 
-		virtual MeshList& GetMeshs()override;
+		virtual render::MeshList& GetMeshs()override;
 		virtual math::AABB GetBox()override;
 	private:
 	};

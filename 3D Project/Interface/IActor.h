@@ -7,13 +7,14 @@
 class IScene;
 namespace Light
 {
+	struct ActorProperty
+	{
+
+	};
 	class IActor
 	{
 	public:
-		enum ActorType
-		{
-
-		};
+		
 	public:
 
 		virtual ~IActor() = default;

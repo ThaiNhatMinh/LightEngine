@@ -2,21 +2,21 @@
 #include "DefaultModel.h"
 namespace Light
 {
-	void DefaultModel::Draw(render::RenderDevice* pRenderer,  render::Material::MatrixParam& matrixParam)
+	void DefaultModel::Draw(render::RenderData& rd,  render::Material::MatrixParam& matrixParam)
 	{
 		for (std::size_t i = 0; i < Meshs.size(); i++)
 		{
 			
-			Materials[i]->Apply(pRenderer, matrixParam,this->MatParam[i]);
+			Materials[i]->Apply(rd.pRenderer, matrixParam,this->MatParam[i]);
 			//pRenderer->SetTexture(render::UNIT_AMBIENT, Ambient[i]);
-			pRenderer->SetTexture(render::UNIT_DIFFUSE, Diffuse[i]);
+			rd.pRenderer->SetTexture(render::UNIT_DIFFUSE, Diffuse[i]);
 			//pRenderer->SetTexture(render::UNIT_SPECULAR, Specular[i]);
-			Meshs[i]->Draw(pRenderer);
+			Meshs[i]->Draw(rd.pRenderer);
 		}
 	}
 
 
-	render::Model::MeshList & Light::DefaultModel::GetMeshs()
+	render::MeshList & Light::DefaultModel::GetMeshs()
 	{
 		return Meshs;
 	}

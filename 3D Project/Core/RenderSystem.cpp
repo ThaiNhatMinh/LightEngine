@@ -29,7 +29,7 @@ namespace Light
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<RenderSystem>(this, &RenderSystem::OnSceneCreate), events::EvtSceneCreate::StaticType);
 
 
-			m_DefaultPass = std::unique_ptr<RenderPass>(DEBUG_NEW DefaultRenderPass("Default", m_pContext));
+			
 
 			
 		}
@@ -45,21 +45,27 @@ namespace Light
 			m_pRenderer->Clear();
 			// if there was no camera, so we can't see anything
 			if (m_pCurrentCamera == nullptr) return;
-
-			glm::mat4 pv = m_pCurrentCamera->GetProjMatrix()*m_pCurrentCamera->GetViewMatrix();
+			RenderData rd;
+			rd.pCamera = m_pCurrentCamera;
+			rd.pRenderer = m_pRenderer;
+			rd.proj = m_pCurrentCamera->GetProjMatrix();
+			rd.view = m_pCurrentCamera->GetViewMatrix();
+			rd.pv = rd.proj * rd.view;
+			
 
 			{// pass default
-				m_DefaultPass->Render(pv,m_pRenderer,m_pCurrentCamera);
+				m_DefaultPass->Render(rd);
 			}
 			{// pass extra
 				for (auto& pass : m_ExtraPass)
 				{
-					pass->Render(pv, m_pRenderer, m_pCurrentCamera);
+					pass->Render(rd);
 				}
 			}
-
+			
 			m_pScene->VOnRender();
 			m_pEffectSystem->VRender();
+			m_pDebuger->Render();
 		}
 
 		render::ICamera * RenderSystem::VGetCurrentCamera()
@@ -131,8 +137,10 @@ namespace Light
 		}
 		void RenderSystem::PostInit()
 		{
+			
 			m_pEffectSystem = std::unique_ptr<IEffectSystem>(DEBUG_NEW EffectSystem(m_pContext));
 			m_pDebuger = std::unique_ptr<IDebugRender>(DEBUG_NEW DebugRender(m_pContext));
+			m_DefaultPass = std::unique_ptr<RenderPass>(DEBUG_NEW DefaultRenderPass("Default", m_pContext));
 		}
 		typedef Light::render::RenderDevice* (*CreateInterfaceFn)();
 		void RenderSystem::LoadRenderDevice()

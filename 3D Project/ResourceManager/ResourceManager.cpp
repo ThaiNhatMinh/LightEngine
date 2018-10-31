@@ -140,8 +140,6 @@ namespace Light
 		HeightMap* ResourceManager::LoadHeightMap(const string& filename, int stepsize, int w, int h, float hscale, int sub)
 		{
 			HeightMap* hm = nullptr;
-			hm = HasResource(m_HeightMaps,filename);
-			if (hm != nullptr) return hm;
 
 			GLint width, height, iType, iBpp;
 
@@ -271,7 +269,6 @@ namespace Light
 
 			hm->m_Vertexs = vertex;
 			hm->m_Indices = Index;
-			m_HeightMaps.push_back(ResourceHandle<HeightMap>(filename,hm));
 
 			return hm;
 		}
@@ -688,7 +685,7 @@ namespace Light
 					dv.uv = vec2(UVW.x, UVW.y);
 					vertexs.push_back(dv);
 
-					pModel->Box.Insert(dv.pos);
+					pModel->Box.Test(dv.pos);
 				}
 				for (size_t j = 0; j < mesh->mNumFaces; j++)
 				{
@@ -825,7 +822,10 @@ namespace Light
 			hm = HasResource(m_HeightMaps,filename);
 			if (hm == nullptr)
 			{
-				E_ERROR("Could not find heightmap: %s", filename.c_str());
+				hm = LoadHeightMap(filename,20,-1,-1,10,16);
+				if(hm==nullptr) E_ERROR("Could not find heightmap: %s", filename.c_str());
+				else m_HeightMaps.push_back(ResourceHandle<HeightMap>(filename, hm));
+				
 			}
 			return hm;
 		}
