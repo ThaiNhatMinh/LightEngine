@@ -114,6 +114,7 @@ namespace physics
 		virtual void	drawLine(const btVector3& from, const btVector3& to, const btVector3& color) override;
 
 		IDebugRender* m_pDebuger;
+		IContext* m_pContext;
 	public:
 		BulletPhysics(IContext * c);				// [mrmike] This was changed post-press to add event registration!
 		virtual ~BulletPhysics();
@@ -125,7 +126,7 @@ namespace physics
 		virtual void VOnUpdate(float deltaSeconds) override;
 		virtual void VPostStep(float timeStep);
 		virtual void VPreStep(float timeStep);
-
+		virtual void PostInit()override;
 		virtual void VRemoveActor(ActorId id) override;
 		// Debugging
 		virtual void VRenderDiagnostics() override;

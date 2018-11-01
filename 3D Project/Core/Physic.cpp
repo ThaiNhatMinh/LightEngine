@@ -35,7 +35,7 @@ static bool CustomMaterialCombinerCallback(btManifoldPoint& cp, const btCollisio
 	return true;
 }
 
-BulletPhysics::BulletPhysics(IContext * c)
+BulletPhysics::BulletPhysics(IContext * c):m_pContext(c)
 {
 	/*REGISTER_EVENT(EvtData_PhysTrigger_Enter);
 	REGISTER_EVENT(EvtData_PhysTrigger_Leave);
@@ -44,7 +44,7 @@ BulletPhysics::BulletPhysics(IContext * c)
 	REGISTER_EVENT(EvtData_PhysCollisionEnd);*/
 
 	m_pEventManager = c->GetSystem<IEventManager>();
-	m_pDebuger = c->GetSystem<IDebugRender>();
+	
 	LoadXml();
 
 	gContactAddedCallback = CustomMaterialCombinerCallback;
@@ -174,6 +174,7 @@ void BulletPhysics::VOnUpdate(float const deltaSeconds)
 void BulletPhysics::VRenderDiagnostics()
 {
 	m_dynamicsWorld->debugDrawWorld();
+	
 }
 
 void BulletPhysics::RayCast(PhysicsRaycastResult & result, const math::Ray & r, float maxdistance, unsigned mask)
@@ -263,6 +264,11 @@ void BulletPhysics::VPreStep(float timeStep)
 {
 	std::shared_ptr<IEvent>pEvent(DEBUG_NEW events::EvtPhysPreStep(timeStep));
 	m_pEventManager->VTriggerEvent(pEvent);
+}
+
+void BulletPhysics::PostInit()
+{
+	m_pDebuger = m_pContext->GetSystem<IDebugRender>();
 }
 
 /////////////////////////////////////////////////////////////////////////////

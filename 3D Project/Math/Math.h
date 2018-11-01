@@ -37,5 +37,7 @@ namespace Light
 
 		std::vector<DefaultVertex> GenerateVertexData(resources::HeightMap * hm, int size, int w, int h, float hscale, int sub);
 		std::vector<unsigned int> GenerateIndicesData(resources::HeightMap * hm,int numSub);
+		std::vector<unsigned int> GenerateIndicesData(resources::HeightMap * hm);
+		
 	}
 }

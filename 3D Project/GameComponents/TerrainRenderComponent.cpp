@@ -42,7 +42,7 @@ namespace Light
 
 	TerrainRenderComponent::~TerrainRenderComponent()
 	{
-
+		delete m_pModel;
 	}
 
 	void TerrainRenderComponent::GenerateMeshData(render::RenderDevice* pRenderDevice, IFactory* pFactory, resources::HeightMap * hm, render::Texture* pText)

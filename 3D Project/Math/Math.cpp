@@ -16,8 +16,8 @@ std::vector<DefaultVertex> Light::math::GenerateVertexData(resources::HeightMap 
 	auto heightF = [hm, width, height, t, hscale](int x, int z) {
 		if (x < 0) x = 0;
 		if (z < 0) z = 0;
-		if (x >= width) x = width;
-		if (z >= height) z = height;
+		if (x >= width) x = width-1;
+		if (z >= height) z = height-1;
 		int b = (int)(z*width + x);
 		return (hm->Data[b] - t)*hscale;
 	};
@@ -78,5 +78,24 @@ std::vector<unsigned int> Light::math::GenerateIndicesData(resources::HeightMap 
 		}
 
 
+	return Index;
+}
+
+std::vector<unsigned int> Light::math::GenerateIndicesData(resources::HeightMap * hm)
+{
+	std::vector<unsigned int> Index;
+	int height = hm->Height;
+	int width = hm->Width;
+	for (int i = 0; i < height - 1; i++)
+		for (int j = 0; j < width - 1; j++)
+		{
+			Index.push_back(j + (i + 1)*width + 1);
+			Index.push_back(j + i * width + 1);
+			Index.push_back(j + i * width);
+
+			Index.push_back(j + (i + 1)*width);
+			Index.push_back(j + (i + 1)*width + 1);
+			Index.push_back(j + i * width);
+		}
 	return Index;
 }

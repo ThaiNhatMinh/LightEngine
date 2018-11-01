@@ -126,13 +126,9 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		resources::HeightMap* hm = pContex->GetSystem<resources::IResourceManager>()->VGetHeightMap(path);
 		
 		auto vertexs = math::GenerateVertexData(hm, stepsize, hm->Width, hm->Height, hscale, numSub);
-		auto indices = math::GenerateIndicesData(hm, numSub);
-		//Mesh* m = static_cast<Mesh*>(hm->m_Mesh.get());
-		int totaltriangle = vertexs.size() / 3;
-		int totalVerts = indices.size();
-		int indexStride = sizeof(unsigned int) * 3;
-		int vertStride = sizeof(DefaultVertex);
-		btTriangleIndexVertexArray* pIntexVertexArray = new btTriangleIndexVertexArray(totaltriangle, (int*)&indices[0], indexStride, totalVerts, (btScalar*)&vertexs[0], vertStride);
+		auto indices = math::GenerateIndicesData(hm);
+		
+		btTriangleIndexVertexArray* pIntexVertexArray = new TriangleData(vertexs,indices);
 		TriangleMesh* pShape = new TriangleMesh(pIntexVertexArray, true, true);
 		btTriangleInfoMap* triangleInfoMap = new btTriangleInfoMap();
 
@@ -151,6 +147,24 @@ TriangleMesh::TriangleMesh(btStridingMeshInterface *meshInterface, bool useQuant
 TriangleMesh::~TriangleMesh()
 {
 	
+}
+TriangleData::TriangleData(std::vector<DefaultVertex> vertexs, std::vector<unsigned int> indices):vertexs(vertexs),indices(indices)
+{
+	int totaltriangle = indices.size() / 3;
+	int totalVerts = vertexs.size();
+	int indexStride = sizeof(unsigned int) * 3;
+	int vertStride = sizeof(DefaultVertex);
+
+	btIndexedMesh mesh;
+
+	mesh.m_numTriangles = totaltriangle;
+	mesh.m_triangleIndexBase = (const unsigned char *)&(this->indices[0]);
+	mesh.m_triangleIndexStride = indexStride;
+	mesh.m_numVertices = totalVerts;
+	mesh.m_vertexBase = (const unsigned char *)&(this->vertexs[0]);
+	mesh.m_vertexStride = vertStride;
+	
+	addIndexedMesh(mesh);
 }
 }
 }

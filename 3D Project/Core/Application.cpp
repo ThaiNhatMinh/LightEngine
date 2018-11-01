@@ -58,6 +58,7 @@ void Application::SetupSubmodule()
 
 	m_pResources->PostInit();
 	m_pRenderer->PostInit();
+	m_pPhysic->PostInit();
 	m_pActorFactory->PostInit();
 	m_pSystemUI->PostInit();
 

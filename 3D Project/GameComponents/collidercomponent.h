@@ -27,6 +27,14 @@ namespace Light
 			std::unique_ptr<btTriangleInfoMap>			m_pInfoMap;
 		};
 
+		class TriangleData : public btTriangleIndexVertexArray
+		{
+		public:
+			TriangleData(std::vector<DefaultVertex> vertexs, std::vector<unsigned int> indices);
+		private:
+			std::vector<DefaultVertex> vertexs;
+			std::vector<unsigned int> indices;
+		};
 		class ColliderComponent : public IColliderComponent
 		{
 			friend class RigidBodyComponent;

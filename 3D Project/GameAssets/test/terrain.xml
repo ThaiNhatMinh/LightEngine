@@ -1,17 +1,32 @@
-<Actor type="Terrain" name="Model" >
-  <Component>  
-	  <TerrainRender>
-		    <Model File="GameAssets\WORLD\heightmap.png" />
-		    <Texture File0 ="GameAssets\TEXTURES\TERRAIN\mntn_green_d.jpg" />
-				<Param StepSize="100" HScale="10" NumSub="16"/>
-	  </TerrainRender>
-	  
-	 <TransformComponent>
-		    <Position x="0" y="0" z="0"/>
-		    <YawPitchRoll x="0" y="0" z="0"/>
-	  </TransformComponent>
-  </Component>
+<Actor type="Terrain" name="Model">
+	<Component>
+	<TransformComponent>
+			<Position x="0" y="0" z="0"/>
+			<YawPitchRoll x="0" y="0" z="0"/>
+		</TransformComponent>
+		<ColliderComponent>
+			<Shape>TriangleMesh</Shape>
+			<File Path="GameAssets\WORLD\heightmap.png"/>
+			<Param StepSize="10" HScale="4" NumSub="16"/>
+		</ColliderComponent>
 
-  <Children>
-  </Children>
+		<RigidBodyComponent>
+			<Mass value="0.0" />
+			<PhysicsMaterial>Static</PhysicsMaterial>
+			<RigidBodyTransform>
+				<Position x="0.0" y="0.0" z="0.0"/>
+			</RigidBodyTransform>
+		</RigidBodyComponent>
+
+		<TerrainRender>
+			<Model File="GameAssets\WORLD\heightmap.png" />
+			<Texture File0 ="GameAssets\TEXTURES\TERRAIN\mntn_green_d.jpg" />
+			<Param StepSize="10" HScale="4" NumSub="16"/>
+		</TerrainRender>
+
+		
+	</Component>
+
+	<Children>
+	</Children>
 </Actor>

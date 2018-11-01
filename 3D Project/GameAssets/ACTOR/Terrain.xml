@@ -1,6 +1,9 @@
 <Actor type="World" name="Terrain" State="0">
 
-  
+	<TransformComponent>
+		<Position x="0" y="0" z="0"/>
+		<YawPitchRoll x="0" y="0" z="0"/>
+	</TransformComponent>
 	<Component>
 		<ColliderComponent>
 			<Shape>TriangleMesh</Shape>
@@ -13,16 +16,13 @@
 			<RigidBodyTransform>
 				<Position x="0.0" y="0.0" z="0.0"/>
 			</RigidBodyTransform>
-		 </RigidBodyComponent>
-  
-		<TransformComponent>
-			<Position x="0" y="0" z="0"/>
-			<YawPitchRoll x="0" y="0" z="0"/>
-		</TransformComponent>
+		</RigidBodyComponent>
+
+
 		<TerrainRenderComponent>
 			<Model File="WORLD\heightmap.png" />
 			<Texture File0 ="TEXTURES\TERRAIN\mntn_green_d.jpg" />
 			<Shader name="Terrain" />
-		</TerrainRenderComponent>	
-   </Component>
+		</TerrainRenderComponent>
+	</Component>
 </Actor>
