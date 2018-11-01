@@ -9,14 +9,14 @@
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:233| ObjectRender add: 707_No
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:233| ObjectRender add: 707
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:233| ObjectRender add: Model
-[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:379| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0000.DTX
-[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:379| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0006.DTX
-[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:379| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0008.DTX
-[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:379| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0012.DTX
-[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:379| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0014.DTX
-[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:379| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0018.DTX
-[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:379| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0020.DTX
-[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:379| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0022.DTX
-[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:379| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0024.DTX
-[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:379| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0026.DTX
-[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:379| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0028.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:389| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0000.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:389| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0006.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:389| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0008.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:389| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0012.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:389| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0014.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:389| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0018.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:389| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0020.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:389| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0022.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:389| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0024.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:389| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0026.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:389| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0028.DTX

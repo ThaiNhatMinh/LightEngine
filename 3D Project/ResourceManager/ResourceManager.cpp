@@ -173,47 +173,49 @@ namespace Light
 				{
 					int b = i * width*iBpp + j * iBpp;
 
-
+					c = i * width + j;
 					pRawData[c] = (Data[b] + Data[b + 1] + Data[b + 2]) / 3.0;
 					//pRawData[c] = 10;
 					if (min > pRawData[c]) min = pRawData[c];
 					if (max < pRawData[c]) max = pRawData[c];
-					c++;
+					
 				}
 			}
 
-
 			
-			//// computer indices
-			//GLuint cnt = 0;
-			//for (int i = 0; i < height - 1; i++)
-			//	for (int j = 0; j < width - 1; j++)
-			//	{
-			//		Index.push_back(j + (i + 1)*width + 1);
-			//		Index.push_back(j + i * width + 1);
-			//		Index.push_back(j + i * width);
 
-			//		Index.push_back(j + (i + 1)*width);
-			//		Index.push_back(j + (i + 1)*width + 1);
-			//		Index.push_back(j + i * width);
-			//	}
+			auto average = [width, height](unsigned char* pData, int i, int j)
+			{
+				float avg = 0.0f;
+				float num = 0.0f;
+				for (int m = i - 1; m <= i + 1; m++)
+				{
+					for (int n = j - 1; n <= j + 1; n++)
+					{
+						avg += pData[m*width + n];
+						num++;
+					
+					}
+				}
+				
+ 				return avg / num;
+				
+			};
 
-			// comput
-
+			GLubyte* pRawData2 = DEBUG_NEW GLubyte[width*height];
+			for (int i = 1; i < height-1; i++)
+				for (int j = 1; j < width-1; j++)
+					pRawData2[i*width + j] = average(pRawData, i, j);
+				
+			delete[] pRawData;
 			ilResetMemory();
 			hm = DEBUG_NEW HeightMap();
-			hm->Data = std::unique_ptr<GLubyte[]>(pRawData);
+			hm->Data = std::unique_ptr<GLubyte[]>(pRawData2);
 			hm->Width = width;
 			hm->Height = height;
-			//hm->stepsize = stepsize;
 			hm->maxH = max;
 			hm->minH = min;
-			//hm->hscale = hscale;
-			//hm->numSub = sub;
-			// [TODO]- Devide large mesh into small mesh
-
-			//hm->m_Vertexs = vertex;
-			//hm->m_Indices = Index;
+		
 
 			return hm;
 		}
