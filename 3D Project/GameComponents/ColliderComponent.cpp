@@ -9,6 +9,7 @@
 #include "AnimatorComponent.h"
 
 #include "collidercomponent.h"
+#include "..\Math\Math.h"
 namespace Light
 {
 namespace physics
@@ -97,7 +98,7 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		//m_pCollisionShape->setMargin(0);
 		m_Type = SHAPE_CHARACTER;
 	}
-	else if (name == "HeightMap")
+	/*else if (name == "HeightMap")
 	{
 		const tinyxml2::XMLElement* pFile = pData->FirstChildElement("File");
 		if (pFile == nullptr) return;
@@ -109,9 +110,14 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		m_pCollisionShape->setLocalScaling(localScaling);
 		m_MM = vec2(hm->minH, hm->maxH);
 		m_Type = SHAPE_TERRAIN;
-	}
+	}*/
 	else if (name == "TriangleMesh")
 	{
+		auto pParam = pData->FirstChildElement("Param");
+		int stepsize = pParam->Int64Attribute("StepSize", 50);
+		int hscale = pParam->Int64Attribute("HScale", 10);
+		int numSub = pParam->Int64Attribute("NumSub", 2);
+
 		const tinyxml2::XMLElement* pFile = pData->FirstChildElement("File");
 		if (pFile == nullptr) return;
 		const char* path = pFile->Attribute("Path");
@@ -119,12 +125,14 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 
 		resources::HeightMap* hm = pContex->GetSystem<resources::IResourceManager>()->VGetHeightMap(path);
 		
+		auto vertexs = math::GenerateVertexData(hm, stepsize, hm->Width, hm->Height, hscale, numSub);
+		auto indices = math::GenerateIndicesData(hm, numSub);
 		//Mesh* m = static_cast<Mesh*>(hm->m_Mesh.get());
-		int totaltriangle = hm->m_Indices.size() / 3;
-		int totalVerts = hm->m_Vertexs.size();
+		int totaltriangle = vertexs.size() / 3;
+		int totalVerts = indices.size();
 		int indexStride = sizeof(unsigned int) * 3;
 		int vertStride = sizeof(DefaultVertex);
-		btTriangleIndexVertexArray* pIntexVertexArray = new btTriangleIndexVertexArray(totaltriangle, (int*)&hm->m_Indices[0], indexStride, totalVerts, (btScalar*)&hm->m_Vertexs[0], vertStride);
+		btTriangleIndexVertexArray* pIntexVertexArray = new btTriangleIndexVertexArray(totaltriangle, (int*)&indices[0], indexStride, totalVerts, (btScalar*)&vertexs[0], vertStride);
 		TriangleMesh* pShape = new TriangleMesh(pIntexVertexArray, true, true);
 		btTriangleInfoMap* triangleInfoMap = new btTriangleInfoMap();
 

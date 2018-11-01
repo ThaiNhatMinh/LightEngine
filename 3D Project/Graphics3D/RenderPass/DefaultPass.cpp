@@ -44,7 +44,7 @@ namespace Light
 				if (!pfrustum->Inside(box.Min, box.Max)) continue;
 			}else if (!pfrustum->Inside(box.Min, box.Max)) continue;
 
-			m_pDebug->DrawLineBox(box.Min, box.Max);
+			//m_pDebug->DrawLineBox(box.Min, box.Max);
 			IActor* actor = renderable.m_pActor;
 			actor->VPreRender(param);
 			// computer transformation matrix

@@ -27,6 +27,11 @@ namespace Light
 			virtual render::MeshList& GetMeshs()override;
 			virtual math::AABB GetBox()override;
 		};
+		float stepsize;
+		float hscale;
+		
+		uint32 numSub;
+
 		float m_fScale;
 		//Material m_Material;
 	public:
@@ -36,6 +41,8 @@ namespace Light
 		~TerrainRenderComponent();
 	private:
 		void GenerateMeshData(render::RenderDevice* pRenderDevice, IFactory*,resources::HeightMap * hm, render::Texture* pText);
+		
+		
 	};
 
 }

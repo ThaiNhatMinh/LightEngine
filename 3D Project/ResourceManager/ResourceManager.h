@@ -65,7 +65,7 @@ namespace Light
 			
 			DefaultModel *			LoadObjModel(const std::string filename);
 			SpriteData*				LoadSpriteAnimation(const std::string& filename);
-			HeightMap*				LoadHeightMap(const std::string& filename, int size, int w, int h, float hscale, int sub);
+			HeightMap*				LoadHeightMap(const std::string& filename);
 			render::Texture*		LoadTexture(const std::string& filename);
 			render::Texture*		LoadCubeTex(const std::vector<std::string>& filelist);
 			render::Texture*		LoadDTX(const std::string& filename);

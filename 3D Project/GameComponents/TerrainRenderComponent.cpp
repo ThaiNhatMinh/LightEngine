@@ -11,6 +11,11 @@ namespace Light
 		if (!pData) return false;
 		const tinyxml2::XMLElement* pModelPath = pData->FirstChildElement("Model");
 
+		auto pParam = pData->FirstChildElement("Param");
+		stepsize = pParam->Int64Attribute("StepSize", 50);
+		hscale = pParam->Int64Attribute("HScale", 10);
+		numSub = pParam->Int64Attribute("NumSub", 2);
+
 		const char* pFileName = pModelPath->Attribute("File");
 		if (pFileName)
 		{
@@ -26,6 +31,7 @@ namespace Light
 			
 			return true;
 		}
+
 		return false;
 	}
 
@@ -33,45 +39,6 @@ namespace Light
 	{
 		return nullptr;
 	}
-
-	//void TerrainRenderComponent::Render(Scene *pScene)
-	//{
-	//	if (m_MeshList.empty()) return;
-	//	m_pShader->SetupRender(pScene, m_pOwner);
-
-
-
-	//	m_pShader->SetUniform("scale", m_fScale);
-
-	//	m_pShader->SetUniform("gMaterial.Ka", m_Material.Ka);
-	//	m_pShader->SetUniform("gMaterial.Kd", m_Material.Kd);
-	//	m_pShader->SetUniform("gMaterial.Ks", m_Material.Ks);
-	//	m_pShader->SetUniform("gMaterial.exp", m_Material.exp);
-
-	//	ICamera* pCam = pScene->GetCurrentCamera();
-	//	Frustum* pFrustum = pCam->GetFrustum();
-	//	int numdraw = 0;
-	//	//glPolygonMode(GL_FRONT, GL_LINE);
-	//	for (size_t i = 0; i < m_MeshList.size(); i++)
-	//	{
-	//		SubGrid* pGrid = static_cast<SubGrid*>(m_MeshList[i]);
-
-	//		if (!pFrustum->Inside(pGrid->box.Min, pGrid->box.Max)) continue;
-
-	//		m_MeshList[i]->Tex->Bind();
-
-	//		// ------- Render mesh ----------
-	//		//m_pRenderer->SetVertexArrayBuffer(m_MeshList[i]->VAO);
-	//		m_MeshList[i]->VAO.Bind();
-	//		m_pRenderer->SetDrawMode(m_MeshList[i]->Topology);
-	//		m_pRenderer->DrawElement(m_MeshList[i]->NumIndices, GL_UNSIGNED_INT, 0);
-	//		numdraw++;
-	//	}
-
-	//	ImGui::Text("Num SubGrid draw: %d in total %d", numdraw, m_MeshList.size());
-
-
-	//}
 
 	TerrainRenderComponent::~TerrainRenderComponent()
 	{
@@ -83,19 +50,20 @@ namespace Light
 		auto pModel = DEBUG_NEW TerrainModel();
 		this->m_pModel = pModel;
 		math::AABB box;
-		std::size_t numMesh = hm->numSub;			// Num SubMesh device by row and collum
+		std::size_t numMesh = numSub;			// Num SubMesh device by row and collum
 		std::size_t numvert = hm->Width / numMesh;	// Num vertices per SubMesh in Row/Collum
 
 		int xpos = 0, zpos = 0;
 		int pos[2] = { xpos,zpos };
 
+		auto vertexs = math::GenerateVertexData(hm, stepsize, hm->Width, hm->Height, hscale, numSub);
 		std::vector<std::vector<DefaultVertex>> vertexList;
 		for (int i = 0; i < numMesh; i++)
 		{
 			for (int j = 0; j < numMesh; j++)
 			{
 				std::vector<DefaultVertex> vertex;
-				vertex = Light::math::CopySubMatrix(hm->m_Vertexs, pos, numvert);
+				vertex = Light::math::CopySubMatrix(vertexs, pos, numvert);
 				vertexList.push_back(vertex);
 				pos[0] += numvert - 1;
 			}
@@ -103,19 +71,8 @@ namespace Light
 			pos[1] += numvert - 1;
 		}
 
-		std::vector<unsigned int> Index;
-		std::size_t cnt = 0;
-		for (std::size_t i = 0; i < numvert - 1; i++)
-			for (std::size_t j = 0; j < numvert - 1; j++)
-			{
-				Index.push_back(j + (i + 1)*numvert + 1);
-				Index.push_back(j + i * numvert + 1);
-				Index.push_back(j + i * numvert);
-
-				Index.push_back(j + (i + 1)*numvert);
-				Index.push_back(j + (i + 1)*numvert + 1);
-				Index.push_back(j + i * numvert);
-			}
+		std::vector<unsigned int> Index = math::GenerateIndicesData(hm,numSub);
+		
 		for (int i = 0; i < vertexList.size(); i++)
 		{
 			auto pTemp = DEBUG_NEW SubGrid(pRenderDevice, vertexList[i], Index);
@@ -129,6 +86,8 @@ namespace Light
 		pModel->box = box;
 		pModel->Textures = pText;
 	}
+
+	
 
 
 

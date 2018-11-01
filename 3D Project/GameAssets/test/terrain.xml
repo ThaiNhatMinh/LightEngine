@@ -3,6 +3,7 @@
 	  <TerrainRender>
 		    <Model File="GameAssets\WORLD\heightmap.png" />
 		    <Texture File0 ="GameAssets\TEXTURES\TERRAIN\mntn_green_d.jpg" />
+				<Param StepSize="100" HScale="10" NumSub="16"/>
 	  </TerrainRender>
 	  
 	 <TransformComponent>

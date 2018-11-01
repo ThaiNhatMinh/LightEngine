@@ -137,7 +137,7 @@ namespace Light
 			return s;
 		}
 
-		HeightMap* ResourceManager::LoadHeightMap(const string& filename, int stepsize, int w, int h, float hscale, int sub)
+		HeightMap* ResourceManager::LoadHeightMap(const string& filename)
 		{
 			HeightMap* hm = nullptr;
 
@@ -159,10 +159,6 @@ namespace Light
 			iType = ilGetInteger(IL_IMAGE_FORMAT);
 			ILubyte *Data = ilGetData();
 			iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
-
-
-			if (w != -1) width = w;
-			if (h != -1) height = h;
 
 
 			//vec2 size = vec2(width*stepsize, height*stepsize);
@@ -187,71 +183,20 @@ namespace Light
 			}
 
 
-			vec2 size = vec2((width - 1)*stepsize, (height - 1)*stepsize);
-			vec2 size2 = vec2((width - 0)*stepsize, (height - 0)*stepsize);
-			//Mesh* p = DEBUG_NEW Mesh;
+			
+			//// computer indices
+			//GLuint cnt = 0;
+			//for (int i = 0; i < height - 1; i++)
+			//	for (int j = 0; j < width - 1; j++)
+			//	{
+			//		Index.push_back(j + (i + 1)*width + 1);
+			//		Index.push_back(j + i * width + 1);
+			//		Index.push_back(j + i * width);
 
-			std::vector<DefaultVertex> vertex;
-			std::vector<unsigned int> Index;
-
-			int x = -size[0] / 2, y = 0, z = -size[1] / 2;
-			float t = (min + max) / 2.0f;
-
-			auto heightF = [pRawData, width, height, t, hscale](int x, int z) {
-				if (x < 0) x = 0;
-				if (z < 0) z = 0;
-				if (x >= width) x = width;
-				if (z >= height) z = height;
-				int b = (int)(z*width + x);
-				return (pRawData[b] - t)*hscale;
-			};
-
-			// computer vertex xyz
-			for (int i = 0; i < height; i++) // z axis
-			{
-
-				for (int j = 0; j < width; j++) // x axis
-				{
-					int b = i * width + j;
-
-					y = (pRawData[b] - t)*hscale;
-					vec3 pos(x, y, z);
-					vec2 uv((x + size[0] / 2) / size[0], (z + size[1] / 2) / size[1]);
-					//computer normal;
-
-					vec2 P(i, j);
-					float hL = heightF(j - 1, i);
-					float hR = heightF(j + 1, i);
-					float hD = heightF(j, i - 1);
-					float hU = heightF(j, i + 1);
-					vec3 N(0, 1, 0);
-					N.x = hL - hR;
-					N.y = 2.0f;
-					N.z = hD - hU;
-					N = normalize(N);
-
-
-
-					DefaultVertex v{ pos,N,uv };
-					vertex.push_back(v);
-					x += stepsize;
-				}
-				x = -size[0] / 2;
-				z += stepsize;
-			}
-			// computer indices
-			GLuint cnt = 0;
-			for (int i = 0; i < height - 1; i++)
-				for (int j = 0; j < width - 1; j++)
-				{
-					Index.push_back(j + (i + 1)*width + 1);
-					Index.push_back(j + i * width + 1);
-					Index.push_back(j + i * width);
-
-					Index.push_back(j + (i + 1)*width);
-					Index.push_back(j + (i + 1)*width + 1);
-					Index.push_back(j + i * width);
-				}
+			//		Index.push_back(j + (i + 1)*width);
+			//		Index.push_back(j + (i + 1)*width + 1);
+			//		Index.push_back(j + i * width);
+			//	}
 
 			// comput
 
@@ -260,15 +205,15 @@ namespace Light
 			hm->Data = std::unique_ptr<GLubyte[]>(pRawData);
 			hm->Width = width;
 			hm->Height = height;
-			hm->stepsize = stepsize;
+			//hm->stepsize = stepsize;
 			hm->maxH = max;
 			hm->minH = min;
-			hm->hscale = hscale;
-			hm->numSub = sub;
+			//hm->hscale = hscale;
+			//hm->numSub = sub;
 			// [TODO]- Devide large mesh into small mesh
 
-			hm->m_Vertexs = vertex;
-			hm->m_Indices = Index;
+			//hm->m_Vertexs = vertex;
+			//hm->m_Indices = Index;
 
 			return hm;
 		}
@@ -822,7 +767,7 @@ namespace Light
 			hm = HasResource(m_HeightMaps,filename);
 			if (hm == nullptr)
 			{
-				hm = LoadHeightMap(filename,20,-1,-1,10,16);
+				hm = LoadHeightMap(filename/*,20,-1,-1,10,16*/);
 				if(hm==nullptr) E_ERROR("Could not find heightmap: %s", filename.c_str());
 				else m_HeightMaps.push_back(ResourceHandle<HeightMap>(filename, hm));
 				
@@ -1050,12 +995,12 @@ namespace Light
 				else if (!strcmp(name, "HeightMap"))
 				{
 					const char* pFile = pNode->Attribute("File");
-					int size = pNode->DoubleAttribute("Size", 5.0f);
+					/*int size = pNode->DoubleAttribute("Size", 5.0f);
 					int w = pNode->DoubleAttribute("Width", 2.0f);
 					int h = pNode->DoubleAttribute("Height", 2.0f);
 					float hscale = pNode->DoubleAttribute("HeightScale", 1.0);
-					int s = pNode->DoubleAttribute("SubDevided", 1.0);
-					if (pFile) LoadHeightMap(pFile, size, w, h, hscale, s);
+					int s = pNode->DoubleAttribute("SubDevided", 1.0);*/
+					if (pFile) LoadHeightMap(pFile/*, size, w, h, hscale, s*/);
 				}
 				else if (!strcmp(name, "Sprite"))
 				{

@@ -485,6 +485,9 @@
     <ClCompile Include="GameComponents\TerrainRenderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="Math\Math.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

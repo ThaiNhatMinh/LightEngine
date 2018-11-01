@@ -16,16 +16,9 @@ namespace Light
 		{
 		public:
 			uint32 Width;
-			uint32 Height;
-			float stepsize;
-			float hscale;
-			float minH, maxH;
+			uint32 Height;			
 			std::unique_ptr<uint8[]> Data;
-			uint32 numSub;
-			//std::unique_ptr<IMesh> m_Mesh;
-			std::vector<DefaultVertex> m_Vertexs;
-			std::vector<unsigned int>  m_Indices;
-
+			float minH, maxH;
 		};
 
 		struct SpriteData
