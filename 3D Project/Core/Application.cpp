@@ -47,7 +47,7 @@ void Application::SetupSubmodule()
 	m_pTimer = std::unique_ptr<Light::ITimer>(DEBUG_NEW Light::GameTimer(m_Context.get()));
 	
 	//m_pVGUI = std::unique_ptr<VGUI>(DEBUG_NEW VGUI(m_Context.get()));
-	m_pSystemUI = std::unique_ptr<OpenGLSysUI>(DEBUG_NEW OpenGLSysUI(m_Context.get()));
+	//m_pSystemUI = std::unique_ptr<OpenGLSysUI>(DEBUG_NEW OpenGLSysUI(m_Context.get()));
 	m_pScriptManager = std::unique_ptr<Light::IScriptManager>(DEBUG_NEW Light::LuaScriptManager(m_Context.get()));
 	//m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
@@ -60,7 +60,7 @@ void Application::SetupSubmodule()
 	m_pRenderer->PostInit();
 	m_pPhysic->PostInit();
 	m_pActorFactory->PostInit();
-	m_pSystemUI->PostInit();
+	//m_pSystemUI->PostInit();
 
 	m_pWindows->HideMouse(1);
 }

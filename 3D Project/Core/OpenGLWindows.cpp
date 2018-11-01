@@ -7,8 +7,6 @@
 #include "..\Interface\IEventManager.h"
 #include "..\Interface\ITimer.h"
 #include "..\Interface\ISysUI.h"
-#include "OpenGLSysUI.h"
-#include <imgui.h>
 
 namespace Light
 {
@@ -222,17 +220,17 @@ namespace Light
 
 		pEventManager->VQueueEvent(std::shared_ptr<IEvent>(pEvent));
 
-		ImGuiIO& io = ImGui::GetIO();
-		if (action == GLFW_PRESS)
-			io.KeysDown[key] = true;
-		if (action == GLFW_RELEASE)
-			io.KeysDown[key] = false;
+		//ImGuiIO& io = ImGui::GetIO();
+		//if (action == GLFW_PRESS)
+		//	io.KeysDown[key] = true;
+		//if (action == GLFW_RELEASE)
+		//	io.KeysDown[key] = false;
 
-		(void)mods; // Modifiers are not reliable across systems
-		io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
-		io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
-		io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
-		io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+		//(void)mods; // Modifiers are not reliable across systems
+		//io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
+		//io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
+		//io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+		//io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
 
 	}
 
@@ -240,7 +238,7 @@ namespace Light
 	{
 		static IContext* pContext = (IContext*)glfwGetWindowUserPointer(window);
 		static OpenGLInput* pInput = static_cast<OpenGLInput*>(pContext->GetSystem<IInput>());
-		static OpenGLSysUI* pSys = static_cast<OpenGLSysUI*>(pContext->GetSystem<ISysUI>());
+		/*static OpenGLSysUI* pSys = static_cast<OpenGLSysUI*>(pContext->GetSystem<ISysUI>());*/
 		if (action == GLFW_PRESS)
 		{
 			pInput->Mouse[button] = true;
@@ -251,8 +249,8 @@ namespace Light
 			pInput->Mouse[button] = false;
 		}
 
-		if (action == GLFW_PRESS && button >= 0 && button < 3)
-			pSys->m_MousePress[button] = true;
+		/*if (action == GLFW_PRESS && button >= 0 && button < 3)
+			pSys->m_MousePress[button] = true;*/
 	}
 	void OpenGLWindows::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	{
@@ -293,18 +291,18 @@ namespace Light
 	{
 		static IContext* pContext = (IContext*)glfwGetWindowUserPointer(window);
 		static OpenGLInput* pInput = static_cast<OpenGLInput*>(pContext->GetSystem<IInput>());
-		static OpenGLSysUI* pSys = static_cast<OpenGLSysUI*>(pContext->GetSystem<ISysUI>());
+		/*static OpenGLSysUI* pSys = static_cast<OpenGLSysUI*>(pContext->GetSystem<ISysUI>());
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.MouseWheelH += (float)x;
-		io.MouseWheel += (float)y;
+		io.MouseWheel += (float)y;*/
 
 
 	}
 	void OpenGLWindows::char_callback(GLFWwindow * window, unsigned int c)
 	{
-		ImGuiIO& io = ImGui::GetIO();
+		/*ImGuiIO& io = ImGui::GetIO();
 		if (c > 0 && c < 0x10000)
-			io.AddInputCharacter((unsigned short)c);
+			io.AddInputCharacter((unsigned short)c);*/
 	}
 }

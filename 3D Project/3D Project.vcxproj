@@ -62,7 +62,6 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\PropertySheet.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -73,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2</IncludePath>
+    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>..\ThirdParty\;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\lib\x86\Release;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\RelWithDebInfo;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath);..\ThirdParty\lua\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -81,9 +80,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2</IncludePath>
-    <LibraryPath>..\ThirdParty\;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\Release;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath);..\ThirdParty\lua\lib</LibraryPath>
+    <LibraryPath>..\ThirdParty\;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\lib\x86\Release;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\RelWithDebInfo;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath);..\ThirdParty\lua\lib</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -97,7 +96,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\Visual Leak Detector\include;E:\Code Collection\3D Project\3D Project;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Code Collection\3D Project\3D Project;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -133,7 +132,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;BUILDING_MYDLL;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\Visual Leak Detector\include;..\3D Project\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\3D Project\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -141,7 +140,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glfw3.lib;fmod_vc.lib;ILU.lib;lua5.1.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxguid.lib;dinput8.lib;tinyxml2.lib;DevIL.lib;glfw3.lib;fmod_vc.lib;ILU.lib;lua5.1.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
@@ -168,12 +167,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\ThirdParty\imgui\imconfig.h" />
-    <ClInclude Include="..\ThirdParty\imgui\imgui.h" />
-    <ClInclude Include="..\ThirdParty\imgui\imgui_internal.h" />
-    <ClInclude Include="..\ThirdParty\imgui\imstb_rectpack.h" />
-    <ClInclude Include="..\ThirdParty\imgui\imstb_textedit.h" />
-    <ClInclude Include="..\ThirdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="Animation\AnimationLayer.h" />
     <ClInclude Include="Animation\AnimationState.h" />
     <ClInclude Include="Core\ActorFactory.h" />
@@ -184,7 +177,6 @@
     <ClInclude Include="Core\Log.h" />
     <ClInclude Include="Core\DebugRender.h" />
     <ClInclude Include="Core\OpenGLInput.h" />
-    <ClInclude Include="Core\OpenGLSysUI.h" />
     <ClInclude Include="Core\OpenGLWindows.h" />
     <ClInclude Include="Core\Physic.h" />
     <ClInclude Include="Core\RenderSystem.h" />
@@ -275,10 +267,6 @@
     <ClInclude Include="Utilities\Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\ThirdParty\imgui\imgui.cpp" />
-    <ClCompile Include="..\ThirdParty\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\ThirdParty\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\ThirdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Animation\AnimationLayer.cpp" />
     <ClCompile Include="Animation\AnimationState.cpp" />
     <ClCompile Include="Core\ActorFactory.cpp" />
@@ -288,7 +276,6 @@
     <ClCompile Include="Core\Log.cpp" />
     <ClCompile Include="Core\DebugRender.cpp" />
     <ClCompile Include="Core\OpenGLInput.cpp" />
-    <ClCompile Include="Core\OpenGLSysUI.cpp" />
     <ClCompile Include="Core\OpenGLWindows.cpp" />
     <ClCompile Include="Core\Physic.cpp" />
     <ClCompile Include="Core\RenderSystem.cpp" />

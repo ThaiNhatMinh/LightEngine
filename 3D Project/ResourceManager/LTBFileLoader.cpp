@@ -1,5 +1,7 @@
-#include "LTBFileLoader.h"
+
 #include <pch.h>
+#include "LTBFileLoader.h"
+
 #include "../Utilities/LTBStruct.h"
 #include "../Graphics3D/Vertex.h"
 using namespace Light;

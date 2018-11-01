@@ -1,6 +1,6 @@
 [DEBUG] d:\code\3d-project\3d project\core\application.cpp Line:28| Application StartUp...
-[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:152| ..\Debug\OpenGLRenderDevice.dll
-[DEBUG] d:\code\3d-project\3d project\gameplugin\gamepluginmanager.cpp Line:22| ..\Debug\Hunting.dll
+[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:152| ..\Release\OpenGLRenderDevice.dll
+[DEBUG] d:\code\3d-project\3d project\gameplugin\gamepluginmanager.cpp Line:22| ..\Release\Hunting.dll
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:212| SceneRender add: Test
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:204| Camera create!
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:233| ObjectRender add: 707

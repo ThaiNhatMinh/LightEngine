@@ -72,9 +72,6 @@
     <ClInclude Include="Interface\ISysUI.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Core\OpenGLSysUI.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\ISoundEngine.h">
       <Filter>Interface</Filter>
     </ClInclude>
@@ -237,24 +234,6 @@
     </ClInclude>
     <ClInclude Include="Script\ScriptEventListener.h">
       <Filter>Script</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThirdParty\imgui\imconfig.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThirdParty\imgui\imgui.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThirdParty\imgui\imgui_internal.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThirdParty\imgui\imstb_rectpack.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThirdParty\imgui\imstb_textedit.h">
-      <Filter>Utilities\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThirdParty\imgui\imstb_truetype.h">
-      <Filter>Utilities\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Core\Physic.h">
       <Filter>Core</Filter>
@@ -437,23 +416,8 @@
     <ClCompile Include="Script\LuaScriptExporter.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="..\ThirdParty\imgui\imgui.cpp">
-      <Filter>Utilities\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ThirdParty\imgui\imgui_demo.cpp">
-      <Filter>Utilities\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ThirdParty\imgui\imgui_draw.cpp">
-      <Filter>Utilities\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ThirdParty\imgui\imgui_widgets.cpp">
-      <Filter>Utilities\imgui</Filter>
-    </ClCompile>
     <ClCompile Include="Script\ScriptEventListener.cpp">
       <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\OpenGLSysUI.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Core\Physic.cpp">
       <Filter>Core</Filter>
@@ -510,9 +474,6 @@
     </Filter>
     <Filter Include="GameAssets\SCRIPT">
       <UniqueIdentifier>{28500c10-7e1f-4bae-9498-5a26d4db9f1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utilities\imgui">
-      <UniqueIdentifier>{e56bc35b-3139-4a90-aaf9-47b79952884a}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameAssets\ACTOR">
       <UniqueIdentifier>{a57646c4-e4a6-45cf-bd22-e45239463c23}</UniqueIdentifier>

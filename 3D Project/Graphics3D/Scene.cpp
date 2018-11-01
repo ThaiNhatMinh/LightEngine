@@ -1,8 +1,10 @@
-#include "Scene.h"
+
 #include <pch.h>
 #include "..\Interface\IFactory.h"
 #include "..\Interface\IEventManager.h"
 #include "..\Core\Events.h"
+#include "Scene.h"
+
 namespace Light
 {
 	Scene::Scene(IContext* c,const std::string& name) :m_Context(c),m_Name(name)

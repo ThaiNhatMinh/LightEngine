@@ -1,2 +1,2 @@
-<Plugin>..\Debug\Hunting.dll</Plugin>
-<RenderDevice>..\Debug\OpenGLRenderDevice.dll</RenderDevice>
+<Plugin>..\Release\Hunting.dll</Plugin>
+<RenderDevice>..\Release\OpenGLRenderDevice.dll</RenderDevice>
