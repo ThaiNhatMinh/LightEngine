@@ -26,11 +26,13 @@ namespace Light
 		IContext*			m_Context;
 		std::string			m_Name;
 		render::SkyBox		m_SkyBox;
+	private:
+		bool					Load(const std::string& file);
 	public:
-		Scene(IContext* c,const std::string& name);
+		Scene(IContext* c,const std::string& file);
 		~Scene();
 
-		bool					VLoad(const std::string& file)override;
+		
 		bool					VOnRender()override;
 
 		bool					VOnUpdate(float dt)override;

@@ -11,7 +11,7 @@ namespace Light
 {
 	namespace render
 	{
-		DefaultMaterial::DefaultMaterial(IContext* pContext)
+		DefaultMaterial::DefaultMaterial(IContext* pContext) :m_pContext(pContext)
 		{
 			auto pRenderer = pContext->GetSystem<IRenderSystem>()->GetRenderDevice();
 			auto pResources = pContext->GetSystem<resources::IResourceManager>();
@@ -21,6 +21,11 @@ namespace Light
 			//m_ShaderName = std::make_pair(pVertexNode->GetText(), pPixelNode->GetText());
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<DefaultMaterial>(this, &DefaultMaterial::OnSceneCreate), events::EvtSceneCreate::StaticType);
 			this->GetUniform();
+		}
+
+		DefaultMaterial::DefaultMaterial()
+		{
+
 		}
 		/*bool DefaultMaterial::VSerialize(IContext*pContext,const tinyxml2::XMLElement * pData)
 		{
@@ -94,9 +99,12 @@ namespace Light
 			m_pLightManager->SetupPointLight(m_uPointLight);
 
 			//m_uAmbient->SetAsInt(UNIT_AMBIENT);
-			m_uDiffuse->SetAsInt(UNIT_DIFFUSE);
+			//m_uDiffuse->SetAsInt(UNIT_DIFFUSE);
 			//m_uSpecular->SetAsInt(UNIT_SPECULAR);
-			m_uCubeTex->SetAsInt(UNIT_SKYBOX);
+			//m_uCubeTex->SetAsInt(UNIT_SKYBOX);
+
+			for (auto&el : m_TextureUnits)
+				el.first->SetAsInt(el.second);
 
 			m_uKa->SetAsVec3(glm::value_ptr(matData.Ka));
 			m_uKd->SetAsVec3(glm::value_ptr(matData.Kd));
@@ -110,24 +118,17 @@ namespace Light
 			m_pMVPUniform->SetAsMat4(mvp);
 			
 		}
-		
-		MaterialType DefaultMaterial::GetType()
-		{
-			static std::size_t type = typeid(DefaultMaterial).hash_code();
-			return type;
-		}
-		void DefaultMaterial::SetPipeline(Pipeline * pipeline)
-		{
-			m_Pipeline.reset();
-			m_Pipeline.reset(pipeline);
-			this->GetUniform();
-
-		}
 		std::shared_ptr<Material> DefaultMaterial::Clone()
 		{
-			std::shared_ptr<Material> mat = std::shared_ptr<Material>(new DefaultMaterial());
+			auto pTemp = new DefaultMaterial();
+
+			auto pEventM = m_pContext->GetSystem<IEventManager>();
+			pEventM->VAddListener(DEBUG_NEW EventDelegate<DefaultMaterial>(pTemp, &DefaultMaterial::OnSceneCreate), events::EvtSceneCreate::StaticType);
+			pTemp->m_pContext = m_pContext;
+			std::shared_ptr<Material> mat = std::shared_ptr<Material>(pTemp);
 			return mat;
 		}
+	
 		void DefaultMaterial::GetUniform()
 		{
 			assert(m_Pipeline != nullptr);
@@ -135,11 +136,11 @@ namespace Light
 			m_pModelUniform = m_Pipeline->GetParam(uMODEL);
 			m_pMVPUniform = m_Pipeline->GetParam(uMVP);
 
-
-			m_uDiffuse = m_Pipeline->GetParam("mat.diffuse");
-			m_uAmbient = m_Pipeline->GetParam("mat.ambient");
-			m_uSpecular = m_Pipeline->GetParam("mat.specular");
-			m_uCubeTex = m_Pipeline->GetParam(uCubeTex);
+			this->AddTexUnit("mat.diffuse", UNIT_DIFFUSE);
+			this->AddTexUnit("mat.ambient", UNIT_AMBIENT);
+			this->AddTexUnit("mat.specular", UNIT_SPECULAR);
+			this->AddTexUnit(uCubeTex, UNIT_SKYBOX);
+			
 			m_uCameraPos = m_Pipeline->GetParam(uCameraPos);
 
 			m_uKa = m_Pipeline->GetParam("mat.Ka");

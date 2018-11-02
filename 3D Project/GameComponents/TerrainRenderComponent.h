@@ -19,7 +19,8 @@ namespace Light
 		struct TerrainModel : public render::Model
 		{
 			std::vector<std::unique_ptr<Mesh>>  Meshs;
-			render::Texture* Textures;
+			std::vector<std::pair<render::TextureUnit,render::Texture*>>		Textures;
+			render::Texture*					Blend;
 			std::shared_ptr<render::Material>	Material;
 			math::AABB box;
 			virtual void Draw(render::RenderData& rd, render::Material::MatrixParam& matrixParam)override;
@@ -40,8 +41,8 @@ namespace Light
 		virtual tinyxml2::XMLElement* VDeserialize(tinyxml2::XMLDocument*p);
 		~TerrainRenderComponent();
 	private:
-		void GenerateMeshData(render::RenderDevice* pRenderDevice, IFactory*,resources::HeightMap * hm, render::Texture* pText);
-		
+		TerrainModel* GenerateMeshData(render::RenderDevice* pRenderDevice,resources::HeightMap * hm);
+		void LoadTexture(const tinyxml2::XMLElement * pData, resources::IResourceManager* pResources, TerrainModel* pModel);
 		
 	};
 

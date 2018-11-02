@@ -7,7 +7,7 @@
 
 namespace Light
 {
-	Scene::Scene(IContext* c,const std::string& name) :m_Context(c),m_Name(name)
+	Scene::Scene(IContext* c,const std::string& file) :m_Context(c)
 	{
 		m_pRoot = std::unique_ptr<IActor>(m_Context->GetSystem<IFactory>()->VCreateActor(SYSTEM_ROOT_ACTOR));
 		if (!m_pRoot)
@@ -15,7 +15,7 @@ namespace Light
 			E_ERROR("Can't create Root Node.");
 		}
 	
-		c->GetSystem<IEventManager>()->VQueueEvent(std::shared_ptr<IEvent>(DEBUG_NEW events::EvtSceneCreate(this)));
+		this->Load(file);
 	}
 
 	Scene::~Scene()
@@ -23,7 +23,7 @@ namespace Light
 	}
 
 	
-	bool Scene::VLoad(const std::string& filename)
+	bool Scene::Load(const std::string& filename)
 	{
 		
 		tinyxml2::XMLDocument doc;
@@ -39,6 +39,8 @@ namespace Light
 			E_ERROR("Can't load Scene file: %s", filename.c_str());
 			return 0;
 		}
+
+		m_Name = pScene->Attribute("name");
 
 		for (tinyxml2::XMLElement* pNode = pScene->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
 		{
@@ -66,6 +68,7 @@ namespace Light
 
 		m_SkyBox.VSerialize(m_Context, pSkybox);
 
+		m_Context->GetSystem<IEventManager>()->VQueueEvent(std::shared_ptr<IEvent>(DEBUG_NEW events::EvtSceneCreate(this)));
 		return 1;
 	}
 

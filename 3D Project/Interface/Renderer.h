@@ -33,6 +33,7 @@ namespace Light
 			UNIT_DIFFUSE,
 			UNIT_SPECULAR,
 			UNIT_SKYBOX,
+			UNIT_BLEND,
 			UNIT_DEPTH,
 
 		};

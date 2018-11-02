@@ -289,6 +289,9 @@
     <ClInclude Include="GameComponents\TerrainRenderComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics3D\BaseMaterial.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -452,6 +455,7 @@
     <ClCompile Include="Math\Math.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics3D\BaseMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

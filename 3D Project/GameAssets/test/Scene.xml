@@ -1,4 +1,4 @@
-<Scene>
+<Scene name="Scene1">
 	
 	<Actor File="GameAssets\test\FreeCamera.xml" />
 	<!-- <Actor File="GameAssets\test\Box.xml" /> -->

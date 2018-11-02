@@ -1,10 +1,10 @@
 [DEBUG] d:\code\3d-project\3d project\core\application.cpp Line:28| Application StartUp...
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:152| ..\Release\OpenGLRenderDevice.dll
 [DEBUG] d:\code\3d-project\3d project\gameplugin\gamepluginmanager.cpp Line:22| ..\Release\Hunting.dll
-[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:212| SceneRender add: Test
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:204| Camera create!
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:233| ObjectRender add: 707
 [DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:233| ObjectRender add: Model
+[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:212| SceneRender add: Scene1
 [ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:381| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0000.DTX
 [ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:381| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0006.DTX
 [ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:381| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0008.DTX

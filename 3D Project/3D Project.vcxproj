@@ -194,6 +194,7 @@
     <ClInclude Include="GameComponents\TransformComponent.h" />
     <ClInclude Include="GamePlugin\GamePluginManager.h" />
     <ClInclude Include="Graphics3D\Actor.h" />
+    <ClInclude Include="Graphics3D\BaseMaterial.h" />
     <ClInclude Include="Graphics3D\DefaultMaterial.h" />
     <ClInclude Include="Graphics3D\DefaultMesh.h" />
     <ClInclude Include="Graphics3D\EffectSystem.h" />
@@ -293,6 +294,7 @@
     <ClCompile Include="GameComponents\TransformComponent.cpp" />
     <ClCompile Include="GamePlugin\GamePluginManager.cpp" />
     <ClCompile Include="Graphics3D\Actor.cpp" />
+    <ClCompile Include="Graphics3D\BaseMaterial.cpp" />
     <ClCompile Include="Graphics3D\DefaultMaterial.cpp" />
     <ClCompile Include="Graphics3D\DefaultMesh.cpp" />
     <ClCompile Include="Graphics3D\EffectSystem.cpp" />

@@ -23,4 +23,7 @@
 
 	<VertexShader File="Shader\Sprite.vs"/>
 	<PixelShader File="Shader\Sprite.fs"/>
+	
+	<VertexShader File="Shader\Terrain.vs"/>
+	<PixelShader File="Shader\Terrain.fs"/>
 </Resources>

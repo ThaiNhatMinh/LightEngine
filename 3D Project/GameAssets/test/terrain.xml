@@ -7,7 +7,7 @@
 		<ColliderComponent>
 			<Shape>TriangleMesh</Shape>
 			<File Path="GameAssets\WORLD\heightmap.png"/>
-			<Param StepSize="10" HScale="4" NumSub="16"/>
+			<Param StepSize="50" HScale="10" NumSub="16"/>
 		</ColliderComponent>
 
 		<RigidBodyComponent>
@@ -20,8 +20,14 @@
 
 		<TerrainRender>
 			<Model File="GameAssets\WORLD\heightmap.png" />
-			<Texture File0 ="GameAssets\TEXTURES\TERRAIN\mntn_green_d.jpg" />
-			<Param StepSize="10" HScale="4" NumSub="16"/>
+			<Texture>
+				<File unit="0" uniform="mat.tex1">GameAssets\TEXTURES\TERRAIN\road.jpg</File>
+				<File unit="1" uniform="mat.tex2">GameAssets\TEXTURES\TERRAIN\mntn_green_d.jpg</File>
+				<File unit="2" uniform="mat.tex3">GameAssets\TEXTURES\TERRAIN\grass_green2y_d.jpg</File>
+				<Blend>GameAssets\TEXTURES\TERRAIN\Blend.jpg</Blend>
+			</Texture>
+
+			<Param StepSize="50" HScale="10" NumSub="16"/>
 		</TerrainRender>
 
 		

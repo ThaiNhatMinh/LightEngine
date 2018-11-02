@@ -8,6 +8,8 @@
 #include <glm/vec4.hpp>
 #include "..\Utilities\Utility.h"
 #include "..\typedef.h"
+#include "..\Interface\Renderer.h"
+
 namespace Light
 {
 	namespace render
@@ -42,11 +44,13 @@ namespace Light
 		{
 			friend class ResourceManager;
 		public:
-			
+			typedef std::map<const char*, const float*> MatrixParam;
+		protected:
+			std::vector<std::pair<render::PipelineParam*, render::TextureUnit>> m_TextureUnits;
 			std::unique_ptr<Pipeline> m_Pipeline;
 			
-			typedef std::map<const char*,const float*> MatrixParam;
-
+			
+			virtual void GetUniform() = 0;
 		public:
 
 			Material() //:Ka(1.0f), Kd(1.0f), Ks(1.0f), exp(1, 1, 1)
@@ -60,6 +64,10 @@ namespace Light
 			virtual MaterialType GetType() = 0;
 			virtual std::shared_ptr<Material> Clone() = 0;
 			virtual void SetPipeline(Pipeline* pipeline) = 0;
+			virtual Pipeline* GetPipeline() = 0;
+			virtual void AddTexUnit(std::string name,render::TextureUnit unit) = 0;
+			virtual void ClearTextureData() = 0;
+			
 		};
 	}
 }

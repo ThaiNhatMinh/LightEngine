@@ -51,20 +51,6 @@ void Light::render::SkeletonMaterial::Apply(RenderDevice * renderer, const Matri
 	m_uSkeTransform->SetAsMat4V(skeTrannsform, numNode);
 }
 
-MaterialType Light::render::SkeletonMaterial::GetType()
-{
-	static std::size_t type = typeid(SkeletonMaterial).hash_code();
-	return type;
-}
-
-void Light::render::SkeletonMaterial::SetPipeline(Pipeline * pipeline)
-{
-	m_Pipeline.reset();
-	m_Pipeline.reset(pipeline);
-	this->GetUniform();
-
-}
-
 std::shared_ptr<Light::render::Material> Light::render::SkeletonMaterial::Clone()
 {
 	return std::shared_ptr<Material>(new SkeletonMaterial());

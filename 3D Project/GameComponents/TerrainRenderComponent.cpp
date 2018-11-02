@@ -21,14 +21,22 @@ namespace Light
 		{
 			auto pResources = pContext->GetSystem<resources::IResourceManager>();
 			auto pRenderDevice = pContext->GetSystem<render::IRenderSystem>()->GetRenderDevice();
+			auto pFactory = pContext->GetSystem<IFactory>();
+			
 			resources::HeightMap* hm = pResources->VGetHeightMap(pFileName);
 
 			const tinyxml2::XMLElement* pTexPath = pData->FirstChildElement("Texture");
-			const char* pFileName1 = pTexPath->Attribute("File0");
+			;
 			
-
-			GenerateMeshData(pRenderDevice, pContext->GetSystem<IFactory>(),hm, pResources->VGetTexture(pFileName1));
+			auto pModel = GenerateMeshData(pRenderDevice, hm);
+			//pModel->Textures = pText;
+			pModel->Material = pFactory->VGetMaterial("Default")->Clone();
+			auto ppipeline = pRenderDevice->CreatePipeline(pResources->VGetVertexShader("Terrain"), pResources->VGetPixelShader("Terrain"));
+			pModel->Material->SetPipeline(ppipeline);
+			pModel->Material->ClearTextureData();
+			LoadTexture(pTexPath, pResources, pModel);
 			
+			this->m_pModel = pModel;
 			return true;
 		}
 
@@ -45,10 +53,10 @@ namespace Light
 		delete m_pModel;
 	}
 
-	void TerrainRenderComponent::GenerateMeshData(render::RenderDevice* pRenderDevice, IFactory* pFactory, resources::HeightMap * hm, render::Texture* pText)
+	TerrainRenderComponent::TerrainModel* TerrainRenderComponent::GenerateMeshData(render::RenderDevice* pRenderDevice, resources::HeightMap * hm)
 	{
 		auto pModel = DEBUG_NEW TerrainModel();
-		this->m_pModel = pModel;
+		
 		math::AABB box;
 		std::size_t numMesh = numSub;			// Num SubMesh device by row and collum
 		std::size_t numvert = hm->Width / numMesh;	// Num vertices per SubMesh in Row/Collum
@@ -81,10 +89,26 @@ namespace Light
 			box.Test(pTemp->box.Max);
 		}
 
-		//pModel->Textures = pText;
-		pModel->Material = pFactory->VGetMaterial("Default");
 		pModel->box = box;
-		pModel->Textures = pText;
+
+		return pModel;
+		
+	}
+
+	void TerrainRenderComponent::LoadTexture(const tinyxml2::XMLElement * pData, resources::IResourceManager * pResources, TerrainModel* pModel)
+	{
+		int i = 0;
+		for (auto pNode = pData->FirstChildElement("File"); pNode; pNode = pNode->NextSiblingElement("File"))
+		{
+			auto pFile = pNode->GetText();
+			pModel->Textures.push_back(std::pair<render::TextureUnit, render::Texture*>((render::TextureUnit)pNode->Int64Attribute("unit",i),pResources->VGetTexture(pFile)));
+			pModel->Material->AddTexUnit(pNode->Attribute("uniform"), (render::TextureUnit)pNode->Int64Attribute("unit", i));
+			i++;
+		}
+		
+		auto pFile = pData->FirstChildElement("Blend")->GetText();
+		pModel->Blend = pResources->VGetTexture(pFile);
+		pModel->Material->AddTexUnit("mat.blend",render::UNIT_BLEND);
 	}
 
 	
@@ -101,8 +125,17 @@ namespace Light
 	{
 		//int numdraw = 0;
 		auto pFrustum = rd.pCamera->GetFrustum();
-		Material->Apply(rd.pRenderer, matrixParam);
-		rd.pRenderer->SetTexture(render::UNIT_DIFFUSE, Textures);
+		render::MaterialData data;
+		data.Ks = vec3(0);
+		data.Kd = vec3(0.5f);
+		//data.Ka = vec3(0.3f);
+		data.exp = vec3(32);
+		Material->Apply(rd.pRenderer, matrixParam, data);
+		for(auto el:Textures)
+			rd.pRenderer->SetTexture(el.first, el.second);
+
+		rd.pRenderer->SetTexture(render::UNIT_BLEND, Blend);
+
 		for (std::size_t i = 0; i < Meshs.size(); i++)
 		{
 			SubGrid* pGrid = static_cast<SubGrid*>(Meshs[i].get());

@@ -22,8 +22,7 @@ void Game::Init(Light::IContext* pContext)
 	auto EventManager = pContext->GetSystem<IEventManager>();
 	//pResources->VGetModel("GameAssets\\MODELS\\707_BL.xml");
 
-	pScene = Factory->VCreateScene("Test");
-	pScene->VLoad("GameAssets\\test\\Scene.xml");
+	pScene = Factory->VCreateScene("GameAssets\\test\\Scene.xml");
 
 	auto pEventManager = pContext->GetSystem<Light::IEventManager>();
 	auto pFactory = pContext->GetSystem<Light::IFactory>();

@@ -1,19 +1,19 @@
 #pragma once
 
-#include "Material.h"
+#include "BaseMaterial.h"
 #include "..\Interface\IEvent.h"
 #include "LightManager.h"
 namespace Light
 {
 	namespace render
 	{
-		class SkeletonMaterial : public Material
+		class SkeletonMaterial : public BaseMaterial
 		{
 		public:
 			SkeletonMaterial(IContext* pContext);
 			virtual void Apply(RenderDevice* renderer, const MatrixParam& matrixParam, const MaterialData& matData)override;
-			virtual MaterialType GetType();
-			virtual void SetPipeline(Pipeline* pipeline)override;
+			
+			
 			virtual std::shared_ptr<Material> Clone()override;
 		private:
 			SkeletonMaterial()=default; // for clone
