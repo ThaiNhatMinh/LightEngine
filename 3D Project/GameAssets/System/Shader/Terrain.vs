@@ -20,7 +20,7 @@ void main()
     vs_out.oNormal =  mat3(transpose(inverse(uModel))) * aNormal;  
 	vs_out.oPosition = vec3(uModel * vec4(aPos,1.0f));
 
-    float scale = 10;
+    float scale = 5;
 	vs_out.oUV = aUV;
     vs_out.oUVScale = aUV*scale;
     gl_Position = uMVP * vec4(aPos, 1.0f);

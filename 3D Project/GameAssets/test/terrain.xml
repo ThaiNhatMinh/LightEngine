@@ -23,10 +23,14 @@
 			<Texture>
 				<File unit="0" uniform="mat.tex1">GameAssets\TEXTURES\TERRAIN\road.jpg</File>
 				<File unit="1" uniform="mat.tex2">GameAssets\TEXTURES\TERRAIN\mntn_green_d.jpg</File>
-				<File unit="2" uniform="mat.tex3">GameAssets\TEXTURES\TERRAIN\grass_green2y_d.jpg</File>
+				<File unit="2" uniform="mat.tex3">GameAssets\TEXTURES\TERRAIN\savanna_dry_d.jpg</File>
 				<Blend>GameAssets\TEXTURES\TERRAIN\Blend.jpg</Blend>
 			</Texture>
-
+			<Assets>
+				<File num="20">GameAssets\test\Palm_01\Palm_01.obj</File>
+				
+			</Assets>
+			
 			<Param StepSize="50" HScale="10" NumSub="16"/>
 		</TerrainRender>
 

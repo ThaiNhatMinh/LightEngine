@@ -24,6 +24,7 @@ namespace Light
 			virtual RenderDevice*		GetRenderDevice() = 0;
 			virtual IDebugRender*		GetDebugRender()=0;
 			virtual IEffectSystem*		GetEffectSystem()=0;
+			virtual void				PreRender() = 0;
 		};
 	}
 }

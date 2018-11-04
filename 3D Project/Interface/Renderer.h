@@ -533,6 +533,8 @@ namespace Light
 		{
 		public:
 			virtual ~RenderDevice() {}
+			virtual void				TransferMemory() = 0;
+
 			virtual void				SetViewPort(size_t x, size_t y, size_t width, size_t height) = 0;
 			virtual VertexShader*		CreateVertexShader(const char* code) = 0;
 			virtual PixelShader*		CreatePixelShader(const char* code) = 0;

@@ -16,8 +16,14 @@ namespace Light
 			SubGrid(render::RenderDevice* pRenderDevice,const std::vector<DefaultVertex>& vertex, const std::vector<unsigned int> indices);
 		};
 
+		struct TerrainObject
+		{
+			glm::mat4 transform; // final transform 
+			render::Model* model;
+		};
 		struct TerrainModel : public render::Model
 		{
+			std::vector<TerrainObject> m_Objects;
 			std::vector<std::unique_ptr<Mesh>>  Meshs;
 			std::vector<std::pair<render::TextureUnit,render::Texture*>>		Textures;
 			render::Texture*					Blend;
@@ -43,7 +49,8 @@ namespace Light
 	private:
 		TerrainModel* GenerateMeshData(render::RenderDevice* pRenderDevice,resources::HeightMap * hm);
 		void LoadTexture(const tinyxml2::XMLElement * pData, resources::IResourceManager* pResources, TerrainModel* pModel);
-		
+		void LoadObject(const tinyxml2::XMLElement * pData, resources::IResourceManager* pResources, TerrainModel* pModel, resources::HeightMap * hm);
+		glm::vec3 RandomPos(resources::HeightMap * hm);
 	};
 
 }

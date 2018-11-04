@@ -92,15 +92,15 @@ namespace Light
 
 			//virtual SpriteAnim*		VGetSpriteAnimation(const std::string& filename)override;
 			//virtual Shader*			VGetShader(string key)override;
-			virtual render::Texture*		VGetTexture(const std::string& filename)override;
-			virtual render::VertexShader*	VGetVertexShader(const std::string& filename)override;
-			virtual render::PixelShader*	VGetPixelShader(const std::string& filename)override;
-			virtual render::Model *			VGetModel(const std::string& filename)override;
-			virtual HeightMap*				VGetHeightMap(const std::string& filename)override;
-			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist)override;
-			virtual LTRawData*				VGetRawModel(const std::string& filename)override;
-			virtual Sound*					VGetSound(const std::string& tag)override;
-			virtual render::Sprite*			VCreateSprite(const std::string& filename, glm::vec3 pos)override;
+			virtual render::Texture*		VGetTexture(const std::string& filename, bool tryload = false)override;
+			virtual render::VertexShader*	VGetVertexShader(const std::string& filename, bool tryload = false)override;
+			virtual render::PixelShader*	VGetPixelShader(const std::string& filename, bool tryload = false)override;
+			virtual render::Model *			VGetModel(const std::string& filename, bool tryload = false)override;
+			virtual HeightMap*				VGetHeightMap(const std::string& filename, bool tryload = false)override;
+			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist, bool tryload = false)override;
+			virtual LTRawData*				VGetRawModel(const std::string& filename, bool tryload = false)override;
+			virtual Sound*					VGetSound(const std::string& tag, bool tryload = false)override;
+			virtual render::Sprite*			VCreateSprite(const std::string& filename, glm::vec3 pos, bool tryload = false)override;
 
 			void							PostInit();
 

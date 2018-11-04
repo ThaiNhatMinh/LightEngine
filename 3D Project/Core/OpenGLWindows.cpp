@@ -10,6 +10,10 @@
 
 namespace Light
 {
+	void GLFWerrorfun(int code, const char * str)
+	{
+		E_ERROR("[GLFW]Error code: %d, %s",code, str);
+	}
 
 	void OpenGLWindows::ReadConfig()
 	{
@@ -59,6 +63,8 @@ namespace Light
 		glfwSetCharCallback(m_pWindow, char_callback);
 
 		glfwSetWindowUserPointer(m_pWindow, c);
+
+		glfwSetErrorCallback(GLFWerrorfun);
 		SetPos(glm::vec2(-1,-1));
 
 		//HideWindows();

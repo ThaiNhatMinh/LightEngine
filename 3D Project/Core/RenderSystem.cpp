@@ -12,7 +12,7 @@ namespace Light
 {
 	namespace render
 	{
-		RenderSystem::RenderSystem(IContext * pContext):m_pContext(pContext)
+		RenderSystem::RenderSystem(IContext * pContext):m_pContext(pContext), m_pCurrentCamera(nullptr), m_pScene(nullptr)
 		{
 			LoadRenderDevice();
 
@@ -44,7 +44,8 @@ namespace Light
 		{
 			m_pRenderer->Clear();
 			// if there was no camera, so we can't see anything
-			if (m_pCurrentCamera == nullptr) return;
+			if (m_pCurrentCamera == nullptr|| m_pScene==nullptr) return;
+			
 			RenderData rd;
 			rd.pCamera = m_pCurrentCamera;
 			rd.pRenderer = m_pRenderer;
@@ -63,7 +64,7 @@ namespace Light
 				}
 			}
 			
-			m_pScene->VOnRender();
+			//m_pScene->VOnRender();
 			m_pEffectSystem->VRender();
 			m_pDebuger->Render();
 		}
@@ -141,6 +142,10 @@ namespace Light
 			m_pEffectSystem = std::unique_ptr<IEffectSystem>(DEBUG_NEW EffectSystem(m_pContext));
 			m_pDebuger = std::unique_ptr<IDebugRender>(DEBUG_NEW DebugRender(m_pContext));
 			m_DefaultPass = std::unique_ptr<RenderPass>(DEBUG_NEW DefaultRenderPass("Default", m_pContext));
+		}
+		void RenderSystem::PreRender()
+		{
+			m_pRenderer->TransferMemory();
 		}
 		typedef Light::render::RenderDevice* (*CreateInterfaceFn)();
 		void RenderSystem::LoadRenderDevice()

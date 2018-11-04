@@ -19,12 +19,12 @@
 
 #include "..\ResourceManager\ResourceManager.h"
 
-#include "..\Graphics3D\RenderPass\OutlinePass.h"
-
 using namespace Light;
 
 void Application::SetupSubmodule()
 {
+	srand(time(NULL));
+
 	E_DEBUG("Application StartUp...");
 
 	m_Context = std::unique_ptr<Light::IContext>(DEBUG_NEW Light::Context());
@@ -52,9 +52,6 @@ void Application::SetupSubmodule()
 	//m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
 	//a->Test();
-
-	//render::OutlineRenderPass* pOutline = DEBUG_NEW render::OutlineRenderPass("Outline", m_Context.get());
-	//m_pRenderer->AddExtraPass(pOutline);
 
 	m_pResources->PostInit();
 	m_pRenderer->PostInit();
@@ -135,11 +132,12 @@ void Application::MainLoop()
 
 	m_pScriptManager->Start();
 
+	
 	m_pTimer->VReset();
 
 	while (m_bRunMainLoop && !m_pWindows->VShouldClose())
 	{
-		
+		m_pRenderer->PreRender();
 		m_pInput->VUpdate();
 		m_pTimer->VTick();
 		

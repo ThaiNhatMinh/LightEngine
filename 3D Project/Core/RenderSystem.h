@@ -24,7 +24,7 @@ namespace Light
 			virtual IDebugRender*		GetDebugRender()override;
 			virtual IEffectSystem*		GetEffectSystem()override;
 			virtual void				PostInit();
-
+			virtual void				PreRender()override;
 		private:
 			//using RenderableList = std::list<Renderable>;
 			void LoadRenderDevice();

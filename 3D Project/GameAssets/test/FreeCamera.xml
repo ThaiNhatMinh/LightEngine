@@ -1,7 +1,7 @@
 <Actor type="None" name="Camera">
 
 	<Script name="CameraControl">
-		<Speed>600</Speed>
+		<Speed>200</Speed>
 		<MouseSensitivity>0.25</MouseSensitivity>
 	</Script>
 	

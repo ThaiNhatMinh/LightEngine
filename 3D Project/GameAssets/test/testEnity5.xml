@@ -5,7 +5,7 @@
 			<YawPitchRoll x="0" y="0" z="0"/>
 			<Scale x="3" y="3" z="3"/>
 		</TransformComponent>
-		<ColliderComponent>
+		<!-- <ColliderComponent>
 			<Shape>Box</Shape>
 			<HalfSize x="3" y="3" z="3" />
 		</ColliderComponent>
@@ -15,7 +15,7 @@
 			<RigidBodyTransform>
 				<Position x="0.0" y="0.0" z="0.0"/>
 			</RigidBodyTransform>
-		</RigidBodyComponent>
+		</RigidBodyComponent> -->
 
 		<MeshRenderComponent>
 			<Model File="GameAssets\test\Crate1.obj" />

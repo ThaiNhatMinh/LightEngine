@@ -4,8 +4,7 @@
 std::vector<DefaultVertex> Light::math::GenerateVertexData(resources::HeightMap * hm, int stepsize, int width, int height, float hscale, int sub)
 {
 	vec2 size = vec2((width - 1)*stepsize, (height - 1)*stepsize);
-	vec2 size2 = vec2((width - 0)*stepsize, (height - 0)*stepsize);
-	//Mesh* p = DEBUG_NEW Mesh;
+	
 
 	std::vector<DefaultVertex> vertex;
 

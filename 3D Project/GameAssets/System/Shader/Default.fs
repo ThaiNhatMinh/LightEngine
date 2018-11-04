@@ -61,9 +61,9 @@ vec4 ComputerDirLight(SurfaceInfo info)
     float diff = max(dot(LightDir, info.normal),0.0f);
     float spec = pow(max(dot(info.viewDir, reflectDir),0.0f), 32);
 
-    vec4 ambient = vec4(dLight.Ia,1.0f) * info.texel;
-    vec4 diffuse = vec4(dLight.Id,1.0f) *diff * info.texel;
-    vec4 specular = vec4(dLight.Is,1.0f) *spec * info.texel;
+    vec4 ambient = vec4(dLight.Ia,1.0f)* vec4(mat.Ka,1.0f) * info.texel;
+    vec4 diffuse = vec4(dLight.Id,1.0f)* vec4(mat.Kd,1.0f) *diff * info.texel;
+    vec4 specular = vec4(dLight.Is,1.0f)* vec4(mat.Ks,1.0f) *spec * info.texel;
 
     vec4 output = vec4(ambient + diffuse + specular);
 

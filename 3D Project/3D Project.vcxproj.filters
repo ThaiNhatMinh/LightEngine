@@ -455,7 +455,9 @@
     <ClCompile Include="Math\Math.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\BaseMaterial.cpp" />
+    <ClCompile Include="Graphics3D\BaseMaterial.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

@@ -1,4 +1,5 @@
 #include <pch.h>
+#include <time.h>
 #include "TerrainRenderComponent.h"
 #include "..\Math\Math.h"
 #include "..\Interface\IRenderSystem.h"
@@ -17,30 +18,30 @@ namespace Light
 		numSub = pParam->Int64Attribute("NumSub", 2);
 
 		const char* pFileName = pModelPath->Attribute("File");
-		if (pFileName)
-		{
-			auto pResources = pContext->GetSystem<resources::IResourceManager>();
-			auto pRenderDevice = pContext->GetSystem<render::IRenderSystem>()->GetRenderDevice();
-			auto pFactory = pContext->GetSystem<IFactory>();
-			
-			resources::HeightMap* hm = pResources->VGetHeightMap(pFileName);
+		if (!pFileName) return 0;
 
-			const tinyxml2::XMLElement* pTexPath = pData->FirstChildElement("Texture");
-			;
-			
-			auto pModel = GenerateMeshData(pRenderDevice, hm);
-			//pModel->Textures = pText;
-			pModel->Material = pFactory->VGetMaterial("Default")->Clone();
-			auto ppipeline = pRenderDevice->CreatePipeline(pResources->VGetVertexShader("Terrain"), pResources->VGetPixelShader("Terrain"));
-			pModel->Material->SetPipeline(ppipeline);
-			pModel->Material->ClearTextureData();
-			LoadTexture(pTexPath, pResources, pModel);
-			
-			this->m_pModel = pModel;
-			return true;
-		}
+		auto pResources = pContext->GetSystem<resources::IResourceManager>();
+		auto pRenderDevice = pContext->GetSystem<render::IRenderSystem>()->GetRenderDevice();
+		auto pFactory = pContext->GetSystem<IFactory>();
 
-		return false;
+		resources::HeightMap* hm = pResources->VGetHeightMap(pFileName);
+
+		const tinyxml2::XMLElement* pTexPath = pData->FirstChildElement("Texture");
+		
+
+		auto pModel = GenerateMeshData(pRenderDevice, hm);
+		//pModel->Textures = pText;
+		pModel->Material = pFactory->VGetMaterial("Default")->Clone();
+		auto ppipeline = pRenderDevice->CreatePipeline(pResources->VGetVertexShader("Terrain"), pResources->VGetPixelShader("Terrain"));
+		pModel->Material->SetPipeline(ppipeline);
+		pModel->Material->ClearTextureData();
+		LoadTexture(pTexPath, pResources, pModel);
+		LoadObject(pData->FirstChildElement("Assets"), pResources, pModel, hm);
+		this->m_pModel = pModel;
+		return true;
+
+
+		
 	}
 
 	tinyxml2::XMLElement * TerrainRenderComponent::VDeserialize(tinyxml2::XMLDocument * p)
@@ -111,6 +112,41 @@ namespace Light
 		pModel->Material->AddTexUnit("mat.blend",render::UNIT_BLEND);
 	}
 
+	void TerrainRenderComponent::LoadObject(const tinyxml2::XMLElement * pData, resources::IResourceManager * pResources, TerrainModel * pModel, resources::HeightMap * hm)
+	{
+		
+		for (auto pNode = pData->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+		{
+			int num = pNode->Int64Attribute("num");
+			auto pFile = pNode->GetText();
+			TerrainObject obj;
+			
+			obj.model = pResources->VGetModel(pFile);
+			if (!obj.model) continue;
+			for (int i = 0; i < num; i++)
+			{
+				glm::mat4 scale = glm::scale(glm::mat4(),glm::vec3(2));
+				glm::vec3 pos = RandomPos(hm);
+				glm::mat4 translate = glm::translate(glm::mat4(),pos);
+				obj.transform = translate* scale;
+				pModel->m_Objects.push_back(obj);
+			}
+
+		}
+	}
+
+	glm::vec3 TerrainRenderComponent::RandomPos(resources::HeightMap * hm)
+	{
+		vec2 size = vec2((hm->Width - 1)*stepsize, (hm->Height - 1)*stepsize);
+
+		vec2 v = vec2(rand() % hm->Width, rand() % hm->Height);
+
+		float t = (hm->minH + hm->maxH) / 2.0f;
+		int y = (hm->Data[v.y*hm->Width + v.x] - t)*hscale;
+
+		return glm::vec3(v.x*stepsize-size[0] / 2,y,v.y*stepsize - size[1] / 2);
+	}
+
 	
 
 
@@ -143,6 +179,16 @@ namespace Light
 			if (!pFrustum->Inside(pGrid->box.Min, pGrid->box.Max)) continue;
 			Meshs[i]->Draw(rd.pRenderer);
 			//numdraw++;
+		}
+
+		for (int i=0; i<m_Objects.size(); i++)
+		{
+			math::AABB box = m_Objects[i].model->GetBox();
+			box = math::TrasformAABB(box, m_Objects[i].transform);
+			matrixParam[render::uMODEL] = glm::value_ptr(m_Objects[i].transform);
+			matrixParam[render::uMVP] = glm::value_ptr(rd.pv*m_Objects[i].transform);
+			if (!pFrustum->Inside(box.Min, box.Max)) continue;
+			m_Objects[i].model->Draw(rd, matrixParam);
 		}
 		//cout << numdraw << endl;
 	}

@@ -67,15 +67,15 @@ namespace Light
 			virtual ~IResourceManager() = default;
 
 			//virtual SpriteAnim *	VGetSpriteAnimation(const string& filename) = 0;
-			virtual render::Texture*		VGetTexture(const std::string& filename) = 0;
-			virtual render::VertexShader*	VGetVertexShader(const std::string& key) = 0;
-			virtual render::PixelShader*	VGetPixelShader(const std::string& key) = 0;
-			virtual render::Model *			VGetModel(const std::string& filename) = 0;
-			virtual HeightMap*				VGetHeightMap(const std::string& filename) = 0;
-			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist) = 0;
-			virtual LTRawData*				VGetRawModel(const std::string& filename)=0;
-			virtual render::Sprite*			VCreateSprite(const std::string& filename,glm::vec3 pos) = 0;
-			virtual Sound*					VGetSound(const std::string& tag) = 0;
+			virtual render::Texture*		VGetTexture(const std::string& filename, bool tryload=false) = 0;
+			virtual render::VertexShader*	VGetVertexShader(const std::string& key, bool tryload = false) = 0;
+			virtual render::PixelShader*	VGetPixelShader(const std::string& key, bool tryload = false) = 0;
+			virtual render::Model *			VGetModel(const std::string& filename, bool tryload = false) = 0;
+			virtual HeightMap*				VGetHeightMap(const std::string& filename, bool tryload = false) = 0;
+			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist, bool tryload = false) = 0;
+			virtual LTRawData*				VGetRawModel(const std::string& filename, bool tryload = false)=0;
+			virtual render::Sprite*			VCreateSprite(const std::string& filename,glm::vec3 pos, bool tryload = false) = 0;
+			virtual Sound*					VGetSound(const std::string& tag, bool tryload = false) = 0;
 		};
 	}
 }

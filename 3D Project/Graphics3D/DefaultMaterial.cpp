@@ -98,10 +98,6 @@ namespace Light
 			m_pLightManager->SetupDirLight(&m_uDirLight);
 			m_pLightManager->SetupPointLight(m_uPointLight);
 
-			//m_uAmbient->SetAsInt(UNIT_AMBIENT);
-			//m_uDiffuse->SetAsInt(UNIT_DIFFUSE);
-			//m_uSpecular->SetAsInt(UNIT_SPECULAR);
-			//m_uCubeTex->SetAsInt(UNIT_SKYBOX);
 
 			for (auto&el : m_TextureUnits)
 				el.first->SetAsInt(el.second);

@@ -12,8 +12,6 @@
 		</TransformComponent>
 		<AnimatorComponent>
 			<Skeleton>GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Skeleton>
-			
-			
 			<AnimationLayer>
 				<EntryPoint>Idle</EntryPoint>
 				<Name>Default</Name>

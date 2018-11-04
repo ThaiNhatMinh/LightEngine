@@ -343,32 +343,6 @@ namespace Light
 
 		}
 
-		//Texture * ResourceManager::LoadTexMemory(const string& filename, unsigned char * data, int w, int h)
-		//{
-		//	Texture* tex = NULL;
-		//	if ((tex = HasTexture(filename)) != NULL) return tex;
-
-		//	//GLuint id;
-		//	//glGenTextures(1, &id);
-		//	//glBindTexture(GL_TEXTURE_2D, id);
-		//	//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		//	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		//	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		//	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		//	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		//	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		//	//glBindTexture(GL_TEXTURE_2D, 0);
-		//	E_ERROR("ResourceManager::LoadTexMemory");
-		//	//tex = DEBUG_NEW Texture(w,h,24,data);
-
-		//	//m_Textures.push_back(std::unique_ptr<Texture>(tex));
-
-
-		//	return tex;
-
-		//}
-
 		render::Texture * ResourceManager::LoadDTX(const string& filename)
 		{
 
@@ -484,7 +458,7 @@ namespace Light
 		render::Model * ResourceManager::LoadModel(const string& filename)
 		{
 			render::Model* pModel = nullptr;
-			if (filename.find(".obj") != std::string::npos) pModel = LoadObjModel(filename);
+			pModel = LoadObjModel(filename);
 
 			if(pModel)
 				m_ModelCaches.push_back(ResourceHandle<render::Model>(filename, pModel));
@@ -510,7 +484,7 @@ namespace Light
 				tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
 				const char* pFileName = pModelNode->Attribute("File");
 
-				LTRawData* pLTBData = VGetRawModel(pFileName);
+				LTRawData* pLTBData = VGetRawModel(pFileName,true);
 				if (pLTBData)
 				{
 
@@ -526,7 +500,7 @@ namespace Light
 						if (pTextureElement)
 						{
 							const char* pTextureFile = pTextureElement->Attribute("File");
-							pModelRender->Textures.push_back(VGetTexture(pTextureFile));
+							pModelRender->Textures.push_back(VGetTexture(pTextureFile,true));
 							const char* pMaterialFile = pTextureElement->Attribute("Material");
 							pModelRender->Materials.push_back(m_pContext->GetSystem<IFactory>()->VGetMaterial("Skeleton"));
 							
@@ -624,6 +598,7 @@ namespace Light
 				for (size_t j = 0; j < mesh->mNumVertices;j++)
 				{
 					aiVector3D pos = mesh->mVertices[j];
+					
 					aiVector3D UVW = mesh->mTextureCoords[0][j];
 					aiVector3D n = mesh->mNormals[j];
 					DefaultVertex dv;
@@ -673,7 +648,7 @@ namespace Light
 				}*/
 				{
 					mat->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL);
-					pModel->Diffuse.push_back(VGetTexture(localPath + Path.C_Str()));
+					pModel->Diffuse.push_back(VGetTexture(localPath + Path.C_Str(),true));
 				}
 				/*{
 					mat->GetTexture(aiTextureType_SPECULAR, 0, &Path, NULL, NULL, NULL, NULL, NULL);
@@ -690,11 +665,11 @@ namespace Light
 		}
 
 	
-		render::Texture * ResourceManager::VGetTexture(const string& filename)
+		render::Texture * ResourceManager::VGetTexture(const string& filename, bool tryload)
 		{
 			render::Texture* tex = nullptr;
 			tex = HasResource(m_Textures,filename);
-			if (tex == nullptr)
+			if (tex == nullptr && tryload)
 			{
 				if ((tex = LoadTexture(filename)) == nullptr)
 				{
@@ -705,7 +680,7 @@ namespace Light
 
 		}
 
-		render::VertexShader * ResourceManager::VGetVertexShader(const std::string & filename)
+		render::VertexShader * ResourceManager::VGetVertexShader(const std::string & filename, bool tryload)
 		{
 			render::VertexShader* Vshader = nullptr;
 			CheckResourceFunc a = [](const std::string&a, const std::string& b)
@@ -714,7 +689,7 @@ namespace Light
 				return s;
 			};
 			Vshader = HasResource(m_VertexShaders, filename,a);
-			if (Vshader == nullptr)
+			if (Vshader == nullptr && tryload)
 			{
 				if((Vshader=LoadVertexShader(filename))==nullptr)
 					E_ERROR("Cound not find vertex shader: %s", filename.c_str());
@@ -723,7 +698,7 @@ namespace Light
 			return Vshader;
 		}
 
-		render::PixelShader * ResourceManager::VGetPixelShader(const std::string & filename)
+		render::PixelShader * ResourceManager::VGetPixelShader(const std::string & filename, bool tryload)
 		{
 			render::PixelShader* Pshader = nullptr;
 			CheckResourceFunc a = [](const std::string&a, const std::string& b)
@@ -732,7 +707,7 @@ namespace Light
 				return s;
 			};
 			Pshader = HasResource(m_PixelShaders, filename,a);
-			if (Pshader == nullptr)
+			if (Pshader == nullptr&&tryload)
 			{
 				if((Pshader=LoadPixelShader(filename))==nullptr)
 					E_ERROR("Cound not find pixel shader: %s", filename.c_str());
@@ -741,11 +716,13 @@ namespace Light
 			return Pshader;
 		}
 
-		render::Model * ResourceManager::VGetModel(const string& filename)
+		render::Model * ResourceManager::VGetModel(const string& filename, bool tryload)
 		{
 			render::Model* pModel = nullptr;
 			pModel = HasResource(m_ModelCaches, filename);
 			if (pModel) return pModel;
+
+			if (!tryload) return pModel;
 
 			if (filename.find(".xml") != string::npos) pModel = LoadModelXML(filename);
 			/*else if (filename.find(".obj") != string::npos|| filename.find(".3ds") != string::npos)
@@ -763,11 +740,11 @@ namespace Light
 			return pModel;
 		}
 
-		HeightMap * ResourceManager::VGetHeightMap(const string& filename)
+		HeightMap * ResourceManager::VGetHeightMap(const string& filename, bool tryload)
 		{
 			HeightMap* hm = nullptr;
 			hm = HasResource(m_HeightMaps,filename);
-			if (hm == nullptr)
+			if (hm == nullptr && tryload)
 			{
 				hm = LoadHeightMap(filename/*,20,-1,-1,10,16*/);
 				if(hm==nullptr) E_ERROR("Could not find heightmap: %s", filename.c_str());
@@ -777,12 +754,12 @@ namespace Light
 			return hm;
 		}
 
-		render::Texture * ResourceManager::VGetCubeTex(const std::vector<std::string>& filelist)
+		render::Texture * ResourceManager::VGetCubeTex(const std::vector<std::string>& filelist, bool tryload)
 		{
 
 			render::Texture* tex = nullptr;
 			tex = HasResource(m_Textures, filelist[0]);
-			if (tex == nullptr)
+			if (tex == nullptr&&tryload)
 			{
 				if ((tex = LoadCubeTex(filelist)) == nullptr)
 				{
@@ -792,11 +769,12 @@ namespace Light
 			return tex;
 		}
 
-		LTRawData * ResourceManager::VGetRawModel(const std::string & filename)
+		LTRawData * ResourceManager::VGetRawModel(const std::string & filename, bool tryload)
 		{
 			LTRawData* pData = HasResource(m_RawModels, filename);
 			if (pData) return pData;
 
+			if (!tryload) return nullptr;
 			pData = LoadLTBModel(filename);
 
 			m_RawModels.push_back(ResourceHandle<LTRawData>(filename, pData));
@@ -815,14 +793,32 @@ namespace Light
 			}
 			else LoadResources(resourcePath);
 			return nullptr;
-		}*/
+		}
+		void ResourceManager::LoadThreadResource(OpenGLContext* ThreadContext, const std::string & path)
+		{
+			ThreadContext->MakeContext();
 
-		Sound * ResourceManager::VGetSound(const string & tag)
+			m_LoadLock.lock();
+			m_LoadStatus.path = path;
+			m_LoadStatus.status = LoadStatus::LOADING;
+			m_LoadLock.unlock();
+
+			LoadResources(path);
+
+			m_LoadLock.lock();
+			m_LoadStatus.status = LoadStatus::FINISH;
+			m_LoadStatus.percent = 1.f;
+			m_LoadLock.unlock();
+			m_LoadThread.detach();
+
+		}*/
+		Sound * ResourceManager::VGetSound(const string & tag, bool tryload)
 		{
 			Sound* pSound = HasResource(m_SoundList, tag, [](const std::string& inList, const std::string& tag)
 			{return inList.find(tag) != std::string::npos; });
 
 			if (pSound) return pSound;
+			if (!tryload) return pSound;
 
 			pSound = LoadSound(tag, FMOD_3D);
 
@@ -835,16 +831,17 @@ namespace Light
 			return nullptr;
 		}
 
-		render::Sprite * ResourceManager::VCreateSprite(const std::string & filename, glm::vec3 pos)
+		render::Sprite * ResourceManager::VCreateSprite(const std::string & filename, glm::vec3 pos, bool tryload)
 		{
 			SpriteData* pData = HasResource(m_Sprites, filename);
 			if (pData == nullptr)
 			{
-				pData = LoadSpriteAnimation(filename);
+				if(tryload) pData = LoadSpriteAnimation(filename);
 				if(pData==nullptr) return nullptr;
 
 				m_Sprites.push_back(ResourceHandle<SpriteData>(filename, pData));
 			}
+			
 			
 			
 			render::Sprite* p = DEBUG_NEW render::Sprite();
@@ -1041,24 +1038,7 @@ namespace Light
 			
 		}
 
-		/*void ResourceManager::LoadThreadResource(OpenGLContext* ThreadContext, const std::string & path)
-		{
-			ThreadContext->MakeContext();
-
-			m_LoadLock.lock();
-			m_LoadStatus.path = path;
-			m_LoadStatus.status = LoadStatus::LOADING;
-			m_LoadLock.unlock();
-
-			LoadResources(path);
-			
-			m_LoadLock.lock();
-			m_LoadStatus.status = LoadStatus::FINISH;
-			m_LoadStatus.percent = 1.f;
-			m_LoadLock.unlock();
-			m_LoadThread.detach();
-
-		}*/
+		
 
 		void ResourceManager::LoadSystemResources()
 		{
