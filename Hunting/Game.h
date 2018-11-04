@@ -3,6 +3,7 @@
 #include <IGamePlugin.h>
 #include <IContext.h>
 #include <IScene.h>
+#include "GameState/StateStack.h"
 class Game : public IGamePlugin
 {
 public:
@@ -14,7 +15,8 @@ public:
 	virtual void	ShutDown();
 
 private:
-	Light::IScene* pScene;
+	//Light::IScene* pScene;
+	StateStack m_StateStack;
 	Light::render::RenderDevice* m_pRenderer;
 	/*Light::render::Pipeline *pipeline;
 	Light::render::VertexArray *vertexArray;

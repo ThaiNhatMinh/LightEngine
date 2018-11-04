@@ -8,32 +8,34 @@
 #include <iostream>
 #include "Game.h"
 #include <Events.h>
-
+#include "GameState/GS_Loading.h"
 
 
 void Game::Init(Light::IContext* pContext)
 {
 	std::cout << "Hello from DLL\n";
 	using namespace Light;
+	m_StateStack = StateStack(pContext);
+	m_StateStack.Push(new GS_Loading(&m_StateStack));
 
 	//m_pRenderer = pContext->GetSystem<render::RenderDevice>();
-	auto pResources = pContext->GetSystem<resources::IResourceManager>();
-	auto Factory = pContext->GetSystem<IFactory>();
-	auto EventManager = pContext->GetSystem<IEventManager>();
+	//auto pResources = pContext->GetSystem<resources::IResourceManager>();
+	//auto Factory = pContext->GetSystem<IFactory>();
+	//auto EventManager = pContext->GetSystem<IEventManager>();
 	//pResources->VGetModel("GameAssets\\MODELS\\707_BL.xml");
 
-	pScene = Factory->VCreateScene("GameAssets\\test\\Scene.xml");
+	//pScene = Factory->VCreateScene("GameAssets\\test\\Scene.xml");
 
-	auto pEventManager = pContext->GetSystem<Light::IEventManager>();
-	auto pFactory = pContext->GetSystem<Light::IFactory>();
-	auto pTimer = pContext->GetSystem<Light::ITimer>();
+	//auto pEventManager = pContext->GetSystem<Light::IEventManager>();
+	//auto pFactory = pContext->GetSystem<Light::IFactory>();
+	//auto pTimer = pContext->GetSystem<Light::ITimer>();
 
-	auto pEvent = new events::EvtRequestCreateSprite();
+	/*auto pEvent = new events::EvtRequestCreateSprite();
 	pEvent->File = "GameAssets\\TEXTURES\\FX\\BLOOD3\\BLOOD3.SPR";
 	pEvent->life = 10;
 	pEvent->Pos = glm::vec3(0, 200, 0);
 	pEvent->Parent = nullptr;
-	EventManager->VQueueEvent(std::shared_ptr<IEvent>(pEvent));
+	EventManager->VQueueEvent(std::shared_ptr<IEvent>(pEvent));*/
 
 	/*render::BlendConfig config;
 	config.Enable = true;
@@ -49,6 +51,7 @@ void Game::ShutDown()
 
 void Game::Update(float dt)
 {
-	pScene->VOnUpdate(dt);
+	//pScene->VOnUpdate(dt);
+	m_StateStack.Update(dt);
 
 }
