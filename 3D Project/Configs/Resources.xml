@@ -1,29 +1,29 @@
 <Resources Path ="GameAssets\System\">
 	<Texture File="Texture\Default.png"/>
 	<Texture File="Texture\White.png"/>
-	<VertexShader File="Shader\Default.vs"/>
-	<VertexShader File="Shader\Skeleton.vs"/>
-	<VertexShader File="Shader\Outline.vs"/>
-	<VertexShader File="Shader\Screen.vs"/>
-	<PixelShader File="Shader\Default.fs"/>
-	<PixelShader File="Shader\Color.fs"/>
-	<PixelShader File="Shader\Screen.fs"/>
+	<Shader File="Shader\Default.vs"/>
+	<Shader File="Shader\Skeleton.vs"/>
+	<Shader File="Shader\Outline.vs"/>
+	<Shader File="Shader\Screen.vs"/>
+	<Shader File="Shader\Default.fs"/>
+	<Shader File="Shader\Color.fs"/>
+	<Shader File="Shader\Screen.fs"/>
 	
-	<VertexShader File="Shader\SkyBox.vs"/>
-	<PixelShader File="Shader\SkyBox.fs"/>
+	<Shader File="Shader\SkyBox.vs"/>
+	<Shader File="Shader\SkyBox.fs"/>
 
-	<VertexShader File="Shader\Debug_Line.vs"/>
-	<PixelShader File="Shader\Debug_Line.fs"/>
+	<Shader File="Shader\Debug_Line.vs"/>
+	<Shader File="Shader\Debug_Line.fs"/>
 
-	<VertexShader File="Shader\Debug_Box.vs"/>
-	<PixelShader File="Shader\Debug_Box.fs"/>
+	<Shader File="Shader\Debug_Box.vs"/>
+	<Shader File="Shader\Debug_Box.fs"/>
 
-	<VertexShader File="Shader\imgui.vs"/>
-	<PixelShader File="Shader\imgui.fs"/>
+	<Shader File="Shader\imgui.vs"/>
+	<Shader File="Shader\imgui.fs"/>
 
-	<VertexShader File="Shader\Sprite.vs"/>
-	<PixelShader File="Shader\Sprite.fs"/>
+	<Shader File="Shader\Sprite.vs"/>
+	<Shader File="Shader\Sprite.fs"/>
 	
-	<VertexShader File="Shader\Terrain.vs"/>
-	<PixelShader File="Shader\Terrain.fs"/>
+	<Shader File="Shader\Terrain.vs"/>
+	<Shader File="Shader\Terrain.fs"/>
 </Resources>

@@ -4,7 +4,7 @@
 #include <glm\vec2.hpp>
 #include "Mesh.h"
 #include "Vertex.h"
-#include "..\ResourceManager\LTRawData.h"
+#include "..\ResourceManager\ResourceManager.h"
 
 namespace Light
 {	
@@ -20,7 +20,7 @@ namespace Light
 		std::unique_ptr<render::IndexBuffer>		m_pIBO;
 		std::size_t m_iNNumIndices;
 	public:
-		SkeMesh(render::RenderDevice* pRenderDevice, LTRawMesh* pData);
+		SkeMesh(render::RenderDevice* pRenderDevice, resources::LTRawMesh* pData);
 		~SkeMesh() {};
 		virtual void Draw(render::RenderDevice * renderer)override;
 	};

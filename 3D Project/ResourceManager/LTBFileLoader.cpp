@@ -219,9 +219,9 @@ void ReadData(FILE * pFile, Light::AnimNode & node, const vector<Light::AnimKeyF
 
 
 
-vector<LTRawMesh> LoadMesh(FILE* pFile)
+vector<resources::LTRawMesh> LoadMesh(FILE* pFile)
 {
-	vector<LTRawMesh> meshlist;
+	vector<resources::LTRawMesh> meshlist;
 
 	uint32 numPieces;
 	fread(&numPieces, sizeof(uint32), 1, pFile);
@@ -789,7 +789,7 @@ LTBProp LoadProp(FILE* pFile)
  }
 
 
-LTRawData * LTBFileLoader::LoadModel(const char * pFileName)
+resources::LTRawData * LTBFileLoader::LoadModel(const char * pFileName)
 {
 	FILE* pFile = fopen(pFileName, "rb");
 	if (!pFile)
@@ -797,7 +797,7 @@ LTRawData * LTBFileLoader::LoadModel(const char * pFileName)
 		return nullptr;
 	}
 
-	LTRawData* pModel = DEBUG_NEW LTRawData;
+	resources::LTRawData* pModel = DEBUG_NEW resources::LTRawData;
 	
 	LoadProp(pFile);
 	pModel->Meshs = LoadMesh(pFile);

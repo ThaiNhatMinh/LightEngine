@@ -24,7 +24,7 @@ namespace Light
 		auto pRenderDevice = pContext->GetSystem<render::IRenderSystem>()->GetRenderDevice();
 		auto pFactory = pContext->GetSystem<IFactory>();
 
-		resources::HeightMap* hm = pResources->VGetHeightMap(pFileName);
+		resources::HeightMapData* hm = pResources->VGetHeightMap(pFileName);
 
 		const tinyxml2::XMLElement* pTexPath = pData->FirstChildElement("Texture");
 		
@@ -32,11 +32,13 @@ namespace Light
 		auto pModel = GenerateMeshData(pRenderDevice, hm);
 		//pModel->Textures = pText;
 		pModel->Material = pFactory->VGetMaterial("Default")->Clone();
-		auto ppipeline = pRenderDevice->CreatePipeline(pResources->VGetVertexShader("Terrain"), pResources->VGetPixelShader("Terrain"));
+		auto pVS = pRenderDevice->CreateVertexShader(pResources->VGetShaderCode("Terrain.vs")->Get());
+		auto pPS = pRenderDevice->CreatePixelShader(pResources->VGetShaderCode("Terrain.fs")->Get());
+		auto ppipeline = pRenderDevice->CreatePipeline(pVS,pPS);
 		pModel->Material->SetPipeline(ppipeline);
 		pModel->Material->ClearTextureData();
-		LoadTexture(pTexPath, pResources, pModel);
-		LoadObject(pData->FirstChildElement("Assets"), pResources, pModel, hm);
+		LoadTexture(pTexPath, pContext->GetSystem<render::IRenderSystem>(),pResources, pModel);
+		LoadObject(pData->FirstChildElement("Assets"), pContext->GetSystem<render::IRenderSystem>(), pResources, pModel, hm);
 		this->m_pModel = pModel;
 		return true;
 
@@ -54,7 +56,7 @@ namespace Light
 		delete m_pModel;
 	}
 
-	TerrainRenderComponent::TerrainModel* TerrainRenderComponent::GenerateMeshData(render::RenderDevice* pRenderDevice, resources::HeightMap * hm)
+	TerrainRenderComponent::TerrainModel* TerrainRenderComponent::GenerateMeshData(render::RenderDevice* pRenderDevice, resources::HeightMapData * hm)
 	{
 		auto pModel = DEBUG_NEW TerrainModel();
 		
@@ -67,7 +69,7 @@ namespace Light
 
 		auto vertexs = math::GenerateVertexData(hm, stepsize, hm->Width, hm->Height, hscale, numSub);
 		std::vector<std::vector<DefaultVertex>> vertexList;
-		for (int i = 0; i < numMesh; i++)
+		for (std::size_t i = 0; i < numMesh; i++)
 		{
 			for (int j = 0; j < numMesh; j++)
 			{
@@ -96,23 +98,25 @@ namespace Light
 		
 	}
 
-	void TerrainRenderComponent::LoadTexture(const tinyxml2::XMLElement * pData, resources::IResourceManager * pResources, TerrainModel* pModel)
+	void TerrainRenderComponent::LoadTexture(const tinyxml2::XMLElement * pData, render::IRenderSystem* pRS, resources::IResourceManager * pResources, TerrainModel* pModel)
 	{
 		int i = 0;
 		for (auto pNode = pData->FirstChildElement("File"); pNode; pNode = pNode->NextSiblingElement("File"))
 		{
 			auto pFile = pNode->GetText();
-			pModel->Textures.push_back(std::pair<render::TextureUnit, render::Texture*>((render::TextureUnit)pNode->Int64Attribute("unit",i),pResources->VGetTexture(pFile)));
+			render::Texture* pTex = pRS->VCreateTexture(pResources->VGetTexture(std::vector<std::string>{pFile}));
+			pModel->Textures.push_back(std::pair<render::TextureUnit, render::Texture*>((render::TextureUnit)pNode->Int64Attribute("unit",i), pTex));
 			pModel->Material->AddTexUnit(pNode->Attribute("uniform"), (render::TextureUnit)pNode->Int64Attribute("unit", i));
 			i++;
 		}
 		
 		auto pFile = pData->FirstChildElement("Blend")->GetText();
-		pModel->Blend = pResources->VGetTexture(pFile);
+		render::Texture* pTex = pRS->VCreateTexture(pResources->VGetTexture(std::vector<std::string>{pFile}));
+		pModel->Blend = pTex;
 		pModel->Material->AddTexUnit("mat.blend",render::UNIT_BLEND);
 	}
 
-	void TerrainRenderComponent::LoadObject(const tinyxml2::XMLElement * pData, resources::IResourceManager * pResources, TerrainModel * pModel, resources::HeightMap * hm)
+	void TerrainRenderComponent::LoadObject(const tinyxml2::XMLElement * pData, render::IRenderSystem* pRS, resources::IResourceManager * pResources, TerrainModel * pModel, resources::HeightMapData * hm)
 	{
 		
 		for (auto pNode = pData->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
@@ -121,7 +125,7 @@ namespace Light
 			auto pFile = pNode->GetText();
 			TerrainObject obj;
 			
-			obj.model = pResources->VGetModel(pFile);
+			obj.model = pRS->VCreateModel(pResources->VGetModel(pFile));
 			if (!obj.model) continue;
 			for (int i = 0; i < num; i++)
 			{
@@ -135,7 +139,7 @@ namespace Light
 		}
 	}
 
-	glm::vec3 TerrainRenderComponent::RandomPos(resources::HeightMap * hm)
+	glm::vec3 TerrainRenderComponent::RandomPos(resources::HeightMapData * hm)
 	{
 		vec2 size = vec2((hm->Width - 1)*stepsize, (hm->Height - 1)*stepsize);
 

@@ -5,7 +5,7 @@
 	<!-- <Actor File="GameAssets\test\testEnity.xml" /> -->
 	<!-- <Actor File="GameAssets\test\testEnity2.xml" /> -->
 	<!-- <Actor File="GameAssets\test\testEnity3.xml" /> -->
-	<!-- <Actor File="GameAssets\test\testEnity4.xml" /> -->
+	<Actor File="GameAssets\test\testEnity4.xml" />
 	<Actor File="GameAssets\test\testEnity5.xml" />
 	<!-- <Actor File="GameAssets\test\terrain.xml" /> -->
 	<Light>

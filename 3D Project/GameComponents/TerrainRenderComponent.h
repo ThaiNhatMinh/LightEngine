@@ -1,9 +1,10 @@
 #pragma once
 #include "..\Interface\IComponent.h"
-#include "..\Math\AABB.h"
 #include "..\Interface\IResourceManager.h"
 #include "..\Interface\IFactory.h"
+#include "..\Interface\IRenderSystem.h"
 #include "..\Graphics3D\DefaultMesh.h"
+#include "..\Math\AABB.h"
 namespace Light
 {
 
@@ -47,10 +48,10 @@ namespace Light
 		virtual tinyxml2::XMLElement* VDeserialize(tinyxml2::XMLDocument*p);
 		~TerrainRenderComponent();
 	private:
-		TerrainModel* GenerateMeshData(render::RenderDevice* pRenderDevice,resources::HeightMap * hm);
-		void LoadTexture(const tinyxml2::XMLElement * pData, resources::IResourceManager* pResources, TerrainModel* pModel);
-		void LoadObject(const tinyxml2::XMLElement * pData, resources::IResourceManager* pResources, TerrainModel* pModel, resources::HeightMap * hm);
-		glm::vec3 RandomPos(resources::HeightMap * hm);
+		TerrainModel* GenerateMeshData(render::RenderDevice* pRenderDevice,resources::HeightMapData * hm);
+		void LoadTexture(const tinyxml2::XMLElement * pData,render::IRenderSystem* pRS, resources::IResourceManager* pResources, TerrainModel* pModel);
+		void LoadObject(const tinyxml2::XMLElement * pData, render::IRenderSystem* pRS, resources::IResourceManager* pResources, TerrainModel* pModel, resources::HeightMapData * hm);
+		glm::vec3 RandomPos(resources::HeightMapData * hm);
 	};
 
 }

@@ -49,7 +49,7 @@ namespace Light
 				return (a.find(b) != string::npos);
 			};
 			// Load default tex
-			m_pDefaultTex = HasResource(m_Textures, "White.png",a );
+			//m_pDefaultTex = HasResource(m_Textures, "White.png",a );
 
 			//LoadResources("GameAssets/" + string(Light::RESOURCES_FILE));
 
@@ -137,9 +137,9 @@ namespace Light
 			return s;
 		}
 
-		HeightMap* ResourceManager::LoadHeightMap(const string& filename)
+		HeightMapData* ResourceManager::LoadHeightMap(const string& filename)
 		{
-			HeightMap* hm = nullptr;
+			HeightMapData* hm = nullptr;
 
 			GLint width, height, iType, iBpp;
 
@@ -209,7 +209,7 @@ namespace Light
 				
 			delete[] pRawData;
 			ilResetMemory();
-			hm = DEBUG_NEW HeightMap();
+			hm = DEBUG_NEW HeightMapData();
 			hm->Data = std::unique_ptr<GLubyte[]>(pRawData2);
 			hm->Width = width;
 			hm->Height = height;
@@ -220,9 +220,9 @@ namespace Light
 			return hm;
 		}
 
-		render::Texture * ResourceManager::LoadTexture(const string& filename)
+		TextureData * ResourceManager::LoadTexture(const string& filename)
 		{
-			render::Texture* tex = nullptr;
+			TextureData* tex = nullptr;
 
 			if (filename.find(".DTX") != string::npos) return LoadDTX(filename);
 
@@ -240,7 +240,7 @@ namespace Light
 				E_ERROR("Can't load texture: %s",filename.c_str());
 				E_ERROR("[IL] %d",e);
 				//Log::Message(Log::LOG_ERROR, "Devil: " + error);
-				return m_pDefaultTex;//HasTexture("GameAssets/TEXTURE/Default.png");
+				return nullptr;//HasTexture("GameAssets/TEXTURE/Default.png");
 			}
 
 			width = ilGetInteger(IL_IMAGE_WIDTH);
@@ -267,33 +267,33 @@ namespace Light
 			}
 
 
-			render::TextureCreateInfo texinfo;
-			texinfo.eTarget = render::TEXTURE_2D;
-			texinfo.iLevel = 0;
-			texinfo.iInternalFormat = format;
-			texinfo.uiWidth = width;
-			texinfo.uiHeight = height;
-			texinfo.pData = Data;
-			texinfo.eType = render::UNSIGNED_BYTE;
-			texinfo.eFormat = texinfo.iInternalFormat;
 			
-			tex = m_pRenderDevice->CreateTexture(texinfo);
 
-
+			tex = DEBUG_NEW TextureData;
+			tex->iHeight = height;
+			tex->iWidht = width;
+			tex->format = format;
+			tex->iType = iType;
+			
+			auto pData = DEBUG_NEW unsigned char[width*height*iBpp];
+			memcpy(pData, Data, width*height*iBpp);
+			tex->pData = pData;
+			tex->flag = Flag_Normal;
 			ilResetMemory();
 
 
 
-			m_Textures.push_back(ResourceHandle<render::Texture>(filename,tex));
+			//m_Textures.push_back(ResourceHandle<TextureData>(filename,tex));
 
 
 			return tex;
 		}
 
-		render::Texture * ResourceManager::LoadCubeTex(const vector<string>& filelist)
+		TextureData * ResourceManager::LoadCubeTex(const vector<string>& filelist)
 		{
-			render::Texture* tex = nullptr;
-			unsigned char* pData[6];
+			TextureData* tex = nullptr;
+			unsigned char** pData;
+			pData = DEBUG_NEW unsigned char*[6];
 			GLint width, height, iType, iBpp;
 			for (size_t i = 0; i < filelist.size(); i++)
 			{
@@ -320,33 +320,25 @@ namespace Light
 			}
 
 
-			render::TextureCreateInfo texinfo;
-			texinfo.eTarget = render::TEXTURE_CUBE_MAP;
-			texinfo.iLevel = 0;
-			texinfo.iInternalFormat = iBpp == 3 ? render::FORMAT_RGB : render::FORMAT_RGBA;
-			texinfo.uiWidth = width;
-			texinfo.uiHeight = height;
-			texinfo.pData = pData;
-			texinfo.eType = render::UNSIGNED_BYTE;
+			
 
-			texinfo.eFormat = texinfo.iInternalFormat;
-
-
-			tex = m_pRenderDevice->CreateTexture(texinfo);
-			m_Textures.push_back(ResourceHandle<render::Texture>(filelist[0],tex));
+			tex = DEBUG_NEW TextureData;
+			tex->format = iBpp == 3 ? render::FORMAT_RGB : render::FORMAT_RGBA;
+			tex->iHeight = height;
+			tex->iWidht = width;
+			tex->iType = render::UNSIGNED_BYTE;
+			tex->pData = pData;
+			tex->flag = Flag_CubeTex;
 
 			ilResetMemory();
-
-			for (int i = 0; i < 6; i++) delete[] pData[i];
-
 			return tex;
 
 		}
 
-		render::Texture * ResourceManager::LoadDTX(const string& filename)
+		TextureData * ResourceManager::LoadDTX(const string& filename)
 		{
 
-			render::Texture* tex = nullptr;
+			TextureData* tex = nullptr;
 						
 
 			FILE* pFile = fopen(filename.c_str(), "rb");
@@ -354,7 +346,7 @@ namespace Light
 			{
 				E_ERROR("Can't open file: %s",filename.c_str());
 
-				return m_pDefaultTex;
+				return tex;
 			}
 			DtxHeader Header;
 			memset(&Header, 0, sizeof(DtxHeader));
@@ -422,7 +414,7 @@ namespace Light
 
 	
 
-			if (InternalFormat == render::FORMAT_RGBA)
+			/*if (InternalFormat == render::FORMAT_RGBA)
 			{
 				render::TextureCreateInfo texinfo;
 				texinfo.eTarget = render::TEXTURE_2D;
@@ -445,106 +437,101 @@ namespace Light
 				texinfo.eTarget = render::TEXTURE_2D;
 				tex = m_pRenderDevice->CreateTexture(texinfo,true);
 			}
+*/
 
-			m_Textures.push_back(ResourceHandle<render::Texture>(filename,tex));
+			tex = DEBUG_NEW TextureData;
+			tex->iWidht = W;
+			tex->iHeight = H;
+			tex->iType = 0;
+			tex->format = InternalFormat;
+			tex->pData = ubBuffer;
+			tex->iSize = iSize;
+			if (InternalFormat == render::FORMAT_RGBA)
+				tex->flag = Flag_Normal;
+			else if (InternalFormat == render::FORMAT_COMPRESSED_RGBA_S3TC_DXT1_EXT || InternalFormat == render::FORMAT_COMPRESSED_RGBA_S3TC_DXT3_EXT || InternalFormat == render::FORMAT_COMPRESSED_RGBA_S3TC_DXT5_EXT)
+				tex->flag = Flag_Compress;
 
 			fclose(pFile);
-			delete[] ubBuffer;
 			return tex;
 
 		}
 
 
-		render::Model * ResourceManager::LoadModel(const string& filename)
+		ModelData * ResourceManager::LoadModel(const string& filename)
 		{
-			render::Model* pModel = nullptr;
-			pModel = LoadObjModel(filename);
-
-			if(pModel)
-				m_ModelCaches.push_back(ResourceHandle<render::Model>(filename, pModel));
+			ModelData* pModel = nullptr;
+			if (filename.find(".LTB") != std::string::npos) pModel = LoadLTBModel(filename);
+			else pModel = LoadObjModel(filename);
 			return pModel;
 		}
 
-		render::Model * ResourceManager::LoadModelXML(const string& XMLFile)
-		{
-			tinyxml2::XMLDocument doc;
-			LTModel* pModelRender = nullptr;
-
-			int errorID = doc.LoadFile(XMLFile.c_str());
-			if (errorID)
-			{
-				E_ERROR("Failed to load XML file: %s",XMLFile);
-				return nullptr;
-			}
-			tinyxml2::XMLElement* pData = doc.FirstChildElement();
-
-			if (strcmp(pData->Value(), "Data") == 0)
-			{
-				// load model
-				tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
-				const char* pFileName = pModelNode->Attribute("File");
-
-				LTRawData* pLTBData = VGetRawModel(pFileName,true);
-				if (pLTBData)
-				{
-
-					pModelRender = DEBUG_NEW LTModel;
-				
-					tinyxml2::XMLElement* pTextureNode = pData->FirstChildElement("Texture");
-					vector<LTRawMesh>& ve = pLTBData->Meshs;
-					for (size_t i = 0; i < ve.size(); i++)
-					{
-						pModelRender->Meshs.push_back(std::unique_ptr<Mesh>(DEBUG_NEW SkeMesh(m_pRenderDevice, &ve[i])));
-
-						tinyxml2::XMLElement* pTextureElement = pTextureNode->FirstChildElement(ve[i].Name.c_str());
-						if (pTextureElement)
-						{
-							const char* pTextureFile = pTextureElement->Attribute("File");
-							pModelRender->Textures.push_back(VGetTexture(pTextureFile,true));
-							const char* pMaterialFile = pTextureElement->Attribute("Material");
-							pModelRender->Materials.push_back(m_pContext->GetSystem<IFactory>()->VGetMaterial("Skeleton"));
-							
-						}
-						else pModelRender->Textures.push_back(m_pDefaultTex);
-
-						
-					}
-				}
-				
-
-
-
-				//// load material
-				//tinyxml2::XMLElement* pMaterialData = pData->FirstChildElement("Material");
-				//render::Material* mat;
-				//tinyxml2::XMLElement* pKa = pMaterialData->FirstChildElement("Ka");
-				//mat.Ka.x = pKa->FloatAttribute("r", 1.0f);
-				//mat.Ka.y = pKa->FloatAttribute("g", 1.0f);
-				//mat.Ka.z = pKa->FloatAttribute("b", 1.0f);
-				//tinyxml2::XMLElement* pKd = pMaterialData->FirstChildElement("Kd");
-				//mat.Kd.x = pKd->FloatAttribute("r", 1.0f);
-				//mat.Kd.y = pKd->FloatAttribute("g", 1.0f);
-				//mat.Kd.z = pKd->FloatAttribute("b", 1.0f);
-				//tinyxml2::XMLElement* pKs = pMaterialData->FirstChildElement("Ks");
-				//mat.Ks.x = pKs->FloatAttribute("r", 1.0f);
-				//mat.Ks.y = pKs->FloatAttribute("g", 1.0f);
-				//mat.Ks.z = pKs->FloatAttribute("b", 1.0f);
-				//mat.exp = vec3(pKs->FloatAttribute("exp", 32.0f));
-
-				//pModelRender->m_Material.resize(pModelRender->m_pMesh.size(), mat);
-				// Done return LTModel
-
-				m_ModelCaches.push_back(ResourceHandle<render::Model>(XMLFile, pModelRender));
-
-				return pModelRender;
-			}
-			else if (strcmp(pData->Value(), "PVModel") == 0)
-			{
-				return nullptr;
-			}
-
-			return nullptr;
-		}
+		//render::Model * ResourceManager::LoadModelXML(const string& XMLFile)
+		//{
+		//	tinyxml2::XMLDocument doc;
+		//	LTModel* pModelRender = nullptr;
+		//	int errorID = doc.LoadFile(XMLFile.c_str());
+		//	if (errorID)
+		//	{
+		//		E_ERROR("Failed to load XML file: %s",XMLFile);
+		//		return nullptr;
+		//	}
+		//	tinyxml2::XMLElement* pData = doc.FirstChildElement();
+		//	if (strcmp(pData->Value(), "Data") == 0)
+		//	{
+		//		// load model
+		//		tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
+		//		const char* pFileName = pModelNode->Attribute("File");
+		//		LTRawData* pLTBData = VGetRawModel(pFileName,true);
+		//		if (pLTBData)
+		//		{
+		//			pModelRender = DEBUG_NEW LTModel;
+		//		
+		//			tinyxml2::XMLElement* pTextureNode = pData->FirstChildElement("Texture");
+		//			vector<LTRawMesh>& ve = pLTBData->Meshs;
+		//			for (size_t i = 0; i < ve.size(); i++)
+		//			{
+		//				pModelRender->Meshs.push_back(std::unique_ptr<Mesh>(DEBUG_NEW SkeMesh(m_pRenderDevice, &ve[i])));
+		//				tinyxml2::XMLElement* pTextureElement = pTextureNode->FirstChildElement(ve[i].Name.c_str());
+		//				if (pTextureElement)
+		//				{
+		//					const char* pTextureFile = pTextureElement->Attribute("File");
+		//					pModelRender->Textures.push_back(VGetTexture(pTextureFile,true));
+		//					const char* pMaterialFile = pTextureElement->Attribute("Material");
+		//					pModelRender->Materials.push_back(m_pContext->GetSystem<IFactory>()->VGetMaterial("Skeleton"));
+		//					
+		//				}
+		//				else pModelRender->Textures.push_back(m_pDefaultTex);
+		//				
+		//			}
+		//		}
+		//		
+		//		//// load material
+		//		//tinyxml2::XMLElement* pMaterialData = pData->FirstChildElement("Material");
+		//		//render::Material* mat;
+		//		//tinyxml2::XMLElement* pKa = pMaterialData->FirstChildElement("Ka");
+		//		//mat.Ka.x = pKa->FloatAttribute("r", 1.0f);
+		//		//mat.Ka.y = pKa->FloatAttribute("g", 1.0f);
+		//		//mat.Ka.z = pKa->FloatAttribute("b", 1.0f);
+		//		//tinyxml2::XMLElement* pKd = pMaterialData->FirstChildElement("Kd");
+		//		//mat.Kd.x = pKd->FloatAttribute("r", 1.0f);
+		//		//mat.Kd.y = pKd->FloatAttribute("g", 1.0f);
+		//		//mat.Kd.z = pKd->FloatAttribute("b", 1.0f);
+		//		//tinyxml2::XMLElement* pKs = pMaterialData->FirstChildElement("Ks");
+		//		//mat.Ks.x = pKs->FloatAttribute("r", 1.0f);
+		//		//mat.Ks.y = pKs->FloatAttribute("g", 1.0f);
+		//		//mat.Ks.z = pKs->FloatAttribute("b", 1.0f);
+		//		//mat.exp = vec3(pKs->FloatAttribute("exp", 32.0f));
+		//		//pModelRender->m_Material.resize(pModelRender->m_pMesh.size(), mat);
+		//		// Done return LTModel
+		//		m_ModelCaches.push_back(ResourceHandle<render::Model>(XMLFile, pModelRender));
+		//		return pModelRender;
+		//	}
+		//	else if (strcmp(pData->Value(), "PVModel") == 0)
+		//	{
+		//		return nullptr;
+		//	}
+		//	return nullptr;
+		//}
 
 		Sound * ResourceManager::LoadSound(const string & filename, int mode)
 		{
@@ -569,7 +556,7 @@ namespace Light
 		}
 
 		
-		DefaultModel * ResourceManager::LoadObjModel(const std::string filename)
+		ModelData * ResourceManager::LoadObjModel(const std::string filename)
 		{
 			
 			string localPath;
@@ -584,7 +571,7 @@ namespace Light
 				getchar();
 				return false;
 			}
-			DefaultModel* pModel = DEBUG_NEW DefaultModel();
+			DefaultModelData* pModel = DEBUG_NEW DefaultModelData();
 		
 			std::vector<DefaultVertex> vertexs;
 			std::vector<unsigned int> Indices;
@@ -623,7 +610,7 @@ namespace Light
 				uint32 a = mesh->mMaterialIndex;
 				aiMaterial* mat = scene->mMaterials[a];
 				
-				auto m = m_pContext->GetSystem<IFactory>()->VGetMaterial("Default");
+				//auto m = m_pContext->GetSystem<IFactory>()->VGetMaterial("Default");
 				render::MaterialData matParam;
 				aiString name;
 				mat->Get<aiString>(AI_MATKEY_NAME, name);
@@ -639,7 +626,7 @@ namespace Light
 				mat->Get(AI_MATKEY_SHININESS, exp);
 				matParam.exp = vec3(exp);
 
-				pModel->MatParam.push_back(matParam);
+				pModel->Mats.push_back(matParam);
 
 				aiString Path;
 				/*{
@@ -648,16 +635,20 @@ namespace Light
 				}*/
 				{
 					mat->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL);
-					pModel->Diffuse.push_back(VGetTexture(localPath + Path.C_Str(),true));
+					pModel->Texs.push_back(VGetTexture(std::vector<std::string>{localPath + Path.C_Str()},false,true));
 				}
 				/*{
 					mat->GetTexture(aiTextureType_SPECULAR, 0, &Path, NULL, NULL, NULL, NULL, NULL);
 					pModel->Specular.push_back(VGetTexture(localPath + Path.C_Str()));
 				}	*/			
-				pModel->Materials.push_back(m);
+				//pModel->Materials.push_back(m);
 				
-				DefaultMesh* pMesh = DEBUG_NEW DefaultMesh(m_pRenderDevice, vertexs, Indices, mesh->mName.C_Str());
-				pModel->Meshs.push_back(std::unique_ptr<Mesh>(pMesh));
+				//DefaultMesh* pMesh = DEBUG_NEW DefaultMesh(m_pRenderDevice, vertexs, Indices, mesh->mName.C_Str());
+				DefaultMeshData meshData;
+				meshData.Vertexs = vertexs;
+				meshData.Indices = Indices;
+				meshData.Name = mesh->mName.C_Str();
+				pModel->Meshs.push_back(meshData);
 				
 				
 			}		
@@ -665,21 +656,53 @@ namespace Light
 		}
 
 	
-		render::Texture * ResourceManager::VGetTexture(const string& filename, bool tryload)
+		TextureData * ResourceManager::VGetTexture(const std::vector<std::string>& filename, bool isCube, bool tryload)
 		{
-			render::Texture* tex = nullptr;
-			tex = HasResource(m_Textures,filename);
+			TextureData* tex = nullptr;
+			tex = HasResource(m_Textures,filename[0]);
 			if (tex == nullptr && tryload)
 			{
-				if ((tex = LoadTexture(filename)) == nullptr)
+				if (!isCube)
 				{
-					return m_pDefaultTex;
+					for (auto&el : filename)
+					{
+						tex = LoadTexture(filename[0]);
+						if (tex) m_Textures.push_back(ResourceHandle<TextureData>(el, tex));
+						else E_ERROR("Can't load texture: %s", el);
+					}
 				}
+				else
+				{
+					tex = LoadCubeTex(filename);
+					if (tex) m_Textures.push_back(ResourceHandle<TextureData>(filename[0], tex));
+					else E_ERROR("Can't load cube texture: %s", filename[0]);
+				}
+				
 			}
+			
 			return tex;
 
 		}
+		ShaderCode* ResourceManager::VGetShaderCode(const std::string & filename, bool tryload)
+		{
+			ShaderCode* pCode = nullptr;
+			CheckResourceFunc a = [](const std::string&a, const std::string& b)
+			{
+				bool s = a.find(b) != string::npos;
+				return s;
+			};
 
+			pCode = HasResource(m_ShaderCodes, filename,a);
+
+			if (pCode == nullptr && tryload)
+			{
+				pCode = LoadShaderCode(filename);
+				if (pCode) m_ShaderCodes.push_back(ResourceHandle<ShaderCode>(filename, pCode));
+
+			}
+			return pCode;
+		}
+		/*
 		render::VertexShader * ResourceManager::VGetVertexShader(const std::string & filename, bool tryload)
 		{
 			render::VertexShader* Vshader = nullptr;
@@ -715,46 +738,47 @@ namespace Light
 			}
 			return Pshader;
 		}
-
-		render::Model * ResourceManager::VGetModel(const string& filename, bool tryload)
+*/
+		ModelData * ResourceManager::VGetModel(const string& filename, bool tryload)
 		{
-			render::Model* pModel = nullptr;
-			pModel = HasResource(m_ModelCaches, filename);
+			ModelData* pModel = nullptr;
+			pModel = HasResource(m_Models, filename);
 			if (pModel) return pModel;
 
 			if (!tryload) return pModel;
 
-			if (filename.find(".xml") != string::npos) pModel = LoadModelXML(filename);
+			//if (filename.find(".xml") != string::npos) pModel = LoadModelXML(filename);
 			/*else if (filename.find(".obj") != string::npos|| filename.find(".3ds") != string::npos)
 			{
 				for (size_t i = 0; i < m_ObjLists.size(); i++)
 					if (m_ObjLists[i]->GetName() == filename) pModel = m_ObjLists[i].get();
 			}*/
-			else
-			{
-				pModel = LoadModel(filename);
-			}
+			//else
+			//{
+			pModel = LoadModel(filename);
+			//}
 			
-			if(pModel==nullptr) E_ERROR("Cound not find model: %s", filename.c_str());
+			if(pModel==nullptr) E_ERROR("Cound not load model: %s", filename.c_str());
+			else m_Models.push_back(ResourceHandle<ModelData>(filename, pModel));
 
 			return pModel;
 		}
 
-		HeightMap * ResourceManager::VGetHeightMap(const string& filename, bool tryload)
+		HeightMapData * ResourceManager::VGetHeightMap(const string& filename, bool tryload)
 		{
-			HeightMap* hm = nullptr;
+			HeightMapData* hm = nullptr;
 			hm = HasResource(m_HeightMaps,filename);
 			if (hm == nullptr && tryload)
 			{
 				hm = LoadHeightMap(filename/*,20,-1,-1,10,16*/);
 				if(hm==nullptr) E_ERROR("Could not find heightmap: %s", filename.c_str());
-				else m_HeightMaps.push_back(ResourceHandle<HeightMap>(filename, hm));
+				else m_HeightMaps.push_back(ResourceHandle<HeightMapData>(filename, hm));
 				
 			}
 			return hm;
 		}
 
-		render::Texture * ResourceManager::VGetCubeTex(const std::vector<std::string>& filelist, bool tryload)
+		/*render::Texture * ResourceManager::VGetCubeTex(const std::vector<std::string>& filelist, bool tryload)
 		{
 
 			render::Texture* tex = nullptr;
@@ -767,9 +791,9 @@ namespace Light
 				}
 			}
 			return tex;
-		}
+		}*/
 
-		LTRawData * ResourceManager::VGetRawModel(const std::string & filename, bool tryload)
+		/*LTRawData * ResourceManager::VGetRawModel(const std::string & filename, bool tryload)
 		{
 			LTRawData* pData = HasResource(m_RawModels, filename);
 			if (pData) return pData;
@@ -780,7 +804,7 @@ namespace Light
 			m_RawModels.push_back(ResourceHandle<LTRawData>(filename, pData));
 
 			return pData;
-		}
+		}*/
 
 		/*LoadStatus * ResourceManager::VLoadResource(const std::string & resourcePath, bool async)
 		{
@@ -831,7 +855,7 @@ namespace Light
 			return nullptr;
 		}
 
-		render::Sprite * ResourceManager::VCreateSprite(const std::string & filename, glm::vec3 pos, bool tryload)
+		SpriteData * ResourceManager::VGetSprite(const std::string & filename, bool tryload)
 		{
 			SpriteData* pData = HasResource(m_Sprites, filename);
 			if (pData == nullptr)
@@ -841,25 +865,13 @@ namespace Light
 
 				m_Sprites.push_back(ResourceHandle<SpriteData>(filename, pData));
 			}
-			
-			
-			
-			render::Sprite* p = DEBUG_NEW render::Sprite();
-			p->m_pData = pData;
-			for (auto el : pData->m_FrameLists)
-			{
-				auto tex = VGetTexture("GameAssets\\" + el);
-				p->m_FrameLists.push_back(tex);
-			}
-
-			p->m_Pos = pos;
-			p->m_Size = glm::vec2(p->m_FrameLists[0]->m_TexInfo.uiWidth, p->m_FrameLists[0]->m_TexInfo.uiHeight);
-			return p;
+		
+			return pData;
 		}
 
 		void ResourceManager::PostInit()
 		{
-			m_pRenderDevice = m_pContext->GetSystem<render::IRenderSystem>()->GetRenderDevice();
+			//m_pRenderDevice = m_pContext->GetSystem<render::IRenderSystem>()->GetRenderDevice();
 			LoadSystemResources();
 		}
 
@@ -872,14 +884,74 @@ namespace Light
 		//	return s;
 		//}
 
-		render::VertexShader * ResourceManager::LoadVertexShader(const std::string & filepath)
+		//render::VertexShader * ResourceManager::LoadVertexShader(const std::string & filepath)
+		//{
+		//	render::VertexShader* vertexShader = nullptr;
+
+		//	if ((vertexShader = HasResource(m_VertexShaders, filepath)) != nullptr) return vertexShader;
+
+		//	char sourceVertex[10000];
+
+		//	FILE* pvFile = fopen(filepath.c_str(), "rt");
+
+		//	if (!pvFile)
+		//	{
+		//		E_ERROR("Can't open File: %s", filepath.c_str());
+		//		return nullptr;
+		//	}
+		//	if (fseek(pvFile, 0L, SEEK_END) == 0)
+		//	{
+		//		long bufsize = ftell(pvFile);
+		//		fseek(pvFile, 0L, SEEK_SET);
+
+		//		size_t newLen = fread(sourceVertex, sizeof(char), bufsize, pvFile);
+		//		sourceVertex[newLen] = '\0'; /* Just to be safe. */
+		//	}
+		//	fclose(pvFile);
+
+
+		//	vertexShader = m_pRenderDevice->CreateVertexShader(sourceVertex);
+
+		//	m_VertexShaders.push_back(ResourceHandle<render::VertexShader>(filepath,vertexShader));
+		//	return vertexShader;
+		//}
+
+		//render::PixelShader * ResourceManager::LoadPixelShader(const std::string & filepath)
+		//{
+		//	render::PixelShader* pixelShader = nullptr;
+
+		//	if ((pixelShader = HasResource(m_PixelShaders, filepath)) != nullptr) return pixelShader;
+
+		//	char sourceVertex[10000];
+
+		//	FILE* pvFile = fopen(filepath.c_str(), "rt");
+
+		//	if (!pvFile)
+		//	{
+		//		E_ERROR("Can't open File: %s", filepath.c_str());
+		//		return nullptr;
+		//	}
+		//	if (fseek(pvFile, 0L, SEEK_END) == 0)
+		//	{
+		//		long bufsize = ftell(pvFile);
+		//		fseek(pvFile, 0L, SEEK_SET);
+
+		//		size_t newLen = fread(sourceVertex, sizeof(char), bufsize, pvFile);
+		//		sourceVertex[newLen] = '\0'; /* Just to be safe. */
+		//	}
+		//	fclose(pvFile);
+
+
+		//	pixelShader = m_pRenderDevice->CreatePixelShader(sourceVertex);
+
+		//	m_PixelShaders.push_back(ResourceHandle<render::PixelShader>(filepath, pixelShader));
+		//	return pixelShader;
+		//}
+
+		ShaderCode* ResourceManager::LoadShaderCode(const std::string & filepath)
 		{
-			render::VertexShader* vertexShader = nullptr;
-
-			if ((vertexShader = HasResource(m_VertexShaders, filepath)) != nullptr) return vertexShader;
-
-			char sourceVertex[10000];
-
+			char* sourceVertex=nullptr;
+			ShaderCode* pShaderCode = NULL;
 			FILE* pvFile = fopen(filepath.c_str(), "rt");
 
 			if (!pvFile)
@@ -892,48 +964,18 @@ namespace Light
 				long bufsize = ftell(pvFile);
 				fseek(pvFile, 0L, SEEK_SET);
 
+				sourceVertex = DEBUG_NEW char[bufsize+1];
 				size_t newLen = fread(sourceVertex, sizeof(char), bufsize, pvFile);
 				sourceVertex[newLen] = '\0'; /* Just to be safe. */
+
+				ShaderCode* pShaderCode = DEBUG_NEW ShaderCode;
+				pShaderCode->m_Object.reset(sourceVertex);
+				pShaderCode->size = bufsize + 1;
+				return pShaderCode;
 			}
 			fclose(pvFile);
 
-
-			vertexShader = m_pRenderDevice->CreateVertexShader(sourceVertex);
-
-			m_VertexShaders.push_back(ResourceHandle<render::VertexShader>(filepath,vertexShader));
-			return vertexShader;
-		}
-
-		render::PixelShader * ResourceManager::LoadPixelShader(const std::string & filepath)
-		{
-			render::PixelShader* pixelShader = nullptr;
-
-			if ((pixelShader = HasResource(m_PixelShaders, filepath)) != nullptr) return pixelShader;
-
-			char sourceVertex[10000];
-
-			FILE* pvFile = fopen(filepath.c_str(), "rt");
-
-			if (!pvFile)
-			{
-				E_ERROR("Can't open File: %s", filepath.c_str());
-				return nullptr;
-			}
-			if (fseek(pvFile, 0L, SEEK_END) == 0)
-			{
-				long bufsize = ftell(pvFile);
-				fseek(pvFile, 0L, SEEK_SET);
-
-				size_t newLen = fread(sourceVertex, sizeof(char), bufsize, pvFile);
-				sourceVertex[newLen] = '\0'; /* Just to be safe. */
-			}
-			fclose(pvFile);
-
-
-			pixelShader = m_pRenderDevice->CreatePixelShader(sourceVertex);
-
-			m_PixelShaders.push_back(ResourceHandle<render::PixelShader>(filepath, pixelShader));
-			return pixelShader;
+			return pShaderCode;
 		}
 
 		void ResourceManager::LoadResources(string path)
@@ -960,17 +1002,17 @@ namespace Light
 				if (!strcmp(name, "Texture"))
 				{
 					const char* pFile = pNode->Attribute("File");
-					LoadTexture(Resourcepath + pFile);
+					VGetTexture(std::vector<std::string>{Resourcepath + pFile},true);
 				}
-				else if (!strcmp(name, "VertexShader"))
+				else if (!strcmp(name, "Shader"))
 				{
 					const char* pFile = pNode->Attribute("File");
-					LoadVertexShader(Resourcepath + pFile);
+					VGetShaderCode(Resourcepath + pFile,true);
 				}
-				else if (!strcmp(name, "PixelShader"))
+				else if (!strcmp(name, "Shader"))
 				{
 					const char* pFile = pNode->Attribute("File");
-					LoadPixelShader(Resourcepath + pFile);
+					VGetShaderCode(Resourcepath + pFile, true);
 				}
 				else if (!strcmp(name, "CubeTexture"))
 				{
@@ -982,12 +1024,12 @@ namespace Light
 						filelist.push_back(Resourcepath + pFile);
 					}
 
-					LoadCubeTex(filelist);
+					VGetTexture(filelist, true,true);
 				}
 				else if (!strcmp(name, "Model"))
 				{
 					const char* pFile = pNode->Attribute("File");
-					LoadModel(Resourcepath+pFile);
+					VGetModel(Resourcepath+pFile, true);
 				}
 				
 				
@@ -999,12 +1041,12 @@ namespace Light
 					int h = pNode->DoubleAttribute("Height", 2.0f);
 					float hscale = pNode->DoubleAttribute("HeightScale", 1.0);
 					int s = pNode->DoubleAttribute("SubDevided", 1.0);*/
-					if (pFile) LoadHeightMap(pFile/*, size, w, h, hscale, s*/);
+					if (pFile) VGetHeightMap(pFile/*, size, w, h, hscale, s*/, true);
 				}
 				else if (!strcmp(name, "Sprite"))
 				{
 					const char* pFile = pNode->Attribute("File");
-					if (pFile) LoadSpriteAnimation(pFile);
+					if (pFile) VGetSprite(pFile, true);
 				}
 				/*else if (!strcmp(name, "Sound"))
 				{

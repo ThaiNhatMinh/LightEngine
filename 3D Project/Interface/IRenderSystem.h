@@ -25,6 +25,12 @@ namespace Light
 			virtual IDebugRender*		GetDebugRender()=0;
 			virtual IEffectSystem*		GetEffectSystem()=0;
 			virtual void				PreRender() = 0;
+
+			// create render data
+			virtual Model*				VCreateModel(resources::ModelData*) = 0;
+			virtual Model*				VCreateModel(std::string xmlfile) = 0;
+			virtual Texture*			VCreateTexture(resources::TextureData*) = 0;
+			virtual Sprite*				VCreateSprite(resources::SpriteData*) = 0;
 		};
 	}
 }

@@ -1,7 +1,7 @@
 #pragma once
-#include "LTRawData.h"
+#include "ResourceManager.h"
 namespace LTBFileLoader
 {
 
-	LTRawData* LoadModel(const char* filepath);
+	Light::resources::LTRawData* LoadModel(const char* filepath);
 };

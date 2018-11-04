@@ -15,9 +15,9 @@ namespace Light
 		{
 			auto pRenderer = pContext->GetSystem<IRenderSystem>()->GetRenderDevice();
 			auto pResources = pContext->GetSystem<resources::IResourceManager>();
-			auto pVertexShader = pResources->VGetVertexShader("Default");
-			auto pPixelShader = pResources->VGetPixelShader("Default");
-			m_Pipeline = std::unique_ptr<Pipeline>(pRenderer->CreatePipeline(pVertexShader, pPixelShader));
+			auto VS = pRenderer->CreateVertexShader(pResources->VGetShaderCode("Default.vs")->Get());
+			auto PS = pRenderer->CreatePixelShader(pResources->VGetShaderCode("Default.fs")->Get());
+			m_Pipeline = std::unique_ptr<Pipeline>(pRenderer->CreatePipeline(VS, PS));
 			//m_ShaderName = std::make_pair(pVertexNode->GetText(), pPixelNode->GetText());
 			pContext->GetSystem<IEventManager>()->VAddListener(DEBUG_NEW EventDelegate<DefaultMaterial>(this, &DefaultMaterial::OnSceneCreate), events::EvtSceneCreate::StaticType);
 			this->GetUniform();

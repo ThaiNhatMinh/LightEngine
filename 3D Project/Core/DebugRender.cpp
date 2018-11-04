@@ -108,8 +108,9 @@ namespace Light
 
 	void DebugRender::SetupBoxRender(resources::IResourceManager*pResources)
 	{
-
-		m_ShaderLight = std::unique_ptr<render::Pipeline>(m_pRenderer->CreatePipeline(pResources->VGetVertexShader("Debug_Box"), pResources->VGetPixelShader("Debug_Box")));
+		auto pVS = m_pRenderer->CreateVertexShader(pResources->VGetShaderCode("Debug_Box.vs")->Get());
+		auto pPS = m_pRenderer->CreatePixelShader(pResources->VGetShaderCode("Debug_Box.fs")->Get());
+		m_ShaderLight = std::unique_ptr<render::Pipeline>(m_pRenderer->CreatePipeline(pVS,pPS));
 		m_uMVPLight = m_ShaderLight->GetParam(render::uMVP);
 		m_uModelLight = m_ShaderLight->GetParam(render::uMODEL);
 		m_uColor = m_ShaderLight->GetParam(render::uColor);
@@ -147,7 +148,9 @@ namespace Light
 
 	void DebugRender::SetupLineRender(resources::IResourceManager*pResources)
 	{
-		m_Shader = std::unique_ptr<render::Pipeline>(m_pRenderer->CreatePipeline(pResources->VGetVertexShader("Debug_Line"), pResources->VGetPixelShader("Debug_Line")));
+		auto pVS = m_pRenderer->CreateVertexShader(pResources->VGetShaderCode("Debug_Line.vs")->Get());
+		auto pPS = m_pRenderer->CreatePixelShader(pResources->VGetShaderCode("Debug_Line.fs")->Get());
+		m_Shader = std::unique_ptr<render::Pipeline>(m_pRenderer->CreatePipeline(pVS, pPS));
 		m_uMVP = m_Shader->GetParam(render::uMVP);
 
 		

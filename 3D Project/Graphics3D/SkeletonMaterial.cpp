@@ -12,8 +12,8 @@ Light::render::SkeletonMaterial::SkeletonMaterial(IContext * pContext):m_pModelU
 	auto pRenderer = pContext->GetSystem<render::IRenderSystem>()->GetRenderDevice();
 	auto pResources = pContext->GetSystem<resources::IResourceManager>();
 
-	auto pVertexShader = pResources->VGetVertexShader("Skeleton");
-	auto pPixelShader = pResources->VGetPixelShader("Default");
+	auto pVertexShader = pRenderer->CreateVertexShader(pResources->VGetShaderCode("Skeleton.vs")->Get());
+	auto pPixelShader = pRenderer->CreatePixelShader(pResources->VGetShaderCode("Default.fs")->Get());
 
 	m_Pipeline = std::unique_ptr<Pipeline>(pRenderer->CreatePipeline(pVertexShader, pPixelShader));
 	this->GetUniform();

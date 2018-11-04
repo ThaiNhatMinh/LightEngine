@@ -123,7 +123,7 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		const char* path = pFile->Attribute("Path");
 		if (path == nullptr) return;
 
-		resources::HeightMap* hm = pContex->GetSystem<resources::IResourceManager>()->VGetHeightMap(path);
+		resources::HeightMapData* hm = pContex->GetSystem<resources::IResourceManager>()->VGetHeightMap(path);
 		
 		auto vertexs = math::GenerateVertexData(hm, stepsize, hm->Width, hm->Height, hscale, numSub);
 		auto indices = math::GenerateIndicesData(hm);
