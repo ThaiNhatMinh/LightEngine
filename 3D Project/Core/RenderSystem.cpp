@@ -64,7 +64,7 @@ namespace Light
 				}
 			}
 			
-			//m_pScene->VOnRender();
+			m_pScene->VOnRender();
 			m_pEffectSystem->VRender();
 			m_pDebuger->Render();
 		}
@@ -145,7 +145,7 @@ namespace Light
 		}
 		void RenderSystem::PreRender()
 		{
-			m_pRenderer->TransferMemory();
+			
 		}
 		typedef Light::render::RenderDevice* (*CreateInterfaceFn)();
 		void RenderSystem::LoadRenderDevice()
