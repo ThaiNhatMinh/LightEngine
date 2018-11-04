@@ -9,9 +9,10 @@ namespace Light
 	{
 		events::EvtRequestCreateSprite* p = static_cast<events::EvtRequestCreateSprite*>(pEvent.get());
 
-		auto r = m_pResources->VCreateSprite(p->File, p->Pos);
+		auto r = m_pRS->VCreateSprite(m_pResources->VGetSprite(p->File));
 		r->m_Loop = p->Loop;
 		r->m_fLife = p->life;
+		r->m_Pos = p->Pos;
 		m_SpriteLists.push_back(std::unique_ptr<render::Sprite>(r));
 
 	}
@@ -71,9 +72,9 @@ namespace Light
 		VAO = m_pRenderer->CreateVertexArray(1, &VBO, &pDesc);
 		
 
-		//VAO.SetAttibutePointer(SHADER_POSITION_ATTRIBUTE, 3, GL_FLOAT, 0, 0);
-		
-		m_pShader = m_pRenderer->CreatePipeline(m_pResources->VGetVertexShader("Sprite"), m_pResources->VGetPixelShader("Sprite"));
+		auto VS = m_pRenderer->CreateVertexShader(m_pResources->VGetShaderCode("Sprite.vs")->Get());
+		auto PS = m_pRenderer->CreatePixelShader(m_pResources->VGetShaderCode("Sprite.fs")->Get());
+		m_pShader = m_pRenderer->CreatePipeline(VS, PS);
 		m_uMVP = m_pShader->GetParam("uMVP");
 		m_uCamRight = m_pShader->GetParam("uCameraRight");
 		m_uCamUp = m_pShader->GetParam("uCameraUp");

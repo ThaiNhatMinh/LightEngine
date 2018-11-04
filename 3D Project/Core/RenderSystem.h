@@ -25,6 +25,11 @@ namespace Light
 			virtual IEffectSystem*		GetEffectSystem()override;
 			virtual void				PostInit();
 			virtual void				PreRender()override;
+
+			virtual Model*				VCreateModel(resources::ModelData*)override;
+			virtual Model*				VCreateModel(std::string xmlfile)override;
+			virtual Texture*			VCreateTexture(resources::TextureData*)override;
+			virtual Sprite*				VCreateSprite(resources::SpriteData*);
 		private:
 			//using RenderableList = std::list<Renderable>;
 			void LoadRenderDevice();
@@ -45,6 +50,11 @@ namespace Light
 			std::unique_ptr<RenderPass> m_DefaultPass;
 			std::list<std::unique_ptr<RenderPass>> m_ExtraPass;
 			IScene* m_pScene;
+
+		private:
+			std::map<resources::TextureData*,std::unique_ptr<Texture>> m_TextureList;
+			std::map<resources::ModelData*, std::unique_ptr<Model>> m_ModelList;
+			std::map<resources::SpriteData*, std::unique_ptr<Sprite>> m_SpriteList;
 		};
 	}
 }

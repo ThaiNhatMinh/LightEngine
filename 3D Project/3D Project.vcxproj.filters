@@ -99,9 +99,6 @@
     <ClInclude Include="ResourceManager\LTBFileLoader.h">
       <Filter>ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager\LTRawData.h">
-      <Filter>ResourceManager</Filter>
-    </ClInclude>
     <ClInclude Include="Math\AABB.h">
       <Filter>Math</Filter>
     </ClInclude>

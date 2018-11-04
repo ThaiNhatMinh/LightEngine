@@ -251,7 +251,6 @@
     <ClInclude Include="Math\Ray.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ResourceManager\LTBFileLoader.h" />
-    <ClInclude Include="ResourceManager\LTRawData.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="Script\CameraControl.h" />
     <ClInclude Include="Script\ComponentBinding.h" />

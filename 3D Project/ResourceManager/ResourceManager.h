@@ -9,15 +9,49 @@
 #include "..\Interface\IResourceManager.h"
 #include "..\Graphics3D\Vertex.h"
 #include "..\Graphics3D\DefaultModel.h"
-#include "LTRawData.h"
 #include "Interface/IFactory.h"
+#include "..\Utilities\LTBStruct.h"
+#include <fmod.hpp>
 namespace Light
 {
 	namespace resources
 	{
 		static const char* SYSTEM_RESOURCES_CONFIG = "Configs\\Resources.xml";
 
-		
+		struct LTRawMesh
+		{
+			std::vector<SkeVertex>				Vertexs;
+			std::vector<unsigned int>				Indices;
+			std::string								Name;
+		};
+
+
+		struct LTRawData :public ModelData
+		{
+			std::vector<LTRawMesh>		Meshs;
+			std::vector<Light::SkeNode>		SkeNodes;
+			std::vector<Light::WeightBlend>	wb;
+			std::vector<std::string>	ChildName;
+			std::vector<Light::Animation>		Anims;
+			std::vector<Light::LTBSocket>		Sockets;
+		};
+
+		struct DefaultMeshData
+		{
+			std::vector<DefaultVertex>				Vertexs;
+			std::vector<unsigned int>				Indices;
+			std::string								Name;
+		};
+
+		struct DefaultModelData : public ModelData
+		{
+			std::vector<DefaultMeshData> Meshs;
+			std::vector<TextureData*> Texs;
+			std::vector<render::MaterialData> Mats;
+			math::AABB Box;
+		};
+
+
 		class FModSound : public Sound
 		{
 		public:
@@ -27,22 +61,12 @@ namespace Light
 		class ResourceManager : public IResourceManager
 		{
 		private:
-			
-
-			render::RenderDevice *m_pRenderDevice;
-			std::vector<ResourceHandle<render::Texture>> m_Textures;
-			std::vector<ResourceHandle<render::VertexShader>> m_VertexShaders;
-			std::vector<ResourceHandle<render::PixelShader>> m_PixelShaders;
-			std::vector<ResourceHandle<render::Model>> m_ModelCaches;
-			std::vector<ResourceHandle<HeightMap>> m_HeightMaps;
+			std::vector<ResourceHandle<TextureData>> m_Textures;
+			std::vector<ResourceHandle<ShaderCode>> m_ShaderCodes;
+			std::vector<ResourceHandle<HeightMapData>> m_HeightMaps;
 			std::vector<ResourceHandle<SpriteData>> m_Sprites;
-			std::vector<ResourceHandle<LTRawData>> m_RawModels;
+			std::vector<ResourceHandle<ModelData>> m_Models;
 			std::vector<ResourceHandle<Sound>> m_SoundList;
-
-			//vector<std::unique_ptr<IMesh>>	m_PrimList;
-			// Default texture when can't found tex
-			render::Texture* m_pDefaultTex=nullptr;
-			// Path to resource
 
 			//FMOD::System* m_FMOD;
 			IContext* m_pContext;
@@ -63,16 +87,17 @@ namespace Light
 			
 			template<class T>T* HasResource(std::vector<ResourceHandle<T>>& list, const std::string& filepath, CheckResourceFunc func = [](const std::string&a, const std::string& b) {return a == b; });
 			
-			DefaultModel *			LoadObjModel(const std::string filename);
+			ModelData *				LoadObjModel(const std::string filename);
 			SpriteData*				LoadSpriteAnimation(const std::string& filename);
-			HeightMap*				LoadHeightMap(const std::string& filename);
-			render::Texture*		LoadTexture(const std::string& filename);
-			render::Texture*		LoadCubeTex(const std::vector<std::string>& filelist);
-			render::Texture*		LoadDTX(const std::string& filename);
-			render::Model*			LoadModel(const std::string& filename);
+			HeightMapData*			LoadHeightMap(const std::string& filename);
+			TextureData*			LoadTexture(const std::string& filename);
+			TextureData*			LoadCubeTex(const std::vector<std::string>& filelist);
+			TextureData*			LoadDTX(const std::string& filename);
+			ModelData*				LoadModel(const std::string& filename);
 			Sound*					LoadSound(const std::string& filename, int mode);
-			render::VertexShader*	LoadVertexShader(const std::string& filepath);
-			render::PixelShader*	LoadPixelShader(const std::string& filepath);
+			//render::VertexShader*	LoadVertexShader(const std::string& filepath);
+			//render::PixelShader*	LoadPixelShader(const std::string& filepath);
+			ShaderCode*				LoadShaderCode(const std::string& filepath);
 
 			void				LoadResources(const std::string path);
 			
@@ -83,7 +108,7 @@ namespace Light
 				Load xml file store config for model (.LTB) and texture (.DTX)
 				Return render::Model* interface
 			*/
-			render::Model*		LoadModelXML(const std::string& filename);
+			//render::Model*		LoadModelXML(const std::string& filename);
 		public:
 			ResourceManager(IContext* c);
 			~ResourceManager();
@@ -92,15 +117,16 @@ namespace Light
 
 			//virtual SpriteAnim*		VGetSpriteAnimation(const std::string& filename)override;
 			//virtual Shader*			VGetShader(string key)override;
-			virtual render::Texture*		VGetTexture(const std::string& filename, bool tryload = false)override;
-			virtual render::VertexShader*	VGetVertexShader(const std::string& filename, bool tryload = false)override;
-			virtual render::PixelShader*	VGetPixelShader(const std::string& filename, bool tryload = false)override;
-			virtual render::Model *			VGetModel(const std::string& filename, bool tryload = false)override;
-			virtual HeightMap*				VGetHeightMap(const std::string& filename, bool tryload = false)override;
-			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist, bool tryload = false)override;
-			virtual LTRawData*				VGetRawModel(const std::string& filename, bool tryload = false)override;
+			virtual TextureData*			VGetTexture(const std::vector<std::string>& filename, bool isCube = false, bool tryload = false)override;
+			//virtual render::VertexShader*	VGetVertexShader(const std::string& filename, bool tryload = false)override;
+			//virtual render::PixelShader*	VGetPixelShader(const std::string& filename, bool tryload = false)override;
+			virtual ShaderCode*				VGetShaderCode(const std::string& filename, bool tryload = false)override;
+			virtual ModelData *				VGetModel(const std::string& filename, bool tryload = false)override;
+			virtual HeightMapData*			VGetHeightMap(const std::string& filename, bool tryload = false)override;
+			//virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist, bool tryload = false)override;
+			//virtual LTRawData*				VGetRawModel(const std::string& filename, bool tryload = false)override;
 			virtual Sound*					VGetSound(const std::string& tag, bool tryload = false)override;
-			virtual render::Sprite*			VCreateSprite(const std::string& filename, glm::vec3 pos, bool tryload = false)override;
+			virtual SpriteData*				VGetSprite(const std::string& filename, bool tryload = false)override;
 
 			void							PostInit();
 
@@ -113,7 +139,7 @@ namespace Light
 		inline T * ResourceManager::HasResource(std::vector<ResourceHandle<T>>& list, const std::string& filepath,CheckResourceFunc func)
 		{
 			for (std::size_t i = 0; i < list.size(); i++)
-				if (func(list[i].GetPath(),filepath))
+				if (func(list[i].Get()->Path,filepath))
 					return list[i].Get();
 
 			return nullptr;

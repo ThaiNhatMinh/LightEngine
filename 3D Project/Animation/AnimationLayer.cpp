@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "AnimationLayer.h"
+#include "..\ResourceManager\ResourceManager.h"
 
 Light::AnimationLayer::AnimationLayer(int numNode):m_iNumNode(numNode)
 {
@@ -42,7 +43,10 @@ bool Light::AnimationLayer::VSerialize(IContext * pContext, const tinyxml2::XMLE
 			auto pFile = pMaskNode->FirstChildElement("File")->GetText();
 			auto layer = pMaskNode->FirstChildElement("File")->Attribute("name");
 
-			auto Raw = pResources->VGetRawModel(pFile);
+			auto Raw = static_cast<resources::LTRawData*>(pResources->VGetModel(pFile));
+			
+			if (Raw == nullptr) return false;
+			
 			int i;
 			for (i = 0; i < Raw->wb.size(); i++)
 			{
@@ -65,7 +69,7 @@ bool Light::AnimationLayer::VSerialize(IContext * pContext, const tinyxml2::XMLE
 		const char* MotionName = pNode->FirstChildElement("Motion")->Attribute("name");
 		float speed = std::atof(pNode->FirstChildElement("Speed")->GetText());
 
-		auto Raw = pResources->VGetRawModel(MotionFile);
+		auto Raw = static_cast<resources::LTRawData*>(pResources->VGetModel(MotionFile));
 		Animation* pAnimData = GetAnimation(Raw, MotionName);
 		if (pAnimData == nullptr) E_ERROR("Can't get animation: %s", MotionName);
 
@@ -121,7 +125,7 @@ Light::FrameData Light::AnimationLayer::ComputerFrame(int i)
 	return frame;
 }
 
-Light::Animation * Light::AnimationLayer::GetAnimation(LTRawData * pData, const std::string & name)
+Light::Animation * Light::AnimationLayer::GetAnimation(resources::LTRawData * pData, const std::string & name)
 {
 	for (std::size_t i = 0; i < pData->Anims.size(); i++)
 	{

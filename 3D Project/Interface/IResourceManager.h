@@ -5,23 +5,66 @@
 #include "..\Graphics3D\ModelRender.h"
 #include "..\typedef.h"
 #include "..\Graphics3D\Vertex.h"
-#include "..\ResourceManager\LTRawData.h"
 #include "..\Graphics3D\Sprite.h"
 namespace Light
 {
 	namespace resources
 	{
-
-		class HeightMap
+		class IResource
 		{
 		public:
+			std::string Path;
+		};
+
+		struct ShaderCode : public IResource
+		{
+			std::unique_ptr<char[]> m_Object;
+			std::size_t size;
+			char* Get() { return m_Object.get(); }
+		};
+
+		struct ModelData : public IResource
+		{
+			virtual ~ModelData() = default;
+		};
+
+		
+
+		struct HeightMapData : public IResource
+		{
 			uint32 Width;
 			uint32 Height;			
 			std::unique_ptr<uint8[]> Data;
 			float minH, maxH;
 		};
 
-		struct SpriteData
+		enum TextureFlag
+		{
+			Flag_CubeTex = 1,
+			Flag_Compress = 1 << 2,
+			Flag_Normal = 1 << 3,
+		};
+		struct TextureData : public IResource
+		{
+			std::size_t iWidht, iHeight;
+			std::size_t iType, iSize;
+			render::ColorFormat format;
+			TextureFlag flag;
+
+			void* pData;
+			~TextureData()
+			{
+				if (flag&Flag_CubeTex)
+				{
+					unsigned char** p = (unsigned char**)pData;
+					for (int i = 0; i < 6; i++) delete[] p[i];
+					delete[] p;
+				}
+				else delete[] pData;
+			}
+		};
+
+		struct SpriteData : public IResource
 		{
 			std::vector<std::string>m_FrameLists;
 			uint32					m_MsFrameRate;
@@ -32,28 +75,18 @@ namespace Light
 			uint32					m_Flags;
 		};
 
-		class Sound
+		class Sound : public IResource
 		{
 		public:
 			virtual ~Sound() = default;
 		};
 
-		class IResource
-		{
-		public:
-			IResource(const std::string& path) :m_ResourcePath(path) {};
-			virtual ~IResource() = default;
-
-			const std::string& GetPath() { return m_ResourcePath; };
-		private:
-			std::string m_ResourcePath;
-		};
-
+		
 		template<class T> 
-		class ResourceHandle : public IResource
+		class ResourceHandle
 		{
 		public:
-				ResourceHandle(const std::string path,T* obj) :m_Object(obj) ,IResource(path){};
+			ResourceHandle(const std::string path, IResource* obj) :m_Object(static_cast<T*>(obj)) { obj->Path = path; };
 				T * Get(){return m_Object.get();};
 				
 
@@ -66,15 +99,16 @@ namespace Light
 		public:
 			virtual ~IResourceManager() = default;
 
-			//virtual SpriteAnim *	VGetSpriteAnimation(const string& filename) = 0;
-			virtual render::Texture*		VGetTexture(const std::string& filename, bool tryload=false) = 0;
-			virtual render::VertexShader*	VGetVertexShader(const std::string& key, bool tryload = false) = 0;
-			virtual render::PixelShader*	VGetPixelShader(const std::string& key, bool tryload = false) = 0;
-			virtual render::Model *			VGetModel(const std::string& filename, bool tryload = false) = 0;
-			virtual HeightMap*				VGetHeightMap(const std::string& filename, bool tryload = false) = 0;
-			virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist, bool tryload = false) = 0;
-			virtual LTRawData*				VGetRawModel(const std::string& filename, bool tryload = false)=0;
-			virtual render::Sprite*			VCreateSprite(const std::string& filename,glm::vec3 pos, bool tryload = false) = 0;
+			
+			virtual TextureData*			VGetTexture(const std::vector<std::string>& filename,bool isCube = false, bool tryload=false) = 0;
+			//virtual render::VertexShader*	VGetVertexShader(const std::string& key, bool tryload = false) = 0;
+			//virtual render::PixelShader*	VGetPixelShader(const std::string& key, bool tryload = false) = 0;
+			virtual ShaderCode*				VGetShaderCode(const std::string& filename, bool tryload = false) = 0;
+			virtual ModelData *				VGetModel(const std::string& filename, bool tryload = false) = 0;
+			virtual HeightMapData*			VGetHeightMap(const std::string& filename, bool tryload = false) = 0;
+			//virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist, bool tryload = false) = 0;
+			//virtual LTRawData*				VGetRawModel(const std::string& filename, bool tryload = false)=0;
+			virtual SpriteData*				VGetSprite(const std::string& filename, bool tryload = false) = 0;
 			virtual Sound*					VGetSound(const std::string& tag, bool tryload = false) = 0;
 		};
 	}

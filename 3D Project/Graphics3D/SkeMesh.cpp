@@ -1,11 +1,11 @@
 #include <pch.h>
 #include "SkeMesh.h"
 #include "..\Graphics3D\RenderPass.h"
-#include "..\ResourceManager\LTRawData.h"
+
 
 namespace Light 
 {
-	SkeMesh::SkeMesh(render::RenderDevice* pRenderDevice, LTRawMesh* pData) //:m_Vertexs(vertex), m_Indices(indices)
+	SkeMesh::SkeMesh(render::RenderDevice* pRenderDevice, resources::LTRawMesh* pData) //:m_Vertexs(vertex), m_Indices(indices)
 	{
 		auto& vertex = pData->Vertexs;
 		auto& indices = pData->Indices;

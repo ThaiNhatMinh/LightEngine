@@ -7,7 +7,6 @@
 		<POSITIVE_X File="GameAssets\TEXTURES\SKYBOX\hw_ruins\ruins_rt.tga" />
 		<NEGATIVE_X File="GameAssets\TEXTURES\SKYBOX\hw_ruins\ruins_lf.tga" />
 	</CubeTexture>
-    <RawModel>GameAssets\MODELS\CHARACTER\M-MOTION.LTB</RawModel>
-    <Model>GameAssets\MODELS\707_BL.xml</Model>
+    <Model>GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Model>
     <Model>GameAssets\test\Crate1.obj</Model>
 </Resources>

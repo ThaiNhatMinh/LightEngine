@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Math.h"
 
-std::vector<DefaultVertex> Light::math::GenerateVertexData(resources::HeightMap * hm, int stepsize, int width, int height, float hscale, int sub)
+std::vector<DefaultVertex> Light::math::GenerateVertexData(resources::HeightMapData * hm, int stepsize, int width, int height, float hscale, int sub)
 {
 	vec2 size = vec2((width - 1)*stepsize, (height - 1)*stepsize);
 	
@@ -58,7 +58,7 @@ std::vector<DefaultVertex> Light::math::GenerateVertexData(resources::HeightMap 
 	return vertex;
 }
 
-std::vector<unsigned int> Light::math::GenerateIndicesData(resources::HeightMap * hm,int numSub)
+std::vector<unsigned int> Light::math::GenerateIndicesData(resources::HeightMapData * hm,int numSub)
 {
 	std::size_t numMesh = numSub;			// Num SubMesh device by row and collum
 	std::size_t numvert = hm->Width / numMesh;	// Num vertices per SubMesh in Row/Collum
@@ -80,7 +80,7 @@ std::vector<unsigned int> Light::math::GenerateIndicesData(resources::HeightMap 
 	return Index;
 }
 
-std::vector<unsigned int> Light::math::GenerateIndicesData(resources::HeightMap * hm)
+std::vector<unsigned int> Light::math::GenerateIndicesData(resources::HeightMapData * hm)
 {
 	std::vector<unsigned int> Index;
 	int height = hm->Height;

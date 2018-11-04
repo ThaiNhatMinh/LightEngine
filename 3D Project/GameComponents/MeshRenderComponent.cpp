@@ -1,6 +1,7 @@
 #include <pch.h>
 #include "MeshRenderComponent.h"
 #include "..\Interface\IResourceManager.h"
+#include "..\Interface\IRenderSystem.h"
 namespace Light
 {
 	MeshRenderComponent::MeshRenderComponent()
@@ -12,12 +13,19 @@ namespace Light
 
 		const tinyxml2::XMLElement* pModelPath = pData->FirstChildElement("Model");
 
+		auto pRenderS = pContext->GetSystem<render::IRenderSystem>();
+		auto pResourceM = pContext->GetSystem<resources::IResourceManager>();
 		const char* pFileName = pModelPath->Attribute("File");
 		if (pFileName)
 		{
 			if (pFileName[0] != '\0')
 			{
-				render::Model* pModel = pContext->GetSystem<resources::IResourceManager>()->VGetModel(pFileName);
+				std::string file(pFileName);
+				render::Model* pModel = NULL;
+				if(file.find(".xml")==std::string::npos)
+					pModel = pRenderS->VCreateModel(pResourceM->VGetModel(pFileName));
+				else pModel = pRenderS->VCreateModel(file);
+
 				if (!pModel)
 					return false;
 

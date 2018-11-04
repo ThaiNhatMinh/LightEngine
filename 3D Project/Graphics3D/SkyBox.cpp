@@ -26,11 +26,11 @@ bool Light::render::SkyBox::VSerialize(IContext * pContext, const tinyxml2::XMLE
 
 	auto pFolderNode = pData->FirstChildElement("Texture");
 	const char* Path = pFolderNode->Attribute("Path");
-	m_CubeTex = pResourceManager->VGetCubeTex(GetFileList(Path,pFolderNode));
+	m_CubeTex = m_pRS->VCreateTexture(pResourceManager->VGetTexture(GetFileList(Path,pFolderNode),true));
 
 
-	auto VS = pResourceManager->VGetVertexShader("SkyBox");
-	auto PS = pResourceManager->VGetPixelShader("SkyBox");
+	auto VS = m_pRenderer->CreateVertexShader(pResourceManager->VGetShaderCode("SkyBox.vs")->Get());
+	auto PS = m_pRenderer->CreatePixelShader(pResourceManager->VGetShaderCode("SkyBox.fs")->Get());
 	m_Shader = std::unique_ptr<Pipeline>(m_pRenderer->CreatePipeline(VS, PS));
 	m_uMVP = m_Shader->GetParam(uMVP);
 

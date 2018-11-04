@@ -8,6 +8,7 @@ namespace Light
 	{
 		m_name = name;
 		m_pRS = pContext->GetSystem<IRenderSystem>();
+		auto pResources = pContext->GetSystem<resources::IResourceManager>();
 		auto pRenderer = m_pRS->GetRenderDevice();
 
 
@@ -36,8 +37,8 @@ namespace Light
 			pDepthConfig2 = std::unique_ptr<DepthState>(pRenderer->CreateDepthState(false));
 
 			auto Resources = pContext->GetSystem<resources::IResourceManager>();
-			auto VS = Resources->VGetVertexShader("Outline");
-			auto FS = Resources->VGetPixelShader("Color");
+			auto VS = pRenderer->CreateVertexShader(pResources->VGetShaderCode("Outline.vs")->Get());
+			auto FS = pRenderer->CreatePixelShader(pResources->VGetShaderCode("Color.fs")->Get());
 			auto pipeline = pRenderer->CreatePipeline(VS, FS);
 
 			pGlobalMaterial = pContext->GetSystem<IFactory>()->VGetMaterial("Default")->Clone();

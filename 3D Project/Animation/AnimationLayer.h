@@ -5,6 +5,11 @@
 #include <string>
 namespace Light
 {
+	namespace resources
+	{
+		struct LTRawData;
+	}
+
 	class AnimationLayer: public util::Serialization
 	{
 		enum MaskType
@@ -35,7 +40,7 @@ namespace Light
 		void							Play(const std::string & name, bool loop);
 		const std::string&				GetName();
 	private:
-		Animation*						GetAnimation(LTRawData* pData, const std::string& name);
+		Animation*						GetAnimation(resources::LTRawData* pData, const std::string& name);
 		AnimationState*					GetState(const std::string& name);
 	};
 }

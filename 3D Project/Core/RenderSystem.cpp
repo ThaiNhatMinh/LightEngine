@@ -8,6 +8,9 @@
 #include "EventManager.h"
 #include "DebugRender.h"
 #include "..\Graphics3D\EffectSystem.h"
+#include "..\ResourceManager\ResourceManager.h"
+#include "..\Graphics3D\DefaultMesh.h"
+#include "..\Graphics3D\LTModel.h"
 namespace Light
 {
 	namespace render
@@ -145,6 +148,169 @@ namespace Light
 		}
 		void RenderSystem::PreRender()
 		{
+			
+		}
+		Model * RenderSystem::VCreateModel(resources::ModelData * pData)
+		{
+			auto pResources = m_pContext->GetSystem<resources::IResourceManager>();
+			auto pFactory = m_pContext->GetSystem<IFactory>();
+			auto it = m_ModelList.find(pData);
+			if (it != m_ModelList.end()) return it->second.get();
+
+			if (typeid(*pData) == typeid(resources::DefaultModelData))
+			{
+				resources::DefaultModelData* pDefData = static_cast<resources::DefaultModelData*>(pData);
+				DefaultModel* pModel = DEBUG_NEW DefaultModel;
+				for (int i=0; i<pDefData->Meshs.size(); i++)
+				{
+					DefaultMesh* pMesh = DEBUG_NEW DefaultMesh(m_pRenderer, pDefData->Meshs[i].Vertexs, pDefData->Meshs[i].Indices, pDefData->Meshs[i].Name);
+					pModel->Meshs.push_back(std::unique_ptr<DefaultMesh>(pMesh));
+					pModel->Diffuse.push_back(VCreateTexture(pDefData->Texs[i]));
+					pModel->Materials.push_back(std::shared_ptr<render::Material>(pFactory->VGetMaterial("Default")));
+					auto& vertexs = pDefData->Meshs[i].Vertexs;	
+				}
+
+				pModel->Box = pDefData->Box;
+				pModel->MatParam = pDefData->Mats;
+				m_ModelList[pData].reset(pModel);
+
+				return pModel;
+			}
+			
+
+
+			return nullptr;
+		}
+		Model * RenderSystem::VCreateModel(std::string xmlfile)
+		{
+			auto pResources = m_pContext->GetSystem<resources::IResourceManager>();
+			auto pFactory = m_pContext->GetSystem<IFactory>();
+
+			tinyxml2::XMLDocument doc;
+			LTModel* pModelRender = nullptr;
+			int errorID = doc.LoadFile(xmlfile.c_str());
+			if (errorID)
+			{
+				E_ERROR("Failed to load XML file: %s", xmlfile.c_str());
+				return nullptr;
+			}
+			tinyxml2::XMLElement* pData = doc.FirstChildElement();
+			if (strcmp(pData->Value(), "Data") == 0)
+			{
+				// load model
+				tinyxml2::XMLElement* pModelNode = pData->FirstChildElement("Model");
+				const char* pFileName = pModelNode->Attribute("File");
+				resources::LTRawData* pLTBData = static_cast<resources::LTRawData*>(pResources->VGetModel(pFileName, true));
+				if (pLTBData)
+				{
+					pModelRender = DEBUG_NEW LTModel;
+
+					tinyxml2::XMLElement* pTextureNode = pData->FirstChildElement("Texture");
+					vector<resources::LTRawMesh>& ve = pLTBData->Meshs;
+					for (size_t i = 0; i < ve.size(); i++)
+					{
+						pModelRender->Meshs.push_back(std::unique_ptr<Mesh>(DEBUG_NEW SkeMesh(m_pRenderer, &ve[i])));
+						tinyxml2::XMLElement* pTextureElement = pTextureNode->FirstChildElement(ve[i].Name.c_str());
+						if (pTextureElement)
+						{
+							const char* pTextureFile = pTextureElement->Attribute("File");
+							pModelRender->Textures.push_back(VCreateTexture(pResources->VGetTexture(std::vector<std::string>{pTextureFile}, false,true)));
+							const char* pMaterialFile = pTextureElement->Attribute("Material");
+							pModelRender->Materials.push_back(m_pContext->GetSystem<IFactory>()->VGetMaterial("Skeleton"));
+
+						}
+
+					}
+				}
+
+				//// load material
+				//tinyxml2::XMLElement* pMaterialData = pData->FirstChildElement("Material");
+				//render::Material* mat;
+				//tinyxml2::XMLElement* pKa = pMaterialData->FirstChildElement("Ka");
+				//mat.Ka.x = pKa->FloatAttribute("r", 1.0f);
+				//mat.Ka.y = pKa->FloatAttribute("g", 1.0f);
+				//mat.Ka.z = pKa->FloatAttribute("b", 1.0f);
+				//tinyxml2::XMLElement* pKd = pMaterialData->FirstChildElement("Kd");
+				//mat.Kd.x = pKd->FloatAttribute("r", 1.0f);
+				//mat.Kd.y = pKd->FloatAttribute("g", 1.0f);
+				//mat.Kd.z = pKd->FloatAttribute("b", 1.0f);
+				//tinyxml2::XMLElement* pKs = pMaterialData->FirstChildElement("Ks");
+				//mat.Ks.x = pKs->FloatAttribute("r", 1.0f);
+				//mat.Ks.y = pKs->FloatAttribute("g", 1.0f);
+				//mat.Ks.z = pKs->FloatAttribute("b", 1.0f);
+				//mat.exp = vec3(pKs->FloatAttribute("exp", 32.0f));
+				//pModelRender->m_Material.resize(pModelRender->m_pMesh.size(), mat);
+				// Done return LTModel
+				m_ModelList[pLTBData].reset(pModelRender);
+				return pModelRender;
+			}
+			return nullptr;
+		}
+		Texture * RenderSystem::VCreateTexture(resources::TextureData *pData)
+		{
+			Texture* tex = nullptr;
+			auto it = m_TextureList.find(pData);
+			if (it != m_TextureList.end()) return it->second.get();
+
+			if (pData->flag&resources::Flag_Normal)
+			{
+				render::TextureCreateInfo texinfo;
+				texinfo.eTarget = render::TEXTURE_2D;
+				texinfo.iLevel = 0;
+				texinfo.iInternalFormat = pData->format;
+				texinfo.uiWidth = pData->iWidht;
+				texinfo.uiHeight = pData->iHeight;
+				texinfo.pData = pData->pData;
+				texinfo.eType = render::UNSIGNED_BYTE;
+				texinfo.eFormat = texinfo.iInternalFormat;
+				tex = m_pRenderer->CreateTexture(texinfo);
+			}
+			else if(pData->flag&resources::Flag_CubeTex)
+			{
+				render::TextureCreateInfo texinfo;
+				texinfo.eTarget = render::TEXTURE_CUBE_MAP;
+				texinfo.iLevel = 0;
+				texinfo.iInternalFormat = pData->format;
+				texinfo.uiWidth = pData->iWidht;
+				texinfo.uiHeight = pData->iHeight;
+				texinfo.pData = pData->pData;
+				texinfo.eType = render::UNSIGNED_BYTE;
+				texinfo.eFormat = texinfo.iInternalFormat;
+				tex = m_pRenderer->CreateTexture(texinfo);
+			}
+			else if (pData->flag&resources::Flag_Compress)
+			{
+				render::TextureCreateInfo texinfo;
+				texinfo.pData = pData->pData;
+				texinfo.uiWidth = pData->iWidht;
+				texinfo.uiHeight = pData->iHeight;
+				texinfo.iInternalFormat = pData->format;
+				texinfo.iLevel = pData->iSize;
+				texinfo.eTarget = render::TEXTURE_2D;
+				tex = m_pRenderer->CreateTexture(texinfo, true);
+			}
+
+			m_TextureList[pData].reset(tex);
+
+			return tex;
+		}
+		Sprite * RenderSystem::VCreateSprite(resources::SpriteData *pData)
+		{
+			auto pResources = m_pContext->GetSystem<resources::IResourceManager>();
+			auto it = m_SpriteList.find(pData);
+			if (it != m_SpriteList.end()) return it->second.get();
+			Sprite* p = DEBUG_NEW Sprite();
+
+			p->m_pData = pData;
+			for (auto el : pData->m_FrameLists)
+			{
+				auto tex = VCreateTexture(pResources->VGetTexture(std::vector<std::string>{"GameAssets\\" + el}));
+				p->m_FrameLists.push_back(tex);
+			}
+			p->m_Size = glm::vec2(p->m_FrameLists[0]->m_TexInfo.uiWidth, p->m_FrameLists[0]->m_TexInfo.uiHeight);
+
+			m_SpriteList[pData].reset(p);
+			return p;
 			
 		}
 		typedef Light::render::RenderDevice* (*CreateInterfaceFn)();

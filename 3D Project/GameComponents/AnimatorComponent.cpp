@@ -3,6 +3,7 @@
 #include "MeshRenderComponent.h"
 #include "..\Interface\IActor.h"
 #include "..\Math\AABB.h"
+#include "..\ResourceManager\ResourceManager.h"
 bool Light::AnimatorComponent::VSerialize(IContext * pContext, const tinyxml2::XMLElement * pData)
 {
 	auto pResources = pContext->GetSystem<resources::IResourceManager>();
@@ -13,7 +14,9 @@ bool Light::AnimatorComponent::VSerialize(IContext * pContext, const tinyxml2::X
 	//m_pRenderModel = pMeshRender->m_pModel;
 	auto pSkeleton = pData->FirstChildElement("Skeleton")->GetText();
 
-	auto raw = pResources->VGetRawModel(pSkeleton);
+	auto raw = static_cast<resources::LTRawData*>(pResources->VGetModel(pSkeleton));
+	if (raw == NULL) return false;
+
 	m_pSkeNodes = raw->SkeNodes.data();
 	m_iNumNode = raw->SkeNodes.size();
 	m_SkeTransform.resize(m_iNumNode);
@@ -23,7 +26,7 @@ bool Light::AnimatorComponent::VSerialize(IContext * pContext, const tinyxml2::X
 	for (auto pNode = pData->FirstChildElement("AnimationLayer"); pNode; pNode = pNode->NextSiblingElement("AnimationLayer"))
 	{
 		AnimationLayer* layer = DEBUG_NEW AnimationLayer(m_iNumNode);
-		layer->VSerialize(pContext, pNode);
+		if(!layer->VSerialize(pContext, pNode)) return false;
 		m_Layers.push_back(std::unique_ptr<AnimationLayer>(layer));
 	}
 	
