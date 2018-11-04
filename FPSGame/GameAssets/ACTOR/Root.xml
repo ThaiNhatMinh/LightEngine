@@ -1,8 +1,0 @@
-<Actor type="Root" name="Root Scene">
-
-	<TransformComponent>
-		<Position x="0" y="0" z="0"/>
-		<YawPitchRoll x="0" y="0" z="0"/>
-	</TransformComponent>
-
-</Actor>
