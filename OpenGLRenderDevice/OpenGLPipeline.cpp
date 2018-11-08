@@ -34,7 +34,7 @@ render::OpenGLPipeline::OpenGLPipeline(VertexShader * pVertexShader, PixelShader
 	if (check == GL_FALSE)
 	{
 		glGetProgramInfoLog(m_iProgram, 512, NULL, infoLog);
-		printf("Program Shader link error: %s" ,infoLog);
+		printf("Program Shader link error: %s\n" ,infoLog);
 		return;
 	}
 
@@ -51,7 +51,7 @@ render::PipelineParam * render::OpenGLPipeline::GetParam(const char * name)
 	auto param = m_Uniforms.find(name);
 	if (param != m_Uniforms.end()) return param->second.get();
 
-	printf("[Pipeline] Param %s not founnd!", name);
+	printf("[Pipeline] Param %s not founnd!\n", name);
 
 	return &m_NullParam;
 }

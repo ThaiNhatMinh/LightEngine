@@ -2,26 +2,33 @@
 #include "OpenGLCompressTexture.h"
 #include "DataMap.h"
 using namespace Light;
-render::OpenGLCompressTexture::OpenGLCompressTexture(const TextureCreateInfo & info):Texture(info)
+render::OpenGLCompressTexture::OpenGLCompressTexture(UINT32 target, int level, int internalformat, int width, int height, int border, int imageSize, const void * data)
 {
+	W = width;
+	H = height;
 	glGenTextures(1, &m_iHandle);
 
-	GLenum target = openGLTexType[info.eTarget];
+	GLenum gltarget = openGLTexType[target];
 	//target = GL_TEXTURE_2D;
-	glBindTexture(target, m_iHandle);
+	glBindTexture(gltarget, m_iHandle);
 
 
-	glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(gltarget, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(gltarget, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(gltarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(gltarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	GLenum internalFormat = openGLformat[info.iInternalFormat];
+	GLenum internalFormat = openGLformat[internalformat];
 	//internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
 
-	glCompressedTexImage2D(target, 0, internalFormat, info.uiWidth, info.uiHeight, 0, info.iLevel, (GLvoid*)info.pData);
+	glCompressedTexImage2D(target, level, internalFormat, width, height, 0,imageSize , (GLvoid*)data);
 	glGenerateMipmap(target);
 	check_gl_error();
+
+
+	W = width;
+	H = height;
+	target = gltarget;
 }
 
 render::OpenGLCompressTexture::~OpenGLCompressTexture()

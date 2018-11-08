@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\3D Project\Interface\Renderer.h" />
+    <ClInclude Include="BaseTexture.h" />
     <ClInclude Include="DataMap.h" />
     <ClInclude Include="OpenGLBlendingState.h" />
     <ClInclude Include="OpenGLCompressTexture.h" />

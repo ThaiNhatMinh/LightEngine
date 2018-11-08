@@ -128,14 +128,14 @@ namespace Light
 			return DEBUG_NEW OpenGLVertexArray(numBuffer, vertexBuffer, vertexDescription);
 		}
 
-		Texture * OpenGLRenderDevice::CreateTexture(const TextureCreateInfo & info, bool isCompress)
+		Texture * OpenGLRenderDevice::CreateTexture(UINT32 target, int level, int internalformat, int width, int height, int border, int format, int type, const void * data, bool isCompress)
 		{
-			if (isCompress) return DEBUG_NEW OpenGLCompressTexture(info);
+			if (isCompress) return DEBUG_NEW OpenGLCompressTexture(target,level,internalformat,width,height,border,level,data);
 			
 			
-			if(info.eTarget==TEXTURE_2D) return DEBUG_NEW OpenGLTexture(info);
-			else if (info.eTarget == TEXTURE_CUBE_MAP) return DEBUG_NEW OpenGLCubeTexture(info);
-			else std::cout<< "Invaild target texture: "<< info.eTarget;
+			if(target ==TEXTURE_2D) return DEBUG_NEW OpenGLTexture(target, level, internalformat, width, height, border,format,type,data);
+			else if (target == TEXTURE_CUBE_MAP) return DEBUG_NEW OpenGLCubeTexture(target, level, internalformat, width, height, border, format, type, data);
+			else std::cout<< "Invaild target texture: "<< target << std::endl;
 			
 			return nullptr;
 		}
@@ -197,7 +197,8 @@ namespace Light
 		{
 			assert(pTexture != nullptr);
 			glActiveTexture(openglTexuint[slot]);
-			glBindTexture(openGLTexType[pTexture->m_TexInfo.eTarget], static_cast<OpenGLTexture*>(pTexture)->m_iHandle);
+			auto x = static_cast<BaseTexture*>(pTexture);
+			glBindTexture(x->target, x->m_iHandle);
 		}
 
 		void OpenGLRenderDevice::SetStencilState(StencilState * state)

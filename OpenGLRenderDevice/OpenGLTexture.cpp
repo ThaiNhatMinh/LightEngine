@@ -2,26 +2,31 @@
 #include "OpenGLTexture.h"
 #include "DataMap.h"
 using namespace Light;
-render::OpenGLTexture::OpenGLTexture(const TextureCreateInfo & info) :Texture(info)
+render::OpenGLTexture::OpenGLTexture(UINT32 target, int level, int internalformat, int width, int height, int border, int format, int type, const void * data)
 {
 	glGenTextures(1, &m_iHandle);
 
-	GLenum target = openGLTexType[info.eTarget];
-	glBindTexture(target, m_iHandle);
+	GLenum gltarget = openGLTexType[target];
+	glBindTexture(gltarget, m_iHandle);
 
-	glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(gltarget, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(gltarget, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(gltarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(gltarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	GLenum internalFormat = openGLformat[info.iInternalFormat];
-	GLenum format = openGLformat[info.eFormat];
-	GLenum type = openGLNumber[info.eType];
+	GLenum glinternalFormat = openGLformat[internalformat];
+	GLenum glformat = openGLformat[format];
+	GLenum gltype = openGLNumber[type];
 
-	glTexImage2D(target, info.iLevel, internalFormat, info.uiWidth, info.uiHeight, 0,format, type, info.pData);
-	glGenerateMipmap(target);
-	glBindTexture(target, 0);
+	glTexImage2D(gltarget, level, glinternalFormat, width, height, border, glformat, gltype, data);
+	glGenerateMipmap(gltarget);
+	glBindTexture(gltarget, 0);
 	check_gl_error();
+
+	W = width;
+	H = height;
+	target = gltarget;
+
 }
 
 render::OpenGLTexture::~OpenGLTexture()
