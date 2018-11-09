@@ -1,0 +1,12 @@
+D:/Code/3D-Project/ThirdParty/DevIL/CMakeFiles/INSTALL.dir
+D:/Code/3D-Project/ThirdParty/DevIL/CMakeFiles/ALL_BUILD.dir
+D:/Code/3D-Project/ThirdParty/DevIL/CMakeFiles/ZERO_CHECK.dir
+D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeFiles/INSTALL.dir
+D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeFiles/IL.dir
+D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeFiles/ALL_BUILD.dir
+D:/Code/3D-Project/ThirdParty/DevIL/src-ILU/CMakeFiles/ILU.dir
+D:/Code/3D-Project/ThirdParty/DevIL/src-ILU/CMakeFiles/INSTALL.dir
+D:/Code/3D-Project/ThirdParty/DevIL/src-ILU/CMakeFiles/ALL_BUILD.dir
+D:/Code/3D-Project/ThirdParty/DevIL/src-ILUT/CMakeFiles/ILUT.dir
+D:/Code/3D-Project/ThirdParty/DevIL/src-ILUT/CMakeFiles/INSTALL.dir
+D:/Code/3D-Project/ThirdParty/DevIL/src-ILUT/CMakeFiles/ALL_BUILD.dir

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\src\ilut_allegro.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\src\ilut_directx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\src\ilut_directx10.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\src\ilut_directx9.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\src\ilut_directxm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\src\ilut_internal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\src\ilut_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\src\ilut_opengl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\src\ilut_sdlsurface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\src\ilut_states.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\src\ilut_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\src\ilut_x11.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\include\IL\devil_internal_exports.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\include\IL\ilut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\include\ilut_allegro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\include\ilut_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\include\ilut_opengl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\include\ilut_states.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\msvc\ilut.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\msvc\resources\IL Logo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILUT\msvc\ILUT.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{224B023B-64BE-37D2-BB47-DDFF73AF2600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{FA6811BC-0698-37D3-9FD2-2F7A9D6AA5E9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4F8B3490-CCA2-3A1D-B5FF-D8A7204D614A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

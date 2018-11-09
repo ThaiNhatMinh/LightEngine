@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BE7146EF-A06F-3573-8FC5-96031D67543F}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Code\3D-Project\ThirdParty\DevIL\src-IL\include;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Code\3D-Project\ThirdParty\DevIL\src-IL\include;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Code\3D-Project\ThirdParty\DevIL\src-IL\include;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Code\3D-Project\ThirdParty\DevIL\src-IL\include;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Code/3D-Project/ThirdParty/DevIL -BD:/Code/3D-Project/ThirdParty/DevIL --check-stamp-file D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckIncludeFile.c.in;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckTypeSize.c.in;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindJPEG.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindJasper.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindPNG.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindTIFF.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindZLIB.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\SelectLibraryConfigurations.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\TestBigEndian.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\TestEndianess.c.in;D:\Code\3D-Project\ThirdParty\DevIL\CMakeFiles\CheckTypeSize\CMAKE_SIZEOF_UNSIGNED_SHORT.c;D:\Code\3D-Project\ThirdParty\DevIL\cmake\Modules\FindLCMS2.cmake;D:\Code\3D-Project\ThirdParty\DevIL\cmake\Modules\FindMNG.cmake;D:\Code\3D-Project\ThirdParty\DevIL\cmake\Modules\FindlibSquish.cmake;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeLists.txt;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\cmake\FindNVTT.cmake;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\cmake\FindOpenEXR.cmake;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\include\config.h.cmake.in;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\pkgconfig\IL.pc.cmake.in;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Code/3D-Project/ThirdParty/DevIL -BD:/Code/3D-Project/ThirdParty/DevIL --check-stamp-file D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckIncludeFile.c.in;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckTypeSize.c.in;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindJPEG.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindJasper.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindPNG.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindTIFF.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindZLIB.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\SelectLibraryConfigurations.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\TestBigEndian.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\TestEndianess.c.in;D:\Code\3D-Project\ThirdParty\DevIL\CMakeFiles\CheckTypeSize\CMAKE_SIZEOF_UNSIGNED_SHORT.c;D:\Code\3D-Project\ThirdParty\DevIL\cmake\Modules\FindLCMS2.cmake;D:\Code\3D-Project\ThirdParty\DevIL\cmake\Modules\FindMNG.cmake;D:\Code\3D-Project\ThirdParty\DevIL\cmake\Modules\FindlibSquish.cmake;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeLists.txt;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\cmake\FindNVTT.cmake;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\cmake\FindOpenEXR.cmake;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\include\config.h.cmake.in;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\pkgconfig\IL.pc.cmake.in;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Code/3D-Project/ThirdParty/DevIL -BD:/Code/3D-Project/ThirdParty/DevIL --check-stamp-file D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckIncludeFile.c.in;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckTypeSize.c.in;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindJPEG.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindJasper.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindPNG.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindTIFF.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindZLIB.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\SelectLibraryConfigurations.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\TestBigEndian.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\TestEndianess.c.in;D:\Code\3D-Project\ThirdParty\DevIL\CMakeFiles\CheckTypeSize\CMAKE_SIZEOF_UNSIGNED_SHORT.c;D:\Code\3D-Project\ThirdParty\DevIL\cmake\Modules\FindLCMS2.cmake;D:\Code\3D-Project\ThirdParty\DevIL\cmake\Modules\FindMNG.cmake;D:\Code\3D-Project\ThirdParty\DevIL\cmake\Modules\FindlibSquish.cmake;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeLists.txt;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\cmake\FindNVTT.cmake;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\cmake\FindOpenEXR.cmake;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\include\config.h.cmake.in;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\pkgconfig\IL.pc.cmake.in;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Code/3D-Project/ThirdParty/DevIL -BD:/Code/3D-Project/ThirdParty/DevIL --check-stamp-file D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckIncludeFile.c.in;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckTypeSize.c.in;C:\Program Files\CMake\share\cmake-3.12\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindJPEG.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindJasper.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindPNG.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindTIFF.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\FindZLIB.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\SelectLibraryConfigurations.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\TestBigEndian.cmake;C:\Program Files\CMake\share\cmake-3.12\Modules\TestEndianess.c.in;D:\Code\3D-Project\ThirdParty\DevIL\CMakeFiles\CheckTypeSize\CMAKE_SIZEOF_UNSIGNED_SHORT.c;D:\Code\3D-Project\ThirdParty\DevIL\cmake\Modules\FindLCMS2.cmake;D:\Code\3D-Project\ThirdParty\DevIL\cmake\Modules\FindMNG.cmake;D:\Code\3D-Project\ThirdParty\DevIL\cmake\Modules\FindlibSquish.cmake;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeLists.txt;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\cmake\FindNVTT.cmake;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\cmake\FindOpenEXR.cmake;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\include\config.h.cmake.in;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\pkgconfig\IL.pc.cmake.in;D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Code\3D-Project\ThirdParty\DevIL\src-IL\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Code\3D-Project\ThirdParty\DevIL\ZERO_CHECK.vcxproj">
+      <Project>{BECCC839-3279-3286-893A-A06F28DE6EA2}</Project>
+      <Name>ZERO_CHECK</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Code\3D-Project\ThirdParty\DevIL\src-IL\IL.vcxproj">
+      <Project>{C4097E2E-9289-3739-8E90-A0F921B8A6F6}</Project>
+      <Name>IL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

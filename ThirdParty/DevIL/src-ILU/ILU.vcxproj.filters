@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_alloc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_error.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_filter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_filter_rcg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_internal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_manip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_mipmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_noise.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_region.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_rotate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_scale.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_scale2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_scale3d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_scaling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_states.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\src\ilu_utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\include\IL\devil_internal_exports.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\include\IL\ilu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\include\ilu_alloc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\include\ilu_filter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\include\ilu_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\include\ilu_region.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\include\ilu_states.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\msvc\ilu.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\msvc\resources\IL Logo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="D:\Code\3D-Project\ThirdParty\DevIL\src-ILU\msvc\ILU.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{224B023B-64BE-37D2-BB47-DDFF73AF2600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{FA6811BC-0698-37D3-9FD2-2F7A9D6AA5E9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4F8B3490-CCA2-3A1D-B5FF-D8A7204D614A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

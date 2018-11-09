@@ -1,0 +1,25 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.12/Modules/CheckIncludeFile.c.in
+C:/Program Files/CMake/share/cmake-3.12/Modules/CheckIncludeFile.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/CheckIncludeFileCXX.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/CheckTypeSize.c.in
+C:/Program Files/CMake/share/cmake-3.12/Modules/CheckTypeSize.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindJPEG.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindJasper.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindPNG.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindTIFF.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindZLIB.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/SelectLibraryConfigurations.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/TestBigEndian.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/TestEndianess.c.in
+D:/Code/3D-Project/ThirdParty/DevIL/CMakeFiles/CheckTypeSize/CMAKE_SIZEOF_UNSIGNED_SHORT.c
+D:/Code/3D-Project/ThirdParty/DevIL/cmake/Modules/FindLCMS2.cmake
+D:/Code/3D-Project/ThirdParty/DevIL/cmake/Modules/FindMNG.cmake
+D:/Code/3D-Project/ThirdParty/DevIL/cmake/Modules/FindlibSquish.cmake
+D:/Code/3D-Project/ThirdParty/DevIL/src-IL/CMakeLists.txt
+D:/Code/3D-Project/ThirdParty/DevIL/src-IL/cmake/FindNVTT.cmake
+D:/Code/3D-Project/ThirdParty/DevIL/src-IL/cmake/FindOpenEXR.cmake
+D:/Code/3D-Project/ThirdParty/DevIL/src-IL/include/config.h.cmake.in
+D:/Code/3D-Project/ThirdParty/DevIL/src-IL/pkgconfig/IL.pc.cmake.in

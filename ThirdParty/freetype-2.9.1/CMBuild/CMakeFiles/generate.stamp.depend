@@ -1,0 +1,31 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.12/Modules/CMakeCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/CMakeCommonLanguageInclude.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/CMakeGenericSystem.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/CMakeInitializeConfigs.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/CMakeLanguageInformation.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/CMakeRCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/CMakeSystemSpecificInformation.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/CMakeSystemSpecificInitialize.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/CPack.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/CPackComponent.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/CheckIncludeFile.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/Compiler/MSVC-C.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindBZip2.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindPNG.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindPkgConfig.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/FindZLIB.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/GNUInstallDirs.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/Platform/Windows-MSVC-C.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/Platform/Windows-MSVC.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/Platform/Windows.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/Platform/WindowsPaths.cmake
+C:/Program Files/CMake/share/cmake-3.12/Modules/SelectLibraryConfigurations.cmake
+C:/Program Files/CMake/share/cmake-3.12/Templates/CPackConfig.cmake.in
+D:/Code/3D-Project/ThirdParty/freetype-2.9.1/CMBuild/CMakeFiles/3.12.2/CMakeCCompiler.cmake
+D:/Code/3D-Project/ThirdParty/freetype-2.9.1/CMBuild/CMakeFiles/3.12.2/CMakeRCCompiler.cmake
+D:/Code/3D-Project/ThirdParty/freetype-2.9.1/CMBuild/CMakeFiles/3.12.2/CMakeSystem.cmake
+D:/Code/3D-Project/ThirdParty/freetype-2.9.1/CMakeLists.txt
+D:/Code/3D-Project/ThirdParty/freetype-2.9.1/builds/cmake/FindHarfBuzz.cmake
