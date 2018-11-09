@@ -17,11 +17,12 @@ namespace Light
 		void		Update(float dt);
 		
 		virtual void		VDrawText(const std::string& str, const  glm::vec2&position, vgui::Font* pFont = nullptr);
-		virtual void		VDraw(render::Texture* pTex, glm::vec2 position, float scale = 1.0f);
+		virtual void		VDraw(render::Texture* pTex, const glm::vec2&position, const glm::vec2& scale = glm::vec2(1,1));
 		virtual vgui::Font*	VCreateFont(std::string filename);
 		virtual const char* VGetName();
 	private:
 		void RenderText();
+		void RenderTexture();
 	private:
 		std::vector<std::unique_ptr<vgui::Font>>		m_FontLists;
 		glm::mat4						m_Proj;
@@ -44,8 +45,16 @@ namespace Light
 			std::string text;
 			vgui::FTFont* font;
 		};
+
+		struct TextureRender
+		{
+			render::Texture* tex;
+			glm::vec2 pos;
+			glm::vec2 scale;
+		};
 		// render text
 		std::list<TextRender> m_Texts;
+		std::list<TextureRender> m_Textures;
 	};
 
 

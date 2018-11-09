@@ -61,7 +61,10 @@ namespace Light
 		m_pRenderD->SetBlend(true);
 		m_pRenderD->SetPipeline(m_UIShader.get());
 		m_uMVP->SetAsMat4(glm::value_ptr(m_Proj));
+		m_pRenderD->SetVertexArray(m_pVAO.get());
+		RenderTexture();
 		RenderText();
+		
 	}
 
 	void VGUI::Update(float dt)
@@ -79,8 +82,13 @@ namespace Light
 
 		m_Texts.push_back(tr);
 	}
-	void VGUI::VDraw(render::Texture * pTex, glm::vec2 position, float scale)
+	void VGUI::VDraw(render::Texture * pTex,const glm::vec2& position, const glm::vec2&scale)
 	{
+		TextureRender tr;
+		tr.pos = position;
+		tr.tex = pTex;
+		tr.scale = scale;
+		m_Textures.push_back(tr);
 	}
 	vgui::Font * VGUI::VCreateFont(std::string filename)
 	{
@@ -101,7 +109,7 @@ namespace Light
 	{
 		while (m_Texts.size())
 		{
-			m_pRenderD->SetVertexArray(m_pVAO.get());
+			
 			m_uIsText->SetAsInt(1);
 			
 			float x = 0;// m_Pos.x;
@@ -124,6 +132,23 @@ namespace Light
 
 				x += (ch->advance >> 6); // Bitshift by 6 to get value in pixels (2^6 = 64)
 			}
+		}
+	}
+	void VGUI::RenderTexture()
+	{
+		while (m_Textures.size())
+		{
+			m_uIsText->SetAsInt(0);
+			auto el = m_Textures.front();
+			m_Textures.pop_front();
+
+			if (!el.tex) continue;
+
+			glm::vec2 size(el.tex->GetWidth()*el.scale.x,el.tex->GetHeight()*el.scale.y);
+			m_uPos->SetAsVec2(glm::value_ptr(el.pos));
+			m_uSize->SetAsVec2(glm::value_ptr(size));
+			m_pRenderD->SetTexture(render::TextureUnit::UNIT_AMBIENT, el.tex);
+			m_pRenderD->Draw(0, 4, 0, render::PRIMITIVE_TRIANGLE_STRIP);
 		}
 	}
 /*

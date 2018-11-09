@@ -5,12 +5,14 @@
 #include <Events.h>
 #include <IEventManager.h>
 #include <IWindow.h>
+#include <IRenderSystem.h>
 GS_Game::GS_Game(StateStack * pOwner):m_pScene(nullptr)
 {
 	auto m_pContext = pOwner->GetContext();
 	m_pVGUI = m_pContext->GetSystem<Light::vgui::IVGUI>();
 }
 
+Light::render::Texture* pTex;
 void GS_Game::OnEnter(StateStack * pOwner)
 {
 	printf("Enter GS_Game...\n");
@@ -19,8 +21,11 @@ void GS_Game::OnEnter(StateStack * pOwner)
 	auto pFactory = pContext->GetSystem<Light::IFactory>();
 	auto pEventManager = pContext->GetSystem<Light::IEventManager>();
 	auto pWindows = pContext->GetSystem<Light::IWindow>();
+	auto pResourceM = pContext->GetSystem<Light::resources::IResourceManager>();
+	auto pRenderS = pContext->GetSystem<Light::render::IRenderSystem>();
 	pWindows->HideMouse(1);
 
+	pTex = pRenderS->VCreateTexture(pResourceM->VGetTexture(std::vector<std::string>{"GameAssets\\test\\AK_47_KNIFE_ROYALDRAGON3_BG.DTX"},false,true));
 
 	m_pScene = pFactory->VCreateScene("GameAssets\\test\\Scene.xml");
 
@@ -49,6 +54,7 @@ void GS_Game::OnExit(StateStack * pOwner)
 bool GS_Game::Update(float dt)
 {
 	m_pVGUI->VDrawText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789",glm::vec2(500,400));
+	m_pVGUI->VDraw(pTex, glm::vec2(100, 300));
 	m_pScene->VOnUpdate(dt);
 	return false;
 }

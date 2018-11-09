@@ -4,6 +4,7 @@
 #include "..\Graphics3D\RenderPass.h"
 #include "IContext.h"
 #include "IEffectSystem.h"
+#include "IDebugRender.h"
 namespace Light
 {
 	namespace render

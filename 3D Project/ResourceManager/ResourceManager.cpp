@@ -422,6 +422,7 @@ namespace Light
 				tex->iInternalFormat = InternalFormat;
 				tex->eFormat = render::FORMAT_RGBA;
 				tex->flag = Flag_Normal;
+				tex->iLevel = 0;
 			}
 			else if (InternalFormat == render::FORMAT_COMPRESSED_RGBA_S3TC_DXT1_EXT || InternalFormat == render::FORMAT_COMPRESSED_RGBA_S3TC_DXT3_EXT || InternalFormat == render::FORMAT_COMPRESSED_RGBA_S3TC_DXT5_EXT)
 			{
