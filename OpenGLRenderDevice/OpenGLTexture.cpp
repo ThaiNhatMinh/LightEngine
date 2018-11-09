@@ -19,13 +19,13 @@ render::OpenGLTexture::OpenGLTexture(UINT32 target, int level, int internalforma
 	GLenum gltype = openGLNumber[type];
 
 	glTexImage2D(gltarget, level, glinternalFormat, width, height, border, glformat, gltype, data);
-	glGenerateMipmap(gltarget);
+	//glGenerateMipmap(gltarget);
 	glBindTexture(gltarget, 0);
 	check_gl_error();
 
 	W = width;
 	H = height;
-	target = gltarget;
+	this->target = gltarget;
 
 }
 

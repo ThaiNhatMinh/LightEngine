@@ -28,7 +28,7 @@ Light::render::OpenGLCubeTexture::OpenGLCubeTexture(UINT32 target, int level, in
 
 	W = width;
 	H = height;
-	target = gltarget;
+	this->target = gltarget;
 
 
 }

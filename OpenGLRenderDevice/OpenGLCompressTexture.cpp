@@ -4,12 +4,9 @@
 using namespace Light;
 render::OpenGLCompressTexture::OpenGLCompressTexture(UINT32 target, int level, int internalformat, int width, int height, int border, int imageSize, const void * data)
 {
-	W = width;
-	H = height;
 	glGenTextures(1, &m_iHandle);
 
 	GLenum gltarget = openGLTexType[target];
-	//target = GL_TEXTURE_2D;
 	glBindTexture(gltarget, m_iHandle);
 
 
@@ -18,17 +15,16 @@ render::OpenGLCompressTexture::OpenGLCompressTexture(UINT32 target, int level, i
 	glTexParameteri(gltarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(gltarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	GLenum internalFormat = openGLformat[internalformat];
-	//internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+	GLenum glinternalFormat = openGLformat[internalformat];
 
-	glCompressedTexImage2D(target, level, internalFormat, width, height, 0,imageSize , (GLvoid*)data);
-	glGenerateMipmap(target);
+	glCompressedTexImage2D(gltarget, 0, glinternalFormat, width, height, border,imageSize , (GLvoid*)data);
+	glGenerateMipmap(gltarget);
 	check_gl_error();
 
 
 	W = width;
 	H = height;
-	target = gltarget;
+	this->target = gltarget;
 }
 
 render::OpenGLCompressTexture::~OpenGLCompressTexture()

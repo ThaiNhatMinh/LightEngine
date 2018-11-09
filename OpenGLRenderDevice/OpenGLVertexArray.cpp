@@ -22,6 +22,7 @@ render::OpenGLVertexArray::OpenGLVertexArray(unsigned int numBuffer, VertexBuffe
 				vertexDes->m_Elements[j].normalized, vertexDes->m_Elements[j].stride, vertexDes->m_Elements[j].pointer);
 		}
 	} 
+	glBindVertexArray(0);
 }
 
 render::OpenGLVertexArray::~OpenGLVertexArray()

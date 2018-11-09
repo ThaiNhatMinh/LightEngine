@@ -23,7 +23,7 @@ namespace Light
 			virtual VertexBuffer*		CreateVertexBuffer(long long size, const void* data = nullptr)override;
 			virtual VertexDescription*	CreateVertexDescription(unsigned int numElement, const VertexElement* pElement)override;
 			virtual VertexArray*		CreateVertexArray(unsigned int numBuffer, VertexBuffer**vertexBuffer, VertexDescription** vertexDescription)override;
-			virtual Texture*			CreateTexture(UINT32 target, int level, int internalformat, int width, int height, int border, int format, int type, const void * data, bool isCompress = false)override;
+			virtual Texture*			CreateTexture(UINT32 target, int level, int internalformat, int width, int height, int border, int format, int type, const void * data,char alignment = 4, bool isCompress = false)override;
 			virtual IndexBuffer*		CreateIndexBuffer(unsigned int size, const void* pData = nullptr)override;
 			virtual DepthState*			CreateDepthState(bool enable = true, bool mask = true, Compare depthFunc = COMPARE_LESS) override;
 			virtual StencilState*		CreateStencilState(const StencilConfig & config) override;

@@ -128,15 +128,18 @@ namespace Light
 			return DEBUG_NEW OpenGLVertexArray(numBuffer, vertexBuffer, vertexDescription);
 		}
 
-		Texture * OpenGLRenderDevice::CreateTexture(UINT32 target, int level, int internalformat, int width, int height, int border, int format, int type, const void * data, bool isCompress)
+		Texture * OpenGLRenderDevice::CreateTexture(UINT32 target, int level, int internalformat, int width, int height, int border, int format, int type, const void * data, char alignment, bool isCompress)
 		{
+			int t;
+			glGetIntegerv(GL_UNPACK_ALIGNMENT, &t);
+			glPixelStorei(GL_UNPACK_ALIGNMENT, alignment);
 			if (isCompress) return DEBUG_NEW OpenGLCompressTexture(target,level,internalformat,width,height,border,level,data);
 			
 			
 			if(target ==TEXTURE_2D) return DEBUG_NEW OpenGLTexture(target, level, internalformat, width, height, border,format,type,data);
 			else if (target == TEXTURE_CUBE_MAP) return DEBUG_NEW OpenGLCubeTexture(target, level, internalformat, width, height, border, format, type, data);
 			else std::cout<< "Invaild target texture: "<< target << std::endl;
-			
+			glPixelStorei(GL_UNPACK_ALIGNMENT, t);
 			return nullptr;
 		}
 
