@@ -28,6 +28,7 @@ std::unique_ptr<GameState> StateStack::Pop()
 
 void StateStack::Push(GameState *pState)
 {
+	
 	pState->OnEnter(this);
 	m_Stacks.push(std::unique_ptr<GameState>(pState));
 }

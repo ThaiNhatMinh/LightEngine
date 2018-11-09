@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>..\3D Project\Interface;..\3D Project\Graphics3D;..\ThirdParty\;..\3D Project\Core;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ThirdParty\tinyxml2;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\ThirdParty\tinyxml2\Debug-Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -81,7 +81,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>..\3D Project\Interface;..\3D Project\Graphics3D;..\ThirdParty\;..\3D Project\Core;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ThirdParty\tinyxml2;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\ThirdParty\tinyxml2\Release-Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -95,6 +95,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;HUNTING_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>tinyxml2.lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

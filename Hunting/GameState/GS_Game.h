@@ -3,7 +3,7 @@
 
 #include "GameState.h"
 #include <IScene.h>
-
+#include <IVGUI.h>
 class GS_Game: public GameState
 {
 public:
@@ -14,5 +14,6 @@ public:
 	virtual bool Update(float dt);
 
 private:
+	Light::vgui::IVGUI* m_pVGUI;
 	Light::IScene* m_pScene;
 };
