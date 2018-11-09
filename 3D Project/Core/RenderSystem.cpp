@@ -46,6 +46,7 @@ namespace Light
 		void RenderSystem::Render()
 		{
 			m_pRenderer->Clear();
+			
 			// if there was no camera, so we can't see anything
 			if (m_pCurrentCamera == nullptr|| m_pScene==nullptr) return;
 			
@@ -167,7 +168,7 @@ namespace Light
 					pModel->Meshs.push_back(std::unique_ptr<DefaultMesh>(pMesh));
 					pModel->Diffuse.push_back(VCreateTexture(pDefData->Texs[i]));
 					pModel->Materials.push_back(std::shared_ptr<render::Material>(pFactory->VGetMaterial("Default")));
-					auto& vertexs = pDefData->Meshs[i].Vertexs;	
+			
 				}
 
 				pModel->Box = pDefData->Box;
@@ -248,46 +249,22 @@ namespace Light
 		}
 		Texture * RenderSystem::VCreateTexture(resources::TextureData *pData)
 		{
+
+			assert(pData != nullptr);
+
 			Texture* tex = nullptr;
 			auto it = m_TextureList.find(pData);
 			if (it != m_TextureList.end()) return it->second.get();
 
-			if (pData->flag&resources::Flag_Normal)
+			if (pData->flag&resources::Flag_Normal|| pData->flag&resources::Flag_CubeTex)
 			{
-				render::TextureCreateInfo texinfo;
-				texinfo.eTarget = render::TEXTURE_2D;
-				texinfo.iLevel = 0;
-				texinfo.iInternalFormat = pData->format;
-				texinfo.uiWidth = pData->iWidht;
-				texinfo.uiHeight = pData->iHeight;
-				texinfo.pData = pData->pData;
-				texinfo.eType = render::UNSIGNED_BYTE;
-				texinfo.eFormat = texinfo.iInternalFormat;
-				tex = m_pRenderer->CreateTexture(texinfo);
-			}
-			else if(pData->flag&resources::Flag_CubeTex)
-			{
-				render::TextureCreateInfo texinfo;
-				texinfo.eTarget = render::TEXTURE_CUBE_MAP;
-				texinfo.iLevel = 0;
-				texinfo.iInternalFormat = pData->format;
-				texinfo.uiWidth = pData->iWidht;
-				texinfo.uiHeight = pData->iHeight;
-				texinfo.pData = pData->pData;
-				texinfo.eType = render::UNSIGNED_BYTE;
-				texinfo.eFormat = texinfo.iInternalFormat;
-				tex = m_pRenderer->CreateTexture(texinfo);
+				
+				tex = m_pRenderer->CreateTexture(pData->eTarget, pData->iLevel, pData->iInternalFormat, pData->uiWidth, pData->uiHeight, 0, pData->eFormat, pData->eType, pData->pData, pData->alignment);
 			}
 			else if (pData->flag&resources::Flag_Compress)
 			{
-				render::TextureCreateInfo texinfo;
-				texinfo.pData = pData->pData;
-				texinfo.uiWidth = pData->iWidht;
-				texinfo.uiHeight = pData->iHeight;
-				texinfo.iInternalFormat = pData->format;
-				texinfo.iLevel = pData->iSize;
-				texinfo.eTarget = render::TEXTURE_2D;
-				tex = m_pRenderer->CreateTexture(texinfo, true);
+				
+				tex = m_pRenderer->CreateTexture(pData->eTarget, pData->iLevel, pData->iInternalFormat, pData->uiWidth, pData->uiHeight, 0, pData->eFormat, pData->eType, pData->pData, pData->alignment, true);
 			}
 
 			m_TextureList[pData].reset(tex);
@@ -304,10 +281,10 @@ namespace Light
 			p->m_pData = pData;
 			for (auto el : pData->m_FrameLists)
 			{
-				auto tex = VCreateTexture(pResources->VGetTexture(std::vector<std::string>{"GameAssets\\" + el}));
+				auto tex = VCreateTexture(pResources->VGetTexture(std::vector<std::string>{"GameAssets\\" + el},false,true));
 				p->m_FrameLists.push_back(tex);
 			}
-			p->m_Size = glm::vec2(p->m_FrameLists[0]->m_TexInfo.uiWidth, p->m_FrameLists[0]->m_TexInfo.uiHeight);
+			p->m_Size = glm::vec2(p->m_FrameLists[0]->GetWidth(), p->m_FrameLists[0]->GetHeight());
 
 			m_SpriteList[pData].reset(p);
 			return p;

@@ -26,4 +26,7 @@
 	
 	<Shader File="Shader\Terrain.vs"/>
 	<Shader File="Shader\Terrain.fs"/>
+
+	<Shader File="Shader\UI.vs"/>
+	<Shader File="Shader\UI.fs"/>
 </Resources>

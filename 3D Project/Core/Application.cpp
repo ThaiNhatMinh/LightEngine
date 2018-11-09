@@ -15,7 +15,7 @@
 #include "DebugRender.h"
 #include "..\Graphics3D\EffectSystem.h"
 #include "..\Script\LuaScriptExporter.h"
-
+#include "..\VGUI\VGUI.h"
 
 #include "..\ResourceManager\ResourceManager.h"
 
@@ -59,7 +59,7 @@ void Application::SetupSubmodule()
 	m_pActorFactory->PostInit();
 	//m_pSystemUI->PostInit();
 
-	m_pWindows->HideMouse(1);
+	
 }
 
 
@@ -123,6 +123,9 @@ void Application::MainLoop()
 	//render::VertexDescription *vertexDescription = m_pRenderer->CreateVertexDescription(2, vertexElement);
 	//render::VertexArray *vertexArray = m_pRenderer->CreateVertexArray(1, &vertexBuffer, &vertexDescription);
 
+
+	VGUI vGUI(m_Context.get());
+
 	m_bRunMainLoop = true;
 
 
@@ -142,7 +145,7 @@ void Application::MainLoop()
 		m_pTimer->VTick();
 		
 
-		if (m_pInput->VOnKey(Light::Escape))	m_bRunMainLoop = false;
+		//if (m_pInput->VOnKey(Light::Escape))	m_bRunMainLoop = false;
 		
 		float dt = m_pTimer->VGetDeltaTime();
 		
@@ -163,6 +166,7 @@ void Application::MainLoop()
 		//m_pDebuger->Render();
 		m_pRenderer->Render();
 		
+		vGUI.Render();
 		//m_pSystemUI->Render();
 		/*framebuffer.End();
 		

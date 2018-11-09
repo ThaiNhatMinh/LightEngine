@@ -30,9 +30,9 @@ namespace Light
 		class TriangleData : public btTriangleIndexVertexArray
 		{
 		public:
-			TriangleData(std::vector<DefaultVertex> vertexs, std::vector<unsigned int> indices);
+			TriangleData(std::vector<glm::vec3> vertexs, std::vector<unsigned int> indices);
 		private:
-			std::vector<DefaultVertex> vertexs;
+			std::vector<glm::vec3> vertexs;
 			std::vector<unsigned int> indices;
 		};
 		class ColliderComponent : public IColliderComponent
@@ -55,7 +55,7 @@ namespace Light
 
 		protected:
 			void CreateShape(string name, const tinyxml2::XMLElement* pData, IContext* pContex);
-
+			
 		private:
 			glm::vec2				m_MM;
 			ShapeType			m_Type;

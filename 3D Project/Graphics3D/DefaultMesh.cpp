@@ -8,6 +8,7 @@ Light::DefaultMesh::DefaultMesh(render::RenderDevice * pRenderDevice, const Vert
 	m_pVBO = std::unique_ptr<render::VertexBuffer>(pRenderDevice->CreateVertexBuffer(vertex.size() * sizeof(DefaultVertex), &vertex[0]));
 	m_pIBO = std::unique_ptr<render::IndexBuffer>(pRenderDevice->CreateIndexBuffer(indices.size() * sizeof(unsigned int), &indices[0]));
 
+	
 	size_t stride = sizeof(DefaultVertex);
 	render::VertexElement elements[] =
 	{
@@ -18,6 +19,7 @@ Light::DefaultMesh::DefaultMesh(render::RenderDevice * pRenderDevice, const Vert
 
 	render::VertexDescription* pVertexDes = pRenderDevice->CreateVertexDescription(3, elements);
 	render::VertexBuffer* ptemp = m_pVBO.get();
+	
 	m_pVAO = std::unique_ptr<render::VertexArray>(pRenderDevice->CreateVertexArray(1, &ptemp, &pVertexDes));
 	
 	m_iNNumIndices = indices.size();
@@ -27,6 +29,7 @@ Light::DefaultMesh::DefaultMesh(render::RenderDevice * pRenderDevice, const Vert
 
 void Light::DefaultMesh::Draw(render::RenderDevice * renderer)
 {
+	
 	renderer->SetVertexArray(m_pVAO.get());
 	renderer->SetIndexBuffer(m_pIBO.get());
 	renderer->DrawElement(m_iNNumIndices, 0);

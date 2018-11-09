@@ -13,15 +13,15 @@ namespace Light
 		r->m_Loop = p->Loop;
 		r->m_fLife = p->life;
 		r->m_Pos = p->Pos;
-		m_SpriteLists.push_back(std::unique_ptr<render::Sprite>(r));
+		m_SpriteLists.push_back(r);
 
 	}
 
 	void EffectSystem::UpdateSprite(float dt, render::ICamera*pCam)
 	{
-		
+		if (!pCam) return;
 		auto el = m_SpriteLists.begin();
-		std::vector<std::list<std::unique_ptr<render::Sprite>>::iterator> removeList;
+		std::vector<std::list<render::Sprite*>::iterator> removeList;
 		while (el !=m_SpriteLists.end())
 		{
 			auto* pData = (*el)->m_pData;

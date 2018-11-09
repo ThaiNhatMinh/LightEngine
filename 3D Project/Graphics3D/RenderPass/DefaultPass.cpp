@@ -31,6 +31,7 @@ namespace Light
 		for (Renderable& renderable : m_ObjectList)
 		{
 			render::Model* modelRender = renderable.m_RenderComponent->m_pModel;
+			if (modelRender == nullptr) continue;
 			math::AABB box = modelRender->GetBox();
 			glm::mat4 t = renderable.m_TransformComponent->GetTransform();
 			box = math::TrasformAABB(box, t);

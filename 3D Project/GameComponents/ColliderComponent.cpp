@@ -127,11 +127,15 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 		
 		auto vertexs = math::GenerateVertexData(hm, stepsize, hm->Width, hm->Height, hscale, numSub);
 		auto indices = math::GenerateIndicesData(hm);
-		
-		btTriangleIndexVertexArray* pIntexVertexArray = new TriangleData(vertexs,indices);
-		TriangleMesh* pShape = new TriangleMesh(pIntexVertexArray, true, true);
-		btTriangleInfoMap* triangleInfoMap = new btTriangleInfoMap();
 
+		std::vector<glm::vec3> vertexList;
+		for (auto&el : vertexs) vertexList.push_back(el.pos);
+
+		btTriangleIndexVertexArray* pIntexVertexArray = new TriangleData(vertexList,indices);
+
+		TriangleMesh* pShape = new TriangleMesh(pIntexVertexArray, false, true);
+		btTriangleInfoMap* triangleInfoMap = new btTriangleInfoMap();
+		
 		btGenerateInternalEdgeInfo(pShape, triangleInfoMap);
 		pShape->SetInfoMap(triangleInfoMap);
 		m_pCollisionShape = pShape;
@@ -148,12 +152,12 @@ TriangleMesh::~TriangleMesh()
 {
 	
 }
-TriangleData::TriangleData(std::vector<DefaultVertex> vertexs, std::vector<unsigned int> indices):vertexs(vertexs),indices(indices)
+TriangleData::TriangleData(std::vector<glm::vec3> vertexs, std::vector<unsigned int> indices):vertexs(vertexs),indices(indices)
 {
 	int totaltriangle = indices.size() / 3;
 	int totalVerts = vertexs.size();
 	int indexStride = sizeof(unsigned int) * 3;
-	int vertStride = sizeof(DefaultVertex);
+	int vertStride = sizeof(glm::vec3);
 
 	btIndexedMesh mesh;
 

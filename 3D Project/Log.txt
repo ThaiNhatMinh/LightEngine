@@ -1,7 +1,17 @@
 [DEBUG] d:\code\3d-project\3d project\core\application.cpp Line:28| Application StartUp...
-[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:323| ..\Debug\OpenGLRenderDevice.dll
+[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:300| ..\Debug\OpenGLRenderDevice.dll
 [DEBUG] d:\code\3d-project\3d project\gameplugin\gamepluginmanager.cpp Line:22| ..\Debug\Hunting.dll
-[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:375| Camera create!
-[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:404| ObjectRender add: 707_No
-[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:404| ObjectRender add: 707
-[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:383| SceneRender add: Scene1
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:344| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0000.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:344| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0006.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:344| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0008.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:344| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0012.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:344| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0014.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:344| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0018.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:344| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0020.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:344| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0022.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:344| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0024.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:344| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0026.DTX
+[ERROR] d:\code\3d-project\3d project\resourcemanager\resourcemanager.cpp Line:344| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0028.DTX
+[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:352| Camera create!
+[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:381| ObjectRender add: 707
+[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:360| SceneRender add: Scene1

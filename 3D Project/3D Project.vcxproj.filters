@@ -289,6 +289,15 @@
     <ClInclude Include="Graphics3D\BaseMaterial.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
+    <ClInclude Include="VGUI\VGUI.h">
+      <Filter>VGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IVGUI.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="VGUI\FreeTypeFont.h">
+      <Filter>VGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -454,6 +463,12 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\BaseMaterial.cpp">
       <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="VGUI\VGUI.cpp">
+      <Filter>VGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VGUI\FreeTypeFont.cpp">
+      <Filter>VGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

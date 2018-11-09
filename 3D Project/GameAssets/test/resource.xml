@@ -9,4 +9,11 @@
 	</CubeTexture>
     <Model>GameAssets\MODELS\CHARACTER\M-MOTION.LTB</Model>
     <Model>GameAssets\test\Crate1.obj</Model>
+	<HeightMap>GameAssets\WORLD\heightmap.png</HeightMap>
+	<Texture>GameAssets\TEXTURES\TERRAIN\road.jpg</Texture>
+	<Texture>GameAssets\TEXTURES\TERRAIN\mntn_green_d.jpg</Texture>
+	<Texture>GameAssets\TEXTURES\TERRAIN\savanna_dry_d.jpg</Texture>
+	<Texture>GameAssets\TEXTURES\TERRAIN\Blend.jpg</Texture>
+	<Model>GameAssets\test\Palm_01\Palm_01.obj</Model>
+	<Sprite>GameAssets\TEXTURES\FX\BLOOD3\BLOOD3.SPR</Sprite>
 </Resources>

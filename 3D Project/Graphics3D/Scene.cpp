@@ -57,13 +57,11 @@ namespace Light
 
 		m_pRoot->PostInit();
 
+		
 		tinyxml2::XMLElement* pLightNode = pScene->FirstChildElement("Light");
 		
 		m_LightManager.VSerialize(m_Context, pLightNode);
 		
-
-
-
 		auto pSkybox = pScene->FirstChildElement("SkyBox");
 
 		m_SkyBox.VSerialize(m_Context, pSkybox);

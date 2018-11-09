@@ -72,17 +72,17 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>..\ThirdParty\;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\lib\x86\Release;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\RelWithDebInfo;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath);..\ThirdParty\lua\lib</LibraryPath>
+    <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.9.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>..\ThirdParty\;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\lib\x86\Debug;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.9.1\CMBuild\Debug;..\ThirdParty\assimp-4.1.0\lib\Debug;..\ThirdParty\tinyxml2\Debug-Lib;..\ThirdParty\lua\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>..\ThirdParty\;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\lib\x86\Release;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.7.1\LIB\Release;..\ThirdParty\assimp-4.1.0\lib\RelWithDebInfo;..\ThirdParty\tinyxml2\;..\3D Project\lib;..\Debug;$(LibraryPath);..\ThirdParty\lua\lib</LibraryPath>
+    <LibraryPath>..\ThirdParty\;..\ThirdParty\Bullet\lib\Release;..\ThirdParty\Devil\lib\x86\Release;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.9.1\CMBuild\Release;..\ThirdParty\assimp-4.1.0\lib\RelWithDebInfo;..\ThirdParty\tinyxml2\Release-Lib;..\3D Project\lib;..\Debug;$(LibraryPath);..\ThirdParty\lua\lib</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.7.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.9.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -102,12 +102,11 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dxguid.lib;dinput8.lib;tinyxml2.lib;Devil.lib;glfw3.lib;fmod_vc.lib;ILU.lib;lua5.1.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetype.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tinyxml2.lib;DevIL.lib;glfw3.lib;fmod_vc.lib;ILU.lib;lua5.1.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;freetyped.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>@ECHO ON
-@ECHO "$(VC_ExecutablePath_x86)\lib.exe" /out:"$(OutDir)$(ProjectName).lib" "$(IntermediateOutputPath)*.obj"
-"$(VC_ExecutablePath_x86)\lib.exe" /out:"$(OutDir)$(ProjectName).lib" "$(IntermediateOutputPath)*.obj"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -242,6 +241,7 @@
     <ClInclude Include="Interface\ISubSystem.h" />
     <ClInclude Include="Interface\ISysUI.h" />
     <ClInclude Include="Interface\ITimer.h" />
+    <ClInclude Include="Interface\IVGUI.h" />
     <ClInclude Include="Interface\IWindow.h" />
     <ClInclude Include="Interface\Renderer.h" />
     <ClInclude Include="Math\AABB.h" />
@@ -265,6 +265,8 @@
     <ClInclude Include="Utilities\Template.h" />
     <ClInclude Include="Utilities\String.h" />
     <ClInclude Include="Utilities\Utility.h" />
+    <ClInclude Include="VGUI\FreeTypeFont.h" />
+    <ClInclude Include="VGUI\VGUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation\AnimationLayer.cpp" />
@@ -327,6 +329,8 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Utilities\Observer.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
+    <ClCompile Include="VGUI\FreeTypeFont.cpp" />
+    <ClCompile Include="VGUI\VGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameAssets\SCRIPTS\Box.lua" />

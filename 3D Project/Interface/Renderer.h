@@ -139,17 +139,7 @@ namespace Light
 			FLOAT_32_UNSIGNED_INT_24_8_REV,
 			NUMBERFORMAT_MAX
 		};
-		struct TextureCreateInfo
-		{
-			TextureType eTarget;			//  GL_TEXTURE_2D, GL_PROXY_TEXTURE_2D, GL_TEXTURE_1D_ARRAY, GL_PROXY_TEXTURE_1D_ARRAY, GL_TEXTURE_RECTANGLE, GL_PROXY_TEXTURE_RECTANGLE
-			int iLevel;						// Specifies the level-of-detail number.
-			ColorFormat iInternalFormat;			// Specifies the number of color components in the texture.
-			unsigned int uiWidth, uiHeight;	// Specifies the width/height of the texture image
-			ColorFormat eFormat;			// Specifies the format of the pixel data.
-			NumberFormat eType;				// Specifies the data type of the pixel data
-			void* pData;					// Specifies a pointer to the image data in memory. 
-			TextureCreateInfo() {};
-		};
+		
 
 		class VertexShader
 		{
@@ -238,10 +228,10 @@ namespace Light
 		{
 		public:
 			virtual ~Texture() = default;
-		protected:
-			Texture(const TextureCreateInfo& info){m_TexInfo=info; };
+			virtual int GetWidth() = 0;
+			virtual int GetHeight() = 0;
+			
 		public:
-			TextureCreateInfo m_TexInfo;
 		};
 
 		// Encapsulates the rasterizer state
@@ -283,8 +273,8 @@ namespace Light
 		{
 			unsigned int index;			// location binding to vertex shader
 			VertexElementType type;		// type of vertex element
-			std::size_t size;					// number of components
-			std::size_t stride;					// number of bytes between each successive element (leave zero for this to be assumed to be size times size of type)
+			std::size_t num;					// count of number per vertex (Ex: glm::vec2 is 2, glm::vec3 is 3)
+			std::size_t stride;					// number of bytes between each vertex (leave zero for this to be assumed to be size times size of type)
 			long long offset;			// offset where first occurrence of this vertex element resides in the buffer
 		};
 
@@ -542,7 +532,7 @@ namespace Light
 			virtual VertexDescription*	CreateVertexDescription(unsigned int numElement, const VertexElement* pElement) = 0;
 			virtual VertexArray*		CreateVertexArray(unsigned int numBuffer, VertexBuffer**vertexBuffer, VertexDescription** vertexDescription) = 0;
 			virtual IndexBuffer*		CreateIndexBuffer(unsigned int size, const void* pData = nullptr) = 0;
-			virtual Texture*			CreateTexture(const TextureCreateInfo& info, bool isCompress = false) = 0;
+			virtual Texture*			CreateTexture(UINT32 target,int level,int internalformat,int width,	int height,	int border,int format,	int type,const void * data, char alignment = 4, bool isCompress = false) = 0;
 			virtual DepthState*			CreateDepthState(bool enable=true,bool mask = true, Compare depthFunc = COMPARE_LESS) = 0;
 			virtual StencilState*		CreateStencilState(const StencilConfig & config) = 0;
 			virtual RasterState*		CreateRasterState(const CullFaceConfig& config) = 0;

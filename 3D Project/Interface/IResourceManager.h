@@ -6,6 +6,7 @@
 #include "..\typedef.h"
 #include "..\Graphics3D\Vertex.h"
 #include "..\Graphics3D\Sprite.h"
+
 namespace Light
 {
 	namespace resources
@@ -46,12 +47,16 @@ namespace Light
 		};
 		struct TextureData : public IResource
 		{
-			std::size_t iWidht, iHeight;
-			std::size_t iType, iSize;
-			render::ColorFormat format;
+			char alignment = 4;
+			render::TextureType eTarget;			//  GL_TEXTURE_2D, GL_PROXY_TEXTURE_2D, GL_TEXTURE_1D_ARRAY, GL_PROXY_TEXTURE_1D_ARRAY, GL_TEXTURE_RECTANGLE, GL_PROXY_TEXTURE_RECTANGLE
+			int iLevel;						// Specifies the level-of-detail number.
+			render::ColorFormat iInternalFormat;			// Specifies the number of color components in the texture.
+			unsigned int uiWidth, uiHeight;	// Specifies the width/height of the texture image
+			render::ColorFormat eFormat;			// Specifies the format of the pixel data.
+			render::NumberFormat eType;				// Specifies the data type of the pixel data
+			void* pData;					// Specifies a pointer to the image data in memory. 
 			TextureFlag flag;
-
-			void* pData;
+			TextureData() {};
 			~TextureData()
 			{
 				if (flag&Flag_CubeTex)
