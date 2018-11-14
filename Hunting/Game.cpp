@@ -15,8 +15,8 @@ void Game::Init(Light::IContext* pContext)
 {
 	std::cout << "Hello from DLL\n";
 	using namespace Light;
-	m_StateStack = StateStack(pContext);
-	m_StateStack.Push(new GS_Loading(&m_StateStack));
+	m_StateStack.reset(new StateStack(pContext));
+	m_StateStack->Push(new GS_Loading(m_StateStack.get()));
 
 	
 
@@ -35,6 +35,6 @@ void Game::ShutDown()
 void Game::Update(float dt)
 {
 	//pScene->VOnUpdate(dt);
-	m_StateStack.Update(dt);
+	m_StateStack->Update(dt);
 
 }

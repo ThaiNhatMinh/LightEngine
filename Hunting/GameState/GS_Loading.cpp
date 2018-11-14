@@ -42,6 +42,11 @@ bool GS_Loading::Update(float dt)
 	return false;
 }
 
+bool GS_Loading::OnInputEvent(Light::events::EvtInput * pEvent)
+{
+	return false;
+}
+
 void GS_Loading::LoadingFunc(Light::resources::IResourceManager* resources, StateStack * pOwner)
 {	
 	tinyxml2::XMLDocument doc;

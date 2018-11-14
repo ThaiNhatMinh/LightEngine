@@ -16,7 +16,7 @@ public:
 
 private:
 	//Light::IScene* pScene;
-	StateStack m_StateStack;
+	std::unique_ptr<StateStack> m_StateStack;
 	Light::render::RenderDevice* m_pRenderer;
 	/*Light::render::Pipeline *pipeline;
 	Light::render::VertexArray *vertexArray;

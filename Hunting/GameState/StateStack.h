@@ -11,7 +11,7 @@ class StateStack
 public:
 	friend class GameState;
 private:
-	std::stack<std::unique_ptr<GameState>> m_Stacks;
+	std::list<std::unique_ptr<GameState>> m_Stacks;
 	std::map<std::size_t, std::function<GameState*()>> m_StateFactory;
 
 	Light::IContext* m_pContext;

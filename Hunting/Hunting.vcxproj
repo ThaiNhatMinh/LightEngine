@@ -156,6 +156,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Controls\Button.h" />
+    <ClInclude Include="Controls\Control.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState\GameState.h" />
     <ClInclude Include="GameState\GS_Game.h" />
@@ -165,6 +167,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Controls\Button.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState\GS_Game.cpp" />

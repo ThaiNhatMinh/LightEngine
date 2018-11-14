@@ -16,6 +16,9 @@
     <Filter Include="GameState">
       <UniqueIdentifier>{cf134714-b720-42cc-a2c4-9590601fe6b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Controls">
+      <UniqueIdentifier>{f816da28-0400-43da-8ac0-e17619bc4226}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -39,6 +42,12 @@
     <ClInclude Include="GameState\GS_Game.h">
       <Filter>GameState</Filter>
     </ClInclude>
+    <ClInclude Include="Controls\Control.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\Button.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -61,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="GameState\GS_Game.cpp">
       <Filter>GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\Button.cpp">
+      <Filter>Controls</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@ public:
 	virtual void OnEnter(StateStack * pOwner);
 	virtual void OnExit(StateStack * pOwner);
 	virtual bool Update(float dt);
+	virtual bool OnInputEvent(Light::events::EvtInput* pEvent);
 private:
 
 	void LoadingFunc(Light::resources::IResourceManager* resources, StateStack * pOwner);
