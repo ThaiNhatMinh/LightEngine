@@ -19,7 +19,7 @@ namespace Light
 		public:
 
 			virtual void	VDrawText(const std::string& str, const  glm::vec2& position,vgui::Font* pFont=nullptr) = 0;
-			virtual void	VDraw(render::Texture* pTex, const glm::vec2&position, const glm::vec2& scale = glm::vec2(1, 1)) = 0;
+			virtual void	VDraw(render::Texture* pTex, const glm::vec2&position, const glm::vec4&color = glm::vec4(1), const glm::vec2& scale = glm::vec2(1, 1)) = 0;
 			virtual Font*	VCreateFont(std::string filename) = 0;
 
 		};

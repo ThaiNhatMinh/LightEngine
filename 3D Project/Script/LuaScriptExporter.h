@@ -24,9 +24,9 @@ namespace Light
 		LuaScriptManager(IContext* pContext);
 		~LuaScriptManager();
 		virtual void		BindComponent(IScriptComponent*);
-		virtual void		Start();
+		void		Start();
 		virtual const char* VGetName();
-		virtual void		Update(float dt)override;
+		void		Update(float dt);
 	private:
 		void BaseBinding(LuaState* pState);
 

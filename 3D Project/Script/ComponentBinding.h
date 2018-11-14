@@ -308,16 +308,19 @@ sol::table EventBinding(sol::this_state s)
 	evType["EvtMoveActor"] = events::EvtMoveActor::StaticType;
 	//evType["EvtCameraCreate"] = events::EvtCameraCreate::StaticType;
 	//evType["EvtSceneCreate"] = events::EvtSceneCreate::StaticType;
-	evType["EvtKeyEvent"] = events::EvtKeyEvent::StaticType;
-	evType["EvtMouseMove"] = events::EvtMouseMove::StaticType;
+	evType["EvtInput"] = events::EvtInput::StaticType;
+	
 
 	module.new_usertype<events::EvtNewActor>("EvtNewActor","GetID",&events::EvtNewActor::GetID);
 	module.new_usertype<events::EvtDestroyActor>("EvtDestroyActor", "GetID", &events::EvtDestroyActor::GetActor);
 	module.new_usertype<events::EvtMoveActor>("EvtMoveActor", "GetID", &events::EvtMoveActor::GetId, "GetMatrix",&events::EvtMoveActor::GetMatrix);
 	//lua.new_usertype<events::EvtCameraCreate>("EvtCameraCreate", "GetID", &events::EvtCameraCreate::GetID);
 	//lua.new_usertype<events::EvtSceneCreate>("EvtSceneCreate", "GetID", &events::EvtNewActor::GetID);
-	module.new_usertype<events::EvtKeyEvent>("EvtKeyEvent", "key", &events::EvtKeyEvent::key, "action", &events::EvtKeyEvent::action, "dt", &events::EvtKeyEvent::dt);
-	module.new_usertype<events::EvtMouseMove>("EvtMouseMove", "x", &events::EvtMouseMove::x, "y", &events::EvtMouseMove::y,"dx", &events::EvtMouseMove::dx, "dy", &events::EvtMouseMove::dy);
+	module.new_usertype<events::MouseMove>("MouseMove", "dx", &events::MouseMove::dx, "dy", &events::MouseMove::dy, "x", &events::MouseMove::x, "y", &events::MouseMove::y);
+	module.new_usertype<events::KeyChange>("KeyChange", "action", &events::KeyChange::action, "key", &events::KeyChange::key);
+	module.new_usertype<events::MouseAction>("MouseAction", "action", &events::MouseAction::action, "button", &events::MouseAction::button);
+	module.new_usertype<events::EvtInput>("EvtKeyEvent", "_mouseMove", &events::EvtInput::_mouseMove, "_keyChange", &events::EvtInput::_keyChange, "_mouseButton", &events::EvtInput::_mouseButton);
+	
 
 
 	return module;

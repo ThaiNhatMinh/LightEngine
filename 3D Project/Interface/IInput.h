@@ -126,7 +126,6 @@ namespace Light
 	class IInput : public ISubSystem
 	{
 	public:
-		virtual void VUpdate() = 0;
 		virtual bool VOnKey(Key k) = 0;
 		virtual bool VOnMouse(MouseButton m) = 0;
 		virtual void VMouseDeltaPos(int& dx, int& dy) = 0;

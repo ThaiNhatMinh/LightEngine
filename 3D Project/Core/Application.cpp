@@ -6,11 +6,8 @@
 #include "EventManager.h"
 #include "ActorFactory.h"
 #include "OpenGLSysUI.h"
-#include "Timer.h"
 #include "Context.h"
-#include "Physic.h"
 #include "SoundEngine.h"
-#include "RenderSystem.h"
 #include "OpenGLInput.h"
 #include "DebugRender.h"
 #include "..\Graphics3D\EffectSystem.h"
@@ -29,26 +26,26 @@ void Application::SetupSubmodule()
 
 	m_Context = std::unique_ptr<Light::IContext>(DEBUG_NEW Light::Context());
 	
-	m_pEventManager = std::unique_ptr<Light::IEventManager>(DEBUG_NEW Light::EventManager(m_Context.get()));
+	m_pEventManager = std::unique_ptr<Light::EventManager>(DEBUG_NEW Light::EventManager(m_Context.get()));
 
 	m_pWindows = std::unique_ptr<Light::IWindow>(DEBUG_NEW Light::OpenGLWindows(m_Context.get()));
 	m_pResources = std::unique_ptr<resources::IResourceManager>(DEBUG_NEW Light::resources::ResourceManager(m_Context.get()));
-	m_pRenderer = std::unique_ptr<Light::render::IRenderSystem>(DEBUG_NEW Light::render::RenderSystem(m_Context.get()));
+	m_pRenderer = std::unique_ptr<Light::render::RenderSystem>(DEBUG_NEW Light::render::RenderSystem(m_Context.get()));
 	
 	
 	m_pActorFactory = std::unique_ptr<Light::IFactory>(DEBUG_NEW Light::ActorFactory(m_Context.get()));
 	m_pSoundEngine = std::unique_ptr<SoundEngine>(DEBUG_NEW SoundEngine(m_Context.get()));
 	
 	
-	m_pInput = std::unique_ptr<Light::IInput>(DEBUG_NEW Light::OpenGLInput(m_Context.get()));
+	m_pInput = std::unique_ptr<Light::OpenGLInput>(DEBUG_NEW Light::OpenGLInput(m_Context.get()));
 	//m_pConsole = std::unique_ptr<Console>(DEBUG_NEW Console(m_Context.get()));
 	
-	m_pPhysic = std::unique_ptr<physics::IGamePhysic>(DEBUG_NEW physics::BulletPhysics(m_Context.get()));
-	m_pTimer = std::unique_ptr<Light::ITimer>(DEBUG_NEW Light::GameTimer(m_Context.get()));
+	m_pPhysic = std::unique_ptr<physics::BulletPhysics>(DEBUG_NEW physics::BulletPhysics(m_Context.get()));
+	m_pTimer = std::unique_ptr<Light::GameTimer>(DEBUG_NEW Light::GameTimer(m_Context.get()));
 	
 	//m_pVGUI = std::unique_ptr<VGUI>(DEBUG_NEW VGUI(m_Context.get()));
 	//m_pSystemUI = std::unique_ptr<OpenGLSysUI>(DEBUG_NEW OpenGLSysUI(m_Context.get()));
-	m_pScriptManager = std::unique_ptr<Light::IScriptManager>(DEBUG_NEW Light::LuaScriptManager(m_Context.get()));
+	m_pScriptManager = std::unique_ptr<Light::LuaScriptManager>(DEBUG_NEW Light::LuaScriptManager(m_Context.get()));
 	//m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
 	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
 	//a->Test();

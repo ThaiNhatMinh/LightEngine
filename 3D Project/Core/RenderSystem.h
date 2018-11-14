@@ -11,8 +11,10 @@ namespace Light
 		{
 		public:
 			RenderSystem(IContext* pContext);
-			virtual void				Update(float dt);
-			virtual void				Render();
+			void						PreRender();
+			void						Update(float dt);
+			void						Render();
+
 			virtual render::ICamera*	VGetCurrentCamera()override;
 			virtual void				VSetCurrentCamera(render::ICamera * cam) override;
 			virtual void				AddExtraPass(RenderPass* pass);
@@ -24,7 +26,7 @@ namespace Light
 			virtual IDebugRender*		GetDebugRender()override;
 			virtual IEffectSystem*		GetEffectSystem()override;
 			virtual void				PostInit();
-			virtual void				PreRender()override;
+			
 
 			virtual Model*				VCreateModel(resources::ModelData*)override;
 			virtual Model*				VCreateModel(std::string xmlfile)override;

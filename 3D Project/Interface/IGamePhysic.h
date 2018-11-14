@@ -76,8 +76,6 @@ namespace Light
 		class IGamePhysic: public ISubSystem
 		{
 		public:
-			virtual void VSyncVisibleScene() = 0;
-			virtual void VOnUpdate(float deltaSeconds) = 0;
 			virtual void VRemoveActor(ActorId id) = 0;
 			// Debugging
 			virtual void VRenderDiagnostics() = 0;

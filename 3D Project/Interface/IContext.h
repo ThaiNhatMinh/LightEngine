@@ -11,8 +11,6 @@ namespace Light
 		virtual ~IContext() = default;
 
 		virtual bool VAddSystem(ISubSystem* system) = 0;
-		virtual void VMakeContext() = 0;
-		virtual void VReleaseContext() = 0;
 		template <class T> T* GetSystem();
 
 	protected:

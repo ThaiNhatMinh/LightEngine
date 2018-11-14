@@ -22,13 +22,13 @@ namespace Light
 
 		virtual float VGetGameTime() const; // in second
 		virtual float VGetDeltaTime() const; // in second
-
-		virtual void VReset();	// call before message loop
-		virtual void VStart();	// call when unpause
-		virtual void VStop();	// call when pause
-		virtual void VTick();	// call every frame
-		virtual const char* VGetName();
 		virtual int VGetFPS();
+
+		void VReset();	// call before message loop
+		void VStart();	// call when unpause
+		void VStop();	// call when pause
+		void VTick();	// call every frame
+		virtual const char* VGetName();
 
 	};
 }

@@ -42,7 +42,6 @@ namespace Light
 		// may not in fact get processed.
 		//
 		// returns true if all messages ready for processing were completed, false otherwise (e.g. timeout )
-		virtual bool VUpdate(unsigned long maxMillis = kINFINITE) = 0;
 
 		virtual ~IEventManager(void) {};
 

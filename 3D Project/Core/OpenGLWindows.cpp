@@ -7,6 +7,7 @@
 #include "..\Interface\IEventManager.h"
 #include "..\Interface\ITimer.h"
 #include "..\Interface\ISysUI.h"
+#include "Events.h"
 
 namespace Light
 {
@@ -204,59 +205,64 @@ namespace Light
 		static IContext* pContext = (IContext*)glfwGetWindowUserPointer(window);
 		static OpenGLInput* pInput = static_cast<OpenGLInput*>(pContext->GetSystem<IInput>());
 		static IEventManager* pEventManager = pContext->GetSystem<IEventManager>();
-		static ITimer* pTimer = pContext->GetSystem<ITimer>();
+		
 		
 		
 		// if unicode key is press
 		if (key == -1) return;
-		auto pEvent = DEBUG_NEW events::EvtKeyEvent();
+		auto pEvent = DEBUG_NEW events::EvtInput();
 
-		pEvent->key = (Key)key;
-		pEvent->dt = pTimer->VGetDeltaTime();
+		pEvent->type = events::Type_KeyChange;
+		pEvent->_keyChange.key = (Key)key;
+		
 		if (action == GLFW_PRESS)
 		{
 			pInput->keys[key] = true;
-			pEvent->action = Press;
+			pEvent->_keyChange.action = Press;
 		}
 		else if (action == GLFW_RELEASE)
 		{
 			pInput->keys[key] = false;
-			pEvent->action = Release;
+			pEvent->_keyChange.action = Release;
 		}
 
 		pEventManager->VQueueEvent(std::shared_ptr<IEvent>(pEvent));
 
-		//ImGuiIO& io = ImGui::GetIO();
-		//if (action == GLFW_PRESS)
-		//	io.KeysDown[key] = true;
-		//if (action == GLFW_RELEASE)
-		//	io.KeysDown[key] = false;
-
-		//(void)mods; // Modifiers are not reliable across systems
-		//io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
-		//io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
-		//io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
-		//io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
 
 	}
+
+	static MouseButton toSystemMouse[] =
+	{
+		Left,       ///< The left mouse button
+		Right,      ///< The right mouse button
+		Middle,     ///< The middle (wheel) mouse button
+		XButton1,   ///< The first extra mouse button
+		XButton2,   ///< The second extra mouse button
+	};
 
 	void OpenGLWindows::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	{
 		static IContext* pContext = (IContext*)glfwGetWindowUserPointer(window);
 		static OpenGLInput* pInput = static_cast<OpenGLInput*>(pContext->GetSystem<IInput>());
-		/*static OpenGLSysUI* pSys = static_cast<OpenGLSysUI*>(pContext->GetSystem<ISysUI>());*/
+		static IEventManager* pEventManager = pContext->GetSystem<IEventManager>();
+
+		auto pEvent = DEBUG_NEW events::EvtInput();
+		pEvent->type = events::Type_MouseButton;
+		pEvent->_mouseButton.button = toSystemMouse[button];
+
 		if (action == GLFW_PRESS)
 		{
 			pInput->Mouse[button] = true;
+			pEvent->_mouseButton.action = Press;
 		}
 		else if (action == GLFW_RELEASE)
 		{
+			pEvent->_mouseButton.action = Release;
 			
 			pInput->Mouse[button] = false;
 		}
 
-		/*if (action == GLFW_PRESS && button >= 0 && button < 3)
-			pSys->m_MousePress[button] = true;*/
+		pEventManager->VQueueEvent(std::shared_ptr<IEvent>(pEvent));
 	}
 	void OpenGLWindows::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	{
@@ -278,11 +284,12 @@ namespace Light
 		float dx = (float)(xpos - last_x);
 		float dy = -(float)(ypos - last_y);
 
-		auto pEvent = DEBUG_NEW events::EvtMouseMove();
-		pEvent->dx = dx;
-		pEvent->dy = dy;
-		pEvent->x = xpos;
-		pEvent->y = ypos;
+		auto pEvent = DEBUG_NEW events::EvtInput();
+		pEvent->type = events::Type_MouseMove;
+		pEvent->_mouseMove.dx = dx;
+		pEvent->_mouseMove.dy = dy;
+		pEvent->_mouseMove.x = xpos;
+		pEvent->_mouseMove.y = ypos;
 		pEventManager->VQueueEvent(std::shared_ptr<IEvent>(pEvent));
 
 		pInput->MouseD[0] = dx;

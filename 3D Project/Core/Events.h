@@ -67,22 +67,41 @@ namespace Light
 
 		};
 
-		class EvtKeyEvent : public Event<EvtKeyEvent>
+			
+		struct MouseMove
 		{
-		public:
-			KeyAction action;
-			Key key;
-			float dt;
-
-		};
-		class EvtMouseMove : public Event<EvtMouseMove>
-		{
-		public:
 			float dx, dy;
 			float x, y;
-
+		};
+		struct KeyChange
+		{
+			KeyAction action;
+			Key key;
+		};
+		struct MouseAction
+		{
+			KeyAction action;
+			MouseButton button;
+		};
+		enum InputEventType
+		{
+			Type_MouseMove,
+			Type_MouseButton,
+			Type_KeyChange,
+			
 		};
 
+		class EvtInput : public Event<EvtInput>
+		{
+		public:
+			InputEventType type;
+			union
+			{
+				MouseMove _mouseMove;
+				KeyChange _keyChange;
+				MouseAction _mouseButton;
+			};
+		};
 		class EvtPhysPostStep : public Event<EvtPhysPostStep>
 		{
 		public:

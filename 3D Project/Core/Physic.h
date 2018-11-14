@@ -122,8 +122,8 @@ namespace physics
 
 
 		// Initialiazation and Maintenance of the Physics World
-		virtual void VSyncVisibleScene() override;
-		virtual void VOnUpdate(float deltaSeconds) override;
+		void VSyncVisibleScene();
+		void VOnUpdate(float deltaSeconds);
 		virtual void VPostStep(float timeStep);
 		virtual void VPreStep(float timeStep);
 		virtual void PostInit()override;

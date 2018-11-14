@@ -99,10 +99,10 @@ void Light::LuaScriptManager::BaseBinding(LuaState* pState)
 	lua["RegisterEvent"] = [this, pState, &lua](size_t eventType, sol::function callback)
 	{
 		EventListener* pListener = nullptr;
-		if (eventType == events::EvtKeyEvent::StaticType)
+		if (eventType == events::EvtInput::StaticType)
 		{
-			auto* P = DEBUG_NEW ScriptEventListener<events::EvtKeyEvent>();
-			m_pEventManager->VAddListener(DEBUG_NEW EventDelegate<ScriptEventListener<events::EvtKeyEvent>>(P, &ScriptEventListener<events::EvtKeyEvent>::OnEvent), events::EvtKeyEvent::StaticType);
+			auto* P = DEBUG_NEW ScriptEventListener<events::EvtInput>();
+			m_pEventManager->VAddListener(DEBUG_NEW EventDelegate<ScriptEventListener<events::EvtInput>>(P, &ScriptEventListener<events::EvtInput>::OnEvent), events::EvtInput::StaticType);
 			pListener = P;
 		}
 		else if (eventType == events::EvtDestroyActor::StaticType)
@@ -123,13 +123,7 @@ void Light::LuaScriptManager::BaseBinding(LuaState* pState)
 			m_pEventManager->VAddListener(DEBUG_NEW EventDelegate<ScriptEventListener<events::EvtMoveActor>>(P, &ScriptEventListener<events::EvtMoveActor>::OnEvent), events::EvtMoveActor::StaticType);
 			pListener = P;
 		}
-		else if (eventType == events::EvtMouseMove::StaticType)
-		{
-			auto* P = DEBUG_NEW ScriptEventListener<events::EvtMouseMove>();
-			m_pEventManager->VAddListener(DEBUG_NEW EventDelegate<ScriptEventListener<events::EvtMouseMove>>(P, &ScriptEventListener<events::EvtMouseMove>::OnEvent), events::EvtMouseMove::StaticType);
-			pListener = P;
-		}
-		
+				
 		if (pListener == nullptr)
 		{
 			E_ERROR("Can't find event type: %d", eventType);

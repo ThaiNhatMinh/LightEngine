@@ -12,8 +12,6 @@ namespace Light
 		class IRenderSystem : public ISubSystem
 		{
 		public:
-			virtual void				Update(float dt) = 0;
-			virtual void				Render() = 0;
 			virtual render::ICamera*	VGetCurrentCamera() = 0;
 			virtual void				VSetCurrentCamera(render::ICamera * cam) = 0;
 
@@ -25,7 +23,6 @@ namespace Light
 			virtual RenderDevice*		GetRenderDevice() = 0;
 			virtual IDebugRender*		GetDebugRender()=0;
 			virtual IEffectSystem*		GetEffectSystem()=0;
-			virtual void				PreRender() = 0;
 
 			// create render data
 			virtual Model*				VCreateModel(resources::ModelData*) = 0;

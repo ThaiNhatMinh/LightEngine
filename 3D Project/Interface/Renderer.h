@@ -167,6 +167,7 @@ namespace Light
 			virtual void SetAsMat4(const float* value) = 0;
 			virtual void SetAsVec3(const float* value) = 0;
 			virtual void SetAsVec2(const float* value) = 0;
+			virtual void SetAsVec4(const float* value) = 0;
 
 			virtual void SetAsFloatV(const float* value,int num) = 0;
 			virtual void SetAsMat4V(const float* value, int num) = 0;
