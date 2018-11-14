@@ -333,43 +333,6 @@
     <ClCompile Include="VGUI\VGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="GameAssets\SCRIPTS\Box.lua" />
-    <None Include="GameAssets\SCRIPTS\test.lua" />
-    <None Include="GameAssets\SHADER\Debug.fs" />
-    <None Include="GameAssets\SHADER\Debug.vs" />
-    <None Include="GameAssets\SHADER\imgui.fs" />
-    <None Include="GameAssets\SHADER\imgui.vs" />
-    <None Include="GameAssets\Shader\NoTexture.fs" />
-    <None Include="GameAssets\Shader\NoTexture.vs" />
-    <None Include="GameAssets\SHADER\Skeleton.vs" />
-    <None Include="GameAssets\SHADER\Texture.fs" />
-    <None Include="GameAssets\SHADER\Texture.vs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="GameAssets\ACTOR\Box.xml" />
-    <Xml Include="GameAssets\ACTOR\Camera.xml" />
-    <Xml Include="GameAssets\ACTOR\Ground.xml" />
-    <Xml Include="GameAssets\ACTOR\Player.xml" />
-    <Xml Include="GameAssets\ACTOR\PlayerWoman.xml" />
-    <Xml Include="GameAssets\ACTOR\PV.xml" />
-    <Xml Include="GameAssets\ACTOR\Root.xml" />
-    <Xml Include="GameAssets\ACTOR\Terrain.xml" />
-    <Xml Include="GameAssets\ACTOR\Zombie.xml" />
-    <Xml Include="GameAssets\ACTOR\ZombieAssassin.xml" />
-    <Xml Include="GameAssets\MODEL\707.xml" />
-    <Xml Include="GameAssets\physics.xml">
-      <SubType>Designer</SubType>
-    </Xml>
-    <Xml Include="GameAssets\Renderer.xml" />
-    <Xml Include="GameAssets\Resources.xml" />
-    <Xml Include="GameAssets\WEAPON\Character.xml">
-      <SubType>Designer</SubType>
-    </Xml>
-    <Xml Include="GameAssets\WEAPON\Weapon.xml">
-      <SubType>Designer</SubType>
-    </Xml>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Hunting\Hunting.vcxproj">
       <Project>{17af2918-a454-4280-b3a8-829011ea70dc}</Project>
     </ProjectReference>

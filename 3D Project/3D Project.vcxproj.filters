@@ -481,24 +481,6 @@
     <Filter Include="Graphics3D">
       <UniqueIdentifier>{9fea3dfb-c595-4397-8847-9cfb6ec2a646}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameAssets">
-      <UniqueIdentifier>{e065ac98-9017-4c21-ab1a-c062573d470a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameAssets\SHADER">
-      <UniqueIdentifier>{e9aa33ff-81f4-4875-aa05-7d06e3ffed3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameAssets\MODEL">
-      <UniqueIdentifier>{74725479-50fd-4ccc-a60b-c83a5578a4fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameAssets\SCRIPT">
-      <UniqueIdentifier>{28500c10-7e1f-4bae-9498-5a26d4db9f1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameAssets\ACTOR">
-      <UniqueIdentifier>{a57646c4-e4a6-45cf-bd22-e45239463c23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameAssets\WEAPON">
-      <UniqueIdentifier>{7bb93134-dcf5-459d-8479-958495850ed0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GamePlugin">
       <UniqueIdentifier>{71709d11-4ce1-46cb-b786-e4d5f3f1dc46}</UniqueIdentifier>
     </Filter>
@@ -529,90 +511,5 @@
     <Filter Include="VGUI">
       <UniqueIdentifier>{01d34b06-d574-4402-acbe-2abdad5349a5}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="GameAssets\Shader\NoTexture.vs">
-      <Filter>GameAssets\SHADER</Filter>
-    </None>
-    <None Include="GameAssets\Shader\NoTexture.fs">
-      <Filter>GameAssets\SHADER</Filter>
-    </None>
-    <None Include="GameAssets\SHADER\Texture.fs">
-      <Filter>GameAssets\SHADER</Filter>
-    </None>
-    <None Include="GameAssets\SHADER\Debug.vs">
-      <Filter>GameAssets\SHADER</Filter>
-    </None>
-    <None Include="GameAssets\SHADER\Debug.fs">
-      <Filter>GameAssets\SHADER</Filter>
-    </None>
-    <None Include="GameAssets\SHADER\Skeleton.vs">
-      <Filter>GameAssets\SHADER</Filter>
-    </None>
-    <None Include="GameAssets\SCRIPTS\test.lua">
-      <Filter>GameAssets\SCRIPT</Filter>
-    </None>
-    <None Include="GameAssets\SCRIPTS\Box.lua">
-      <Filter>GameAssets\SCRIPT</Filter>
-    </None>
-    <None Include="GameAssets\SHADER\Texture.vs">
-      <Filter>GameAssets\SHADER</Filter>
-    </None>
-    <None Include="GameAssets\SHADER\imgui.vs">
-      <Filter>GameAssets\SHADER</Filter>
-    </None>
-    <None Include="GameAssets\SHADER\imgui.fs">
-      <Filter>GameAssets\SHADER</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="GameAssets\MODEL\707.xml">
-      <Filter>GameAssets\MODEL</Filter>
-    </Xml>
-    <Xml Include="GameAssets\physics.xml">
-      <Filter>GameAssets</Filter>
-    </Xml>
-    <Xml Include="GameAssets\Renderer.xml">
-      <Filter>GameAssets</Filter>
-    </Xml>
-    <Xml Include="GameAssets\Resources.xml">
-      <Filter>GameAssets</Filter>
-    </Xml>
-    <Xml Include="GameAssets\ACTOR\Box.xml">
-      <Filter>GameAssets\ACTOR</Filter>
-    </Xml>
-    <Xml Include="GameAssets\ACTOR\Camera.xml">
-      <Filter>GameAssets\ACTOR</Filter>
-    </Xml>
-    <Xml Include="GameAssets\ACTOR\Ground.xml">
-      <Filter>GameAssets\ACTOR</Filter>
-    </Xml>
-    <Xml Include="GameAssets\ACTOR\Player.xml">
-      <Filter>GameAssets\ACTOR</Filter>
-    </Xml>
-    <Xml Include="GameAssets\ACTOR\PlayerWoman.xml">
-      <Filter>GameAssets\ACTOR</Filter>
-    </Xml>
-    <Xml Include="GameAssets\ACTOR\PV.xml">
-      <Filter>GameAssets\ACTOR</Filter>
-    </Xml>
-    <Xml Include="GameAssets\ACTOR\Root.xml">
-      <Filter>GameAssets\ACTOR</Filter>
-    </Xml>
-    <Xml Include="GameAssets\ACTOR\Terrain.xml">
-      <Filter>GameAssets\ACTOR</Filter>
-    </Xml>
-    <Xml Include="GameAssets\ACTOR\Zombie.xml">
-      <Filter>GameAssets\ACTOR</Filter>
-    </Xml>
-    <Xml Include="GameAssets\ACTOR\ZombieAssassin.xml">
-      <Filter>GameAssets\ACTOR</Filter>
-    </Xml>
-    <Xml Include="GameAssets\WEAPON\Weapon.xml">
-      <Filter>GameAssets\WEAPON</Filter>
-    </Xml>
-    <Xml Include="GameAssets\WEAPON\Character.xml">
-      <Filter>GameAssets\WEAPON</Filter>
-    </Xml>
   </ItemGroup>
 </Project>
