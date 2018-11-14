@@ -47,7 +47,7 @@ bool Light::AnimationLayer::VSerialize(IContext * pContext, const tinyxml2::XMLE
 			
 			if (Raw == nullptr) return false;
 			
-			int i;
+			std::size_t i;
 			for (i = 0; i < Raw->wb.size(); i++)
 			{
 				if (!strcmp(Raw->wb[i].Name, layer)) break;
