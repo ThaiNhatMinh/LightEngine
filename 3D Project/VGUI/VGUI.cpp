@@ -25,6 +25,7 @@ namespace Light
 		m_uPos = m_UIShader->GetParam("uPos");
 		m_uSize = m_UIShader->GetParam("uSize");
 		m_uIsText = m_UIShader->GetParam("isText");
+		m_uColor = m_UIShader->GetParam("objColor");
 		glm::vec2 buffer[4] = {glm::vec2(0,0), glm::vec2(0,1), glm::vec2(1,0),glm::vec2(1,1)};
 
 		m_pVBO.reset(m_pRenderD->CreateVertexBuffer(sizeof(glm::vec2) * 4, buffer));
@@ -62,8 +63,15 @@ namespace Light
 		m_pRenderD->SetPipeline(m_UIShader.get());
 		m_uMVP->SetAsMat4(glm::value_ptr(m_Proj));
 		m_pRenderD->SetVertexArray(m_pVAO.get());
-		RenderTexture();
-		RenderText();
+		//RenderTexture();
+		//RenderText();
+		while (m_List.size())
+		{
+			auto& el = m_List.front();
+			m_List.pop_front();
+			if (el.type == Text) RenderText(el._text);
+			else RenderTexture(el._tex);
+		}
 		
 	}
 
@@ -80,15 +88,24 @@ namespace Light
 		if(pFont) tr.font = (vgui::FTFont*)pFont;
 		else tr.font = m_DefaultFont;
 
-		m_Texts.push_back(tr);
+		UIRender ur;
+		ur.type = Text;
+		ur._text = tr;
+		m_List.push_back(ur);
 	}
-	void VGUI::VDraw(render::Texture * pTex,const glm::vec2& position, const glm::vec2&scale)
+	void VGUI::VDraw(render::Texture * pTex,const glm::vec2& position,const glm::vec4&color, const glm::vec2&scale)
 	{
 		TextureRender tr;
 		tr.pos = position;
 		tr.tex = pTex;
 		tr.scale = scale;
-		m_Textures.push_back(tr);
+		tr.color = color;
+
+		UIRender ur;
+		ur.type = Texture;
+		ur._tex = tr;
+
+		m_List.push_back(ur);
 	}
 	vgui::Font * VGUI::VCreateFont(std::string filename)
 	{
@@ -96,7 +113,7 @@ namespace Light
 		for (auto& el : m_FontLists)
 			if (el->GetName() == fontName) return false;
 
-		m_FontLists.push_back(std::unique_ptr<vgui::FTFont>(DEBUG_NEW vgui::FTFont(m_pRenderS,fontName, filename)));
+		m_FontLists.push_back(std::unique_ptr<vgui::FTFont>(DEBUG_NEW vgui::FTFont(m_pRenderS,fontName, filename,22)));
 
 		return m_FontLists.back().get();
 	}
@@ -105,95 +122,44 @@ namespace Light
 		static const char* pName = typeid(vgui::IVGUI).name();
 		return pName;
 	}
-	void VGUI::RenderText()
+	void VGUI::RenderText(TextRender& el)
 	{
-		while (m_Texts.size())
+		m_uIsText->SetAsInt(1);
+
+		float x = 0;// m_Pos.x;
+		float y = 0;// m_Pos.y;
+		if (!el.font) return;
+		for (std::size_t i = 0; i < el.text.size(); i++)
 		{
-			
-			m_uIsText->SetAsInt(1);
-			
-			float x = 0;// m_Pos.x;
-			float y = 0;// m_Pos.y;
-			auto el = m_Texts.front();
-			m_Texts.pop_front();
-			if (!el.font) continue;
-			for (std::size_t i = 0; i < el.text.size(); i++)
-			{
-				vgui::FTFont::FontChar* ch = el.font->GetChar(el.text[i]);
-				glm::vec2 pos(x + ch->Bearing[0], y - (ch->size[1] - ch->Bearing[1]));
-				pos += el.pos;
-				glm::vec2 size(ch->size[0], ch->size[1]);
+			vgui::FTFont::FontChar* ch = el.font->GetChar(el.text[i]);
+			glm::vec2 pos(x + ch->Bearing[0], y - (ch->size[1] - ch->Bearing[1]));
+			pos += el.pos;
+			glm::vec2 size(ch->size[0], ch->size[1]);
 
-				m_uPos->SetAsVec2(glm::value_ptr(pos));
-				m_uSize->SetAsVec2(glm::value_ptr(size));
-				
-				m_pRenderD->SetTexture(render::TextureUnit::UNIT_AMBIENT,ch->iTextureID);
-				m_pRenderD->Draw(0, 4, 0, render::PRIMITIVE_TRIANGLE_STRIP);
-
-				x += (ch->advance >> 6); // Bitshift by 6 to get value in pixels (2^6 = 64)
-			}
-		}
-	}
-	void VGUI::RenderTexture()
-	{
-		while (m_Textures.size())
-		{
-			m_uIsText->SetAsInt(0);
-			auto el = m_Textures.front();
-			m_Textures.pop_front();
-
-			if (!el.tex) continue;
-
-			glm::vec2 size(el.tex->GetWidth()*el.scale.x,el.tex->GetHeight()*el.scale.y);
-			m_uPos->SetAsVec2(glm::value_ptr(el.pos));
+			m_uPos->SetAsVec2(glm::value_ptr(pos));
 			m_uSize->SetAsVec2(glm::value_ptr(size));
-			m_pRenderD->SetTexture(render::TextureUnit::UNIT_AMBIENT, el.tex);
+
+			m_pRenderD->SetTexture(render::TextureUnit::UNIT_AMBIENT, ch->iTextureID);
 			m_pRenderD->Draw(0, 4, 0, render::PRIMITIVE_TRIANGLE_STRIP);
+
+			x += (ch->advance >> 6); // Bitshift by 6 to get value in pixels (2^6 = 64)
 		}
+		
 	}
-/*
-	UIGroup * VGUI::GetRoot()
+	void VGUI::RenderTexture(TextureRender& el)
 	{
-		return m_Root.get();
+		
+		m_uIsText->SetAsInt(0);
+
+		if (!el.tex) return;
+
+		glm::vec2 size(el.tex->GetWidth()*el.scale.x, el.tex->GetHeight()*el.scale.y);
+		m_uPos->SetAsVec2(glm::value_ptr(el.pos));
+		m_uSize->SetAsVec2(glm::value_ptr(size));
+		m_uColor->SetAsVec4(glm::value_ptr(el.color));
+		m_pRenderD->SetTexture(render::TextureUnit::UNIT_AMBIENT, el.tex);
+		m_pRenderD->Draw(0, 4, 0, render::PRIMITIVE_TRIANGLE_STRIP);
+
 	}
 
-	bool VGUI::AddFont(const string & fontname, const string & fontfile)
-	{
-		for (auto& el : m_FontLists)
-			if (el->GetName() == fontname) return false;
-
-		m_FontLists.push_back(std::unique_ptr<FTFont>(new FTFont(fontname, fontfile)));
-
-		return true;
-	}
-
-	Shader * VGUI::GetShader()
-	{
-		return m_UIShader;
-	}
-
-	const mat4 & VGUI::GetProj()
-	{
-		return m_Proj;
-	}
-
-	FTFont * VGUI::GetFont(const string & fontname)
-	{
-		for (auto& el : m_FontLists)
-			if (el->GetName() == fontname) return el.get();
-
-		return nullptr;
-	}
-
-	UIElement * VGUI::CreateElement(Control ctrl)
-	{
-		if (ctrl >= CTRL_COUNT || ctrl < 0) return nullptr;
-
-		auto ptr = m_ControlFactory[ctrl]->Create();
-
-		ptr->OnInit(this);
-
-		return ptr;
-	}
-*/
 }

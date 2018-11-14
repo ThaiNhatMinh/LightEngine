@@ -6,7 +6,7 @@ namespace Light
 {
 	namespace vgui
 	{
-		FTFont::FTFont(render::IRenderSystem* pRenderS,const string& name, const string& fontfile) :m_face(0)
+		FTFont::FTFont(render::IRenderSystem* pRenderS,const string& name, const string& fontfile, int size) :m_face(0)
 		{
 			auto pRenderD = pRenderS->GetRenderDevice();
 			m_Name = name;
@@ -16,7 +16,7 @@ namespace Light
 				return;
 			}
 
-			SetFontSize(22);
+			SetFontSize(size);
 
 			FT_ULong  charcode;
 			FT_UInt   gindex;

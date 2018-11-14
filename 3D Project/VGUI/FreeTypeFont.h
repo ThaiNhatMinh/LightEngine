@@ -20,7 +20,7 @@ namespace Light
 				std::size_t advance;
 			};
 
-			FTFont(render::IRenderSystem* pRenderS,const string& name, const string& fontfile);
+			FTFont(render::IRenderSystem* pRenderS,const string& name, const string& fontfile,int size);
 			~FTFont();
 			void			SetFontSize(int size);
 			FontChar*		GetChar(FT_ULong c);
