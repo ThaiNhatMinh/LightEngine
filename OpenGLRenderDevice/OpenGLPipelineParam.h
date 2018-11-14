@@ -16,7 +16,7 @@ namespace Light
 			virtual void SetAsMat4(const float* value)override;
 			virtual void SetAsVec3(const float* value)override;
 			virtual void SetAsVec2(const float* value)override;
-
+			virtual void SetAsVec4(const float* value)override;
 			virtual void SetAsFloatV(const float* value, int num)override;
 			virtual void SetAsMat4V(const float* value, int num)override;
 			virtual void SetAsVec3V(const float* value, int num)override;

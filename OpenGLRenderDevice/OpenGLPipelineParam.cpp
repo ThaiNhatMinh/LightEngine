@@ -31,6 +31,11 @@ void render::OpenGLPipelineParam::SetAsVec2(const float * value)
 	glUniform2f(m_iLocation, value[0], value[1]);
 }
 
+void Light::render::OpenGLPipelineParam::SetAsVec4(const float * value)
+{
+	glUniform4f(m_iLocation, value[0], value[1], value[2], value[3]);
+}
+
 void Light::render::OpenGLPipelineParam::SetAsFloatV(const float* value, int num)
 {
 	glUniform1fv(m_iLocation, num, value);
