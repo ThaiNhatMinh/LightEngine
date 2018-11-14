@@ -29,6 +29,12 @@ int AAAA(char* buf, size_t buf_size, const char* fmt, va_list args)
 	return w;
 }
 
+std::string GetFileName(const char* file)
+{
+	std::string f(file);
+	std::size_t pos = f.find_last_of('\\');
+	return f.substr(pos + 1);
+}
 void Log::Message(LogType type, const char* file, int line, const char* format, ...)
 {
 	m_Lock.lock();
@@ -45,7 +51,7 @@ void Log::Message(LogType type, const char* file, int line, const char* format, 
 	else SetConsoleTextAttribute(hConsole, 15);
 
 	std::stringstream ss;
-	ss << logString[type] << file <<" Line:" << line << "| " <<buffer;
+	ss << logString[type] << GetFileName(file) <<" Line:" << line << "| " <<buffer;
 	m_Log.push_back(ss.str());
 	cout << ss.str() << endl;
 	SetConsoleTextAttribute(hConsole, 8);
