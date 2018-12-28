@@ -9,8 +9,12 @@ render::OpenGLTexture::OpenGLTexture(UINT32 target, int level, int internalforma
 	GLenum gltarget = openGLTexType[target];
 	glBindTexture(gltarget, m_iHandle);
 
-	glTexParameteri(gltarget, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	/*glTexParameteri(gltarget, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(gltarget, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(gltarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(gltarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+	glTexParameteri(gltarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(gltarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(gltarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(gltarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 

@@ -17,6 +17,8 @@ namespace Light
 
 			virtual void AttachTexture(Attachment attachment, Texture* pTex, int level)override;
 			virtual void AttachRenderBuffer(Attachment attachment, RenderBuffer* pBuffer)override;
+			virtual void DrawBuffer(Buffer buffer)override;
+			virtual void ReadBuffer(Buffer buffer)override;
 			virtual void Begin();
 			virtual void End();
 		private:
