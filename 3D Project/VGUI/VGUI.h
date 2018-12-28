@@ -40,14 +40,15 @@ namespace Light
 	private:
 		struct TextRender
 		{
+			
 			glm::vec2 pos;
-			std::string text;
+			char text[100];
 			vgui::FTFont* font;
 		};
 
 		struct TextureRender
 		{
-			render::Texture* tex;
+			render::Texture* tex = NULL;
 			glm::vec2 pos;
 			glm::vec2 scale;
 			glm::vec4 color;
@@ -63,6 +64,7 @@ namespace Light
 			~UIRender() {};
 			UIRender(const UIRender& other)
 			{
+				type = other.type;
 				if (other.type == Text) _text = other._text;
 				else _tex = other._tex;
 			}

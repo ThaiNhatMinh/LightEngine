@@ -67,7 +67,7 @@ namespace Light
 		//RenderText();
 		while (m_List.size())
 		{
-			auto& el = m_List.front();
+			auto el = m_List.front();
 			m_List.pop_front();
 			if (el.type == Text) RenderText(el._text);
 			else RenderTexture(el._tex);
@@ -84,7 +84,8 @@ namespace Light
 	{
 		TextRender tr;
 		tr.pos = position;
-		tr.text = str;
+		memcpy(tr.text, str.c_str(), str.length());
+		tr.text[str.length()] = '\0';
 		if(pFont) tr.font = (vgui::FTFont*)pFont;
 		else tr.font = m_DefaultFont;
 
@@ -129,9 +130,10 @@ namespace Light
 		float x = 0;// m_Pos.x;
 		float y = 0;// m_Pos.y;
 		if (!el.font) return;
-		for (std::size_t i = 0; i < el.text.size(); i++)
+		char* c = el.text;
+		while((*c)!='\0')
 		{
-			vgui::FTFont::FontChar* ch = el.font->GetChar(el.text[i]);
+			vgui::FTFont::FontChar* ch = el.font->GetChar(*c);
 			glm::vec2 pos(x + ch->Bearing[0], y - (ch->size[1] - ch->Bearing[1]));
 			pos += el.pos;
 			glm::vec2 size(ch->size[0], ch->size[1]);
@@ -143,6 +145,7 @@ namespace Light
 			m_pRenderD->Draw(0, 4, 0, render::PRIMITIVE_TRIANGLE_STRIP);
 
 			x += (ch->advance >> 6); // Bitshift by 6 to get value in pixels (2^6 = 64)
+			c++;
 		}
 		
 	}
