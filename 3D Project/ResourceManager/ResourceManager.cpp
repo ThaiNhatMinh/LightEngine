@@ -161,7 +161,7 @@ namespace Light
 			iBpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
 
 
-			//vec2 size = vec2(width*stepsize, height*stepsize);
+			
 
 			GLubyte* pRawData = DEBUG_NEW GLubyte[width*height];
 			int c = 0;
@@ -192,6 +192,7 @@ namespace Light
 				{
 					for (int n = j - 1; n <= j + 1; n++)
 					{
+						if (m < 0 || n < 0 || m >= height || n >= width) continue;
 						avg += pData[m*width + n];
 						num++;
 					
@@ -203,8 +204,8 @@ namespace Light
 			};
 
 			GLubyte* pRawData2 = DEBUG_NEW GLubyte[width*height];
-			for (int i = 1; i < height-1; i++)
-				for (int j = 1; j < width-1; j++)
+			for (int i = 0; i < height; i++)
+				for (int j = 0; j < width ; j++)
 					pRawData2[i*width + j] = average(pRawData, i, j);
 				
 			delete[] pRawData;

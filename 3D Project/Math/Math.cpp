@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Math.h"
 
-std::vector<DefaultVertex> Light::math::GenerateVertexData(resources::HeightMapData * hm, int stepsize, int width, int height, float hscale, int sub)
+std::vector<DefaultVertex> Light::math::GenerateVertexData(resources::HeightMapData * hm, int stepsize, int width, int height, float hscale)
 {
 	vec2 size = vec2((width - 1)*stepsize, (height - 1)*stepsize);
 	
@@ -15,8 +15,10 @@ std::vector<DefaultVertex> Light::math::GenerateVertexData(resources::HeightMapD
 	auto heightF = [hm, width, height, t, hscale](int x, int z) {
 		if (x < 0) x = 0;
 		if (z < 0) z = 0;
-		if (x >= width) x = width-1;
-		if (z >= height) z = height-1;
+		if (x >= width) 
+			x = width-1;
+		if (z >= height) 
+			z = height-1;
 		int b = (int)(z*width + x);
 		return (hm->Data[b] - t)*hscale;
 	};

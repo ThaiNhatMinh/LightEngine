@@ -35,7 +35,7 @@ namespace Light
 			return newbox;
 		}
 
-		std::vector<DefaultVertex> GenerateVertexData(resources::HeightMapData * hm, int size, int w, int h, float hscale, int sub);
+		std::vector<DefaultVertex> GenerateVertexData(resources::HeightMapData * hm, int size, int w, int h, float hscale);
 		std::vector<unsigned int> GenerateIndicesData(resources::HeightMapData * hm,int numSub);
 		std::vector<unsigned int> GenerateIndicesData(resources::HeightMapData * hm);
 		
