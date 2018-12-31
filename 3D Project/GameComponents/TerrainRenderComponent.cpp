@@ -67,7 +67,7 @@ namespace Light
 		int xpos = 0, zpos = 0;
 		int pos[2] = { xpos,zpos };
 
-		auto vertexs = math::GenerateVertexData(hm, stepsize, hm->Width, hm->Height, hscale, numSub);
+		auto vertexs = math::GenerateVertexData(hm, stepsize, hm->Width, hm->Height, hscale);
 		std::vector<std::vector<DefaultVertex>> vertexList;
 		for (std::size_t i = 0; i < numMesh; i++)
 		{
@@ -82,7 +82,7 @@ namespace Light
 			pos[1] += numvert - 1;
 		}
 
-		std::vector<unsigned int> Index = math::GenerateIndicesData(hm,numSub);
+		/*std::vector<unsigned int> Index = math::GenerateIndicesData(hm,numSub);
 		
 		for (int i = 0; i < vertexList.size(); i++)
 		{
@@ -90,8 +90,13 @@ namespace Light
 			pModel->Meshs.push_back(std::unique_ptr<Mesh>(pTemp));
 			box.Test(pTemp->box.Min);
 			box.Test(pTemp->box.Max);
-		}
+		}*/
 
+		std::vector<unsigned int> Index = math::GenerateIndicesData(hm);
+		auto pTemp = DEBUG_NEW SubGrid(pRenderDevice, vertexs, Index);
+		pModel->Meshs.push_back(std::unique_ptr<Mesh>(pTemp));
+		box.Test(pTemp->box.Min);
+		box.Test(pTemp->box.Max);
 		pModel->box = box;
 
 		return pModel;

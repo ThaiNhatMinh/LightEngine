@@ -1,3 +1,18 @@
-[DEBUG] d:\code\3d-project\3d project\core\application.cpp Line:28| Application StartUp...
-[DEBUG] d:\code\3d-project\3d project\core\rendersystem.cpp Line:300| ..\Debug\OpenGLRenderDevice.dll
-[DEBUG] d:\code\3d-project\3d project\gameplugin\gamepluginmanager.cpp Line:22| ..\Debug\Hunting.dll
+[DEBUG] application.cpp Line:25| Application StartUp...
+[DEBUG] rendersystem.cpp Line:300| ..\Debug\OpenGLRenderDevice.dll
+[DEBUG] gamepluginmanager.cpp Line:22| ..\Debug\Hunting.dll
+[ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0000.DTX
+[ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0006.DTX
+[ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0008.DTX
+[ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0012.DTX
+[ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0014.DTX
+[ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0018.DTX
+[ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0020.DTX
+[ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0022.DTX
+[ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0024.DTX
+[ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0026.DTX
+[ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0028.DTX
+[DEBUG] rendersystem.cpp Line:352| Camera create!
+[DEBUG] rendersystem.cpp Line:381| ObjectRender add: 707
+[DEBUG] rendersystem.cpp Line:381| ObjectRender add: Model
+[DEBUG] rendersystem.cpp Line:360| SceneRender add: Scene1

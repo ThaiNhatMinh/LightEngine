@@ -12,7 +12,7 @@ namespace Light
 
 		virtual bool VAddSystem(ISubSystem* system) = 0;
 		template <class T> T* GetSystem();
-
+		virtual void VExit() = 0;
 	protected:
 		virtual ISubSystem * VGetSystem(const std::type_info& rtti) = 0;
 	};

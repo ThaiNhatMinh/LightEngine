@@ -163,7 +163,7 @@ namespace Light
 				LightParam param;
 				string num = { char('0' + i)};
 				
-				param.AddParam("Ia", m_Pipeline->GetParam(("pLights[" + num + "].Ia").c_str()));
+ 				param.AddParam("Ia", m_Pipeline->GetParam(("pLights[" + num + "].Ia").c_str()));
 				param.AddParam("Id", m_Pipeline->GetParam(("pLights[" + num + "].Id").c_str()));
 				param.AddParam("Is", m_Pipeline->GetParam(("pLights[" + num + "].Is").c_str()));
 				param.AddParam("Position", m_Pipeline->GetParam(("pLights[" + num + "].Pos").c_str()));

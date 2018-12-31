@@ -125,7 +125,7 @@ void ColliderComponent::CreateShape(string name, const tinyxml2::XMLElement* pDa
 
 		resources::HeightMapData* hm = pContex->GetSystem<resources::IResourceManager>()->VGetHeightMap(path);
 		
-		auto vertexs = math::GenerateVertexData(hm, stepsize, hm->Width, hm->Height, hscale, numSub);
+		auto vertexs = math::GenerateVertexData(hm, stepsize, hm->Width, hm->Height, hscale);
 		auto indices = math::GenerateIndicesData(hm);
 
 		std::vector<glm::vec3> vertexList;

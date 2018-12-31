@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{71C6E9FB-D37C-4A46-BBB9-55235E0FB3F2}</ProjectGuid>
+    <ProjectGuid>{468E99B5-88F0-4E0E-994B-5E8503B13694}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My3DProject</RootNamespace>
-    <ProjectName>Light</ProjectName>
+    <ProjectName>Editor</ProjectName>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -336,9 +336,6 @@
     <ClCompile Include="VGUI\VGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hunting\Hunting.vcxproj">
-      <Project>{17af2918-a454-4280-b3a8-829011ea70dc}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\OpenGLRenderDevice\OpenGLRenderDevice.vcxproj">
       <Project>{bd0cd1b2-6012-4b25-b97f-c02300ec3e5e}</Project>
     </ProjectReference>

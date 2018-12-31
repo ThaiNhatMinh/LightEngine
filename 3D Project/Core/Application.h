@@ -1,7 +1,6 @@
 #pragma once
 #include "..\GamePlugin\GamePluginManager.h"
 
-#include "..\Interface\IContext.h"
 #include "..\Interface\IWindow.h"
 #include "..\Interface\IFactory.h"
 #include "..\Interface\ISoundEngine.h"
@@ -15,6 +14,7 @@
 #include "EventManager.h"
 #include "Physic.h"
 #include "OpenGLInput.h"
+#include "Context.h"
 #include "..\Script\LuaScriptExporter.h"
 namespace Light
 {
@@ -29,10 +29,10 @@ namespace Light
 
 		void MainLoop();
 	private:
-		bool m_bRunMainLoop;
+		
 		void SetupSubmodule();
 	protected:
-		std::unique_ptr<Light::IContext>				m_Context;
+		std::unique_ptr<Light::Context>					m_Context;
 		std::unique_ptr<IWindow>						m_pWindows;
 		std::unique_ptr<resources::IResourceManager>	m_pResources;
 		std::unique_ptr<render::RenderSystem>			m_pRenderer;

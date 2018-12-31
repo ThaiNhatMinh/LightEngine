@@ -9,7 +9,11 @@ GS_Loading::GS_Loading(StateStack * pOwner):m_bLoadFinish(0), pOwner(pOwner)
 {
 	using namespace Light;
 	m_pContext = pOwner->GetContext();
+	//auto pFont = m_pVGUI->VCreateFont("tahoma.ttf", 20);
+	//m_pVGUI->VSetDefaultFont(pFont);
+
 	m_pVGUI = m_pContext->GetSystem<vgui::IVGUI>();
+
 }
 
 GS_Loading::~GS_Loading()
@@ -30,6 +34,7 @@ void GS_Loading::OnExit(StateStack * pOwner)
 
 bool GS_Loading::Update(float dt)
 {
+	
 	std::stringstream ss;
 	ss << "Loading: ";
 	ss << status;
@@ -88,6 +93,7 @@ void GS_Loading::LoadingFunc(Light::resources::IResourceManager* resources, Stat
 			else if (!strcmp(name, "Model")) resources->VGetModel(file, true);
 			else if (!strcmp(name, "HeightMap")) resources->VGetHeightMap(file, true);
 			else if (!strcmp(name, "Sprite")) resources->VGetSprite(file, true);
+			else if (!strcmp(name, "Font")) resources->VGetFont(file, true);
 			/*else if (!strcmp(name, "Sound"))
 			{
 

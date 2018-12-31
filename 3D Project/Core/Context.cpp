@@ -5,7 +5,7 @@
 namespace Light {
 	Context::Context()
 	{
-
+		m_bExit = false;
 		
 		
 	}
@@ -25,6 +25,16 @@ namespace Light {
 
 	
 		return true;
+	}
+
+	void Context::VExit()
+	{
+		m_bExit = true;
+	}
+
+	bool Context::Exiting()
+	{
+		return m_bExit;
 	}
 
 	ISubSystem * Context::VGetSystem(const std::type_info & rtti)

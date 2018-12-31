@@ -3,7 +3,10 @@
 
 #include "GameState.h"
 #include <IScene.h>
+#include <IInput.h>
+#include <IWindow.h>
 #include <IVGUI.h>
+#include <IContext.h>
 class GS_Game: public GameState
 {
 public:
@@ -16,4 +19,7 @@ public:
 private:
 	Light::vgui::IVGUI* m_pVGUI;
 	Light::IScene* m_pScene;
+	Light::IInput* m_pInput;
+	Light::IWindow* m_pWindow;
+	Light::IContext* m_pContext;
 };

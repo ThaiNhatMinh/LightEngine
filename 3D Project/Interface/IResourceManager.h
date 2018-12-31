@@ -19,9 +19,7 @@ namespace Light
 
 		struct ShaderCode : public IResource
 		{
-			std::unique_ptr<char[]> m_Object;
-			std::size_t size;
-			char* Get() { return m_Object.get(); }
+			virtual const char* Get() = 0;
 		};
 
 		struct ModelData : public IResource
@@ -29,7 +27,11 @@ namespace Light
 			virtual ~ModelData() = default;
 		};
 
-		
+		struct FontData : public IResource
+		{
+			int size;
+			std::unique_ptr<uint8[]> Data;
+		};
 
 		struct HeightMapData : public IResource
 		{
@@ -115,6 +117,7 @@ namespace Light
 			//virtual LTRawData*				VGetRawModel(const std::string& filename, bool tryload = false)=0;
 			virtual SpriteData*				VGetSprite(const std::string& filename, bool tryload = false) = 0;
 			virtual Sound*					VGetSound(const std::string& tag, bool tryload = false) = 0;
+			virtual FontData*				VGetFont(const std::string& tag, bool tryload = false) = 0;
 		};
 	}
 }

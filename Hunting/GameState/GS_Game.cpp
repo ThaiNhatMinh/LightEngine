@@ -4,11 +4,10 @@
 #include <IFactory.h>
 #include <Events.h>
 #include <IEventManager.h>
-#include <IWindow.h>
 #include <IRenderSystem.h>
 GS_Game::GS_Game(StateStack * pOwner):m_pScene(nullptr)
 {
-	auto m_pContext = pOwner->GetContext();
+	m_pContext = pOwner->GetContext();
 	m_pVGUI = m_pContext->GetSystem<Light::vgui::IVGUI>();
 }
 
@@ -20,15 +19,19 @@ void GS_Game::OnEnter(StateStack * pOwner)
 	auto pContext = pOwner->GetContext();
 	auto pFactory = pContext->GetSystem<Light::IFactory>();
 	auto pEventManager = pContext->GetSystem<Light::IEventManager>();
-	auto pWindows = pContext->GetSystem<Light::IWindow>();
+	m_pWindow = pContext->GetSystem<Light::IWindow>();
 	auto pResourceM = pContext->GetSystem<Light::resources::IResourceManager>();
 	auto pRenderS = pContext->GetSystem<Light::render::IRenderSystem>();
-	pWindows->HideMouse(1);
+	m_pInput = pContext->GetSystem<Light::IInput>();
+	m_pWindow->HideMouse(1);
 
 	pTex = pRenderS->VCreateTexture(pResourceM->VGetTexture(std::vector<std::string>{"GameAssets\\test\\AK_47_KNIFE_ROYALDRAGON3_BG.DTX"},false,true));
 
 	m_pScene = pFactory->VCreateScene("GameAssets\\test\\Scene.xml");
 
+	auto pFont = m_pVGUI->VCreateFont("UNISPACE BD.TTF",50);
+	m_pVGUI->VSetDefaultFont(pFont);
+	
 	
 
 	auto pEvent = new events::EvtRequestCreateSprite();
@@ -41,13 +44,16 @@ void GS_Game::OnEnter(StateStack * pOwner)
 
 void GS_Game::OnExit(StateStack * pOwner)
 {
+
 }
 
 bool GS_Game::Update(float dt)
 {
-	m_pVGUI->VDrawText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789",glm::vec2(500,400));
-	m_pVGUI->VDraw(pTex, glm::vec2(100, 300));
+	if (m_pInput->VOnKey(Light::Key::Escape)) m_pContext->VExit();
+	m_pVGUI->VDrawText("AabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789",glm::vec2(100,400));
+	m_pVGUI->VDraw(pTex, glm::vec2(0, 300));
 	m_pScene->VOnUpdate(dt);
+
 	return false;
 }
 

@@ -100,7 +100,18 @@ namespace Light
 			DEPTH_STENCIL_ATTACHMENT,
 			ATTACHMENT_MAX
 		};
-
+		enum Buffer
+		{
+			FRONT_LEFT, 
+			FRONT_RIGHT, 
+			BACK_LEFT, 
+			BACK_RIGHT, 
+			FRONT, 
+			BACK, 
+			LEFT, 
+			RIGHT,
+			BUFFER_MAX
+		};
 		enum TextureType
 		{
 			TEXTURE_2D = 0, 
@@ -515,6 +526,8 @@ namespace Light
 
 			virtual void AttachTexture(Attachment attachment, Texture* pTex, int level) = 0;
 			virtual void AttachRenderBuffer(Attachment attachment, RenderBuffer* pBuffer) = 0;
+			virtual void DrawBuffer(Buffer buffer) = 0;
+			virtual void ReadBuffer(Buffer buffer) = 0;
 			virtual void Begin() = 0;
 			virtual void End() = 0;
 		};

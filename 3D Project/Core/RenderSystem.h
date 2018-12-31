@@ -26,12 +26,13 @@ namespace Light
 			virtual IDebugRender*		GetDebugRender()override;
 			virtual IEffectSystem*		GetEffectSystem()override;
 			virtual void				PostInit();
-			
+
 
 			virtual Model*				VCreateModel(resources::ModelData*)override;
 			virtual Model*				VCreateModel(std::string xmlfile)override;
 			virtual Texture*			VCreateTexture(resources::TextureData*)override;
 			virtual Sprite*				VCreateSprite(resources::SpriteData*);
+			virtual void				EnableShadow()override {};
 		private:
 			//using RenderableList = std::list<Renderable>;
 			void LoadRenderDevice();

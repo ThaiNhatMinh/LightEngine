@@ -1,4 +1,4 @@
-#version 330
+#version 330 core
 #define MAX_POINTLIGHT 10
 struct DirLight
 {
@@ -67,31 +67,31 @@ vec4 ComputerDirLight(SurfaceInfo info)
     vec4 diffuse = vec4(dLight.Id,1.0f)  * vec4(mat.Kd,1.0f)*diff * info.texel;
     vec4 specular = vec4(dLight.Is,1.0f) * vec4(mat.Ks,1.0f) *spec * info.texel;
 
-    vec4 output = vec4(ambient + diffuse + specular);
+    vec4 r = vec4(ambient + diffuse + specular);
 
-    return output;
+    return r;
 }
 
-vec4 ComputerPointLight(SurfaceInfo info,PointLight pLight)
+vec4 ComputerPointLight(SurfaceInfo info,int i)
 {
-     vec3 LightDir = normalize(pLight.Pos - info.position);
+     vec3 LightDir = normalize(pLights[i].Pos - info.position);
     vec3 reflectDir = reflect(-LightDir,info.normal);
 
     float diff = max(dot(LightDir, info.normal),0.0f);
     float spec = pow(max(dot(info.viewDir, reflectDir),0.0f), mat.shininess);
 
-    vec4 ambient =  vec4(pLight.Ia,1.0f) * vec4(mat.Ka,1.0f) *  info.texel;
-    vec4 diffuse =  vec4(pLight.Id,1.0f) * vec4(mat.Kd,1.0f) * diff * info.texel;
-    vec4 specular = vec4(pLight.Is,1.0f) * vec4(mat.Ks,1.0f) * spec * info.texel;
+    vec4 ambient =  vec4(pLights[i].Ia,1.0f) * vec4(mat.Ka,1.0f) *  info.texel;
+    vec4 diffuse =  vec4(pLights[i].Id,1.0f) * vec4(mat.Kd,1.0f) * diff * info.texel;
+    vec4 specular = vec4(pLights[i].Is,1.0f) * vec4(mat.Ks,1.0f) * spec * info.texel;
 
     // attenuation
-    float distance    = length(pLight.Pos -  info.position);
-    float attenuation = 1.0 / (pLight.constant + pLight.linear * distance + pLight.quadratic * (distance * distance));
+    float distance    = length(pLights[i].Pos -  info.position);
+    float attenuation = 1.0 / (pLights[i].constant + pLights[i].linear * distance + pLights[i].quadratic * (distance * distance));
 
-    vec4 output = vec4(ambient + diffuse + specular);
-    output *= attenuation;
+    vec4 r = vec4(ambient + diffuse + specular);
+    r *= attenuation;
 
-    return output;
+    return r;
 }
 
 vec4 BlendTexture()
@@ -100,7 +100,7 @@ vec4 BlendTexture()
     vec4 t2 = texture(mat.tex2,fs_in.oUVScale);
     vec4 t3 = texture(mat.tex3,fs_in.oUVScale);
     vec4 blend = texture(mat.blend,fs_in.oUV);
-    
+    return t1;
     return mix(t1,mix(t2,t3,blend.g),blend.r);
  
 
@@ -112,11 +112,11 @@ void main()
     infoo.texel = BlendTexture();
     infoo.position = fs_in.oPosition;
     infoo.viewDir = normalize(uCameraPos - fs_in.oPosition);
-    //infoo.texel = vec4(0.5f,1.0f,1.0f);
+    infoo.texel = vec4(0.5f,1.0f,1.0f,1.0f);
 
     Color = ComputerDirLight(infoo);
     for(int i=0; i<uNumLight; i++ )
-        Color +=ComputerPointLight(infoo,pLights[i]);
+        Color +=ComputerPointLight(infoo,i);
 
     
 }

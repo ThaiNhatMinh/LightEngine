@@ -24,7 +24,7 @@ void Application::SetupSubmodule()
 
 	E_DEBUG("Application StartUp...");
 
-	m_Context = std::unique_ptr<Light::IContext>(DEBUG_NEW Light::Context());
+	m_Context = std::unique_ptr<Light::Context>(DEBUG_NEW Light::Context());
 	
 	m_pEventManager = std::unique_ptr<Light::EventManager>(DEBUG_NEW Light::EventManager(m_Context.get()));
 
@@ -38,23 +38,19 @@ void Application::SetupSubmodule()
 	
 	
 	m_pInput = std::unique_ptr<Light::OpenGLInput>(DEBUG_NEW Light::OpenGLInput(m_Context.get()));
-	//m_pConsole = std::unique_ptr<Console>(DEBUG_NEW Console(m_Context.get()));
+	
 	
 	m_pPhysic = std::unique_ptr<physics::BulletPhysics>(DEBUG_NEW physics::BulletPhysics(m_Context.get()));
 	m_pTimer = std::unique_ptr<Light::GameTimer>(DEBUG_NEW Light::GameTimer(m_Context.get()));
 	
-	//m_pVGUI = std::unique_ptr<VGUI>(DEBUG_NEW VGUI(m_Context.get()));
-	//m_pSystemUI = std::unique_ptr<OpenGLSysUI>(DEBUG_NEW OpenGLSysUI(m_Context.get()));
 	m_pScriptManager = std::unique_ptr<Light::LuaScriptManager>(DEBUG_NEW Light::LuaScriptManager(m_Context.get()));
-	//m_pConsole->RegisterVar("debug_physic", &m_DebugPhysic, 1, sizeof(int), TYPE_INT);
-	//m_pConsole->RegisterVar("debug_hitbox", &m_Context->DrawSkeleton, 1, sizeof(int), TYPE_INT);
-	//a->Test();
+	
 
 	m_pResources->PostInit();
 	m_pRenderer->PostInit();
 	m_pPhysic->PostInit();
 	m_pActorFactory->PostInit();
-	//m_pSystemUI->PostInit();
+	
 
 	
 }
@@ -121,9 +117,9 @@ void Application::MainLoop()
 	//render::VertexArray *vertexArray = m_pRenderer->CreateVertexArray(1, &vertexBuffer, &vertexDescription);
 
 
-	VGUI vGUI(m_Context.get());
+	vgui::VGUI vGUI(m_Context.get());
 
-	m_bRunMainLoop = true;
+	
 
 
 	IGamePlugin* pGame = m_GamePlugins.LoadPlugin();
@@ -135,7 +131,7 @@ void Application::MainLoop()
 	
 	m_pTimer->VReset();
 
-	while (m_bRunMainLoop && !m_pWindows->VShouldClose())
+	while (!m_Context->Exiting() && !m_pWindows->VShouldClose())
 	{
 		m_pRenderer->PreRender();
 		m_pInput->VUpdate();
