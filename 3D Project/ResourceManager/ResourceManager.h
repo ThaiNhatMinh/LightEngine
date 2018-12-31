@@ -25,7 +25,21 @@ namespace Light
 			std::string								Name;
 		};
 
+		class DefaultShaderResource : public ShaderCode
+		{
+		public:
+			std::unique_ptr<char[]> m_Object;
+			std::size_t size;
+			const char* Get() { return m_Object.get(); }
+		};
 
+		class BuildInShaderResource : public ShaderCode
+		{
+			const char* pCode;
+		public:
+			BuildInShaderResource(const char* code) :pCode(code) {}
+			const char* Get() { return pCode; };
+		};
 		struct LTRawData :public ModelData
 		{
 			std::vector<LTRawMesh>		Meshs;
@@ -67,7 +81,7 @@ namespace Light
 			std::vector<ResourceHandle<SpriteData>> m_Sprites;
 			std::vector<ResourceHandle<ModelData>> m_Models;
 			std::vector<ResourceHandle<Sound>> m_SoundList;
-
+			std::vector<ResourceHandle<FontData>> m_FontDatas;
 			//FMOD::System* m_FMOD;
 			IContext* m_pContext;
 			
@@ -95,39 +109,24 @@ namespace Light
 			TextureData*			LoadDTX(const std::string& filename);
 			ModelData*				LoadModel(const std::string& filename);
 			Sound*					LoadSound(const std::string& filename, int mode);
-			//render::VertexShader*	LoadVertexShader(const std::string& filepath);
-			//render::PixelShader*	LoadPixelShader(const std::string& filepath);
 			ShaderCode*				LoadShaderCode(const std::string& filepath);
+			void					LoadResources(const std::string path);
+			LTRawData*				LoadLTBModel(const std::string& filename);
 
-			void				LoadResources(const std::string path);
-			
 			void							LoadSystemResources();
-			LTRawData*			LoadLTBModel(const std::string& filename);
-
-			/*
-				Load xml file store config for model (.LTB) and texture (.DTX)
-				Return render::Model* interface
-			*/
-			//render::Model*		LoadModelXML(const std::string& filename);
 		public:
 			ResourceManager(IContext* c);
 			~ResourceManager();
 			virtual const char*			VGetName()override;
 
 
-			//virtual SpriteAnim*		VGetSpriteAnimation(const std::string& filename)override;
-			//virtual Shader*			VGetShader(string key)override;
 			virtual TextureData*			VGetTexture(const std::vector<std::string>& filename, bool isCube = false, bool tryload = false)override;
-			//virtual render::VertexShader*	VGetVertexShader(const std::string& filename, bool tryload = false)override;
-			//virtual render::PixelShader*	VGetPixelShader(const std::string& filename, bool tryload = false)override;
 			virtual ShaderCode*				VGetShaderCode(const std::string& filename, bool tryload = false)override;
 			virtual ModelData *				VGetModel(const std::string& filename, bool tryload = false)override;
 			virtual HeightMapData*			VGetHeightMap(const std::string& filename, bool tryload = false)override;
-			//virtual render::Texture*		VGetCubeTex(const std::vector<std::string>& filelist, bool tryload = false)override;
-			//virtual LTRawData*				VGetRawModel(const std::string& filename, bool tryload = false)override;
 			virtual Sound*					VGetSound(const std::string& tag, bool tryload = false)override;
 			virtual SpriteData*				VGetSprite(const std::string& filename, bool tryload = false)override;
-
+			virtual FontData*				VGetFont(const std::string& tag, bool tryload = false)override;
 			void							PostInit();
 
 		};

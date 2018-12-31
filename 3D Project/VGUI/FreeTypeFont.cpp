@@ -8,7 +8,7 @@ namespace Light
 	{
 		FTFont::FTFont(render::IRenderSystem* pRenderS,const string& name, const string& fontfile, int size) :m_face(0)
 		{
-			auto pRenderD = pRenderS->GetRenderDevice();
+			//auto pRenderD = pRenderS->GetRenderDevice();
 			m_Name = name;
 			if (FT_New_Face(m_library, fontfile.c_str(), 0, &m_face))
 			{
@@ -18,56 +18,33 @@ namespace Light
 
 			SetFontSize(size);
 
-			FT_ULong  charcode;
-			FT_UInt   gindex;
+			GetFontData(pRenderS);
+		}
 
-			charcode = FT_Get_First_Char(m_face, &gindex);
-			//FT_GlyphSlot  slot = m_face->glyph;
-			while (gindex)
+		FTFont::FTFont(render::IRenderSystem * pRenderS, const string & name, resources::FontData* pData, int size)
+		{
+			m_Name = name;
+			FT_Error rc = FT_New_Memory_Face(m_library, pData->Data.get(), pData->size, 0, &m_face);
+			if (rc)
 			{
-
-				if (FT_Load_Char(m_face, charcode, FT_LOAD_RENDER))
-				{
-					E_ERROR("Can't load char.");
-					continue;
-				}
-				
-				resources::TextureData* texData = DEBUG_NEW resources::TextureData;
-				texData->eTarget = render::TEXTURE_2D;
-				texData->iLevel = 0;
-				texData->iInternalFormat = render::FORMAT_RED;
-				texData->uiWidth = m_face->glyph->bitmap.width;
-				texData->uiHeight = m_face->glyph->bitmap.rows;
-				texData->eType = render::UNSIGNED_BYTE;
-				texData->eFormat = texData->iInternalFormat;
-				texData->pData = DEBUG_NEW char[texData->uiWidth*texData->uiHeight];
-				memcpy(texData->pData, m_face->glyph->bitmap.buffer, texData->uiWidth*texData->uiHeight);
-				texData->flag = resources::Flag_Normal;
-				texData->alignment = 1;
-				m_BufferList.push_back(std::unique_ptr<resources::TextureData>(texData));
-				//
-				
-				// Now store character for later use
-				FontChar character;
-				character.iTextureID = pRenderS->VCreateTexture(texData);
-				character.size[0] = m_face->glyph->bitmap.width;
-				character.size[1] = m_face->glyph->bitmap.rows;
-				character.Bearing[0] = m_face->glyph->bitmap_left;
-				character.Bearing[1] = m_face->glyph->bitmap_top;
-				character.advance = m_face->glyph->advance.x;
-
-				m_CharMaps.insert(std::pair<FT_ULong, FontChar>(charcode, character));
-
-				charcode = FT_Get_Next_Char(m_face, charcode, &gindex);
-
+				E_ERROR("Can't load memmory fontface: %s error %d", name.c_str(),rc);
+				return;
 			}
-			FT_Done_Face(m_face);
+			FT_Select_Charmap(m_face, FT_ENCODING_UNICODE);
+			SetFontSize(size);
+
+			GetFontData(pRenderS);
 		}
 
 		FTFont::~FTFont()
 		{
 
 
+		}
+
+		render::Texture * FTFont::GetCharTex(uint32 c)
+		{
+			return m_CharMaps[c].iTextureID;
 		}
 
 		void FTFont::SetFontSize(int size)
@@ -104,6 +81,54 @@ namespace Light
 		void FTFont::ReleaseFreeTypeFont()
 		{
 			FT_Done_FreeType(m_library);
+		}
+
+		void FTFont::GetFontData(render::IRenderSystem* pRenderS)
+		{
+			FT_ULong  charcode;
+			FT_UInt   gindex;
+
+			charcode = FT_Get_First_Char(m_face, &gindex);
+			//FT_GlyphSlot  slot = m_face->glyph;
+			while (gindex)
+			{
+
+				if (FT_Load_Char(m_face, charcode, FT_LOAD_RENDER))
+				{
+					E_ERROR("Can't load char.");
+					continue;
+				}
+
+				resources::TextureData* texData = DEBUG_NEW resources::TextureData;
+				texData->eTarget = render::TEXTURE_2D;
+				texData->iLevel = 0;
+				texData->iInternalFormat = render::FORMAT_RED;
+				texData->uiWidth = m_face->glyph->bitmap.width;
+				texData->uiHeight = m_face->glyph->bitmap.rows;
+				texData->eType = render::UNSIGNED_BYTE;
+				texData->eFormat = texData->iInternalFormat;
+				texData->pData = DEBUG_NEW char[texData->uiWidth*texData->uiHeight];
+				memcpy(texData->pData, m_face->glyph->bitmap.buffer, texData->uiWidth*texData->uiHeight);
+				texData->flag = resources::Flag_Normal;
+				texData->alignment = 1;
+				m_BufferList.push_back(std::unique_ptr<resources::TextureData>(texData));
+				//
+
+				// Now store character for later use
+				FontChar character;
+				character.iTextureID = pRenderS->VCreateTexture(texData);
+				character.size[0] = m_face->glyph->bitmap.width;
+				character.size[1] = m_face->glyph->bitmap.rows;
+				character.Bearing[0] = m_face->glyph->bitmap_left;
+				character.Bearing[1] = m_face->glyph->bitmap_top;
+				character.advance = m_face->glyph->advance.x;
+
+				m_CharMaps.insert(std::pair<FT_ULong, FontChar>(charcode, character));
+
+				charcode = FT_Get_Next_Char(m_face, charcode, &gindex);
+
+			}
+			FT_Done_Face(m_face);
 		}
 
 	}

@@ -5,10 +5,11 @@
 #include "..\Interface\IRenderSystem.h"
 namespace Light
 {
+	using namespace vgui;
 	VGUI::VGUI(IContext* c):m_DefaultFont(nullptr)
 	{
 		
-		auto pResourceM = c->GetSystem<resources::IResourceManager>();
+		m_pRM = c->GetSystem<resources::IResourceManager>();
 		m_pRenderS = c->GetSystem<render::IRenderSystem>();
 		m_pRenderD = m_pRenderS->GetRenderDevice();
 		
@@ -18,8 +19,8 @@ namespace Light
 		m_pWindow->VGetWindowSize(w,h);
 		m_Proj = glm::ortho(0.0f, (float)w, 0.0f, (float)h);
 
-		auto VS = m_pRenderD->CreateVertexShader(pResourceM->VGetShaderCode("UI.vs")->Get());
-		auto PS = m_pRenderD->CreatePixelShader(pResourceM->VGetShaderCode("UI.fs")->Get());
+		auto VS = m_pRenderD->CreateVertexShader(m_pRM->VGetShaderCode("UI.vs")->Get());
+		auto PS = m_pRenderD->CreatePixelShader(m_pRM->VGetShaderCode("UI.fs")->Get());
 		m_UIShader.reset(m_pRenderD->CreatePipeline(VS, PS));
 		m_uMVP = m_UIShader->GetParam("uMVP");
 		m_uPos = m_UIShader->GetParam("uPos");
@@ -43,7 +44,7 @@ namespace Light
 		vgui::FTFont::InitFreeTypeFont();
 
 
-		m_DefaultFont = (vgui::FTFont*)this->VCreateFont("GameAssets\\FONTS\\segoeui.ttf");
+		//m_DefaultFont = (vgui::FTFont*)this->VCreateFont("GameAssets\\FONTS\\segoeui.ttf");
 		c->VAddSystem(this);
 		
 	}
@@ -108,16 +109,21 @@ namespace Light
 
 		m_List.push_back(ur);
 	}
-	vgui::Font * VGUI::VCreateFont(std::string filename)
+	vgui::Font * VGUI::VCreateFont(const std::string& filename, int fontsize)
 	{
 		std::string fontName = filename.substr(filename.find_last_of('/') + 1);
-		for (auto& el : m_FontLists)
-			if (el->GetName() == fontName) return false;
-
-		m_FontLists.push_back(std::unique_ptr<vgui::FTFont>(DEBUG_NEW vgui::FTFont(m_pRenderS,fontName, filename,22)));
+		resources::FontData* pData = m_pRM->VGetFont(filename);
+		if(pData) 
+			m_FontLists.push_back(std::unique_ptr<vgui::FTFont>(DEBUG_NEW vgui::FTFont(m_pRenderS, fontName, pData, fontsize)));
 
 		return m_FontLists.back().get();
 	}
+	void VGUI::VSetDefaultFont(vgui::Font * pFont)
+	{
+		if (pFont == nullptr) return;
+		m_DefaultFont = (vgui::FTFont*)pFont;
+	}
+	
 	const char * VGUI::VGetName()
 	{
 		static const char* pName = typeid(vgui::IVGUI).name();

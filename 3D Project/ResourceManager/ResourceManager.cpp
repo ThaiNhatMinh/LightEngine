@@ -14,6 +14,7 @@
 #include "..\Graphics3D\LTModel.h"
 #include "..\Core\SoundEngine.h"
 #include "..\Core\RenderSystem.h"
+#include "BuildInShader.h"
 namespace Light
 {
 	namespace resources
@@ -698,6 +699,42 @@ namespace Light
 			return pData;
 		}
 
+		FontData * ResourceManager::VGetFont(const std::string & tag, bool tryload)
+		{
+			CheckResourceFunc a = [](const std::string&a, const std::string& b)
+			{
+				bool s = a.find(b) != string::npos;
+				return s;
+			};
+
+			FontData * pData = HasResource(m_FontDatas, tag,a);
+			if (pData == nullptr)
+			{
+				if (!tryload) return nullptr;
+
+				FILE* pFile = fopen(tag.c_str(), "rb");
+				if (!pFile) return nullptr;
+
+				if (fseek(pFile, 0L, SEEK_END) == 0)
+				{
+					long bufsize = ftell(pFile);
+					fseek(pFile, 0L, SEEK_SET);
+
+					uint8* pRaw = DEBUG_NEW uint8[bufsize + 1];
+					size_t newLen = fread(pRaw, sizeof(char), bufsize, pFile);
+					
+
+					pData = DEBUG_NEW FontData;
+					pData->size = bufsize;
+					pData->Data.reset(pRaw);
+					m_FontDatas.push_back(ResourceHandle<FontData>(tag, pData));
+				}
+				fclose(pFile);
+
+			}
+			return pData;
+		}
+
 		void ResourceManager::PostInit()
 		{
 			//m_pRenderDevice = m_pContext->GetSystem<render::IRenderSystem>()->GetRenderDevice();
@@ -728,7 +765,7 @@ namespace Light
 				size_t newLen = fread(sourceVertex, sizeof(char), bufsize, pvFile);
 				sourceVertex[newLen] = '\0'; /* Just to be safe. */
 
-				ShaderCode* pShaderCode = DEBUG_NEW ShaderCode;
+				DefaultShaderResource* pShaderCode = DEBUG_NEW DefaultShaderResource;
 				pShaderCode->m_Object.reset(sourceVertex);
 				pShaderCode->size = bufsize + 1;
 				return pShaderCode;
@@ -838,6 +875,18 @@ namespace Light
 		void ResourceManager::LoadSystemResources()
 		{
 			LoadResources(SYSTEM_RESOURCES_CONFIG);
+
+		/*	m_ShaderCodes.push_back(ResourceHandle<ShaderCode>("UI.vs",DEBUG_NEW BuildInShaderResource(UI_vs)));
+			m_ShaderCodes.push_back(ResourceHandle<ShaderCode>("UI.fs",DEBUG_NEW BuildInShaderResource(UI_fs)));
+			m_ShaderCodes.push_back(ResourceHandle<ShaderCode>("Sprite.vs",DEBUG_NEW BuildInShaderResource(Sprite_vs)));
+			m_ShaderCodes.push_back(ResourceHandle<ShaderCode>("Sprite.fs",DEBUG_NEW BuildInShaderResource(Sprite_fs)));
+			m_ShaderCodes.push_back(ResourceHandle<ShaderCode>("Debug_Line.vs",DEBUG_NEW BuildInShaderResource(DebugLine_vs)));
+			m_ShaderCodes.push_back(ResourceHandle<ShaderCode>("Debug_Line.fs",DEBUG_NEW BuildInShaderResource(DebugLine_fs)));
+			m_ShaderCodes.push_back(ResourceHandle<ShaderCode>("Debug_Box.vs",DEBUG_NEW BuildInShaderResource(DebugBox_vs)));
+			m_ShaderCodes.push_back(ResourceHandle<ShaderCode>("Debug_Box.fs",DEBUG_NEW BuildInShaderResource(DebugBox_fs)));
+			m_ShaderCodes.push_back(ResourceHandle<ShaderCode>("Default.vs",DEBUG_NEW BuildInShaderResource(Default_vs)));
+			m_ShaderCodes.push_back(ResourceHandle<ShaderCode>("Default.fs",DEBUG_NEW BuildInShaderResource(Default_fs)));
+			m_ShaderCodes.push_back(ResourceHandle<ShaderCode>("Skeleton.vs",DEBUG_NEW BuildInShaderResource(Skeleton_vs)));*/
 		}
 
 		LTRawData* ResourceManager::LoadLTBModel(const std::string & filename)

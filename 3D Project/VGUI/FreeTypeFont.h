@@ -6,6 +6,7 @@
 #include "..\Interface\Renderer.h"
 #include "..\Interface\IVGUI.h"
 #include "..\Interface\IRenderSystem.h"
+#include "..\Interface\IResourceManager.h"
 namespace Light
 {
 	namespace vgui
@@ -20,8 +21,13 @@ namespace Light
 				std::size_t advance;
 			};
 
-			FTFont(render::IRenderSystem* pRenderS,const string& name, const string& fontfile,int size);
+			FTFont(render::IRenderSystem* pRenderS,const string& name, const string& fontfile,int Fontsize);
+			FTFont(render::IRenderSystem* pRenderS, const string& name, resources::FontData* pData, int Fontsize);
 			~FTFont();
+
+			virtual render::Texture* GetCharTex(uint32 c)override;
+
+
 			void			SetFontSize(int size);
 			FontChar*		GetChar(FT_ULong c);
 			virtual std::string GetName();
@@ -33,6 +39,9 @@ namespace Light
 
 			static void InitFreeTypeFont();
 			static void ReleaseFreeTypeFont();
+
+		private:
+			void GetFontData(render::IRenderSystem* pRenderS);
 		private:
 			static FT_Library  m_library;
 			FT_Face		m_face;
