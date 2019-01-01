@@ -5,7 +5,6 @@
 #include "OpenGLWindows.h"
 #include "EventManager.h"
 #include "ActorFactory.h"
-#include "OpenGLSysUI.h"
 #include "Context.h"
 #include "SoundEngine.h"
 #include "OpenGLInput.h"
@@ -13,6 +12,7 @@
 #include "..\Graphics3D\EffectSystem.h"
 #include "..\Script\LuaScriptExporter.h"
 #include "..\VGUI\VGUI.h"
+#include "..\Editor\OpenGLSysUI.h"
 
 #include "..\ResourceManager\ResourceManager.h"
 
@@ -118,7 +118,8 @@ void Application::MainLoop()
 
 
 	vgui::VGUI vGUI(m_Context.get());
-
+	OpenGLSysUI SysUI(m_Context.get());
+	SysUI.PostInit();
 	
 
 
@@ -145,6 +146,7 @@ void Application::MainLoop()
 		m_pEventManager->VUpdate(200);
 		//m_pSystemUI->Update(dt);
 		m_pScriptManager->Update(dt);
+		SysUI.Update(dt);
 		pGame->Update(dt);
 
 		m_pPhysic->VOnUpdate(dt);
@@ -160,6 +162,7 @@ void Application::MainLoop()
 		m_pRenderer->Render();
 		
 		vGUI.Render();
+		SysUI.Render();
 		//m_pSystemUI->Render();
 		/*framebuffer.End();
 		

@@ -2,6 +2,7 @@
 
 #include "..\Interface\ISysUI.h"
 #include "..\Interface\Renderer.h"
+#include "..\Interface\IRenderSystem.h"
 #include "..\Interface\ITimer.h"
 #include <imgui.h>
 #include <glfw3.h>
@@ -15,7 +16,7 @@ namespace Light
 	private:
 		float values[MaxData] = { 0 };
 		int values_offset = 0;
-		GLuint m_FontTexture;
+		
 		render::RenderDevice* m_pRenderer;
 		render::Pipeline* m_pShader;
 		render::PipelineParam* m_uMVP;
@@ -26,11 +27,17 @@ namespace Light
 		float m_Time;
 		GLFWwindow* m_pGLFW;
 		bool m_MousePress[3];
-		GLFWcursor*      g_MouseCursors[ImGuiMouseCursor_COUNT];
-		bool             g_MouseJustPressed[5] = { false, false, false, false, false };
+		GLFWcursor*      m_MouseCursors[ImGuiMouseCursor_COUNT];
+		bool             m_MouseJustPressed[5] = { false, false, false, false, false };
 
 		ITimer* m_pTimer;
 		IContext* pContext;
+		// Chain GLFW callbacks: our callbacks will call the user's previously installed callbacks, if any.
+		GLFWmousebuttonfun   m_PrevUserCallbackMousebutton = NULL;
+		GLFWscrollfun        m_PrevUserCallbackScroll = NULL;
+		GLFWkeyfun           m_PrevUserCallbackKey = NULL;
+		GLFWcharfun          m_PrevUserCallbackChar = NULL;
+		resources::TextureData texData;
 	public:
 
 		OpenGLSysUI(IContext* pContext);
@@ -42,7 +49,7 @@ namespace Light
 		void PostInit();
 	private:
 		void OnRenderDrawLists(ImDrawData* data);
-		void CreateFontsTexture();
+		void CreateFontsTexture(render::IRenderSystem* pRS);
 		void NewFrame();
 		void ImGui_ImplGlfw_UpdateMousePosAndButtons();
 		void ImGui_ImplGlfw_UpdateMouseCursor();

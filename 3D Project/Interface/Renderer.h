@@ -570,7 +570,7 @@ namespace Light
 										int ref=1,unsigned int comparemask = 0xFFFFFFFF, unsigned int writemask = 0xFFFFFFFF) = 0;
 			virtual void				SetCullFace(bool enable = true, Face cullFace = FACE_BACK, Winding frontWindinng = WINDING_CCW, RasterMode fillmode = RASTERMODE_FILL) = 0;
 			virtual void				SetBlend(bool enable = false, BlendFactor sfactor = FACTOR_SRC_ALPHA, BlendFactor dfactor = FACTOR_ONE_MINUS_SRC_ALPHA, BlendFunc func = FUNC_ADD) = 0;
-
+			virtual void				SetScissor(bool enable, int x = 0,int y = 0,int width = 0, int height = 0) = 0;
 			
 			virtual void				Clear(float red = 0.2f, float green = 0.2f, float blue = 0.2f, float alpha = 1.0f, float depth = 1.0f) = 0;
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES) = 0;

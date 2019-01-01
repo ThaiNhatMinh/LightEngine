@@ -48,7 +48,7 @@ namespace Light
 				int ref = 1, unsigned int comparemask = 0xFFFFFFFF, unsigned int writemask = 0xFFFFFFFF) override;
 			virtual void				SetCullFace(bool enable = true, Face cullFace = FACE_BACK, Winding frontWindinng = WINDING_CCW, RasterMode fillmode = RASTERMODE_FILL) override;
 			virtual void				SetBlend(bool enable = false, BlendFactor sfactor = FACTOR_SRC_ALPHA, BlendFactor dfactor = FACTOR_ONE_MINUS_SRC_ALPHA, BlendFunc func = FUNC_ADD) override;
-
+			virtual void				SetScissor(bool enable, int x, int y, int width, int height)override;
 
 			virtual void				Clear(float red = 0.2f, float green = 0.2f, float blue = 0.2f, float alpha = 1.0f, float depth = 1.0f)override;
 			virtual void				Draw(int first, int count, int primcount = 0, Primitive primitive = PRIMITIVE_TRIANGLES)override;

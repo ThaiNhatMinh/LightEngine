@@ -327,6 +327,13 @@ namespace Light
 			else glDisable(GL_BLEND);
 		}
 
+		void OpenGLRenderDevice::SetScissor(bool enable, int x, int y, int width, int height)
+		{
+			if (enable) glEnable(GL_SCISSOR_TEST);
+			else glDisable(GL_SCISSOR_TEST);
+			glScissor(x, y, width, height);
+		}
+
 		void OpenGLRenderDevice::Clear(float r, float g, float b, float alpha, float depth)
 		{
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

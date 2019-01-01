@@ -166,6 +166,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\ThirdParty\imgui\imconfig.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="Animation\AnimationLayer.h" />
     <ClInclude Include="Animation\AnimationState.h" />
     <ClInclude Include="Core\ActorFactory.h" />
@@ -181,6 +187,7 @@
     <ClInclude Include="Core\RenderSystem.h" />
     <ClInclude Include="Core\SoundEngine.h" />
     <ClInclude Include="Core\Timer.h" />
+    <ClInclude Include="Editor\OpenGLSysUI.h" />
     <ClInclude Include="GameComponents\AnimatorComponent.h" />
     <ClInclude Include="GameComponents\CameraComponent.h" />
     <ClInclude Include="GameComponents\collidercomponent.h" />
@@ -271,6 +278,9 @@
     <ClInclude Include="VGUI\VGUI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\ThirdParty\imgui\imgui.cpp" />
+    <ClCompile Include="..\ThirdParty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\ThirdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Animation\AnimationLayer.cpp" />
     <ClCompile Include="Animation\AnimationState.cpp" />
     <ClCompile Include="Core\ActorFactory.cpp" />
@@ -285,6 +295,7 @@
     <ClCompile Include="Core\RenderSystem.cpp" />
     <ClCompile Include="Core\SoundEngine.cpp" />
     <ClCompile Include="Core\Timer.cpp" />
+    <ClCompile Include="Editor\OpenGLSysUI.cpp" />
     <ClCompile Include="GameComponents\AnimatorComponent.cpp" />
     <ClCompile Include="GameComponents\CameraComponent.cpp" />
     <ClCompile Include="GameComponents\ColliderComponent.cpp" />

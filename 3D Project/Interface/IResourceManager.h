@@ -50,14 +50,14 @@ namespace Light
 		struct TextureData : public IResource
 		{
 			char alignment = 4;
-			render::TextureType eTarget;			//  GL_TEXTURE_2D, GL_PROXY_TEXTURE_2D, GL_TEXTURE_1D_ARRAY, GL_PROXY_TEXTURE_1D_ARRAY, GL_TEXTURE_RECTANGLE, GL_PROXY_TEXTURE_RECTANGLE
-			int iLevel;						// Specifies the level-of-detail number.
-			render::ColorFormat iInternalFormat;			// Specifies the number of color components in the texture.
+			render::TextureType eTarget = render::TEXTURE_2D;			//  GL_TEXTURE_2D, GL_PROXY_TEXTURE_2D, GL_TEXTURE_1D_ARRAY, GL_PROXY_TEXTURE_1D_ARRAY, GL_TEXTURE_RECTANGLE, GL_PROXY_TEXTURE_RECTANGLE
+			int iLevel = 0;													// Specifies the level-of-detail number.
+			render::ColorFormat iInternalFormat = render::ColorFormat::FORMAT_RGB;			// Specifies the number of color components in the texture.
 			unsigned int uiWidth, uiHeight;	// Specifies the width/height of the texture image
-			render::ColorFormat eFormat;			// Specifies the format of the pixel data.
-			render::NumberFormat eType;				// Specifies the data type of the pixel data
+			render::ColorFormat eFormat = render::ColorFormat::FORMAT_RGB;			// Specifies the format of the pixel data.
+			render::NumberFormat eType = render::NumberFormat::UNSIGNED_BYTE;				// Specifies the data type of the pixel data
 			void* pData;					// Specifies a pointer to the image data in memory. 
-			TextureFlag flag;
+			TextureFlag flag = Flag_Normal;
 			TextureData() {};
 			~TextureData()
 			{

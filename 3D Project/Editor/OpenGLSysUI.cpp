@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "OpenGLSysUI.h"
-#include "OpenGLWindows.h"
+#include "..\Core\OpenGLWindows.h"
 #include "..\Interface\IResourceManager.h"
-#include "..\Interface\IRenderSystem.h"
+
 
 Light::OpenGLSysUI::OpenGLSysUI(IContext * pContext):m_Time(0), pContext(pContext)
 {
@@ -39,7 +39,7 @@ Light::OpenGLSysUI::OpenGLSysUI(IContext * pContext):m_Time(0), pContext(pContex
 	io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
 	io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
 
-	io.RenderDrawListsFn = [](ImDrawData* data){static_cast<OpenGLSysUI*>(ImGui::GetIO().UserData)->OnRenderDrawLists(data);};
+	//io.RenderDrawListsFn = [](ImDrawData* data){static_cast<OpenGLSysUI*>(ImGui::GetIO().UserData)->OnRenderDrawLists(data);};
 
 	io.SetClipboardTextFn = [](void* user_data, const char* text){ glfwSetClipboardString((GLFWwindow*)user_data, text); };
 	io.GetClipboardTextFn = [](void* user_data) -> const char*{ return glfwGetClipboardString((GLFWwindow*)user_data); };
@@ -50,14 +50,14 @@ Light::OpenGLSysUI::OpenGLSysUI(IContext * pContext):m_Time(0), pContext(pContex
 
 	io.Fonts->AddFontDefault();
 
-	g_MouseCursors[ImGuiMouseCursor_Arrow] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-	g_MouseCursors[ImGuiMouseCursor_TextInput] = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
-	g_MouseCursors[ImGuiMouseCursor_ResizeAll] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);   // FIXME: GLFW doesn't have this.
-	g_MouseCursors[ImGuiMouseCursor_ResizeNS] = glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
-	g_MouseCursors[ImGuiMouseCursor_ResizeEW] = glfwCreateStandardCursor(GLFW_HRESIZE_CURSOR);
-	g_MouseCursors[ImGuiMouseCursor_ResizeNESW] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);  // FIXME: GLFW doesn't have this.
-	g_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);  // FIXME: GLFW doesn't have this.
-	g_MouseCursors[ImGuiMouseCursor_Hand] = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
+	m_MouseCursors[ImGuiMouseCursor_Arrow] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
+	m_MouseCursors[ImGuiMouseCursor_TextInput] = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
+	m_MouseCursors[ImGuiMouseCursor_ResizeAll] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);   // FIXME: GLFW doesn't have this.
+	m_MouseCursors[ImGuiMouseCursor_ResizeNS] = glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
+	m_MouseCursors[ImGuiMouseCursor_ResizeEW] = glfwCreateStandardCursor(GLFW_HRESIZE_CURSOR);
+	m_MouseCursors[ImGuiMouseCursor_ResizeNESW] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);  // FIXME: GLFW doesn't have this.
+	m_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);  // FIXME: GLFW doesn't have this.
+	m_MouseCursors[ImGuiMouseCursor_Hand] = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
 
 	// Setup display size (every frame to accommodate for window resizing)
 	int w, h;
@@ -67,7 +67,7 @@ Light::OpenGLSysUI::OpenGLSysUI(IContext * pContext):m_Time(0), pContext(pContex
 	io.DisplaySize = ImVec2((float)w, (float)h);
 	io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
 
-	CreateFontsTexture();
+	CreateFontsTexture(pContext->GetSystem<render::IRenderSystem>());
 
 	
 
@@ -78,7 +78,9 @@ void Light::OpenGLSysUI::PostInit()
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
 	auto pResources = pContext->GetSystem<resources::IResourceManager>();
-	m_pShader = m_pRenderer->CreatePipeline(pResources->VGetVertexShader("imgui"), pResources->VGetPixelShader("imgui"));
+	auto pVS = m_pRenderer->CreateVertexShader(pResources->VGetShaderCode("imgui.vs")->Get());
+	auto pFS = m_pRenderer->CreatePixelShader(pResources->VGetShaderCode("imgui.fs")->Get());
+	m_pShader = m_pRenderer->CreatePipeline(pVS, pFS);
 	m_uMVP = m_pShader->GetParam("uMVP");
 	ortho = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
 
@@ -123,8 +125,8 @@ void Light::OpenGLSysUI::Update(float dt)
 
 void Light::OpenGLSysUI::Render()
 {
-	return;
 	ImGui::Render();
+	OnRenderDrawLists(ImGui::GetDrawData());
 }
 
 const char * Light::OpenGLSysUI::VGetName()
@@ -145,20 +147,13 @@ void Light::OpenGLSysUI::OnRenderDrawLists(ImDrawData * draw_data)
 		return;
 	draw_data->ScaleClipRects(io.DisplayFramebufferScale);
 
-	/*glEnable(GL_BLEND);
-	glBlendEquation(GL_FUNC_ADD);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDisable(GL_CULL_FACE);
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_SCISSOR_TEST);
-	glDisable(GL_STENCIL_TEST);*/
 	// Setup viewport, orthographic projection matrix
 	//glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
-
+	m_pRenderer->SetBlend(true);
 	m_pRenderer->SetPipeline(m_pShader);
-
+	m_pRenderer->SetCullFace(false);
+	m_pRenderer->SetDepth(false);
 	m_pRenderer->SetVertexArray(m_VAO);
-	//glBindSampler(0, 0);
 	
 	m_uMVP->SetAsMat4(glm::value_ptr(ortho));
 
@@ -167,11 +162,9 @@ void Light::OpenGLSysUI::OnRenderDrawLists(ImDrawData * draw_data)
 		const ImDrawList* cmd_list = draw_data->CmdLists[n];
 		const ImDrawIdx* idx_buffer_offset = 0;
 
-		
 		m_VBO->SetData(cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, render::STREAM_DRAW);
-
-		
 		m_IBO->SetData(cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, render::STREAM_DRAW);
+		
 		m_pRenderer->SetIndexBuffer(m_IBO);
 		for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
 		{
@@ -182,37 +175,36 @@ void Light::OpenGLSysUI::OnRenderDrawLists(ImDrawData * draw_data)
 			}
 			else
 			{
-				//glActiveTexture(GL_TEXTURE0);
-				//glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pcmd->TextureId);
-				//glScissor((int)pcmd->ClipRect.x, (int)(fb_height - pcmd->ClipRect.w), (int)(pcmd->ClipRect.z - pcmd->ClipRect.x), (int)(pcmd->ClipRect.w - pcmd->ClipRect.y));
-				//glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, idx_buffer_offset);
+				m_pRenderer->SetTexture(render::TextureUnit::UNIT_AMBIENT, (render::Texture*)pcmd->TextureId);
+				m_pRenderer->SetScissor(true,(int)pcmd->ClipRect.x, (int)(fb_height - pcmd->ClipRect.w), (int)(pcmd->ClipRect.z - pcmd->ClipRect.x), (int)(pcmd->ClipRect.w - pcmd->ClipRect.y));
+				m_pRenderer->DrawElement((GLsizei)pcmd->ElemCount, idx_buffer_offset);
 			}
 			idx_buffer_offset += pcmd->ElemCount;
 		}
 	}
-	//glEnable(GL_DEPTH_TEST);
-	//glDisable(GL_BLEND);
-	//glDisable(GL_SCISSOR_TEST);
+
+	m_pRenderer->SetScissor(false);
 }
 
-void Light::OpenGLSysUI::CreateFontsTexture()
+void Light::OpenGLSysUI::CreateFontsTexture(render::IRenderSystem* pRS)
 {
 	// Build texture atlas
 	ImGuiIO& io = ImGui::GetIO();
 	unsigned char* pixels;
-	int width, height;
-	io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);   // Load as RGBA 32-bits (75% of the memory is wasted, but default font is so small) because it is more likely to be compatible with user's existing shaders. If your ImTextureId represent a higher-level concept than just a GL texture id, consider calling GetTexDataAsAlpha8() instead to save on GPU memory.
+	int width, height,bpp;
+	io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height,&bpp);   // Load as RGBA 32-bits (75% of the memory is wasted, but default font is so small) because it is more likely to be compatible with user's existing shaders. If your ImTextureId represent a higher-level concept than just a GL texture id, consider calling GetTexDataAsAlpha8() instead to save on GPU memory.
 
-															  // Upload texture to graphics system
-
-	/*glGenTextures(1, &m_FontTexture);
-	glBindTexture(GL_TEXTURE_2D, m_FontTexture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);*/
-
+	
+	texData.uiWidth = width;
+	texData.uiHeight = height;
+	texData.eTarget = render::TextureType::TEXTURE_2D;
+	texData.eFormat = texData.iInternalFormat = render::ColorFormat::FORMAT_RGBA;
+	unsigned char* pixels2 = new unsigned char[width*height*bpp];
+	memcpy(pixels2, pixels, width*height*bpp);
+	texData.pData = pixels2;
+	
 	// Store our identifier
-	io.Fonts->TexID = (void *)(intptr_t)m_FontTexture;
+	io.Fonts->TexID = (void *)pRS->VCreateTexture(&texData);
 }
 
 void Light::OpenGLSysUI::ImGui_ImplGlfw_UpdateMousePosAndButtons()
@@ -222,8 +214,8 @@ void Light::OpenGLSysUI::ImGui_ImplGlfw_UpdateMousePosAndButtons()
 	for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
 	{
 		// If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
-		io.MouseDown[i] = g_MouseJustPressed[i] || glfwGetMouseButton(m_pGLFW, i) != 0;
-		g_MouseJustPressed[i] = false;
+		io.MouseDown[i] = m_MouseJustPressed[i] || glfwGetMouseButton(m_pGLFW, i) != 0;
+		m_MouseJustPressed[i] = false;
 	}
 
 	// Update mouse position
@@ -262,7 +254,7 @@ void Light::OpenGLSysUI::ImGui_ImplGlfw_UpdateMouseCursor()
 	{
 		// Show OS mouse cursor
 		// FIXME-PLATFORM: Unfocused windows seems to fail changing the mouse cursor with GLFW 3.2, but 3.3 works here.
-		glfwSetCursor(m_pGLFW, g_MouseCursors[imgui_cursor] ? g_MouseCursors[imgui_cursor] : g_MouseCursors[ImGuiMouseCursor_Arrow]);
+		glfwSetCursor(m_pGLFW, m_MouseCursors[imgui_cursor] ? m_MouseCursors[imgui_cursor] : m_MouseCursors[ImGuiMouseCursor_Arrow]);
 		glfwSetInputMode(m_pGLFW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 }
@@ -286,41 +278,6 @@ void Light::OpenGLSysUI::NewFrame()
 
 	ImGui_ImplGlfw_UpdateMousePosAndButtons();
 	ImGui_ImplGlfw_UpdateMouseCursor();
-
-	// Gamepad navigation mapping [BETA]
-	memset(io.NavInputs, 0, sizeof(io.NavInputs));
-	if (io.ConfigFlags & ImGuiConfigFlags_NavEnableGamepad)
-	{
-		// Update gamepad inputs
-#define MAP_BUTTON(NAV_NO, BUTTON_NO)       { if (buttons_count > BUTTON_NO && buttons[BUTTON_NO] == GLFW_PRESS) io.NavInputs[NAV_NO] = 1.0f; }
-#define MAP_ANALOG(NAV_NO, AXIS_NO, V0, V1) { float v = (axes_count > AXIS_NO) ? axes[AXIS_NO] : V0; v = (v - V0) / (V1 - V0); if (v > 1.0f) v = 1.0f; if (io.NavInputs[NAV_NO] < v) io.NavInputs[NAV_NO] = v; }
-		int axes_count = 0, buttons_count = 0;
-		const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axes_count);
-		const unsigned char* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttons_count);
-		MAP_BUTTON(ImGuiNavInput_Activate, 0);     // Cross / A
-		MAP_BUTTON(ImGuiNavInput_Cancel, 1);     // Circle / B
-		MAP_BUTTON(ImGuiNavInput_Menu, 2);     // Square / X
-		MAP_BUTTON(ImGuiNavInput_Input, 3);     // Triangle / Y
-		MAP_BUTTON(ImGuiNavInput_DpadLeft, 13);    // D-Pad Left
-		MAP_BUTTON(ImGuiNavInput_DpadRight, 11);    // D-Pad Right
-		MAP_BUTTON(ImGuiNavInput_DpadUp, 10);    // D-Pad Up
-		MAP_BUTTON(ImGuiNavInput_DpadDown, 12);    // D-Pad Down
-		MAP_BUTTON(ImGuiNavInput_FocusPrev, 4);     // L1 / LB
-		MAP_BUTTON(ImGuiNavInput_FocusNext, 5);     // R1 / RB
-		MAP_BUTTON(ImGuiNavInput_TweakSlow, 4);     // L1 / LB
-		MAP_BUTTON(ImGuiNavInput_TweakFast, 5);     // R1 / RB
-		MAP_ANALOG(ImGuiNavInput_LStickLeft, 0, -0.3f, -0.9f);
-		MAP_ANALOG(ImGuiNavInput_LStickRight, 0, +0.3f, +0.9f);
-		MAP_ANALOG(ImGuiNavInput_LStickUp, 1, +0.3f, +0.9f);
-		MAP_ANALOG(ImGuiNavInput_LStickDown, 1, -0.3f, -0.9f);
-#undef MAP_BUTTON
-#undef MAP_ANALOG
-		if (axes_count > 0 && buttons_count > 0)
-			io.BackendFlags |= ImGuiBackendFlags_HasGamepad;
-		else
-			io.BackendFlags &= ~ImGuiBackendFlags_HasGamepad;
-	}
-
 
 	ImGui::NewFrame();
 

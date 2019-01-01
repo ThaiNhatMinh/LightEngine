@@ -10,6 +10,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLRenderDevice", "OpenGLRenderDevice\OpenGLRenderDevice.vcxproj", "{BD0CD1B2-6012-4B25-B97F-C02300EC3E5E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "3D Project\Editor.vcxproj", "{468E99B5-88F0-4E0E-994B-5E8503B13694}"
+	ProjectSection(ProjectDependencies) = postProject
+		{17AF2918-A454-4280-B3A8-829011EA70DC} = {17AF2918-A454-4280-B3A8-829011EA70DC}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
