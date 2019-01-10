@@ -56,7 +56,7 @@ namespace Light
 
 		private:
 			std::map<resources::TextureData*,std::unique_ptr<Texture>> m_TextureList;
-			std::map<resources::ModelData*, std::unique_ptr<Model>> m_ModelList;
+			std::map<std::string, std::unique_ptr<Model>> m_ModelList;
 			std::map<resources::SpriteData*, std::unique_ptr<Sprite>> m_SpriteList;
 		};
 	}

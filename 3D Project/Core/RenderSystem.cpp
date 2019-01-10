@@ -155,7 +155,7 @@ namespace Light
 		{
 			auto pResources = m_pContext->GetSystem<resources::IResourceManager>();
 			auto pFactory = m_pContext->GetSystem<IFactory>();
-			auto it = m_ModelList.find(pData);
+			auto it = m_ModelList.find(pData->Path);
 			if (it != m_ModelList.end()) return it->second.get();
 
 			if (typeid(*pData) == typeid(resources::DefaultModelData))
@@ -173,7 +173,7 @@ namespace Light
 
 				pModel->Box = pDefData->Box;
 				pModel->MatParam = pDefData->Mats;
-				m_ModelList[pData].reset(pModel);
+				m_ModelList[pData->Path].reset(pModel);
 
 				return pModel;
 			}
@@ -184,6 +184,9 @@ namespace Light
 		}
 		Model * RenderSystem::VCreateModel(std::string xmlfile)
 		{
+			auto result = m_ModelList.find(xmlfile);
+			if (result != m_ModelList.end()) return result->second.get();
+
 			auto pResources = m_pContext->GetSystem<resources::IResourceManager>();
 			auto pFactory = m_pContext->GetSystem<IFactory>();
 
@@ -242,7 +245,7 @@ namespace Light
 				//mat.exp = vec3(pKs->FloatAttribute("exp", 32.0f));
 				//pModelRender->m_Material.resize(pModelRender->m_pMesh.size(), mat);
 				// Done return LTModel
-				m_ModelList[pLTBData].reset(pModelRender);
+				m_ModelList[xmlfile].reset(pModelRender);
 				return pModelRender;
 			}
 			return nullptr;
