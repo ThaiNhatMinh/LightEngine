@@ -37,7 +37,7 @@ namespace Light
 		virtual void		PostInit(void)override;
 		virtual void		Destroy(void)override;
 
-		virtual void		VSetName(string name)override { m_Name = name; }
+		virtual void		VSetName(const std::string& name)override { m_Name = name; }
 		virtual string		VGetName() override { return m_Name; };
 		virtual void		VSetTag(string tag)override { m_Tag = tag; };
 		virtual string		VGetTag()override { return m_Tag; };

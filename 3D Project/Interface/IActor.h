@@ -23,7 +23,7 @@ namespace Light
 		virtual void		PostInit(void) = 0;
 		virtual void		Destroy(void) = 0;
 
-		virtual void		VSetName(std::string name) = 0;
+		virtual void		VSetName(const std::string& name) = 0;
 		virtual std::string	VGetName() = 0;
 		virtual void		VSetTag(std::string tag) = 0;
 		virtual std::string	VGetTag() = 0;
