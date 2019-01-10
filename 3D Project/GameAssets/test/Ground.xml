@@ -1,7 +1,7 @@
 <Actor type="Player" name="707">
 	<Component>
 		<TransformComponent>
-			<Position x="0" y="10" z="0"/>
+			<Position x="0" y="0" z="0"/>
 			<YawPitchRoll x="0" y="0" z="0"/>
 			<Scale x="20" y="3" z="20"/>
 		</TransformComponent>
