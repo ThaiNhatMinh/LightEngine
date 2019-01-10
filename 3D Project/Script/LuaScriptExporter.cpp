@@ -33,24 +33,13 @@ void Light::LuaScriptManager::BindComponent(IScriptComponent *pComponent)
 	state->m_Lua.require("Input", sol::c_call<decltype(&InputBinding), &InputBinding>);
 	state->Update = state->m_Lua["Update"];
 	BaseBinding(state);
-
-	
-	
-	
 	state->m_Script = state->m_Lua.load_file(pComponent->VGetFile());
 	
 	m_Lists.push_back(std::unique_ptr<LuaState>(state));
+	m_InitList.push(state);
 }
 
-void Light::LuaScriptManager::Start()
-{
-	for (std::size_t i = 0; i < m_Lists.size(); i++)
-		if (m_Lists[i]->m_Script.valid())
-		{
-			m_Lists[i]->m_Script();
-		}
-		else E_ERROR("Error on run lua script");
-}
+
 
 const char * Light::LuaScriptManager::VGetName()
 {
@@ -59,6 +48,13 @@ const char * Light::LuaScriptManager::VGetName()
 
 void Light::LuaScriptManager::Update(float dt)
 {
+	while (m_InitList.size())
+	{
+		LuaState* state = m_InitList.front();
+		m_InitList.pop();
+		state->m_Script();
+	}
+
 	for (std::size_t i = 0; i < m_Lists.size(); i++)
 		if(m_Lists[i]->Update.valid())
 			m_Lists[i]->Update(dt);

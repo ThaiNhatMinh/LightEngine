@@ -4,6 +4,7 @@
 #include "ScriptEventListener.h"
 #include <sol.hpp>
 #include <map>
+#include <queue>
 namespace Light
 {
 	class LuaScriptManager : public IScriptManager
@@ -24,7 +25,6 @@ namespace Light
 		LuaScriptManager(IContext* pContext);
 		~LuaScriptManager();
 		virtual void		BindComponent(IScriptComponent*);
-		void		Start();
 		virtual const char* VGetName();
 		void		Update(float dt);
 	private:
@@ -33,7 +33,7 @@ namespace Light
 	private:
 		
 		std::vector<std::unique_ptr<LuaState>> m_Lists;
-
+		std::queue<LuaState*> m_InitList;
 		IEventManager* m_pEventManager;
 	};
 }
