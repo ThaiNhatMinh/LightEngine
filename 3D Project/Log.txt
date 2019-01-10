@@ -1,5 +1,5 @@
 [DEBUG] application.cpp Line:25| Application StartUp...
-[DEBUG] rendersystem.cpp Line:300| ..\Debug\OpenGLRenderDevice.dll
+[DEBUG] rendersystem.cpp Line:303| ..\Debug\OpenGLRenderDevice.dll
 [DEBUG] gamepluginmanager.cpp Line:22| ..\Debug\Hunting.dll
 [ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0000.DTX
 [ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0006.DTX
@@ -12,7 +12,189 @@
 [ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0024.DTX
 [ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0026.DTX
 [ERROR] resourcemanager.cpp Line:346| Can't open file: TEXTURES\FX\BLOOD3\BLOOD0028.DTX
-[DEBUG] rendersystem.cpp Line:352| Camera create!
-[DEBUG] rendersystem.cpp Line:381| ObjectRender add: 707
-[DEBUG] rendersystem.cpp Line:381| ObjectRender add: Model
-[DEBUG] rendersystem.cpp Line:360| SceneRender add: Scene1
+[DEBUG] rendersystem.cpp Line:355| Camera create!
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: 707_No
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: 707
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: 707
+[DEBUG] rendersystem.cpp Line:363| SceneRender add: Scene1
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[0,0]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[0,1]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[0,2]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[0,3]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[0,4]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[1,0]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[1,1]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[1,2]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[1,3]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[1,4]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[2,0]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[2,1]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[2,2]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[2,3]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[2,4]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[3,0]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[3,1]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[3,2]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[3,3]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[3,4]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[4,0]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[4,1]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[4,2]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[4,3]
+[DEBUG] rendersystem.cpp Line:384| ObjectRender add: Name[4,4]
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 19.426426
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 36.742516
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 11.938000
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 8.211712
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 28.760479
+[WARNING] animationstate.cpp Line:146| Interpolate between frame is wrong: 27.760479

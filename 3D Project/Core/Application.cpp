@@ -118,16 +118,14 @@ void Application::MainLoop()
 
 
 	vgui::VGUI vGUI(m_Context.get());
-	OpenGLSysUI SysUI(m_Context.get());
-	SysUI.PostInit();
+	//OpenGLSysUI SysUI(m_Context.get());
+	//SysUI.PostInit();
 	
 
 
 	IGamePlugin* pGame = m_GamePlugins.LoadPlugin();
 
 	pGame->Init(m_Context.get());
-
-	m_pScriptManager->Start();
 
 	
 	m_pTimer->VReset();
@@ -144,9 +142,8 @@ void Application::MainLoop()
 		float dt = m_pTimer->VGetDeltaTime();
 		
 		m_pEventManager->VUpdate(200);
-		//m_pSystemUI->Update(dt);
 		m_pScriptManager->Update(dt);
-		SysUI.Update(dt);
+		//SysUI.Update(dt);
 		pGame->Update(dt);
 
 		m_pPhysic->VOnUpdate(dt);
@@ -162,12 +159,11 @@ void Application::MainLoop()
 		m_pRenderer->Render();
 		
 		vGUI.Render();
-		SysUI.Render();
+		//SysUI.Render();
 		//m_pSystemUI->Render();
 		/*framebuffer.End();
 		
 
-		glDisable(GL_DEPTH_TEST);
 		m_pRenderer->Clear();
 		
 		m_pRenderer->SetPipeline(shader);

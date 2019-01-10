@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(WindowsSdkDir)\include;..\ThirdParty\GLFW;..\ThirdParty\FastDelegate;\include;..\ThirdParty\imgui;..\ThirdParty\glm;..\ThirdParty\Bullet\src;..\ThirdParty\freetype-2.9.1\include;..\ThirdParty\tinyxml2\;..\ThirdParty\Devil\include;..\ThirdParty\assimp-4.1.0\include;..\ThirdParty\FMod\inc;..\ThirdParty;..\3D Project\;$(IncludePath);..\ThirdParty\lua\include;..\ThirdParty\sol2;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>..\ThirdParty\;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\lib\x86\Debug;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.9.1\CMBuild\Debug;..\ThirdParty\assimp-4.1.0\lib\Debug;..\ThirdParty\tinyxml2\Debug-Lib;..\ThirdParty\lua\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\ThirdParty\;..\ThirdParty\Bullet\lib\Debug;..\ThirdParty\Devil\lib\x86\Release;..\ThirdParty\FMod\lib;..\ThirdParty\GLFW;..\ThirdParty\freetype-2.9.1\CMBuild\Debug;..\ThirdParty\assimp-4.1.0\lib\Debug;..\ThirdParty\tinyxml2\Debug-Lib;..\ThirdParty\lua\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -342,6 +342,9 @@
     <ProjectReference Include="..\OpenGLRenderDevice\OpenGLRenderDevice.vcxproj">
       <Project>{bd0cd1b2-6012-4b25-b97f-c02300ec3e5e}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Configs\Plugin.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

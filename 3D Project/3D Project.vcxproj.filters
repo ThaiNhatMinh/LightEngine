@@ -521,4 +521,7 @@
       <UniqueIdentifier>{01d34b06-d574-4402-acbe-2abdad5349a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Configs\Plugin.xml" />
+  </ItemGroup>
 </Project>
